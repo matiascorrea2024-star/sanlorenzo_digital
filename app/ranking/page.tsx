@@ -41,6 +41,7 @@ export default function RankingPage() {
         <p className="text-white/60 mt-1">
           Los puntos se ganan con seguidores, reseñas y verificación. <strong className="text-orange-300">No con plata.</strong>
         </p>
+        <Link href="/vecinos" className="mt-3 inline-block rounded-xl border border-orange-400/40 bg-orange-500/10 px-4 py-2 text-sm font-black text-orange-300 hover:bg-orange-500/20">👥 Ver ranking de vecinos →</Link>
       </div>
 
       <div className="mx-auto max-w-4xl px-4 mb-6">

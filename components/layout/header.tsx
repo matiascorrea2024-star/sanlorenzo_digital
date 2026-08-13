@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import NotificationBell from "@/components/layout/notification-bell";
 import AuthButton from './auth-button';
 
 export default function Header() {
@@ -34,6 +35,7 @@ export default function Header() {
 
           {/* Auth */}
           <div className="flex items-center gap-3">
+            <NotificationBell />
             <AuthButton />
           </div>
         </div>

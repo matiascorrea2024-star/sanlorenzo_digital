@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 const items = [
   { href: "/", icon: "🏠", label: "Inicio" },
-  { href: "/negocios", icon: "🔍", label: "Buscar" },
+  { href: "/buscar", icon: "🔍", label: "Buscar" },
   { href: "/promociones", icon: "🔥", label: "Ofertas" },
   { href: "/feed", icon: "📰", label: "Muro" },
   { href: "/ranking", icon: "🏆", label: "Ranking" },

@@ -7,6 +7,7 @@ type Review = {
   rating: number;
   comment: string;
   user_email: string;
+  user_id: string;
   created_at: string;
 };
 
@@ -17,6 +18,7 @@ export default function ReviewsSection({ businessId }: { businessId: string }) {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
   const [user, setUser] = useState<any>(null);
+  const [niveles, setNiveles] = useState<Record<string, string>>({});
 
   useEffect(() => {
     supabase().auth.getUser().then(({ data }) => setUser(data.user));
@@ -31,6 +33,17 @@ export default function ReviewsSection({ businessId }: { businessId: string }) {
         .eq("approved", true)
         .order("created_at", { ascending: false });
       setReviews(data || []);
+      const ids = [...new Set((data || []).map((r: any) => r.user_id).filter(Boolean))] as string[];
+      if (ids.length > 0) {
+        const map: Record<string, string> = {};
+        const sb2 = supabase();
+        for (const id of ids) {
+          const { data: pts } = await sb2.rpc("nivel_usuario", { uid: id });
+          const p = pts || 0;
+          map[id] = p >= 600 ? "👑" : p >= 300 ? "🔎" : p >= 150 ? "🧭" : p >= 50 ? "🚶" : "🌱";
+        }
+        setNiveles(map);
+      }
     })();
   }, [businessId]);
 
@@ -68,7 +81,7 @@ export default function ReviewsSection({ businessId }: { businessId: string }) {
     }
   };
 
-  const promedio = reviews.length > 0 ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) : "0.0";
+  const promedio = reviews.length > 0 ? (reviews.reduce((s, r) => s + (r.rating || 5), 0) / reviews.length).toFixed(1) : "0.0";
 
   return (
     <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-8">
@@ -132,15 +145,15 @@ export default function ReviewsSection({ businessId }: { businessId: string }) {
             <div key={r.id} className="rounded-xl border border-white/10 bg-black/20 p-4">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-orange-400">{"★".repeat(r.rating)}</span>
-                  <span className="text-white/30">{"★".repeat(5 - r.rating)}</span>
+                  <span className="text-orange-400">{"★".repeat(r.rating || 5)}</span>
+                  <span className="text-white/30">{"★".repeat(5 - (r.rating || 5))}</span>
                 </div>
                 <span className="text-xs text-white/40">
                   {new Date(r.created_at).toLocaleDateString("es-AR")}
                 </span>
               </div>
               <p className="text-sm text-white/80">{r.comment}</p>
-              <p className="mt-1 text-xs text-white/40">— {r.user_email.split("@")[0]}@...</p>
+              <p className="mt-1 text-xs text-white/40">{niveles[r.user_id] || "🌱"} — {(r.user_email || "vecino").split("@")[0]}</p>
             </div>
           ))}
         </div>
