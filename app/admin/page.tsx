@@ -9,6 +9,7 @@ export default function AdminPage() {
   const [email, setEmail] = useState<string | null>(null);
   const [negocios, setNegocios] = useState<any[]>([]);
   const [stats, setStats] = useState<any>({ views: 0, wa: 0, shares: 0, ranking: [] });
+  const [visits, setVisits] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,6 +35,12 @@ export default function AdminPage() {
           .sort((a: any, b: any) => b.views - a.views)
           .slice(0, 5);
         setStats({ views, wa, shares, ranking });
+        const { data: vis } = await sb
+          .from("visits")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(15);
+        setVisits(vis || []);
       }
       setLoading(false);
     })();
@@ -104,6 +111,20 @@ export default function AdminPage() {
               </div>
             </div>
           ))}
+        </div>
+
+        <h2 className="mt-8 mb-3 text-lg font-black">🕵️ Visitas recientes (IP · dispositivo · página)</h2>
+        <div className="grid gap-2">
+          {visits.map((v) => (
+            <div key={v.id} className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 flex flex-wrap items-center justify-between gap-2">
+              <p className="text-sm font-mono text-sky-300">{v.ip}</p>
+              <p className="text-xs text-white/60">
+                {/Android|iPhone|Mobile/i.test(v.ua || "") ? "📱" : /Windows|Mac|Linux/i.test(v.ua || "") ? "💻" : "🤖"}{" "}
+                {v.path || "/"} · {new Date(v.created_at).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+              </p>
+            </div>
+          ))}
+          {visits.length === 0 && <p className="text-sm text-white/50">Todavía no hay visitas registradas.</p>}
         </div>
       </div>
     </main>
