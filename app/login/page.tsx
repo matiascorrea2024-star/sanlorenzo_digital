@@ -1,42 +1,105 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+
 export default function Login() {
-  const [mode, setMode] = useState<"login" | "registro">("registro");
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+
   async function go(e: React.FormEvent) {
-    e.preventDefault(); setMsg("");
-    if (mode === "registro") {
-      const { error } = await supabase().auth.signUp({ email, password: pass });
-      setMsg(error ? "❌ " + error.message : "✅ Cuenta creada. Iniciá sesión.");
-      if (!error) setMode("login");
+    e.preventDefault();
+    setMsg(null);
+    setLoading(true);
+    const { error } = await supabase().auth.signInWithPassword({ email, password: pass });
+    setLoading(false);
+    if (error) {
+      setMsg({ type: "err", text: "❌ " + (error.message === "Invalid login credentials" ? "Email o contraseña incorrectos" : error.message) });
     } else {
-      const { error } = await supabase().auth.signInWithPassword({ email, password: pass });
-      if (error) setMsg("❌ " + error.message);
-      else window.location.href = "/dashboard";
+      setMsg({ type: "ok", text: "✅ Ingresando..." });
+      router.push("/dashboard/mis-negocios");
     }
   }
+
   return (
-    <main className="mx-auto max-w-sm px-4 py-20">
-      <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>
-        {mode === "registro" ? "Creá tu cuenta" : "Ingresá"}
-      </h1>
-      <p className="mt-1 text-sm text-[var(--muted)]">Para dueños de negocios de San Lorenzo.</p>
-      <form onSubmit={go} className="mt-8 grid gap-3">
-        <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com"
-          className="rounded-lg border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]" />
-        <input type="password" required minLength={6} value={pass} onChange={(e) => setPass(e.target.value)} placeholder="Contraseña (mínimo 6)"
-          className="rounded-lg border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]" />
-        <button className="rounded-lg bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-white hover:opacity-90">
-          {mode === "registro" ? "Crear cuenta" : "Ingresar"}
-        </button>
-      </form>
-      {msg && <p className="mt-4 text-sm text-[var(--muted)]">{msg}</p>}
-      <button onClick={() => setMode(mode === "login" ? "registro" : "login")} className="mt-4 text-sm text-[var(--accent2)] hover:underline">
-        {mode === "login" ? "¿No tenés cuenta? Creá una" : "¿Ya tenés cuenta? Ingresá"}
-      </button>
+    <main className="min-h-screen bg-[#0d0a12] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md">
+        {/* Header */}
+        <Link href="/" className="inline-flex items-center gap-2 mb-6 group">
+          <span className="text-3xl">🛍️</span>
+          <div>
+            <h1 className="text-lg font-black text-white leading-tight group-hover:scale-105 transition-transform">
+              LA GRAN <span className="bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">BARATA</span>
+            </h1>
+            <p className="text-[10px] text-orange-200/70 uppercase tracking-widest">DIGITAL</p>
+          </div>
+        </Link>
+
+        {/* Card */}
+        <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8">
+          <h2 className="text-3xl font-black text-white">Ingresá</h2>
+          <p className="mt-1 text-sm text-white/60">Accedé al panel de tu negocio.</p>
+
+          <form onSubmit={go} className="mt-6 space-y-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-1.5">Email</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tu@email.com"
+                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:border-orange-400 transition"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-1.5">Contraseña</label>
+              <input
+                type="password"
+                required
+                minLength={6}
+                value={pass}
+                onChange={(e) => setPass(e.target.value)}
+                placeholder="Mínimo 6 caracteres"
+                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:border-orange-400 transition"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-3.5 font-black text-white hover:opacity-90 disabled:opacity-50 transition"
+            >
+              {loading ? "Ingresando..." : "Ingresar →"}
+            </button>
+          </form>
+
+          {msg && (
+            <p className={`mt-4 rounded-lg px-4 py-3 text-sm ${
+              msg.type === "ok" ? "bg-green-500/15 text-green-300 border border-green-400/30" : "bg-red-500/15 text-red-300 border border-red-400/30"
+            }`}>
+              {msg.text}
+            </p>
+          )}
+
+          <div className="mt-6 pt-6 border-t border-white/10 text-center text-sm">
+            <p className="text-white/60">
+              ¿No tenés cuenta?{" "}
+              <Link href="/registro" className="font-bold text-orange-400 hover:text-orange-300">
+                Creá una
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        <p className="mt-6 text-center text-xs text-white/40">
+          ¿Tenés un negocio? <Link href="/para-negocios" className="text-orange-400 hover:underline">Sumalo gratis</Link>
+        </p>
+      </div>
     </main>
   );
 }

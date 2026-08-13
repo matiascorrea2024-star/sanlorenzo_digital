@@ -1,129 +1,78 @@
-import { getAllBusinesses } from '@/lib/directory';
-import { notFound } from 'next/navigation';
-import BusinessMap from '@/components/business/map';
+import { notFound } from "next/navigation";
+import { getAllBusinesses } from "@/lib/directory";
+import BusinessView from "@/components/business/business-view";
 
-export const dynamic = 'force-dynamic';
+type Params = Promise<{ slug: string }>;
 
-export default async function BusinessPage({ params }: { params: Promise<{ slug: string }> }) {
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=1200&q=85",
+  gastronomia: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85",
+  ferreteria: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=1200&q=85",
+  belleza: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85",
+  ropa: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1200&q=85",
+  automotor: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85",
+  profesionales: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
+  tecnologia: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+};
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=85";
+
+export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params;
-  const businesses = await getAllBusinesses();
-  const business = businesses.find((b) => b.slug === slug);
+  const b: any = (await getAllBusinesses()).find((x: any) => x.slug === slug);
+  if (!b) return { title: "Negocio no encontrado | La Gran Barata Digital" };
 
-  if (!business) {
-    notFound();
-  }
+  const desc =
+    b.description ||
+    `${b.name} en San Lorenzo: ofertas, ubicación y contacto en La Gran Barata Digital.`;
 
-  const locationStatus = business.location_source === 'manual' && business.location_verified
-    ? '🟢 Confirmada por el negocio'
-    : business.location_source === 'auto' && business.location_verified
-    ? '🟢 Verificada'
-    : business.location_source === 'auto'
-    ? '🟡 Aproximada'
-    : '🔴 No disponible';
+  return {
+    title: `${b.name} | La Gran Barata Digital`,
+    description: desc,
+    openGraph: {
+      title: `${b.name} · San Lorenzo`,
+      description: desc,
+      siteName: "La Gran Barata Digital",
+      images: [{ url: b.portada_url || CATEGORY_IMAGES[b.category] || FALLBACK_IMAGE }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: b.name,
+      description: desc,
+    },
+  };
+}
+
+export default async function Page({ params }: { params: Params }) {
+  const { slug } = await params;
+  const b: any = (await getAllBusinesses()).find((x: any) => x.slug === slug);
+  if (!b) notFound();
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: b.name,
+    description: b.description || "",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: b.address || "",
+      addressLocality: "San Lorenzo",
+      addressRegion: "Santa Fe",
+      addressCountry: "AR",
+    },
+    geo: b.latitude
+      ? { "@type": "GeoCoordinates", latitude: b.latitude, longitude: b.longitude }
+      : undefined,
+    telephone: b.whatsapp || undefined,
+  };
 
   return (
-    <div className="min-h-screen bg-bg text-text">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">{business.name}</h1>
-          <p className="text-text-2 text-lg mb-2">{business.category}</p>
-          <p className="text-text-2">{business.description}</p>
-        </div>
-
-        {/* Info principal */}
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
-          {/* Contacto */}
-          <div className="space-y-4">
-            <h2 className="font-serif text-2xl font-semibold">Contacto</h2>
-            
-            {business.address && (
-              <div>
-                <p className="text-text-2 text-sm mb-1">Dirección</p>
-                <p className="font-medium">{business.address}</p>
-                <p className="text-sm mt-2">
-                  <span className="inline-block px-2 py-1 rounded bg-surface-2 text-text-2">
-                    {locationStatus}
-                  </span>
-                </p>
-              </div>
-            )}
-
-            {business.whatsapp && (
-              <div>
-                <p className="text-text-2 text-sm mb-1">WhatsApp</p>
-                <a
-                  href={`https://wa.me/${business.whatsapp.replace(/\D/g, '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-accent hover:underline"
-                >
-                  {business.whatsapp}
-                </a>
-              </div>
-            )}
-
-            {business.instagram && (
-              <div>
-                <p className="text-text-2 text-sm mb-1">Instagram</p>
-                <a
-                  href={`https://instagram.com/${business.instagram}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-accent hover:underline"
-                >
-                  @{business.instagram}
-                </a>
-              </div>
-            )}
-          </div>
-
-          {/* Mapa */}
-          {business.latitude && business.longitude && (
-            <div>
-              <h2 className="font-serif text-2xl font-semibold mb-4">Ubicación</h2>
-              <BusinessMap
-                latitude={business.latitude}
-                longitude={business.longitude}
-                address={business.address}
-              />
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${business.latitude},${business.longitude}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-block px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent-hover transition-colors"
-              >
-                Cómo llegar →
-              </a>
-            </div>
-          )}
-        </div>
-
-        {/* Tags */}
-        {business.tags && business.tags.length > 0 && (
-          <div className="mb-8">
-            <h2 className="font-serif text-2xl font-semibold mb-4">Etiquetas</h2>
-            <div className="flex flex-wrap gap-2">
-              {business.tags.map((tag: string) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 bg-surface-2 text-text-2 rounded-full text-sm"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Horarios */}
-        {business.schedule && (
-          <div className="mb-8">
-            <h2 className="font-serif text-2xl font-semibold mb-4">Horarios</h2>
-            <p className="text-text-2">{business.schedule}</p>
-          </div>
-        )}
-      </div>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BusinessView b={b} />
+    </>
   );
 }
