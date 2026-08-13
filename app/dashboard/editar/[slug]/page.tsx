@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { PLATFORM_WHATSAPP, PLAN_PREMIUM_PRICE } from "@/lib/config";
+import LevelBadge from "@/components/business/level-badge";
 import ImageUploader from "@/components/upload/image-uploader";
 import ReviewModeration from "@/components/business/review-moderation";
 
@@ -199,7 +201,40 @@ export default function Editar() {
               <div key={i} className="grid gap-2 rounded-xl border border-white/10 bg-black/20 p-3 sm:grid-cols-[1fr_120px_150px_40px]">
                 <input className={inp} placeholder="Título (ej: 2x1 en texanas)" value={pr.title} onChange={(e) => setPromos(promos.map((x, j) => j === i ? { ...x, title: e.target.value } : x))} />
                 <input className={inp} placeholder="20% OFF" value={pr.discount} onChange={(e) => setPromos(promos.map((x, j) => j === i ? { ...x, discount: e.target.value } : x))} />
-                <input type="date" className={inp} value={pr.expires} onChange={(e) => setPromos(promos.map((x, j) => j === i ? { ...x, expires: e.target.value } : x))} />
+                <div>
+                <select
+                  className={inp}
+                  value={pr.duracion || ""}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    const ahora = Date.now();
+                    setPromos(promos.map((x, j) => {
+                      if (j !== i) return x;
+                      if (v.endsWith("h")) {
+                        const h = parseInt(v);
+                        const fin = new Date(ahora + h * 3600000);
+                        return { ...x, duracion: v, expires_at: fin.toISOString(), expires: fin.toISOString().slice(0, 10) };
+                      }
+                      const d = parseInt(v);
+                      const fin = new Date(ahora + d * 86400000);
+                      return { ...x, duracion: v, expires_at: null, expires: fin.toISOString().slice(0, 10) };
+                    }));
+                  }}
+                >
+                  <option value="" className="bg-neutral-900 text-white">⏱ Duración…</option>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 24].map((h) => (
+                    <option key={h} value={h + "h"} className="bg-neutral-900 text-white">🔥 {h} hora{h > 1 ? "s" : ""} (relámpago)</option>
+                  ))}
+                  {[2, 3, 4, 5, 6, 7].map((d) => (
+                    <option key={d} value={d + "d"} className="bg-neutral-900 text-white">📅 {d} días</option>
+                  ))}
+                </select>
+                {pr.expires_at && (
+                  <p className="mt-1 text-[10px] text-red-300">
+                    ⏰ Termina {new Date(pr.expires_at).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })} hs
+                  </p>
+                )}
+              </div>
                 <button onClick={() => setPromos(promos.filter((_, j) => j !== i))} className="rounded-lg border border-white/20 text-red-400 hover:border-red-400">🗑</button>
               </div>
             ))}
@@ -208,9 +243,35 @@ export default function Editar() {
 
         
         
+        
+        {/* 💰 Premium */}
+        <section className="mt-6 rounded-2xl border border-yellow-400/40 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 p-6">
+          <h2 className="mb-2 font-black text-yellow-300">⭐ Plan Premium — ${PLAN_PREMIUM_PRICE.toLocaleString("es-AR")}/mes</h2>
+          {b.destacado ? (
+            <p className="text-sm text-green-300 font-bold">🎉 Ya sos Premium: tu negocio aparece destacado en la home con badge ⭐.</p>
+          ) : (
+            <>
+              <ul className="text-sm text-white/70 space-y-1 mb-4">
+                <li>⭐ Destacado en la home con badge PREMIUM</li>
+                <li>🔥 Ofertas ilimitadas en La Gran Barata</li>
+                <li>📊 Estadísticas completas de visitas</li>
+                <li> Prioridad en el directorio y el mapa</li>
+              </ul>
+              <a
+                href={`https://wa.me/${PLATFORM_WHATSAPP}?text=${encodeURIComponent("¡Hola! Quiero el Plan Premium para mi negocio: " + b.name)}`}
+                target="_blank"
+                className="inline-block rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 px-5 py-2.5 text-sm font-black text-black hover:opacity-90"
+              >
+                💬 Pedir Premium por WhatsApp
+              </a>
+            </>
+          )}
+        </section>
+
         {/* 📊 Estadísticas */}
         {stats && (
           <section className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className="mb-4"><LevelBadge businessId={String(b.id)} verificado={b.status === "verificado"} /></div>
             <h2 className="mb-4 font-bold">📊 Estadísticas de tu negocio (últimos 7 días)</h2>
             <div className="grid grid-cols-2 gap-4 mb-5">
               <div className="rounded-xl bg-black/20 p-4 text-center">

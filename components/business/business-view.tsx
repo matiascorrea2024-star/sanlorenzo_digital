@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { track } from "@/lib/track";
 import ReviewsSection from "./reviews-section";
+import FollowButton from "./follow-button";
+import LevelBadge from "./level-badge";
 import BusinessMap from "@/components/business/map";
 
 const CATEGORY_IMAGES: Record<string, string> = {
@@ -64,6 +66,7 @@ export default function BusinessView({ b }: { b: any }) {
               <Link href="/" className="text-xs text-orange-300 hover:text-orange-200 mb-1 inline-block">← La Gran Barata</Link>
               <h1 className="text-3xl md:text-5xl font-black leading-tight">{b.name}</h1>
               <p className="text-sm capitalize text-white/70">{b.category}</p>
+              <div className="mt-3 flex flex-wrap items-center gap-3"><FollowButton businessId={String(b.id)} /><LevelBadge businessId={String(b.id)} verificado={b.status === "verificado"} /></div>
             </div>
           </div>
         </div>

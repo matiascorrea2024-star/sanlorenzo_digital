@@ -1563,7 +1563,12 @@ export default function PanelV3() {
             </span>
           </div>
 
-        </footer>
+        <p className="mt-3 text-xs flex justify-center gap-4">
+          <a href="/privacidad" className="hover:text-orange-400 transition-colors">Política de Privacidad</a>
+          <span className="text-white/20">·</span>
+          <a href="/terminos" className="hover:text-orange-400 transition-colors">Términos y Condiciones</a>
+        </p>
+      </footer>
 
       </div>
 

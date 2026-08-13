@@ -41,7 +41,7 @@ export default function OnlineNow() {
   }, []);
 
   return (
-    <div className="fixed bottom-4 left-4 z-50">
+    <div className="fixed bottom-20 left-4 z-50">
       <span className="inline-flex items-center gap-2 rounded-full border border-green-400/40 bg-black/80 px-4 py-2 text-xs font-bold text-green-300 shadow-2xl backdrop-blur-md">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { BUSINESSES, CATEGORIES } from "@/lib/data";
 import { supabase } from "@/lib/supabase";
 import CercaTuyo from "./cerca-tuyo";
+import { useAllBusinesses } from "@/lib/use-businesses";
 
 const CATEGORY_IMAGES: Record<string, string> = {
   calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=900&q=85",
@@ -66,6 +67,10 @@ export default function MasterHome() {
   const [q, setQ] = useState("");
   const [ofertas, setOfertas] = useState<Oferta[]>(DEMO_OFFERS);
   const [hayReales, setHayReales] = useState(false);
+  const todos = useAllBusinesses();
+  const destacadosPremium = [...todos]
+    .sort((a: any, b: any) => ((b.destacado ? 1 : 0) - (a.destacado ? 1 : 0)) || ((b.status === "verificado" ? 1 : 0) - (a.status === "verificado" ? 1 : 0)))
+    .slice(0, 4);
 
   /* Registrar PWA */
   useEffect(() => {
@@ -135,6 +140,11 @@ export default function MasterHome() {
             <br />
             DIGITAL
           </h1>
+          <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs md:text-sm">
+            <span className="rounded-full bg-red-500/15 border border-red-400/40 px-4 py-1.5 font-bold text-red-300">🔥 {ofertas.length} promociones activas</span>
+            <span className="rounded-full bg-orange-500/15 border border-orange-400/40 px-4 py-1.5 font-bold text-orange-300">🏪 {todos.length} negocios</span>
+            <span className="rounded-full bg-yellow-500/15 border border-yellow-400/40 px-4 py-1.5 font-bold text-yellow-300">⚡ {ofertas.filter((o) => o.vence && (new Date(o.vence + "T23:59:59").getTime() - Date.now()) / 86400000 <= 3).length} terminan pronto</span>
+          </div>
           <p className="mx-auto mt-4 max-w-xl text-base text-white/70 md:text-lg">
             Todas las ofertas, promociones y negocios de San Lorenzo en un solo lugar.
           </p>
@@ -215,9 +225,12 @@ export default function MasterHome() {
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-red-400">🔥 Ofertas del momento</p>
               <h2 className="mt-1 text-2xl font-black md:text-3xl">La Gran Barata</h2>
             </div>
-            <span className="rounded-full bg-red-500/15 border border-red-400/40 px-3 py-1 text-xs font-bold text-red-300">
-              {hayReales ? "🟢 Publicadas por comercios" : "Vencen pronto ⏰"}
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="rounded-full bg-red-500/15 border border-red-400/40 px-3 py-1 text-xs font-bold text-red-300">
+                {hayReales ? "🟢 Publicadas por comercios" : "Vencen pronto ⏰"}
+              </span>
+              <Link href="/promociones" className="text-sm font-semibold text-orange-400 hover:text-orange-300">Ver todas →</Link>
+            </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {ofertas.map((o) => (
@@ -270,7 +283,7 @@ export default function MasterHome() {
           </Link>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {BUSINESSES.slice(0, 4).map((b) => (
+          {destacadosPremium.map((b: any) => (
             <Link
               key={b.id}
               href={"/negocio/" + b.slug}
@@ -284,7 +297,12 @@ export default function MasterHome() {
                   className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                {b.status === "verificado" && (
+                {(b as any).destacado && (
+                  <span className="absolute left-3 top-3 rounded-lg bg-gradient-to-r from-yellow-400 to-orange-500 px-2 py-0.5 text-[10px] font-black text-black">
+                    ⭐ PREMIUM
+                  </span>
+                )}
+                {b.status === "verificado" && !(b as any).destacado && (
                   <span className="absolute left-3 top-3 rounded-lg bg-green-500/90 px-2 py-0.5 text-[10px] font-black">
                     ✓ VERIFICADO
                   </span>

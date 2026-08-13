@@ -5,5 +5,8 @@ const inter=Inter({subsets:["latin"],variable:"--font-inter"});const space=Space
 export const metadata:Metadata={title:"San Lorenzo Digital — Todo San Lorenzo, en un solo lugar",description:"Descubrí comercios, productos, servicios, promociones y lugares de San Lorenzo, Santa Fe."};
 import OnlineNow from "@/components/live/online-now";
 
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="es" className={`${inter.variable} ${space.variable}`}><body>{<Header/>}{children}<Footer/><OnlineNow />
+import BottomNav from "@/components/layout/bottom-nav";
+
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="es" className={`${inter.variable} ${space.variable}`}><body>{<Header/>}{children}<Footer/><BottomNav />
+      <OnlineNow />
       </body></html>}

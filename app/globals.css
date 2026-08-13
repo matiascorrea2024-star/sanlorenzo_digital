@@ -4374,3 +4374,5 @@ html {
     width: 100%;
   }
 }
+
+body { padding-bottom: 64px; }

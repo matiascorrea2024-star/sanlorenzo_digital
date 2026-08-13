@@ -25,6 +25,8 @@ export default function Header() {
             <Link href="/mapa" className="hover:text-orange-200 transition-colors font-medium">
               Mapa
             </Link>
+              <Link href="/feed" className="hover:text-orange-200 transition-colors font-medium">Muro</Link>
+              <Link  href="/ranking" className="hover:text-orange-200 transition-colors font-medium">Ranking</Link>
             <Link href="/para-negocios" className="hover:text-orange-200 transition-colors font-medium">
               Para Negocios
             </Link>

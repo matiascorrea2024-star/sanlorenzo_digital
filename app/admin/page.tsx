@@ -107,6 +107,9 @@ export default function AdminPage() {
                 <button onClick={() => up(b.id, { status: b.status === "verificado" ? "reclamado" : "verificado" })} className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-black hover:bg-white/20">
                   {b.status === "verificado" ? "Quitar ✓" : "✓ Verificar"}
                 </button>
+                <button onClick={() => up(b.id, { destacado: !b.destacado, plan: b.destacado ? "gratis" : "premium" })} className={`rounded-lg px-3 py-1.5 text-xs font-black ${b.destacado ? "bg-yellow-400 text-black hover:bg-yellow-300" : "bg-white/10 hover:bg-yellow-400/20 hover:text-yellow-300"}`}>
+                  {b.destacado ? "Quitar ⭐" : "⭐ Destacar"}
+                </button>
                 <Link href={"/negocio/" + b.slug} target="_blank" className="rounded-lg border border-white/20 px-3 py-1.5 text-xs hover:border-orange-400">👁</Link>
               </div>
             </div>

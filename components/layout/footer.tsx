@@ -10,6 +10,11 @@ export default function Footer() {
       </p>
       <p className="mt-2">Todas las ofertas y negocios de San Lorenzo en un solo lugar.</p>
       <p className="mt-1 text-xs">Hecho en San Lorenzo, Santa Fe · Argentina</p>
-    </footer>
+    <p className="mt-3 text-xs flex justify-center gap-4">
+          <a href="/privacidad" className="hover:text-orange-400 transition-colors">Política de Privacidad</a>
+          <span className="text-white/20">·</span>
+          <a href="/terminos" className="hover:text-orange-400 transition-colors">Términos y Condiciones</a>
+        </p>
+      </footer>
   );
 }

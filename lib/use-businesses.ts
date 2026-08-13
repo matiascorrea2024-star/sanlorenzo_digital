@@ -6,6 +6,9 @@ import { supabase } from "./supabase";
 export type FullBusiness = Business & {
   portada_url?: string;
   logo_url?: string;
+  destacado?: boolean;
+  promotions?: any[];
+  plan?: string;
 };
 
 export function useAllBusinesses(): FullBusiness[] {
@@ -43,8 +46,11 @@ export function useAllBusinesses(): FullBusiness[] {
           longitude: b.longitude ?? undefined,
           location_source: b.location_source,
           location_verified: !!b.location_verified,
+          promotions: Array.isArray(b.promotions) ? b.promotions : [],
           portada_url: b.portada_url,
           logo_url: b.logo_url,
+          destacado: !!b.destacado,
+          plan: b.plan || "gratis",
         }));
         setList([...reales, ...(BUSINESSES as FullBusiness[])]);
       } catch (e) {
