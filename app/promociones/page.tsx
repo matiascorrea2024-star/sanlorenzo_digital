@@ -104,9 +104,22 @@ export default function PromocionesPage() {
                     </div>
                   )}
 
-                  <div className="mt-auto flex items-center justify-between pt-3">
+                  <div className="mt-auto flex items-center justify-between gap-2 pt-3">
                     {p.expires ? <Countdown expires={p.expires} /> : <span />}
-                    <span className="text-xs font-bold text-orange-400 opacity-0 transition group-hover:opacity-100">Ver →</span>
+                    <div className="flex items-center gap-2">
+                      <span
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const url = `https://sanlorenzodigital.vercel.app/negocio/${p.slug}`;
+                          window.open(`https://wa.me/?text=${encodeURIComponent(`🔥 ${p.title} en ${p.negocio} — ${url}`)}`, "_blank");
+                        }}
+                        className="cursor-pointer rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-2 py-1 text-[11px] font-black text-emerald-300 transition hover:bg-emerald-500/20"
+                      >
+                        📲 Compartir
+                      </span>
+                      <span className="text-xs font-bold text-orange-400 opacity-0 transition group-hover:opacity-100">Ver →</span>
+                    </div>
                   </div>
                 </div>
               </Link>

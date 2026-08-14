@@ -247,6 +247,14 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             <a onClick={() => trackClickWhatsApp(negocio.id)} href={`https://wa.me/${negocio.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${negocio.name} en San Lorenzo Digital`)}`}
               target="_blank" rel="noopener noreferrer"
               className="flex flex-col items-center gap-2 rounded-2xl border border-green-400/30 bg-green-500/10 p-4 hover:bg-green-500/20 transition">
+              <button onClick={() => { const url = window.location.href; window.open(`https://wa.me/?text=${encodeURIComponent(` Mirá ${negocio.name} en La Gran Barata Digital: ${url}`)}`, "_blank"); }} className="flex items-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-2.5 text-sm font-bold text-emerald-300 transition hover:bg-emerald-500/20">📲 Compartir</button>
+              <details className="group/qr relative">
+                <summary className="flex cursor-pointer list-none items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-bold text-white/80 transition hover:bg-white/10">🔳 QR</summary>
+                <div className="absolute right-0 z-30 mt-2 rounded-2xl border border-white/10 bg-[#17121f] p-3 shadow-2xl">
+                  <img src={`https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`} alt="QR" className="h-32 w-32 rounded-lg bg-white p-1" />
+                  <p className="mt-2 w-32 text-center text-[10px] text-white/50">Imprimilo y pegalo en tu local</p>
+                </div>
+              </details>
               <MessageCircle className="h-6 w-6 text-green-400" />
               <span className="text-sm font-bold">WhatsApp</span>
             </a>
