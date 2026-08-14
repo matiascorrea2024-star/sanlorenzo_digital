@@ -6,6 +6,8 @@ import Footer from "@/components/layout/footer";
 import BottomNav from "@/components/layout/bottom-nav";
 import OnlineNow from "@/components/live/online-now";
 import FloatingAssistant from "@/components/ui/floating-assistant";
+import Spotlight from "@/components/ui/spotlight";
+import ScrollReveal from "@/components/ui/scroll-reveal";
 import { ToastProvider } from "@/components/ui/toast";
 import HeartbeatActivator from "@/components/heartbeat-activator";
 import { AuthProvider } from "@/components/providers/auth-provider";
@@ -47,6 +49,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <BottomNav />
           <OnlineNow />
       <FloatingAssistant />
+      <Spotlight />
+      <ScrollReveal />
         </AuthProvider>
       </ToastProvider>
       <InstallApp />

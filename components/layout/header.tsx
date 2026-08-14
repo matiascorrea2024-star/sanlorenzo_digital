@@ -12,6 +12,7 @@ export default function Header() {
   const [user, setUser] = useState<any>(null);
   const [role, setRole] = useState("user");
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,7 +29,10 @@ export default function Header() {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => { document.removeEventListener("mousedown", handler); window.removeEventListener("scroll", onScroll); };
   }, []);
 
   const salir = async () => {
@@ -49,9 +53,9 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0d0a12]/90 backdrop-blur-md">
+    <header className={`sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300 ${scrolled ? "border-white/10 bg-[#0d0a12]/95 shadow-lg shadow-black/40" : "border-transparent bg-[#0d0a12]/70"}`}>
       <div className="mx-auto max-w-7xl px-4">
-        <div className="flex h-16 items-center justify-between gap-4">
+        <div className={`flex items-center justify-between gap-4 transition-all duration-300 ${scrolled ? "h-14" : "h-16"}`}>
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <span className="text-2xl">🛍️</span>
             <span className="leading-tight">

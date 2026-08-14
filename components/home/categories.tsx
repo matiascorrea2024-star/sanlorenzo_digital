@@ -24,7 +24,7 @@ export default function Categories({ active, onSelect }: { active: string | null
           <button
             key={c.id}
             onClick={() => onSelect(active === c.id ? null : c.id)}
-            className={`group relative min-w-[112px] overflow-hidden rounded-2xl border p-4 text-left transition duration-300 md:min-w-0 ${
+            data-spot className={`group relative min-w-[112px] overflow-hidden rounded-2xl border p-4 text-left transition duration-300 md:min-w-0 ${
               active === c.id
                 ? "border-orange-400/60 bg-orange-500/10 shadow-lg shadow-orange-500/10"
                 : "border-white/[.08] bg-white/[.025] hover:-translate-y-1 hover:border-white/20 hover:bg-white/[.05] hover:shadow-xl hover:shadow-black/40"
