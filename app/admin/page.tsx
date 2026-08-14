@@ -5,6 +5,7 @@ import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, C
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
 import OnlineBadge from "@/components/ui/online-badge";
+import AdminVisits from "@/components/admin/visits";
 import Badge from "@/components/ui/badge";
 
 const TABS = [
@@ -132,6 +133,7 @@ export default function AdminPage() {
         </div>
 
         {/* OVERVIEW */}
+        <AdminVisits />
         {tab === "overview" && stats.usersRecent && (
           <div className="mt-8">
             <h3 className="mb-4 text-lg font-black">👥 Últimos 20 usuarios</h3>

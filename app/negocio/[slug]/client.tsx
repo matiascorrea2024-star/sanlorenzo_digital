@@ -106,7 +106,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
     const key = `sld-view-${negocio.id}`;
     if (sessionStorage.getItem(key)) return;
     sessionStorage.setItem(key, "1");
-    supabase().from("page_views").insert({ business_id: negocio.id });
+    fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ business_id: negocio.id, path: window.location.pathname }) }).catch(() => {});
   }, [negocio]);
 
   // Track vista del negocio
