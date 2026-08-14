@@ -101,7 +101,7 @@ export default function CiudadView() {
                 <Badge variant="danger" size="sm" pulse><Flame className="h-3 w-3" /> Ofertas</Badge>
                 <h2 className="mt-2 text-2xl font-black">Ofertas en {ciudad.name}</h2>
               </div>
-              <Link href={`/${ciudadSlug}/ofertas`} className="text-sm font-bold text-orange-400 flex items-center gap-1">
+              <Link href="/promociones" className="text-sm font-bold text-orange-400 flex items-center gap-1">
                 Ver todas <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -119,7 +119,7 @@ export default function CiudadView() {
                 <Badge variant="info" size="sm"><Store className="h-3 w-3" /> Negocios</Badge>
                 <h2 className="mt-2 text-2xl font-black">Negocios en {ciudad.name}</h2>
               </div>
-              <Link href={`/${ciudadSlug}/negocios`} className="text-sm font-bold text-orange-400 flex items-center gap-1">
+              <Link href="/negocios" className="text-sm font-bold text-orange-400 flex items-center gap-1">
                 Ver todos <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

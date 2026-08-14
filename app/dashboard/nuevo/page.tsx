@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
@@ -14,6 +14,26 @@ export default function NuevoNegocioPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [masDetalles, setMasDetalles] = useState(false);
+  const [ciudades, setCiudades] = useState<any[]>([]);
+  const [barrios, setBarrios] = useState<any[]>([]);
+  const [locationId, setLocationId] = useState("");
+  const [neighborhoodId, setNeighborhoodId] = useState("");
+
+  useEffect(() => {
+    supabase().from("locations").select("id, name").eq("type", "city").eq("active", true)
+      .order("name").then(({ data }) => {
+        setCiudades(data || []);
+        const sl = (data || []).find((c: any) => c.name === "San Lorenzo");
+        if (sl) setLocationId(sl.id);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!locationId) { setBarrios([]); return; }
+    supabase().from("locations").select("id, name").eq("type", "neighborhood").eq("parent_id", locationId)
+      .order("name").then(({ data }) => setBarrios(data || []));
+    setNeighborhoodId("");
+  }, [locationId]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -67,6 +87,8 @@ export default function NuevoNegocioPage() {
         address: formData.address,
         latitude: formData.latitude ? Number(formData.latitude) : null,
         longitude: formData.longitude ? Number(formData.longitude) : null,
+        location_id: locationId || null,
+        neighborhood_id: neighborhoodId || null,
         whatsapp: formData.whatsapp,
         instagram: formData.instagram,
         schedule: formData.schedule,
@@ -138,6 +160,26 @@ export default function NuevoNegocioPage() {
               ))}
             </select>
           </div>
+
+          {ciudades.length > 0 && (
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={lbl}>Ciudad *</label>
+                <select className={inp} value={locationId} onChange={(e) => setLocationId(e.target.value)}>
+                  {ciudades.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+              </div>
+              {barrios.length > 0 && (
+                <div>
+                  <label className={lbl}>Barrio</label>
+                  <select className={inp} value={neighborhoodId} onChange={(e) => setNeighborhoodId(e.target.value)}>
+                    <option value="">Sin especificar</option>
+                    {barrios.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
+                  </select>
+                </div>
+              )}
+            </div>
+          )}
 
           <div>
             <label className={lbl}>Dirección *</label>
