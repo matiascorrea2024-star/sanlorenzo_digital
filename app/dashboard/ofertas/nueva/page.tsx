@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/toast";
 import ImageUploader from "@/components/upload/image-uploader";
+import { PLANES, planDe, puedePublicarOferta, puedePublicarHoy, OFERTA_DURACION_MAX_DIAS } from "@/lib/plans";
 
 const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
@@ -19,6 +20,7 @@ export default function NuevaOferta() {
   const [biz, setBiz] = useState("");
   const [title, setTitle] = useState("");
   const [product, setProduct] = useState("");
+  const [description, setDescription] = useState("");
   const [priceBefore, setPriceBefore] = useState("");
   const [priceOffer, setPriceOffer] = useState("");
   const [expires, setExpires] = useState("");
@@ -26,6 +28,9 @@ export default function NuevaOferta() {
   const [imageId] = useState(() => crypto.randomUUID());
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [limite, setLimite] = useState<{ plan: string; activas: number; hoy: number } | null>(null);
+  const [hoyStr] = useState(() => new Date().toISOString().slice(0, 10));
+  const [maxFechaStr] = useState(() => new Date(Date.now() + OFERTA_DURACION_MAX_DIAS * 86400000).toISOString().slice(0, 10));
 
   useEffect(() => {
     (async () => {
@@ -35,18 +40,34 @@ export default function NuevaOferta() {
 
       const { data: prof } = await sb.from("user_profiles").select("role").eq("user_id", user.id).maybeSingle();
 
-      const q = sb.from("businesses").select("id, name").order("name");
+      const q = sb.from("businesses").select("id, name, plan").order("name");
       if (prof?.role !== "admin") q.eq("owner_id", user.id);
       const { data, error } = await q;
       if (error) { setError(error.message); return; }
 
       const list = (data || []).filter((n: any) => n.name);
       setNegocios(list);
-      if (list.length === 0) setError("No tenés negocios creados. Primero creá un negocio.");
-      else if (bizFromUrl && list.some((n: any) => n.id === bizFromUrl)) setBiz(bizFromUrl);
-      else setBiz(list[0].id);
+      if (list.length === 0) { setError("No tenés negocios creados. Primero creá un negocio."); return; }
+      const elegido = (bizFromUrl && list.find((n: any) => n.id === bizFromUrl)) || list[0];
+      setBiz(elegido.id);
     })();
   }, []);
+
+  // Chequeo de límite del plan cada vez que cambia el negocio elegido.
+  useEffect(() => {
+    if (!biz) return;
+    (async () => {
+      const sb = supabase();
+      const negocio = negocios.find((n) => n.id === biz);
+      const plan = negocio?.plan || "gratis";
+      const hoyStr = new Date().toISOString().slice(0, 10);
+      const [{ count: activas }, { count: hoy }] = await Promise.all([
+        sb.from("offers").select("*", { count: "exact", head: true }).eq("business_id", biz).eq("active", true),
+        sb.from("offers").select("*", { count: "exact", head: true }).eq("business_id", biz).gte("created_at", hoyStr),
+      ]);
+      setLimite({ plan, activas: activas || 0, hoy: hoy || 0 });
+    })();
+  }, [biz, negocios]);
 
   const desc =
     Number(priceBefore) > 0 && Number(priceOffer) >= 0 && Number(priceOffer) < Number(priceBefore)
@@ -57,8 +78,24 @@ export default function NuevaOferta() {
     setError("");
 
     if (!biz) { setError("Seleccioná un negocio"); return; }
-    if (!title.trim()) { setError("Completá el título"); return; }
-    if (!expires) { setError("Completá la fecha de vencimiento"); return; }
+    if (title.trim().length < 10) { setError("El título debe tener al menos 10 caracteres."); return; }
+    if (description.trim().length < 30) { setError("La descripción debe tener al menos 30 caracteres -- contá bien de qué se trata."); return; }
+    if (!image.trim()) { setError("La oferta necesita una foto."); return; }
+    if (!expires) { setError("Completá la fecha de vencimiento."); return; }
+    if (expires < hoyStr) { setError("La fecha de vencimiento no puede ser en el pasado."); return; }
+    if (expires > maxFechaStr) { setError(`La oferta puede durar hasta ${OFERTA_DURACION_MAX_DIAS} días. Elegí una fecha más cercana.`); return; }
+    if (priceBefore && priceOffer && Number(priceOffer) >= Number(priceBefore)) { setError("El precio de oferta tiene que ser menor al precio anterior."); return; }
+
+    if (limite) {
+      if (!puedePublicarOferta(limite.plan, limite.activas)) {
+        setError(`Con el plan ${planDe({ plan: limite.plan }).name} podés tener hasta ${PLANES[limite.plan]?.maxOfertas ?? 3} ofertas activas a la vez. Pausá una o mejorá tu plan.`);
+        return;
+      }
+      if (!puedePublicarHoy(limite.plan, limite.hoy)) {
+        setError(`Con el plan ${planDe({ plan: limite.plan }).name} podés publicar ${PLANES[limite.plan]?.ofertasNuevasPorDia ?? 1} oferta${(PLANES[limite.plan]?.ofertasNuevasPorDia ?? 1) > 1 ? "s" : ""} por día. Probá mañana o mejorá tu plan.`);
+        return;
+      }
+    }
 
     setSaving(true);
     const sb = supabase();
@@ -67,6 +104,7 @@ export default function NuevaOferta() {
       business_id: biz,
       title: title.trim(),
       product: product.trim() || null,
+      description: description.trim(),
       old_price: priceBefore ? Number(priceBefore) : null,
       offer_price: priceOffer ? Number(priceOffer) : null,
       discount_percent: desc > 0 ? desc : null,
@@ -80,6 +118,10 @@ export default function NuevaOferta() {
     show("🔥 Oferta publicada en toda la plataforma", "success");
     setTimeout(() => router.push("/dashboard/ofertas"), 900);
   };
+
+  const planActual = limite ? planDe({ plan: limite.plan }) : null;
+  const limiteActivas = limite ? PLANES[limite.plan]?.maxOfertas ?? 3 : null;
+  const limiteHoy = limite ? PLANES[limite.plan]?.ofertasNuevasPorDia ?? 1 : null;
 
   return (
     <main className="min-h-screen bg-[#0d0a12] pb-24 text-white">
@@ -96,7 +138,16 @@ export default function NuevaOferta() {
         <h1 className="mt-3 text-3xl font-black">🔥 Nueva Oferta</h1>
         <p className="mt-1 text-sm text-white/60">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
 
-        <div className="mt-8 space-y-5 rounded-3xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+        {limite && planActual && limiteActivas !== -1 && (
+          <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-xs text-white/60">
+            Plan <b className="text-white/80">{planActual.name}</b>: {limite.activas}/{limiteActivas} ofertas activas · {limite.hoy}/{limiteHoy} publicadas hoy.
+            {(limite.activas >= (limiteActivas || 0) || limite.hoy >= (limiteHoy || 0)) && (
+              <> <Link href="/dashboard/planes" className="font-bold text-orange-400 hover:text-orange-300">Mejorar plan →</Link></>
+            )}
+          </div>
+        )}
+
+        <div className="mt-4 space-y-5 rounded-3xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           {negocios.length === 0 ? (
             <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/30 p-4">
               <p className="text-sm text-yellow-300">⚠️ No tenés negocios creados. <Link href="/dashboard/nuevo" className="underline font-bold">Crear uno ahora →</Link></p>
@@ -113,13 +164,20 @@ export default function NuevaOferta() {
           )}
 
           <div>
-            <span className={lbl}>Título de la oferta *</span>
+            <span className={lbl}>Título de la oferta * <span className="normal-case font-normal text-white/30">(mín. 10 caracteres)</span></span>
             <input className={inp} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Ej: 2×1 en zapatillas seleccionadas" />
           </div>
 
           <div>
             <span className={lbl}>Producto (opcional)</span>
             <input className={inp} value={product} onChange={(e) => setProduct(e.target.value)} placeholder="Ej: zapatillas" />
+          </div>
+
+          <div>
+            <span className={lbl}>Descripción * <span className="normal-case font-normal text-white/30">(mín. 30 caracteres)</span></span>
+            <textarea className={inp} rows={3} value={description} onChange={(e) => setDescription(e.target.value)}
+              placeholder="Contá los detalles: qué incluye, condiciones, hasta cuándo dura el stock..." />
+            <p className="mt-1 text-right text-[10px] text-white/30">{description.trim().length}/30</p>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -141,12 +199,12 @@ export default function NuevaOferta() {
           )}
 
           <div>
-            <span className={lbl}>Válida hasta *</span>
-            <input className={inp} type="date" value={expires} onChange={(e) => setExpires(e.target.value)} />
+            <span className={lbl}>Válida hasta * <span className="normal-case font-normal text-white/30">(máx. {OFERTA_DURACION_MAX_DIAS} días)</span></span>
+            <input className={inp} type="date" min={hoyStr} max={maxFechaStr} value={expires} onChange={(e) => setExpires(e.target.value)} />
           </div>
 
           <div>
-            <span className={lbl}>Foto de la oferta</span>
+            <span className={lbl}>Foto de la oferta *</span>
             <ImageUploader value={image} onChange={setImage} businessId={biz || "temp"} itemId={imageId} previewClass="h-40 w-full rounded-xl" />
           </div>
 

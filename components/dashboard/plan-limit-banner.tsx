@@ -35,10 +35,10 @@ export default function PlanLimitBanner() {
           <Lock className="h-6 w-6 text-orange-400" />
           <div>
             <p className="font-black">
-              Llegaste al límite del plan {plan.name} ({info.activas} oferta activa)
+              Llegaste al límite del plan {plan.name} ({info.activas} oferta{info.activas === 1 ? "" : "s"} activa{info.activas === 1 ? "" : "s"})
             </p>
             <p className="text-sm text-white/60">
-              Pasá a Profesional para publicar ofertas ilimitadas + estadísticas + historias.
+              Pasá a PRO Comerciante para publicar ofertas ilimitadas + estadísticas + historias.
             </p>
           </div>
         </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/toast";
 import ImageUploader from "@/components/upload/image-uploader";
+import { OFERTA_DURACION_MAX_DIAS } from "@/lib/plans";
 
 const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
@@ -19,12 +20,15 @@ export default function EditarOferta() {
   const [businessId, setBusinessId] = useState("");
   const [title, setTitle] = useState("");
   const [product, setProduct] = useState("");
+  const [description, setDescription] = useState("");
   const [priceBefore, setPriceBefore] = useState("");
   const [priceOffer, setPriceOffer] = useState("");
   const [expires, setExpires] = useState("");
   const [image, setImage] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [precioPrometido, setPrecioPrometido] = useState(false);
+  const [hoyStr] = useState(() => new Date().toISOString().slice(0, 10));
+  const [maxFechaStr] = useState(() => new Date(Date.now() + OFERTA_DURACION_MAX_DIAS * 86400000).toISOString().slice(0, 10));
 
   useEffect(() => {
     (async () => {
@@ -48,6 +52,7 @@ export default function EditarOferta() {
       setBusinessId(offer.business_id);
       setTitle(offer.title || "");
       setProduct(offer.product || "");
+      setDescription(offer.description || "");
       setPriceBefore(offer.old_price ? String(offer.old_price) : "");
       setPriceOffer(offer.offer_price ? String(offer.offer_price) : "");
       setExpires(offer.valid_until || "");
@@ -64,12 +69,18 @@ export default function EditarOferta() {
 
   const guardar = async () => {
     setError("");
-    if (!title.trim()) { setError("Completá el título"); return; }
-    if (!expires) { setError("Completá la fecha de vencimiento"); return; }
+    if (title.trim().length < 10) { setError("El título debe tener al menos 10 caracteres."); return; }
+    if (description.trim().length < 30) { setError("La descripción debe tener al menos 30 caracteres."); return; }
+    if (!image.trim()) { setError("La oferta necesita una foto."); return; }
+    if (!expires) { setError("Completá la fecha de vencimiento."); return; }
+    if (expires < hoyStr) { setError("La fecha de vencimiento no puede ser en el pasado."); return; }
+    if (expires > maxFechaStr) { setError(`La oferta puede durar hasta ${OFERTA_DURACION_MAX_DIAS} días.`); return; }
+    if (priceBefore && priceOffer && Number(priceOffer) >= Number(priceBefore)) { setError("El precio de oferta tiene que ser menor al precio anterior."); return; }
     setSaving(true);
     const { error: err } = await supabase().from("offers").update({
       title: title.trim(),
       product: product.trim() || null,
+      description: description.trim(),
       old_price: priceBefore ? Number(priceBefore) : null,
       offer_price: priceOffer ? Number(priceOffer) : null,
       discount_percent: desc > 0 ? desc : null,
@@ -112,6 +123,10 @@ export default function EditarOferta() {
             <span className={lbl}>Producto (opcional)</span>
             <input className={inp} value={product} onChange={(e) => setProduct(e.target.value)} />
           </div>
+          <div>
+            <span className={lbl}>Descripción * <span className="normal-case font-normal text-white/30">(mín. 30 caracteres)</span></span>
+            <textarea className={inp} rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
+          </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <span className={lbl}>Precio anterior ($)</span>
@@ -130,10 +145,10 @@ export default function EditarOferta() {
           )}
           <div>
             <span className={lbl}>Válida hasta *</span>
-            <input className={inp} type="date" value={expires} onChange={(e) => setExpires(e.target.value)} />
+            <input className={inp} type="date" min={hoyStr} max={maxFechaStr} value={expires} onChange={(e) => setExpires(e.target.value)} />
           </div>
           <div>
-            <span className={lbl}>Foto de la oferta</span>
+            <span className={lbl}>Foto de la oferta *</span>
             <ImageUploader value={image} onChange={setImage} businessId={businessId} itemId={String(id)} previewClass="h-40 w-full rounded-xl" />
           </div>
 
