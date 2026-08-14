@@ -5,10 +5,19 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import BottomNav from "@/components/layout/bottom-nav";
 import OnlineNow from "@/components/live/online-now";
+import FloatingAssistant from "@/components/ui/floating-assistant";
+import { ToastProvider } from "@/components/ui/toast";
 import { AuthProvider } from "@/components/providers/auth-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
+
+import type { Viewport } from "next";
+
+export const viewport: Viewport = {
+  themeColor: "#0d0a12",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sanlorenzodigital.vercel.app"),
@@ -28,13 +37,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es" data-scroll-behavior="smooth" className={`${inter.variable} ${space.variable}`}>
       <body>
       <a href="#contenido" className="skip-link">Saltar al contenido</a>
+        <ToastProvider>
         <AuthProvider>
           <Header />
           {children}
           <Footer />
           <BottomNav />
           <OnlineNow />
+      <FloatingAssistant />
         </AuthProvider>
+      </ToastProvider>
       <InstallApp />
       </body>
     </html>

@@ -1,219 +1,125 @@
 "use client";
-
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import { useAuth } from "@/components/providers/auth-provider";
-import LevelUpCard from "@/components/ui/level-up-card";
-import DashboardNav from "@/components/dashboard/dashboard-nav";
-import BusinessStats from "@/components/dashboard/business-stats";
+import PageHero from "@/components/ui/page-hero";
+import { useToast } from "@/components/ui/toast";
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const { user, loading: authLoading, signOut } = useAuth();
-  const [businesses, setBusinesses] = useState<any[]>([]);
-  const [offers, setOffers] = useState<any[]>([]);
+  const { show } = useToast();
+  const [negocios, setNegocios] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState("user");
+  const [logueado, setLogueado] = useState(false);
 
   useEffect(() => {
-    if (!user && !authLoading) {
-      router.push("/login");
-    }
-  }, [user, authLoading, router]);
-
-  useEffect(() => {
-    if (user) {
-      loadUserData();
-    }
-  }, [user]);
-
-  const loadUserData = async () => {
-    try {
-      // Cargar negocios del usuario
-      const { data: businessesData } = await supabase()
-        .from("businesses")
-        .select("*")
-        .eq("owner_id", user?.id);
-
-      if (businessesData) {
-        setBusinesses(businessesData);
-
-        // Cargar ofertas de todos los negocios del usuario
-        const businessIds = businessesData.map((b: any) => b.id);
-        if (businessIds.length > 0) {
-          const { data: offersData } = await supabase()
-            .from("offers")
-            .select("*")
-            .in("business_id", businessIds)
-            .order("created_at", { ascending: false });
-
-          if (offersData) {
-            setOffers(offersData);
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Error cargando datos:", error);
-    } finally {
+    (async () => {
+      const sb = supabase();
+      const { data: { user } } = await sb.auth.getUser();
+      if (!user) { setLoading(false); return; }
+      setLogueado(true);
+      const { data: prof } = await sb.from("user_profiles")
+        .select("role").eq("user_id", user.id).maybeSingle();
+      const r = prof?.role || "user";
+      setRole(r);
+      const q = sb.from("businesses").select("*").order("name");
+      if (r !== "admin") q.eq("owner_id", user.id);
+      const { data } = await q;
+      setNegocios(data || []);
       setLoading(false);
-    }
+    })();
+  }, []);
+
+  const toggle = async (id: string, campo: string, valor: any) => {
+    await supabase().from("businesses").update({ [campo]: valor }).eq("id", id);
+    setNegocios(prev => prev.map(b => (b.id === id ? { ...b, [campo]: valor } : b)));
+    show(`✅ ${campo === "open" ? (valor ? "Negocio abierto" : "Negocio cerrado") : "Ofertas actualizadas"}`, "success");
   };
 
-  if (authLoading || loading) {
+  if (!loading && !logueado) {
     return (
-      <main className="bg-[#0d0a12] min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
-          <p className="text-white/60 mt-4">Cargando...</p>
-        </div>
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[#0d0a12] px-4 text-center text-white">
+        <p className="text-5xl">🔐</p>
+        <h1 className="mt-4 text-2xl font-black">Iniciá sesión para gestionar tus negocios</h1>
+        <Link href="/login" className="mt-6 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">Ingresar →</Link>
       </main>
     );
   }
 
   return (
-    <main className="bg-[#0d0a12] min-h-screen text-white">
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-black">Mi Dashboard</h1>
-            <p className="text-white/60 mt-1">{user?.email}</p>
-          </div>
-          <button
-            onClick={() => signOut()}
-            className="rounded-xl border border-white/20 px-4 py-2 text-sm hover:bg-white/5"
-          >
-            Cerrar sesión
-          </button>
-        </div>
-
-        <DashboardNav />
-        <BusinessStats />
-
-        {/* Stats */}
-        <div className="grid gap-4 sm:grid-cols-3 mb-8">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <p className="text-sm text-white/60">Mis negocios</p>
-            <p className="text-3xl font-black mt-2">{businesses.length}</p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <p className="text-sm text-white/60">Ofertas activas</p>
-            <p className="text-3xl font-black mt-2">{offers.filter(o => o.active).length}</p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <p className="text-sm text-white/60">Total de ofertas</p>
-            <p className="text-3xl font-black mt-2">{offers.length}</p>
-          </div>
-        </div>
-
-        {/* Acciones rápidas */}
-        <div className="grid gap-4 sm:grid-cols-2 mb-8">
-          <Link
-            href="/dashboard/nuevo"
-            className="rounded-2xl border border-orange-400/30 bg-orange-500/10 p-6 hover:bg-orange-500/20 transition"
-          >
-            <div className="text-3xl mb-2">🏪</div>
-            <h3 className="text-lg font-black">Crear nuevo negocio</h3>
-            <p className="text-sm text-white/60 mt-1">Registra tu comercio en San Lorenzo Digital</p>
-          </Link>
-          <Link
-            href="/dashboard/ofertas"
-            className="rounded-2xl border border-orange-400/30 bg-orange-500/10 p-6 hover:bg-orange-500/20 transition"
-          >
-            <div className="text-3xl mb-2">🔥</div>
-            <h3 className="text-lg font-black">Gestionar ofertas</h3>
-            <p className="text-sm text-white/60 mt-1">Crea y administra tus promociones</p>
-          </Link>
-        </div>
-
-        {/* Lista de negocios */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-black mb-4">Mis Negocios</h2>
-          {businesses.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
-              <p className="text-white/60">Aún no tenés negocios registrados</p>
-              <Link
-                href="/dashboard/nuevo"
-                className="inline-block mt-4 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 font-black text-white hover:opacity-90"
-              >
-                Crear mi primer negocio
-              </Link>
-            </div>
-          ) : (
-            <div className="grid gap-4 sm:grid-cols-2">
-              {businesses.map((business) => (
-                <div
-                  key={business.id}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-6"
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="text-lg font-bold">{business.name}</h3>
-                      <p className="text-sm text-white/60 capitalize">{business.category}</p>
-                    </div>
-                    <span className={`rounded-lg px-2 py-1 text-xs font-bold ${
-                      business.status === "verificado"
-                        ? "bg-green-500/20 text-green-300"
-                        : "bg-yellow-500/20 text-yellow-300"
-                    }`}>
-                      {business.status}
-                    </span>
-                  </div>
-                  <p className="text-sm text-white/70 mb-4">{business.address}</p>
-                  <div className="flex gap-2">
-                    <Link
-                      href={`/dashboard/editar/${business.id}`}
-                      className="flex-1 rounded-xl border border-white/20 px-4 py-2 text-center text-sm hover:bg-white/5"
-                    >
-                      Editar
-                    </Link>
-                    <Link
-                      href={`/negocio/${business.slug}`}
-                      className="flex-1 rounded-xl border border-white/20 px-4 py-2 text-center text-sm hover:bg-white/5"
-                    >
-                      Ver
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
+    <main className="min-h-screen bg-[#0d0a12] pb-24 text-white">
+      <PageHero
+        title="🏪 Mis negocios"
+        subtitle="Control rápido: abrí, cerrá y manejá tus ofertas sin vueltas"
+      >
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Link href="/dashboard/nuevo" className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black hover:opacity-90">+ Crear negocio</Link>
+          {role === "admin" && (
+            <Link href="/admin" className="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-2 text-sm font-bold text-red-300 hover:bg-red-500/20">🛡️ Panel admin</Link>
           )}
         </div>
+      </PageHero>
 
-        {/* Ofertas recientes */}
-        {offers.length > 0 && (
-          <div>
-            <h2 className="text-2xl font-black mb-4">Ofertas Recientes</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {offers.slice(0, 4).map((offer) => (
-                <div
-                  key={offer.id}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-6"
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-bold">{offer.title}</h3>
-                    <span className={`rounded-lg px-2 py-1 text-xs font-bold ${
-                      offer.active ? "bg-green-500/20 text-green-300" : "bg-red-500/20 text-red-300"
-                    }`}>
-                      {offer.active ? "Activa" : "Inactiva"}
-                    </span>
+      <div className="mx-auto max-w-5xl px-4">
+        {loading ? (
+          <p className="py-16 text-center text-white/50">Cargando tus negocios…</p>
+        ) : negocios.length === 0 ? (
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[.07] to-white/[.03] p-10 text-center">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-orange-500/20 to-pink-500/20 text-5xl">🏪</div>
+            <h2 className="mt-4 text-2xl font-black">Todavía no tenés negocios</h2>
+            <p className="mx-auto mt-2 max-w-md text-sm text-white/60">Creá tu primera miniweb gratis en menos de 2 minutos y empezá a publicar ofertas al instante.</p>
+            <Link href="/dashboard/nuevo" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90 transition">
+              <span>✨</span>
+              <span>Crear mi primer negocio →</span>
+            </Link>
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {negocios.map((b) => (
+              <div key={b.id} className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="text-lg font-black">{b.name}</h3>
+                    <p className="text-xs capitalize text-white/50">{b.category} · {b.address}</p>
                   </div>
-                  {offer.discount_percent && (
-                    <p className="text-sm text-orange-400 font-bold">{offer.discount_percent}% OFF</p>
-                  )}
-                  {offer.valid_until && (
-                    <p className="text-xs text-white/60 mt-2">
-                      Vence: {new Date(offer.valid_until).toLocaleDateString("es-AR")}
-                    </p>
-                  )}
+                  <span className={`rounded-full px-2 py-1 text-[10px] font-bold ${b.status === "verificado" ? "border border-emerald-400/20 bg-emerald-400/10 text-emerald-300" : "border border-amber-400/20 bg-amber-400/10 text-amber-300"}`}>
+                    {b.status === "verificado" ? "✓ VERIFICADO" : (b.status || "pendiente")}
+                  </span>
                 </div>
-              ))}
-            </div>
+
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => toggle(b.id, "open", !b.open)}
+                    className={`rounded-xl px-3 py-2.5 text-sm font-black transition ${b.open ? "bg-emerald-500/20 text-emerald-300 border border-emerald-400/30" : "bg-rose-500/20 text-rose-300 border border-rose-400/30"}`}
+                  >
+                    {b.open ? "🟢 Abierto" : "🔴 Cerrado"}
+                  </button>
+                  <button
+                    onClick={() => toggle(b.id, "ofertas_al_cerrar", b.ofertas_al_cerrar === false)}
+                    className={`rounded-xl border px-3 py-2.5 text-xs font-bold transition ${b.ofertas_al_cerrar !== false ? "border-orange-400/30 bg-orange-500/10 text-orange-300" : "border-white/10 bg-white/5 text-white/50"}`}
+                    title="Si cerrás el local, tus ofertas siguen visibles"
+                  >
+                    {b.ofertas_al_cerrar !== false ? "🔥 Ofertas siguen al cerrar" : "⏸️ Ofertas solo abierto"}
+                  </button>
+                </div>
+
+                <div className="mt-3 grid grid-cols-3 gap-2">
+                  <Link href={`/dashboard/editar/${b.slug}`} className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">✏️ Editar</Link>
+                  <Link href={`/negocio/${b.slug}`} className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">👁 Ver</Link>
+                  <Link href="/dashboard/ofertas" className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">🔥 Ofertas</Link>
+                  <Link href="/dashboard/mensajes" className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">💬 Mensajes</Link>
+                  <Link href="/dashboard/productos" className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">📦 Productos</Link>
+                  <Link href="/dashboard/resenas" className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">⭐ Reseñas</Link>
+                </div>
+                <div className="mt-2 grid grid-cols-2 gap-2">
+                  <Link href="/dashboard/historias" className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">📸 Historias</Link>
+                  <Link href="/dashboard/analytics" className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">📊 Estadísticas</Link>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
-    <div className="mt-6"><LevelUpCard showCtas /></div>
     </main>
   );
 }

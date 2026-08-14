@@ -50,7 +50,7 @@ export default function AdminPage() {
         supabase().from("subscriptions").select("*, businesses(name)").order("started_at", { ascending: false }).limit(20),
         supabase().from("locations").select("*").eq("type", "city"),
         supabase().from("followers").select("*", { count: "exact", head: true }),
-        supabase().from("user_profiles").select("*, auth_user:users(email)").order("created_at", { ascending: false }).limit(20),
+        supabase().from("user_profiles").select("*").order("created_at", { ascending: false }).limit(20),
       ]);
 
       setStats({
@@ -131,6 +131,31 @@ export default function AdminPage() {
         </div>
 
         {/* OVERVIEW */}
+        {tab === "overview" && stats.usersRecent && (
+          <div className="mt-8">
+            <h3 className="mb-4 text-lg font-black">👥 Últimos 20 usuarios</h3>
+            <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+              <table className="w-full text-sm">
+                <thead className="bg-white/5 border-b border-white/10">
+                  <tr>
+                    <th className="px-4 py-2 text-left text-xs font-bold text-white/60">Email</th>
+                    <th className="px-4 py-2 text-left text-xs font-bold text-white/60">Role</th>
+                    <th className="px-4 py-2 text-left text-xs font-bold text-white/60">Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats.usersRecent.map((u: any) => (
+                    <tr key={u.user_id} className="border-b border-white/5 hover:bg-white/5">
+                      <td className="px-4 py-2 text-xs">{u.email || u.user_id.slice(0, 8) + "…"}</td>
+                      <td className="px-4 py-2 text-xs capitalize">{u.role}</td>
+                      <td className="px-4 py-2 text-xs text-white/50">{new Date(u.created_at).toLocaleDateString('es-AR')}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
         {tab === "overview" && (
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
             {cards.map(c => (

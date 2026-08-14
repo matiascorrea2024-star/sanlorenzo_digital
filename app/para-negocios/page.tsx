@@ -1,4 +1,4 @@
-const WA = "https://wa.me/5493476637294?text=" + encodeURIComponent("Hola! Quiero sumar mi negocio a San Lorenzo Digital");
+const WA = "https://wa.me/5493476341344?text=" + encodeURIComponent("Hola! Quiero sumar mi negocio a San Lorenzo Digital");
 import PageHero from "@/components/ui/page-hero";
 
 export default function Page() {

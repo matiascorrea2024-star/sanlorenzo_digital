@@ -25,7 +25,17 @@ export default function Editar() {
       const sb = supabase();
       const { data: { user } } = await sb.auth.getUser();
       if (!user) { window.location.href = "/login"; return; }
-      const { data } = await sb.from("businesses").select("*").eq("slug", slug).eq("owner_id", user.id).maybeSingle();
+      
+      // Obtener role del usuario
+      const { data: prof } = await sb.from("user_profiles")
+        .select("role").eq("user_id", user.id).maybeSingle();
+      const userRole = prof?.role || "user";
+      const isAdmin = userRole === "admin";
+      
+      // Cargar negocio (admin puede editar todos, dueño solo los suyos)
+      const query = sb.from("businesses").select("*").eq("slug", slug);
+      if (!isAdmin) query.eq("owner_id", user.id);
+      const { data } = await query.maybeSingle();
       if (!data) { setDenied(true); return; }
       setB(data);
       setForm({
@@ -87,7 +97,7 @@ export default function Editar() {
         logo_url: form.logo_url || null,
         items, promotions: promos, updated_at: new Date().toISOString()
       })
-      .eq("slug", slug).eq("owner_id", user!.id);
+      .eq("slug", slug)
     setSaving(false);
     setMsg(error ? "❌ " + error.message : "✅ Guardado. Tu miniweb ya está actualizada.");
   };
@@ -101,7 +111,7 @@ export default function Editar() {
   );
   if (!form) return <main className="px-4 py-20 text-center text-sm text-white/60">Cargando…</main>;
 
-  const inp = "w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-orange-400";
+  const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
   const lbl = "mb-1 block text-xs font-semibold uppercase tracking-wider text-white/60";
 
   return (
@@ -109,12 +119,12 @@ export default function Editar() {
       <div className="mx-auto max-w-3xl px-4 py-10">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-black">Editar {b.name}</h1>
-          <a href={`/negocio/${b.slug}`} target="_blank" className="rounded-lg border border-white/20 px-4 py-2 text-sm hover:border-orange-400">👁️ Ver en vivo</a>
+          <a href={`/negocio/${b.slug}`} target="_blank" className="rounded-xl border border-orange-400/30 bg-orange-500/10 px-4 py-2.5 text-sm font-bold text-orange-300 hover:bg-orange-500/20">👁️ Ver en vivo</a>
         </div>
 
         {/* 📸 FOTOS DEL NEGOCIO */}
-        <section className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h2 className="mb-4 font-bold">📸 Fotos de tu negocio</h2>
+        <section className="mt-8 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-pink-300 bg-clip-text text-transparent">📸 Fotos de tu negocio</h2>
           <p className="mb-4 text-sm text-white/60">La foto de portada aparece en la home y en el directorio. El logo aparece junto al nombre en tu miniweb.</p>
           <div className="grid gap-6 md:grid-cols-2">
             <div>
@@ -124,10 +134,8 @@ export default function Editar() {
                 onChange={(url) => setForm({ ...form, portada_url: url })}
                 businessId={String(b.id)}
                 itemId="portada"
+                previewClass="h-56 w-full rounded-2xl md:h-72"
               />
-              {form.portada_url && (
-                <img src={form.portada_url} alt="portada" className="h-56 w-full object-cover md:h-72" />
-              )}
             </div>
             <div>
               <span className={lbl}>Logo (cuadrado)</span>
@@ -136,16 +144,14 @@ export default function Editar() {
                 onChange={(url) => setForm({ ...form, logo_url: url })}
                 businessId={String(b.id)}
                 itemId="logo"
+                previewClass="h-24 w-24 rounded-xl"
               />
-              {form.logo_url && (
-                <img src={form.logo_url} alt="logo" className="mt-2 h-24 w-24 rounded-lg object-cover" />
-              )}
             </div>
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h2 className="mb-4 font-bold">📋 Datos del negocio</h2>
+        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-pink-300 bg-clip-text text-transparent">📋 Datos del negocio</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <label><span className={lbl}>Nombre</span><input className={inp} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></label>
             <label><span className={lbl}>WhatsApp</span><input className={inp} value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value.replace(/\D/g, "") })} /></label>
@@ -164,8 +170,9 @@ export default function Editar() {
                   if (j[0]) { setForm({ ...form, latitude: j[0].lat, longitude: j[0].lon }); setMsg("📍 Dirección ubicada en el mapa. Tocá Guardar cambios."); }
                   else setMsg("No encontré esa dirección, agregá más detalle.");
                 } catch { setMsg("No pude geolocalizar ahora."); }
-              }} className="rounded-lg border border-white/20 px-4 py-2 text-sm hover:border-orange-400">
+              }} className="rounded-xl border border-orange-400/30 bg-orange-500/10 px-4 py-2.5 text-sm font-bold text-orange-300 hover:bg-orange-500/20">
                 📍 Ubicar en el mapa por dirección
+            </button>
             <button
               type="button"
               onClick={() =>
@@ -182,13 +189,12 @@ export default function Editar() {
             >
               🎯 Usar mi ubicación GPS exacta
             </button>
-              </button>
             </div>
             <label className="flex items-end gap-2 pb-3"><input type="checkbox" checked={form.open} onChange={(e) => setForm({ ...form, open: e.target.checked })} /> <span className="text-sm">Abierto ahora</span></label>
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">🛍️ Productos / servicios</h2>
             <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
@@ -206,7 +212,7 @@ export default function Editar() {
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">🔥 Promociones</h2>
             <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
@@ -286,9 +292,9 @@ export default function Editar() {
 
         {/* 📊 Estadísticas */}
         {stats && (
-          <section className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
             <div className="mb-4"><LevelBadge businessId={String(b.id)} verificado={b.status === "verificado"} /></div>
-            <h2 className="mb-4 font-bold">📊 Estadísticas de tu negocio (últimos 7 días)</h2>
+            <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-pink-300 bg-clip-text text-transparent">📊 Estadísticas de tu negocio (últimos 7 días)</h2>
             <div className="grid grid-cols-2 gap-4 mb-5">
               <div className="rounded-xl bg-black/20 p-4 text-center">
                 <p className="text-3xl font-black text-orange-400">{stats.views}</p>
@@ -319,7 +325,7 @@ export default function Editar() {
         )}
 
         {/* 🤳 QR */}
-        <section className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <h2 className="mb-2 font-bold">🤳 QR de tu negocio</h2>
           <p className="mb-4 text-sm text-white/60">Imprimilo y pegalo en tu vidriera: los clientes lo escanean y caen directo en tu miniweb.</p>
           <div className="flex items-center gap-6 flex-wrap">
@@ -339,7 +345,7 @@ export default function Editar() {
                   a.click();
                 } catch { alert("No se pudo descargar el QR ahora."); }
               }}
-              className="rounded-lg border border-white/20 px-4 py-2 text-sm hover:border-orange-400"
+              className="rounded-xl border border-orange-400/30 bg-orange-500/10 px-4 py-2.5 text-sm font-bold text-orange-300 hover:bg-orange-500/20"
             >
               ⬇️ Descargar QR en alta calidad
             </button>

@@ -4629,3 +4629,18 @@ input:focus, select:focus, textarea:focus {
   border-color: rgba(249,115,22,.6) !important;
   box-shadow: 0 0 0 3px rgba(249,115,22,.15);
 }
+
+/* === TICKER DE OFERTAS === */
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-33.33%); } }
+.ticker { animation: ticker 25s linear infinite; width: max-content; }
+.ticker:hover { animation-play-state: paused; }
+
+/* === BRILLO EN BOTONES PREMIUM === */
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: ""; position: absolute; top: 0; left: -150%; height: 100%; width: 60%;
+  transform: skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  animation: shineMove 3.5s ease infinite;
+}
+@keyframes shineMove { 0% { left: -150%; } 60% { left: 150%; } 100% { left: 150%; } }

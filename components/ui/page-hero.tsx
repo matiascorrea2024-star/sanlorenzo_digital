@@ -32,7 +32,17 @@ export default function PageHero({
         <div className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <Link href="/" className="text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
           <h1 className="mt-2 text-3xl font-black tracking-tight md:text-5xl">
-            <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">{title}</span>
+            {typeof title === "string" ? (() => {
+              const m = title.match(/^(\p{Extended_Pictographic}\uFE0F?)\s*(.*)$/u);
+              return m ? (
+                <>
+                  <span className="mr-3">{m[1]}</span>
+                  <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">{m[2]}</span>
+                </>
+              ) : (
+                <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">{title}</span>
+              );
+            })() : title}
           </h1>
           {subtitle && <p className="mt-2 text-white/60 md:text-lg">{subtitle}</p>}
           {children}

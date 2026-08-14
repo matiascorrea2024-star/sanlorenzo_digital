@@ -29,6 +29,7 @@ export default function RegistroPage() {
         await supabase().from("user_profiles").upsert({ user_id: user.id, display_name: name }, { onConflict: "user_id" });
       }
       setSuccess(true);
+      setTimeout(() => router.push("/onboarding"), 1800);
       setTimeout(() => {
         router.push("/dashboard");
       }, 2000);

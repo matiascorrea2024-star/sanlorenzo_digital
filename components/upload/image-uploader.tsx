@@ -2,8 +2,8 @@
 import { useState, useRef } from "react";
 import { uploadProductImage } from "@/lib/media";
 
-export default function ImageUploader({ value, onChange, businessId, itemId }: {
-  value?: string; onChange: (url: string) => void; businessId: string; itemId: string;
+export default function ImageUploader({ value, onChange, businessId, itemId, previewClass = "h-16 w-16 rounded-lg" }: {
+  value?: string; onChange: (url: string) => void; businessId: string; itemId: string; previewClass?: string;
 }) {
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState("");
@@ -27,20 +27,28 @@ export default function ImageUploader({ value, onChange, businessId, itemId }: {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex flex-col items-start gap-3">
       {value ? (
-        <div className="relative">
-          <img src={value} alt="" className="h-16 w-16 rounded-lg border border-[var(--line)] object-cover" />
-          <button onClick={() => onChange("")} className="absolute -right-1 -top-1 rounded-full bg-[var(--bad)] px-1.5 text-xs text-white">✕</button>
+        <div className="relative w-full">
+          <img src={value} alt="" className={`${previewClass} border border-white/10 object-cover`} />
+          <button
+            onClick={() => onChange("")}
+            className="absolute right-2 top-2 rounded-full bg-black/70 px-3 py-1 text-xs font-bold text-white backdrop-blur hover:bg-red-500"
+          >
+            ✕ Quitar
+          </button>
         </div>
       ) : (
-        <button onClick={() => inputRef.current?.click()} disabled={uploading}
-          className="flex h-16 w-16 items-center justify-center rounded-lg border border-dashed border-[var(--line)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white disabled:opacity-50">
-          {uploading ? "…" : "📷"}
+        <button
+          onClick={() => inputRef.current?.click()}
+          disabled={uploading}
+          className="flex h-24 w-full items-center justify-center rounded-2xl border border-dashed border-white/20 bg-white/[.03] text-2xl text-white/40 transition hover:border-orange-400/60 hover:text-white disabled:opacity-50"
+        >
+          {uploading ? "⏳ Subiendo…" : "📷 Subir foto"}
         </button>
       )}
       <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={onPick} />
-      {err && <span className="text-xs text-[var(--bad)]">{err}</span>}
+      {err && <span className="text-xs text-red-400">{err}</span>}
     </div>
   );
 }

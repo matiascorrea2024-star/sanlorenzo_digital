@@ -78,7 +78,7 @@ export const BUSINESSES: Business[] = [
     status: "verificado",
     demo: false,
     open: true,
-    whatsapp: "5493476637294",
+    whatsapp: "5493476341344",
     instagram: "calzadosalmendra",
     tags: ["zapatillas", "sandalias", "botas", "texanas", "zapatos", "tacos"],
     accent: "#C8A15A",

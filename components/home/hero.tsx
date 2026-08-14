@@ -4,10 +4,11 @@ import { Search, MapPin, Sparkles } from "lucide-react";
 
 interface HeroProps {
   onSearch?: (query: string) => void;
+  stats?: { promos: number; negocios: number; pronto: number };
 }
 
-export default function Hero({ onSearch }: HeroProps) {
-  const [stats, setStats] = useState({ promos: 0, negocios: 0, pronto: 0 });
+export default function Hero({ onSearch, stats }: HeroProps) {
+  const [display, setDisplay] = useState({ promos: 0, negocios: 0, pronto: 0 });
   const [search, setSearch] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
@@ -17,7 +18,7 @@ export default function Hero({ onSearch }: HeroProps) {
 
   // Count-up animado
   useEffect(() => {
-    const targets = { promos: 2, negocios: 12, pronto: 2 };
+    const targets = stats || { promos: 0, negocios: 0, pronto: 0 };
     const duration = 1500;
     const steps = 30;
     const interval = duration / steps;
@@ -26,7 +27,7 @@ export default function Hero({ onSearch }: HeroProps) {
     const timer = setInterval(() => {
       step++;
       const progress = step / steps;
-      setStats({
+      setDisplay({
         promos: Math.floor(targets.promos * progress),
         negocios: Math.floor(targets.negocios * progress),
         pronto: Math.floor(targets.pronto * progress),
@@ -35,7 +36,7 @@ export default function Hero({ onSearch }: HeroProps) {
     }, interval);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [stats]);
 
   const handleSearch = () => {
     if (onSearch && search.trim()) {
@@ -84,15 +85,15 @@ export default function Hero({ onSearch }: HeroProps) {
           {/* Contadores animados */}
           <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-8">
             <div className={`flex items-center gap-2 rounded-2xl border border-orange-500/20 bg-white/5 backdrop-blur-md px-6 py-3 transition-all duration-500 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-              <span className="text-3xl md:text-4xl font-black text-orange-400">{stats.promos}</span>
+              <span className="text-3xl md:text-4xl font-black text-orange-400">{display.promos}</span>
               <span className="text-sm text-white/70">promociones<br/>activas</span>
             </div>
             <div className={`flex items-center gap-2 rounded-2xl border border-purple-500/20 bg-white/5 backdrop-blur-md px-6 py-3 transition-all duration-500 delay-500 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-              <span className="text-3xl md:text-4xl font-black text-purple-400">{stats.negocios}</span>
+              <span className="text-3xl md:text-4xl font-black text-purple-400">{display.negocios}</span>
               <span className="text-sm text-white/70">negocios<br/>registrados</span>
             </div>
             <div className={`flex items-center gap-2 rounded-2xl border border-pink-500/20 bg-white/5 backdrop-blur-md px-6 py-3 transition-all duration-500 delay-700 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-              <span className="text-3xl md:text-4xl font-black text-pink-400">{stats.pronto}</span>
+              <span className="text-3xl md:text-4xl font-black text-pink-400">{display.pronto}</span>
               <span className="text-sm text-white/70">terminan<br/>pronto</span>
             </div>
           </div>

@@ -161,7 +161,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
         </div>
 
         {/* Mapa */}
-        <div ref={mapRef} className="mt-4 h-[60vh] w-full overflow-hidden rounded-2xl border border-white/10" style={{ minHeight: "420px" }} />
+        <div ref={mapRef} className="relative z-0 mt-4 h-[380px] md:h-[440px] w-full overflow-hidden rounded-2xl border border-white/10 mb-6" />
       </div>
     </main>
   );

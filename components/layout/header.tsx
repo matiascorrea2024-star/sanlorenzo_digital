@@ -1,14 +1,16 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import NotificationBell from "@/components/layout/notification-bell";
 import AuthButton from "./auth-button";
 import { supabase } from "@/lib/supabase";
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [user, setUser] = useState<any>(null);
+  const [role, setRole] = useState("user");
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -16,6 +18,11 @@ export default function Header() {
     (async () => {
       const { data: { user } } = await supabase().auth.getUser();
       setUser(user);
+      if (user) {
+        const { data: prof } = await supabase().from("user_profiles")
+          .select("role").eq("user_id", user.id).maybeSingle();
+        setRole(prof?.role || "user");
+      }
     })();
     const handler = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setOpen(false);
@@ -23,6 +30,12 @@ export default function Header() {
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  const salir = async () => {
+    await supabase().auth.signOut();
+    router.push("/");
+    router.refresh();
+  };
 
   const linkCls = (href: string) =>
     `text-sm font-semibold transition ${pathname === href ? "text-orange-400" : "text-white/70 hover:text-white"}`;
@@ -49,51 +62,46 @@ export default function Header() {
 
           <nav className="hidden items-center gap-5 md:flex">
             {navItems.map((it) => (
-              <Link key={it.href} href={it.href} className={linkCls(it.href)}>
-                {it.label}
-              </Link>
+              <Link key={it.href} href={it.href} className={linkCls(it.href)}>{it.label}</Link>
             ))}
           </nav>
 
           <div className="flex items-center gap-2">
-            <NotificationBell />
+            {user && <NotificationBell />}
 
-            {/* Menú de usuario si está logueado */}
-            {user && (
+            {user ? (
               <div className="relative" ref={menuRef}>
                 <button
                   onClick={() => setOpen(!open)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white hover:scale-105 transition"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white transition hover:scale-105"
                 >
                   {(user.email || "?")[0].toUpperCase()}
                 </button>
                 {open && (
                   <div className="absolute right-0 top-12 z-50 w-64 rounded-2xl border border-white/10 bg-[#141018] p-2 shadow-2xl">
-                    <div className="border-b border-white/10 px-3 py-2 mb-1">
+                    <div className="mb-1 border-b border-white/10 px-3 py-2">
                       <p className="text-xs text-white/50">Conectado como</p>
-                      <p className="text-sm font-bold truncate">{user.email}</p>
+                      <p className="truncate text-sm font-bold">{user.email}</p>
                     </div>
-                    <Link href="/perfil" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">🎖 Mi perfil</Link>
+                    <Link href="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-orange-300 hover:bg-orange-500/10">🏪 Mis negocios (editar rápido)</Link>
+                    <Link href="/perfil" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">🎖 Mi perfil y misiones</Link>
                     <Link href="/favoritos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">❤️ Favoritos</Link>
                     <Link href="/mensajes" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">💬 Mensajes</Link>
                     <Link href="/vecinos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">👥 Ranking de vecinos</Link>
-                    <Link href="/panel" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">🏪 Mis negocios</Link>
-                    <Link href="/admin" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5 text-red-300">🛡️ Admin</Link>
-                    <div className="border-t border-white/10 mt-1 pt-1">
-                      <AuthButton />
+                    {role === "admin" && (
+                      <Link href="/admin" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-white/5">🛡️ Admin</Link>
+                    )}
+                    <div className="mt-1 border-t border-white/10 pt-1">
+                      <button onClick={salir} className="w-full rounded-xl px-3 py-2 text-left text-sm text-red-300 hover:bg-white/5">🚪 Salir</button>
                     </div>
                   </div>
                 )}
               </div>
+            ) : (
+              <AuthButton />
             )}
 
-            {!user && (
-              <div className="hidden md:block">
-                <AuthButton />
-              </div>
-            )}
-
-            <Link href="/para-negocios" className="hidden rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black text-white hover:opacity-90 md:inline-block">
+            <Link href="/para-negocios" className="btn-shine hidden rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black text-white hover:opacity-90 md:inline-block">
               Publicar negocio
             </Link>
           </div>
