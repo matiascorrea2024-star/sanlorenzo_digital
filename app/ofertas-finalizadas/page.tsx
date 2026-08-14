@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import NotifyMeButton from "@/components/offers/notify-me-button";
 import { useAllBusinesses } from "@/lib/use-businesses";
 
 const CATEGORY_IMAGES: Record<string, string> = {
@@ -53,7 +54,10 @@ export default function OfertasFinalizadasPage() {
                   <p className="mt-1 text-xs text-white/50">{p.negocio}</p>
                   <div className="mt-3 flex items-center justify-between">
                     <span className="text-xs text-white/40">Venció el {p.expires.split("-").reverse().join("/")}</span>
-                    <span className="text-xs font-bold text-orange-400">Seguir →</span>
+                    <NotifyMeButton
+                      businessId={p.businessId}
+                      productName={p.title}
+                    />
                   </div>
                 </div>
               </Link>

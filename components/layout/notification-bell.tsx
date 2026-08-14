@@ -1,111 +1,106 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-type Notif = { icon: string; text: string; href: string };
-
 export default function NotificationBell() {
-  const [user, setUser] = useState<any>(null);
-  const [notifs, setNotifs] = useState<Notif[]>([]);
-  const [abierto, setAbierto] = useState(false);
+  const router = useRouter();
+  const [count, setCount] = useState(0);
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Cerrar el menú automáticamente al navegar (evita overlay trabado)
+  useEffect(() => { setOpen(false); }, [pathname]);
+  const [items, setItems] = useState<any[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [toast, setToast] = useState<any>(null);
 
   useEffect(() => {
     (async () => {
       const { data: { user } } = await supabase().auth.getUser();
-      setUser(user);
       if (!user) return;
-      const sb = supabase();
-      const { data: follows } = await sb
-        .from("followers").select("business_id").eq("user_id", user.id);
-      const ids = (follows || []).map((f: any) => f.business_id);
-
-      const lista: Notif[] = [];
-
-      if (ids.length > 0) {
-        const { data: negs } = await sb
-          .from("businesses").select("id, name, slug, promotions").in("id", ids);
-        const hoy = new Date().toISOString().slice(0, 10);
-        (negs || []).forEach((b: any) => {
-          (b.promotions || []).forEach((p: any) => {
-            if (!p.title) return;
-            const activa =
-              (!p.expires || p.expires >= hoy) &&
-              (!p.expires_at || new Date(p.expires_at).getTime() > Date.now());
-            if (activa)
-              lista.push({
-                icon: "🔥",
-                text: `${b.name} tiene una oferta activa: ${p.title}`,
-                href: "/negocio/" + b.slug,
-              });
-          });
-        });
-      }
-
-      const { data: nuevos } = await sb
-        .from("businesses")
-        .select("name, slug, created_at")
-        .gte("created_at", new Date(Date.now() - 7 * 86400000).toISOString());
-      (nuevos || []).forEach((b: any) =>
-        lista.push({
-          icon: "🏪",
-          text: `Nuevo negocio en San Lorenzo: ${b.name}`,
-          href: "/negocio/" + b.slug,
-        })
-      );
-
-      setNotifs(lista.slice(0, 10));
+      setUserId(user.id);
+      const { data } = await supabase().from("notifications")
+        .select("*").eq("user_id", user.id).eq("read", false)
+        .order("created_at", { ascending: false }).limit(10);
+      if (data) { setItems(data); setCount(data.length); }
     })();
   }, []);
 
-  if (!user) return null;
+  // Realtime + toast al instante
+  useEffect(() => {
+    if (!userId) return;
+    const chan = supabase().channel(`notif-${userId}`)
+      .on("postgres_changes",
+        { event: "INSERT", schema: "public", table: "notifications", filter: `user_id=eq.${userId}` },
+        (payload: any) => {
+          setItems(prev => [payload.new, ...prev]);
+          setCount(c => c + 1);
+          setToast(payload.new);
+          setTimeout(() => setToast(null), 6000);
+        })
+      .subscribe();
+    return () => { supabase().removeChannel(chan); };
+  }, [userId]);
+
+  const irA = async (n: any) => {
+    await supabase().from("notifications").update({ read: true }).eq("id", n.id);
+    setCount(c => Math.max(0, c - 1));
+    setOpen(false);
+    if (n.link) router.push(n.link);
+  };
+
+  const marcarLeidas = async () => {
+    if (!userId) return;
+    await supabase().from("notifications").update({ read: true }).eq("user_id", userId).eq("read", false);
+    setCount(0); setItems([]);
+  };
 
   return (
-    <div className="relative">
-      <button
-        onClick={() => setAbierto(!abierto)}
-        className="relative rounded-lg border border-white/20 px-3 py-2 text-sm hover:bg-white/10 transition"
-        title="Notificaciones"
-      >
-        🔔
-        {notifs.length > 0 && (
-          <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-black">
-            {notifs.length}
-          </span>
-        )}
-      </button>
-      {abierto && (
-        <div className="absolute right-0 top-12 z-50 w-80 rounded-2xl border border-white/10 bg-[#141018] p-3 shadow-2xl">
-          <p className="mb-2 text-xs font-black uppercase text-white/50">🔔 Notificaciones</p>
-          {notifs.length === 0 ? (
-            <p className="py-6 text-center text-sm text-white/50">
-              Nada nuevo por ahora.
-              <br />
-              Seguí negocios con ⭐ para recibir sus novedades.
-            </p>
-          ) : (
-            <div className="max-h-80 space-y-2 overflow-y-auto">
-              {notifs.map((n, i) => (
-                <Link
-                  key={i}
-                  href={n.href}
-                  onClick={() => setAbierto(false)}
-                  className="block rounded-xl bg-white/5 p-3 text-sm hover:bg-white/10"
-                >
-                  {n.icon} {n.text}
-                </Link>
-              ))}
-            </div>
+    <>
+      <div className="relative">
+        <button onClick={() => setOpen(!open)} className="relative rounded-lg bg-white/10 p-2 hover:bg-white/20">
+          🔔
+          {count > 0 && (
+            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-black">{count}</span>
           )}
-          <Link
-            href="/perfil"
-            onClick={() => setAbierto(false)}
-            className="mt-2 block rounded-xl border border-orange-400/30 bg-gradient-to-r from-orange-500/20 to-pink-500/20 p-3 text-center text-sm font-black text-orange-300 hover:from-orange-500/30"
-          >
-            🎖 Mi perfil y mis medallas
-          </Link>
-        </div>
+        </button>
+        {open && (
+          <div className="fixed left-4 right-4 top-20 z-[60] sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-96 w-80 rounded-2xl border border-white/10 bg-[#1a1420] p-4 shadow-2xl z-50">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="font-black">Notificaciones</p>
+              {count > 0 && <button onClick={marcarLeidas} className="text-xs text-orange-400">Marcar leídas</button>}
+            </div>
+            {items.length === 0 ? (
+              <p className="text-sm text-white/50">Sin notificaciones nuevas</p>
+            ) : (
+              <div className="max-h-80 space-y-2 overflow-y-auto">
+                {items.map(n => (
+                  <button key={n.id} onClick={() => irA(n)}
+                    className="w-full rounded-xl bg-white/5 p-3 text-left hover:bg-white/10 transition">
+                    <p className="text-sm font-bold">{n.title}</p>
+                    {n.body && <p className="text-xs text-white/60">{n.body}</p>}
+                    <p className="mt-1 text-[10px] text-orange-400">Tocar para ir →</p>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* TOAST FLOTANTE (aparece al instante) */}
+      {toast && (
+        <button onClick={() => { irA(toast); setToast(null); }}
+          className="fixed bottom-24 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-2xl border border-orange-400/50 bg-[#1a1420] p-4 shadow-2xl animate-pulse">
+          <span className="text-2xl">💬</span>
+          <div className="text-left">
+            <p className="text-sm font-black">{toast.title}</p>
+            {toast.body && <p className="truncate text-xs text-white/60">{toast.body}</p>}
+            <p className="text-[10px] text-orange-400">Tocar para abrir →</p>
+          </div>
+        </button>
       )}
-    </div>
+    </>
   );
 }

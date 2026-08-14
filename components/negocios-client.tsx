@@ -1,4 +1,6 @@
 "use client";
+import RankedAvatar from "@/components/ui/ranked-avatar";
+
 import { useMemo, useState } from "react";
 import { CATEGORIES } from "@/lib/data";
 import BusinessCard from "@/components/business/card";

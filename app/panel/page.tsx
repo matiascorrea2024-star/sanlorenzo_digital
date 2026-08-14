@@ -308,8 +308,7 @@ export default function PanelV3() {
   if (loading) {
     return (
       <main className="v3-loading">
-        <div className="v3-loader" />
-        <strong>Preparando tu centro de control</strong>
+                <strong>Preparando tu centro de control</strong>
         <span>Estamos cargando San Lorenzo Digital.</span>
       </main>
     );

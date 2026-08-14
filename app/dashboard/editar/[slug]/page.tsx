@@ -126,7 +126,7 @@ export default function Editar() {
                 itemId="portada"
               />
               {form.portada_url && (
-                <img src={form.portada_url} alt="portada" className="mt-2 w-full rounded-lg object-cover h-24" />
+                <img src={form.portada_url} alt="portada" className="h-56 w-full object-cover md:h-72" />
               )}
             </div>
             <div>
@@ -166,6 +166,22 @@ export default function Editar() {
                 } catch { setMsg("No pude geolocalizar ahora."); }
               }} className="rounded-lg border border-white/20 px-4 py-2 text-sm hover:border-orange-400">
                 📍 Ubicar en el mapa por dirección
+            <button
+              type="button"
+              onClick={() =>
+                navigator.geolocation?.getCurrentPosition(
+                  (p) => {
+                    setForm({ ...form, latitude: String(p.coords.latitude), longitude: String(p.coords.longitude) });
+                    alert("🎯 Ubicación GPS cargada con precisión de ±" + Math.round(p.coords.accuracy) + " metros. Guardá los cambios y tu pin queda clavado en tu puerta.");
+                  },
+                  () => alert("No se pudo obtener el GPS. Fijate si diste permiso."),
+                  { enableHighAccuracy: true }
+                )
+              }
+              className="mt-2 rounded-xl border border-sky-400/40 bg-sky-500/10 px-4 py-2 text-sm font-bold text-sky-300 hover:bg-sky-500/20"
+            >
+              🎯 Usar mi ubicación GPS exacta
+            </button>
               </button>
             </div>
             <label className="flex items-end gap-2 pb-3"><input type="checkbox" checked={form.open} onChange={(e) => setForm({ ...form, open: e.target.checked })} /> <span className="text-sm">Abierto ahora</span></label>

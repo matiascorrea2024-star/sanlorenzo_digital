@@ -1,291 +1,220 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient, createBusiness, type NewBusiness } from "@/lib/supabase";
+import Link from "next/link";
+import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/providers/auth-provider";
+import LocationPicker from "@/components/business/location-picker";
+import { postActivity } from "@/lib/activity";
 
-const CATEGORIES = [
-  { id: "calzado", name: "Calzado", icon: "👟", type: "comercio", accent: "#C8A15A" },
-  { id: "gastronomia", name: "Gastronomía", icon: "🍽️", type: "restaurante", accent: "#22D3EE" },
-  { id: "ferreteria", name: "Ferreterías", icon: "🔧", type: "ferreteria", accent: "#F59E0B" },
-  { id: "belleza", name: "Belleza", icon: "💈", type: "peluqueria", accent: "#8B5CF6" },
-  { id: "ropa", name: "Ropa", icon: "👕", type: "comercio", accent: "#34D399" },
-  { id: "automotor", name: "Automotor", icon: "🚗", type: "automotor", accent: "#F87171" },
-  { id: "profesionales", name: "Profesionales", icon: "💼", type: "profesional", accent: "#60A5FA" },
-  { id: "tecnologia", name: "Tecnología", icon: "💻", type: "comercio", accent: "#A78BFA" },
-];
-
-const STEPS = ["Rubro", "Nombre y descripción", "Ubicación", "Contacto", "Primer producto"];
-
-export default function Nuevo() {
+export default function NuevoNegocioPage() {
   const router = useRouter();
-  const [step, setStep] = useState(0);
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [form, setForm] = useState<NewBusiness & { categoryObj?: typeof CATEGORIES[0] }>({
+
+  const [formData, setFormData] = useState({
     name: "",
-    category: "",
+    category: "gastronomia",
     type: "comercio",
     description: "",
     address: "",
+    latitude: "",
+    longitude: "",
     whatsapp: "",
     instagram: "",
-    accent: "#8B5CF6",
     schedule: "",
-    first_item: "",
   });
 
-  const initials = form.name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase() || "??";
+  const categories = [
+    { id: "calzado", name: "Calzado", icon: "👟" },
+    { id: "gastronomia", name: "Gastronomía", icon: "🍽️" },
+    { id: "ferreteria", name: "Ferretería", icon: "🔧" },
+    { id: "belleza", name: "Belleza", icon: "💈" },
+    { id: "ropa", name: "Ropa", icon: "👕" },
+    { id: "automotor", name: "Automotor", icon: "🚗" },
+    { id: "profesionales", name: "Profesionales", icon: "💼" },
+    { id: "tecnologia", name: "Tecnología", icon: "💻" },
+  ];
 
-  const next = () => setStep((s) => Math.min(s + 1, STEPS.length));
-  const prev = () => setStep((s) => Math.max(s - 1, 0));
-
-  const canNext =
-    (step === 0 && form.category) ||
-    (step === 1 && form.name.trim() && form.description.trim()) ||
-    (step === 2 && form.address.trim()) ||
-    (step === 3) ||
-    (step === 4);
-
-  const selectCategory = (c: typeof CATEGORIES[0]) => {
-    setForm({ ...form, category: c.id, type: c.type, accent: c.accent, categoryObj: c });
-  };
-
-  const submit = async () => {
-    setLoading(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError("");
+    setLoading(true);
+
     try {
-      const supabase = createClient();
-      const { data: user } = await supabase.auth.getUser();
-      if (!user?.user) {
-        router.push("/login");
-        return;
-      }
-      await createBusiness(form, user.user.id);
-      router.push("/dashboard/mis-negocios");
-    } catch (e: any) {
-      setError(e.message || "Error al crear la miniweb");
+      const slug = formData.name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "") + "-" + Date.now().toString(36);
+
+      const { error } = await supabase().from("businesses").insert({
+        owner_id: user?.id,
+        name: formData.name,
+        slug: slug,
+        category: formData.category,
+        type: formData.type,
+        description: formData.description,
+        address: formData.address,
+        latitude: formData.latitude ? Number(formData.latitude) : null,
+        longitude: formData.longitude ? Number(formData.longitude) : null,
+        whatsapp: formData.whatsapp,
+        instagram: formData.instagram,
+        schedule: formData.schedule,
+        status: "reclamado",
+        demo: false,
+        open: true,
+        items: [],
+        tags: [],
+        rating: 0,
+        reviews: 0,
+        views: 0,
+        favorites_count: 0,
+        updated_at: new Date().toISOString(),
+      });
+
+      if (error) throw error;
+
+      // Registrar actividad
+      await postActivity({
+        type: "new_business",
+        title: `🏪 Nuevo negocio: ${formData.name}`,
+        description: `Categoría: ${formData.category}`,
+      });
+
+      router.push("/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Error al crear el negocio");
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>
-          Creá tu miniweb
-        </h1>
-        <span className="text-sm text-[var(--muted)]">
-          Paso {step + 1} de {STEPS.length}
-        </span>
-      </div>
+    <main className="bg-[#0d0a12] min-h-screen text-white">
+      <div className="mx-auto max-w-2xl px-4 py-8">
+        <Link href="/dashboard" className="text-sm text-orange-400 hover:text-orange-300 mb-6 inline-block">
+          ← Volver al dashboard
+        </Link>
 
-      <div className="mb-8 h-1 overflow-hidden rounded-full bg-[var(--surface)]">
-        <div
-          className="h-full bg-[var(--accent)] transition-all"
-          style={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
-        />
-      </div>
+        <h1 className="text-3xl font-black mb-2">Crear Nuevo Negocio</h1>
+        <p className="text-white/60 mb-8">Completa los datos de tu comercio</p>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
-        <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6">
-          {step === 0 && (
-            <>
-              <h2 className="mb-1 text-lg font-semibold">¿Qué tipo de negocio tenés?</h2>
-              <p className="mb-6 text-sm text-[var(--muted)]">Elegí el rubro más cercano.</p>
-              <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                {CATEGORIES.map((c) => (
-                  <button
-                    key={c.id}
-                    onClick={() => selectCategory(c)}
-                    className={`flex flex-col items-center gap-2 rounded-xl border p-4 transition ${
-                      form.category === c.id
-                        ? "border-[var(--accent)] bg-[var(--surface2)] text-white"
-                        : "border-[var(--line)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
-                    }`}
-                  >
-                    <span className="text-3xl">{c.icon}</span>
-                    <span className="text-sm">{c.name}</span>
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-semibold mb-2">Nombre del negocio *</label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
+              placeholder="Ej: Café La Esquina"
+            />
+          </div>
 
-          {step === 1 && (
-            <>
-              <h2 className="mb-1 text-lg font-semibold">Contá sobre tu negocio</h2>
-              <p className="mb-6 text-sm text-[var(--muted)]">Este texto aparece en tu miniweb.</p>
-              <label className="mb-4 block">
-                <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                  Nombre
-                </span>
-                <input
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="Ej: Ferretería San Lorenzo"
-                  className="w-full rounded-lg border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]"
-                />
-              </label>
-              <label className="block">
-                <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                  Descripción breve
-                </span>
-                <textarea
-                  value={form.description}
-                  onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  placeholder="Ej: Herramientas y materiales para tu hogar. Asesoramiento personalizado."
-                  rows={4}
-                  className="w-full resize-none rounded-lg border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]"
-                />
-              </label>
-            </>
-          )}
-
-          {step === 2 && (
-            <>
-              <h2 className="mb-1 text-lg font-semibold">¿Dónde estás?</h2>
-              <p className="mb-6 text-sm text-[var(--muted)]">Dirección en San Lorenzo.</p>
-              <label className="block">
-                <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                  Dirección
-                </span>
-                <input
-                  value={form.address}
-                  onChange={(e) => setForm({ ...form, address: e.target.value })}
-                  placeholder="Ej: Av. San Martín 1200, San Lorenzo"
-                  className="w-full rounded-lg border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]"
-                />
-              </label>
-              <label className="mt-4 block">
-                <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                  Horarios (opcional)
-                </span>
-                <input
-                  value={form.schedule}
-                  onChange={(e) => setForm({ ...form, schedule: e.target.value })}
-                  placeholder="Ej: Lun a Vie 9–18 · Sáb 9–13"
-                  className="w-full rounded-lg border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]"
-                />
-              </label>
-            </>
-          )}
-
-          {step === 3 && (
-            <>
-              <h2 className="mb-1 text-lg font-semibold">¿Cómo te contactan?</h2>
-              <p className="mb-6 text-sm text-[var(--muted)]">Para que los clientes te escriban directo.</p>
-              <label className="mb-4 block">
-                <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                  WhatsApp (con código país, sin +)
-                </span>
-                <input
-                  value={form.whatsapp}
-                  onChange={(e) => setForm({ ...form, whatsapp: e.target.value.replace(/\D/g, "") })}
-                  placeholder="Ej: 5493476637294"
-                  className="w-full rounded-lg border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]"
-                />
-              </label>
-              <label className="block">
-                <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                  Instagram (opcional)
-                </span>
-                <input
-                  value={form.instagram}
-                  onChange={(e) => setForm({ ...form, instagram: e.target.value.replace(/^@/, "") })}
-                  placeholder="Ej: mi_negocio"
-                  className="w-full rounded-lg border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]"
-                />
-              </label>
-            </>
-          )}
-
-          {step === 4 && (
-            <>
-              <h2 className="mb-1 text-lg font-semibold">Tu primer producto o servicio</h2>
-              <p className="mb-6 text-sm text-[var(--muted)]">
-                Uno solo para empezar. Podés cargar más después.
-              </p>
-              <label className="block">
-                <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                  Nombre
-                </span>
-                <input
-                  value={form.first_item}
-                  onChange={(e) => setForm({ ...form, first_item: e.target.value })}
-                  placeholder={
-                    form.type === "restaurante"
-                      ? "Ej: Brunch completo"
-                      : form.type === "peluqueria"
-                      ? "Ej: Corte + barba"
-                      : "Ej: Zapatillas urbanas"
-                  }
-                  className="w-full rounded-lg border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]"
-                />
-              </label>
-            </>
-          )}
-
-          <div className="mt-8 flex items-center justify-between">
-            <button
-              onClick={prev}
-              disabled={step === 0}
-              className="rounded-lg px-4 py-2 text-sm text-[var(--muted)] hover:text-white disabled:opacity-30"
+          <div>
+            <label className="block text-sm font-semibold mb-2">Categoría *</label>
+            <select
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
             >
-              ← Atrás
-            </button>
-            {step < STEPS.length - 1 ? (
-              <button
-                onClick={next}
-                disabled={!canNext}
-                className="rounded-lg bg-[var(--accent)] px-6 py-2.5 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-40"
-              >
-                Siguiente →
-              </button>
-            ) : (
-              <button
-                onClick={submit}
-                disabled={loading || !canNext}
-                className="rounded-lg bg-[var(--accent)] px-6 py-2.5 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-40"
-              >
-                {loading ? "Creando…" : "Publicar mi miniweb ✨"}
-              </button>
-            )}
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.icon} {cat.name}
+                </option>
+              ))}
+            </select>
           </div>
-          {error && <p className="mt-4 text-center text-sm text-[var(--bad)]">{error}</p>}
-        </div>
 
-        <aside className="hidden lg:block">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-            Así se ve tu miniweb
-          </p>
-          <div className="sticky top-20 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--bg)]">
-            <div className="h-24 opacity-40" style={{ background: `linear-gradient(135deg, ${form.accent}, transparent 70%)` }} />
-            <div className="-mt-8 px-4 pb-5">
-              <span
-                className="flex h-14 w-14 items-center justify-center rounded-xl border-4 border-[var(--bg)] text-lg font-bold text-black"
-                style={{ background: form.accent }}
-              >
-                {initials}
-              </span>
-              <h3 className="mt-2 text-lg font-bold" style={{ fontFamily: "var(--font-space)" }}>
-                {form.name || "Tu negocio"}
-              </h3>
-              <p className="text-xs capitalize text-[var(--muted)]">
-                {form.categoryObj?.name || "Rubro"} · 🟢 Abierto
-              </p>
-              <p className="mt-3 text-xs text-[var(--muted)]">
-                {form.description || "Tu descripción aparece acá…"}
-              </p>
-              {form.address && <p className="mt-2 text-xs">📍 {form.address}</p>}
-              {form.first_item && (
-                <div className="mt-3 rounded-lg border border-[var(--line)] bg-[var(--surface)] p-3 text-xs">
-                  <p className="font-medium">{form.first_item}</p>
-                  <p className="text-[var(--accent2)]">Consultar</p>
-                </div>
-              )}
-            </div>
+          <div>
+            <label className="block text-sm font-semibold mb-2">Descripción</label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              rows={3}
+              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
+              placeholder="Contá qué hace tu negocio..."
+            />
           </div>
-        </aside>
+
+          <div>
+            <label className="block text-sm font-semibold mb-2">Dirección *</label>
+            <input
+              type="text"
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              required
+              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
+              placeholder="Ej: Belgrano 123, San Lorenzo"
+            />
+          </div>
+
+          {/* LOCATION PICKER */}
+          <LocationPicker
+            address={formData.address}
+            latitude={formData.latitude}
+            longitude={formData.longitude}
+            onChange={(location) =>
+              setFormData({
+                ...formData,
+                latitude: location.latitude,
+                longitude: location.longitude,
+              })
+            }
+          />
+
+          <div>
+            <label className="block text-sm font-semibold mb-2">WhatsApp</label>
+            <input
+              type="text"
+              value={formData.whatsapp}
+              onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
+              placeholder="Ej: 5493476123456"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold mb-2">Instagram</label>
+            <input
+              type="text"
+              value={formData.instagram}
+              onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
+              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
+              placeholder="Ej: @cafelaesquina"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold mb-2">Horarios</label>
+            <input
+              type="text"
+              value={formData.schedule}
+              onChange={(e) => setFormData({ ...formData, schedule: e.target.value })}
+              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
+              placeholder="Ej: Lun a Vie 9-18, Sáb 9-13"
+            />
+          </div>
+
+          {error && (
+            <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-3">
+              <p className="text-sm text-red-300">{error}</p>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {loading ? "Creando..." : "Crear Negocio"}
+          </button>
+        </form>
       </div>
     </main>
   );

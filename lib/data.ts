@@ -1,3 +1,11 @@
+
+// Fechas dinámicas para ofertas demo: siempre relativas a HOY (nunca expiran)
+const en = (dias: number) => {
+  const d = new Date();
+  d.setDate(d.getDate() + dias);
+  return d.toISOString().slice(0, 10);
+};
+
 export type Business = {
   id: string;
   slug: string;
@@ -38,6 +46,22 @@ export const CATEGORIES = [
   { id: "automotor", name: "Automotor", icon: "🚗" },
   { id: "profesionales", name: "Profesionales", icon: "💼" },
   { id: "tecnologia", name: "Tecnología", icon: "💻" },
+  { id: "salud", name: "Salud", icon: "🏥" },
+  { id: "hogar", name: "Hogar", icon: "🏠" },
+  { id: "construccion", name: "Construcción", icon: "🏗️" },
+  { id: "educacion", name: "Educación", icon: "🎓" },
+  { id: "deportes", name: "Deportes", icon: "🏋️" },
+  { id: "mascotas", name: "Mascotas", icon: "🐾" },
+  { id: "eventos", name: "Eventos", icon: "🎉" },
+  { id: "inmobiliarias", name: "Inmobiliarias", icon: "🏢" },
+  { id: "transporte", name: "Transporte", icon: "🚚" },
+  { id: "logistica", name: "Logística", icon: "📦" },
+  { id: "agro", name: "Agro", icon: "🌱" },
+  { id: "industria", name: "Industria", icon: "🏭" },
+  { id: "servicios-industriales", name: "Servicios Industriales", icon: "⚙️" },
+  { id: "portuario", name: "Portuario", icon: "⚓" },
+  { id: "comercio-exterior", name: "Comercio Exterior", icon: "🚢" },
+  { id: "b2b", name: "B2B / Empresas", icon: "💼" },
 ];
 
 export const BUSINESSES: Business[] = [

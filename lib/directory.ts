@@ -1,10 +1,10 @@
 import { BUSINESSES } from "./data";
-import { getSupabaseServer } from "./supabase-server";
+import { createClient } from "./supabase-server";
 
 export async function getAllBusinesses(): Promise<any[]> {
   let db: any[] = [];
   try {
-    const sb = await getSupabaseServer();
+    const sb = await createClient();
     const { data } = await sb.from("businesses").select("*");
     db = data || [];
   } catch (e) {

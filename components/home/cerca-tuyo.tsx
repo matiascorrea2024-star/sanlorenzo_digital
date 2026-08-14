@@ -93,7 +93,7 @@ export default function CercaTuyo() {
                   src={b.portada_url || CATEGORY_IMAGES[b.category] || FALLBACK_IMAGE}
                   alt={b.name}
                   loading="lazy"
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                  className="h-56 w-full object-cover md:h-72"
                 />
                 <span className="absolute right-2 top-2 rounded-lg bg-black/80 px-2 py-1 text-xs font-black text-orange-300">
                   📍 {fmtDist(b.distancia)}

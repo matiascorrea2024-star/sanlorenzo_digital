@@ -15,6 +15,10 @@ interface LocationPickerProps {
 
 const DEFAULT_CENTER: [number, number] = [-32.7475, -60.7285];
 
+// URL de iconos de Leaflet desde CDN (siempre funcionan)
+const ICON_URL = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png";
+const SHADOW_URL = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png";
+
 export default function LocationPicker({
   address,
   latitude,
@@ -35,6 +39,21 @@ export default function LocationPicker({
       if (!mapRef.current || leafletMapRef.current) return;
 
       const L = await import("leaflet");
+
+      // FIX CLÁSICO DE LEAFLET + NEXT.JS
+      // Configuramos el icono por defecto usando URLs externas (siempre funcionan)
+      // PIN NARANJA PERSONALIZADO (SVG inline, siempre visible)
+      const OrangeIcon = L.divIcon({
+        className: "",
+        html: `<svg width="32" height="44" viewBox="0 0 32 44" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 28 16 28s16-16 16-28C32 7.2 24.8 0 16 0z" fill="#f97316" stroke="#fff" stroke-width="2"/>
+          <circle cx="16" cy="16" r="6" fill="#fff"/>
+        </svg>`,
+        iconSize: [32, 44],
+        iconAnchor: [16, 44],
+        popupAnchor: [0, -44],
+      });
+      L.Marker.prototype.options.icon = OrangeIcon;
 
       if (cancelled || !mapRef.current) return;
 
@@ -69,8 +88,13 @@ export default function LocationPicker({
 
       leafletMapRef.current = map;
 
+      // Si hay coordenadas, poner el marker
       if (hasCoordinates) {
         markerRef.current = L.marker(center).addTo(map);
+      } else {
+        // Si NO hay coordenadas, poner un marker en el centro (San Lorenzo)
+        // para que el usuario vea el mapa y pueda hacer click
+        markerRef.current = L.marker(DEFAULT_CENTER).addTo(map);
       }
 
       map.on("click", (event: any) => {
@@ -80,10 +104,7 @@ export default function LocationPicker({
         if (markerRef.current) {
           markerRef.current.setLatLng([clickedLat, clickedLng]);
         } else {
-          markerRef.current = L.marker([
-            clickedLat,
-            clickedLng,
-          ]).addTo(map);
+          markerRef.current = L.marker([clickedLat, clickedLng]).addTo(map);
         }
 
         onChange({
@@ -133,10 +154,7 @@ export default function LocationPicker({
     } else {
       import("leaflet").then((L) => {
         if (!leafletMapRef.current) return;
-
-        markerRef.current = L.marker(position).addTo(
-          leafletMapRef.current
-        );
+        markerRef.current = L.marker(position).addTo(leafletMapRef.current);
       });
     }
 
@@ -211,7 +229,6 @@ export default function LocationPicker({
           markerRef.current.setLatLng(position);
         } else {
           const L = await import("leaflet");
-
           markerRef.current = L.marker(position).addTo(map);
         }
 
@@ -230,15 +247,11 @@ export default function LocationPicker({
   }
 
   return (
-    <div className="space-y-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4">
+    <div className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-4">
       <div>
-        <p className="text-sm font-semibold">
-          📍 Ubicación del negocio
-        </p>
-
-        <p className="mt-1 text-xs text-[var(--muted)]">
-          Buscá la dirección o hacé clic directamente en el mapa para
-          colocar el pin exactamente donde está tu negocio.
+        <p className="text-sm font-bold">📍 Ubicación del negocio</p>
+        <p className="mt-1 text-xs text-white/50">
+          Buscá la dirección o hacé clic directamente en el mapa para colocar el pin donde está tu negocio.
         </p>
       </div>
 
@@ -246,41 +259,32 @@ export default function LocationPicker({
         type="button"
         onClick={buscarDireccion}
         disabled={loading}
-        className="rounded-lg border border-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white disabled:opacity-50"
+        className="w-full rounded-xl border border-orange-400 bg-orange-500/10 px-4 py-2.5 text-sm font-bold text-orange-300 hover:bg-orange-500/20 disabled:opacity-50"
       >
         {loading ? "🔎 Buscando..." : "🔎 Buscar dirección en el mapa"}
       </button>
 
       <div
         ref={mapRef}
-        className="h-80 w-full overflow-hidden rounded-lg border border-[var(--line)]"
+        className="h-80 w-full overflow-hidden rounded-xl border border-white/10"
         style={{ minHeight: "320px" }}
       />
 
       {latitude && longitude ? (
-        <div className="rounded-lg bg-[var(--surface2)] p-3 text-xs">
-          <p className="font-semibold">
-            📌 Ubicación seleccionada
-          </p>
-
-          <p className="mt-1 text-[var(--muted)]">
-            Latitud: {latitude}
-          </p>
-
-          <p className="text-[var(--muted)]">
-            Longitud: {longitude}
+        <div className="rounded-xl bg-green-500/10 border border-green-400/30 p-3 text-xs">
+          <p className="font-bold text-green-300">📌 Ubicación seleccionada</p>
+          <p className="mt-1 text-white/60">
+            Lat: {latitude} · Lng: {longitude}
           </p>
         </div>
       ) : (
-        <p className="text-xs text-[var(--muted)]">
-          Todavía no hay una ubicación seleccionada.
-        </p>
+        <div className="rounded-xl bg-white/5 p-3 text-xs text-white/50">
+          Todavía no seleccionaste ubicación. Hacé clic en el mapa o buscá la dirección.
+        </div>
       )}
 
       {message && (
-        <p className="text-xs text-[var(--muted)]">
-          {message}
-        </p>
+        <p className="text-xs text-white/70">{message}</p>
       )}
     </div>
   );

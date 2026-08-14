@@ -1,104 +1,94 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { signInWithEmail } from "@/lib/auth-helpers";
 
-export default function Login() {
+export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
-  async function go(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMsg(null);
+    setError("");
     setLoading(true);
-    const { error } = await supabase().auth.signInWithPassword({ email, password: pass });
-    setLoading(false);
-    if (error) {
-      setMsg({ type: "err", text: "❌ " + (error.message === "Invalid login credentials" ? "Email o contraseña incorrectos" : error.message) });
-    } else {
-      setMsg({ type: "ok", text: "✅ Ingresando..." });
-      router.push("/dashboard/mis-negocios");
+
+    try {
+      await signInWithEmail(email, password);
+      const redirect = new URLSearchParams(window.location.search).get("redirect");
+      router.push(redirect || "/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Error al iniciar sesión");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <main className="min-h-screen bg-[#0d0a12] flex items-center justify-center px-4 py-12">
+    <main className="bg-[#0d0a12] min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        {/* Header */}
-        <Link href="/" className="inline-flex items-center gap-2 mb-6 group">
-          <span className="text-3xl">🛍️</span>
-          <div>
-            <h1 className="text-lg font-black text-white leading-tight group-hover:scale-105 transition-transform">
-              LA GRAN <span className="bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">BARATA</span>
-            </h1>
-            <p className="text-[10px] text-orange-200/70 uppercase tracking-widest">DIGITAL</p>
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md">
+          <div className="text-center mb-8">
+            <Link href="/" className="inline-block mb-6">
+              <span className="text-3xl">🛍️</span>
+            </Link>
+            <h1 className="text-3xl font-black text-white">Iniciar sesión</h1>
+            <p className="text-white/60 mt-2">Entrá a tu cuenta de San Lorenzo Digital</p>
           </div>
-        </Link>
 
-        {/* Card */}
-        <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8">
-          <h2 className="text-3xl font-black text-white">Ingresá</h2>
-          <p className="mt-1 text-sm text-white/60">Accedé al panel de tu negocio.</p>
-
-          <form onSubmit={go} className="mt-6 space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-1.5">Email</label>
+              <label className="block text-sm font-semibold text-white/80 mb-2">Email</label>
               <input
                 type="email"
-                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
                 placeholder="tu@email.com"
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:border-orange-400 transition"
               />
             </div>
+
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-1.5">Contraseña</label>
+              <label className="block text-sm font-semibold text-white/80 mb-2">Contraseña</label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={6}
-                value={pass}
-                onChange={(e) => setPass(e.target.value)}
-                placeholder="Mínimo 6 caracteres"
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:border-orange-400 transition"
+                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
+                placeholder="••••••••"
               />
             </div>
+
+            {error && (
+              <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-3">
+                <p className="text-sm text-red-300">{error}</p>
+              </div>
+            )}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-3.5 font-black text-white hover:opacity-90 disabled:opacity-50 transition"
+              className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
             >
-              {loading ? "Ingresando..." : "Ingresar →"}
+              {loading ? "Entrando..." : "Iniciar sesión"}
             </button>
           </form>
 
-          {msg && (
-            <p className={`mt-4 rounded-lg px-4 py-3 text-sm ${
-              msg.type === "ok" ? "bg-green-500/15 text-green-300 border border-green-400/30" : "bg-red-500/15 text-red-300 border border-red-400/30"
-            }`}>
-              {msg.text}
-            </p>
-          )}
-
-          <div className="mt-6 pt-6 border-t border-white/10 text-center text-sm">
-            <p className="text-white/60">
-              ¿No tenés cuenta?{" "}
-              <Link href="/registro" className="font-bold text-orange-400 hover:text-orange-300">
-                Creá una
-              </Link>
-            </p>
+          <div className="mt-6 text-center space-y-3">
+            <Link href="/registro" className="block text-sm text-orange-400 hover:text-orange-300">
+              ¿No tenés cuenta? Registrate
+            </Link>
+            <Link href="/" className="block text-sm text-white/50 hover:text-white/70">
+              ← Volver al inicio
+            </Link>
           </div>
         </div>
-
-        <p className="mt-6 text-center text-xs text-white/40">
-          ¿Tenés un negocio? <Link href="/para-negocios" className="text-orange-400 hover:underline">Sumalo gratis</Link>
-        </p>
       </div>
     </main>
   );

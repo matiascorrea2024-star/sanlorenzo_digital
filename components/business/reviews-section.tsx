@@ -1,163 +1,153 @@
 "use client";
 import { useEffect, useState } from "react";
+import { Star, CheckCircle2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import Avatar from "@/components/ui/avatar";
 
-type Review = {
-  id: string;
-  rating: number;
-  comment: string;
-  user_email: string;
-  user_id: string;
-  created_at: string;
-};
+function timeAgo(d: string) {
+  const s = Math.floor((Date.now() - new Date(d).getTime()) / 1000);
+  if (s < 60) return "hace instantes";
+  if (s < 3600) return `hace ${Math.floor(s / 60)} min`;
+  if (s < 86400) return `hace ${Math.floor(s / 3600)} h`;
+  if (s < 2592000) return `hace ${Math.floor(s / 86400)} días`;
+  return new Date(d).toLocaleDateString("es-AR", { day: "2-digit", month: "short" });
+}
 
-export default function ReviewsSection({ businessId }: { businessId: string }) {
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [rating, setRating] = useState(5);
-  const [comment, setComment] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState("");
+function Stars({ n, size = 16 }: { n: number; size?: number }) {
+  return (
+    <span className="inline-flex gap-0.5">
+      {[1, 2, 3, 4, 5].map(i => (
+        <Star key={i} style={{ width: size, height: size }}
+          className={i <= Math.round(n) ? "fill-yellow-400 text-yellow-400" : "text-white/20"} />
+      ))}
+    </span>
+  );
+}
+
+export default function ReviewsSection({ businessId, baseRating = 0, baseCount = 0 }: {
+  businessId: string; baseRating?: number; baseCount?: number;
+}) {
+  const [reviews, setReviews] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
-  const [niveles, setNiveles] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    supabase().auth.getUser().then(({ data }) => setUser(data.user));
-  }, []);
+  const [myName, setMyName] = useState("");
+  const [rating, setRating] = useState(5);
+  const [hover, setHover] = useState(0);
+  const [comment, setComment] = useState("");
+  const [name, setName] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase()
-        .from("reviews")
-        .select("*")
-        .eq("business_id", businessId)
-        .eq("approved", true)
-        .order("created_at", { ascending: false });
-      setReviews(data || []);
-      const ids = [...new Set((data || []).map((r: any) => r.user_id).filter(Boolean))] as string[];
-      if (ids.length > 0) {
-        const map: Record<string, string> = {};
-        const sb2 = supabase();
-        for (const id of ids) {
-          const { data: pts } = await sb2.rpc("nivel_usuario", { uid: id });
-          const p = pts || 0;
-          map[id] = p >= 600 ? "👑" : p >= 300 ? "🔎" : p >= 150 ? "🧭" : p >= 50 ? "🚶" : "🌱";
-        }
-        setNiveles(map);
+      const { data } = await supabase().from("business_reviews")
+        .select("*").eq("business_id", businessId).order("created_at", { ascending: false });
+      if (data) setReviews(data);
+      const { data: { user } } = await supabase().auth.getUser();
+      setUser(user);
+      if (user) {
+        const { data: prof } = await supabase().from("user_profiles").select("display_name").eq("user_id", user.id).maybeSingle();
+        const n = prof?.display_name || (user.email || "").split("@")[0];
+        setMyName(n); setName(n);
       }
     })();
   }, [businessId]);
 
-  const enviar = async () => {
-    if (!user) {
-      setMsg("⚠️ Iniciá sesión para dejar una reseña.");
-      return;
-    }
-    if (!comment.trim()) {
-      setMsg("⚠️ Escribí un comentario.");
-      return;
-    }
-    setLoading(true);
-    const { error } = await supabase().from("reviews").insert({
+  // Promedio combinado (base demo + reseñas reales)
+  const realSum = reviews.reduce((a, r) => a + Number(r.rating), 0);
+  const totalCount = baseCount + reviews.length;
+  const avg = totalCount > 0 ? ((baseRating * baseCount) + realSum) / totalCount : 0;
+
+  const send = async () => {
+    if (!user) { window.location.href = "/login"; return; }
+    if (!comment.trim()) return;
+    setSending(true);
+    const { error } = await supabase().from("business_reviews").insert({
       business_id: businessId,
       user_id: user.id,
-      user_email: user.email,
+      reviewer_name: name || myName,
       rating,
       comment: comment.trim(),
     });
-    setLoading(false);
-    if (error) {
-      setMsg("❌ " + error.message);
-    } else {
-      setMsg("✅ ¡Reseña enviada! Gracias por tu opinión.");
-      setComment("");
-      setRating(5);
-      const { data } = await supabase()
-        .from("reviews")
-        .select("*")
-        .eq("business_id", businessId)
-        .eq("approved", true)
-        .order("created_at", { ascending: false });
-      setReviews(data || []);
+    if (!error) {
+      setSent(true);
+      setComment(""); setRating(5);
+      const { data } = await supabase().from("business_reviews")
+        .select("*").eq("business_id", businessId).order("created_at", { ascending: false });
+      if (data) setReviews(data);
+      setTimeout(() => setSent(false), 3000);
     }
+    setSending(false);
   };
 
-  const promedio = reviews.length > 0 ? (reviews.reduce((s, r) => s + (r.rating || 5), 0) / reviews.length).toFixed(1) : "0.0";
-
   return (
-    <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-8">
-      <h2 className="text-xl font-black text-orange-400 mb-4">⭐ Reseñas de clientes</h2>
-      
-      {reviews.length > 0 && (
-        <div className="mb-6 rounded-2xl bg-gradient-to-r from-orange-500/10 to-pink-500/10 border border-orange-400/30 p-4 text-center">
-          <p className="text-4xl font-black text-orange-400">{promedio}</p>
-          <p className="text-sm text-white/60">{reviews.length} {reviews.length === 1 ? "reseña" : "reseñas"}</p>
-          <div className="mt-2 flex justify-center gap-1">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <span key={i} className={i <= Math.round(Number(promedio)) ? "text-orange-400" : "text-white/20"}>★</span>
-            ))}
-          </div>
-        </div>
-      )}
+    <section className="mt-10">
+      <h2 className="text-xl font-black text-orange-400">⭐ Reseñas</h2>
 
-      {/* Formulario */}
-      <div className="mb-6 rounded-2xl border border-white/10 bg-black/20 p-4">
-        <p className="text-sm font-bold mb-2">Dejá tu reseña</p>
-        <div className="mb-3 flex items-center gap-2">
-          <span className="text-sm text-white/60">Rating:</span>
-          {[1, 2, 3, 4, 5].map((i) => (
-            <button
-              key={i}
-              onClick={() => setRating(i)}
-              className={`text-2xl transition ${i <= rating ? "text-orange-400" : "text-white/20"}`}
-            >
-              ★
-            </button>
-          ))}
+      {/* Resumen */}
+      <div className="mt-4 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
+        <p className="text-5xl font-black">{avg ? avg.toFixed(1) : "—"}</p>
+        <div>
+          <Stars n={avg} size={20} />
+          <p className="mt-1 text-xs text-white/50">{totalCount} reseña{totalCount !== 1 ? "s" : ""}</p>
         </div>
-        <textarea
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Contá tu experiencia con este negocio..."
-          rows={3}
-          className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none focus:border-orange-400"
-        />
-        <button
-          onClick={enviar}
-          disabled={loading}
-          className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50"
-        >
-          {loading ? "Enviando..." : "Enviar reseña"}
-        </button>
-        {msg && <p className="mt-2 text-sm">{msg}</p>}
-        {!user && (
-          <p className="mt-2 text-xs text-white/50">
-            💡 <a href="/login" className="text-orange-400 hover:underline">Iniciá sesión</a> para dejar una reseña.
-          </p>
-        )}
       </div>
 
-      {/* Lista de reseñas */}
-      {reviews.length === 0 ? (
-        <p className="text-center text-sm text-white/50 py-6">Todavía no hay reseñas. ¡Sé el primero!</p>
-      ) : (
-        <div className="space-y-3">
-          {reviews.map((r) => (
-            <div key={r.id} className="rounded-xl border border-white/10 bg-black/20 p-4">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-orange-400">{"★".repeat(r.rating || 5)}</span>
-                  <span className="text-white/30">{"★".repeat(5 - (r.rating || 5))}</span>
-                </div>
-                <span className="text-xs text-white/40">
-                  {new Date(r.created_at).toLocaleDateString("es-AR")}
-                </span>
-              </div>
-              <p className="text-sm text-white/80">{r.comment}</p>
-              <p className="mt-1 text-xs text-white/40">{niveles[r.user_id] || "🌱"} — {(r.user_email || "vecino").split("@")[0]}</p>
-            </div>
+      {/* Formulario */}
+      <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-5">
+        <p className="font-bold">¿Visitaste este negocio?</p>
+        <div className="mt-3 flex items-center gap-1">
+          {[1, 2, 3, 4, 5].map(i => (
+            <button key={i} onClick={() => setRating(i)}
+              onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(0)}
+              className="p-1 transition hover:scale-125">
+              <Star className={`h-7 w-7 ${i <= (hover || rating) ? "fill-yellow-400 text-yellow-400" : "text-white/20"}`} />
+            </button>
           ))}
+          <span className="ml-2 text-sm font-bold text-white/60">{rating}/5</span>
         </div>
-      )}
+        <textarea value={comment} onChange={(e) => setComment(e.target.value)} rows={3}
+          placeholder="Contá tu experiencia..."
+          className="mt-3 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm outline-none focus:border-orange-400" />
+        <button onClick={send} disabled={sending || !comment.trim()}
+          className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black disabled:opacity-50">
+          {sent ? "✅ ¡Gracias por tu reseña!" : sending ? "Enviando..." : "Publicar reseña"}
+        </button>
+      </div>
+
+      {/* Lista */}
+      <div className="mt-6 space-y-4">
+        {reviews.length === 0 && (
+          <p className="text-sm text-white/40">Todavía no hay reseñas escritas. ¡Sé el primero!</p>
+        )}
+        {reviews.map(r => (
+          <div key={r.id} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div className="flex items-center gap-3">
+              <Avatar name={r.reviewer_name} size={40} />
+              <div className="flex-1">
+                <p className="flex items-center gap-2 font-bold">
+                  {r.reviewer_name}
+                  {r.verified_visit && (
+                    <span className="flex items-center gap-1 rounded-full bg-green-500/15 px-2 py-0.5 text-[10px] font-bold text-green-300">
+                      <CheckCircle2 className="h-3 w-3" /> Visita verificada
+                    </span>
+                  )}
+                </p>
+                <div className="flex items-center gap-2">
+                  <Stars n={r.rating} size={13} />
+                  <span className="text-[11px] text-white/40">{timeAgo(r.created_at)}</span>
+                </div>
+              </div>
+            </div>
+            {r.comment && <p className="mt-3 text-sm text-white/80">{r.comment}</p>}
+            {r.reply && (
+              <div className="mt-3 rounded-xl border-l-4 border-orange-400 bg-orange-500/10 p-3">
+                <p className="text-xs font-black text-orange-300">↳ Respuesta del negocio</p>
+                <p className="mt-1 text-sm text-white/80">{r.reply}</p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

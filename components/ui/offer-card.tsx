@@ -1,0 +1,149 @@
+"use client";
+import RankBadge from "@/components/ui/rank-badge";
+import RankedAvatar from "@/components/ui/ranked-avatar";
+import Link from "next/link";
+import { Clock, MapPin, Star, Heart } from "lucide-react";
+import Badge from "@/components/ui/badge";
+import FavoriteButton from "@/components/ui/favorite-button";
+import { fmtDistance } from "@/lib/geo";
+import { calcSDLScore, sdlLabel } from "@/lib/sdl-score";
+import CountdownTimer from "@/components/ui/countdown-timer";
+
+type Offer = {
+  id: string; negocio: string; slug: string; producto: string; cat: string;
+  vence?: string; descuento?: number; antes?: number; ahora?: number;
+  portada_url?: string; logo_url?: string;
+  latitude?: number; longitude?: number;
+};
+
+const CAT_IMAGES: Record<string, string> = {
+  calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=900&q=85",
+  gastronomia: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=85",
+  ferreteria: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=900&q=85",
+  belleza: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=85",
+  ropa: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=85",
+  automotor: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85",
+  profesionales: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85",
+  tecnologia: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85",
+};
+const FALLBACK = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85";
+const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
+
+function venceInfo(expires?: string) {
+  if (!expires) return null;
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const f = new Date(expires + "T00:00:00");
+  const d = Math.round((f.getTime() - hoy.getTime()) / 86400000);
+  if (d < 0) return { label: "Finalizada", variant: "default" as const, urgent: false };
+  if (d === 0) return { label: "VENCE HOY", variant: "danger" as const, urgent: true };
+  if (d === 1) return { label: "Vence mañana", variant: "warning" as const, urgent: true };
+  if (d <= 3) return { label: `En ${d} días`, variant: "warning" as const, urgent: false };
+  return { label: `En ${d} días`, variant: "info" as const, urgent: false };
+}
+
+export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { lat: number; lon: number } | null }) {
+  const v = venceInfo(o.vence);
+  const isDemo = o.id.startsWith("demo-");
+  const img = o.portada_url || CAT_IMAGES[o.cat] || FALLBACK;
+  let dist: string | null = null;
+  let distKm: number | null = null;
+  if (userCoords && o.latitude && o.longitude) {
+    const R = 6371;
+    const dLat = (o.latitude - userCoords.lat) * Math.PI / 180;
+    const dLon = (o.longitude - userCoords.lon) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(userCoords.lat*Math.PI/180) * Math.cos(o.latitude*Math.PI/180) * Math.sin(dLon/2)**2;
+    const km = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    dist = fmtDistance(km);
+    distKm = km;
+  }
+  // Calcular SDL Score
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  const diasRestantes = o.vence ? Math.round((new Date(o.vence + "T00:00:00").getTime() - hoy.getTime()) / 86400000) : null;
+  const sdlScore = calcSDLScore({
+    descuento: o.descuento || 0,
+    distanciaKm: distKm,
+    rating: 4.5, // TODO: pasar rating real del negocio
+    diasRestantes,
+  });
+  const sdl = sdlLabel(sdlScore);
+
+  // Flags de urgencia
+  const esUrgente = diasRestantes !== null && diasRestantes <= 1; // vence hoy o mañana
+  const esEscaso = (o.descuento || 0) >= 40; // alto descuento = "últimas unidades"
+  const esTop = sdlScore >= 80; // "más vendido" si tiene buen score
+
+  return (
+    <Link href={o.id.startsWith("demo-") ? ("/negocio/" + o.slug) : ("/oferta/" + o.id)}
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] transition hover:border-orange-400/60 hover:shadow-[0_10px_40px_-10px_rgba(249,115,22,0.3)]">
+      <div className="relative aspect-[16/10] w-full overflow-hidden">
+        <img src={img} alt={o.producto} loading="lazy"
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+        <div className="absolute left-3 top-3 flex flex-col gap-1.5">
+          {esEscaso && (
+            <span className="rounded-lg bg-yellow-500/90 px-2 py-0.5 text-[10px] font-black text-black shadow">
+              🔥 Últimas unidades
+            </span>
+          )}
+          {esTop && !esEscaso && (
+            <span className="rounded-lg bg-sky-500/90 px-2 py-0.5 text-[10px] font-black text-white shadow">
+              ⭐ Más vendido
+            </span>
+          )}
+          {isDemo && (
+            <span className="rounded-lg bg-yellow-500/90 px-2 py-0.5 text-[10px] font-black text-black">
+              DEMO
+            </span>
+          )}
+          {o.descuento ? (
+            <span className="rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-2.5 py-1 text-xs font-black text-white shadow-lg">
+              -{o.descuento}%
+            </span>
+          ) : (
+            <Badge variant="warning" size="sm">OFERTA</Badge>
+          )}
+          {dist && (
+            <span className="flex items-center gap-1 rounded-lg bg-black/60 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur-md">
+              <MapPin className="h-2.5 w-2.5" /> {dist}
+            </span>
+          )}
+        </div>
+        <div className="absolute right-3 top-3" aria-label="Acciones de favorito"><FavoriteButton itemType="offer" itemId={o.id} /></div>
+        {v && (
+          <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between gap-2">
+            <Badge variant={v.variant} size="sm" pulse={v.urgent}>
+              <Clock className="h-3 w-3" /> {v.label}
+            </Badge>
+            {esUrgente && o.vence && <CountdownTimer expiresAt={o.vence} compact />}
+          </div>
+        )}
+      </div>
+      <div className="flex flex-1 flex-col p-4">
+        <div className="flex items-center justify-between gap-2 mb-1">
+          <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-orange-400/80">{o.negocio} <RankedAvatar slug={o.slug} name={o.negocio || ""} size={20} /> <RankBadge slug={o.slug} /></div>
+          <span className={`text-[10px] font-black ${sdl.color}`}>
+            🔥 {sdlScore}/100
+          </span>
+        </div>
+        <h3 className="mt-1 line-clamp-2 min-h-[2.5rem] text-sm font-black leading-tight text-white">{o.producto}</h3>
+        <div className="mt-auto pt-3">
+          {o.ahora && o.antes ? (
+            <div className="flex items-end justify-between">
+              <div>
+                <p className="text-[10px] text-white/40 line-through">{fmt(o.antes)}</p>
+                <p className="text-2xl font-black text-white">{fmt(o.ahora)}</p>
+              </div>
+              {o.descuento && (
+                <span className="rounded-lg bg-green-500/15 px-2 py-1 text-xs font-black text-green-300">
+                  Ahorrás {fmt(o.antes - o.ahora)}
+                </span>
+              )}
+            </div>
+          ) : (
+            <p className="text-sm font-bold text-orange-400">Ver oferta →</p>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
+}

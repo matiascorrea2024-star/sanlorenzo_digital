@@ -114,7 +114,7 @@ export default function BuscarPage() {
           {resultados.map((b: any) => (
             <Link key={b.id} href={"/negocio/" + b.slug} className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:border-orange-400/60">
               <div className="relative h-32">
-                <img src={b.portada_url || CATEGORY_IMAGES[b.category] || FALLBACK} alt={b.name} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+                <img src={b.portada_url || CATEGORY_IMAGES[b.category] || FALLBACK} alt={b.name} loading="lazy" className="h-56 w-full object-cover md:h-72" />
                 <div className="absolute left-2 top-2 flex gap-1">
                   {b.open && <span className="rounded-md bg-green-500/90 px-2 py-0.5 text-[10px] font-black">🟢 Abierto</span>}
                   {tieneOfertas(b) && <span className="rounded-md bg-orange-500/90 px-2 py-0.5 text-[10px] font-black">🔥 Ofertas</span>}

@@ -2,14 +2,9 @@
 import { useEffect, useState } from "react";
 import { BUSINESSES, Business } from "./data";
 import { supabase } from "./supabase";
+import type { FullBusiness } from "./types";
 
-export type FullBusiness = Business & {
-  portada_url?: string;
-  logo_url?: string;
-  destacado?: boolean;
-  promotions?: any[];
-  plan?: string;
-};
+export type { FullBusiness };
 
 export function useAllBusinesses(): FullBusiness[] {
   const [list, setList] = useState<FullBusiness[]>(BUSINESSES as FullBusiness[]);
@@ -51,8 +46,20 @@ export function useAllBusinesses(): FullBusiness[] {
           logo_url: b.logo_url,
           destacado: !!b.destacado,
           plan: b.plan || "gratis",
+          views: Number(b.views || 0),
+          favorites_count: Number(b.favorites_count || 0),
+          phone: b.phone,
+          email: b.email,
+          website: b.website,
+          cover_url: b.cover_url,
+          professionals: Array.isArray(b.professionals) ? b.professionals : [],
         }));
-        setList([...reales, ...(BUSINESSES as FullBusiness[])]);
+        
+        // Evitar duplicados: excluir de BUSINESSES los que ya están en Supabase (por slug)
+        const slugsReales = new Set(reales.map(b => b.slug));
+        const mockSinDuplicar = (BUSINESSES as FullBusiness[]).filter(b => !slugsReales.has(b.slug));
+        
+        setList([...reales, ...mockSinDuplicar]);
       } catch (e) {
         console.error("No se pudieron cargar negocios reales:", e);
       }

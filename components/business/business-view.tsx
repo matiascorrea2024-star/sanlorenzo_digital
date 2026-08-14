@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { track } from "@/lib/track";
 import ReviewsSection from "./reviews-section";
+import Chat from "./chat";
 import FollowButton from "./follow-button";
 import LevelBadge from "./level-badge";
 import BusinessMap from "@/components/business/map";
@@ -51,7 +52,7 @@ export default function BusinessView({ b }: { b: any }) {
     <main className="bg-[#0d0a12] text-white min-h-screen">
       {/* HERO con portada */}
       <section className="relative h-64 md:h-80 overflow-hidden">
-        <img src={portada} alt={b.name} className="absolute inset-0 h-full w-full object-cover" />
+        <img src={portada} alt={b.name} className="h-56 w-full object-cover md:h-72" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0d0a12] via-[#0d0a12]/50 to-transparent" />
         <div className="relative h-full mx-auto max-w-4xl px-4 flex items-end pb-6">
           <div className="flex items-end gap-4">
@@ -217,6 +218,8 @@ export default function BusinessView({ b }: { b: any }) {
 
         {/* 🤳 QR */}
         <ReviewsSection businessId={b.id} />
+
+        <Chat businessId={String(b.id)} ownerId={b.owner_id} businessName={b.name} businessSlug={b.slug} />
 
         {/* 🤳 QR */}
         <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-8 text-center">

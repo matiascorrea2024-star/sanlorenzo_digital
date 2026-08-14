@@ -1,134 +1,293 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import Avatar from "@/components/ui/avatar";
+import Badge from "@/components/ui/badge";
 
-const ADMIN_EMAILS = ["matiascorrea2024@gmail.com","matiascorrea2025@gmail.com","matiasgazta2027@gmail.com"];
+const TABS = [
+  { k: "overview", l: "📊 Overview", icon: TrendingUp },
+  { k: "verificacion", l: "🛡️ Verificación", icon: Shield },
+  { k: "moderacion", l: "⭐ Moderación", icon: Star },
+  { k: "suscripciones", l: "💳 Suscripciones", icon: CreditCard },
+  { k: "ciudades", l: "🗺️ Ciudades", icon: MapPin },
+  { k: "cargar-bulk", l: "📥 Cargar masiva", icon: Upload },
+  { k: "reportes", l: "🚩 Reportes", icon: Flag },
+];
 
 export default function AdminPage() {
-  const [email, setEmail] = useState<string | null>(null);
-  const [negocios, setNegocios] = useState<any[]>([]);
-  const [stats, setStats] = useState<any>({ views: 0, wa: 0, shares: 0, ranking: [] });
-  const [visits, setVisits] = useState<any[]>([]);
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState("user");
+  const [tab, setTab] = useState("overview");
+  const [stats, setStats] = useState<any>({});
+  const [pendientes, setPendientes] = useState<any[]>([]);
+  const [resenas, setResenas] = useState<any[]>([]);
+  const [subs, setSubs] = useState<any[]>([]);
+  const [ciudades, setCiudades] = useState<any[]>([]);
+  const [reportes, setReportes] = useState<any[]>([]);
 
   useEffect(() => {
     (async () => {
-      const sb = supabase();
-      const { data: { user } } = await sb.auth.getUser();
-      setEmail(user?.email || null);
-      if (user && ADMIN_EMAILS.includes(user.email || "")) {
-        const { data } = await sb.from("businesses").select("*").order("created_at", { ascending: false });
-        setNegocios(data || []);
-        const desde = new Date(Date.now() - 6 * 86400000).toISOString();
-        const { data: ev } = await sb.from("metrics").select("type, business_id").gte("created_at", desde);
-        const evs = ev || [];
-        const porNegocio: Record<string, number> = {};
-        let views = 0, wa = 0, shares = 0;
-        evs.forEach((e: any) => {
-          if (e.type === "view") { views++; porNegocio[e.business_id] = (porNegocio[e.business_id] || 0) + 1; }
-          if (e.type === "whatsapp") wa++;
-          if (e.type === "share") shares++;
-        });
-        const ranking = (data || [])
-          .map((b: any) => ({ id: b.id, name: b.name, views: porNegocio[b.id] || 0 }))
-          .sort((a: any, b: any) => b.views - a.views)
-          .slice(0, 5);
-        setStats({ views, wa, shares, ranking });
-        const { data: vis } = await sb
-          .from("visits")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .limit(15);
-        setVisits(vis || []);
-      }
+      const { data: { user } } = await supabase().auth.getUser();
+      if (!user) { router.push("/login"); return; }
+      const { data: prof } = await supabase().from("user_profiles")
+        .select("role").eq("user_id", user.id).maybeSingle();
+      const r = prof?.role || "user";
+      setRole(r);
+      if (r !== "admin") { router.push("/"); return; }
+
+      // Cargar todo
+      const [u, b, o, v, pv, pend, rev, sb, ciu] = await Promise.all([
+        supabase().from("user_profiles").select("*", { count: "exact", head: true }),
+        supabase().from("businesses").select("*", { count: "exact", head: true }),
+        supabase().from("offers").select("*", { count: "exact", head: true }),
+        supabase().from("business_reviews").select("*", { count: "exact", head: true }),
+        supabase().from("page_views").select("*", { count: "exact", head: true }),
+        supabase().from("businesses").select("*").neq("status", "verificado").limit(20),
+        supabase().from("business_reviews").select("*").order("created_at", { ascending: false }).limit(20),
+        supabase().from("subscriptions").select("*, businesses(name)").order("started_at", { ascending: false }).limit(20),
+        supabase().from("locations").select("*").eq("type", "city"),
+      ]);
+
+      setStats({
+        users: u.count || 0, businesses: b.count || 0,
+        offers: o.count || 0, reviews: v.count || 0, views: pv.count || 0,
+      });
+      setPendientes(pend.data || []);
+      setResenas(rev.data || []);
+      setSubs(sb.data || []);
+      setCiudades(ciu.data || []);
+      const { data: rep } = await supabase().from("reports")
+        .select("*, businesses(name, slug)").order("created_at", { ascending: false }).limit(30);
+      setReportes(rep || []);
       setLoading(false);
     })();
   }, []);
 
-  const up = async (id: string, patch: any) => {
-    const { error } = await supabase().from("businesses").update(patch).eq("id", id);
-    if (error) { alert("❌ " + error.message); return; }
-    setNegocios(negocios.map((b) => (b.id === id ? { ...b, ...patch } : b)));
+  const verificar = async (id: string) => {
+    await supabase().from("businesses").update({ status: "verificado" }).eq("id", id);
+    setPendientes(prev => prev.filter(p => p.id !== id));
   };
 
-  if (loading) return <main className="min-h-screen bg-[#0d0a12] text-white flex items-center justify-center">Cargando…</main>;
+  const rechazar = async (id: string) => {
+    await supabase().from("businesses").update({ status: "rechazado" }).eq("id", id);
+    setPendientes(prev => prev.filter(p => p.id !== id));
+  };
 
-  if (!email || !ADMIN_EMAILS.includes(email))
-    return (
-      <main className="min-h-screen bg-[#0d0a12] text-white flex items-center justify-center px-4 text-center">
-        <div>
-          <p className="text-5xl mb-4">🔒</p>
-          <h1 className="text-2xl font-black">Zona exclusiva del administrador</h1>
-          <p className="mt-2 text-sm text-white/60">{email ? `Logueado como ${email} (no admin).` : "Iniciá sesión con la cuenta admin."}</p>
-          <Link href="/login" className="mt-4 inline-block text-orange-400">Ir al login →</Link>
-        </div>
-      </main>
-    );
+  const borrarResena = async (id: string) => {
+    if (!confirm("¿Eliminar esta reseña?")) return;
+    await supabase().from("business_reviews").delete().eq("id", id);
+    setResenas(prev => prev.filter(r => r.id !== id));
+  };
 
-  const activos = negocios.filter((b) => b.activo !== false).length;
+  const resolverReporte = async (id: string) => {
+    await supabase().from("reports").update({ status: "resolved" }).eq("id", id);
+    setReportes(prev => prev.filter(r => r.id !== id));
+  };
+
+  const toggleCiudad = async (id: string, active: boolean) => {
+    await supabase().from("locations").update({ active: !active }).eq("id", id);
+    setCiudades(prev => prev.map(c => c.id === id ? { ...c, active: !active } : c));
+  };
+
+  if (loading) {
+    return <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">Cargando admin...</main>;
+  }
+
+  const cards = [
+    { icon: Users, label: "Usuarios", value: stats.users, color: "text-sky-400" },
+    { icon: Store, label: "Negocios", value: stats.businesses, color: "text-green-400" },
+    { icon: Flame, label: "Ofertas", value: stats.offers, color: "text-orange-400" },
+    { icon: Star, label: "Reseñas", value: stats.reviews, color: "text-yellow-400" },
+    { icon: Eye, label: "Visitas", value: stats.views, color: "text-pink-400" },
+  ];
 
   return (
-    <main className="min-h-screen bg-[#0d0a12] text-white pb-16">
-      <div className="mx-auto max-w-5xl px-4 py-10">
-        <Link href="/" className="text-sm text-orange-400">← Volver al inicio</Link>
-        <h1 className="mt-2 text-3xl font-black">👑 Panel Admin</h1>
-        <p className="text-white/60 mt-1">Control total y tráfico real de la plataforma · {email}</p>
-
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5"><p className="text-3xl font-black text-orange-400">{negocios.length}</p><p className="text-xs text-white/60 mt-1 uppercase">Negocios</p></div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5"><p className="text-3xl font-black text-sky-400">{stats.views}</p><p className="text-xs text-white/60 mt-1 uppercase">👁 Vistas (7d)</p></div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5"><p className="text-3xl font-black text-green-400">{stats.wa}</p><p className="text-xs text-white/60 mt-1 uppercase">💬 WhatsApp (7d)</p></div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5"><p className="text-3xl font-black text-pink-400">{stats.shares}</p><p className="text-xs text-white/60 mt-1 uppercase">📤 Compartidos (7d)</p></div>
+    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+      <div className="mx-auto max-w-5xl px-4 py-8">
+        <div className="flex items-center gap-3">
+          <Shield className="h-8 w-8 text-red-400" />
+          <div>
+            <h1 className="text-3xl font-black">Panel de Administración</h1>
+            <p className="text-white/60">Control total de la plataforma</p>
+          </div>
         </div>
 
-        <h2 className="mt-8 mb-3 text-lg font-black">🏆 Ranking de visitas (7 días)</h2>
-        <div className="grid gap-2">
-          {stats.ranking.map((r: any, i: number) => (
-            <div key={r.id} className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 flex items-center justify-between">
-              <p className="text-sm font-bold">{i + 1}. {r.name}</p>
-              <p className="text-sm font-black text-orange-400">{r.views} 👁</p>
-            </div>
+        {/* Tabs */}
+        <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
+          {TABS.map(t => (
+            <button key={t.k} onClick={() => setTab(t.k)}
+              className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
+                tab === t.k ? "bg-gradient-to-r from-red-500 to-orange-500" : "border border-white/15 bg-white/5 text-white/70"
+              }`}>
+              {t.l}
+            </button>
           ))}
         </div>
 
-        <h2 className="mt-10 mb-4 text-xl font-black">Negocios ({activos} activos)</h2>
-        <div className="grid gap-3">
-          {negocios.map((b) => (
-            <div key={b.id} className={`rounded-2xl border p-4 flex flex-wrap items-center gap-3 ${b.activo === false ? "border-red-400/40 opacity-70" : "border-white/10 bg-white/5"}`}>
-              <div className="flex-1 min-w-[200px]">
-                <p className="font-bold">{b.name} {b.status === "verificado" && <span className="text-green-400 text-xs">✓</span>} {b.activo === false && <span className="text-red-400 text-xs">· OCULTO</span>}</p>
-                <p className="text-xs text-white/50">{b.category} · /negocio/{b.slug}</p>
+        {/* OVERVIEW */}
+        {tab === "overview" && (
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
+            {cards.map(c => (
+              <div key={c.label} className="rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
+                <c.icon className={`mx-auto h-6 w-6 ${c.color}`} />
+                <p className="mt-2 text-3xl font-black">{c.value}</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">{c.label}</p>
               </div>
-              <div className="flex gap-2 flex-wrap">
-                <button onClick={() => up(b.id, { activo: b.activo === false })} className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-black hover:bg-white/20">
-                  {b.activo === false ? "🟢 Activar" : "⚫ Ocultar"}
-                </button>
-                <button onClick={() => up(b.id, { status: b.status === "verificado" ? "reclamado" : "verificado" })} className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-black hover:bg-white/20">
-                  {b.status === "verificado" ? "Quitar ✓" : "✓ Verificar"}
-                </button>
-                <button onClick={() => up(b.id, { destacado: !b.destacado, plan: b.destacado ? "gratis" : "premium" })} className={`rounded-lg px-3 py-1.5 text-xs font-black ${b.destacado ? "bg-yellow-400 text-black hover:bg-yellow-300" : "bg-white/10 hover:bg-yellow-400/20 hover:text-yellow-300"}`}>
-                  {b.destacado ? "Quitar ⭐" : "⭐ Destacar"}
-                </button>
-                <Link href={"/negocio/" + b.slug} target="_blank" className="rounded-lg border border-white/20 px-3 py-1.5 text-xs hover:border-orange-400">👁</Link>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
-        <h2 className="mt-8 mb-3 text-lg font-black">🕵️ Visitas recientes (IP · dispositivo · página)</h2>
-        <div className="grid gap-2">
-          {visits.map((v) => (
-            <div key={v.id} className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 flex flex-wrap items-center justify-between gap-2">
-              <p className="text-sm font-mono text-sky-300">{v.ip}</p>
-              <p className="text-xs text-white/60">
-                {/Android|iPhone|Mobile/i.test(v.ua || "") ? "📱" : /Windows|Mac|Linux/i.test(v.ua || "") ? "💻" : "🤖"}{" "}
-                {v.path || "/"} · {new Date(v.created_at).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
-              </p>
-            </div>
-          ))}
-          {visits.length === 0 && <p className="text-sm text-white/50">Todavía no hay visitas registradas.</p>}
-        </div>
+        {/* VERIFICACIÓN */}
+        {tab === "verificacion" && (
+          <div className="mt-6 space-y-3">
+            <h2 className="text-lg font-black">Negocios pendientes de verificación ({pendientes.length})</h2>
+            {pendientes.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
+                No hay negocios pendientes. Todo verificado ✅
+              </div>
+            ) : (
+              pendientes.map(p => (
+                <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <Avatar name={p.name} size={44} />
+                  <div className="flex-1">
+                    <p className="font-bold">{p.name}</p>
+                    <p className="text-xs capitalize text-white/50">{p.category} · {p.address || "sin dirección"}</p>
+                  </div>
+                  <button onClick={() => verificar(p.id)}
+                    className="flex items-center gap-1 rounded-xl bg-green-500/20 px-4 py-2 text-xs font-black text-green-300 hover:bg-green-500/30">
+                    <CheckCircle2 className="h-4 w-4" /> Verificar
+                  </button>
+                  <button onClick={() => rechazar(p.id)}
+                    className="flex items-center gap-1 rounded-xl bg-red-500/20 px-4 py-2 text-xs font-black text-red-300 hover:bg-red-500/30">
+                    <XCircle className="h-4 w-4" /> Rechazar
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* MODERACIÓN */}
+        {tab === "moderacion" && (
+          <div className="mt-6 space-y-3">
+            <h2 className="text-lg font-black">Últimas reseñas ({resenas.length})</h2>
+            {resenas.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
+                Aún no hay reseñas para moderar.
+              </div>
+            ) : (
+              resenas.map(r => (
+                <div key={r.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <Avatar name={r.reviewer_name} size={40} />
+                  <div className="flex-1">
+                    <p className="font-bold">{r.reviewer_name} <span className="text-yellow-400">{"★".repeat(r.rating)}</span></p>
+                    <p className="text-sm text-white/70">{r.comment}</p>
+                  </div>
+                  <button onClick={() => borrarResena(r.id)}
+                    className="rounded-xl bg-red-500/20 px-4 py-2 text-xs font-black text-red-300 hover:bg-red-500/30">
+                    Eliminar
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* SUSCRIPCIONES */}
+        {tab === "suscripciones" && (
+          <div className="mt-6 space-y-3">
+            <h2 className="text-lg font-black">Suscripciones activas ({subs.length})</h2>
+            {subs.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
+                Aún no hay suscripciones pagas. Cuando actives pagos, acá vas a ver los ingresos.
+              </div>
+            ) : (
+              subs.map(s => (
+                <div key={s.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <CreditCard className="h-6 w-6 text-orange-400" />
+                  <div className="flex-1">
+                    <p className="font-bold">{(s as any).businesses?.name || "Negocio"}</p>
+                    <p className="text-xs capitalize text-white/50">Plan {s.plan} · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
+                  </div>
+                  <Badge variant={s.plan === "premium" ? "warning" : "success"} size="sm">
+                    {s.plan}
+                  </Badge>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* REPORTES */}
+        {tab === "reportes" && (
+          <div className="mt-6 space-y-3">
+            <h2 className="text-lg font-black">Reportes de la comunidad ({reportes.length})</h2>
+            {reportes.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
+                No hay reportes pendientes. La comunidad confía en el directorio ✅
+              </div>
+            ) : (
+              reportes.map(r => (
+                <div key={r.id} className="rounded-2xl border border-red-400/30 bg-red-500/5 p-4">
+                  <div className="flex items-center gap-3">
+                    <Flag className="h-5 w-5 shrink-0 text-red-400" />
+                    <div className="flex-1">
+                      <p className="font-bold">{(r as any).businesses?.name || "Negocio"} <span className="ml-2 rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-black text-red-300">{r.reason}</span></p>
+                      {r.detail && <p className="mt-1 text-sm text-white/70">"{r.detail}"</p>}
+                      <p className="mt-1 text-xs text-white/40">{new Date(r.created_at).toLocaleDateString("es-AR")}</p>
+                    </div>
+                    <button onClick={() => resolverReporte(r.id)}
+                      className="rounded-xl bg-green-500/20 px-4 py-2 text-xs font-black text-green-300 hover:bg-green-500/30">
+                      Resolver
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* CARGAR BULK */}
+        {tab === "cargar-bulk" && (
+          <div className="mt-6 rounded-2xl border border-orange-400/40 bg-orange-500/10 p-6">
+            <p className="font-black text-lg mb-2">📥 Cargar masiva de negocios reales</p>
+            <p className="text-sm text-white/70 mb-4">
+              Subí negocios reales de San Lorenzo desde un CSV. Quedarán en estado "pendiente" para verificación.
+            </p>
+            <a href="/admin/cargar-bulk"
+              className="inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+              Ir a la herramienta de carga →
+            </a>
+          </div>
+        )}
+
+        {/* CIUDADES */}
+        {tab === "ciudades" && (
+          <div className="mt-6 space-y-3">
+            <h2 className="text-lg font-black">Ciudades de la plataforma</h2>
+            {ciudades.map(c => (
+              <div key={c.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+                <MapPin className="h-6 w-6 text-sky-400" />
+                <div className="flex-1">
+                  <p className="font-bold">{c.name}</p>
+                  <p className="text-xs text-white/50">/{c.slug}</p>
+                </div>
+                <button onClick={() => toggleCiudad(c.id, c.active)}
+                  className={`rounded-xl px-4 py-2 text-xs font-black transition ${
+                    c.active ? "bg-green-500/20 text-green-300" : "bg-white/10 text-white/50"
+                  }`}>
+                  {c.active ? "🟢 Activa" : "⚪ Inactiva"}
+                </button>
+              </div>
+            ))}
+            <p className="text-xs text-white/40">
+              Las ciudades inactivas no aparecen públicamente hasta que tengan contenido suficiente.
+            </p>
+          </div>
+        )}
       </div>
     </main>
   );
