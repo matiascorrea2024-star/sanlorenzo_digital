@@ -4679,3 +4679,8 @@ body::after {
   /* Tablet: ajustes intermedios */
   main h1 { font-size: 1.75rem !important; }
 }
+
+/* === SELECTS PREMIUM (dropdown oscuro, opciones visibles) === */
+select { color-scheme: dark; }
+select option { background-color: #17121f; color: #fff; }
+select option:checked { background-color: #7c2d12; }
