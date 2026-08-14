@@ -1,4 +1,5 @@
 "use client";
+import PageHero from "@/components/ui/page-hero";
 
 import "./panel-v3.css";
 
@@ -308,6 +309,7 @@ export default function PanelV3() {
   if (loading) {
     return (
       <main className="v3-loading">
+      <PageHero title="⚡ Mi panel" subtitle="Administra tus negocios, ofertas y estadísticas" />
                 <strong>Preparando tu centro de control</strong>
         <span>Estamos cargando San Lorenzo Digital.</span>
       </main>
@@ -317,6 +319,7 @@ export default function PanelV3() {
   if (error) {
     return (
       <main className="v3-page">
+      <PageHero title="⚡ Mi panel" subtitle="Administra tus negocios, ofertas y estadísticas" />
         <div className="v3-error">
           <div>!</div>
           <h1>No pudimos cargar el panel</h1>
@@ -331,6 +334,7 @@ export default function PanelV3() {
 
   return (
     <main className="v3-page">
+      <PageHero title="⚡ Mi panel" subtitle="Administra tus negocios, ofertas y estadísticas" />
 
       <div className="v3-background v3-bg-one" />
       <div className="v3-background v3-bg-two" />

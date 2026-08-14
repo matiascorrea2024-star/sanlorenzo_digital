@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import PageHero from "@/components/ui/page-hero";
 import { signInWithEmail } from "@/lib/auth-helpers";
 
 export default function LoginPage() {
@@ -36,11 +37,12 @@ export default function LoginPage() {
             <Link href="/" className="inline-block mb-6">
               <span className="text-3xl">🛍️</span>
             </Link>
-            <h1 className="text-3xl font-black text-white">Iniciar sesión</h1>
+            
             <p className="text-white/60 mt-2">Entrá a tu cuenta de San Lorenzo Digital</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <PageHero title="🔐 Iniciar sesión" subtitle="Entrá con tu cuenta de San Lorenzo Digital" />
+      <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-white/80 mb-2">Email</label>
               <input

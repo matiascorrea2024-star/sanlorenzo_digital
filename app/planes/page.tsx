@@ -64,9 +64,12 @@ const PLANES = [
   },
 ];
 
+import PageHero from "@/components/ui/page-hero";
+
 export default function PlanesPage() {
   return (
     <main className="bg-[#0a0710] min-h-screen text-white pb-24">
+      <PageHero title="💎 Planes y precios" subtitle="Elegí el plan que mejor se adapte a tu negocio" />
       <div className="mx-auto max-w-5xl px-4 py-12">
         <div className="text-center">
           <Badge variant="warning" size="sm">Planes para comercios</Badge>

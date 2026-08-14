@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import PageHero from "@/components/ui/page-hero";
 import NotifyMeButton from "@/components/offers/notify-me-button";
 import { useAllBusinesses } from "@/lib/use-businesses";
 

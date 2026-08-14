@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import PageHero from "@/components/ui/page-hero";
 import { Heart, Flame, Sparkles, PartyPopper, Store, Package, Megaphone, Share2, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAllBusinesses } from "@/lib/use-businesses";

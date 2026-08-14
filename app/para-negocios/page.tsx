@@ -1,7 +1,10 @@
 const WA = "https://wa.me/5493476637294?text=" + encodeURIComponent("Hola! Quiero sumar mi negocio a San Lorenzo Digital");
+import PageHero from "@/components/ui/page-hero";
+
 export default function Page() {
   return (
     <main>
+      <PageHero title="🏪 Para comercios" subtitle="Tu negocio, en el mapa digital de la ciudad" />
       <section className="px-4 py-20 text-center md:py-28">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[.25em] text-[var(--accent2)]">Para comercios de San Lorenzo</p>
         <h1 className="mx-auto max-w-3xl text-4xl font-bold leading-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>

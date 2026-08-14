@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import PageHero from "@/components/ui/page-hero";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import Chat from "@/components/business/chat";
@@ -53,15 +54,17 @@ export default function MensajesClientePage() {
   })).sort((a, b) => (a.last.created_at < b.last.created_at ? 1 : -1));
 
   if (!user) {
-    return <main className="bg-[#0d0a12] min-h-screen text-white flex items-center justify-center">Iniciá sesión para ver tus mensajes.</main>;
+    return <main className="bg-[#0d0a12] min-h-screen text-white flex items-center justify-center">
+      <PageHero title="💬 Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />Iniciá sesión para ver tus mensajes.</main>;
   }
 
   const sel = selectedBiz ? bizMap[selectedBiz] : null;
 
   return (
     <main className="bg-[#0d0a12] min-h-screen text-white pb-24">
+      <PageHero title="💬 Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />
       <div className="mx-auto max-w-3xl px-4 py-8">
-        <h1 className="text-3xl font-black">💬 Mis Mensajes</h1>
+        
         <p className="text-white/60 mt-1">Tus conversaciones con los negocios</p>
 
         {!selectedBiz && (

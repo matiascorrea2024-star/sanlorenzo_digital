@@ -1,17 +1,160 @@
 "use client";
-const POPULAR=["zapatillas","café","ferretería","barbería","ropa","regalos"];
-export default function Hero({onSearch}:{onSearch:(q:string)=>void}){return <section className="relative overflow-hidden border-b border-[var(--line)] sld-grid">
-  <div className="absolute left-1/2 top-[-240px] h-[560px] w-[900px] -translate-x-1/2 rounded-full bg-violet-600/15 blur-[110px]"/><div className="absolute right-[-180px] top-24 h-[320px] w-[320px] rounded-full bg-cyan-400/10 blur-[100px]"/>
-  <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-16 sm:px-6 md:pb-28 md:pt-24">
-    <div className="mx-auto max-w-4xl text-center"><div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[.04] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[.18em] text-[var(--muted)]"><span className="h-1.5 w-1.5 rounded-full bg-[var(--ok)] shadow-[0_0_12px_var(--ok)]"/> San Lorenzo · Santa Fe</div>
-      <h1 className="text-5xl font-black leading-[.96] tracking-[-.045em] sm:text-6xl md:text-8xl" style={{fontFamily:"var(--font-space)"}}>Todo San Lorenzo,<br/><span className="bg-gradient-to-r from-white via-violet-300 to-cyan-300 bg-clip-text text-transparent">en un solo lugar.</span></h1>
-      <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg">Encontrá comercios, productos, servicios, promociones y lugares de confianza. Buscá lo que necesitás y conectá directo con el negocio.</p>
-      <form onSubmit={e=>{e.preventDefault();const v=new FormData(e.currentTarget).get("q") as string;onSearch(v||"")}} className="sld-glow mx-auto mt-9 flex max-w-3xl flex-col gap-2 rounded-2xl border border-white/10 bg-[#0d1017]/90 p-2 shadow-2xl sm:flex-row">
-        <div className="flex min-w-0 flex-1 items-center gap-3 rounded-xl bg-white/[.035] px-4"><span className="text-lg">⌕</span><input name="q" placeholder="¿Qué estás buscando?" className="w-full bg-transparent py-3 text-sm outline-none placeholder:text-[var(--muted2)] sm:text-base"/></div><div className="hidden items-center gap-2 rounded-xl border border-white/5 bg-white/[.025] px-4 text-sm text-[var(--muted)] sm:flex">📍 San Lorenzo</div><button className="rounded-xl bg-gradient-to-r from-violet-600 to-violet-500 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-violet-900/30">Buscar</button>
-      </form>
-      <div className="mt-5 flex flex-wrap justify-center gap-2">{POPULAR.map(p=><button key={p} onClick={()=>onSearch(p)} className="rounded-full border border-white/10 bg-white/[.025] px-3 py-1.5 text-xs text-[var(--muted)] hover:border-violet-400/40 hover:text-white">{p}</button>)}</div>
-    </div>
-    <div className="mx-auto mt-14 grid max-w-5xl grid-cols-2 gap-3 md:grid-cols-4"><Stat n="+" label="comercios"/><Stat n="24/7" label="directorio online"/><Stat n="📍" label="mapa local"/><Stat n="💬" label="contacto directo"/></div>
-  </div>
-</section>}
-function Stat({n,label}:{n:string,label:string}){return <div className="rounded-2xl border border-white/[.07] bg-white/[.025] p-4 text-center backdrop-blur"><div className="text-lg font-bold text-white">{n}</div><div className="mt-1 text-[11px] uppercase tracking-[.16em] text-[var(--muted2)]">{label}</div></div>}
+import { useEffect, useState } from "react";
+import { Search, MapPin, Sparkles } from "lucide-react";
+
+interface HeroProps {
+  onSearch?: (query: string) => void;
+}
+
+export default function Hero({ onSearch }: HeroProps) {
+  const [stats, setStats] = useState({ promos: 0, negocios: 0, pronto: 0 });
+  const [search, setSearch] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  // Count-up animado
+  useEffect(() => {
+    const targets = { promos: 2, negocios: 12, pronto: 2 };
+    const duration = 1500;
+    const steps = 30;
+    const interval = duration / steps;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      setStats({
+        promos: Math.floor(targets.promos * progress),
+        negocios: Math.floor(targets.negocios * progress),
+        pronto: Math.floor(targets.pronto * progress),
+      });
+      if (step >= steps) clearInterval(timer);
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleSearch = () => {
+    if (onSearch && search.trim()) {
+      onSearch(search.trim());
+    }
+  };
+
+  const sugerencias = ["zapatillas", "pizza", "peluquería", "ferretería", "ofertas"];
+
+  return (
+    <section className="relative min-h-[90vh] overflow-hidden bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f]">
+      {/* Fondo animado con gradientes */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600 rounded-full mix-blend-screen filter blur-3xl animate-blob"></div>
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-orange-600 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-pink-600 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-4000"></div>
+      </div>
+
+      {/* Grid de puntos decorativos */}
+      <div className="absolute inset-0 opacity-10" style={{
+        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+        backgroundSize: '40px 40px'
+      }}></div>
+
+      {/* Contenido principal */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-20 md:py-32">
+        <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          
+          {/* Badge superior */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-2 mb-8 backdrop-blur-sm">
+            <Sparkles className="w-4 h-4 text-orange-400" />
+            <span className="text-sm font-medium text-orange-300">San Lorenzo · Santa Fe</span>
+          </div>
+
+          {/* Título principal con gradiente */}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tight">
+            <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">
+              LA GRAN
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-orange-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
+              BARATA DIGITAL
+            </span>
+          </h1>
+
+          {/* Contadores animados */}
+          <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-8">
+            <div className={`flex items-center gap-2 rounded-2xl border border-orange-500/20 bg-white/5 backdrop-blur-md px-6 py-3 transition-all duration-500 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+              <span className="text-3xl md:text-4xl font-black text-orange-400">{stats.promos}</span>
+              <span className="text-sm text-white/70">promociones<br/>activas</span>
+            </div>
+            <div className={`flex items-center gap-2 rounded-2xl border border-purple-500/20 bg-white/5 backdrop-blur-md px-6 py-3 transition-all duration-500 delay-500 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+              <span className="text-3xl md:text-4xl font-black text-purple-400">{stats.negocios}</span>
+              <span className="text-sm text-white/70">negocios<br/>registrados</span>
+            </div>
+            <div className={`flex items-center gap-2 rounded-2xl border border-pink-500/20 bg-white/5 backdrop-blur-md px-6 py-3 transition-all duration-500 delay-700 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+              <span className="text-3xl md:text-4xl font-black text-pink-400">{stats.pronto}</span>
+              <span className="text-sm text-white/70">terminan<br/>pronto</span>
+            </div>
+          </div>
+
+          {/* Descripción */}
+          <p className={`text-lg md:text-xl text-white/60 mb-10 max-w-2xl mx-auto transition-all duration-700 delay-900 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+            Todas las ofertas, promociones y negocios de San Lorenzo en un solo lugar.
+          </p>
+
+          {/* Buscador con glassmorphism */}
+          <div className={`max-w-2xl mx-auto transition-all duration-700 delay-1100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-gradient"></div>
+              <div className="relative flex items-center bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-2">
+                <Search className="w-5 h-5 text-white/50 ml-4" />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                  placeholder="Buscar negocios, productos, servicios..."
+                  className="flex-1 bg-transparent px-4 py-3 text-white placeholder-white/50 focus:outline-none"
+                />
+                <button 
+                  onClick={handleSearch}
+                  className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 font-bold text-white hover:shadow-lg hover:shadow-orange-500/50 transition-all duration-300 hover:scale-105"
+                >
+                  🔍 Buscar
+                </button>
+              </div>
+            </div>
+
+            {/* Sugerencias de búsqueda */}
+            <div className="flex flex-wrap justify-center gap-2 mt-6">
+              {sugerencias.map((sug, i) => (
+                <button
+                  key={sug}
+                  onClick={() => {
+                    setSearch(sug);
+                    if (onSearch) onSearch(sug);
+                  }}
+                  className={`rounded-full border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-2 text-sm text-white/70 hover:bg-white/10 hover:border-white/30 transition-all duration-300 hover:scale-105 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+                  style={{ transitionDelay: `${1300 + i * 100}ms` }}
+                >
+                  {sug}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Botón de geolocalización */}
+          <a href="/mapa" className={`mt-10 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3 text-white/70 hover:bg-white/10 hover:border-white/40 transition-all duration-300 hover:scale-105 ${isVisible ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '1700ms' }}>
+            <MapPin className="w-5 h-5" />
+            <span className="font-medium">Ver negocios cerca mío</span>
+          </a>
+        </div>
+      </div>
+
+      {/* Formas geométricas flotantes */}
+      <div className="absolute top-20 right-10 w-20 h-20 border border-orange-500/20 rounded-full animate-float"></div>
+      <div className="absolute bottom-20 left-10 w-16 h-16 border border-purple-500/20 rounded-lg rotate-45 animate-float-delayed"></div>
+      <div className="absolute top-1/2 right-20 w-12 h-12 border border-pink-500/20 rounded-full animate-float-slow"></div>
+    </section>
+  );
+}

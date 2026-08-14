@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import PageHero from "@/components/ui/page-hero";
 import { supabase } from "@/lib/supabase";
 
 const NIVELES_USUARIO = [
@@ -117,9 +118,8 @@ export default function PerfilPage() {
 
   return (
     <main className="bg-[#0d0a12] text-white min-h-screen pb-24">
+      <PageHero title="🎖 Tu perfil de vecino" subtitle="Tus misiones, medallas, rachas y premios" />
       <div className="mx-auto max-w-3xl px-4 py-10">
-        <Link href="/" className="text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
-
         <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black">
             {(user.email || "?")[0].toUpperCase()}

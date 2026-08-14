@@ -17,7 +17,7 @@ export default function Miniweb({ b }: { b: Business }) {
           <div className="pb-1">
             <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>{b.name}</h1>
             <p className="text-sm capitalize text-[var(--muted)]">
-              {b.category} · {nuevo ? "✨ Nuevo en la plataforma" : `⭐ ${b.rating.toFixed(1)} (${b.reviews})`}
+              {b.category} · {nuevo ? "✨ Nuevo en la plataforma" : `⭐ ${Number(b.rating || 0).toFixed(1)} (${b.reviews})`}
             </p>
           </div>
         </div>

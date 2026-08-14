@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import PageHero from "@/components/ui/page-hero";
 import { signUpWithEmail } from "@/lib/auth-helpers";
 import { supabase } from "@/lib/supabase";
 
@@ -60,11 +61,12 @@ export default function RegistroPage() {
             <Link href="/" className="inline-block mb-6">
               <span className="text-3xl">🛍️</span>
             </Link>
-            <h1 className="text-3xl font-black text-white">Crear cuenta</h1>
+            
             <p className="text-white/60 mt-2">Unite a San Lorenzo Digital</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <PageHero title="✨ Crear cuenta" subtitle="Sumate a la comunidad de San Lorenzo Digital" />
+      <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-white/80 mb-2">¿Cómo te llamas?</label>
               <input

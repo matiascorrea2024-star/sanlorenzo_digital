@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import PageHero from "@/components/ui/page-hero";
 import { useAllBusinesses } from "@/lib/use-businesses";
 
 const CATEGORY_IMAGES: Record<string, string> = {
@@ -85,9 +86,7 @@ export default function BuscarPage() {
   return (
     <main className="bg-[#0d0a12] text-white min-h-screen pb-24">
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <Link href="/" className="text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
-        <h1 className="mt-2 text-3xl font-black md:text-4xl">🔍 Buscador inteligente</h1>
-        <p className="text-white/60 mt-1">Buscá por nombre, producto o rubro, y filtrá como quieras</p>
+        <PageHero title="🔍 Buscador inteligente" subtitle="Buscá por nombre, producto o rubro, y filtrá como quieras" />
 
         <input
           value={q}

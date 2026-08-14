@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import PageHero from "@/components/ui/page-hero";
 import { supabase } from "@/lib/supabase";
 
 const icono = (p: number) => (p >= 600 ? "👑" : p >= 300 ? "🔎" : p >= 150 ? "🧭" : p >= 50 ? "🚶" : "🌱");
@@ -53,11 +54,7 @@ export default function VecinosPage() {
 
   return (
     <main className="bg-[#0d0a12] text-white min-h-screen pb-24">
-      <div className="mx-auto max-w-3xl px-4 py-8">
-        <Link href="/" className="text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
-        <h1 className="mt-2 text-3xl font-black md:text-4xl">👥 Ranking de vecinos</h1>
-        <p className="text-white/60 mt-1">Los vecinos más activos de San Lorenzo. ¿Llegás al podio?</p>
-      </div>
+      <PageHero title="👥 Ranking de vecinos" subtitle="Los vecinos más activos de San Lorenzo. ¿Llegás al podio?" />
 
       {miRank && (
         <div className="mx-auto max-w-3xl px-4 mb-6">

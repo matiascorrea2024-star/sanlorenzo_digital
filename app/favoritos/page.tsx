@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import PageHero from "@/components/ui/page-hero";
 import { Heart, Store, Flame, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -46,9 +47,10 @@ export default function FavoritosPage() {
   if (!user) {
     return (
       <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+      <PageHero title="❤️ Mis favoritos" subtitle="Todos tus negocios y ofertas guardados en un solo lugar" />
         <div className="mx-auto max-w-2xl px-4 py-16 text-center">
           <Heart className="mx-auto h-16 w-16 text-white/20" />
-          <h1 className="mt-4 text-3xl font-black">Mis favoritos</h1>
+          
           <p className="mt-2 text-white/60">Iniciá sesión para guardar y ver tus ofertas y negocios favoritos.</p>
           <Link href="/login"
             className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-8 py-3 text-sm font-black">
@@ -63,6 +65,7 @@ export default function FavoritosPage() {
 
   return (
     <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+      <PageHero title="❤️ Mis favoritos" subtitle="Todos tus negocios y ofertas guardados en un solo lugar" />
       <div className="mx-auto max-w-5xl px-4 py-8">
         <h1 className="text-3xl font-black">❤️ Mis favoritos</h1>
         <p className="mt-1 text-white/60">Todo lo que guardaste para no perderte nada</p>

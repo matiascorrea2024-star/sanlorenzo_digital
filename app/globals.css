@@ -4550,3 +4550,82 @@ main section:first-of-type .hero-media {
     max-height: 68vh !important;        /* desktop: presencia sin gigantez */
   }
 }
+
+/* Animaciones del hero */
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0) rotate(45deg); }
+  50% { transform: translateY(-30px) rotate(225deg); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 8s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 10s ease-in-out infinite;
+}
+
+/* === POLISH VISUAL GLOBAL === */
+::selection { background: rgba(249,115,22,.4); color: #fff; }
+
+* { scrollbar-width: thin; scrollbar-color: rgba(249,115,22,.5) rgba(255,255,255,.05); }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: rgba(255,255,255,.05); }
+*::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(249,115,22,.6), rgba(236,72,153,.6)); border-radius: 999px; }
+
+/* Tarjetas que flotan al pasar el mouse */
+.sld-card { transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+.sld-card:hover { transform: translateY(-4px); border-color: rgba(249,115,22,.35); box-shadow: 0 12px 40px -12px rgba(249,115,22,.25); }
+
+/* Transiciones suaves en todos los links y botones */
+a, button { transition: all .25s ease; }
+
+/* Inputs con brillo al enfocar */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: rgba(249,115,22,.6) !important;
+  box-shadow: 0 0 0 3px rgba(249,115,22,.15);
+}
