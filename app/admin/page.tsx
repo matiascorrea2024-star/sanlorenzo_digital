@@ -39,7 +39,7 @@ export default function AdminPage() {
       if (r !== "admin") { router.push("/"); return; }
 
       // Cargar todo
-      const [u, b, o, v, pv, pend, rev, sb, ciu] = await Promise.all([
+      const [u, b, o, v, pv, pend, rev, sb, ciu, fol, uList] = await Promise.all([
         supabase().from("user_profiles").select("*", { count: "exact", head: true }),
         supabase().from("businesses").select("*", { count: "exact", head: true }),
         supabase().from("offers").select("*", { count: "exact", head: true }),
@@ -49,6 +49,8 @@ export default function AdminPage() {
         supabase().from("business_reviews").select("*").order("created_at", { ascending: false }).limit(20),
         supabase().from("subscriptions").select("*, businesses(name)").order("started_at", { ascending: false }).limit(20),
         supabase().from("locations").select("*").eq("type", "city"),
+        supabase().from("followers").select("*", { count: "exact", head: true }),
+        supabase().from("user_profiles").select("*, auth_user:users(email)").order("created_at", { ascending: false }).limit(20),
       ]);
 
       setStats({
@@ -102,6 +104,7 @@ export default function AdminPage() {
     { icon: Flame, label: "Ofertas", value: stats.offers, color: "text-orange-400" },
     { icon: Star, label: "Reseñas", value: stats.reviews, color: "text-yellow-400" },
     { icon: Eye, label: "Visitas", value: stats.views, color: "text-pink-400" },
+    { icon: MapPin, label: "Seguidores", value: stats.seguidores || 0, color: "text-purple-400" },
   ];
 
   return (

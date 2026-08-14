@@ -124,7 +124,7 @@ export default function PerfilPage() {
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black">
             {(user.email || "?")[0].toUpperCase()}
           </div>
-          <h1 className="mt-3 text-2xl font-black">{nivel.icon} {nivel.nombre}</h1>
+          <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500/20 to-pink-500/20 px-4 py-1 border border-orange-400/30"><span className="text-2xl">{nivel.icon}</span><span className="text-lg font-black">{nivel.nombre}</span></div>
           <p className="text-sm text-white/50">{user.email}</p>
           <p className="mt-3 text-3xl font-black text-orange-400">{puntos} <span className="text-sm text-white/50">puntos</span></p>
           {racha > 0 && <p className="mt-1 text-sm font-black text-orange-300">🔥 Racha de {racha} día{racha > 1 ? "s" : ""} seguidos</p>}
@@ -136,6 +136,26 @@ export default function PerfilPage() {
               <p className="mt-1 text-xs text-white/50">Te faltan {sig.min - puntos} pts para {sig.icon} {sig.nombre}</p>
             </div>
           )}
+        </div>
+
+        
+        <div className="mt-6 grid grid-cols-2 gap-2 md:grid-cols-4">
+          <Link href="/favoritos" className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center hover:border-orange-400/50 hover:bg-white/10 transition">
+            <p className="text-2xl">❤️</p>
+            <p className="mt-1 text-xs font-bold">Favoritos</p>
+          </Link>
+          <Link href="/mensajes" className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center hover:border-orange-400/50 hover:bg-white/10 transition">
+            <p className="text-2xl">💬</p>
+            <p className="mt-1 text-xs font-bold">Mensajes</p>
+          </Link>
+          <Link href="/vecinos" className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center hover:border-orange-400/50 hover:bg-white/10 transition">
+            <p className="text-2xl">👥</p>
+            <p className="mt-1 text-xs font-bold">Ranking vecinos</p>
+          </Link>
+          <Link href="/panel" className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center hover:border-orange-400/50 hover:bg-white/10 transition">
+            <p className="text-2xl">🏪</p>
+            <p className="mt-1 text-xs font-bold">Mis negocios</p>
+          </Link>
         </div>
 
         <h2 className="mt-8 mb-3 text-xl font-black">📊 Tu actividad</h2>

@@ -1,16 +1,16 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, Flame, Newspaper, Trophy, Map, LayoutDashboard } from "lucide-react";
+import { Home, Search, Flame, Newspaper, Trophy, Map, User } from "lucide-react";
 
 const ITEMS = [
   { href: "/", label: "Inicio", icon: Home },
   { href: "/buscar", label: "Buscar", icon: Search },
-  { href: "/radar", label: "Radar", icon: Flame },
+  { href: "/promociones", label: "Ofertas", icon: Flame },
   { href: "/feed", label: "Muro", icon: Newspaper },
   { href: "/ranking", label: "Ranking", icon: Trophy },
   { href: "/mapa", label: "Mapa", icon: Map },
-  { href: "/dashboard", label: "Panel", icon: LayoutDashboard },
+  { href: "/perfil", label: "Perfil", icon: User },
 ];
 
 export default function BottomNav() {
@@ -19,7 +19,6 @@ export default function BottomNav() {
   return (
     <nav aria-label="Navegación principal"
       className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-[#0a0710]/95 backdrop-blur-xl md:hidden">
-      {/* grid de 7 columnas: entra en 320px sin cortar */}
       <div className="grid grid-cols-7">
         {ITEMS.map((item) => {
           const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
