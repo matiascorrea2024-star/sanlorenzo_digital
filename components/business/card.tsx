@@ -51,25 +51,27 @@ export default function BusinessCard({ b }: { b: any }) {
             ✓ Verificado
           </span>
         )}
-        
-        {/* Logo flotante */}
-        <div className="absolute -bottom-4 left-3 md:-bottom-5 md:left-4">
-          {b.logo_url ? (
-            <img
-              src={b.logo_url}
-              alt=""
-              className="h-9 w-9 md:h-11 md:w-11 rounded-2xl border-2 border-[#0d0a12] object-cover shadow-lg"
-            />
-          ) : (
-            <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#0d0a12] bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white shadow-lg">
-              {(b.name || "?")[0]}
-            </div>
-          )}
-        </div>
+      </div>
+
+      {/* Logo flotante -- afuera del overflow-hidden de la imagen (si no, se
+          recorta) y en el flujo normal (margen negativo, no absolute) para
+          que quede apoyado sobre el borde inferior de la portada sin cortarse. */}
+      <div className="relative z-10 -mt-5 ml-3 w-fit md:-mt-6 md:ml-4">
+        {b.logo_url ? (
+          <img
+            src={b.logo_url}
+            alt=""
+            className="h-9 w-9 md:h-11 md:w-11 rounded-2xl border-2 border-[#0d0a12] object-cover shadow-lg"
+          />
+        ) : (
+          <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#0d0a12] bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white shadow-lg">
+            {(b.name || "?")[0]}
+          </div>
+        )}
       </div>
 
       {/* Info */}
-      <div className="flex flex-1 flex-col p-3 md:p-4 pt-6 md:pt-7">
+      <div className="flex flex-1 flex-col p-3 md:p-4 pt-1">
         <h3 className="truncate text-sm md:text-base font-black transition group-hover:text-orange-300">
           {b.name}
         </h3>
