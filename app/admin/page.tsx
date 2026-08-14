@@ -133,7 +133,7 @@ export default function AdminPage() {
         </div>
 
         {/* OVERVIEW */}
-        <AdminVisits />
+        {tab === "overview" && <AdminVisits />}
         {tab === "overview" && stats.usersRecent && (
           <div className="mt-8">
             <h3 className="mb-4 text-lg font-black">👥 Últimos 20 usuarios</h3>

@@ -15,6 +15,7 @@ function timeAgo(fecha: string) {
 export default function AdminVisits() {
   const [views, setViews] = useState<any[]>([]);
   const [nombres, setNombres] = useState<Record<string, string>>({});
+  const [verMas, setVerMas] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const cargar = async () => {
@@ -46,14 +47,16 @@ export default function AdminVisits() {
 
   useEffect(() => { cargar(); }, []);
 
+  const visibles = verMas ? views : views.slice(0, 8);
+
   return (
     <div className="mt-8">
-      <div className="mb-4 flex items-center justify-between gap-3 flex-wrap">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-lg font-black">🌐 Últimas visitas (con IP)</h3>
         <button
           onClick={sembrar}
           disabled={loading}
-          className="rounded-xl border border-orange-400/40 bg-orange-500/10 px-3 py-1.5 text-xs font-bold text-orange-300 hover:bg-orange-500/20 disabled:opacity-50"
+          className="rounded-xl border border-orange-400/40 bg-orange-500/10 px-3 py-1.5 text-xs font-bold text-orange-300 transition hover:bg-orange-500/20 disabled:opacity-50"
         >
           {loading ? "⏳ Sembrando..." : "🌱 Simular 5 visitas"}
         </button>
@@ -62,29 +65,41 @@ export default function AdminVisits() {
         <table className="w-full text-sm">
           <thead className="border-b border-white/10 bg-white/5">
             <tr>
-              <th className="px-4 py-2 text-left text-xs font-bold text-white/60">IP</th>
-              <th className="px-4 py-2 text-left text-xs font-bold text-white/60">Negocio / Página</th>
-              <th className="px-4 py-2 text-left text-xs font-bold text-white/60">Cuándo</th>
+              <th className="px-3 py-2 text-left text-[10px] font-bold text-white/60 md:px-4 md:text-xs">IP</th>
+              <th className="px-3 py-2 text-left text-[10px] font-bold text-white/60 md:px-4 md:text-xs">Negocio / Página</th>
+              <th className="px-3 py-2 text-left text-[10px] font-bold text-white/60 md:px-4 md:text-xs">Cuándo</th>
             </tr>
           </thead>
           <tbody>
-            {views.length === 0 ? (
-              <tr><td colSpan={3} className="px-4 py-6 text-center text-xs text-white/40">Todavía no hay visitas. Tocá "Simular 5 visitas" para ver datos de ejemplo.</td></tr>
-            ) : views.map((v, i) => (
-              <tr key={v.id || i} className="border-b border-white/5 hover:bg-white/5">
-                <td className="px-4 py-2 font-mono text-xs text-orange-300">{v.ip || "—"}</td>
-                <td className="px-4 py-2 text-xs">
-                  {v.business_id ? (nombres[v.business_id] || "Miniweb") : v.path || "/"}
+            {visibles.length === 0 ? (
+              <tr>
+                <td colSpan={3} className="px-4 py-6 text-center text-xs text-white/40">
+                  Todavía no hay visitas. Tocá "Simular 5 visitas" para ver datos de ejemplo.
                 </td>
-                <td className="px-4 py-2 text-xs text-white/50">{timeAgo(v.viewed_at)}</td>
               </tr>
-            ))}
+            ) : (
+              visibles.map((v, i) => (
+                <tr key={v.id || i} className="border-b border-white/5 hover:bg-white/5">
+                  <td className="px-3 py-2 font-mono text-[10px] text-orange-300 md:px-4 md:text-xs">{v.ip || "—"}</td>
+                  <td className="max-w-[140px] truncate px-3 py-2 text-[10px] md:max-w-none md:px-4 md:text-xs">
+                    {v.business_id ? (nombres[v.business_id] || "Miniweb") : v.path || "/"}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-2 text-[10px] text-white/50 md:px-4 md:text-xs">{timeAgo(v.viewed_at)}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
-      {views.length > 0 && (
-        <p className="mt-2 text-[11px] text-white/40">💡 Las visitas reales se guardan cuando alguien entra a una miniweb.</p>
+      {views.length > 8 && (
+        <button
+          onClick={() => setVerMas(!verMas)}
+          className="mt-3 w-full rounded-xl border border-white/10 bg-white/5 py-2 text-xs font-bold text-white/60 transition hover:bg-white/10 hover:text-white"
+        >
+          {verMas ? "▲ Ver menos" : `▼ Ver las ${views.length} visitas`}
+        </button>
       )}
+      <p className="mt-2 text-[11px] text-white/40">💡 Las visitas reales se guardan cuando alguien entra a una miniweb.</p>
     </div>
   );
 }
