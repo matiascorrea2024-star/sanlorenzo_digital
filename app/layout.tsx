@@ -7,6 +7,7 @@ import BottomNav from "@/components/layout/bottom-nav";
 import OnlineNow from "@/components/live/online-now";
 import FloatingAssistant from "@/components/ui/floating-assistant";
 import { ToastProvider } from "@/components/ui/toast";
+import HeartbeatActivator from "@/components/heartbeat-activator";
 import { AuthProvider } from "@/components/providers/auth-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <a href="#contenido" className="skip-link">Saltar al contenido</a>
         <ToastProvider>
         <AuthProvider>
+        <HeartbeatActivator />
           <Header />
           {children}
           <Footer />

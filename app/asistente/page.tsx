@@ -16,6 +16,8 @@ type Oferta = {
   portada_url?: string; latitude?: number; longitude?: number;
 };
 
+import PageHero from "@/components/ui/page-hero";
+
 export default function AsistentePage() {
   const [q, setQ] = useState("");
   const negocios = useAllBusinesses();
@@ -93,6 +95,7 @@ export default function AsistentePage() {
 
   return (
     <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+      <PageHero title="🤖 Asistente IA" subtitle="Preguntale lo que quieras de San Lorenzo" />
       <div className="mx-auto max-w-5xl px-4 py-10">
         <div className="text-center">
           <Badge variant="warning" size="sm"><Sparkles className="h-3 w-3" /> Asistente local</Badge>

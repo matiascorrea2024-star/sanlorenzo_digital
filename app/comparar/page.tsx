@@ -28,7 +28,8 @@ function CompararContent() {
   }, [idsParam]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">Cargando...</main>;
+    return <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">
+      <PageHero title="⚖️ Comparador" subtitle="Compará negocios y productos de un vistazo" />Cargando...</main>;
   }
 
   if (productos.length === 0) {
@@ -159,6 +160,8 @@ function CompararContent() {
     </main>
   );
 }
+
+import PageHero from "@/components/ui/page-hero";
 
 export default function CompararPage() {
   return (

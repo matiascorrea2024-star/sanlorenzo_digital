@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import PageHero from "@/components/ui/page-hero";
+import OnlineBadge from "@/components/ui/online-badge";
 import { supabase } from "@/lib/supabase";
 
 const icono = (p: number) => (p >= 600 ? "👑" : p >= 300 ? "🔎" : p >= 150 ? "🧭" : p >= 50 ? "🚶" : "🌱");

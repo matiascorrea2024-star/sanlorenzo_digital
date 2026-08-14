@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
+import OnlineBadge from "@/components/ui/online-badge";
 import Badge from "@/components/ui/badge";
 
 const TABS = [
@@ -141,6 +142,7 @@ export default function AdminPage() {
                     <th className="px-4 py-2 text-left text-xs font-bold text-white/60">Email</th>
                     <th className="px-4 py-2 text-left text-xs font-bold text-white/60">Role</th>
                     <th className="px-4 py-2 text-left text-xs font-bold text-white/60">Fecha</th>
+                    <th className="px-4 py-2 text-left text-xs font-bold text-white/60">Estado</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -148,7 +150,8 @@ export default function AdminPage() {
                     <tr key={u.user_id} className="border-b border-white/5 hover:bg-white/5">
                       <td className="px-4 py-2 text-xs">{u.email || u.user_id.slice(0, 8) + "…"}</td>
                       <td className="px-4 py-2 text-xs capitalize">{u.role}</td>
-                      <td className="px-4 py-2 text-xs text-white/50">{new Date(u.created_at).toLocaleDateString('es-AR')}</td>
+                      <td className="px-4 py-2 text-xs text-white/50">{new Date(u.created_at).toLocaleDateString("es-AR")}</td>
+                      <td className="px-4 py-2"><OnlineBadge lastSeen={u.last_seen_at} /></td>
                     </tr>
                   ))}
                 </tbody>
