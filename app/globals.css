@@ -4663,3 +4663,19 @@ body::after {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 2; opacity: .035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+
+/* === RESPONSIVE GLOBAL === */
+@media (max-width: 640px) {
+  /* Títulos más compactos en mobile */
+  main h1 { font-size: 1.5rem !important; }
+  main h2 { font-size: 1.15rem !important; }
+  /* Menos padding lateral en tarjetas */
+  main > div { padding-left: 0.75rem; padding-right: 0.75rem; }
+  /* Grano menos visible en mobile (ahorra batería) */
+  body::after { opacity: .02; }
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  /* Tablet: ajustes intermedios */
+  main h1 { font-size: 1.75rem !important; }
+}

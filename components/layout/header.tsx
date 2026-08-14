@@ -57,9 +57,9 @@ export default function Header() {
       <div className="mx-auto max-w-7xl px-4">
         <div className={`flex items-center justify-between gap-4 transition-all duration-300 ${scrolled ? "h-14" : "h-16"}`}>
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <span className="text-2xl">🛍️</span>
+            <span className="text-xl md:text-2xl">🛍️</span>
             <span className="leading-tight">
-              <span className="block text-base font-black tracking-tight text-white">LA GRAN BARATA</span>
+              <span className="block text-sm md:text-base font-black tracking-tight text-white">LA GRAN BARATA</span>
               <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-orange-400">Digital · San Lorenzo</span>
             </span>
           </Link>
@@ -77,7 +77,7 @@ export default function Header() {
               <div className="relative" ref={menuRef}>
                 <button
                   onClick={() => setOpen(!open)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white transition hover:scale-105"
+                  className="flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white transition hover:scale-105"
                 >
                   {(user.email || "?")[0].toUpperCase()}
                 </button>
