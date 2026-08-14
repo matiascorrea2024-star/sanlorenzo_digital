@@ -9,12 +9,15 @@ import CountdownTimer from "@/components/ui/countdown-timer";
 import CouponButton from "@/components/offers/coupon-button";
 import FavoriteButton from "@/components/ui/favorite-button";
 import NotifyMeButton from "@/components/offers/notify-me-button";
+import { track } from "@/lib/track";
+import { useToast } from "@/components/ui/toast";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
 export default function OfertaPage() {
   const params = useParams();
   const router = useRouter();
+  const { show } = useToast();
   const offerId = params.id as string;
   const [oferta, setOferta] = useState<any>(null);
   const [negocio, setNegocio] = useState<any>(null);
@@ -34,13 +37,14 @@ export default function OfertaPage() {
 
   const share = async () => {
     const url = window.location.href;
-    const text = `🔥 ${oferta.title}\n💰 ${oferta.offer_price ? fmt(Number(oferta.offer_price)) : "OFERTA"}\n📍 ${negocio?.name || "San Lorenzo"}`;
+    const text = `🔥 ${oferta.title}\n💰 ${oferta.offer_price ? fmt(Number(oferta.offer_price)) : "OFERTA"}\n📍 ${negocio?.name || "San Lorenzo"}\n\n#LaGranBarataSanLorenzo`;
     if (navigator.share) {
-      try { await navigator.share({ title: oferta.title, text, url }); } catch {}
+      try { await navigator.share({ title: oferta.title, text, url }); } catch { return; }
     } else {
       await navigator.clipboard.writeText(`${text}\n${url}`);
-      alert("¡Link copiado!");
     }
+    if (negocio?.id) track(negocio.id, "share");
+    show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
   };
 
   if (loading) {
@@ -91,6 +95,7 @@ export default function OfertaPage() {
           <div className="mx-auto max-w-4xl">
             <div className="mb-2 flex flex-wrap items-center gap-2">
               {oferta.discount_percent && <Badge variant="danger" size="md">-{oferta.discount_percent}% OFF</Badge>}
+              {oferta.precio_prometido && <Badge variant="info" size="md">🔒 Precio Prometido</Badge>}
               {venceHoy && <Badge variant="danger" size="md" pulse>🔥 VENCE HOY</Badge>}
               {dias !== null && dias > 0 && dias <= 3 && <Badge variant="warning" size="md">En {dias} días</Badge>}
               {vencido && <Badge variant="default" size="md">Finalizada</Badge>}

@@ -12,6 +12,7 @@ import { ToastProvider } from "@/components/ui/toast";
 import HeartbeatActivator from "@/components/heartbeat-activator";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import OnboardingOverlay from "@/components/onboarding/onboarding-overlay";
+import ReferralTracker from "@/components/referral-tracker";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <Spotlight />
       <ScrollReveal />
       <OnboardingOverlay />
+      <ReferralTracker />
         </AuthProvider>
       </ToastProvider>
       <InstallApp />

@@ -8,14 +8,14 @@ import ChangePassword from "@/components/profile/change-password";
 import PlatformWhatsappSetting from "@/components/profile/platform-whatsapp-setting";
 
 const NIVELES_USUARIO = [
-  { min: 0, nombre: "Novato del barrio", icon: "🌱" },
-  { min: 50, nombre: "Explorador local", icon: "🚶" },
-  { min: 150, nombre: "Vecino de la ciudad", icon: "🧭" },
-  { min: 300, nombre: "Cazador de ofertas", icon: "🔎" },
-  { min: 600, nombre: "Leyenda de San Lorenzo", icon: "👑" },
+  { min: 0, nombre: "Novato", icon: "🌱" },
+  { min: 50, nombre: "Explorador", icon: "🚶" },
+  { min: 150, nombre: "Guía", icon: "🧭" },
+  { min: 300, nombre: "Descubridor", icon: "🔎" },
+  { min: 600, nombre: "Embajador", icon: "👑" },
 ];
 
-type Stats = { seg: number; res: number; vis: number; cats: number; wa: number; sh: number };
+type Stats = { seg: number; res: number; vis: number; cats: number; wa: number; sh: number; ref: number };
 
 const MEDALLAS: { icon: string; nombre: string; desc: string; cond: (s: Stats) => boolean }[] = [
   { icon: "🏆", nombre: "Primer descubrimiento", desc: "Seguiste tu primer negocio", cond: (s) => s.seg >= 1 },
@@ -33,7 +33,7 @@ export default function PerfilPage() {
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [seguidos, setSeguidos] = useState<any[]>([]);
-  const [stats, setStats] = useState<Stats>({ seg: 0, res: 0, vis: 0, cats: 0, wa: 0, sh: 0 });
+  const [stats, setStats] = useState<Stats>({ seg: 0, res: 0, vis: 0, cats: 0, wa: 0, sh: 0, ref: 0 });
   const [cargando, setCargando] = useState(true);
   const [misiones, setMisiones] = useState<any>(null);
   const [racha, setRacha] = useState(0);
@@ -50,12 +50,17 @@ export default function PerfilPage() {
         const { data: fol } = await sb
           .from("followers").select("business_id, businesses(name, slug)")
           .eq("user_id", user.id);
+        // Las reseñas reales viven en business_reviews (ver Fase 2/3 --
+        // "reviews" es una tabla huérfana a la que ya nadie escribe).
         const { data: revsData } = await sb
-          .from("reviews").select("created_at").eq("user_id", user.id);
+          .from("business_reviews").select("created_at").eq("user_id", user.id);
         const count = (revsData || []).length;
         const { data: act } = await sb
           .from("user_activity").select("type, business_id, businesses(category), created_at")
           .eq("user_id", user.id);
+        const { data: refsData } = await sb
+          .from("referrals").select("activated_at").eq("referrer_id", user.id);
+        const refActivos = (refsData || []).filter((r: any) => r.activated_at).length;
 
         const acts = act || [];
         const vistas = new Set(acts.filter((a: any) => a.type === "view").map((a: any) => a.business_id));
@@ -89,7 +94,7 @@ export default function PerfilPage() {
         }
         setExtra({ visWeek, waWeek, resWeek, maxRacha });
         setSeguidos(fol || []);
-        setStats({ seg: (fol || []).length, res: count || 0, vis: vistas.size, cats: cats.size, wa: was.size, sh: shs.size });
+        setStats({ seg: (fol || []).length, res: count || 0, vis: vistas.size, cats: cats.size, wa: was.size, sh: shs.size, ref: refActivos });
       }
       setCargando(false);
     })();
@@ -111,7 +116,7 @@ export default function PerfilPage() {
 
   const bonusRacha = (extra?.maxRacha || 0) >= 7 ? 50 : 0;
   const bonusSemana = (extra?.visWeek || 0) >= 10 && (extra?.waWeek || 0) >= 3 && (extra?.resWeek || 0) >= 1 ? 40 : 0;
-  const puntos = stats.seg * 10 + stats.res * 25 + stats.wa * 15 + stats.sh * 10 + stats.vis * 2 + bonusRacha + bonusSemana;
+  const puntos = stats.seg * 10 + stats.res * 25 + stats.wa * 15 + stats.sh * 10 + stats.vis * 2 + stats.ref * 30 + bonusRacha + bonusSemana;
   let nivel = NIVELES_USUARIO[0];
   for (const n of NIVELES_USUARIO) if (puntos >= n.min) nivel = n;
   const sig = NIVELES_USUARIO[NIVELES_USUARIO.indexOf(nivel) + 1];
@@ -171,13 +176,14 @@ export default function PerfilPage() {
         </div>
 
         <h2 className="mt-8 mb-3 text-xl font-black">📊 Tu actividad</h2>
-        <div className="grid grid-cols-3 gap-3 md:grid-cols-6 text-center">
+        <div className="grid grid-cols-3 gap-3 md:grid-cols-7 text-center">
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-orange-400">{stats.vis}</p><p className="text-[10px] text-white/50 uppercase">Visitas</p></div>
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-pink-400">{stats.cats}</p><p className="text-[10px] text-white/50 uppercase">Rubros</p></div>
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-red-400">{stats.seg}</p><p className="text-[10px] text-white/50 uppercase">Seguidos</p></div>
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-green-400">{stats.wa}</p><p className="text-[10px] text-white/50 uppercase">Contactos</p></div>
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-sky-400">{stats.sh}</p><p className="text-[10px] text-white/50 uppercase">Compartidos</p></div>
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-yellow-400">{stats.res}</p><p className="text-[10px] text-white/50 uppercase">Reseñas</p></div>
+          <Link href="/invitar" className="rounded-xl bg-white/5 p-3 hover:bg-white/10 transition"><p className="text-xl font-black text-purple-400">{stats.ref}</p><p className="text-[10px] text-white/50 uppercase">Referidos</p></Link>
         </div>
 
         

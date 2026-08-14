@@ -23,6 +23,8 @@ export default function EditarOferta() {
   const [priceOffer, setPriceOffer] = useState("");
   const [expires, setExpires] = useState("");
   const [image, setImage] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [precioPrometido, setPrecioPrometido] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -35,12 +37,14 @@ export default function EditarOferta() {
 
       const { data: biz } = await sb.from("businesses").select("id, owner_id").eq("id", offer.business_id).single();
       const { data: prof } = await sb.from("user_profiles").select("role").eq("user_id", user.id).maybeSingle();
-      if (biz?.owner_id !== user.id && prof?.role !== "admin") {
+      const admin = prof?.role === "admin";
+      if (biz?.owner_id !== user.id && !admin) {
         setError("Esta oferta no te pertenece.");
         setLoading(false);
         return;
       }
 
+      setIsAdmin(admin);
       setBusinessId(offer.business_id);
       setTitle(offer.title || "");
       setProduct(offer.product || "");
@@ -48,6 +52,7 @@ export default function EditarOferta() {
       setPriceOffer(offer.offer_price ? String(offer.offer_price) : "");
       setExpires(offer.valid_until || "");
       setImage(offer.image_url || "");
+      setPrecioPrometido(!!offer.precio_prometido);
       setLoading(false);
     })();
   }, [id]);
@@ -70,6 +75,7 @@ export default function EditarOferta() {
       discount_percent: desc > 0 ? desc : null,
       valid_until: expires,
       image_url: image.trim() || null,
+      ...(isAdmin ? { precio_prometido: precioPrometido } : {}),
     }).eq("id", id);
     setSaving(false);
     if (err) { setError(err.message); return; }
@@ -130,6 +136,13 @@ export default function EditarOferta() {
             <span className={lbl}>Foto de la oferta</span>
             <ImageUploader value={image} onChange={setImage} businessId={businessId} itemId={String(id)} previewClass="h-40 w-full rounded-xl" />
           </div>
+
+          {isAdmin && (
+            <label className="flex items-center gap-2 rounded-xl border border-sky-400/30 bg-sky-500/10 p-4 text-sm">
+              <input type="checkbox" checked={precioPrometido} onChange={(e) => setPrecioPrometido(e.target.checked)} />
+              <span>🔒 Certificar &quot;Precio Prometido&quot; (solo admin)</span>
+            </label>
+          )}
 
           {error && (
             <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-4">

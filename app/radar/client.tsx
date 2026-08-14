@@ -4,6 +4,7 @@ import { Clock, Flame, Zap } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import OfferCard from "@/components/ui/offer-card";
 import Badge from "@/components/ui/badge";
+import VotoDelDia from "@/components/home/voto-del-dia";
 
 function useCountdown(targetDate: Date) {
   const [timeLeft, setTimeLeft] = useState({ h: 0, m: 0, s: 0 });
@@ -124,6 +125,7 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
           </>
         )}
       </div>
+      <VotoDelDia />
     </main>
   );
 }

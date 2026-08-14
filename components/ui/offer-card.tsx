@@ -14,6 +14,7 @@ type Offer = {
   vence?: string; descuento?: number; antes?: number; ahora?: number;
   portada_url?: string; logo_url?: string;
   latitude?: number; longitude?: number;
+  precio_prometido?: boolean;
 };
 
 const CAT_IMAGES: Record<string, string> = {
@@ -93,6 +94,11 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
           {isDemo && (
             <span className="rounded-lg bg-yellow-500/90 px-2 py-0.5 text-[10px] font-black text-black">
               DEMO
+            </span>
+          )}
+          {o.precio_prometido && (
+            <span className="flex items-center gap-1 rounded-lg bg-sky-500/90 px-2 py-0.5 text-[10px] font-black text-white shadow" title="Precio certificado por el equipo de San Lorenzo Digital">
+              🔒 Precio Prometido
             </span>
           )}
           {o.descuento ? (

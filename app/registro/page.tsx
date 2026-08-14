@@ -27,12 +27,20 @@ export default function RegistroPage() {
       const { user } = await signUpWithEmail(email, password, { name, role });
       if (user?.id) {
         await supabase().from("user_profiles").upsert({ user_id: user.id, display_name: name }, { onConflict: "user_id" });
+
+        // Referido: si llegó con un link de invitación (?ref=...), se
+        // guarda el vínculo real -- las recompensas se aplican solas
+        // por trigger cuando este usuario complete el onboarding.
+        try {
+          const ref = localStorage.getItem("sld-ref");
+          if (ref && ref !== user.id) {
+            await supabase().from("referrals").insert({ referrer_id: ref, referred_id: user.id });
+            localStorage.removeItem("sld-ref");
+          }
+        } catch {}
       }
       setSuccess(true);
-      setTimeout(() => router.push("/onboarding"), 1800);
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 2000);
+      setTimeout(() => router.push(role === "business_owner" ? "/dashboard/nuevo" : "/"), 1500);
     } catch (err: any) {
       setError(err.message || "Error al registrarse");
     } finally {
@@ -47,7 +55,7 @@ export default function RegistroPage() {
           <div className="rounded-3xl border border-green-500/30 bg-green-500/10 p-8 text-center">
             <div className="text-5xl mb-4">✅</div>
             <h2 className="text-2xl font-black text-white mb-2">¡Cuenta creada!</h2>
-            <p className="text-white/70 mb-6">Redirigiendo al dashboard...</p>
+            <p className="text-white/70 mb-6">Redirigiendo…</p>
           </div>
         </div>
       </main>

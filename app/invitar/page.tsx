@@ -5,15 +5,28 @@ import { Share2, Copy, Check } from "lucide-react";
 import PageHero from "@/components/ui/page-hero";
 import { supabase } from "@/lib/supabase";
 
+const HITOS = [
+  { n: 3, premio: "Tu negocio aparece como \"Nuevo\" destacado 3 días" },
+  { n: 10, premio: "1 mes de Plan PRO gratis" },
+  { n: 25, premio: "\"Negocio Destacado del Mes\" (posición fija en home)" },
+];
+
 export default function InvitarPage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [activos, setActivos] = useState(0);
 
   useEffect(() => {
     (async () => {
       const { data: { user } } = await supabase().auth.getUser();
       setUser(user);
+      if (user) {
+        const { data } = await supabase().from("referrals").select("activated_at").eq("referrer_id", user.id);
+        setTotal(data?.length || 0);
+        setActivos((data || []).filter((r: any) => r.activated_at).length);
+      }
       setLoading(false);
     })();
   }, []);
@@ -68,9 +81,26 @@ export default function InvitarPage() {
             </button>
           </div>
         </div>
-        <p className="mt-6 text-xs text-white/40">
-          Próximamente: sumá recompensas reales por cada vecino que se registre con tu link.
-        </p>
+        <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-left">
+          <p className="flex items-center justify-between font-black">
+            <span>Tus referidos</span>
+            <span className="text-orange-400">{activos} activos <span className="text-white/40 font-normal">/ {total} totales</span></span>
+          </p>
+          <p className="mt-1 text-xs text-white/40">Activo = la persona ya completó el onboarding, no solo se registró.</p>
+          <div className="mt-4 space-y-2">
+            {HITOS.map((h) => {
+              const logrado = activos >= h.n;
+              return (
+                <div key={h.n} className={`flex items-center gap-3 rounded-xl border p-3 ${logrado ? "border-green-400/40 bg-green-500/10" : "border-white/10 bg-white/[0.02]"}`}>
+                  <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black ${logrado ? "bg-green-500 text-black" : "bg-white/10 text-white/50"}`}>
+                    {logrado ? "✓" : h.n}
+                  </span>
+                  <p className={`text-xs ${logrado ? "text-green-200" : "text-white/60"}`}>{h.premio}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </main>
   );

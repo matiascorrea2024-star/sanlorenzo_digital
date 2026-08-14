@@ -54,11 +54,23 @@ export default function OfertasPage() {
         .from("offers")
         .update({ active: !active })
         .eq("id", offerId);
-      
+
       setOffers(offers.map(o => o.id === offerId ? { ...o, active: !active } : o));
     } catch (error) {
       console.error("Error actualizando oferta:", error);
     }
+  };
+
+  const marcarBomba = async (offerId: string, bizId: string) => {
+    const sb = supabase();
+    // Solo una oferta bomba activa por negocio a la vez.
+    await sb.from("offers").update({ es_bomba: false }).eq("business_id", bizId).eq("es_bomba", true);
+    await sb.from("offers").update({ es_bomba: true }).eq("id", offerId);
+    setOffers(offers.map(o => {
+      if (o.id === offerId) return { ...o, es_bomba: true };
+      if (o.business_id === bizId) return { ...o, es_bomba: false };
+      return o;
+    }));
   };
 
   if (loading) {
@@ -176,6 +188,18 @@ export default function OfertasPage() {
                       </div>
                     )}
                   </div>
+
+                  <button
+                    onClick={() => marcarBomba(offer.id, offer.business_id)}
+                    disabled={offer.es_bomba}
+                    className={`mb-3 w-full rounded-xl px-4 py-2 text-sm font-bold transition ${
+                      offer.es_bomba
+                        ? "border border-red-400/40 bg-red-500/15 text-red-300"
+                        : "border border-white/15 bg-white/5 hover:border-red-400/40 hover:bg-red-500/10"
+                    }`}
+                  >
+                    {offer.es_bomba ? "💣 Es tu oferta bomba de hoy (18-20hs)" : "💣 Marcar como oferta bomba de hoy"}
+                  </button>
 
                   <div className="flex gap-3">
                     <Link

@@ -5,6 +5,7 @@ import { Anchor, ArrowRight, Factory, Flame, MapPin, X } from "lucide-react";
 import Hero from "@/components/home/hero";
 import OffersTicker from "@/components/home/offers-ticker";
 import Featured from "@/components/home/featured";
+import OfertaBomba from "@/components/home/oferta-bomba";
 import OfferCard from "@/components/ui/offer-card";
 import { CATEGORIES } from "@/lib/data";
 import { supabase } from "@/lib/supabase";
@@ -83,6 +84,7 @@ export default function HomeClient({ initial }: { initial: any[] }) {
                 portada_url: o.business_portada,
                 logo_url: o.business_logo,
                 creado: o.created_at,
+                precio_prometido: !!o.precio_prometido,
               }))
           );
         }
@@ -149,6 +151,7 @@ export default function HomeClient({ initial }: { initial: any[] }) {
         stats={{ promos: ofertas.length, negocios: initial.length, pronto: porVencer }}
       />
       <OffersTicker />
+      <OfertaBomba />
 
       {/* ===== BARRA STICKY: TODO A MANO ===== */}
       <div className="sticky top-14 z-40 border-b border-white/5 bg-[#07080d]/90 backdrop-blur-xl md:top-16">

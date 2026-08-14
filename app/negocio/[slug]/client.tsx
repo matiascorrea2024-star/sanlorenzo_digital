@@ -8,6 +8,8 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
+import { track } from "@/lib/track";
+import { useToast } from "@/components/ui/toast";
 import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import BusinessMap from "@/components/business/map";
@@ -38,6 +40,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   initialResenas?: any[];
 }) {
   const { trackViewBusiness, trackClickWhatsApp, trackClickMap } = useAnalytics();
+  const { show } = useToast();
   const params = useParams();
   const router = useRouter();
   const slug = params.slug as string;
@@ -94,13 +97,14 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   const share = async () => {
     const url = window.location.href;
-    const text = `🔥 ${negocio.name} en La Gran Barata Digital\n📍 ${negocio.address || "San Lorenzo"}\n⭐ ${negocio.rating || 0} (${negocio.reviews || 0} reseñas)`;
+    const text = `🔥 ${negocio.name} en La Gran Barata Digital\n📍 ${negocio.address || "San Lorenzo"}\n⭐ ${negocio.rating || 0} (${negocio.reviews || 0} reseñas)\n\n#LaGranBarataSanLorenzo`;
     if (navigator.share) {
-      try { await navigator.share({ title: negocio.name, text, url }); } catch {}
+      try { await navigator.share({ title: negocio.name, text, url }); } catch { return; }
     } else {
       await navigator.clipboard.writeText(`${text}\n${url}`);
-      alert("¡Link copiado!");
     }
+    track(negocio.id, "share");
+    show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
   };
 
   if (loading) {
