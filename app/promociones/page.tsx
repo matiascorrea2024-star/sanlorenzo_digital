@@ -1,112 +1,121 @@
 "use client";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import PageHero from "@/components/ui/page-hero";
 import { useAllBusinesses } from "@/lib/use-businesses";
 
-const CATEGORY_IMAGES: Record<string, string> = {
-  calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=900&q=85",
-  gastronomia: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=85",
-  ferreteria: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=900&q=85",
-  belleza: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=85",
-  ropa: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=85",
-  automotor: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85",
-  profesionales: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85",
-  tecnologia: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85",
+const CAT_IMG: Record<string, string> = {
+  calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=800&q=80",
+  gastronomia: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80",
+  ferreteria: "https://images.unsplash.com/photo-1581244277943-fe4f9c777189?auto=format&fit=crop&w=800&q=80",
+  belleza: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80",
+  ropa: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=800&q=80",
 };
-const FALLBACK = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85";
+const FALLBACK = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=800&q=80";
 
-function useNow() {
-  const [now, setNow] = useState(Date.now());
+function Countdown({ expires }: { expires: string }) {
+  const [left, setLeft] = useState("…");
   useEffect(() => {
-    const t = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(t);
-  }, []);
-  return now;
-}
-
-function countdown(p: any, now: number): string | null {
-  const end = p.expires_at ? new Date(p.expires_at).getTime() : p.expires ? new Date(p.expires + "T23:59:59").getTime() : null;
-  if (!end) return null;
-  const diff = end - now;
-  if (diff <= 0) return "Terminó";
-  const d = Math.floor(diff / 86400000);
-  if (d >= 1) return `Termina en ${d} día${d > 1 ? "s" : ""}`;
-  const h = Math.floor((diff % 86400000) / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  const s = Math.floor((diff % 60000) / 1000);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `⏰ ${pad(h)}:${pad(m)}:${pad(s)}`;
+    const tick = () => {
+      const end = new Date(expires + "T23:59:59").getTime();
+      const d = end - Date.now();
+      if (d <= 0) { setLeft("Terminó"); return; }
+      const days = Math.floor(d / 86400000);
+      const h = Math.floor((d % 86400000) / 3600000);
+      const m = Math.floor((d % 3600000) / 60000);
+      const s = Math.floor((d % 60000) / 1000);
+      setLeft(days > 0
+        ? `${days}d ${h}h ${m}m`
+        : `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`);
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [expires]);
+  return (
+    <span className="inline-flex items-center gap-1 rounded-lg border border-red-400/30 bg-red-500/15 px-2 py-1 text-[11px] font-black text-red-300 tabular-nums">
+      ⏰ {left}
+    </span>
+  );
 }
 
 export default function PromocionesPage() {
   const todos = useAllBusinesses();
-  const now = useNow();
+  const hoy = new Date().toISOString().slice(0, 10);
 
-  const promos = todos.flatMap((b: any) =>
+  const activas = todos.flatMap((b: any) =>
     (Array.isArray(b.promotions) ? b.promotions : [])
-      .filter((p: any) => {
-        if (!p.title) return false;
-        if (p.expires_at) return new Date(p.expires_at).getTime() > now;
-        if (p.expires) return p.expires >= new Date(now).toISOString().slice(0, 10);
-        return true;
-      })
-      .map((p: any, i: number) => ({
-        ...p,
-        negocio: b.name,
-        slug: b.slug,
-        cat: b.category,
-        img: b.portada_url,
-        id: b.slug + "-" + i,
-      }))
+      .filter((p: any) => p.title && (!p.expires || p.expires >= hoy))
+      .map((p: any, i: number) => ({ ...p, negocio: b.name, slug: b.slug, cat: b.category, portada: b.portada_url, id: b.slug + i }))
   );
 
   return (
-    <main className="bg-[#0d0a12] text-white min-h-screen pb-24">
-      <PageHero title="🔥 Ofertas en este momento" subtitle={<>{promos.length} promociones corriendo ahora en San Lorenzo</>} />
+    <main className="min-h-screen bg-[#0d0a12] pb-24 text-white">
+      <PageHero
+        title="🔥 Ofertas en este momento"
+        subtitle={`${activas.length} promocion${activas.length === 1 ? "" : "es"} corriendo ahora en San Lorenzo`}
+      >
+        <Link href="/" className="mt-3 inline-block text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
+      </PageHero>
 
       <div className="mx-auto max-w-6xl px-4">
-        {promos.length === 0 ? (
-          <div className="text-center py-16 text-white/50">
-            <p className="text-5xl mb-4">🔥</p>
-            <p className="font-bold">No hay promociones activas en este momento</p>
-            <p className="text-sm mt-2">Los comercios suben ofertas relámpago todos los días. Volvete a meter en un rato.</p>
+        {activas.length === 0 ? (
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[.07] to-white/[.03] p-10 text-center">
+            <p className="text-6xl">🕐</p>
+            <h2 className="mt-3 text-xl font-black">No hay ofertas activas ahora</h2>
+            <p className="mt-2 text-sm text-white/60">Los negocios publican ofertas nuevas todos los días. Volvete a pasar más tarde.</p>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {promos.map((p: any) => {
-              const cd = countdown(p, now);
-              return (
-                <Link key={p.id} href={"/negocio/" + p.slug} className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:border-orange-400/60">
-                  <div className="relative h-36">
-                    <img src={p.img || CATEGORY_IMAGES[p.cat] || FALLBACK} alt={p.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                    {p.discount && (
-                      <span className="absolute left-3 top-3 rounded-lg bg-gradient-to-r from-orange-500 to-red-500 px-2.5 py-1 text-sm font-black">{p.discount}</span>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <p className="font-bold leading-snug">{p.title}</p>
-                    <p className="mt-1 text-xs text-white/50">{p.negocio}</p>
-                    <div className="mt-3 flex items-center justify-between">
-                      {cd ? (
-                        <span className={`rounded-lg px-2 py-1 text-xs font-black ${cd.includes(":") ? "bg-red-500/20 text-red-300 animate-pulse" : "bg-yellow-500/15 text-yellow-300"}`}>
-                          {cd}
-                        </span>
-                      ) : (
-                        <span className="text-xs text-white/40">Sin vencimiento</span>
+            {activas.map((p: any) => (
+              <Link
+                key={p.id}
+                href={`/negocio/${p.slug}`}
+                data-spot
+                className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[.06] to-white/[.02] transition duration-300 hover:-translate-y-1 hover:border-orange-400/40 hover:shadow-xl hover:shadow-orange-500/10"
+              >
+                <div className="relative h-36 overflow-hidden">
+                  <img
+                    src={p.image_url || p.portada || CAT_IMG[String(p.cat || "").toLowerCase()] || FALLBACK}
+                    alt={p.title}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0d0a12] via-transparent to-transparent" />
+                  {p.discount && (
+                    <span className="absolute left-3 top-3 rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-2.5 py-1 text-xs font-black text-white shadow-lg">
+                      {p.discount}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex flex-1 flex-col p-4">
+                  <h3 className="text-base font-black leading-snug transition group-hover:text-orange-300">{p.title}</h3>
+                  <p className="mt-1 text-xs capitalize text-white/50">🏪 {p.negocio} · {p.cat}</p>
+
+                  {(p.price_before || p.price_offer) && (
+                    <div className="mt-3 flex items-baseline gap-2">
+                      {p.price_before && (
+                        <span className="text-xs text-white/40 line-through">${Number(p.price_before).toLocaleString("es-AR")}</span>
                       )}
-                      <span className="text-xs font-bold text-orange-400">Ver →</span>
+                      {p.price_offer && (
+                        <span className="text-lg font-black text-emerald-300">${Number(p.price_offer).toLocaleString("es-AR")}</span>
+                      )}
                     </div>
+                  )}
+
+                  <div className="mt-auto flex items-center justify-between pt-3">
+                    {p.expires ? <Countdown expires={p.expires} /> : <span />}
+                    <span className="text-xs font-bold text-orange-400 opacity-0 transition group-hover:opacity-100">Ver →</span>
                   </div>
-                </Link>
-              );
-            })}
+                </div>
+              </Link>
+            ))}
           </div>
         )}
 
         <div className="mt-10 text-center">
-          <Link href="/ofertas-finalizadas" className="text-sm text-white/50 hover:text-orange-400">
+          <Link href="/ofertas-finalizadas" className="text-sm text-white/50 transition hover:text-orange-300">
             😢 Ver ofertas que ya terminaron →
           </Link>
         </div>
