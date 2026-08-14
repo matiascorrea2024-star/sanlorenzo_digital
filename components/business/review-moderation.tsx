@@ -2,57 +2,80 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
-export default function ReviewModeration({ businessId }: { businessId: number }) {
+export default function ReviewModeration({ businessId }: { businessId: string }) {
   const [list, setList] = useState<any[] | null>(null);
+  const [replyDraft, setReplyDraft] = useState<Record<string, string>>({});
+
   const load = async () => {
-    const { data } = await supabase().from("reviews").select("*").eq("business_id", businessId).order("created_at", { ascending: false });
+    const { data } = await supabase().from("business_reviews").select("*").eq("business_id", businessId).order("created_at", { ascending: false });
     setList(data || []);
   };
   useEffect(() => { load(); }, [businessId]);
-  const setStatus = async (id: number, status: string) => {
-    await supabase().from("reviews").update({ status }).eq("id", id);
+
+  const toggleHidden = async (id: string, hidden: boolean) => {
+    await supabase().from("business_reviews").update({ hidden: !hidden }).eq("id", id);
     load();
   };
+
+  const sendReply = async (id: string) => {
+    const reply = (replyDraft[id] || "").trim();
+    if (!reply) return;
+    await supabase().from("business_reviews").update({ reply, replied_at: new Date().toISOString() }).eq("id", id);
+    setReplyDraft((d) => ({ ...d, [id]: "" }));
+    load();
+  };
+
   if (list === null) return null;
-  const pending = list.filter((r) => r.status === "pending");
-  const approved = list.filter((r) => r.status === "approved");
+  const visibles = list.filter((r) => !r.hidden);
+  const ocultas = list.filter((r) => r.hidden);
+
   return (
-    <section className="mt-6 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6">
-      <h2 className="mb-4 font-semibold">⭐ Opiniones de clientes</h2>
-      {pending.length > 0 && (
-        <>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[var(--warn)]">Pendientes de aprobar</p>
-          <div className="grid gap-3">
-            {pending.map((r) => (
-              <div key={r.id} className="rounded-xl border border-[var(--warn)] bg-[var(--bg)] p-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold">{r.author_name}</p>
-                  <span className="text-sm text-[var(--warn)]">{"★".repeat(r.rating)}</span>
-                </div>
-                <p className="mt-1 text-sm text-[var(--muted)]">{r.comment}</p>
-                <div className="mt-3 flex gap-2">
-                  <button onClick={() => setStatus(r.id, "approved")} className="rounded-lg bg-[var(--ok)] px-3 py-1.5 text-xs font-semibold text-black">✅ Publicar</button>
-                  <button onClick={() => setStatus(r.id, "rejected")} className="rounded-lg border border-[var(--line)] px-3 py-1.5 text-xs text-[var(--bad)]">Rechazar</button>
-                </div>
+    <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+      <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-pink-300 bg-clip-text text-transparent">⭐ Reseñas de clientes</h2>
+      {list.length === 0 && <p className="text-sm text-white/50">Cuando un cliente deje una reseña, la vas a poder moderar desde acá.</p>}
+      {visibles.length > 0 && (
+        <div className="grid gap-3">
+          {visibles.map((r) => (
+            <div key={r.id} className="rounded-xl border border-white/10 bg-black/20 p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-bold">{r.reviewer_name}</p>
+                <span className="text-sm text-yellow-400">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
               </div>
-            ))}
-          </div>
-        </>
+              {r.comment && <p className="mt-1 text-sm text-white/70">{r.comment}</p>}
+              {r.reply ? (
+                <div className="mt-2 rounded-lg border-l-4 border-orange-400 bg-orange-500/10 p-2">
+                  <p className="text-[11px] font-bold text-orange-300">↳ Tu respuesta</p>
+                  <p className="text-xs text-white/70">{r.reply}</p>
+                </div>
+              ) : (
+                <div className="mt-2 flex gap-2">
+                  <input
+                    value={replyDraft[r.id] || ""}
+                    onChange={(e) => setReplyDraft((d) => ({ ...d, [r.id]: e.target.value }))}
+                    placeholder="Responder públicamente…"
+                    className="flex-1 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs outline-none focus:border-orange-400"
+                  />
+                  <button onClick={() => sendReply(r.id)} className="rounded-lg bg-orange-500/20 px-3 py-1.5 text-xs font-bold text-orange-300 hover:bg-orange-500/30">Responder</button>
+                </div>
+              )}
+              <button onClick={() => toggleHidden(r.id, r.hidden)} className="mt-2 text-xs text-white/40 hover:text-red-400">Ocultar de mi miniweb</button>
+            </div>
+          ))}
+        </div>
       )}
-      {approved.length > 0 && (
+      {ocultas.length > 0 && (
         <>
-          <p className="mb-2 mt-4 text-xs font-semibold uppercase tracking-wider text-[var(--ok)]">Publicadas</p>
+          <p className="mb-2 mt-5 text-xs font-bold uppercase tracking-wider text-white/40">Ocultas ({ocultas.length})</p>
           <div className="grid gap-2">
-            {approved.map((r) => (
-              <div key={r.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
-                <p className="text-sm">{r.author_name} · <span className="text-[var(--warn)]">{"★".repeat(r.rating)}</span></p>
-                <button onClick={() => setStatus(r.id, "pending")} className="text-xs text-[var(--muted)] hover:text-white">Ocultar</button>
+            {ocultas.map((r) => (
+              <div key={r.id} className="flex items-center justify-between rounded-xl border border-white/10 bg-black/10 p-3 opacity-60">
+                <p className="text-sm">{r.reviewer_name} · <span className="text-yellow-400">{"★".repeat(r.rating)}</span></p>
+                <button onClick={() => toggleHidden(r.id, r.hidden)} className="text-xs text-white/50 hover:text-white">Volver a mostrar</button>
               </div>
             ))}
           </div>
         </>
       )}
-      {list.length === 0 && <p className="text-sm text-[var(--muted)]">Cuando un cliente deje una opinión, la vas a aprobar desde acá.</p>}
     </section>
   );
 }

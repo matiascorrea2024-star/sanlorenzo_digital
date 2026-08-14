@@ -70,30 +70,56 @@ export default function AdminPage() {
     })();
   }, []);
 
+  // El navegador manda las cookies de sesión de Supabase automáticamente
+  // (mismo origen); el servidor las lee vía lib/supabase-server.ts, igual
+  // que ya hacen las rutas de app/api/coupons/*.
+  const authedFetch = async (url: string, method: string, body: any) => {
+    const res = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const j = await res.json().catch(() => ({}));
+      throw new Error(j.error || `Error ${res.status}`);
+    }
+    return res.json();
+  };
+
   const verificar = async (id: string) => {
-    await supabase().from("businesses").update({ status: "verificado" }).eq("id", id);
-    setPendientes(prev => prev.filter(p => p.id !== id));
+    try {
+      await authedFetch("/api/admin/businesses", "PATCH", { id, status: "verificado" });
+      setPendientes(prev => prev.filter(p => p.id !== id));
+    } catch (e: any) { alert(e.message); }
   };
 
   const rechazar = async (id: string) => {
-    await supabase().from("businesses").update({ status: "rechazado" }).eq("id", id);
-    setPendientes(prev => prev.filter(p => p.id !== id));
+    try {
+      await authedFetch("/api/admin/businesses", "PATCH", { id, status: "rechazado" });
+      setPendientes(prev => prev.filter(p => p.id !== id));
+    } catch (e: any) { alert(e.message); }
   };
 
   const borrarResena = async (id: string) => {
     if (!confirm("¿Eliminar esta reseña?")) return;
-    await supabase().from("business_reviews").delete().eq("id", id);
-    setResenas(prev => prev.filter(r => r.id !== id));
+    try {
+      await authedFetch("/api/admin/reviews", "DELETE", { id });
+      setResenas(prev => prev.filter(r => r.id !== id));
+    } catch (e: any) { alert(e.message); }
   };
 
   const resolverReporte = async (id: string) => {
-    await supabase().from("reports").update({ status: "resolved" }).eq("id", id);
-    setReportes(prev => prev.filter(r => r.id !== id));
+    try {
+      await authedFetch("/api/admin/reports", "PATCH", { id });
+      setReportes(prev => prev.filter(r => r.id !== id));
+    } catch (e: any) { alert(e.message); }
   };
 
   const toggleCiudad = async (id: string, active: boolean) => {
-    await supabase().from("locations").update({ active: !active }).eq("id", id);
-    setCiudades(prev => prev.map(c => c.id === id ? { ...c, active: !active } : c));
+    try {
+      await authedFetch("/api/admin/locations", "PATCH", { id, active: !active });
+      setCiudades(prev => prev.map(c => c.id === id ? { ...c, active: !active } : c));
+    } catch (e: any) { alert(e.message); }
   };
 
   if (loading) {
@@ -269,7 +295,7 @@ export default function AdminPage() {
                     <Flag className="h-5 w-5 shrink-0 text-red-400" />
                     <div className="flex-1">
                       <p className="font-bold">{(r as any).businesses?.name || "Negocio"} <span className="ml-2 rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-black text-red-300">{r.reason}</span></p>
-                      {r.detail && <p className="mt-1 text-sm text-white/70">"{r.detail}"</p>}
+                      {r.details && <p className="mt-1 text-sm text-white/70">&quot;{r.details}&quot;</p>}
                       <p className="mt-1 text-xs text-white/40">{new Date(r.created_at).toLocaleDateString("es-AR")}</p>
                     </div>
                     <button onClick={() => resolverReporte(r.id)}
@@ -288,7 +314,7 @@ export default function AdminPage() {
           <div className="mt-6 rounded-2xl border border-orange-400/40 bg-orange-500/10 p-6">
             <p className="font-black text-lg mb-2">📥 Cargar masiva de negocios reales</p>
             <p className="text-sm text-white/70 mb-4">
-              Subí negocios reales de San Lorenzo desde un CSV. Quedarán en estado "pendiente" para verificación.
+              Subí negocios reales de San Lorenzo desde un CSV. Quedarán en estado &quot;pendiente&quot; para verificación.
             </p>
             <a href="/admin/cargar-bulk"
               className="inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">

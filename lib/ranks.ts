@@ -67,12 +67,15 @@ export function rangoDe(puntos: number) {
   return {
     rango: actual.nombre,
     tier,
-    nivel: 1 + Math.floor(puntos),
+    // Nivel de liga (1-8, uno por cada escalón de RANGOS) -- no confundir con "puntos".
+    nivel: actual.nivel + 1,
     metal: actual.metal,
     accent: actual.accent,
     glow: actual.glow,
     particulas: actual.nivel,
     proximo: proximo?.nombre || null,
     faltan: proximo ? Math.max(0, proximo.min - puntos) : 0,
+    // % de progreso (0-100) hacia el próximo rango, para barras de progreso.
+    progreso: proximo ? Math.min(100, Math.max(0, Math.round(prog * 100))) : 100,
   };
 }

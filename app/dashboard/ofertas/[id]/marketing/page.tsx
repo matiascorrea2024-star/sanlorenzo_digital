@@ -13,10 +13,6 @@ export default function MarketingPage() {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState("");
 
-  useEffect(() => {
-    loadData();
-  }, [offerId]);
-
   const loadData = async () => {
     try {
       const { data: offerData } = await supabase()
@@ -44,6 +40,10 @@ export default function MarketingPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadData();
+  }, [offerId]);
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);

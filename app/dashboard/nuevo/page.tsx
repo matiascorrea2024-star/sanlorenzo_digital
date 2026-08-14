@@ -13,6 +13,7 @@ export default function NuevoNegocioPage() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [debug, setDebug] = useState<string[]>([]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -38,21 +39,38 @@ export default function NuevoNegocioPage() {
     { id: "tecnologia", name: "Tecnología", icon: "💻" },
   ];
 
+  const log = (msg: string) => {
+    setDebug((d) => [...d, `[${new Date().toLocaleTimeString()}] ${msg}`]);
+    console.log(`[NuevoNegocio] ${msg}`);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
+    setDebug([]);
 
     try {
-      const slug = formData.name
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "") + "-" + Date.now().toString(36);
+      log("Iniciando creación...");
 
-      const { error } = await supabase().from("businesses").insert({
-        owner_id: user?.id,
+      if (!user?.id) {
+        throw new Error("No hay usuario autenticado");
+      }
+
+      const slug =
+        formData.name
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "") +
+        "-" +
+        Date.now().toString(36);
+
+      log(`Slug generado: ${slug}`);
+
+      const payload = {
+        owner_id: user.id,
         name: formData.name,
         slug: slug,
         category: formData.category,
@@ -74,20 +92,46 @@ export default function NuevoNegocioPage() {
         views: 0,
         favorites_count: 0,
         updated_at: new Date().toISOString(),
-      });
+      };
 
-      if (error) throw error;
+      log("Insertando en Supabase...");
 
-      // Registrar actividad
-      await postActivity({
-        type: "new_business",
-        title: `🏪 Nuevo negocio: ${formData.name}`,
-        description: `Categoría: ${formData.category}`,
-      });
+      const { data, error } = await supabase()
+        .from("businesses")
+        .insert(payload)
+        .select()
+        .single();
 
+      if (error) {
+        log(`Error Supabase: ${JSON.stringify(error)}`);
+        throw error;
+      }
+
+      log(`Negocio creado: ${data?.id}`);
+
+      // Registrar actividad (no bloqueante)
+      try {
+        await postActivity({
+          type: "new_business",
+          title: `🏪 Nuevo negocio: ${formData.name}`,
+          description: `Categoría: ${formData.category}`,
+        });
+        log("Actividad registrada");
+      } catch (actErr: unknown) {
+        log(`Error registrando actividad (no crítico): ${actErr instanceof Error ? actErr.message : "desconocido"}`);
+      }
+
+      log("Redirigiendo al dashboard...");
       router.push("/dashboard");
-    } catch (err: any) {
-      setError(err.message || "Error al crear el negocio");
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : typeof err === "object" && err !== null
+          ? JSON.stringify(err)
+          : "Error desconocido";
+      setError(msg);
+      log(`ERROR FINAL: ${msg}`);
     } finally {
       setLoading(false);
     }
@@ -154,7 +198,6 @@ export default function NuevoNegocioPage() {
             />
           </div>
 
-          {/* LOCATION PICKER */}
           <LocationPicker
             address={formData.address}
             latitude={formData.latitude}
@@ -202,8 +245,22 @@ export default function NuevoNegocioPage() {
           </div>
 
           {error && (
-            <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-3">
-              <p className="text-sm text-red-300">{error}</p>
+            <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-4">
+              <p className="text-sm font-bold text-red-300 mb-2">❌ Error:</p>
+              <p className="text-sm text-red-200 break-words">{error}</p>
+            </div>
+          )}
+
+          {debug.length > 0 && (
+            <div className="rounded-xl bg-blue-500/10 border border-blue-500/30 p-4">
+              <p className="text-sm font-bold text-blue-300 mb-2">🔍 Debug:</p>
+              <div className="space-y-1 max-h-40 overflow-y-auto">
+                {debug.map((d, i) => (
+                  <p key={i} className="text-xs text-blue-200 font-mono">
+                    {d}
+                  </p>
+                ))}
+              </div>
             </div>
           )}
 

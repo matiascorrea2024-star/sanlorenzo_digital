@@ -52,26 +52,7 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
       const { data } = await supabase().from("offers_with_business")
         .select("*").eq("active", true).eq("valid_until", hoy)
         .order("created_at", { ascending: false });
-      
-      // También incluir las ofertas demo que vencen hoy
-      const { data: biz } = await supabase().from("businesses").select("*");
-      const demoHoy = (biz || []).flatMap((b: any) => 
-        (Array.isArray(b.promotions) ? b.promotions : [])
-          .filter((p: any) => p.expires === hoy)
-          .map((p: any, i: number) => ({
-            id: `demo-${b.slug}-${i}`,
-            title: p.title,
-            business_name: b.name,
-            business_slug: b.slug,
-            business_category: b.category,
-            valid_until: p.expires,
-            discount_percent: p.discount,
-            old_price: p.antes,
-            offer_price: p.ahora,
-            business_portada: b.portada_url,
-          }))
-      );
-      
+
       const reales = (data || []).map((o: any) => ({
         id: o.id, negocio: o.business_name, slug: o.business_slug,
         producto: o.title, cat: o.business_category || "",
@@ -80,8 +61,8 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
         ahora: o.offer_price ? Number(o.offer_price) : undefined,
         portada_url: o.business_portada,
       }));
-      
-      setOfertas([...reales, ...demoHoy]);
+
+      setOfertas(reales);
       setLoading(false);
     })();
   }, []);

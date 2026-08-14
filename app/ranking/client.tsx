@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Trophy, Star, Flame, Eye, Heart, TrendingUp, Activity, Rocket, Crown, Zap } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { nivelDe, progresoDe, proximoNivel } from "@/lib/levels";
+import { rangoDe } from "@/lib/ranks";
 import { calcReputation, reputationLabel } from "@/lib/reputation";
 import Avatar from "@/components/ui/avatar";
 import RankedAvatar from "@/components/ui/ranked-avatar";
@@ -36,10 +36,13 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
       const desde7 = new Date(Date.now() - 7 * 86400000).toISOString();
       const desde14 = new Date(Date.now() - 14 * 86400000).toISOString();
 
-      const [ligas, views, favs, posts] = await Promise.all([
+      const [ligas, views, favBiz, posts] = await Promise.all([
         supabase().from("business_leagues").select("*"),
         supabase().from("page_views").select("business_id, viewed_at"),
-        supabase().from("favorites").select("item_id").eq("item_type", "business"),
+        // Conteo agregado de favoritos: se lee de businesses.favorites_count
+        // (mantenido por trigger), no de un SELECT abierto sobre favorites
+        // -- esa tabla es privada por diseño (RLS: solo tus propios favoritos).
+        supabase().from("businesses").select("id, favorites_count"),
         supabase().from("muro_posts").select("business_id"),
       ]);
 
@@ -52,7 +55,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
         else if (v.viewed_at >= desde14) prevWeekCount[v.business_id] = (prevWeekCount[v.business_id] || 0) + 1;
       });
       const favCount: Record<string, number> = {};
-      (favs.data || []).forEach((f: any) => { favCount[f.item_id] = (favCount[f.item_id] || 0) + 1; });
+      (favBiz.data || []).forEach((b: any) => { favCount[b.id] = b.favorites_count || 0; });
       const postCount: Record<string, number> = {};
       (posts.data || []).forEach((p: any) => { postCount[p.business_id] = (postCount[p.business_id] || 0) + 1; });
 
@@ -183,9 +186,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
           {loading ? (
             <p className="text-white/50">Cargando ranking...</p>
           ) : sorted.map((r, i) => {
-            const nivel = nivelDe(r.puntos);
-            const prog = progresoDe(r.puntos);
-            const prox = proximoNivel(r.puntos);
+            const rango = rangoDe(r.puntos);
             const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
             return (
               <Link key={r.id} href={`/negocio/${r.slug}`}
@@ -210,7 +211,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                       {r.category} · ⭐ {r.rating.toFixed(1)} · 🔥 {r.ofertas} · 👀 {r.vistas} · ❤️ {r.favs} · 📰 {r.posts}
                     </p>
                     <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-orange-500 to-pink-500" style={{ width: `${prog}%` }} />
+                      <div className="h-full bg-gradient-to-r from-orange-500 to-pink-500" style={{ width: `${rango.progreso}%` }} />
                     </div>
                   </div>
                   <div className="text-right">
@@ -228,17 +229,20 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                       </>
                     ) : (
                       <>
-                        <span className="rounded-full border border-orange-400/40 bg-orange-500/10 px-3 py-1 text-xs font-black text-orange-300">
-                          {nivel.icon} {nivel.nombre}
+                        <span
+                          className="rounded-full border px-3 py-1 text-xs font-black"
+                          style={{ borderColor: `${rango.accent}66`, background: `${rango.accent}1a`, color: rango.accent }}
+                        >
+                          {rango.rango}{rango.tier ? ` ${rango.tier}` : ""}
                         </span>
                         <p className="mt-1 text-[11px] text-white/50">{r.puntos} pts</p>
                       </>
                     )}
                   </div>
                 </div>
-                {prox && tab === "ligas" && (
+                {rango.proximo && tab === "ligas" && (
                   <p className="mt-2 text-[11px] text-white/40">
-                    Faltan {prox.min - r.puntos} pts para {prox.icon} {prox.nombre}
+                    Faltan {rango.faltan} pts para {rango.proximo}
                   </p>
                 )}
               </Link>

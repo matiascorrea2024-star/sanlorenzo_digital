@@ -173,7 +173,7 @@ export default function CargarBulkPage() {
         )}
 
         <p className="mt-6 text-center text-xs text-white/40">
-          Los negocios cargados quedan en estado "pendiente" y se verifican desde /admin.
+          Los negocios cargados quedan en estado &quot;pendiente&quot; y se verifican desde /admin.
         </p>
       </div>
     </main>

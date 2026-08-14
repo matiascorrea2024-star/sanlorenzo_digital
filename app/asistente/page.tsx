@@ -6,7 +6,7 @@ import { parseIntent, intentSummary } from "@/lib/intent-parser";
 import { useAllBusinesses } from "@/lib/use-businesses";
 import { useGeoLocation } from "@/lib/hooks/use-geo";
 import { calcDistanceKm, fmtDistance } from "@/lib/geo";
-import { BUSINESSES as demoBusinesses } from "@/lib/data";
+import { supabase } from "@/lib/supabase";
 import Badge from "@/components/ui/badge";
 import OfferCard from "@/components/ui/offer-card";
 
@@ -26,23 +26,31 @@ export default function AsistentePage() {
   const intent = useMemo(() => parseIntent(q), [q]);
   const chips = q.trim().length > 2 ? intentSummary(intent) : [];
 
-  // Ofertas demo + reales combinadas
-  const ofertas: Oferta[] = useMemo(() => {
-    const hoyStr = new Date().toISOString().slice(0, 10);
-    return (demoBusinesses || []).flatMap((b: any) =>
-      (Array.isArray(b.promotions) ? b.promotions : [])
-        .filter((p: any) => p.title && (!p.expires || p.expires >= hoyStr))
-        .map((p: any, i: number) => ({
-          id: `demo-${b.slug}-${i}`,
-          negocio: b.name, slug: b.slug, producto: p.title, cat: b.category,
-          vence: p.expires, descuento: p.discount,
-          antes: p.antes ? Number(p.antes) : undefined,
-          ahora: p.ahora ? Number(p.ahora) : undefined,
-          portada_url: b.portada_url,
-          latitude: b.latitude ? Number(b.latitude) : undefined,
-          longitude: b.longitude ? Number(b.longitude) : undefined,
-        }))
-    );
+  // Ofertas reales activas (Supabase)
+  const [ofertas, setOfertas] = useState<Oferta[]>([]);
+  useEffect(() => {
+    (async () => {
+      const hoy = new Date().toISOString().slice(0, 10);
+      const { data } = await supabase()
+        .from("offers_with_business")
+        .select("*")
+        .eq("active", true)
+        .order("created_at", { ascending: false })
+        .limit(200);
+      const reales: Oferta[] = (data || [])
+        .filter((o: any) => !o.valid_until || o.valid_until >= hoy)
+        .map((o: any) => ({
+          id: o.id, negocio: o.business_name, slug: o.business_slug,
+          producto: o.title, cat: o.business_category || "",
+          vence: o.valid_until, descuento: o.discount_percent,
+          antes: o.old_price ? Number(o.old_price) : undefined,
+          ahora: o.offer_price ? Number(o.offer_price) : undefined,
+          portada_url: o.business_portada,
+          latitude: o.business_latitude ? Number(o.business_latitude) : undefined,
+          longitude: o.business_longitude ? Number(o.business_longitude) : undefined,
+        }));
+      setOfertas(reales);
+    })();
   }, []);
 
   // Filtrar negocios por intención
@@ -101,7 +109,7 @@ export default function AsistentePage() {
           <Badge variant="warning" size="sm"><Sparkles className="h-3 w-3" /> Asistente local</Badge>
           <h1 className="mt-3 text-3xl font-black md:text-5xl">¿Qué estás buscando?</h1>
           <p className="mt-2 text-white/60">
-            Escribí como se lo dirías a un amigo: "zapatillas menos de 50000 cerca mío"
+            Escribí como se lo dirías a un amigo: &quot;zapatillas menos de 50000 cerca mío&quot;
           </p>
         </div>
 

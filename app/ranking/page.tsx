@@ -1,21 +1,24 @@
-import { Metadata } from "next";
 import { createClient } from "@/lib/supabase-server";
-import RankingClient from "./client";
+import RankingPage from "./client";
+import RankingSwitch from "@/components/ui/ranking-switch";
 
-export const metadata: Metadata = {
-  title: "Ranking de negocios de San Lorenzo | La Gran Barata Digital",
-  description: "Descubrí negocios, ofertas y oportunidades de San Lorenzo, Santa Fe.",
-  alternates: { canonical: "https://sanlorenzodigital.vercel.app/ranking" },
-};
+export const revalidate = 60;
 
 export default async function Page() {
   const sb = await createClient();
   const { data } = await sb
-    .from("business_leagues")
-    .select("id, name, slug, category, rating, puntos, seguidores, ofertas, status")
-    .order("puntos", { ascending: false })
-    .limit(50);
-  const initial = data || [];
+    .from("businesses")
+    .select("*")
+    .in("status", ["verificado", "reclamado"])
+    .eq("activo", true)
+    .limit(300);
 
-  return <RankingClient initial={initial} />;
+  return (
+    <>
+      <div className="mx-auto max-w-6xl px-4 pt-6">
+        <RankingSwitch current="negocios" />
+      </div>
+      <RankingPage initial={data || []} />
+    </>
+  );
 }

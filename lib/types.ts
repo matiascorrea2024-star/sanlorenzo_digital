@@ -2,19 +2,18 @@
 // TIPOS TYPESCRIPT PARA SUPABASE
 // ============================================
 
-export type UserRole = 'user' | 'business_owner' | 'admin';
+export type UserRole = 'user' | 'admin';
 
+// Coincide con la tabla real "user_profiles". El puntaje/nivel del vecino
+// se calcula en el cliente a partir de la actividad real (ver app/perfil),
+// no se persiste como columna.
 export interface UserProfile {
-  id: string;
-  email: string;
-  role: UserRole;
+  user_id: string;
   display_name?: string;
   avatar_url?: string;
-  xp: number;
-  level: number;
-  division?: string;
+  role: UserRole;
   created_at: string;
-  updated_at: string;
+  last_seen_at?: string;
 }
 
 export interface Business {
@@ -150,11 +149,6 @@ export interface Metric {
 // TIPOS COMPUESTOS PARA LA APP
 // ============================================
 
-export interface FullBusiness extends Business {
-  offers?: Offer[];
-  items_list?: Item[];
-  media?: BusinessMedia[];
-}
 
 export interface OfferCard {
   id: string;
@@ -176,4 +170,24 @@ export interface Category {
   id: string;
   name: string;
   icon: string;
+}
+export interface FullBusiness extends Business {
+  offers?: Offer[];
+  items_list?: Item[];
+  media?: BusinessMedia[];
+  location_source?: "auto" | "manual" | "error";
+  location_verified?: boolean;
+  location_updated_at?: string;
+  promotions?: any[];
+  portada_url?: string;
+  logo_url?: string;
+  destacado?: boolean;
+  plan?: string;
+  views?: number;
+  favorites_count?: number;
+  phone?: string;
+  email?: string;
+  website?: string;
+  cover_url?: string;
+  professionals?: string[];
 }

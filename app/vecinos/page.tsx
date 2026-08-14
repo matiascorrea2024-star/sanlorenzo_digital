@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import PageHero from "@/components/ui/page-hero";
-import OnlineBadge from "@/components/ui/online-badge";
 import { supabase } from "@/lib/supabase";
+import RankingSwitch from "@/components/ui/ranking-switch";
 
 const icono = (p: number) => (p >= 600 ? "👑" : p >= 300 ? "🔎" : p >= 150 ? "🧭" : p >= 50 ? "🚶" : "🌱");
 const medalla = (i: number) => (i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`);
@@ -54,46 +53,58 @@ export default function VecinosPage() {
   }, []);
 
   return (
-    <main className="bg-[#0d0a12] text-white min-h-screen pb-24">
-      <PageHero title="👥 Ranking de vecinos" subtitle="Los vecinos más activos de San Lorenzo. ¿Llegás al podio?" />
+    <main className="min-h-screen bg-[#0d0a12] pb-24 text-white">
+      <div className="mx-auto max-w-4xl px-4 py-8">
+        <RankingSwitch current="vecinos" />
 
-      {miRank && (
-        <div className="mx-auto max-w-3xl px-4 mb-6">
-          <div className="rounded-2xl border border-orange-400/50 bg-orange-500/10 p-4 text-center">
-            <p className="text-sm font-black text-orange-300">📍 Vas {miRank.puesto}º de {miRank.total} vecinos · {miRank.puntos} puntos</p>
-            <p className="text-xs text-white/50 mt-1">Seguí sumando para aparecer en el podio 👆</p>
+        <h1 className="mt-6 text-3xl font-black">👥 Ranking de vecinos</h1>
+        <p className="mt-1 text-sm text-white/60">Los vecinos más activos de San Lorenzo. ¿Llegás al podio?</p>
+
+        {miRank && (
+          <div className="mt-6 rounded-2xl border border-orange-400/30 bg-orange-500/10 p-4 text-center">
+            <p className="text-sm font-black text-orange-300">
+              📍 Vas {miRank.puesto}º de {miRank.total} vecinos · {miRank.puntos} puntos
+            </p>
+            <p className="mt-1 text-xs text-white/60">Seguí sumando para aparecer en el podio 👇</p>
           </div>
-        </div>
-      )}
+        )}
 
-      <div className="mx-auto max-w-3xl px-4">
-        {loading ? (
-          <p className="text-center text-white/50 py-16">Cargando vecinos…</p>
-        ) : (
-          <div className="grid gap-3">
-            {vecinos.map((v, i) => (
-              <div key={v.id} className={`rounded-2xl border p-4 flex items-center gap-4 ${i === 0 ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-white/5"}`}>
-                <span className="w-10 text-center text-2xl font-black">{medalla(i)}</span>
+        <div className="mt-6 space-y-3">
+          {loading && <p className="text-center text-white/50">Cargando vecinos...</p>}
+          {!loading &&
+            vecinos.map((v, i) => (
+              <div key={v.id} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[.04] p-4">
+                <span className="w-10 text-center text-xl font-black">{medalla(i)}</span>
+                <span className="text-2xl">{icono(v.puntos)}</span>
                 <div className="flex-1">
-                  <p className="font-bold">{icono(v.puntos)} {v.nombre}</p>
+                  <p className="font-bold capitalize">{v.nombre}</p>
                   <p className="text-xs text-white/50">Vecino de San Lorenzo</p>
                 </div>
                 <div className="text-right">
                   <p className="text-xl font-black text-orange-400">{v.puntos}</p>
-                  <p className="text-[10px] uppercase text-white/40">puntos</p>
+                  <p className="text-[10px] uppercase tracking-wider text-white/40">puntos</p>
                 </div>
               </div>
             ))}
-            {vecinos.length === 0 && (
-              <p className="text-center text-white/50 py-16">Todavía no hay vecinos activos. ¡Sé el primero!</p>
-            )}
-          </div>
-        )}
+          {!loading && vecinos.length === 0 && (
+            <div className="rounded-2xl border border-white/10 bg-white/[.03] p-10 text-center">
+              <p className="text-lg font-bold">Todavía no hay vecinos en el ranking</p>
+              <p className="mt-1 text-sm text-white/50">
+                Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas para sumar puntos.
+              </p>
+              <Link href="/promociones" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black">
+                Ver ofertas →
+              </Link>
+            </div>
+          )}
+        </div>
 
-        <div className="mt-10 rounded-3xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-8 text-center">
-          <h2 className="text-xl font-black">🎖 ¿Cómo se sube?</h2>
-          <p className="mt-2 text-sm text-white/60">Visitá negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas.</p>
-          <Link href="/perfil" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+        <div className="mt-8 rounded-2xl border border-white/10 bg-white/[.03] p-6 text-center">
+          <p className="font-black">🎖 ¿Cómo se sube?</p>
+          <p className="mt-1 text-sm text-white/60">
+            Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas.
+          </p>
+          <Link href="/perfil" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black">
             Ver mis misiones →
           </Link>
         </div>

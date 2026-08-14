@@ -74,7 +74,7 @@ export default function AdminVisits() {
             {visibles.length === 0 ? (
               <tr>
                 <td colSpan={3} className="px-4 py-6 text-center text-xs text-white/40">
-                  Todavía no hay visitas. Tocá "Simular 5 visitas" para ver datos de ejemplo.
+                  Todavía no hay visitas. Tocá &quot;Simular 5 visitas&quot; para ver datos de ejemplo.
                 </td>
               </tr>
             ) : (

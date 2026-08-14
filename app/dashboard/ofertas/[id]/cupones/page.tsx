@@ -14,10 +14,6 @@ export default function CuponesPage() {
   const [validateCode, setValidateCode] = useState("");
   const [validationResult, setValidationResult] = useState<any>(null);
 
-  useEffect(() => {
-    loadData();
-  }, [offerId]);
-
   const loadData = async () => {
     try {
       const { data: offerData } = await supabase()
@@ -45,6 +41,10 @@ export default function CuponesPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadData();
+  }, [offerId]);
 
   const validateCoupon = async () => {
     try {

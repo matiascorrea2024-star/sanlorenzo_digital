@@ -12,12 +12,6 @@ export default function OfertasPage() {
   const [businesses, setBusinesses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user) {
-      loadData();
-    }
-  }, [user]);
-
   const loadData = async () => {
     try {
       // Cargar negocios del usuario
@@ -47,6 +41,12 @@ export default function OfertasPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      loadData();
+    }
+  }, [user]);
 
   const toggleOffer = async (offerId: string, active: boolean) => {
     try {

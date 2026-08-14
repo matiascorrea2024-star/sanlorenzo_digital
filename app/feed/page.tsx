@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import PageHero from "@/components/ui/page-hero";
 import { Heart, Flame, Sparkles, PartyPopper, Store, Package, Megaphone, Share2, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAllBusinesses } from "@/lib/use-businesses";
-import { BUSINESSES as demoBusinesses } from "@/lib/data";
 import Avatar from "@/components/ui/avatar";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 import Badge from "@/components/ui/badge";
@@ -27,60 +27,59 @@ function timeAgo(d: string) {
 }
 
 export default function MuroPage() {
+  const router = useRouter();
   const negocios = useAllBusinesses();
   const [posts, setPosts] = useState<any[]>([]);
   const [filtro, setFiltro] = useState<string>("todos");
   const [liked, setLiked] = useState<Record<string, boolean>>({});
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    try {
-      const l = JSON.parse(localStorage.getItem("sld-muro-likes") || "{}");
-      setLiked(l);
-    } catch {}
     (async () => {
+      const { data: { user } } = await supabase().auth.getUser();
+      setUser(user);
+
       const { data } = await supabase().from("muro_posts")
         .select("*").order("created_at", { ascending: false }).limit(50);
       setPosts(data || []);
+
+      if (user && data && data.length) {
+        const { data: misLikes } = await supabase().from("muro_post_likes")
+          .select("post_id").eq("user_id", user.id).in("post_id", data.map((p: any) => p.id));
+        const l: Record<string, boolean> = {};
+        (misLikes || []).forEach((r: any) => { l[r.post_id] = true; });
+        setLiked(l);
+      }
     })();
   }, []);
 
-  // Posts automáticos desde promos demo (para que el muro tenga vida desde el día 1)
-  const demoPosts = (demoBusinesses || []).flatMap((b: any) =>
-    (Array.isArray(b.promotions) ? b.promotions : [])
-      .filter((p: any) => p.title)
-      .map((p: any, i: number) => ({
-        id: `demo-${b.slug}-${i}`,
-        business_id: b.id,
-        business_name: b.name,
-        business_slug: b.slug,
-        type: "oferta",
-        title: p.title,
-        body: p.discount ? `Con ${p.discount}% de descuento. ¡Aprovechá antes de que se acabe!` : null,
-        image_url: b.portada_url,
-        likes: 0,
-        created_at: new Date(Date.now() - (i + 2) * 3600000).toISOString(),
-        auto: true,
-      }))
-  );
-
-  // Combinar reales + demo, con nombre del negocio
-  const todos = [...posts.map(p => ({
+  // Posts reales, con nombre del negocio
+  const todos = posts.map(p => ({
     ...p,
     business_name: (negocios.find((b: any) => b.id === p.business_id) as any)?.name || "Negocio",
     business_slug: (negocios.find((b: any) => b.id === p.business_id) as any)?.slug || "",
-  })), ...demoPosts]
+  }))
     .filter(p => filtro === "todos" || p.type === filtro)
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     .slice(0, 20);
 
-  const like = (id: string) => {
+  const like = async (id: string) => {
+    if (!user) { router.push("/login"); return; }
     const isLiked = !!liked[id];
-    const nuevo = { ...liked, [id]: !isLiked };
-    delete nuevo[id === id && isLiked ? id : "__none__"];
-    if (isLiked) delete nuevo[id];
-    setLiked(nuevo);
-    try { localStorage.setItem("sld-muro-likes", JSON.stringify(nuevo)); } catch {}
+    // Update optimista
+    setLiked((prev) => ({ ...prev, [id]: !isLiked }));
     setPosts(prev => prev.map(p => p.id === id ? { ...p, likes: Math.max(0, (p.likes || 0) + (isLiked ? -1 : 1)) } : p));
+
+    const sb = supabase();
+    const { error } = isLiked
+      ? await sb.from("muro_post_likes").delete().eq("post_id", id).eq("user_id", user.id)
+      : await sb.from("muro_post_likes").insert({ post_id: id, user_id: user.id });
+
+    if (error) {
+      // Revertir si falla
+      setLiked((prev) => ({ ...prev, [id]: isLiked }));
+      setPosts(prev => prev.map(p => p.id === id ? { ...p, likes: Math.max(0, (p.likes || 0) + (isLiked ? 1 : -1)) } : p));
+    }
   };
 
   return (
@@ -154,7 +153,7 @@ export default function MuroPage() {
                   <button onClick={() => like(p.id)}
                     className={`flex items-center gap-1.5 text-sm font-bold transition ${isLiked ? "text-red-400" : "text-white/60 hover:text-red-400"}`}>
                     <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
-                    {(p.likes || 0) + (isLiked && !p.auto ? 0 : 0)}
+                    {p.likes || 0}
                   </button>
                   <Link href={`/negocio/${p.business_slug}`}
                     className="flex items-center gap-1 text-sm font-bold text-white/60 hover:text-orange-400">

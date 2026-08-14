@@ -14,12 +14,19 @@ export default function ReportButton({ businessId, businessName }: {
   const [detalle, setDetalle] = useState("");
   const [sent, setSent] = useState(false);
 
+  const [error, setError] = useState("");
+
   const send = async () => {
-    await supabase().from("reports").insert({
+    setError("");
+    const { data: { user } } = await supabase().auth.getUser();
+    if (!user) { window.location.href = "/login"; return; }
+    const { error: err } = await supabase().from("reports").insert({
       business_id: businessId,
+      user_id: user.id,
       reason: motivo,
-      detail: detalle || null,
+      details: detalle || null,
     });
+    if (err) { setError("No se pudo enviar el reporte. Probá de nuevo."); return; }
     setSent(true);
   };
 
@@ -58,6 +65,7 @@ export default function ReportButton({ businessId, businessName }: {
       <textarea value={detalle} onChange={(e) => setDetalle(e.target.value)} rows={2}
         placeholder="Contanos qué está mal (opcional)"
         className="w-full rounded-lg border border-white/15 bg-black/40 p-2 text-xs outline-none" />
+      {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
       <div className="mt-2 flex gap-2">
         <button onClick={send}
           className="rounded-lg bg-red-500/20 px-4 py-2 text-xs font-bold text-red-300 hover:bg-red-500/30">

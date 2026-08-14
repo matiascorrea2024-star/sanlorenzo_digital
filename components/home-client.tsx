@@ -1,11 +1,9 @@
 "use client";
-
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { Anchor, ArrowRight, Factory, Flame, MapPin } from "lucide-react";
+import { Anchor, ArrowRight, Factory, Flame, MapPin, X } from "lucide-react";
 import Hero from "@/components/home/hero";
 import OffersTicker from "@/components/home/offers-ticker";
-import Categories from "@/components/home/categories";
 import Featured from "@/components/home/featured";
 import OfferCard from "@/components/ui/offer-card";
 import { CATEGORIES } from "@/lib/data";
@@ -24,16 +22,31 @@ type Oferta = {
   real?: boolean;
   portada_url?: string;
   logo_url?: string;
+  creado?: string;
 };
+
+const daysTo = (date: string) => {
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  return Math.round((new Date(date + "T00:00:00").getTime() - hoy.getTime()) / 86400000);
+};
+
+const chip = (active: boolean) =>
+  `shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-bold transition ${
+    active
+      ? "border-orange-400/60 bg-gradient-to-r from-orange-500/25 to-pink-500/25 text-white shadow-[0_0_20px_rgba(249,115,22,.2)]"
+      : "border-white/10 bg-white/[.03] text-white/60 hover:border-white/25 hover:text-white"
+  }`;
 
 export default function HomeClient({ initial }: { initial: any[] }) {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<string | null>(null);
+  const [offerFilter, setOfferFilter] = useState<"todas" | "hoy" | "50" | "nuevas">("todas");
   const [ofertas, setOfertas] = useState<Oferta[]>([]);
-  const [cargandoOfertas, setCargandoOfertas] = useState(true);
+  const [cargando, setCargando] = useState(true);
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
+  const ofertasRef = useRef<HTMLElement>(null);
 
-  // Geolocalización para mostrar distancias en las tarjetas
   useEffect(() => {
     if (!("geolocation" in navigator)) return;
     navigator.geolocation.getCurrentPosition(
@@ -43,7 +56,6 @@ export default function HomeClient({ initial }: { initial: any[] }) {
     );
   }, []);
 
-  // LA GRAN BARATA: ofertas reales desde Supabase
   useEffect(() => {
     (async () => {
       try {
@@ -51,122 +63,164 @@ export default function HomeClient({ initial }: { initial: any[] }) {
           .from("offers_with_business")
           .select("*")
           .order("created_at", { ascending: false })
-          .limit(50);
+          .limit(100);
         if (data) {
           const hoy = new Date().toISOString().slice(0, 10);
-          const reales: Oferta[] = (data as any[])
-            .filter((o) => o.active && (!o.valid_until || o.valid_until >= hoy))
-            .map((o) => ({
-              id: o.id,
-              negocio: o.business_name,
-              slug: o.business_slug,
-              producto: o.title,
-              cat: o.business_category || "",
-              vence: o.valid_until,
-              descuento: o.discount_percent ? Number(o.discount_percent) : undefined,
-              antes: o.old_price ? Number(o.old_price) : undefined,
-              ahora: o.offer_price ? Number(o.offer_price) : undefined,
-              real: true,
-              portada_url: o.business_portada,
-              logo_url: o.business_logo,
-            }));
-          setOfertas(reales);
+          setOfertas(
+            (data as any[])
+              .filter((o) => o.active && (!o.valid_until || o.valid_until >= hoy))
+              .map((o) => ({
+                id: o.id,
+                negocio: o.business_name,
+                slug: o.business_slug,
+                producto: o.title,
+                cat: o.business_category || "",
+                vence: o.valid_until,
+                descuento: o.discount_percent ? Number(o.discount_percent) : undefined,
+                antes: o.old_price ? Number(o.old_price) : undefined,
+                ahora: o.offer_price ? Number(o.offer_price) : undefined,
+                real: true,
+                portada_url: o.business_portada,
+                logo_url: o.business_logo,
+                creado: o.created_at,
+              }))
+          );
         }
       } catch (e) {
         console.error("No se pudieron cargar ofertas:", e);
       } finally {
-        setCargandoOfertas(false);
+        setCargando(false);
       }
     })();
   }, []);
 
-  const list = useMemo(() => {
+  // "Apretás y lo tenés ahí": scroll suave hasta los resultados
+  const irAOfertas = () => {
+    requestAnimationFrame(() => {
+      ofertasRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
+  const aplicarCat = (id: string | null) => {
+    setCat(id);
+    irAOfertas();
+  };
+
+  const aplicarFiltro = (f: "todas" | "hoy" | "50" | "nuevas") => {
+    setOfferFilter(f);
+    irAOfertas();
+  };
+
+  // Snapshot de "ahora" tomado una sola vez al montar (lazy initializer
+  // de useState, no dentro de un useMemo -- Date.now() ahí no es puro).
+  const [ahora] = useState(() => Date.now());
+
+  const filteredOffers = useMemo(() => {
+    const t = q.trim().toLowerCase();
+    return ofertas.filter((o) => {
+      const okCat = !cat || o.cat === cat;
+      const hay = `${o.producto} ${o.negocio} ${o.cat}`.toLowerCase();
+      const okQ = !t || hay.includes(t);
+      let okF = true;
+      if (offerFilter === "hoy") okF = !!o.vence && daysTo(o.vence) <= 0;
+      if (offerFilter === "50") okF = (o.descuento || 0) >= 50;
+      if (offerFilter === "nuevas") okF = !!o.creado && (ahora - new Date(o.creado).getTime()) / 86400000 <= 7;
+      return okCat && okQ && okF;
+    });
+  }, [ofertas, cat, q, offerFilter, ahora]);
+
+  const filteredBusinesses = useMemo(() => {
     const t = q.trim().toLowerCase();
     return initial.filter((b: any) => {
       const okCat = !cat || b.category === cat;
-      const hay = [
-        b.name,
-        b.category,
-        b.description,
-        ...(b.tags || []),
-        ...(b.items || []).map((i: any) => i.name),
-      ]
-        .join(" ")
-        .toLowerCase();
+      const hay = [b.name, b.category, b.description, ...(b.tags || []), ...(b.items || []).map((i: any) => i.name)].join(" ").toLowerCase();
       return okCat && (!t || hay.includes(t));
     });
-  }, [q, cat]);
+  }, [initial, cat, q]);
 
-  const searching = !!q.trim() || !!cat;
   const catName = CATEGORIES.find((c) => c.id === cat)?.name;
-
-  const porVencer = ofertas.filter((o) => {
-    if (!o.vence) return false;
-    const d = Math.round((new Date(o.vence + "T23:59:59").getTime() - Date.now()) / 86400000);
-    return d <= 3;
-  }).length;
-
-  const heroStats = {
-    promos: ofertas.length,
-    negocios: initial.length,
-    pronto: porVencer,
-  };
+  const buscando = !!q.trim() || !!cat;
+  const porVencer = ofertas.filter((o) => o.vence && daysTo(o.vence) <= 3).length;
 
   return (
     <main>
       <Hero
-        onSearch={(v: string) => {
-          setQ(v);
-          setCat(null);
-        }}
-        stats={heroStats}
+        onSearch={(v: string) => { setQ(v); setCat(null); irAOfertas(); }}
+        stats={{ promos: ofertas.length, negocios: initial.length, pronto: porVencer }}
       />
       <OffersTicker />
-      <Categories
-        active={cat}
-        onSelect={(id: string) => {
-          setCat(id);
-          setQ("");
-        }}
-      />
 
-      {/* ===== LA GRAN BARATA ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+      {/* ===== BARRA STICKY: TODO A MANO ===== */}
+      <div className="sticky top-14 z-40 border-b border-white/5 bg-[#07080d]/90 backdrop-blur-xl md:top-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="sld-no-scrollbar flex items-center gap-2 overflow-x-auto py-3">
+            <button onClick={() => aplicarCat(null)} className={chip(!cat)}>🛍️ Todo</button>
+            {CATEGORIES.map((c) => (
+              <button key={c.id} onClick={() => aplicarCat(c.id)} className={chip(cat === c.id)}>
+                {c.icon} {c.name}
+              </button>
+            ))}
+            <span className="mx-1 h-5 w-px shrink-0 bg-white/10" />
+            <button onClick={() => aplicarFiltro("todas")} className={chip(offerFilter === "todas")}>✨ Todas</button>
+            <button onClick={() => aplicarFiltro("hoy")} className={chip(offerFilter === "hoy")}>🔥 Terminan hoy</button>
+            <button onClick={() => aplicarFiltro("50")} className={chip(offerFilter === "50")}>💸 50%+ OFF</button>
+            <button onClick={() => aplicarFiltro("nuevas")} className={chip(offerFilter === "nuevas")}>🆕 Nuevas</button>
+          </div>
+        </div>
+      </div>
+
+      {/* ===== LA GRAN BARATA (protagonista) ===== */}
+      <section ref={ofertasRef} id="ofertas" className="mx-auto max-w-7xl scroll-mt-32 px-4 pt-8 sm:px-6">
+        <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-xs font-bold uppercase tracking-[.2em] text-orange-300">🔥 La Gran Barata</p>
-            <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl" style={{ fontFamily: "var(--font-space)" }}>
-              Ofertas reales, comercios reales.
+            <h2 className="mt-1 text-2xl font-black tracking-tight sm:text-3xl" style={{ fontFamily: "var(--font-space)" }}>
+              {buscando
+                ? `Ofertas${catName ? ` de ${catName}` : ""}${q ? ` para “${q}”` : ""}`
+                : "Ofertas reales, ahora mismo."}
             </h2>
+            <p className="mt-1 text-xs text-[var(--muted)]">
+              {cargando ? "Cargando ofertas..." : `${filteredOffers.length} ${filteredOffers.length === 1 ? "oferta activa" : "ofertas activas"} · publicadas por comercios de San Lorenzo`}
+            </p>
           </div>
-          <Link href="/promociones" className="inline-flex items-center gap-1 rounded-xl border border-white/10 px-4 py-2.5 text-sm font-semibold hover:border-orange-300/40">
-            Ver todas <ArrowRight className="h-4 w-4" />
-          </Link>
+          <div className="flex items-center gap-2">
+            {buscando && (
+              <button
+                onClick={() => { setQ(""); setCat(null); setOfferFilter("todas"); }}
+                className="flex items-center gap-1 rounded-full border border-white/10 px-3 py-1.5 text-xs font-bold text-white/60 hover:border-white/25 hover:text-white"
+              >
+                <X className="h-3 w-3" /> Limpiar
+              </button>
+            )}
+            <Link href="/promociones" className="flex items-center gap-1 rounded-full border border-orange-400/30 bg-orange-500/10 px-3.5 py-1.5 text-xs font-bold text-orange-300 hover:bg-orange-500/20">
+              Ver todas <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
         </div>
 
-        {cargandoOfertas ? (
+        {cargando ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="h-72 animate-pulse rounded-2xl border border-white/10 bg-white/5" />
             ))}
           </div>
-        ) : ofertas.length > 0 ? (
+        ) : filteredOffers.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {ofertas.slice(0, 8).map((o) => (
+            {filteredOffers.slice(0, 12).map((o) => (
               <OfferCard key={o.id} o={o} userCoords={coords} />
             ))}
           </div>
         ) : (
           <div className="sld-card rounded-3xl p-10 text-center">
             <Flame className="mx-auto h-8 w-8 text-orange-400" />
-            <p className="mt-3 text-lg font-bold">Por ahora no hay ofertas activas</p>
+            <p className="mt-3 text-lg font-bold">No hay ofertas con este filtro</p>
             <p className="mt-1 text-sm text-[var(--muted)]">
-              Cuando los comercios publiquen promos en la Gran Barata, aparecen acá al instante.
+              Los comercios publican promos todo el tiempo. Probá otro filtro o volvé en un rato.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Link href="/promociones" className="rounded-xl bg-white px-5 py-3 text-sm font-bold text-black">
-                Ver promociones
-              </Link>
+              <button onClick={() => { setQ(""); setCat(null); setOfferFilter("todas"); }} className="rounded-xl bg-white px-5 py-3 text-sm font-bold text-black">
+                Ver todas las ofertas
+              </button>
               <Link href="/dashboard/ofertas/nueva" className="rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold hover:bg-white/[.04]">
                 Soy comercio: publicar oferta
               </Link>
@@ -175,132 +229,67 @@ export default function HomeClient({ initial }: { initial: any[] }) {
         )}
       </section>
 
-      <Featured
-        list={list}
-        title={
-          searching
-            ? "Resultados" + (catName ? " · " + catName : "") + (q ? " · “" + q + "”" : "")
-            : "Negocios destacados"
-        }
-      />
+      {/* ===== NEGOCIOS (filtrados por el mismo rubro) ===== */}
+      <div className="pt-10">
+        <Featured
+          list={filteredBusinesses}
+          title={buscando ? `Negocios${catName ? ` de ${catName}` : ""}${q ? ` para “${q}”` : ""}` : "Negocios destacados"}
+        />
+      </div>
 
-      {/* ===== ECOSISTEMA INDUSTRIAL Y PORTUARIO ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
-        <div className="grid gap-4 md:grid-cols-2">
-          <Link href="/b2b" className="sld-card group rounded-3xl p-7 transition hover:border-indigo-300/40">
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/15">
-                <Factory className="h-6 w-6 text-indigo-300" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-black">Industria y B2B</h3>
-                <p className="text-sm text-[var(--muted)]">Proveedores, servicios y empresas del cordón industrial.</p>
-              </div>
-              <ArrowRight className="h-5 w-5 text-indigo-300 transition group-hover:translate-x-1" />
-            </div>
-          </Link>
-          <Link href="/portuario" className="sld-card group rounded-3xl p-7 transition hover:border-cyan-300/40">
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/15">
-                <Anchor className="h-6 w-6 text-cyan-300" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-black">Corredor portuario</h3>
-                <p className="text-sm text-[var(--muted)]">Terminales, logística fluvial y comercio exterior.</p>
-              </div>
-              <ArrowRight className="h-5 w-5 text-cyan-300 transition group-hover:translate-x-1" />
-            </div>
-          </Link>
-        </div>
-      </section>
-
-      {/* ===== CIUDADES ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
-        <div className="mb-4">
-          <p className="text-xs font-bold uppercase tracking-[.2em] text-[var(--accent2)]">🏙️ Ciudades</p>
-          <h2 className="mt-2 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Explorá por ciudad</h2>
-        </div>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <Link href="/san-lorenzo" className="sld-card rounded-2xl p-5 transition hover:border-orange-300/60">
-            <p className="flex items-center gap-2 font-black">
-              <MapPin className="h-4 w-4 text-orange-300" /> San Lorenzo
-            </p>
-            <p className="mt-1 text-xs text-[var(--muted)]">{initial.length} negocios activos</p>
-          </Link>
-          <div className="sld-card rounded-2xl p-5 opacity-50">
-            <p className="font-bold">Puerto San Martín</p>
-            <p className="mt-1 text-xs text-[var(--muted)]">Próximamente</p>
-          </div>
-          <div className="sld-card rounded-2xl p-5 opacity-50">
-            <p className="font-bold">Rosario</p>
-            <p className="mt-1 text-xs text-[var(--muted)]">Próximamente</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== LO QUE ESTÁ PASANDO + CERCA TUYO ===== */}
+      {/* ===== BANDA COMPACTA: mapa + industria + puerto ===== */}
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <div className="grid gap-4 lg:grid-cols-[1.35fr_.65fr]">
-          <div className="sld-card overflow-hidden rounded-3xl p-7 sm:p-10">
-            <div className="max-w-2xl">
-              <p className="text-xs font-bold uppercase tracking-[.2em] text-amber-300">🔥 Lo que está pasando</p>
-              <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl" style={{ fontFamily: "var(--font-space)" }}>
-                Promos, novedades y oportunidades locales.
-              </h2>
-              <p className="mt-4 max-w-xl text-sm leading-6 text-[var(--muted)]">
-                La plataforma está pensada para que el comercio local tenga presencia digital real y para que vos encuentres opciones cerca sin perder tiempo.
-              </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <a href="/negocios" className="rounded-xl bg-white px-5 py-3 text-sm font-bold text-black">Explorar negocios</a>
-                <a href="/mapa" className="rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold hover:bg-white/[.04]">Ver mapa</a>
+        <div className="grid gap-4 md:grid-cols-3">
+          <Link href="/mapa" className="sld-card group rounded-3xl p-6 transition hover:border-cyan-300/40">
+            <div className="flex items-center gap-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-500/15">
+                <MapPin className="h-5 w-5 text-cyan-300" />
               </div>
+              <div className="flex-1">
+                <h3 className="font-black">Mapa de la ciudad</h3>
+                <p className="text-xs text-[var(--muted)]">Negocios cerca tuyo, en tiempo real.</p>
+              </div>
+              <ArrowRight className="h-4 w-4 text-cyan-300 transition group-hover:translate-x-1" />
             </div>
-          </div>
-          <div className="sld-card rounded-3xl p-7">
-            <p className="text-xs font-bold uppercase tracking-[.2em] text-cyan-300">📍 Cerca tuyo</p>
-            <h3 className="mt-2 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Todo conectado al mapa.</h3>
-            <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-              Ubicaciones, cómo llegar y negocios de tu zona en una experiencia simple.
-            </p>
-            <a href="/mapa" className="mt-6 inline-flex rounded-xl border border-white/10 px-4 py-2.5 text-sm font-semibold hover:border-cyan-300/30">
-              Abrir mapa →
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CÓMO FUNCIONA ===== */}
-      <section id="como" className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-bold uppercase tracking-[.2em] text-[var(--accent2)]">Simple</p>
-          <h2 className="mt-2 text-3xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Encontrar. Comparar. Contactar.</h2>
-        </div>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {[
-            ["01", "Buscás", "Escribís qué necesitás y filtrás por categoría."],
-            ["02", "Descubrís", "Mirás perfiles, horarios, productos, ubicación y reseñas."],
-            ["03", "Contactás", "WhatsApp, Instagram, llamada o cómo llegar, directo."],
-          ].map(([n, t, d]) => (
-            <div key={n} className="sld-card rounded-2xl p-6">
-              <span className="text-xs font-black text-violet-300">{n}</span>
-              <h3 className="mt-8 text-xl font-bold">{t}</h3>
-              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{d}</p>
+          </Link>
+          <Link href="/b2b" className="sld-card group rounded-3xl p-6 transition hover:border-indigo-300/40">
+            <div className="flex items-center gap-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/15">
+                <Factory className="h-5 w-5 text-indigo-300" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-black">Industria y B2B</h3>
+                <p className="text-xs text-[var(--muted)]">El cordón industrial, en un solo lugar.</p>
+              </div>
+              <ArrowRight className="h-4 w-4 text-indigo-300 transition group-hover:translate-x-1" />
             </div>
-          ))}
+          </Link>
+          <Link href="/portuario" className="sld-card group rounded-3xl p-6 transition hover:border-cyan-300/40">
+            <div className="flex items-center gap-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-500/15">
+                <Anchor className="h-5 w-5 text-cyan-300" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-black">Corredor portuario</h3>
+                <p className="text-xs text-[var(--muted)]">Terminales, logística y comercio exterior.</p>
+              </div>
+              <ArrowRight className="h-4 w-4 text-cyan-300 transition group-hover:translate-x-1" />
+            </div>
+          </Link>
         </div>
       </section>
 
       {/* ===== CTA COMERCIOS ===== */}
-      <section id="sumate" className="mx-auto max-w-7xl pb-20 sm:px-6 px-4">
+      <section id="sumate" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
         <div className="relative overflow-hidden rounded-3xl border border-violet-400/20 bg-gradient-to-br from-violet-600/20 via-[#12111d] to-cyan-400/10 p-8 sm:p-12">
           <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-violet-500/20 blur-3xl" />
           <div className="relative max-w-2xl">
             <p className="text-xs font-bold uppercase tracking-[.2em] text-violet-300">Para comercios</p>
             <h2 className="mt-3 text-3xl font-black sm:text-4xl" style={{ fontFamily: "var(--font-space)" }}>
-              Tu negocio también merece una presencia digital de verdad.
+              Publicá tu oferta y aparecé en La Gran Barata.
             </h2>
             <p className="mt-4 text-sm leading-6 text-[var(--muted)]">
-              Miniweb, catálogo, promociones, ubicación, contacto y estadísticas. Todo en un mismo lugar y sin tener que saber programar.
+              Los vecinos entran todos los días a cazar ofertas. Publicá la tuya en 2 minutos, sin saber programar, y medí cuántos la ven.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href="/dashboard/nuevo" className="rounded-xl bg-white px-5 py-3 text-sm font-bold text-black">Crear mi negocio</a>

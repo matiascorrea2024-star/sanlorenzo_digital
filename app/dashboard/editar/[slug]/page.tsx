@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { PLATFORM_WHATSAPP, PLAN_PREMIUM_PRICE } from "@/lib/config";
+import { PLAN_PREMIUM_PRICE } from "@/lib/config";
+import { usePlatformSetting } from "@/lib/hooks/use-platform-settings";
 import LevelBadge from "@/components/business/level-badge";
 import ImageUploader from "@/components/upload/image-uploader";
 import ReviewModeration from "@/components/business/review-moderation";
@@ -11,6 +12,7 @@ type Item = { name: string; price?: string; note?: string; photo?: string };
 
 export default function Editar() {
   const { slug } = useParams();
+  const platformWhatsapp = usePlatformSetting("whatsapp_contacto");
   const [b, setB] = useState<any>(null);
   const [denied, setDenied] = useState(false);
   const [form, setForm] = useState<any>(null);
@@ -86,20 +88,23 @@ export default function Editar() {
 
   const save = async () => {
     setSaving(true); setMsg("");
-    const sb = supabase();
-    const { data: { user } } = await sb.auth.getUser();
-    const { error } = await sb.from("businesses")
-      .update({
-        ...form,
-        latitude: form.latitude ? parseFloat(form.latitude) : null,
-        longitude: form.longitude ? parseFloat(form.longitude) : null,
-        portada_url: form.portada_url || null,
-        logo_url: form.logo_url || null,
-        items, promotions: promos, updated_at: new Date().toISOString()
-      })
-      .eq("slug", slug)
+    try {
+      const res = await fetch(`/api/business/${slug}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          portada_url: form.portada_url || null,
+          logo_url: form.logo_url || null,
+          items, promotions: promos,
+        }),
+      });
+      const j = await res.json();
+      setMsg(res.ok ? "✅ Guardado. Tu miniweb ya está actualizada." : "❌ " + j.error);
+    } catch {
+      setMsg("❌ No se pudo guardar. Probá de nuevo.");
+    }
     setSaving(false);
-    setMsg(error ? "❌ " + error.message : "✅ Guardado. Tu miniweb ya está actualizada.");
   };
 
   if (denied) return (
@@ -279,13 +284,23 @@ export default function Editar() {
                 <li>📊 Estadísticas completas de visitas</li>
                 <li> Prioridad en el directorio y el mapa</li>
               </ul>
-              <a
-                href={`https://wa.me/${PLATFORM_WHATSAPP}?text=${encodeURIComponent("¡Hola! Quiero el Plan Premium para mi negocio: " + b.name)}`}
-                target="_blank"
-                className="inline-block rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 px-5 py-2.5 text-sm font-black text-black hover:opacity-90"
-              >
-                💬 Pedir Premium por WhatsApp
-              </a>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="/dashboard/planes"
+                  className="inline-block rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 px-5 py-2.5 text-sm font-black text-black hover:opacity-90"
+                >
+                  ⭐ Activar Premium
+                </a>
+                {platformWhatsapp && (
+                  <a
+                    href={`https://wa.me/${platformWhatsapp}?text=${encodeURIComponent("¡Hola! Tengo una duda sobre el Plan Premium para mi negocio: " + b.name)}`}
+                    target="_blank"
+                    className="inline-block rounded-xl border border-white/20 px-5 py-2.5 text-sm font-bold text-white/80 hover:bg-white/10"
+                  >
+                    💬 Consultar por WhatsApp
+                  </a>
+                )}
+              </div>
             </>
           )}
         </section>
@@ -293,7 +308,7 @@ export default function Editar() {
         {/* 📊 Estadísticas */}
         {stats && (
           <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
-            <div className="mb-4"><LevelBadge businessId={String(b.id)} verificado={b.status === "verificado"} /></div>
+            <div className="mb-4"><LevelBadge slug={b.slug} /></div>
             <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-pink-300 bg-clip-text text-transparent">📊 Estadísticas de tu negocio (últimos 7 días)</h2>
             <div className="grid grid-cols-2 gap-4 mb-5">
               <div className="rounded-xl bg-black/20 p-4 text-center">

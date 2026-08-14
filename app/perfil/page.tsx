@@ -4,6 +4,8 @@ import Link from "next/link";
 import PageHero from "@/components/ui/page-hero";
 import OnlineBadge from "@/components/ui/online-badge";
 import { supabase } from "@/lib/supabase";
+import ChangePassword from "@/components/profile/change-password";
+import PlatformWhatsappSetting from "@/components/profile/platform-whatsapp-setting";
 
 const NIVELES_USUARIO = [
   { min: 0, nombre: "Novato del barrio", icon: "🌱" },
@@ -29,6 +31,7 @@ const MEDALLAS: { icon: string; nombre: string; desc: string; cond: (s: Stats) =
 
 export default function PerfilPage() {
   const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [seguidos, setSeguidos] = useState<any[]>([]);
   const [stats, setStats] = useState<Stats>({ seg: 0, res: 0, vis: 0, cats: 0, wa: 0, sh: 0 });
   const [cargando, setCargando] = useState(true);
@@ -42,6 +45,8 @@ export default function PerfilPage() {
       const { data: { user } } = await sb.auth.getUser();
       setUser(user);
       if (user) {
+        const { data: prof } = await sb.from("user_profiles").select("role").eq("user_id", user.id).maybeSingle();
+        setIsAdmin(prof?.role === "admin");
         const { data: fol } = await sb
           .from("followers").select("business_id, businesses(name, slug)")
           .eq("user_id", user.id);
@@ -157,6 +162,12 @@ export default function PerfilPage() {
             <p className="text-2xl">🏪</p>
             <p className="mt-1 text-xs font-bold">Mis negocios</p>
           </Link>
+        </div>
+
+        <h2 className="mt-8 mb-3 text-xl font-black">⚙️ Cuenta</h2>
+        <div className="space-y-3">
+          <ChangePassword email={user.email} />
+          {isAdmin && <PlatformWhatsappSetting />}
         </div>
 
         <h2 className="mt-8 mb-3 text-xl font-black">📊 Tu actividad</h2>

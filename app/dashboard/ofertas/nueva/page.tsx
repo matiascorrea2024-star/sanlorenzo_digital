@@ -20,19 +20,25 @@ export default function NuevaOferta() {
   const [expires, setExpires] = useState("");
   const [image, setImage] = useState("");
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     (async () => {
       const sb = supabase();
       const { data: { user } } = await sb.auth.getUser();
       if (!user) { router.push("/login"); return; }
+
       const { data: prof } = await sb.from("user_profiles").select("role").eq("user_id", user.id).maybeSingle();
-      const q = sb.from("businesses").select("id, name, promotions").order("name");
+
+      const q = sb.from("businesses").select("id, name").order("name");
       if (prof?.role !== "admin") q.eq("owner_id", user.id);
-      const { data } = await q;
+      const { data, error } = await q;
+      if (error) { setError(error.message); return; }
+
       const list = (data || []).filter((n: any) => n.name);
       setNegocios(list);
-      if (list.length) setBiz(list[0].id);
+      if (list.length === 0) setError("No tenés negocios creados. Primero creá un negocio.");
+      else setBiz(list[0].id);
     })();
   }, []);
 
@@ -42,49 +48,29 @@ export default function NuevaOferta() {
       : 0;
 
   const publicar = async () => {
-    if (!biz || !title.trim() || !expires) {
-      show("Completá negocio, título y fecha de vencimiento", "error");
-      return;
-    }
+    setError("");
+
+    if (!biz) { setError("Seleccioná un negocio"); return; }
+    if (!title.trim()) { setError("Completá el título"); return; }
+    if (!expires) { setError("Completá la fecha de vencimiento"); return; }
+
     setSaving(true);
     const sb = supabase();
-    const neg = negocios.find((n) => n.id === biz);
 
-    const promo: any = {
+    const { error: e } = await sb.from("offers").insert({
+      business_id: biz,
       title: title.trim(),
-      product: product.trim() || undefined,
-      price_before: priceBefore ? Number(priceBefore) : undefined,
-      price_offer: priceOffer ? Number(priceOffer) : undefined,
-      discount: desc > 0 ? `-${desc}%` : undefined,
-      expires,
-      image_url: image.trim() || undefined,
-      created_at: new Date().toISOString(),
-    };
-
-    // 1) Vitrina: append a businesses.promotions (lo que ve todo el mundo)
-    const { error: e1 } = await sb
-      .from("businesses")
-      .update({ promotions: [...(neg?.promotions || []), promo] })
-      .eq("id", biz);
-
-    // 2) Tabla offers (radar / detalle) — best effort, no bloquea
-    try {
-      await sb.from("offers").insert({
-        business_id: biz,
-        title: promo.title,
-        description: promo.product || null,
-        expires_at: expires,
-        image_url: promo.image_url || null,
-      });
-    } catch (e) {
-      console.warn("offers:", e);
-    }
+      product: product.trim() || null,
+      old_price: priceBefore ? Number(priceBefore) : null,
+      offer_price: priceOffer ? Number(priceOffer) : null,
+      discount_percent: desc > 0 ? desc : null,
+      valid_until: expires,
+      image_url: image.trim() || null,
+      active: true,
+    });
 
     setSaving(false);
-    if (e1) {
-      show("❌ " + e1.message, "error");
-      return;
-    }
+    if (e) { setError(e.message); return; }
     show("🔥 Oferta publicada en toda la plataforma", "success");
     setTimeout(() => router.push("/dashboard/ofertas"), 900);
   };
@@ -97,14 +83,20 @@ export default function NuevaOferta() {
         <p className="mt-1 text-sm text-white/60">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
 
         <div className="mt-8 space-y-5 rounded-3xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
-          <div>
-            <span className={lbl}>Negocio *</span>
-            <select className={inp} value={biz} onChange={(e) => setBiz(e.target.value)}>
-              {negocios.map((n) => (
-                <option key={n.id} value={n.id}>{n.name}</option>
-              ))}
-            </select>
-          </div>
+          {negocios.length === 0 ? (
+            <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/30 p-4">
+              <p className="text-sm text-yellow-300">⚠️ No tenés negocios creados. <Link href="/dashboard/nuevo" className="underline font-bold">Crear uno ahora →</Link></p>
+            </div>
+          ) : (
+            <div>
+              <span className={lbl}>Negocio *</span>
+              <select className={inp} value={biz} onChange={(e) => setBiz(e.target.value)}>
+                {negocios.map((n) => (
+                  <option key={n.id} value={n.id}>{n.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div>
             <span className={lbl}>Título de la oferta *</span>
@@ -144,9 +136,15 @@ export default function NuevaOferta() {
             <input className={inp} value={image} onChange={(e) => setImage(e.target.value)} placeholder="https://…" />
           </div>
 
+          {error && (
+            <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-4">
+              <p className="text-sm font-bold text-red-300">❌ {error}</p>
+            </div>
+          )}
+
           <button
             onClick={publicar}
-            disabled={saving}
+            disabled={saving || negocios.length === 0}
             className="btn-shine w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50"
           >
             {saving ? "⏳ Publicando…" : "🔥 Publicar Oferta"}

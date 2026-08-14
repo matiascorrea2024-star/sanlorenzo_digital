@@ -30,13 +30,14 @@ export default function PlanesDashboard() {
     if (!negocio) return;
     setSaving(plan);
     // Activar nuevo plan + registrar suscripción (sin pago todavía)
-    await supabase().from("businesses").update({ plan }).eq("id", negocio.id);
+    const destacado = plan === "premium";
+    await supabase().from("businesses").update({ plan, destacado }).eq("id", negocio.id);
     await supabase().from("subscriptions").insert({
       business_id: negocio.id,
       plan,
       status: "active",
     });
-    setNegocio({ ...negocio, plan });
+    setNegocio({ ...negocio, plan, destacado });
     setSaving(null);
   };
 

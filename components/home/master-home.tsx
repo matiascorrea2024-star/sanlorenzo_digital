@@ -44,25 +44,6 @@ type Oferta = {
 };
 
 
-// Fechas dinámicas (nunca expiran)
-const en = (dias: number): string => {
-  const d = new Date();
-  d.setDate(d.getDate() + dias);
-  return d.toISOString().slice(0, 10);
-};
-
-// Ofertas demo GARANTIZADAS (siempre visibles, fechas relativas a hoy)
-const OFERTAS_DEMO: Oferta[] = [
-  { id: "demo-1", negocio: "Almendra Calzados", slug: "almendra-calzados", producto: "Sandalias de taco ART 06", cat: "calzado", vence: en(3), descuento: 29, antes: 45000, ahora: 32000 },
-  { id: "demo-2", negocio: "Café La Esquina", slug: "cafe-la-esquina", producto: "2x1 en latte", cat: "gastronomia", vence: en(0), descuento: 50, antes: 7600, ahora: 3800 },
-  { id: "demo-3", negocio: "Ferretería San Martín", slug: "ferreteria-san-martin", producto: "Taladro percutor", cat: "ferreteria", vence: en(5), descuento: 20, antes: 58000, ahora: 46400 },
-  { id: "demo-4", negocio: "Barbería Centro", slug: "barberia-centro", producto: "Corte + barba", cat: "belleza", vence: en(1), descuento: 20, antes: 11000, ahora: 8800 },
-  { id: "demo-5", negocio: "Almendra Calzados", slug: "almendra-calzados", producto: "Zapatillas urbanas 2x1", cat: "calzado", vence: en(0), descuento: 50, antes: 60000, ahora: 30000 },
-  { id: "demo-6", negocio: "Café La Esquina", slug: "cafe-la-esquina", producto: "Combo familiar -25%", cat: "gastronomia", vence: en(4), descuento: 25, antes: 18000, ahora: 13500 },
-  { id: "demo-7", negocio: "Barbería Centro", slug: "barberia-centro", producto: "Manicuría + pedicuría", cat: "belleza", vence: en(2), descuento: 30, antes: 15000, ahora: 10500 },
-  { id: "demo-8", negocio: "Ferretería San Martín", slug: "ferreteria-san-martin", producto: "Kit de herramientas -35%", cat: "ferreteria", vence: en(6), descuento: 35, antes: 42000, ahora: 27300 },
-];
-
 export default function MasterHome() {
   const router = useRouter();
   const [ofertasReales, setOfertasReales] = useState<Oferta[]>([]);
@@ -114,27 +95,21 @@ export default function MasterHome() {
     })();
   }, []);
 
-  // Combinar ofertas reales (Supabase) + ofertas demo garantizadas
-  const ofertas = useMemo(() => {
-    const reales: Oferta[] = ofertasReales || [];
-    const demo: Oferta[] = OFERTAS_DEMO;
-    return [...reales, ...demo];
-  }, [ofertasReales]);
+  const ofertas = ofertasReales;
 
-
-  // Recomendaciones basadas en búsquedas recientes + favoritos (localStorage)
+  // Recomendaciones basadas en búsquedas recientes (localStorage), sobre ofertas reales
   const recomendaciones = useMemo(() => {
     try {
       const recent: string[] = JSON.parse(localStorage.getItem("sld-recent") || "[]");
       if (!recent.length) return [];
       const term = recent[0].toLowerCase();
-      return OFERTAS_DEMO.filter(o =>
+      return ofertas.filter(o =>
         o.producto.toLowerCase().includes(term) || o.cat.includes(term) || o.negocio.toLowerCase().includes(term)
       ).slice(0, 4);
     } catch {
       return [];
     }
-  }, []);
+  }, [ofertas]);
 
 
   // Ofertas urgentes: vencen hoy o mañana, o con descuento alto

@@ -12,23 +12,27 @@ export default function BusinessStats() {
   useEffect(() => {
     (async () => {
       if (!user) { setLoading(false); return; }
-      const { data: biz } = await supabase().from("businesses").select("id").eq("owner_id", user.id);
+      const { data: biz } = await supabase().from("businesses").select("id, favorites_count").eq("owner_id", user.id);
       if (!biz || !biz.length) { setLoading(false); return; }
       const ids = biz.map(b => b.id);
       const desde = new Date(Date.now() - 7 * 86400000).toISOString();
 
-      const [v7, vt, fo, fa, re, co] = await Promise.all([
+      // Favoritos: se suma businesses.favorites_count (mantenido por trigger),
+      // no un count sobre "favorites" -- esa tabla es privada por RLS
+      // (cada usuario solo puede leer sus propios favoritos).
+      const favsTotal = biz.reduce((acc, b: any) => acc + (b.favorites_count || 0), 0);
+
+      const [v7, vt, fo, re, co] = await Promise.all([
         supabase().from("page_views").select("*", { count: "exact", head: true }).in("business_id", ids).gte("viewed_at", desde),
         supabase().from("page_views").select("*", { count: "exact", head: true }).in("business_id", ids),
         supabase().from("followers").select("*", { count: "exact", head: true }).in("business_id", ids),
-        supabase().from("favorites").select("*", { count: "exact", head: true }).eq("item_type", "business").in("item_id", ids),
         supabase().from("business_reviews").select("*", { count: "exact", head: true }).in("business_id", ids),
         supabase().from("coupons").select("*", { count: "exact", head: true }).in("business_id", ids),
       ]);
 
       setS({
         views7: v7.count || 0, viewsTotal: vt.count || 0,
-        followers: fo.count || 0, favs: fa.count || 0,
+        followers: fo.count || 0, favs: favsTotal,
         revs: re.count || 0, coupons: co.count || 0,
       });
       setLoading(false);

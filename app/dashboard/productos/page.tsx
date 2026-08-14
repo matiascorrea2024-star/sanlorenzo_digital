@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
-import { Package, Plus, Edit, Trash2 } from "lucide-react";
+import { Package, Plus, Edit, Trash2, Star } from "lucide-react";
+import ImageUploader from "@/components/upload/image-uploader";
+
+const emptyForm = () => ({
+  name: "", description: "", price: "", old_price: "", category: "", stock: "",
+  image: "", featured: false, imageId: crypto.randomUUID(),
+});
 
 export default function ProductosPage() {
   const { user } = useAuth();
@@ -11,7 +17,7 @@ export default function ProductosPage() {
   const [productos, setProductos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<any>(null);
-  const [form, setForm] = useState({ name: "", description: "", price: "", old_price: "", category: "", stock: "" });
+  const [form, setForm] = useState(emptyForm);
 
   useEffect(() => {
     (async () => {
@@ -20,12 +26,20 @@ export default function ProductosPage() {
       if (biz) {
         setNegocio(biz);
         const { data: prods } = await supabase().from("products")
-          .select("*").eq("business_id", biz.id).order("created_at", { ascending: false });
+          .select("*").eq("business_id", biz.id)
+          .order("featured", { ascending: false }).order("created_at", { ascending: false });
         setProductos(prods || []);
       }
       setLoading(false);
     })();
   }, [user]);
+
+  const reload = async () => {
+    const { data: prods } = await supabase().from("products")
+      .select("*").eq("business_id", negocio.id)
+      .order("featured", { ascending: false }).order("created_at", { ascending: false });
+    setProductos(prods || []);
+  };
 
   const save = async () => {
     if (!negocio || !form.name || !form.price) return;
@@ -37,16 +51,16 @@ export default function ProductosPage() {
       old_price: form.old_price ? Number(form.old_price) : null,
       category: form.category || null,
       stock: form.stock ? Number(form.stock) : null,
+      images: form.image ? [form.image] : [],
+      featured: form.featured,
     };
     if (editing) {
       await supabase().from("products").update(data).eq("id", editing.id);
     } else {
       await supabase().from("products").insert(data);
     }
-    const { data: prods } = await supabase().from("products")
-      .select("*").eq("business_id", negocio.id).order("created_at", { ascending: false });
-    setProductos(prods || []);
-    setForm({ name: "", description: "", price: "", old_price: "", category: "", stock: "" });
+    await reload();
+    setForm(emptyForm());
     setEditing(null);
   };
 
@@ -59,6 +73,9 @@ export default function ProductosPage() {
       old_price: p.old_price ? String(p.old_price) : "",
       category: p.category || "",
       stock: p.stock ? String(p.stock) : "",
+      image: Array.isArray(p.images) && p.images[0] ? p.images[0] : "",
+      featured: !!p.featured,
+      imageId: p.id,
     });
   };
 
@@ -97,6 +114,13 @@ export default function ProductosPage() {
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
           <h2 className="text-lg font-black mb-4">{editing ? "✏️ Editar producto" : "➕ Nuevo producto"}</h2>
           <div className="space-y-3">
+            <ImageUploader
+              value={form.image}
+              onChange={(url) => setForm({ ...form, image: url })}
+              businessId={String(negocio.id)}
+              itemId={form.imageId}
+              previewClass="h-40 w-full rounded-xl"
+            />
             <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Nombre del producto *" className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -113,13 +137,17 @@ export default function ProductosPage() {
               <input value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })}
                 placeholder="Stock (opcional)" type="number" className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
+            <label className="flex items-center gap-2 text-sm text-white/80">
+              <input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} />
+              <Star className="h-4 w-4 text-yellow-400" /> Destacar este producto (aparece primero en el catálogo)
+            </label>
             <div className="flex gap-2">
               <button onClick={save} disabled={!form.name || !form.price}
                 className="flex-1 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black disabled:opacity-50">
                 {editing ? "Guardar cambios" : "Crear producto"}
               </button>
               {editing && (
-                <button onClick={() => { setEditing(null); setForm({ name: "", description: "", price: "", old_price: "", category: "", stock: "" }); }}
+                <button onClick={() => { setEditing(null); setForm(emptyForm()); }}
                   className="rounded-xl border border-white/20 px-4 py-2.5 text-sm font-bold">Cancelar</button>
               )}
             </div>
@@ -135,11 +163,18 @@ export default function ProductosPage() {
           ) : (
             productos.map(p => (
               <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-500/20">
-                  <Package className="h-6 w-6 text-orange-400" />
-                </div>
+                {Array.isArray(p.images) && p.images[0] ? (
+                  <img src={p.images[0]} alt={p.name} className="h-12 w-12 rounded-xl object-cover" />
+                ) : (
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-500/20">
+                    <Package className="h-6 w-6 text-orange-400" />
+                  </div>
+                )}
                 <div className="flex-1">
-                  <p className="font-bold">{p.name}</p>
+                  <p className="font-bold flex items-center gap-1.5">
+                    {p.name}
+                    {p.featured && <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />}
+                  </p>
                   <p className="text-xs text-white/50">{p.category || "Sin categoría"} · Stock: {p.stock ?? "—"}</p>
                   <p className="text-sm font-black text-orange-400">${Number(p.price).toLocaleString("es-AR")}</p>
                 </div>

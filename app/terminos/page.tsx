@@ -52,7 +52,7 @@ export default function TerminosPage() {
 
           <section>
             <h2 className="text-lg font-black text-orange-400 mb-2">5. Propiedad intelectual</h2>
-            <p>El diseño, código y marca "La Gran Barata Digital" son propiedad de la plataforma. Los comercios mantienen la propiedad de sus logos, fotos y contenido publicado.</p>
+            <p>El diseño, código y marca &quot;La Gran Barata Digital&quot; son propiedad de la plataforma. Los comercios mantienen la propiedad de sus logos, fotos y contenido publicado.</p>
           </section>
 
           <section>

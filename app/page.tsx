@@ -8,7 +8,8 @@ export default async function Page() {
   const { data } = await sb
     .from("businesses")
     .select("id, name, slug, category, description, tags, items, latitude, longitude, address, whatsapp, instagram, portada_url, logo_url, plan, status, open, promotions, destacado")
-    .eq("status", "verificado")
+    .in("status", ["verificado", "reclamado"])
+    .eq("activo", true)
     .order("destacado", { ascending: false })
     .limit(200);
   return <HomeClient initial={data || []} />;

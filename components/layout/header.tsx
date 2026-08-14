@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { ShoppingBag } from "lucide-react";
 import NotificationBell from "@/components/layout/notification-bell";
 import AuthButton from "./auth-button";
 import { supabase } from "@/lib/supabase";
@@ -41,9 +42,6 @@ export default function Header() {
     router.refresh();
   };
 
-  const linkCls = (href: string) =>
-    `text-sm font-semibold transition ${pathname === href ? "text-orange-400" : "text-white/70 hover:text-white"}`;
-
   const navItems = [
     { href: "/negocios", label: "Negocios" },
     { href: "/promociones", label: "Ofertas" },
@@ -53,21 +51,35 @@ export default function Header() {
   ];
 
   return (
-    <header className={`sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300 ${scrolled ? "border-white/10 bg-[#0d0a12]/95 shadow-lg shadow-black/40" : "border-transparent bg-[#0d0a12]/70"}`}>
-      <div className="mx-auto max-w-7xl px-4">
-        <div className={`flex items-center justify-between gap-4 transition-all duration-300 ${scrolled ? "h-14" : "h-16"}`}>
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <span className="text-xl md:text-2xl">🛍️</span>
+    <header className={`sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300 relative h-14 md:h-16 ${scrolled ? "border-white/10 bg-[#0d0a12]/95 shadow-lg shadow-black/40" : "border-transparent bg-[#0d0a12]/70"}`}>
+      <div className="mx-auto max-w-7xl px-4 h-full">
+        <div className="flex h-full items-center justify-between gap-4">
+          <Link href="/" className="group flex shrink-0 items-center gap-2.5">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-pink-600 shadow-lg shadow-orange-500/25 transition group-hover:shadow-orange-500/45 group-hover:brightness-110">
+              <ShoppingBag className="h-5 w-5 text-white" />
+            </span>
             <span className="leading-tight">
-              <span className="block text-sm md:text-base font-black tracking-tight text-white">LA GRAN BARATA</span>
+              <span className="block text-sm font-black tracking-tight text-white md:text-base">LA GRAN BARATA</span>
               <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-orange-400">Digital · San Lorenzo</span>
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-5 md:flex">
-            {navItems.map((it) => (
-              <Link key={it.href} href={it.href} className={linkCls(it.href)}>{it.label}</Link>
-            ))}
+          <nav className="hidden items-center gap-6 md:flex">
+            {navItems.map((it) => {
+              const active = pathname === it.href;
+              return (
+                <Link
+                  key={it.href}
+                  href={it.href}
+                  className={`relative text-sm font-semibold transition ${active ? "text-white" : "text-white/60 hover:text-white"}`}
+                >
+                  {it.label}
+                  {active && (
+                    <span className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(249,115,22,.9)]" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="flex items-center gap-2">
@@ -77,7 +89,8 @@ export default function Header() {
               <div className="relative" ref={menuRef}>
                 <button
                   onClick={() => setOpen(!open)}
-                  className="flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white transition hover:scale-105"
+                  aria-label="Menú de usuario"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white transition hover:scale-105 md:h-9 md:w-9"
                 >
                   {(user.email || "?")[0].toUpperCase()}
                 </button>
@@ -111,6 +124,10 @@ export default function Header() {
           </div>
         </div>
       </div>
+
+      <div
+        className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent transition-opacity duration-300 ${scrolled ? "opacity-100" : "opacity-0"}`}
+      />
     </header>
   );
 }
