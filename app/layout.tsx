@@ -11,6 +11,7 @@ import ScrollReveal from "@/components/ui/scroll-reveal";
 import { ToastProvider } from "@/components/ui/toast";
 import HeartbeatActivator from "@/components/heartbeat-activator";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import OnboardingOverlay from "@/components/onboarding/onboarding-overlay";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <FloatingAssistant />
       <Spotlight />
       <ScrollReveal />
+      <OnboardingOverlay />
         </AuthProvider>
       </ToastProvider>
       <InstallApp />

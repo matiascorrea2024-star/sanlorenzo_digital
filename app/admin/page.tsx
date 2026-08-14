@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
@@ -20,9 +20,10 @@ const TABS = [
 
 export default function AdminPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState("user");
-  const [tab, setTab] = useState("overview");
+  const [tab, setTab] = useState(searchParams.get("tab") || "overview");
   const [stats, setStats] = useState<any>({});
   const [pendientes, setPendientes] = useState<any[]>([]);
   const [resenas, setResenas] = useState<any[]>([]);

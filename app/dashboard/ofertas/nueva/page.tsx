@@ -1,15 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/toast";
+import ImageUploader from "@/components/upload/image-uploader";
 
 const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
 
 export default function NuevaOferta() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const bienvenida = searchParams.get("bienvenida") === "1";
+  const bizFromUrl = searchParams.get("biz");
   const { show } = useToast();
   const [negocios, setNegocios] = useState<any[]>([]);
   const [biz, setBiz] = useState("");
@@ -19,6 +23,7 @@ export default function NuevaOferta() {
   const [priceOffer, setPriceOffer] = useState("");
   const [expires, setExpires] = useState("");
   const [image, setImage] = useState("");
+  const [imageId] = useState(() => crypto.randomUUID());
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -38,6 +43,7 @@ export default function NuevaOferta() {
       const list = (data || []).filter((n: any) => n.name);
       setNegocios(list);
       if (list.length === 0) setError("No tenés negocios creados. Primero creá un negocio.");
+      else if (bizFromUrl && list.some((n: any) => n.id === bizFromUrl)) setBiz(bizFromUrl);
       else setBiz(list[0].id);
     })();
   }, []);
@@ -79,6 +85,14 @@ export default function NuevaOferta() {
     <main className="min-h-screen bg-[#0d0a12] pb-24 text-white">
       <div className="mx-auto max-w-2xl px-4 py-10">
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
+
+        {bienvenida && (
+          <div className="mt-4 rounded-2xl border border-green-400/40 bg-green-500/10 p-4">
+            <p className="font-black text-green-300">🎉 ¡Tu negocio ya está creado!</p>
+            <p className="mt-1 text-sm text-white/70">Publicá tu primera oferta para que te empiecen a encontrar.</p>
+          </div>
+        )}
+
         <h1 className="mt-3 text-3xl font-black">🔥 Nueva Oferta</h1>
         <p className="mt-1 text-sm text-white/60">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
 
@@ -132,8 +146,8 @@ export default function NuevaOferta() {
           </div>
 
           <div>
-            <span className={lbl}>URL de imagen (opcional)</span>
-            <input className={inp} value={image} onChange={(e) => setImage(e.target.value)} placeholder="https://…" />
+            <span className={lbl}>Foto de la oferta</span>
+            <ImageUploader value={image} onChange={setImage} businessId={biz || "temp"} itemId={imageId} previewClass="h-40 w-full rounded-xl" />
           </div>
 
           {error && (

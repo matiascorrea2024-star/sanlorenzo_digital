@@ -6,6 +6,7 @@ import { ShoppingBag } from "lucide-react";
 import NotificationBell from "@/components/layout/notification-bell";
 import AuthButton from "./auth-button";
 import { supabase } from "@/lib/supabase";
+import { useUnreadMessages } from "@/lib/hooks/use-unread-messages";
 
 export default function Header() {
   const pathname = usePathname();
@@ -15,6 +16,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const unread = useUnreadMessages();
 
   useEffect(() => {
     (async () => {
@@ -95,22 +97,39 @@ export default function Header() {
                   {(user.email || "?")[0].toUpperCase()}
                 </button>
                 {open && (
-                  <div className="absolute right-0 top-12 z-50 w-64 rounded-2xl border border-white/10 bg-[#141018] p-2 shadow-2xl">
+                  <div className="absolute right-0 top-12 z-50 w-72 rounded-2xl border border-white/10 bg-[#141018] p-2 shadow-2xl max-h-[80vh] overflow-y-auto">
                     <div className="mb-1 border-b border-white/10 px-3 py-2">
                       <p className="text-xs text-white/50">Conectado como</p>
                       <p className="truncate text-sm font-bold">{user.email}</p>
                     </div>
-                    <Link href="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-orange-300 hover:bg-orange-500/10">🏪 Mis negocios (editar rápido)</Link>
-                    <Link href="/perfil" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">🎖 Mi perfil y misiones</Link>
-                    <Link href="/favoritos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">❤️ Favoritos</Link>
-                    <Link href="/mensajes" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">💬 Mensajes</Link>
-                    <Link href="/vecinos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">👥 Ranking de vecinos</Link>
+
+                    <p className="px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">🏪 Mi comercio</p>
+                    <Link href="/dashboard/mis-negocios" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-orange-300 hover:bg-orange-500/10">Mis negocios</Link>
+                    <Link href="/dashboard/ofertas/nueva" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Nueva oferta</Link>
+                    <Link href="/dashboard/analytics" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Estadísticas</Link>
+
+                    <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">🎯 Mi actividad</p>
+                    <Link href="/favoritos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Favoritos</Link>
+                    <Link href="/mensajes" onClick={() => setOpen(false)} className="flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-white/5">
+                      <span>Mensajes</span>
+                      {unread > 0 && <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-black text-white">{unread > 9 ? "9+" : unread}</span>}
+                    </Link>
+                    <Link href="/perfil" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Misiones y nivel</Link>
+
+                    <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">👤 Cuenta</p>
+                    <Link href="/perfil" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Perfil y clave</Link>
+                    <Link href="/vecinos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Ranking de vecinos</Link>
+                    <Link href="/invitar" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Invitar amigos</Link>
+                    <button onClick={salir} className="w-full rounded-xl px-3 py-2 text-left text-sm text-red-300 hover:bg-white/5">Salir</button>
+
                     {role === "admin" && (
-                      <Link href="/admin" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-white/5">🛡️ Admin</Link>
+                      <>
+                        <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">⚙️ Admin</p>
+                        <Link href="/admin?tab=overview" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-red-500/10">Panel</Link>
+                        <Link href="/admin?tab=moderacion" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-red-500/10">Moderación</Link>
+                        <Link href="/admin?tab=verificacion" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-red-500/10">Verificación</Link>
+                      </>
                     )}
-                    <div className="mt-1 border-t border-white/10 pt-1">
-                      <button onClick={salir} className="w-full rounded-xl px-3 py-2 text-left text-sm text-red-300 hover:bg-white/5">🚪 Salir</button>
-                    </div>
                   </div>
                 )}
               </div>
