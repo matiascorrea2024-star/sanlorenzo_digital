@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const sb = await createClient();
   const { data } = await sb.from("businesses").select("*").eq("slug", slug).maybeSingle();
   if (!data) return { title: "Negocio no encontrado | La Gran Barata Digital" };
-  const image = (data as any).portada_url || (data as any).logo_url || "https://sanlorenzodigital.vercel.app/banner.png";
+  const image = (data as any).portada_url || (data as any).logo_url || "https://sanlorenzodigital.vercel.app/banner.jpg";
   return {
     title: `${data.name} — ${data.category} en San Lorenzo`,
     description: data.description || `${data.name} en San Lorenzo, Santa Fe.`,

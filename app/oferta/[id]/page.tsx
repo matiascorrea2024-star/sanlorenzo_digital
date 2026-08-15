@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const descuento = offer.discount_percent ? `-${offer.discount_percent}%` : "OFERTA";
   const title = `${offer.title} ${descuento} en ${bizName} | La Gran Barata Digital`;
   const description = `${descuento} en ${bizName}. ${offer.description || "Oferta exclusiva en San Lorenzo, Santa Fe."}`;
-  const image = offer.image_url || (offer as any).businesses?.portada_url || "https://sanlorenzodigital.vercel.app/banner.png";
+  const image = offer.image_url || (offer as any).businesses?.portada_url || "https://sanlorenzodigital.vercel.app/banner.jpg";
 
   return {
     title, description,

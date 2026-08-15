@@ -20,17 +20,17 @@ const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
 import type { Viewport } from "next";
 
 export const viewport: Viewport = {
-  themeColor: "#0d0a12",
+  themeColor: "#0a0710",
   colorScheme: "dark",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sanlorenzodigital.vercel.app"),
   openGraph: {
-    images: [{ url: "/banner.png", width: 1200, height: 630, alt: "La Gran Barata Digital" }],
+    images: [{ url: "/banner.jpg", width: 1200, height: 630, alt: "La Gran Barata Digital" }],
     locale: "es_AR",
   },
-  twitter: { card: "summary_large_image", images: ["/banner.png"] },
+  twitter: { card: "summary_large_image", images: ["/banner.jpg"] },
   title: "San Lorenzo Digital — Todo San Lorenzo, en un solo lugar",
   description: "Descubrí comercios, productos, servicios, promociones y lugares de San Lorenzo, Santa Fe.",
 };
