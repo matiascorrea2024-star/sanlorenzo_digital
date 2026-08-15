@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import { usePlatformSetting } from "@/lib/hooks/use-platform-settings";
 
 const COLS = [
   {
@@ -21,6 +23,7 @@ const COLS = [
       { href: "/vecinos", l: "Ranking de vecinos" },
       { href: "/perfil", l: "Tu perfil y misiones" },
       { href: "/favoritos", l: "Tus favoritos" },
+      { href: "/blog", l: "Blog" },
     ],
   },
   {
@@ -36,6 +39,7 @@ const COLS = [
 ];
 
 export default function Footer() {
+  const whatsapp = usePlatformSetting("whatsapp_contacto");
   return (
     <footer className="border-t border-white/10 bg-[#0a0710] pb-24 md:pb-8">
       <div className="mx-auto max-w-6xl px-4 py-10">
@@ -46,7 +50,9 @@ export default function Footer() {
               Todas las ofertas y negocios de San Lorenzo en un solo lugar.
             </p>
             <p className="mt-3 text-xs text-white/40">Hecho en San Lorenzo, Santa Fe · Argentina 🇦</p>
-            <a href="https://wa.me/5493476341344" target="_blank" rel="noopener" className="mt-3 inline-flex items-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-300 transition hover:bg-emerald-500/20">💬 WhatsApp de la plataforma</a>
+            {whatsapp && (
+              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener" className="mt-3 inline-flex items-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-300 transition hover:bg-emerald-500/20">💬 WhatsApp de la plataforma</a>
+            )}
           </div>
           {COLS.map((col) => (
             <div key={col.t}>

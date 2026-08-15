@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart } from "lucide-react";
+import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
 import OnlineBadge from "@/components/ui/online-badge";
@@ -129,6 +129,7 @@ export default function AdminPage() {
     { k: "suscripciones", l: "Suscripciones", icon: CreditCard, count: pendientesPago },
     { k: "ciudades", l: "Ciudades", icon: MapPin, count: 0 },
     { k: "cargar-bulk", l: "Cargar masiva", icon: Upload, count: 0 },
+    { k: "blog", l: "Blog", icon: Newspaper, count: 0 },
   ];
 
   if (loading) {
@@ -417,6 +418,21 @@ export default function AdminPage() {
             <a href="/admin/cargar-bulk"
               className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
               Ir a la herramienta de carga →
+            </a>
+          </div>
+        )}
+
+        {/* BLOG */}
+        {tab === "blog" && (
+          <div className="mt-6 rounded-2xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/10 to-purple-500/5 p-6">
+            <Newspaper className="h-8 w-8 text-indigo-300" />
+            <p className="mt-3 text-lg font-black">Blog / Novedades</p>
+            <p className="mt-1 text-sm text-white/70">
+              Escribí artículos y novedades de la plataforma. Se publican en /blog cuando los marcás como publicados.
+            </p>
+            <a href="/admin/blog"
+              className="mt-4 inline-block rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-6 py-3 text-sm font-black hover:opacity-90">
+              Ir al editor de artículos →
             </a>
           </div>
         )}

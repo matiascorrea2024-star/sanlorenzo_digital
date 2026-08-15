@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import ChangePassword from "@/components/profile/change-password";
 import PlatformWhatsappSetting from "@/components/profile/platform-whatsapp-setting";
 import PlatformPaymentSetting from "@/components/profile/platform-payment-setting";
+import NewsletterOptIn from "@/components/profile/newsletter-optin";
 
 const NIVELES_USUARIO = [
   { min: 0, nombre: "Novato", icon: "🌱" },
@@ -39,6 +40,7 @@ export default function PerfilPage() {
   const [misiones, setMisiones] = useState<any>(null);
   const [racha, setRacha] = useState(0);
   const [extra, setExtra] = useState<any>(null);
+  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -46,8 +48,9 @@ export default function PerfilPage() {
       const { data: { user } } = await sb.auth.getUser();
       setUser(user);
       if (user) {
-        const { data: prof } = await sb.from("user_profiles").select("role").eq("user_id", user.id).maybeSingle();
+        const { data: prof } = await sb.from("user_profiles").select("role, newsletter_opt_in").eq("user_id", user.id).maybeSingle();
         setIsAdmin(prof?.role === "admin");
+        setNewsletterOptIn(!!prof?.newsletter_opt_in);
         const { data: fol } = await sb
           .from("followers").select("business_id, businesses(name, slug)")
           .eq("user_id", user.id);
@@ -173,6 +176,7 @@ export default function PerfilPage() {
         <h2 className="mt-8 mb-3 text-xl font-black">⚙️ Cuenta</h2>
         <div className="space-y-3">
           <ChangePassword email={user.email} />
+          <NewsletterOptIn userId={user.id} initial={newsletterOptIn} />
           {isAdmin && <PlatformWhatsappSetting />}
           {isAdmin && <PlatformPaymentSetting />}
         </div>

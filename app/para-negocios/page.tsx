@@ -1,7 +1,16 @@
-const WA = "https://wa.me/5493476341344?text=" + encodeURIComponent("Hola! Quiero sumar mi negocio a San Lorenzo Digital");
 import PageHero from "@/components/ui/page-hero";
+import { createClient } from "@/lib/supabase-server";
 
-export default function Page() {
+export default async function Page() {
+  const sb = await createClient();
+  const { data: setting } = await sb.from("platform_settings").select("value").eq("key", "whatsapp_contacto").maybeSingle();
+  const whatsapp = setting?.value || null;
+  const wa = whatsapp ? "https://wa.me/" + whatsapp + "?text=" + encodeURIComponent("Hola! Quiero sumar mi negocio a San Lorenzo Digital") : null;
+
+  const { data: ejemplos } = await sb.from("businesses")
+    .select("slug, name, category")
+    .eq("status", "verificado").order("updated_at", { ascending: false }).limit(2);
+
   return (
     <main>
       <PageHero title="🏪 Para comercios" subtitle="Tu negocio, en el mapa digital de la ciudad" />
@@ -13,7 +22,7 @@ export default function Page() {
         <p className="mx-auto mt-4 max-w-xl text-[var(--muted)]">Miniweb propia, productos con fotos, promociones que se renuevan solas y contacto directo por WhatsApp. Sin saber programar.</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <a href="/dashboard/nuevo" className="rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white">Crear mi miniweb gratis</a>
-          <a href={WA} target="_blank" className="rounded-lg border border-[var(--line)] px-6 py-3 text-sm">Hablar por WhatsApp</a>
+          {wa && <a href={wa} target="_blank" className="rounded-lg border border-[var(--line)] px-6 py-3 text-sm">Hablar por WhatsApp</a>}
         </div>
       </section>
       <section className="mx-auto max-w-6xl px-4 py-10">
@@ -33,26 +42,28 @@ export default function Page() {
           ))}
         </div>
       </section>
-      <section className="mx-auto max-w-4xl px-4 py-10">
-        <h2 className="mb-6 text-center text-xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Mirá miniwebs reales</h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <a href="/negocio/almendra-calzados" className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-6 hover:border-[var(--accent)]">
-            <p className="text-2xl">👠</p>
-            <h3 className="mt-2 font-semibold">Almendra Calzados</h3>
-            <p className="text-sm text-[var(--muted)]">Comercio real · verificada.</p>
-          </a>
-          <a href="/negocio/cafe-central" className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-6 hover:border-[var(--accent)]">
-            <p className="text-2xl">☕</p>
-            <h3 className="mt-2 font-semibold">Café Central</h3>
-            <p className="text-sm text-[var(--muted)]">Restaurante · con menú.</p>
-          </a>
-        </div>
-      </section>
+      {ejemplos && ejemplos.length > 0 && (
+        <section className="mx-auto max-w-4xl px-4 py-10">
+          <h2 className="mb-6 text-center text-xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Mirá miniwebs reales</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {ejemplos.map((b: any) => (
+              <a key={b.slug} href={`/negocio/${b.slug}`} className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-6 hover:border-[var(--accent)]">
+                <h3 className="mt-2 font-semibold">{b.name}</h3>
+                <p className="text-sm capitalize text-[var(--muted)]">{b.category} · verificado</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
       <section className="mx-auto max-w-4xl px-4 pb-20">
         <div className="rounded-2xl border border-[var(--accent)] bg-gradient-to-br from-[var(--surface)] to-[rgba(139,92,246,.15)] p-8 text-center md:p-12">
           <h2 className="text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Fundadores de la plataforma</h2>
           <p className="mx-auto mt-3 max-w-md text-sm text-[var(--muted)]">Los primeros 10 comercios entran con beneficios de fundador.</p>
-          <a href={WA} target="_blank" className="mt-6 inline-block rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white">Quiero ser fundador</a>
+          {wa ? (
+            <a href={wa} target="_blank" className="mt-6 inline-block rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white">Quiero ser fundador</a>
+          ) : (
+            <a href="/dashboard/nuevo" className="mt-6 inline-block rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white">Quiero ser fundador</a>
+          )}
         </div>
       </section>
     </main>
