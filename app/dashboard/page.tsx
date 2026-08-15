@@ -111,9 +111,19 @@ export default function DashboardPage() {
                   <Link href="/dashboard/productos" className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">📦 Productos</Link>
                   <Link href="/dashboard/resenas" className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">⭐ Reseñas</Link>
                 </div>
-                <div className="mt-2 grid grid-cols-2 gap-2">
+                <div className="mt-2 grid grid-cols-3 gap-2">
                   <Link href="/dashboard/historias" className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">📸 Historias</Link>
                   <Link href="/dashboard/analytics" className="rounded-xl border border-white/15 px-2 py-2 text-center text-xs font-bold hover:bg-white/5">📊 Estadísticas</Link>
+                  <button
+                    onClick={() => {
+                      const url = `https://sanlorenzodigital.vercel.app/negocio/${b.slug}`;
+                      const texto = `🏪 Estamos en La Gran Barata Digital\nMirá nuestro negocio, ofertas y productos:\n${url}`;
+                      window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, "_blank");
+                    }}
+                    className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-2 py-2 text-center text-xs font-bold text-emerald-300 hover:bg-emerald-500/20"
+                  >
+                    📲 Compartir
+                  </button>
                 </div>
               </div>
             ))}

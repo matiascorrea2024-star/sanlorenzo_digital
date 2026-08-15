@@ -6,6 +6,7 @@ import { Package, Star, ArrowLeft } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Badge from "@/components/ui/badge";
 import { calcSDLScore } from "@/lib/sdl-score";
+import PageHero from "@/components/ui/page-hero";
 
 function CompararContent() {
   const searchParams = useSearchParams();
@@ -28,16 +29,20 @@ function CompararContent() {
   }, [idsParam]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
-      <PageHero title="Comparador" subtitle="Compará negocios y productos de un vistazo" />Cargando...</main>;
+    return (
+      <main className="min-h-screen bg-[#120d09] text-white pb-24">
+        <PageHero title="Comparador" subtitle="Compará negocios y productos de un vistazo" />
+        <div className="mx-auto max-w-5xl px-4 py-16 text-center text-white/50">Cargando...</div>
+      </main>
+    );
   }
 
   if (productos.length === 0) {
     return (
       <main className="min-h-screen bg-[#120d09] text-white pb-24">
+        <PageHero title="Comparador" subtitle="Compará negocios y productos de un vistazo" />
         <div className="mx-auto max-w-5xl px-4 py-12 text-center">
           <Package className="mx-auto h-16 w-16 text-white/30 mb-4" />
-          <h1 className="text-3xl font-black">Comparador de productos</h1>
           <p className="mt-3 text-white/60">No hay productos seleccionados para comparar.</p>
           <Link href="/negocios" className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">
             Explorar productos
@@ -61,13 +66,11 @@ function CompararContent() {
 
   return (
     <main className="min-h-screen bg-[#120d09] text-white pb-24">
+      <PageHero title="Comparador" subtitle={`Comparando ${productos.length} producto${productos.length !== 1 ? "s" : ""} lado a lado`} />
       <div className="mx-auto max-w-6xl px-4 py-8">
         <Link href="/negocios" className="flex items-center gap-1 text-sm text-orange-400 mb-4">
           <ArrowLeft className="h-4 w-4" /> Volver a productos
         </Link>
-
-        <h1 className="text-3xl font-black">Comparador de productos</h1>
-        <p className="text-white/60 mt-1">Compará {productos.length} producto{productos.length !== 1 ? "s" : ""} lado a lado</p>
 
         <div className="mt-8 overflow-x-auto">
           <table className="w-full border-collapse">
@@ -160,8 +163,6 @@ function CompararContent() {
     </main>
   );
 }
-
-import PageHero from "@/components/ui/page-hero";
 
 export default function CompararPage() {
   return (
