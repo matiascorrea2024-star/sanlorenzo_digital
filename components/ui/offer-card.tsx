@@ -2,7 +2,7 @@
 import RankBadge from "@/components/ui/rank-badge";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 import Link from "next/link";
-import { Clock, MapPin, Star, Heart } from "lucide-react";
+import { Clock, MapPin, BadgeCheck } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import FavoriteButton from "@/components/ui/favorite-button";
 import { fmtDistance } from "@/lib/geo";
@@ -15,6 +15,8 @@ type Offer = {
   portada_url?: string; logo_url?: string;
   latitude?: number; longitude?: number;
   precio_prometido?: boolean;
+  rating?: number;
+  verificado?: boolean;
 };
 
 const CAT_IMAGES: Record<string, string> = {
@@ -63,7 +65,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
   const sdlScore = calcSDLScore({
     descuento: o.descuento || 0,
     distanciaKm: distKm,
-    rating: 4.5, // TODO: pasar rating real del negocio
+    rating: o.rating || 0,
     diasRestantes,
   });
   const sdl = sdlLabel(sdlScore);
@@ -126,7 +128,11 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
       </div>
       <div className="flex flex-1 flex-col p-4">
         <div className="flex items-center justify-between gap-2 mb-1">
-          <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-orange-400/80">{o.negocio} <RankedAvatar slug={o.slug} name={o.negocio || ""} size={20} /> <RankBadge slug={o.slug} /></div>
+          <div className="flex min-w-0 items-center gap-1 text-xs font-bold uppercase tracking-wider text-orange-400/80">
+            <span className="truncate">{o.negocio}</span>
+            {o.verificado && <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-sky-400" aria-label="Comercio verificado" />}
+            <RankedAvatar slug={o.slug} name={o.negocio || ""} size={20} /> <RankBadge slug={o.slug} />
+          </div>
           <span className={`text-[10px] font-black ${sdl.color}`}>
             🔥 {sdlScore}/100
           </span>

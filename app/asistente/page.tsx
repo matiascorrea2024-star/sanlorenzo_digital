@@ -14,6 +14,7 @@ type Oferta = {
   id: string; negocio: string; slug: string; producto: string; cat: string;
   vence?: string; descuento?: number; antes?: number; ahora?: number;
   portada_url?: string; latitude?: number; longitude?: number;
+  rating?: number; verificado?: boolean;
 };
 
 import PageHero from "@/components/ui/page-hero";
@@ -48,6 +49,8 @@ export default function AsistentePage() {
           portada_url: o.business_portada,
           latitude: o.business_latitude ? Number(o.business_latitude) : undefined,
           longitude: o.business_longitude ? Number(o.business_longitude) : undefined,
+          rating: o.business_rating ? Number(o.business_rating) : undefined,
+          verificado: o.business_status === "verificado",
         }));
       setOfertas(reales);
     })();

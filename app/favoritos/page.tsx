@@ -37,6 +37,8 @@ export default function FavoritosPage() {
             antes: o.old_price ? Number(o.old_price) : undefined,
             ahora: o.offer_price ? Number(o.offer_price) : undefined,
             portada_url: o.business_portada,
+            rating: o.business_rating ? Number(o.business_rating) : undefined,
+            verificado: o.business_status === "verificado",
           })));
         }
       }

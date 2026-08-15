@@ -29,6 +29,9 @@ type Oferta = {
   creado?: string;
   lat?: number;
   lon?: number;
+  destacado?: boolean;
+  rating?: number;
+  verificado?: boolean;
 };
 
 const daysTo = (date: string) => {
@@ -92,6 +95,9 @@ export default function HomeClient({ initial }: { initial: any[] }) {
                 precio_prometido: !!o.precio_prometido,
                 lat: o.business_latitude ? Number(o.business_latitude) : undefined,
                 lon: o.business_longitude ? Number(o.business_longitude) : undefined,
+                destacado: !!o.business_destacado,
+                rating: o.business_rating ? Number(o.business_rating) : undefined,
+                verificado: o.business_status === "verificado",
               }))
           );
         }
@@ -163,6 +169,16 @@ export default function HomeClient({ initial }: { initial: any[] }) {
   const catName = CATEGORIES.find((c) => c.id === cat)?.name;
   const buscando = !!q.trim() || !!cat;
   const porVencer = ofertas.filter((o) => o.vence && daysTo(o.vence) <= 3).length;
+
+  // Jerarquía visual: cuando no hay búsqueda/filtro activo, separamos
+  // las ofertas de negocios Destacado Semanal en su propia fila -- no
+  // todas las cards deben pesar lo mismo.
+  const destacadasIds = useMemo(() => {
+    if (buscando || offerFilter !== "todas") return new Set<string>();
+    return new Set(filteredOffers.filter((o) => o.destacado).slice(0, 4).map((o) => o.id));
+  }, [filteredOffers, buscando, offerFilter]);
+  const ofertasDestacadas = useMemo(() => filteredOffers.filter((o) => destacadasIds.has(o.id)), [filteredOffers, destacadasIds]);
+  const ofertasResto = useMemo(() => filteredOffers.filter((o) => !destacadasIds.has(o.id)), [filteredOffers, destacadasIds]);
 
   return (
     <main>
@@ -238,11 +254,27 @@ export default function HomeClient({ initial }: { initial: any[] }) {
             ))}
           </div>
         ) : filteredOffers.length > 0 ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {filteredOffers.slice(0, 12).map((o) => (
-              <OfferCard key={o.id} o={o} userCoords={coords} />
-            ))}
-          </div>
+          <>
+            {ofertasDestacadas.length > 0 && (
+              <div className="mb-6">
+                <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-amber-300">
+                  ⭐ Destacadas de la semana
+                </p>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  {ofertasDestacadas.map((o) => (
+                    <div key={o.id} className="rounded-2xl ring-2 ring-amber-400/40 ring-offset-2 ring-offset-[#0a0710]">
+                      <OfferCard o={o} userCoords={coords} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {ofertasResto.slice(0, 12).map((o) => (
+                <OfferCard key={o.id} o={o} userCoords={coords} />
+              ))}
+            </div>
+          </>
         ) : (
           <div className="sld-card rounded-3xl p-10 text-center">
             <Flame className="mx-auto h-8 w-8 text-orange-400" />

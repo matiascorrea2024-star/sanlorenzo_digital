@@ -31,9 +31,13 @@ export default function CiudadView() {
         const { data: biz } = await supabase().from("businesses")
           .select("*").eq("location_id", loc.id).limit(12);
         setNegocios(biz || []);
-        // Ofertas
-        const { data: offs } = await supabase().from("offers_with_business")
-          .select("*").eq("business_city", loc.name).eq("active", true).limit(8);
+        // Ofertas -- filtradas por los negocios de esta ciudad (la vista
+        // offers_with_business no tiene columna de ciudad propia).
+        const bizIds = (biz || []).map((b: any) => b.id);
+        const { data: offs } = bizIds.length
+          ? await supabase().from("offers_with_business")
+              .select("*").in("business_id", bizIds).eq("active", true).limit(8)
+          : { data: [] };
         setOfertas((offs || []).map((o: any) => ({
           id: o.id, negocio: o.business_name, slug: o.business_slug,
           producto: o.title, cat: o.business_category || "",
@@ -41,6 +45,8 @@ export default function CiudadView() {
           antes: o.old_price ? Number(o.old_price) : undefined,
           ahora: o.offer_price ? Number(o.offer_price) : undefined,
           portada_url: o.business_portada,
+          rating: o.business_rating ? Number(o.business_rating) : undefined,
+          verificado: o.business_status === "verificado",
         })));
       }
       setLoading(false);
