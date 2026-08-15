@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
 import OfertaPage from "./client";
 
@@ -31,6 +32,7 @@ export default async function Page({ params }: Props) {
   const { id } = await params;
   const sb = await createClient();
   const { data: offer } = await sb.from("offers").select("*, businesses(name, slug, category, portada_url, address, whatsapp, instagram)").eq("id", id).maybeSingle();
+  if (!offer) notFound();
 
   let jsonLd = null;
   if (offer) {

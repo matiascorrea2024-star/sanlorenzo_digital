@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
 import CiudadView from "./client";
 
@@ -28,6 +29,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function Page() {
+export default async function Page({ params }: Props) {
+  const { ciudad } = await params;
+  const sb = await createClient();
+  const { data: loc } = await sb.from("locations").select("id").eq("slug", ciudad).eq("type", "city").maybeSingle();
+  if (!loc) notFound();
   return <CiudadView />;
 }

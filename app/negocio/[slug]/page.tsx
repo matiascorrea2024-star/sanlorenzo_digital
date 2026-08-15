@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
 import NegocioPage from "./client";
 
@@ -29,6 +30,7 @@ export default async function Page({ params }: Props) {
   const { slug } = await params;
   const sb = await createClient();
   const { data: negocio } = await sb.from("businesses").select("*").eq("slug", slug).maybeSingle();
+  if (!negocio) notFound();
   const { data: ofertas } = await sb.from("offers")
     .select("*").eq("business_id", negocio?.id).eq("active", true).limit(20);
   const { data: productos } = await sb.from("products")

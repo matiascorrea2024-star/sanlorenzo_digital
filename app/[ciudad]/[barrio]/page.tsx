@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
 import BarrioView from "./client";
 
@@ -24,6 +25,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function Page() {
+export default async function Page({ params }: Props) {
+  const { ciudad, barrio } = await params;
+  const sb = await createClient();
+  const { data: city } = await sb.from("locations").select("id").eq("slug", ciudad).eq("type", "city").maybeSingle();
+  const { data: neigh } = await sb.from("locations").select("id").eq("slug", barrio).eq("type", "neighborhood").maybeSingle();
+  if (!city || !neigh) notFound();
   return <BarrioView />;
 }
