@@ -131,7 +131,7 @@ export default function PerfilPage() {
           <p className="text-5xl mb-4">🎖</p>
           <h1 className="text-2xl font-black">Tu perfil de vecino</h1>
           <p className="mt-2 text-sm text-white/60">Iniciá sesión para ver tus medallas y niveles.</p>
-          <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">Ingresar →</Link>
+          <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">Ingresar →</Link>
         </div>
       </main>
     );
@@ -153,18 +153,18 @@ export default function PerfilPage() {
     <main className="bg-[#120d09] text-white min-h-screen pb-24">
       <PageHero title="🎖 Tu perfil de vecino" subtitle="Tus misiones, medallas, rachas y premios" />
       <div className="mx-auto max-w-3xl px-4 py-10">
-        <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black">
+        <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-8 text-center">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-3xl font-black">
             {(user.email || "?")[0].toUpperCase()}
           </div>
-          <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500/20 to-pink-500/20 px-4 py-1 border border-orange-400/30"><span className="text-2xl">{nivel.icon}</span><span className="text-lg font-black">{nivel.nombre}</span></div>
+          <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500/20 to-red-600/20 px-4 py-1 border border-orange-400/30"><span className="text-2xl">{nivel.icon}</span><span className="text-lg font-black">{nivel.nombre}</span></div>
           <p className="text-sm text-white/50">{user.email}</p>
           <p className="mt-3 text-3xl font-black text-orange-400">{puntos} <span className="text-sm text-white/50">puntos</span></p>
           {racha > 0 && <p className="mt-1 text-sm font-black text-orange-300">🔥 Racha de {racha} día{racha > 1 ? "s" : ""} seguidos</p>}
           {sig && (
             <div className="mt-4">
               <div className="h-2 rounded-full bg-white/10">
-                <div className="h-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500" style={{ width: `${progreso}%` }} />
+                <div className="h-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600" style={{ width: `${progreso}%` }} />
               </div>
               <p className="mt-1 text-xs text-white/50">Te faltan {sig.min - puntos} pts para {sig.icon} {sig.nombre}</p>
             </div>

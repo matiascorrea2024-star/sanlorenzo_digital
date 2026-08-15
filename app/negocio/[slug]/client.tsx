@@ -10,7 +10,7 @@ import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
-import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search, Truck } from "lucide-react";
+import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search, Truck, Navigation } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import BusinessMap from "@/components/business/map";
 import ReviewsSection from "@/components/business/reviews-section";
@@ -175,7 +175,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 </DivisionFrame>
               ) : (
                 <DivisionFrame puntos={negocio.puntos || 0} size={80} categoria={negocio.category} showLabel>
-                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#120d09] bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black shadow-2xl">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#120d09] bg-gradient-to-br from-orange-500 to-red-600 text-3xl font-black shadow-2xl">
                     {negocio.name[0]}
                   </div>
                 </DivisionFrame>
@@ -195,8 +195,17 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   )}
                   {negocio.hace_envios && <Badge variant="info" size="sm">🚚 Hace envíos</Badge>}
                 </div>
-                <h1 className="truncate text-2xl font-black md:text-4xl">{negocio.name}</h1>
-                <p className="mt-1 truncate text-sm capitalize text-white/70">{negocio.category}</p>
+                <h1 className="truncate text-2xl font-black md:text-4xl" style={{ fontFamily: "var(--font-space)" }}>{negocio.name}</h1>
+                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <p className="truncate text-sm capitalize text-white/70">{negocio.category}</p>
+                  {Number(negocio.reviews) > 0 && (
+                    <span className="flex items-center gap-1 text-sm font-bold text-amber-300">
+                      <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
+                      {Number(negocio.rating).toFixed(1)}
+                      <span className="font-normal text-white/50">({negocio.reviews})</span>
+                    </span>
+                  )}
+                </div>
                 <div className="mt-2 flex flex-wrap items-center gap-3">
                   <FollowButton businessId={negocio.id} />
                   <LevelBadge slug={negocio.slug} />
@@ -209,7 +218,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
       <div className="mx-auto max-w-4xl px-4 py-8">
         {/* ALERTA: te avisamos de ofertas nuevas */}
-        <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-5 md:flex-row">
+        <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
           <div>
             <p className="font-black">🔔 No te pierdas nada de {negocio.name}</p>
             <p className="text-sm text-white/60">Te avisamos cuando publiquen ofertas nuevas.</p>
@@ -261,7 +270,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
         {/* INFO + MAPA */}
         <div className="mb-8 grid md:grid-cols-2 gap-6">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="rounded-2xl border border-white/10 border-l-2 border-l-orange-400/50 bg-white/5 p-6">
             <h2 className="mb-4 text-xl font-black">📞 Información</h2>
             <div className="space-y-3">
               {negocio.address && (
@@ -317,8 +326,10 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </div>
 
           {negocio.latitude && negocio.longitude && (
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <h2 className="mb-4 text-xl font-black">📍 Ubicación</h2>
+            <div className="rounded-2xl border border-white/10 border-l-2 border-l-cyan-400/50 bg-white/5 p-6">
+              <h2 className="mb-4 flex items-center gap-2 text-xl font-black">
+                <Navigation className="h-4 w-4 text-cyan-300" /> Ubicación
+              </h2>
               <BusinessMap latitude={negocio.latitude} longitude={negocio.longitude} address={negocio.address} />
             </div>
           )}
@@ -399,12 +410,12 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             {catsProductos.length > 1 && (
               <div className="mb-4 flex flex-wrap gap-2">
                 <button onClick={() => setCatProd(null)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5 text-white/70"}`}>
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"}`}>
                   Todos
                 </button>
                 {catsProductos.map((c) => (
                   <button key={c} onClick={() => setCatProd(c)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5 text-white/70"}`}>
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"}`}>
                     {c}
                   </button>
                 ))}

@@ -92,7 +92,7 @@ export default function VecinosPage() {
               <p className="mt-1 text-sm text-white/50">
                 Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas para sumar puntos.
               </p>
-              <Link href="/promociones" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black">
+              <Link href="/promociones" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">
                 Ver ofertas →
               </Link>
             </div>
@@ -104,7 +104,7 @@ export default function VecinosPage() {
           <p className="mt-1 text-sm text-white/60">
             Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas.
           </p>
-          <Link href="/perfil" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black">
+          <Link href="/perfil" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">
             Ver mis misiones →
           </Link>
         </div>

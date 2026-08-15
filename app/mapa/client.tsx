@@ -142,7 +142,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
             {[0.5, 1, 2, 3, 5, 10].map(r => (
               <button key={r} onClick={() => setRadio(radio === r ? null : r)}
                 className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
-                  radio === r ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "border border-white/15 bg-white/5 text-white/70"
+                  radio === r ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border border-white/15 bg-white/5 text-white/70"
                 }`}>
                 📍 {r < 1 ? "500 m" : `${r} km`}
               </button>

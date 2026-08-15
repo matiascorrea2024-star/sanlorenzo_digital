@@ -19,17 +19,17 @@ export default function PageHero({
       {/* overflow-hidden va en la capa de decoración, no en la section,
           para que cualquier dropdown/popover dentro de children pueda
           desbordar el alto del hero sin recortarse. */}
-      <div className="absolute inset-0 overflow-hidden opacity-25 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-red-600 rounded-full mix-blend-screen filter blur-3xl animate-blob"></div>
-        <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-orange-600 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-0 left-1/3 w-72 h-72 bg-pink-600 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-4000"></div>
-      </div>
+      {/* Misma identidad que la Home: naranja (energía) + cian de río
+          (lugar), sin blobs difuminados ni grilla de puntos genérica. */}
       <div
-        className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none"
-        style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "40px 40px" }}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle at 12% -10%, rgba(249,115,22,.10), transparent 26rem), radial-gradient(circle at 96% 30%, rgba(34,211,238,.06), transparent 22rem)",
+        }}
       ></div>
       <div className="absolute top-10 right-10 w-16 h-16 border border-orange-500/20 rounded-full animate-float pointer-events-none"></div>
-      <div className="absolute bottom-6 left-8 w-12 h-12 border border-pink-500/20 rounded-lg rotate-45 animate-float-delayed pointer-events-none"></div>
+      <div className="absolute bottom-6 left-8 w-12 h-12 border border-cyan-400/20 rounded-lg rotate-45 animate-float-delayed pointer-events-none"></div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 md:py-14">
         <div className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>

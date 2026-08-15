@@ -9,7 +9,7 @@ export default function NotFound() {
         Pero San Lorenzo está lleno de negocios, ofertas y vecinos para descubrir.
       </p>
       <div className="mt-6 flex flex-wrap justify-center gap-3">
-        <Link href="/" className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-3 text-sm font-black hover:opacity-90">🏠 Ir al inicio</Link>
+        <Link href="/" className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3 text-sm font-black hover:opacity-90">🏠 Ir al inicio</Link>
         <Link href="/buscar" className="rounded-xl border border-white/20 px-5 py-3 text-sm font-bold hover:bg-white/5">🔍 Buscar negocios</Link>
         <Link href="/promociones" className="rounded-xl border border-white/20 px-5 py-3 text-sm font-bold hover:bg-white/5">🔥 Ver ofertas</Link>
       </div>

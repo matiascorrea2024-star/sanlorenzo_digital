@@ -117,7 +117,7 @@ export default function OfertaPage() {
         )}
 
         {/* Precio en medida normal */}
-        <div className="mb-5 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-5">
+        <div className="mb-5 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-5">
           <div className="flex items-end justify-between gap-3">
             <div>
               {oferta.old_price && <p className="text-base text-white/50 line-through">{fmt(Number(oferta.old_price))}</p>}
@@ -160,7 +160,7 @@ export default function OfertaPage() {
           <CouponButton offerId={oferta.id} businessId={negocio.id} offerTitle={oferta.title} />
         </div>
 
-        <div className="mb-5 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-5 md:flex-row">
+        <div className="mb-5 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
           <div>
             <p className="font-black">⏰ ¿Te gusta esta oferta?</p>
             <p className="text-sm text-white/60">Te avisamos si el negocio publica una parecida.</p>

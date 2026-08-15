@@ -450,14 +450,14 @@ export default function AdminPage() {
 
         {/* CARGAR BULK */}
         {tab === "cargar-bulk" && (
-          <div className="mt-6 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/5 p-6">
+          <div className="mt-6 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-red-600/5 p-6">
             <Upload className="h-8 w-8 text-orange-400" />
             <p className="mt-3 text-lg font-black">Cargar masiva de negocios reales</p>
             <p className="mt-1 text-sm text-white/70">
               Subí negocios reales de San Lorenzo desde un CSV. Quedarán en estado &quot;pendiente&quot; para verificación.
             </p>
             <a href="/admin/cargar-bulk"
-              className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+              className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
               Ir a la herramienta de carga →
             </a>
           </div>
@@ -493,7 +493,7 @@ export default function AdminPage() {
                 <input value={nuevaCiudad.lon} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, lon: e.target.value })}
                   placeholder="Longitud (opcional)" className="w-full rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:w-36" />
                 <button onClick={crearCiudad} disabled={creandoCiudad || !nuevaCiudad.nombre.trim()}
-                  className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black disabled:opacity-50">
+                  className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black disabled:opacity-50">
                   {creandoCiudad ? "…" : "Crear"}
                 </button>
               </div>

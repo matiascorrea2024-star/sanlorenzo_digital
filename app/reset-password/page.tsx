@@ -62,7 +62,7 @@ export default function ResetPasswordPage() {
                 </div>
               )}
               <button onClick={submit} disabled={saving}
-                className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50">
+                className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black text-white hover:opacity-90 disabled:opacity-50">
                 {saving ? "Guardando…" : "Guardar nueva contraseña"}
               </button>
             </div>

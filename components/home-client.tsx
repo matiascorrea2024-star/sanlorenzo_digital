@@ -42,7 +42,7 @@ const daysTo = (date: string) => {
 const chip = (active: boolean) =>
   `shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-bold transition ${
     active
-      ? "border-orange-400/60 bg-gradient-to-r from-orange-500/25 to-pink-500/25 text-white shadow-[0_0_20px_rgba(249,115,22,.2)]"
+      ? "border-orange-400/60 bg-gradient-to-r from-orange-500/25 to-red-600/25 text-white shadow-[0_0_20px_rgba(249,115,22,.2)]"
       : "border-white/10 bg-white/[.03] text-white/60 hover:border-white/25 hover:text-white"
   }`;
 

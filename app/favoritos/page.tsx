@@ -55,7 +55,7 @@ export default function FavoritosPage() {
           
           <p className="mt-2 text-white/60">Iniciá sesión para guardar y ver tus ofertas y negocios favoritos.</p>
           <Link href="/login"
-            className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-8 py-3 text-sm font-black">
+            className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-8 py-3 text-sm font-black">
             Iniciar sesión
           </Link>
         </div>
@@ -87,7 +87,7 @@ export default function FavoritosPage() {
             </p>
             <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
               <Link href="/promociones"
-                className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">
+                className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">
                 🔥 Explorar ofertas
               </Link>
               <Link href="/negocios"

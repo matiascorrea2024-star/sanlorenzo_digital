@@ -77,13 +77,13 @@ export default function OfertasFinalizadasPage() {
           </div>
         )}
 
-        <div className="mt-10 overflow-hidden rounded-3xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-8 text-center">
+        <div className="mt-10 overflow-hidden rounded-3xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-8 text-center">
           <div className="mx-auto max-w-xl">
             <p className="text-3xl">🔔</p>
             <h2 className="mt-3 text-xl font-black">No te pierdas la próxima</h2>
             <p className="mt-2 text-sm text-white/70">Entrá a tus negocios favoritos y tocales ⭐ Seguir. Las ofertas nuevas aparecen todos los días.</p>
             <div className="mt-5 flex flex-wrap justify-center gap-3">
-              <Link href="/negocios" className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90 transition">
+              <Link href="/negocios" className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90 transition">
                 Explorar negocios →
               </Link>
               <Link href="/ranking" className="rounded-xl border border-white/20 px-5 py-2.5 text-sm font-bold hover:bg-white/5 transition">

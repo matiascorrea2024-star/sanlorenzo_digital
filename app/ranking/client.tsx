@@ -173,7 +173,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
             <button key={t.k} onClick={() => setTab(t.k)}
               className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
                 tab === t.k
-                  ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
+                  ? "bg-gradient-to-r from-orange-500 to-red-600 text-white"
                   : "border border-white/15 bg-white/5 text-white/70 hover:border-orange-400/50"
               }`}>
               {t.l}
@@ -236,7 +236,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                       </span>
                     </p>
                     <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-orange-500 to-pink-500" style={{ width: `${rango.progreso}%` }} />
+                      <div className="h-full bg-gradient-to-r from-orange-500 to-red-600" style={{ width: `${rango.progreso}%` }} />
                     </div>
                   </div>
                   <div className="text-right">

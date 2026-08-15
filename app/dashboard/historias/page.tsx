@@ -7,7 +7,7 @@ import { useAuth } from "@/components/providers/auth-provider";
 import { postActivity } from "@/lib/activity";
 
 const FONDOS = [
-  "from-orange-500 to-pink-500",
+  "from-orange-500 to-red-600",
   "from-green-500 to-teal-500",
   "from-blue-500 to-purple-500",
   "from-red-500 to-orange-500",
@@ -69,7 +69,7 @@ export default function HistoriasPage() {
             className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3" />
 
           <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)}
-            className="w-full text-sm text-white/70 file:mr-3 file:rounded-xl file:border-0 file:bg-gradient-to-r file:from-orange-500 file:to-pink-500 file:px-4 file:py-2 file:text-sm file:font-black file:text-white" />
+            className="w-full text-sm text-white/70 file:mr-3 file:rounded-xl file:border-0 file:bg-gradient-to-r file:from-orange-500 file:to-red-600 file:px-4 file:py-2 file:text-sm file:font-black file:text-white" />
 
           <div className="flex gap-2">
             {FONDOS.map(f => (
@@ -83,7 +83,7 @@ export default function HistoriasPage() {
           </div>
 
           <button onClick={publicar} disabled={loading || !text || !businessId}
-            className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black disabled:opacity-50">
+            className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black disabled:opacity-50">
             {loading ? "Publicando..." : "Publicar Historia"}
           </button>
         </div>

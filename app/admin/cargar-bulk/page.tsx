@@ -148,7 +148,7 @@ export default function CargarBulkPage() {
             placeholder="nombre,categoria,direccion,whatsapp,descripcion,horario\nPizzería X,gastronomia,Av. San Martín 100,5493415555555,Descripción,Horario"
             className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3 font-mono text-xs outline-none focus:border-orange-400" />
           <button onClick={parsear} disabled={!csv.trim()}
-            className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+            className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">
             Previsualizar ({preview.length} negocios)
           </button>
         </div>

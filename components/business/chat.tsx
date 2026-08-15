@@ -124,7 +124,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
     return (
       <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
         <p className="text-lg font-black">💬 Chateá con este negocio</p>
-        <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black">Iniciar sesión</Link>
+        <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black">Iniciar sesión</Link>
       </div>
     );
   }
@@ -158,7 +158,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
         {rows.map((r: any) => r.sep ? (
           <div key={r.id} className="my-2 self-center rounded-full bg-black/40 px-3 py-1 text-[10px] font-bold text-white/50">{r.label}</div>
         ) : (
-          <div key={r.id} className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow ${r.sender_id === user.id ? "self-end rounded-br-none bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "self-start rounded-bl-none bg-white/10 text-white/90"}`}>
+          <div key={r.id} className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow ${r.sender_id === user.id ? "self-end rounded-br-none bg-gradient-to-r from-orange-500 to-red-600 text-white" : "self-start rounded-bl-none bg-white/10 text-white/90"}`}>
             <p>{r.body}</p>
             <p className={`mt-0.5 text-right text-[10px] ${r.sender_id === user.id ? "text-white/70" : "text-white/40"}`}>
               {new Date(r.created_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
@@ -179,7 +179,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
           placeholder="Escribí un mensaje"
           className="flex-1 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm outline-none focus:border-orange-400" />
         <button onClick={send} disabled={!body.trim()}
-          className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">➤</button>
+          className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">➤</button>
       </div>
     </section>
   );

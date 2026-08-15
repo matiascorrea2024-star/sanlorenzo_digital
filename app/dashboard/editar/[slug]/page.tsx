@@ -137,7 +137,7 @@ export default function Editar() {
 
         {/* 📸 FOTOS DEL NEGOCIO */}
         <section className="mt-8 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
-          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-pink-300 bg-clip-text text-transparent">📸 Fotos de tu negocio</h2>
+          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-400 bg-clip-text text-transparent">📸 Fotos de tu negocio</h2>
           <p className="mb-4 text-sm text-white/60">La foto de portada aparece en la home y en el directorio. El logo aparece junto al nombre en tu miniweb.</p>
           <div className="grid gap-6 md:grid-cols-2">
             <div>
@@ -164,7 +164,7 @@ export default function Editar() {
         </section>
 
         <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
-          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-pink-300 bg-clip-text text-transparent">📋 Datos del negocio</h2>
+          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-400 bg-clip-text text-transparent">📋 Datos del negocio</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <label><span className={lbl}>Nombre</span><input className={inp} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></label>
             <label><span className={lbl}>WhatsApp</span><input className={inp} value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value.replace(/\D/g, "") })} /></label>
@@ -224,7 +224,7 @@ export default function Editar() {
         <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">🛍️ Productos / servicios</h2>
-            <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
+            <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-lg bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
           </div>
           {items.length === 0 && <p className="text-sm text-white/50">Agregá tu primer producto.</p>}
           <div className="grid gap-3">
@@ -242,7 +242,7 @@ export default function Editar() {
         <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">🔥 Promociones</h2>
-            <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
+            <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-lg bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
           </div>
           {promos.length === 0 && <p className="text-sm text-white/50">Creá promos con vencimiento: solas se apagan cuando terminan.</p>}
           <div className="grid gap-3">
@@ -331,7 +331,7 @@ export default function Editar() {
         {stats && (
           <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
             <div className="mb-4"><LevelBadge slug={b.slug} /></div>
-            <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-pink-300 bg-clip-text text-transparent">📊 Estadísticas de tu negocio (últimos 7 días)</h2>
+            <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-400 bg-clip-text text-transparent">📊 Estadísticas de tu negocio (últimos 7 días)</h2>
             <div className="grid grid-cols-2 gap-4 mb-5">
               <div className="rounded-xl bg-black/20 p-4 text-center">
                 <p className="text-3xl font-black text-orange-400">{stats.views}</p>
@@ -350,7 +350,7 @@ export default function Editar() {
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
                     <span className="text-[10px] text-white/60">{d.n}</span>
                     <div
-                      className="w-full rounded-t bg-gradient-to-t from-orange-500 to-pink-500"
+                      className="w-full rounded-t bg-gradient-to-t from-orange-500 to-red-600"
                       style={{ height: `${(d.n / max) * 70 + 4}px` }}
                     />
                     <span className="text-[10px] text-white/50">{d.d}</span>
@@ -392,7 +392,7 @@ export default function Editar() {
         <ReviewModeration businessId={b.id} />
 
         <div className="mt-6 flex items-center gap-4">
-          <button onClick={save} disabled={saving} className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black text-white hover:opacity-90 disabled:opacity-40">
+          <button onClick={save} disabled={saving} className="rounded-lg bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black text-white hover:opacity-90 disabled:opacity-40">
             {saving ? "Guardando…" : "💾 Guardar cambios"}
           </button>
           {msg && <span className="text-sm">{msg}</span>}

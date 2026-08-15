@@ -14,7 +14,7 @@ export default function Error({ error, reset }: {
         </p>
         <div className="mt-6 flex justify-center gap-3">
           <button onClick={reset}
-            className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+            className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
             Reintentar
           </button>
           <a href="/"

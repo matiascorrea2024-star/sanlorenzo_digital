@@ -59,7 +59,7 @@ export default function ChangePassword({ email }: { email: string }) {
       {done && <p className="mt-2 text-xs text-green-400">✅ Contraseña actualizada.</p>}
       <div className="mt-3 flex gap-2">
         <button onClick={submit} disabled={saving || !current || !next || !confirm}
-          className="flex-1 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black disabled:opacity-50">
+          className="flex-1 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black disabled:opacity-50">
           {saving ? "Guardando…" : "Guardar"}
         </button>
         <button onClick={() => { setOpen(false); setError(""); }} className="rounded-xl border border-white/20 px-4 py-2.5 text-sm font-bold">

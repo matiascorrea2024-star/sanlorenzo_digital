@@ -76,7 +76,7 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
             className="h-9 w-9 md:h-11 md:w-11 rounded-2xl border-2 border-[#120d09] object-cover shadow-lg"
           />
         ) : (
-          <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#120d09] bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white shadow-lg">
+          <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#120d09] bg-gradient-to-br from-orange-500 to-red-600 text-sm font-black text-white shadow-lg">
             {(b.name || "?")[0]}
           </div>
         )}

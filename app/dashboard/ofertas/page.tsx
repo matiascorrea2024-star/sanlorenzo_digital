@@ -97,7 +97,7 @@ export default function OfertasPage() {
           </div>
           <Link
             href="/dashboard/ofertas/nueva"
-            className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 font-black text-white hover:opacity-90"
+            className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
           >
             + Nueva Oferta
           </Link>
@@ -125,7 +125,7 @@ export default function OfertasPage() {
             </p>
             <Link
               href="/dashboard/ofertas/nueva"
-              className="inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-8 py-4 font-black text-white hover:opacity-90"
+              className="inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 font-black text-white hover:opacity-90"
             >
               Crear mi primera oferta
             </Link>

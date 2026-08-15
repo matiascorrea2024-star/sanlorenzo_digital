@@ -50,7 +50,7 @@ export default function BarrioView() {
 
   return (
     <main className="min-h-screen bg-[#120d09] text-white pb-24">
-      <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 py-12">
+      <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 py-12">
         <div className="mx-auto max-w-6xl px-4">
           <Link href={`/${ciudadSlug}`} className="text-sm text-orange-400 flex items-center gap-1 mb-3">
             <ArrowLeft className="h-4 w-4" /> Volver a {ciudad.name}
