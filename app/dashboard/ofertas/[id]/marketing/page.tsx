@@ -73,7 +73,7 @@ export default function MarketingPage() {
 
   if (loading) {
     return (
-      <main className="bg-[#0a0710] min-h-screen flex items-center justify-center">
+      <main className="bg-[#120d09] min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </main>
     );
@@ -81,7 +81,7 @@ export default function MarketingPage() {
 
   if (!offer || !business) {
     return (
-      <main className="bg-[#0a0710] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[#120d09] min-h-screen flex items-center justify-center text-white">
         <p>Oferta no encontrada</p>
       </main>
     );
@@ -93,7 +93,7 @@ export default function MarketingPage() {
   const qrUrl = `${offerUrl}?source=qr`;
 
   return (
-    <main className="bg-[#0a0710] min-h-screen text-white">
+    <main className="bg-[#120d09] min-h-screen text-white">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300 mb-6 inline-block">
           ← Volver a mis ofertas

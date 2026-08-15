@@ -110,7 +110,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   if (loading) {
     return (
-      <main className="bg-[#0a0710] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[#120d09] min-h-screen flex items-center justify-center text-white">
         <div className="text-center">
           <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-orange-500"></div>
           <p className="mt-4 text-white/60">Cargando negocio...</p>
@@ -121,7 +121,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   if (!negocio) {
     return (
-      <main className="bg-[#0a0710] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[#120d09] min-h-screen flex items-center justify-center text-white">
         <div className="text-center">
           <p className="mb-4 text-5xl">🔍</p>
           <h1 className="text-2xl font-black">Negocio no encontrado</h1>
@@ -154,13 +154,13 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   };
 
   return (
-    <main className="bg-[#0a0710] min-h-screen pb-24 text-white">
+    <main className="bg-[#120d09] min-h-screen pb-24 text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* HERO a medida: altura consistente */}
       <section className="relative h-64 md:h-80">
         <img src={portada} alt={negocio.name} className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0710] via-[#0a0710]/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-[#120d09]/60 to-transparent" />
 
         <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md hover:bg-black/70">
           <ArrowLeft className="h-5 w-5" />
@@ -171,11 +171,11 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             <div className="flex items-start gap-4">
               {negocio.logo_url ? (
                 <DivisionFrame puntos={negocio.puntos || 0} size={72} categoria={negocio.category}>
-                  <img src={negocio.logo_url} alt={negocio.name} className="h-20 w-20 rounded-2xl border-4 border-[#0a0710] object-cover shadow-2xl" />
+                  <img src={negocio.logo_url} alt={negocio.name} className="h-20 w-20 rounded-2xl border-4 border-[#120d09] object-cover shadow-2xl" />
                 </DivisionFrame>
               ) : (
                 <DivisionFrame puntos={negocio.puntos || 0} size={80} categoria={negocio.category} showLabel>
-                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#0a0710] bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black shadow-2xl">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#120d09] bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black shadow-2xl">
                     {negocio.name[0]}
                   </div>
                 </DivisionFrame>

@@ -33,12 +33,12 @@ export default function BarrioView() {
   }, [ciudadSlug, barrioSlug]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">Cargando...</main>;
+    return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
   }
 
   if (!barrio || !ciudad) {
     return (
-      <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">
+      <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
         <div className="text-center">
           <p className="text-5xl mb-4">🔍</p>
           <h1 className="text-2xl font-black">Barrio no encontrado</h1>
@@ -49,7 +49,7 @@ export default function BarrioView() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 py-12">
         <div className="mx-auto max-w-6xl px-4">
           <Link href={`/${ciudadSlug}`} className="text-sm text-orange-400 flex items-center gap-1 mb-3">

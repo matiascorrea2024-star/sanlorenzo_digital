@@ -35,7 +35,7 @@ export default function RankedAvatar({ slug, name, size = 44, categoria, showLev
             boxShadow: `0 0 14px ${r.accent}99, 0 2px 6px rgba(0,0,0,.6), inset 0 1px 1px rgba(255,255,255,.5)`,
           }}>
           {/* Separador oscuro interior */}
-          <span className="block h-full w-full overflow-hidden rounded-full bg-[#0a0710]" style={{ padding: 2 }}>
+          <span className="block h-full w-full overflow-hidden rounded-full bg-[#120d09]" style={{ padding: 2 }}>
             {foto ? (
               <img src={foto} alt={name} className="h-full w-full rounded-full object-cover"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
@@ -60,7 +60,7 @@ export default function RankedAvatar({ slug, name, size = 44, categoria, showLev
         <span className="flex flex-col leading-tight whitespace-nowrap">
           <span className="rounded-md px-1.5 py-0.5 text-[9px] font-black whitespace-nowrap"
             style={{
-              background: `linear-gradient(180deg, ${r.accent}26, #0a0710f0)`,
+              background: `linear-gradient(180deg, ${r.accent}26, #120d09f0)`,
               border: `1px solid ${r.accent}66`,
               color: r.accent,
               boxShadow: `0 0 8px ${r.accent}44`,

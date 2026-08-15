@@ -48,7 +48,7 @@ export default function FavoritosPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+      <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <PageHero title="❤️ Mis favoritos" subtitle="Todos tus negocios y ofertas guardados en un solo lugar" />
         <div className="mx-auto max-w-2xl px-4 py-16 text-center">
           <Heart className="mx-auto h-16 w-16 text-white/20" />
@@ -66,7 +66,7 @@ export default function FavoritosPage() {
   const vacio = !loading && ofertas.length === 0 && negocios.length === 0;
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <PageHero title="❤️ Mis favoritos" subtitle="Todos tus negocios y ofertas guardados en un solo lugar" />
       <div className="mx-auto max-w-5xl px-4 py-8">
         <h1 className="text-3xl font-black">❤️ Mis favoritos</h1>

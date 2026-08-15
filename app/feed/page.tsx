@@ -83,7 +83,7 @@ export default function MuroPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <div className="flex items-center justify-between">
           <div>

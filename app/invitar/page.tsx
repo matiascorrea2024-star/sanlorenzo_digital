@@ -31,11 +31,11 @@ export default function InvitarPage() {
     })();
   }, []);
 
-  if (loading) return <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white/60 text-sm">Cargando…</main>;
+  if (loading) return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white/60 text-sm">Cargando…</main>;
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-[#0a0710] text-white flex items-center justify-center px-4 text-center">
+      <main className="min-h-screen bg-[#120d09] text-white flex items-center justify-center px-4 text-center">
         <div>
           <p className="mb-4 text-5xl">🔗</p>
           <h1 className="text-2xl font-black">Invitá a tus vecinos</h1>
@@ -65,7 +65,7 @@ export default function InvitarPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <PageHero title="🔗 Invitá a tus vecinos" subtitle="Compartí tu link y sumá puntos cuando alguien se una" />
       <div className="mx-auto max-w-lg px-4 py-8 text-center">
         <div className="rounded-3xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8">

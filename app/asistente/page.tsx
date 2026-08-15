@@ -105,7 +105,7 @@ export default function AsistentePage() {
   }, [q, ofertas, intent, coords]);
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <PageHero title="🤖 Asistente IA" subtitle="Preguntale lo que quieras de San Lorenzo" />
       <div className="mx-auto max-w-5xl px-4 py-10">
         <div className="text-center">

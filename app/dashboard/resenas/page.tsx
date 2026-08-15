@@ -37,7 +37,7 @@ export default function ResenasPage() {
   };
 
   return (
-    <main className="bg-[#0a0710] min-h-screen text-white pb-24">
+    <main className="bg-[#120d09] min-h-screen text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <h1 className="text-3xl font-black">⭐ Reseñas de tus clientes</h1>

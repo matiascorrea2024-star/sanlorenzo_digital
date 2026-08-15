@@ -105,7 +105,7 @@ export default function PerfilPage() {
   }, []);
 
   if (cargando) return (
-    <main className="min-h-screen bg-[#0a0710] text-white">
+    <main className="min-h-screen bg-[#120d09] text-white">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <div className="flex items-center gap-4">
           <div className="h-16 w-16 animate-pulse rounded-full bg-white/10" />
@@ -126,7 +126,7 @@ export default function PerfilPage() {
 
   if (!user)
     return (
-      <main className="min-h-screen bg-[#0a0710] text-white flex items-center justify-center px-4 text-center">
+      <main className="min-h-screen bg-[#120d09] text-white flex items-center justify-center px-4 text-center">
         <div>
           <p className="text-5xl mb-4">🎖</p>
           <h1 className="text-2xl font-black">Tu perfil de vecino</h1>
@@ -150,7 +150,7 @@ export default function PerfilPage() {
   }));
 
   return (
-    <main className="bg-[#0a0710] text-white min-h-screen pb-24">
+    <main className="bg-[#120d09] text-white min-h-screen pb-24">
       <PageHero title="🎖 Tu perfil de vecino" subtitle="Tus misiones, medallas, rachas y premios" />
       <div className="mx-auto max-w-3xl px-4 py-10">
         <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">

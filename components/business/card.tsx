@@ -40,7 +40,7 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
           loading="lazy"
           className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0710] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-transparent to-transparent" />
         
         {/* Badge abierto/cerrado */}
         <span className={`absolute left-2 top-2 md:left-3 md:top-3 inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 md:px-2.5 md:py-1 text-[9px] md:text-[10px] font-black backdrop-blur ${
@@ -73,10 +73,10 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
           <img
             src={b.logo_url}
             alt=""
-            className="h-9 w-9 md:h-11 md:w-11 rounded-2xl border-2 border-[#0a0710] object-cover shadow-lg"
+            className="h-9 w-9 md:h-11 md:w-11 rounded-2xl border-2 border-[#120d09] object-cover shadow-lg"
           />
         ) : (
-          <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#0a0710] bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white shadow-lg">
+          <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#120d09] bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white shadow-lg">
             {(b.name || "?")[0]}
           </div>
         )}

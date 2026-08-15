@@ -80,10 +80,10 @@ export default function AdminBlogPage() {
     await cargar();
   };
 
-  if (!ready) return <main className="min-h-screen bg-[#0a0710]" />;
+  if (!ready) return <main className="min-h-screen bg-[#120d09]" />;
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <Link href="/admin?tab=blog" className="text-sm text-orange-400 hover:text-orange-300">← Volver al panel</Link>
         <div className="mt-4 flex items-center justify-between">

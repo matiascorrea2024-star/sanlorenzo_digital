@@ -79,7 +79,7 @@ export default function AnalyticsPage() {
   }, [selectedBiz]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">Cargando...</main>;
+    return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
   }
 
   const cards = [
@@ -94,7 +94,7 @@ export default function AnalyticsPage() {
   const maxViews = Math.max(...timeline.map(d => d.views), 1);
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <DashboardNav />
         

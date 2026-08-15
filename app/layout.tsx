@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Space_Grotesk, Big_Shoulders } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
@@ -16,11 +16,16 @@ import ReferralTracker from "@/components/referral-tracker";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
+// Cara "cartel de mercado / ticket" para el wordmark, precios y descuentos --
+// condensada y de peso pesado, referencia al cordón industrial real de San
+// Lorenzo (Big Shoulders nació para la cartelería de Chicago), no una
+// tipografía de SaaS genérica.
+const ticket = Big_Shoulders({ subsets: ["latin"], weight: "variable", axes: ["opsz"], variable: "--font-ticket" });
 
 import type { Viewport } from "next";
 
 export const viewport: Viewport = {
-  themeColor: "#0a0710",
+  themeColor: "#120d09",
   colorScheme: "dark",
 };
 
@@ -39,7 +44,7 @@ import InstallApp from "@/components/ui/install-app";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" data-scroll-behavior="smooth" className={`${inter.variable} ${space.variable}`}>
+    <html lang="es" data-scroll-behavior="smooth" className={`${inter.variable} ${space.variable} ${ticket.variable}`}>
       <body>
       <a href="#contenido" className="skip-link">Saltar al contenido</a>
         <ToastProvider>

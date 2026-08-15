@@ -62,7 +62,7 @@ export default function PlanesDashboard() {
 
   if (!negocio) {
     return (
-      <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+      <main className="min-h-screen bg-[#120d09] text-white pb-24">
         <div className="mx-auto max-w-4xl px-4 py-8">
           <DashboardNav />
           <p className="text-white/50">Necesitás un negocio para gestionar tu plan.</p>
@@ -72,7 +72,7 @@ export default function PlanesDashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <DashboardNav />
         <h1 className="text-3xl font-black">💳 Tu plan</h1>

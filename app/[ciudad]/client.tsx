@@ -54,12 +54,12 @@ export default function CiudadView() {
   }, [ciudadSlug]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">Cargando...</main>;
+    return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
   }
 
   if (!ciudad) {
     return (
-      <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">
+      <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
         <div className="text-center">
           <p className="text-5xl mb-4">🔍</p>
           <h1 className="text-2xl font-black">Ciudad no encontrada</h1>
@@ -70,7 +70,7 @@ export default function CiudadView() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       {/* Hero de ciudad */}
       <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 py-12">
         <div className="mx-auto max-w-6xl px-4">

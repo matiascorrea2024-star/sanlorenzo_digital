@@ -71,9 +71,9 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       {/* Hero del Radar */}
-      <section className="relative overflow-hidden border-b border-red-400/20 bg-gradient-to-br from-red-900/30 via-[#0a0710] to-orange-900/30 py-12">
+      <section className="relative overflow-hidden border-b border-red-400/20 bg-gradient-to-br from-red-900/30 via-[#120d09] to-orange-900/30 py-12">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(239,68,68,0.15),_transparent_50%)]" />
         <div className="relative mx-auto max-w-5xl px-4 text-center">
           <Badge variant="danger" size="md" pulse>

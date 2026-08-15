@@ -35,7 +35,7 @@ export default function Stories() {
             <button key={g[0].business_id} onClick={() => setSelected(g[0])}
               className="flex flex-col items-center gap-1 shrink-0">
               <span className="rounded-full bg-gradient-to-tr from-orange-500 to-pink-500 p-[2px]">
-                <span className="block rounded-full bg-[#0a0710] p-[2px]">
+                <span className="block rounded-full bg-[#120d09] p-[2px]">
                   <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-orange-500/30 to-pink-500/30 text-xl font-black">
                     {b?.name?.[0] || "🏪"}
                   </span>

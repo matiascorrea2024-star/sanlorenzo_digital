@@ -125,7 +125,7 @@ export default function NuevaOferta() {
   const limiteHoy = limite ? PLANES[limite.plan]?.ofertasNuevasPorDia ?? 1 : null;
 
   return (
-    <main className="min-h-screen bg-[#0a0710] pb-24 text-white">
+    <main className="min-h-screen bg-[#120d09] pb-24 text-white">
       <div className="mx-auto max-w-2xl px-4 py-10">
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
 

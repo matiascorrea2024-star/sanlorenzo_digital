@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { MapPin, Sparkles, BadgeCheck, Flame } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import SmartSearch from "@/components/ui/smart-search";
+import Skyline from "@/components/home/skyline";
 import type { FullBusiness } from "@/lib/use-businesses";
 
 interface HeroProps {
@@ -43,31 +44,36 @@ export default function Hero({ onSearch, stats, seedNegocios }: HeroProps) {
   const sugerencias = ["zapatillas", "pizza", "peluquería", "ferretería", "ofertas"];
 
   return (
-    <section className="relative bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f]">
-      {/* Decoración: overflow-hidden va acá, no en la section -- si no,
-          recorta el dropdown del buscador inteligente que aparece por
-          debajo del buscador (necesita desbordar la altura del hero). */}
-      <div className="absolute inset-0 overflow-hidden opacity-25">
-        <div className="absolute top-0 left-1/4 h-80 w-80 rounded-full bg-red-600 mix-blend-screen filter blur-3xl animate-blob" />
-        <div className="absolute top-1/3 right-1/4 h-80 w-80 rounded-full bg-orange-600 mix-blend-screen filter blur-3xl animate-blob animation-delay-2000" />
-        <div className="absolute bottom-1/4 left-1/3 h-80 w-80 rounded-full bg-pink-600 mix-blend-screen filter blur-3xl animate-blob animation-delay-4000" />
-      </div>
-
-      <div
-        className="absolute inset-0 overflow-hidden opacity-10"
-        style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "40px 40px" }}
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#120d09] via-[#1c150e] to-[#120d09]">
+      {/* Perfil real de San Lorenzo (silos + grúa portuaria + barcaza sobre
+          el Paraná) en vez de blobs abstractos -- la identidad viene del
+          lugar, no de un gradiente genérico. Se funde hacia arriba para no
+          competir con el texto. */}
+      <Skyline
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 w-full text-[#2a2015] opacity-70 [mask-image:linear-gradient(to_top,black_55%,transparent_100%)] md:h-56"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 md:py-16">
         <div className="fade-up text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 backdrop-blur-sm">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5">
             <Sparkles className="h-3.5 w-3.5 text-orange-400" />
             <span className="text-xs font-medium text-orange-300">San Lorenzo · Santa Fe</span>
           </div>
 
-          <h1 className="mb-4 text-4xl font-black tracking-tight md:text-6xl lg:text-7xl">
-            <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">LA GRAN</span>{" "}
-            <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent animate-gradient">BARATA DIGITAL</span>
+          <h1 className="mb-4 leading-[0.95]">
+            <span
+              className="block text-3xl font-bold tracking-tight text-white md:text-5xl"
+              style={{ fontFamily: "var(--font-space)" }}
+            >
+              LA GRAN
+            </span>
+            <span
+              className="relative mt-1 inline-block -rotate-1 text-5xl font-black uppercase tracking-tight text-orange-400 md:text-7xl lg:text-8xl"
+              style={{ fontFamily: "var(--font-ticket)" }}
+            >
+              Barata Digital
+              <span className="absolute -right-3 -top-2 text-xl text-red-500 md:-right-5 md:-top-3 md:text-3xl">°</span>
+            </span>
           </h1>
 
           <p className="fade-up-2 mx-auto mb-6 max-w-2xl text-base text-white/60 md:text-lg">
@@ -76,16 +82,13 @@ export default function Hero({ onSearch, stats, seedNegocios }: HeroProps) {
           </p>
 
           <div className="fade-up-3 mx-auto max-w-2xl">
-            <div className="group relative">
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 opacity-75 blur transition duration-1000 group-hover:opacity-100 animate-gradient" />
-              <div className="relative">
-                <SmartSearch
-                  placeholder="Buscar ofertas, negocios, productos..."
-                  onPlainSearch={(term) => onSearch && onSearch(term)}
-                  shortcutSlash
-                  seedNegocios={seedNegocios}
-                />
-              </div>
+            <div className="hero-search rounded-2xl transition-shadow duration-300">
+              <SmartSearch
+                placeholder="Buscar ofertas, negocios, productos..."
+                onPlainSearch={(term) => onSearch && onSearch(term)}
+                shortcutSlash
+                seedNegocios={seedNegocios}
+              />
             </div>
 
             <div className="mt-4 flex flex-wrap justify-center gap-2">
@@ -93,7 +96,7 @@ export default function Hero({ onSearch, stats, seedNegocios }: HeroProps) {
                 <button
                   key={sug}
                   onClick={() => onSearch && onSearch(sug)}
-                  className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-white/30 hover:bg-white/10"
+                  className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70 transition-all duration-300 hover:scale-105 hover:border-white/30 hover:bg-white/10"
                 >
                   {sug}
                 </button>
@@ -101,26 +104,34 @@ export default function Hero({ onSearch, stats, seedNegocios }: HeroProps) {
             </div>
           </div>
 
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-6 md:gap-10">
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-6 md:gap-10">
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-black text-orange-400 tabular-nums md:text-3xl">{display.promos}</span>
+              <span className="text-2xl tabular-nums text-orange-400 md:text-3xl" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>
+                {display.promos}
+              </span>
               <span className="text-left text-[11px] leading-tight text-white/60">{plural(display.promos, "promoción activa", "promociones activas")}</span>
             </div>
             <div className="h-6 w-px bg-white/10" />
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-black text-white tabular-nums md:text-3xl">{display.negocios}</span>
+              <span className="text-2xl tabular-nums text-white md:text-3xl" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>
+                {display.negocios}
+              </span>
               <span className="text-left text-[11px] leading-tight text-white/60">{plural(display.negocios, "negocio", "negocios")}</span>
             </div>
             <div className="h-6 w-px bg-white/10" />
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-black text-amber-400 tabular-nums md:text-3xl">{display.pronto}</span>
+              <span className="text-2xl tabular-nums text-red-500 md:text-3xl" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>
+                {display.pronto}
+              </span>
               <span className="text-left text-[11px] leading-tight text-white/60">{plural(display.pronto, "termina hoy", "terminan pronto")}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="relative z-10 border-t border-white/5 bg-black/20 backdrop-blur-sm">
+      {/* Franja tipo talonario de ticket -- borde punteado simulando el
+          desgarro, no otro panel de vidrio esmerilado. */}
+      <div className="relative z-10 border-t border-dashed border-white/15 bg-black/25">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-2 px-4 py-3 md:grid-cols-4">
           {TRUST.map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center justify-center gap-2 text-[11px] font-semibold text-white/45">

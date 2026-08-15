@@ -28,13 +28,13 @@ function CompararContent() {
   }, [idsParam]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">
+    return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
       <PageHero title="⚖️ Comparador" subtitle="Compará negocios y productos de un vistazo" />Cargando...</main>;
   }
 
   if (productos.length === 0) {
     return (
-      <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+      <main className="min-h-screen bg-[#120d09] text-white pb-24">
         <div className="mx-auto max-w-5xl px-4 py-12 text-center">
           <Package className="mx-auto h-16 w-16 text-white/30 mb-4" />
           <h1 className="text-3xl font-black">Comparador de productos</h1>
@@ -60,7 +60,7 @@ function CompararContent() {
   const mejorId = conScore.reduce((best, p) => p.sdlScore > best.sdlScore ? p : best, conScore[0]).id;
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <Link href="/negocios" className="flex items-center gap-1 text-sm text-orange-400 mb-4">
           <ArrowLeft className="h-4 w-4" /> Volver a productos
@@ -166,7 +166,7 @@ import PageHero from "@/components/ui/page-hero";
 export default function CompararPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">
+      <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </main>
     }>

@@ -54,7 +54,7 @@ export default function Header() {
   ];
 
   return (
-    <header className={`sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300 relative h-14 md:h-16 ${scrolled ? "border-white/10 bg-[#0a0710]/95 shadow-lg shadow-black/40" : "border-transparent bg-[#0a0710]/70"}`}>
+    <header className={`sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300 relative h-14 md:h-16 ${scrolled ? "border-white/10 bg-[#120d09]/95 shadow-lg shadow-black/40" : "border-transparent bg-[#120d09]/70"}`}>
       <div className="mx-auto max-w-7xl px-4 h-full">
         <div className="flex h-full items-center justify-between gap-4">
           <Link href="/" className="group flex shrink-0 items-center gap-2.5">

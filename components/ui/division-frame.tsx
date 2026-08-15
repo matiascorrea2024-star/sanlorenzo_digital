@@ -56,7 +56,7 @@ export default function DivisionFrame({ children, puntos, size = 96, showLabel =
         <div className="relative flex h-full w-full items-center justify-center overflow-hidden"
           style={{
             clipPath: OCT,
-            background: "radial-gradient(circle at 35% 28%, #221a2e 0%, #0a0710 72%)",
+            background: "radial-gradient(circle at 35% 28%, #221a2e 0%, #120d09 72%)",
             boxShadow: "inset 0 2px 6px rgba(255,255,255,0.18), inset 0 -5px 12px rgba(0,0,0,0.85)",
           }}>
           {children}

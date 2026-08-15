@@ -22,7 +22,7 @@ export default function BottomNav() {
 
   return (
     <nav aria-label="Navegación principal"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-[#0a0710]/95 backdrop-blur-xl md:hidden">
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-[#120d09]/95 backdrop-blur-xl md:hidden">
       <div className="grid grid-cols-7">
         {ITEMS.map((item) => {
           const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);

@@ -124,7 +124,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
   }, [negocios, radio, userCoords]);
 
   return (
-    <main className="bg-[#0a0710] min-h-screen text-white pb-24">
+    <main className="bg-[#120d09] min-h-screen text-white pb-24">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="flex items-center gap-2">
           <MapPin className="h-7 w-7 text-orange-400" />
@@ -171,7 +171,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
             </div>
           )}
           {mapReady && stats.total === 0 && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl border border-white/10 bg-[#0a0710]/90 p-6 text-center backdrop-blur-sm">
+            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl border border-white/10 bg-[#120d09]/90 p-6 text-center backdrop-blur-sm">
               <div>
                 <MapPin className="mx-auto h-8 w-8 text-white/30" />
                 <p className="mt-3 font-bold">Todavía no hay negocios con ubicación cargada</p>

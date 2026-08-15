@@ -14,8 +14,8 @@ const SECTORES = [
 
 export default function B2bView() {
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
-      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-slate-900/50 via-[#0a0710] to-indigo-900/30 py-16">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-slate-900/50 via-[#120d09] to-indigo-900/30 py-16">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(99,102,241,0.15),_transparent_50%)]" />
         <div className="relative mx-auto max-w-5xl px-4 text-center">
           <Badge variant="info" size="md">🏭 Para empresas</Badge>

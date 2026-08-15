@@ -176,7 +176,7 @@ export default function HomeClient({ initial, initialOfertas, initialTop }: { in
       <OfertaBomba />
 
       {/* ===== BARRA STICKY: TODO A MANO ===== */}
-      <div className="sticky top-14 z-40 border-b border-white/5 bg-[#0a0710]/90 backdrop-blur-xl md:top-16">
+      <div className="sticky top-14 z-40 border-b border-white/5 bg-[#120d09]/90 backdrop-blur-xl md:top-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="sld-no-scrollbar flex items-center gap-2 overflow-x-auto py-3">
             <button onClick={() => aplicarCat(null)} className={chip(!cat)}>🛍️ Todo</button>
@@ -247,7 +247,7 @@ export default function HomeClient({ initial, initialOfertas, initialTop }: { in
                 </p>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {ofertasDestacadas.map((o) => (
-                    <div key={o.id} className="rounded-2xl ring-2 ring-amber-400/40 ring-offset-2 ring-offset-[#0a0710]">
+                    <div key={o.id} className="rounded-2xl ring-2 ring-amber-400/40 ring-offset-2 ring-offset-[#120d09]">
                       <OfferCard o={o} userCoords={coords} />
                     </div>
                   ))}

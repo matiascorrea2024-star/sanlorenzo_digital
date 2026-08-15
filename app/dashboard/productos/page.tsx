@@ -91,7 +91,7 @@ export default function ProductosPage() {
   };
 
   if (loading) return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <div className="h-8 w-40 animate-pulse rounded bg-white/10" />
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -105,7 +105,7 @@ export default function ProductosPage() {
 
   if (!negocio) {
     return (
-      <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+      <main className="min-h-screen bg-[#120d09] text-white pb-24">
         <div className="mx-auto max-w-3xl px-4 py-8">
           <DashboardNav />
           <p>No tenés negocios. Creá uno primero.</p>
@@ -115,7 +115,7 @@ export default function ProductosPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">

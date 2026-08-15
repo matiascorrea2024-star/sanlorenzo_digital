@@ -28,7 +28,7 @@ export default function OfertasFinalizadasPage() {
   );
 
   return (
-    <main className="bg-[#0a0710] text-white min-h-screen pb-24">
+    <main className="bg-[#120d09] text-white min-h-screen pb-24">
       <PageHero
         title="😢 Ofertas que ya terminaron"
         subtitle="Mirá lo que te perdiste... y seguí a tus negocios favoritos para no perderte la próxima."

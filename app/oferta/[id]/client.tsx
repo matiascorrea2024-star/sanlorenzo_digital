@@ -49,7 +49,7 @@ export default function OfertaPage() {
 
   if (loading) {
     return (
-      <main className="bg-[#0a0710] min-h-screen flex items-center justify-center">
+      <main className="bg-[#120d09] min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </main>
     );
@@ -57,7 +57,7 @@ export default function OfertaPage() {
 
   if (!oferta || !negocio) {
     return (
-      <main className="bg-[#0a0710] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[#120d09] min-h-screen flex items-center justify-center text-white">
         <div className="text-center">
           <p className="text-5xl mb-4">🔍</p>
           <h1 className="text-2xl font-black">Oferta no encontrada</h1>
@@ -76,11 +76,11 @@ export default function OfertaPage() {
   const ahorro = oferta.old_price && oferta.offer_price ? Number(oferta.old_price) - Number(oferta.offer_price) : null;
 
   return (
-    <main className="bg-[#0a0710] min-h-screen text-white pb-24">
+    <main className="bg-[#120d09] min-h-screen text-white pb-24">
       {/* HERO a medida: ni gigante ni chico, título siempre legible */}
       <section className="relative h-60 md:h-72">
         <img src={img} alt={oferta.title} className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0710] via-[#0a0710]/45 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-[#120d09]/45 to-transparent" />
         <button
           onClick={() => router.back()}
           aria-label="Volver"

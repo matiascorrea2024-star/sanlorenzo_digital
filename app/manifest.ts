@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Todas las ofertas y negocios de San Lorenzo en un solo lugar.",
     start_url: "/",
     display: "standalone",
-    background_color: "#0a0710",
+    background_color: "#120d09",
     theme_color: "#f97316",
     lang: "es-AR",
     icons: [

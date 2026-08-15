@@ -60,7 +60,7 @@ export default function MuroDashboard() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">

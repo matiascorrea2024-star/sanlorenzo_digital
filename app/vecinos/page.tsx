@@ -53,7 +53,7 @@ export default function VecinosPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#0a0710] pb-24 text-white">
+    <main className="min-h-screen bg-[#120d09] pb-24 text-white">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <RankingSwitch current="vecinos" />
 

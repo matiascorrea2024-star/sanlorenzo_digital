@@ -175,7 +175,7 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">
+      <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
         <div className="text-center">
           <div className="mx-auto h-10 w-10 animate-spin rounded-full border-b-2 border-red-400" />
           <p className="mt-4 text-sm text-white/50">Cargando panel de administración…</p>
@@ -194,7 +194,7 @@ export default function AdminPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <div className="border-b border-white/5 bg-gradient-to-b from-red-950/20 to-transparent">
         <div className="mx-auto max-w-6xl px-4 py-8">
           <div className="flex items-center gap-3">

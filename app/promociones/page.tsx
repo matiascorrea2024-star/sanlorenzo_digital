@@ -50,7 +50,7 @@ export default function PromocionesPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#0a0710] pb-24 text-white">
+    <main className="min-h-screen bg-[#120d09] pb-24 text-white">
       <PageHero
         title="🔥 Ofertas en este momento"
         subtitle={`${activas.length} promocion${activas.length === 1 ? "" : "es"} corriendo ahora en San Lorenzo`}
@@ -81,7 +81,7 @@ export default function PromocionesPage() {
                     loading="lazy"
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0710] via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-transparent to-transparent" />
                   {p.discount && (
                     <span className="absolute left-3 top-3 rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-2.5 py-1 text-xs font-black text-white shadow-lg">
                       {p.discount}
