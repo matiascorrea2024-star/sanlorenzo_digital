@@ -101,7 +101,7 @@ function BuscarContent() {
   return (
     <main className="bg-[#120d09] text-white min-h-screen pb-24">
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <PageHero title="🔍 Buscador inteligente" subtitle="Buscá por nombre, producto o rubro, y filtrá como quieras" />
+        <PageHero title="Buscador inteligente" subtitle="Buscá por nombre, producto o rubro, y filtrá como quieras" />
 
         <input
           value={q}
