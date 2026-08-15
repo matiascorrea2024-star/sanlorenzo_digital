@@ -176,6 +176,28 @@ main img:not([class*="h-"]) {
   pointer-events: none; z-index: 5;
 }
 
+/* "En fuego": negocio en racha real de crecimiento (más visitas esta
+   semana que la anterior, el #1 del ranking por crecimiento). Se suma
+   ARRIBA del marco de rango existente, no lo reemplaza. */
+@keyframes blaze {
+  0%, 100% { opacity: 0.55; transform: scale(1) rotate(-3deg); }
+  50% { opacity: 1; transform: scale(1.15) rotate(3deg); }
+}
+@keyframes blazeRing {
+  0%, 100% { opacity: 0.5; filter: blur(7px); }
+  50% { opacity: 0.9; filter: blur(10px); }
+}
+.blaze-ring {
+  animation: blazeRing 1.8s ease-in-out infinite;
+}
+.blaze-flame {
+  position: absolute; font-size: 13px; pointer-events: none; z-index: 21;
+  animation: blaze 1.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px rgba(251,146,60,.9));
+}
+.blaze-flame.b2 { animation-delay: .35s; }
+.blaze-flame.b3 { animation-delay: .7s; }
+
 @keyframes rankPulse {
   0%, 100% { opacity: 0.55; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.12); }

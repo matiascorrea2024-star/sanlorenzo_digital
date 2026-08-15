@@ -422,7 +422,7 @@ export default function Editar() {
           </div>
         </section>
 
-        <ReviewModeration businessId={b.id} />
+        <ReviewModeration businessId={b.id} plan={b.plan} />
 
         <div className="mt-6 flex items-center gap-4">
           <button onClick={save} disabled={saving} className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black text-white hover:opacity-90 disabled:opacity-40">

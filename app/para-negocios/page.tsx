@@ -58,12 +58,8 @@ export default async function Page() {
       <section className="mx-auto max-w-4xl px-4 pb-20">
         <div className="rounded-2xl border border-[var(--accent)] bg-gradient-to-br from-[var(--surface)] to-[rgba(139,92,246,.15)] p-8 text-center md:p-12">
           <h2 className="text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Fundadores de la plataforma</h2>
-          <p className="mx-auto mt-3 max-w-md text-sm text-[var(--muted)]">Los primeros 10 comercios entran con beneficios de fundador.</p>
-          {wa ? (
-            <a href={wa} target="_blank" className="mt-6 inline-block rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white">Quiero ser fundador</a>
-          ) : (
-            <a href="/dashboard/nuevo" className="mt-6 inline-block rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white">Quiero ser fundador</a>
-          )}
+          <p className="mx-auto mt-3 max-w-md text-sm text-[var(--muted)]">Los primeros comercios entran con beneficios de fundador -- se reclama solo, sin esperar a nadie.</p>
+          <a href="/dashboard/nuevo" className="mt-6 inline-block rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white">Crear mi negocio y reclamar</a>
         </div>
       </section>
     </main>

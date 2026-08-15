@@ -1,8 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Lock } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { planDe } from "@/lib/plans";
 
-export default function ReviewModeration({ businessId }: { businessId: string }) {
+export default function ReviewModeration({ businessId, plan }: { businessId: string; plan?: string }) {
+  const puedeResponder = planDe({ plan }).responderResenas;
   const [list, setList] = useState<any[] | null>(null);
   const [replyDraft, setReplyDraft] = useState<Record<string, string>>({});
 
@@ -47,7 +51,7 @@ export default function ReviewModeration({ businessId }: { businessId: string })
                   <p className="text-[11px] font-bold text-orange-300">↳ Tu respuesta</p>
                   <p className="text-xs text-white/70">{r.reply}</p>
                 </div>
-              ) : (
+              ) : puedeResponder ? (
                 <div className="mt-2 flex gap-2">
                   <input
                     value={replyDraft[r.id] || ""}
@@ -57,6 +61,10 @@ export default function ReviewModeration({ businessId }: { businessId: string })
                   />
                   <button onClick={() => sendReply(r.id)} className="rounded-lg bg-orange-500/20 px-3 py-1.5 text-xs font-bold text-orange-300 hover:bg-orange-500/30">Responder</button>
                 </div>
+              ) : (
+                <Link href="/dashboard/planes" className="mt-2 flex items-center gap-1.5 text-xs font-bold text-orange-400 hover:text-orange-300">
+                  <Lock className="h-3 w-3" /> Responder reseñas es de Plan PRO -- mejorar plan →
+                </Link>
               )}
               <button onClick={() => toggleHidden(r.id, r.hidden)} className="mt-2 text-xs text-white/40 hover:text-red-400">Ocultar de mi miniweb</button>
             </div>

@@ -116,10 +116,10 @@ export default function Header() {
                       <span>Mensajes</span>
                       {unread > 0 && <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-black text-white">{unread > 9 ? "9+" : unread}</span>}
                     </Link>
-                    <Link href="/perfil" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Misiones y nivel</Link>
+                    <Link href="/perfil#misiones" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Misiones y nivel</Link>
 
                     <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">👤 Cuenta</p>
-                    <Link href="/perfil" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Perfil y clave</Link>
+                    <Link href="/perfil#cuenta" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Perfil y clave</Link>
                     <Link href="/vecinos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Ranking de vecinos</Link>
                     <Link href="/invitar" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Invitar amigos</Link>
                     <button onClick={salir} className="w-full rounded-xl px-3 py-2 text-left text-sm text-red-300 hover:bg-white/5">Salir</button>

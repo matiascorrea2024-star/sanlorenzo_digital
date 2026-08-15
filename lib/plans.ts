@@ -11,6 +11,7 @@ export const PLANES: Record<string, {
   stats: boolean;
   historias: boolean;
   cuponesIlimitados: boolean;
+  responderResenas: boolean;
   badge: string;
 }> = {
   gratis: {
@@ -21,6 +22,7 @@ export const PLANES: Record<string, {
     stats: false,
     historias: false,
     cuponesIlimitados: false,
+    responderResenas: false,
     badge: "",
   },
   profesional: {
@@ -31,6 +33,7 @@ export const PLANES: Record<string, {
     stats: true,
     historias: true,
     cuponesIlimitados: true,
+    responderResenas: true,
     badge: "🚀 Pro",
   },
   premium: {
@@ -41,6 +44,7 @@ export const PLANES: Record<string, {
     stats: true,
     historias: true,
     cuponesIlimitados: true,
+    responderResenas: true,
     badge: "🔥 Destacado",
   },
 };

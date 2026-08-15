@@ -210,7 +210,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                     {esTop10 && <span className="mt-0.5 text-[8px] font-black text-orange-300">TOP 10</span>}
                   </div>
                   {i < 3 ? (
-              <DivisionFrame categoria={r.category} puntos={r.puntos} size={44}>
+              <DivisionFrame categoria={r.category} puntos={r.puntos} size={44} enFuego={tab === "crecimiento" && i === 0 && r.crecimiento > 0}>
                 <RankedAvatar slug={r.slug} name={r.name} size={40} categoria={r.category} />
               </DivisionFrame>
             ) : (

@@ -89,8 +89,10 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
   }, [initial]);
 
   const filteredBusinesses = useMemo(() => {
-    if (!cat) return initial;
-    return initial.filter((b: any) => b.category === cat);
+    // Destacado Semanal (plan pago) manda al frente -- si no, pagar por
+    // posición destacada no cambiaba nada en la práctica.
+    const base = cat ? initial.filter((b: any) => b.category === cat) : initial;
+    return [...base].sort((a: any, b: any) => (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0));
   }, [initial, cat]);
 
   // El buscador y las sugerencias del hero no filtran esta misma

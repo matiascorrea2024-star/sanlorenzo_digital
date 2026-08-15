@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Check, Clock, Crown, Rocket, Zap } from "lucide-react";
+import { Check, Clock, Crown, Rocket, Zap, Gift } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
@@ -23,22 +23,52 @@ export default function PlanesDashboard() {
   const [archivo, setArchivo] = useState<File | null>(null);
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
+  const [campanas, setCampanas] = useState<any[]>([]);
+  const [misReclamos, setMisReclamos] = useState<string[]>([]);
+  const [reclamando, setReclamando] = useState<string | null>(null);
+  const [avisoCampana, setAvisoCampana] = useState("");
   const whatsapp = usePlatformSetting("whatsapp_contacto");
   const datosPago = usePlatformSetting("datos_pago");
 
   useEffect(() => {
     (async () => {
       if (!user) return;
-      const { data: biz } = await supabase().from("businesses")
+      const sb = supabase();
+      const { data: biz } = await sb.from("businesses")
         .select("*").eq("owner_id", user.id).maybeSingle();
       setNegocio(biz);
       if (biz) {
-        const { data: sub } = await supabase().from("subscriptions")
-          .select("*").eq("business_id", biz.id).eq("status", "pending").maybeSingle();
+        const [{ data: sub }, { data: camps }, { data: claims }] = await Promise.all([
+          sb.from("subscriptions").select("*").eq("business_id", biz.id).eq("status", "pending").maybeSingle(),
+          sb.from("campaigns").select("*").eq("active", true).order("created_at", { ascending: false }),
+          sb.from("campaign_claims").select("campaign_id").eq("business_id", biz.id),
+        ]);
         setPendiente(sub);
+        setCampanas((camps || []).filter((c: any) => !c.ends_at || new Date(c.ends_at) > new Date()));
+        setMisReclamos((claims || []).map((c: any) => c.campaign_id));
       }
     })();
   }, [user]);
+
+  const reclamarCampana = async (campaignId: string) => {
+    if (!negocio) return;
+    setReclamando(campaignId);
+    setAvisoCampana("");
+    try {
+      const res = await fetch("/api/campaigns/claim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ campaign_id: campaignId, business_id: negocio.id }),
+      });
+      const j = await res.json();
+      if (!res.ok) throw new Error(j.error || "No se pudo reclamar el beneficio.");
+      setMisReclamos((prev) => [...prev, campaignId]);
+      setNegocio((prev: any) => ({ ...prev, plan: campanas.find((c) => c.id === campaignId)?.grants_plan, plan_expira: j.expira, destacado: campanas.find((c) => c.id === campaignId)?.grants_plan === "premium" }));
+    } catch (e: any) {
+      setAvisoCampana(e.message);
+    }
+    setReclamando(null);
+  };
 
   const solicitar = async (plan: string) => {
     if (!negocio || !archivo) { setError("Subí el comprobante de pago para continuar."); return; }
@@ -83,6 +113,25 @@ export default function PlanesDashboard() {
             <span className="text-white/40"> · vence el {new Date(negocio.plan_expira).toLocaleDateString("es-AR")}</span>
           )}
         </p>
+
+        {campanas.filter((c) => !misReclamos.includes(c.id)).map((c) => (
+          <div key={c.id} className="mt-6 flex flex-col items-start justify-between gap-3 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-5 sm:flex-row sm:items-center">
+            <div className="flex items-start gap-3">
+              <Gift className="h-6 w-6 shrink-0 text-orange-400" />
+              <div>
+                <p className="font-black">{c.title}</p>
+                <p className="text-sm text-white/60">
+                  {c.description || `Obtenés ${PLANES[c.grants_plan]?.name} gratis por ${c.grants_dias} días.`}
+                </p>
+              </div>
+            </div>
+            <button onClick={() => reclamarCampana(c.id)} disabled={reclamando === c.id}
+              className="shrink-0 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+              {reclamando === c.id ? "Reclamando..." : "Reclamar beneficio"}
+            </button>
+          </div>
+        ))}
+        {avisoCampana && <p className="mt-3 text-sm text-red-300">{avisoCampana}</p>}
 
         {pendiente && (
           <div className="mt-6 flex items-center gap-3 rounded-2xl border border-yellow-400/30 bg-yellow-500/10 p-4">

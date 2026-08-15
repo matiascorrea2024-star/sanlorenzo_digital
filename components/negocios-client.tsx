@@ -18,7 +18,8 @@ export default function Negocios({ initial }: { initial: any[] }) {
     (!cat || b.category === cat) &&
     (!openNow || b.open) &&
     (!q.trim() || [b.name, b.description, ...b.tags].join(" ").toLowerCase().includes(q.toLowerCase()))
-  ), [negocios, q, cat, openNow]);
+  // Destacado Semanal (plan pago) va primero -- es lo que paga esa posición.
+  ).sort((a: any, b: any) => (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0)), [negocios, q, cat, openNow]);
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Negocios de San Lorenzo</h1>

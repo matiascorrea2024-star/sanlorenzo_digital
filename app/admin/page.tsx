@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper, Search, Trash2, Pencil, MessageCircle } from "lucide-react";
+import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper, Search, Trash2, Pencil, MessageCircle, Gift } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
 import OnlineBadge from "@/components/ui/online-badge";
 import AdminVisits from "@/components/admin/visits";
 import Badge from "@/components/ui/badge";
 import InfoTip from "@/components/ui/info-tip";
+import { PLANES } from "@/lib/plans";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -37,6 +38,10 @@ export default function AdminPage() {
   const [ofertasAdmin, setOfertasAdmin] = useState<any[]>([]);
   const [ofertasCargadas, setOfertasCargadas] = useState(false);
   const [qOfertas, setQOfertas] = useState("");
+  const [campanas, setCampanas] = useState<any[]>([]);
+  const [campanasCargadas, setCampanasCargadas] = useState(false);
+  const [nuevaCampana, setNuevaCampana] = useState({ title: "", description: "", grants_plan: "profesional", grants_dias: "90", max_cupos: "20" });
+  const [creandoCampana, setCreandoCampana] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -90,7 +95,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (tab === "negocios" && !negociosCargados) {
       (async () => {
-        const { data } = await supabase().from("businesses").select("id, name, slug, category, status, activo, destacado, owner_id").order("created_at", { ascending: false }).limit(300);
+        const { data } = await supabase().from("businesses").select("id, name, slug, category, status, activo, destacado, owner_id, plan, plan_expira").order("created_at", { ascending: false }).limit(300);
         setNegocios(data || []);
         setNegociosCargados(true);
       })();
@@ -107,7 +112,15 @@ export default function AdminPage() {
         setOfertasCargadas(true);
       })();
     }
-  }, [tab, negociosCargados, ofertasCargadas]);
+    if (tab === "campanas" && !campanasCargadas) {
+      (async () => {
+        const { data } = await supabase().from("campaigns")
+          .select("*, campaign_claims(count)").order("created_at", { ascending: false });
+        setCampanas(data || []);
+        setCampanasCargadas(true);
+      })();
+    }
+  }, [tab, negociosCargados, ofertasCargadas, campanasCargadas]);
 
   // El navegador manda las cookies de sesión de Supabase automáticamente
   // (mismo origen); el servidor las lee vía lib/supabase-server.ts, igual
@@ -221,6 +234,37 @@ export default function AdminPage() {
     } catch (e: any) { alert(e.message); }
   };
 
+  const crearCampana = async () => {
+    if (!nuevaCampana.title.trim()) return;
+    setCreandoCampana(true);
+    try {
+      const res = await authedFetch("/api/admin/campaigns", "POST", {
+        title: nuevaCampana.title,
+        description: nuevaCampana.description,
+        grants_plan: nuevaCampana.grants_plan,
+        grants_dias: Number(nuevaCampana.grants_dias),
+        max_cupos: nuevaCampana.max_cupos ? Number(nuevaCampana.max_cupos) : null,
+      });
+      setCampanas(prev => [{ ...res.campaign, campaign_claims: [{ count: 0 }] }, ...prev]);
+      setNuevaCampana({ title: "", description: "", grants_plan: "profesional", grants_dias: "90", max_cupos: "20" });
+    } catch (e: any) { alert(e.message); }
+    setCreandoCampana(false);
+  };
+
+  const toggleCampana = async (id: string, active: boolean) => {
+    try {
+      await authedFetch("/api/admin/campaigns", "PATCH", { id, active: !active });
+      setCampanas(prev => prev.map(c => c.id === id ? { ...c, active: !active } : c));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const cambiarPlan = async (id: string, plan: string) => {
+    try {
+      await authedFetch("/api/admin/businesses", "PATCH", { id, plan });
+      setNegocios(prev => prev.map(n => n.id === id ? { ...n, plan, destacado: plan === "premium" } : n));
+    } catch (e: any) { alert(e.message); }
+  };
+
   const borrarNegocio = async (id: string, nombre: string) => {
     if (!confirm(`¿Eliminar "${nombre}" definitivamente? Se borran también sus ofertas, productos y reseñas asociadas. Esta acción no se puede deshacer.`)) return;
     try {
@@ -284,6 +328,7 @@ export default function AdminPage() {
     { k: "moderacion", l: "Moderación", icon: Star, count: 0 },
     { k: "reportes", l: "Reportes", icon: Flag, count: reportes.length },
     { k: "suscripciones", l: "Suscripciones", icon: CreditCard, count: pendientesPago },
+    { k: "campanas", l: "Campañas", icon: Gift, count: 0 },
     { k: "ciudades", l: "Ciudades", icon: MapPin, count: 0 },
     { k: "cargar-bulk", l: "Cargar masiva", icon: Upload, count: 0 },
     { k: "blog", l: "Blog", icon: Newspaper, count: 0 },
@@ -427,10 +472,16 @@ export default function AdminPage() {
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-bold">{n.name}</p>
                       <p className="truncate text-xs capitalize text-white/50">
-                        {n.category} · {n.status}{n.activo === false && " · oculto"}
+                        {n.category} · {n.status}{n.activo === false && " · oculto"} · plan {PLANES[n.plan || "gratis"]?.name || n.plan}
+                        {n.plan_expira && new Date(n.plan_expira) > new Date() && ` (vence ${new Date(n.plan_expira).toLocaleDateString("es-AR")})`}
                       </p>
                     </div>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <select value={n.plan || "gratis"} onChange={(e) => cambiarPlan(n.id, e.target.value)}
+                        title="Asignar plan manualmente (venta por fuera del comprobante, promo, etc.)"
+                        className="rounded-lg border border-white/15 bg-black/20 px-2 py-1 text-[11px] font-bold outline-none focus:border-orange-400">
+                        {Object.entries(PLANES).map(([k, p]) => <option key={k} value={k}>{p.name}</option>)}
+                      </select>
                       <a href={`/negocio/${n.slug}`} target="_blank" rel="noopener noreferrer"
                         className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">Ver</a>
                       <a href={`/dashboard/editar/${n.slug}`} target="_blank" rel="noopener noreferrer"
@@ -640,6 +691,71 @@ export default function AdminPage() {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {/* CAMPAÑAS -- beneficios manuales (plan gratis por tiempo limitado)
+            para atraer a los primeros comerciantes sin gastar un peso:
+            vos armás el beneficio y lo cancelás cuando quieras, cada
+            negocio lo reclama solo desde /dashboard/planes mientras haya
+            cupo -- no hay que dárselo a mano uno por uno. */}
+        {tab === "campanas" && (
+          <div className="mt-6">
+            <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+              <h2 className="mb-1 text-lg font-black flex items-center gap-2"><Gift className="h-5 w-5 text-orange-400" /> Nueva campaña</h2>
+              <p className="mb-4 text-xs text-white/50">Ej: &quot;Fundadores&quot; -- 3 meses de PRO gratis para los primeros 20 negocios. La cancelás cuando quieras sin borrar el historial.</p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <input value={nuevaCampana.title} onChange={(e) => setNuevaCampana({ ...nuevaCampana, title: e.target.value })}
+                  placeholder="Título (ej: Fundadores San Lorenzo)" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
+                <input value={nuevaCampana.description} onChange={(e) => setNuevaCampana({ ...nuevaCampana, description: e.target.value })}
+                  placeholder="Descripción corta para el negocio (opcional)" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
+                <select value={nuevaCampana.grants_plan} onChange={(e) => setNuevaCampana({ ...nuevaCampana, grants_plan: e.target.value })}
+                  className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400">
+                  {Object.entries(PLANES).map(([k, p]) => <option key={k} value={k}>Otorga: {p.name}</option>)}
+                </select>
+                <input value={nuevaCampana.grants_dias} onChange={(e) => setNuevaCampana({ ...nuevaCampana, grants_dias: e.target.value })}
+                  type="number" placeholder="Días de duración" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400" />
+                <input value={nuevaCampana.max_cupos} onChange={(e) => setNuevaCampana({ ...nuevaCampana, max_cupos: e.target.value })}
+                  type="number" placeholder="Cupo máximo (vacío = sin límite)" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
+              </div>
+              <button onClick={crearCampana} disabled={creandoCampana || !nuevaCampana.title.trim()}
+                className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+                {creandoCampana ? "Creando..." : "Crear campaña"}
+              </button>
+            </div>
+
+            <h2 className="mb-4 text-lg font-black">Campañas <span className="text-white/40">({campanas.length})</span></h2>
+            {!campanasCargadas ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
+            ) : campanas.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+                <Gift className="mx-auto h-10 w-10 text-white/20" />
+                <p className="mt-3 text-sm text-white/40">Todavía no creaste ninguna campaña.</p>
+              </div>
+            ) : (
+              <div className="space-y-2.5">
+                {campanas.map((c) => {
+                  const usados = c.campaign_claims?.[0]?.count ?? 0;
+                  const agotada = c.max_cupos != null && usados >= c.max_cupos;
+                  return (
+                    <div key={c.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:flex-row sm:items-center">
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-bold">{c.title}</p>
+                        <p className="truncate text-xs text-white/50">
+                          Otorga {PLANES[c.grants_plan]?.name} por {c.grants_dias} días · {usados}{c.max_cupos != null ? `/${c.max_cupos}` : ""} usados
+                          {agotada && " · agotada"}
+                        </p>
+                      </div>
+                      <Badge variant={c.active ? "success" : "default"} size="sm">{c.active ? "Activa" : "Cancelada"}</Badge>
+                      <button onClick={() => toggleCampana(c.id, c.active)}
+                        className={`rounded-lg px-2.5 py-1.5 text-[11px] font-bold ${c.active ? "bg-red-500/15 text-red-300 hover:bg-red-500/25" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
+                        {c.active ? "Cancelar" : "Reactivar"}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 

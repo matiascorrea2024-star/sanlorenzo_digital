@@ -16,12 +16,16 @@ function Gema({ color, size }: { color: string; size: number }) {
   );
 }
 
-export default function DivisionFrame({ children, puntos, size = 96, showLabel = false, categoria }: {
+export default function DivisionFrame({ children, puntos, size = 96, showLabel = false, categoria, enFuego = false }: {
   children: ReactNode;
   puntos: number;
   size?: number;
   showLabel?: boolean;
   categoria?: string;
+  /** Racha real de crecimiento (ej: #1 en visitas esta semana vs la
+   * anterior) -- suma un halo y llamas encima del marco de rango, sin
+   * tocar el sistema de rangos en sí. */
+  enFuego?: boolean;
 }) {
   const r = rangoDe(puntos);
   const gema = gemaDe(categoria);
@@ -30,6 +34,15 @@ export default function DivisionFrame({ children, puntos, size = 96, showLabel =
     <div className="relative inline-flex flex-col items-center" style={{ width: size + 32 }}>
       {/* Halo de energía */}
       <div className="pointer-events-none absolute inset-0" style={{ background: r.glow, transform: "scale(1.4)", filter: "blur(6px)" }} />
+
+      {enFuego && (
+        <>
+          <div className="blaze-ring pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle,rgba(251,146,60,.55) 0%,rgba(239,68,68,.25) 45%,transparent 75%)", transform: "scale(1.55)" }} />
+          <span className="blaze-flame" style={{ top: -10, left: "10%" }}>🔥</span>
+          <span className="blaze-flame b2" style={{ top: -14, right: "8%" }}>🔥</span>
+          <span className="blaze-flame b3" style={{ bottom: 6, left: "-6%" }}>🔥</span>
+        </>
+      )}
 
       {/* Partículas ✦ para rangos altos */}
       {r.particulas >= 3 && (

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import { postActivity } from "@/lib/activity";
+import { planDe } from "@/lib/plans";
+import { Lock } from "lucide-react";
 
 const FONDOS = [
   "from-orange-500 to-pink-500",
@@ -51,6 +53,10 @@ export default function HistoriasPage() {
     setLoading(false);
   };
 
+  const negocioSel = businesses.find(b => b.id === businessId);
+  const planActual = planDe(negocioSel);
+  const sinPlan = businesses.length > 0 && !planActual.historias;
+
   return (
     <main className="bg-[#120d09] min-h-screen text-white">
       <div className="mx-auto max-w-2xl px-4 py-8">
@@ -58,6 +64,16 @@ export default function HistoriasPage() {
         <h1 className="text-3xl font-black mt-2">Publicar Historia (24h)</h1>
         <p className="text-white/60 mt-1">Desaparece automáticamente en 24 horas</p>
 
+        {sinPlan ? (
+          <div className="mt-6 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
+            <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
+            <p className="font-black">Las Historias 24h son de Plan PRO</p>
+            <p className="mx-auto mt-1 max-w-sm text-sm text-white/60">
+              Con PRO Comerciante podés publicar historias que aparecen 24 horas en la plataforma, como Instagram.
+            </p>
+            <Link href="/dashboard/planes" className="mt-5 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black">Mejorar a PRO →</Link>
+          </div>
+        ) : (
         <div className="mt-6 space-y-4">
           <select value={businessId} onChange={e => setBusinessId(e.target.value)}
             className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3">
@@ -87,6 +103,7 @@ export default function HistoriasPage() {
             {loading ? "Publicando..." : "Publicar Historia"}
           </button>
         </div>
+        )}
       </div>
     </main>
   );

@@ -191,7 +191,7 @@ export default function PerfilPage() {
           </Link>
         </div>
 
-        <h2 className="mt-8 mb-3 text-xl font-black">Cuenta</h2>
+        <h2 id="cuenta" className="mt-8 mb-3 scroll-mt-24 text-xl font-black">Cuenta</h2>
         <div className="space-y-3">
           <Link href="/planes" className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-orange-400/50 hover:bg-white/10 transition">
             <div>
@@ -219,7 +219,7 @@ export default function PerfilPage() {
 
         
         
-        <h2 className="mt-8 mb-3 text-xl font-black">Misiones de hoy</h2>
+        <h2 id="misiones" className="mt-8 mb-3 scroll-mt-24 text-xl font-black">Misiones de hoy</h2>
         <div className="grid gap-2 md:grid-cols-3">
           {[
             { icon: "👁", txt: "Visitá 3 negocios distintos", act: misiones?.vis || 0, meta: 3 },
@@ -266,9 +266,9 @@ export default function PerfilPage() {
           {[
             { ...NIVELES_USUARIO[0], premios: ["🗺️ Descubrís todos los negocios de la ciudad", "⭐ Sumás puntos por explorar, contactar y opinar"] },
             { ...NIVELES_USUARIO[1], premios: ["🎖 Badge 'Explorador' visible en tus reseñas", "🔔 Avisos prioritarios de ofertas que seguís"] },
-            { ...NIVELES_USUARIO[2], premios: ["🎟️ Entrás al sorteo mensual de ofertas", "🎖 Badge 'Vecino' en tus reseñas"] },
-            { ...NIVELES_USUARIO[3], premios: ["🎟️ Doble entrada en los sorteos", "🔥 Acceso a ofertas secretas solo para cazadores", "🎖 Badge dorado en tus reseñas"] },
-            { ...NIVELES_USUARIO[4], premios: ["👑 Podio eterno en el ranking del barrio", "🎟️ 5 entradas en los sorteos", "💎 Badge diamante en toda la plataforma"] },
+            { ...NIVELES_USUARIO[2], premios: ["🧭 Subís posiciones en el ranking de vecinos", "🎖 Badge 'Guía' en tus reseñas"] },
+            { ...NIVELES_USUARIO[3], premios: ["🔥 Acceso a ofertas secretas solo para niveles altos", "🎖 Badge dorado en tus reseñas"] },
+            { ...NIVELES_USUARIO[4], premios: ["👑 Podio eterno en el ranking del barrio", "💎 Badge diamante en toda la plataforma"] },
           ].map((n) => {
             const esActual = n.nombre === nivel.nombre;
             const bloqueado = puntos < n.min;

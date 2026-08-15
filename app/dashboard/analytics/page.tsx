@@ -4,8 +4,9 @@ import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 import Link from "next/link";
-import { TrendingUp, Eye, MessageCircle, MapPin, Heart, Ticket, Users } from "lucide-react";
+import { TrendingUp, Eye, MessageCircle, MapPin, Heart, Ticket, Users, Lock } from "lucide-react";
 import InfoTip from "@/components/ui/info-tip";
+import { planDe } from "@/lib/plans";
 
 export default function AnalyticsPage() {
   const { user } = useAuth();
@@ -21,7 +22,7 @@ export default function AnalyticsPage() {
     (async () => {
       if (!user) return;
       const { data: biz } = await supabase().from("businesses")
-        .select("id, name").eq("owner_id", user.id);
+        .select("id, name, plan").eq("owner_id", user.id);
       if (biz && biz.length) {
         setNegocios(biz);
         setSelectedBiz(biz[0].id);
@@ -84,6 +85,9 @@ export default function AnalyticsPage() {
     return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
   }
 
+  const negocioSel = negocios.find(b => b.id === selectedBiz);
+  const planActual = planDe(negocioSel);
+
   const cards = [
     { icon: Eye, label: "Visitas", value: stats.views, color: "text-sky-400", info: "Cuántas veces entraron a la ficha de tu negocio en los últimos 30 días." },
     { icon: MessageCircle, label: "WhatsApp", value: stats.whatsapp, color: "text-green-400", info: "Cuántas personas tocaron el botón de WhatsApp para escribirte." },
@@ -129,6 +133,19 @@ export default function AnalyticsPage() {
           </div>
         )}
 
+        {!planActual.stats ? (
+          <div className="rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
+            <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
+            <p className="font-black">Las estadísticas completas son de Plan PRO</p>
+            <p className="mx-auto mt-1 max-w-sm text-sm text-white/60">
+              Con el plan Gratis ves solo tus visitas totales. Con PRO Comerciante desbloqueás el detalle día a día,
+              contactos por WhatsApp, favoritos, cupones y tasa de conversión.
+            </p>
+            <p className="mt-4 text-3xl font-black text-orange-400">{stats.views} <span className="text-sm font-bold text-white/50">visitas (30 días)</span></p>
+            <Link href="/dashboard/planes" className="mt-5 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black">Mejorar a PRO →</Link>
+          </div>
+        ) : (
+        <>
         {/* Stats cards */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 mb-8">
           {cards.map(c => (
@@ -183,6 +200,8 @@ export default function AnalyticsPage() {
             </div>
           </div>
         </div>
+        </>
+        )}
         </>
         )}
       </div>
