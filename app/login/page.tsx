@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import PageHero from "@/components/ui/page-hero";
 import { signInWithEmail, resetPassword } from "@/lib/auth-helpers";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -23,8 +24,8 @@ export default function LoginPage() {
     try {
       await resetPassword(email);
       setForgotSent(true);
-    } catch (err: any) {
-      setError(err.message || "No se pudo enviar el link de recuperación.");
+    } catch (err: unknown) {
+      setError(friendlyError(err, "No se pudo enviar el link de recuperación."));
     } finally {
       setForgotLoading(false);
     }
@@ -39,8 +40,8 @@ export default function LoginPage() {
       await signInWithEmail(email, password);
       const redirect = new URLSearchParams(window.location.search).get("redirect");
       router.push(redirect || "/dashboard");
-    } catch (err: any) {
-      setError(err.message || "Error al iniciar sesión");
+    } catch (err: unknown) {
+      setError(friendlyError(err, "No se pudo iniciar sesión. Revisá tu email y contraseña."));
     } finally {
       setLoading(false);
     }

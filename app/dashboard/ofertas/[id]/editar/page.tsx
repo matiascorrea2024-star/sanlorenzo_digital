@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/toast";
 import ImageUploader from "@/components/upload/image-uploader";
 import { OFERTA_DURACION_MAX_DIAS } from "@/lib/plans";
+import { friendlyError } from "@/lib/friendly-error";
 
 const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
@@ -89,7 +90,7 @@ export default function EditarOferta() {
       ...(isAdmin ? { precio_prometido: precioPrometido } : {}),
     }).eq("id", id);
     setSaving(false);
-    if (err) { setError(err.message); return; }
+    if (err) { setError(friendlyError(err, "No se pudieron guardar los cambios. Probá de nuevo.")); return; }
     show("✅ Oferta actualizada", "success");
     setTimeout(() => router.push("/dashboard/ofertas"), 700);
   };

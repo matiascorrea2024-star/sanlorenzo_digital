@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import LocationPicker from "@/components/business/location-picker";
 import { postActivity } from "@/lib/activity";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function NuevoNegocioPage() {
   const router = useRouter();
@@ -126,7 +127,7 @@ export default function NuevoNegocioPage() {
       // creado, no tiene sentido hacer que vuelva a buscarlo.
       router.push(`/dashboard/ofertas/nueva?biz=${data.id}&bienvenida=1`);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "No se pudo crear el negocio. Probá de nuevo.");
+      setError(friendlyError(err, "No se pudo crear el negocio. Probá de nuevo."));
     } finally {
       setLoading(false);
     }

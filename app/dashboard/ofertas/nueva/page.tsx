@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/toast";
 import ImageUploader from "@/components/upload/image-uploader";
 import { PLANES, planDe, puedePublicarOferta, puedePublicarHoy, OFERTA_DURACION_MAX_DIAS } from "@/lib/plans";
+import { friendlyError } from "@/lib/friendly-error";
 
 const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
@@ -43,7 +44,7 @@ export default function NuevaOferta() {
       const q = sb.from("businesses").select("id, name, plan").order("name");
       if (prof?.role !== "admin") q.eq("owner_id", user.id);
       const { data, error } = await q;
-      if (error) { setError(error.message); return; }
+      if (error) { setError(friendlyError(error, "No se pudo publicar la oferta. Probá de nuevo.")); return; }
 
       const list = (data || []).filter((n: any) => n.name);
       setNegocios(list);

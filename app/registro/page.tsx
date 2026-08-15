@@ -6,6 +6,7 @@ import Link from "next/link";
 import PageHero from "@/components/ui/page-hero";
 import { signUpWithEmail } from "@/lib/auth-helpers";
 import { supabase } from "@/lib/supabase";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function RegistroPage() {
   const router = useRouter();
@@ -41,8 +42,8 @@ export default function RegistroPage() {
       }
       setSuccess(true);
       setTimeout(() => router.push(role === "business_owner" ? "/dashboard/nuevo" : "/"), 1500);
-    } catch (err: any) {
-      setError(err.message || "Error al registrarse");
+    } catch (err: unknown) {
+      setError(friendlyError(err, "No se pudo crear tu cuenta. Probá de nuevo."));
     } finally {
       setLoading(false);
     }

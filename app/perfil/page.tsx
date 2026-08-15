@@ -104,7 +104,25 @@ export default function PerfilPage() {
     })();
   }, []);
 
-  if (cargando) return <main className="min-h-screen bg-[#0a0710] text-white flex items-center justify-center">Cargando…</main>;
+  if (cargando) return (
+    <main className="min-h-screen bg-[#0a0710] text-white">
+      <div className="mx-auto max-w-3xl px-4 py-8">
+        <div className="flex items-center gap-4">
+          <div className="h-16 w-16 animate-pulse rounded-full bg-white/10" />
+          <div className="flex-1 space-y-2">
+            <div className="h-5 w-40 animate-pulse rounded bg-white/10" />
+            <div className="h-3 w-24 animate-pulse rounded bg-white/10" />
+          </div>
+        </div>
+        <div className="mt-6 h-3 w-full animate-pulse rounded-full bg-white/10" />
+        <div className="mt-8 grid grid-cols-3 gap-3 md:grid-cols-7">
+          {Array.from({ length: 7 }).map((_, i) => (
+            <div key={i} className="h-16 animate-pulse rounded-xl bg-white/5" />
+          ))}
+        </div>
+      </div>
+    </main>
+  );
 
   if (!user)
     return (

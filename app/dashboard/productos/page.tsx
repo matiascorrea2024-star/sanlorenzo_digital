@@ -90,7 +90,18 @@ export default function ProductosPage() {
     setProductos(prev => prev.map(x => x.id === p.id ? { ...x, active: !x.active } : x));
   };
 
-  if (loading) return <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">Cargando...</main>;
+  if (loading) return (
+    <main className="min-h-screen bg-[#0a0710] text-white pb-24">
+      <div className="mx-auto max-w-3xl px-4 py-8">
+        <div className="h-8 w-40 animate-pulse rounded bg-white/10" />
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-24 animate-pulse rounded-2xl border border-white/10 bg-white/5" />
+          ))}
+        </div>
+      </div>
+    </main>
+  );
 
   if (!negocio) {
     return (

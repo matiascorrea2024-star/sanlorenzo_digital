@@ -7,6 +7,7 @@ import DashboardNav from "@/components/dashboard/dashboard-nav";
 import { PLANES } from "@/lib/plans";
 import { usePlatformSetting } from "@/lib/hooks/use-platform-settings";
 import { uploadComprobante } from "@/lib/media";
+import { friendlyError } from "@/lib/friendly-error";
 
 const CARDS = [
   { k: "gratis", icon: Zap, precio: "$0", features: ["Perfil completo", "3 ofertas activas", "Chat con clientes", "Mapa y búsqueda"] },
@@ -53,7 +54,7 @@ export default function PlanesDashboard() {
       setPidiendo(null);
       setArchivo(null);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "No se pudo enviar la solicitud. Probá de nuevo.");
+      setError(friendlyError(err, "No se pudo enviar la solicitud. Probá de nuevo."));
     } finally {
       setEnviando(false);
     }

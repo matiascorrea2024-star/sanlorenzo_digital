@@ -184,7 +184,17 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
         {/* Lista */}
         <div className="mt-6 space-y-3">
           {loading ? (
-            <p className="text-white/50">Cargando ranking...</p>
+            [1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div className="h-6 w-6 animate-pulse rounded bg-white/10" />
+                <div className="h-11 w-11 shrink-0 animate-pulse rounded-full bg-white/10" />
+                <div className="min-w-0 flex-1 space-y-2">
+                  <div className="h-4 w-1/3 animate-pulse rounded bg-white/10" />
+                  <div className="h-3 w-2/3 animate-pulse rounded bg-white/10" />
+                </div>
+                <div className="h-6 w-16 animate-pulse rounded-full bg-white/10" />
+              </div>
+            ))
           ) : sorted.map((r, i) => {
             const rango = rangoDe(r.puntos);
             const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
