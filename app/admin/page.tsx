@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper, Search, Trash2, Pencil } from "lucide-react";
+import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper, Search, Trash2, Pencil, MessageCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
 import OnlineBadge from "@/components/ui/online-badge";
@@ -437,6 +437,10 @@ export default function AdminPage() {
                         className="flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">
                         <Pencil className="h-3 w-3" /> Editar
                       </a>
+                      <a href={`/admin/soporte/${n.id}`}
+                        className="flex items-center gap-1 rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-cyan-300 hover:bg-cyan-500/20">
+                        <MessageCircle className="h-3 w-3" /> Chat
+                      </a>
                       <button onClick={() => toggleDestacado(n.id, n.destacado)}
                         className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.destacado ? "bg-yellow-500/20 text-yellow-300" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
                         {n.destacado ? "Quitar destacado" : "Destacar"}
@@ -824,7 +828,7 @@ export default function AdminPage() {
               </div>
             )}
             <p className="mt-4 text-xs text-white/40">
-              Solo las ciudades en estado "Activa" aparecen públicamente. Podés cargar negocios en una ciudad en
+              Solo las ciudades en estado &quot;Activa&quot; aparecen públicamente. Podés cargar negocios en una ciudad en
               borrador antes de activarla -- desactivar/suspender/archivar nunca borra los datos, se puede
               reactivar en cualquier momento.
             </p>
