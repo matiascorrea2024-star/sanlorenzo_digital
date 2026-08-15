@@ -54,14 +54,14 @@ export default function MensajesClientePage() {
   })).sort((a, b) => (a.last.created_at < b.last.created_at ? 1 : -1));
 
   if (!user) {
-    return <main className="bg-[#0d0a12] min-h-screen text-white flex items-center justify-center">
+    return <main className="bg-[#0a0710] min-h-screen text-white flex items-center justify-center">
       <PageHero title="💬 Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />Iniciá sesión para ver tus mensajes.</main>;
   }
 
   const sel = selectedBiz ? bizMap[selectedBiz] : null;
 
   return (
-    <main className="bg-[#0d0a12] min-h-screen text-white pb-24">
+    <main className="bg-[#0a0710] min-h-screen text-white pb-24">
       <PageHero title="💬 Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />
       <div className="mx-auto max-w-3xl px-4 py-8">
         

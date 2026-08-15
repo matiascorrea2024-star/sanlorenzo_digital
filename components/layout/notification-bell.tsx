@@ -66,7 +66,7 @@ export default function NotificationBell() {
           )}
         </button>
         {open && (
-          <div className="fixed left-4 right-4 top-20 z-[60] sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-96 w-80 rounded-2xl border border-white/10 bg-[#1a1420] p-4 shadow-2xl z-50">
+          <div className="fixed left-4 right-4 top-20 z-[60] sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-96 w-80 rounded-2xl border border-white/10 bg-[#141018] p-4 shadow-2xl z-50">
             <div className="mb-3 flex items-center justify-between">
               <p className="font-black">Notificaciones</p>
               {count > 0 && <button onClick={marcarLeidas} className="text-xs text-orange-400">Marcar leídas</button>}
@@ -92,7 +92,7 @@ export default function NotificationBell() {
       {/* TOAST FLOTANTE (aparece al instante) */}
       {toast && (
         <button onClick={() => { irA(toast); setToast(null); }}
-          className="fixed bottom-24 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-2xl border border-orange-400/50 bg-[#1a1420] p-4 shadow-2xl animate-pulse">
+          className="fixed bottom-24 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-2xl border border-orange-400/50 bg-[#141018] p-4 shadow-2xl animate-pulse">
           <span className="text-2xl">💬</span>
           <div className="text-left">
             <p className="text-sm font-black">{toast.title}</p>

@@ -120,7 +120,7 @@ export default function Editar() {
   const lbl = "mb-1 block text-xs font-semibold uppercase tracking-wider text-white/60";
 
   return (
-    <main className="bg-[#0d0a12] text-white min-h-screen">
+    <main className="bg-[#0a0710] text-white min-h-screen">
       <div className="mx-auto max-w-3xl px-4 py-10">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-black">Editar {b.name}</h1>

@@ -75,14 +75,14 @@ export default function CuponesPage() {
 
   if (loading) {
     return (
-      <main className="bg-[#0d0a12] min-h-screen flex items-center justify-center">
+      <main className="bg-[#0a0710] min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </main>
     );
   }
 
   return (
-    <main className="bg-[#0d0a12] min-h-screen text-white">
+    <main className="bg-[#0a0710] min-h-screen text-white">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300 mb-6 inline-block">
           ← Volver a mis ofertas

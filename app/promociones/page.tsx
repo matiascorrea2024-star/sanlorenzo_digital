@@ -50,7 +50,7 @@ export default function PromocionesPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#0d0a12] pb-24 text-white">
+    <main className="min-h-screen bg-[#0a0710] pb-24 text-white">
       <PageHero
         title="🔥 Ofertas en este momento"
         subtitle={`${activas.length} promocion${activas.length === 1 ? "" : "es"} corriendo ahora en San Lorenzo`}

@@ -36,7 +36,7 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <main className="bg-[#0d0a12] min-h-screen flex items-center justify-center px-4">
+    <main className="bg-[#0a0710] min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md">
           <PageHero title="🔑 Restablecer contraseña" subtitle="Elegí una nueva contraseña para tu cuenta" />

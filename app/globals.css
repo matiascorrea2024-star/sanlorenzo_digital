@@ -1,9 +1,28 @@
 @import "tailwindcss";
+
+/* ============================================================
+   SAN LORENZO DIGITAL — DESIGN TOKENS
+   Single source of truth. La Gran Barata es naranja→rosa (energía,
+   oferta, urgencia); todo lo demás son neutros cálidos oscuros para
+   que el naranja/rosa protagonice sin competir con nada. No agregar
+   colores sueltos por componente: si hace falta un color nuevo,
+   agregarlo acá con nombre semántico primero.
+   ============================================================ */
 :root{
-  --bg:#07080d; --surface:#0f1219; --surface2:#171b25; --surface3:#1d2230;
+  /* Fondo y superficies (una sola escala -- antes convivían #07080d,
+     #0a0710 y #0d0a12 casi al azar según en qué sesión se escribió
+     cada página). */
+  --bg:#0a0710; --surface:#141018; --surface2:#171225; --surface3:#1d2230;
   --line:rgba(255,255,255,.09); --line-strong:rgba(255,255,255,.15);
   --text:#f5f7fb; --muted:#9299aa; --muted2:#6f7687;
-  --accent:#8b5cf6; --accent2:#22d3ee; --ok:#34d399; --warn:#fbbf24; --bad:#fb7185;
+
+  /* Marca: La Gran Barata es naranja→rosa en todos lados. */
+  --accent:#f97316; --accent2:#ec4899;
+  --ok:#34d399; --warn:#fbbf24; --bad:#fb7185;
+
+  /* Semánticos de producto (sección 28 del brief de diseño). */
+  --offer:#fb923c;      /* precio/urgencia de oferta */
+  --premium:#fbbf24;    /* Destacado Semanal / badges premium */
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth; color-scheme: dark;}
@@ -18,152 +37,29 @@ button{cursor:pointer}
 .sld-card:hover{border-color:var(--line-strong);transform:translateY(-2px)}
 .sld-no-scrollbar::-webkit-scrollbar{display:none}.sld-no-scrollbar{scrollbar-width:none}
 
-/* SAN LORENZO DIGITAL · HOME */
+/* SAN LORENZO DIGITAL · HOME
+   Alias legacy -- algunos componentes más viejos todavía referencian
+   --sld-*; apuntan a los mismos tokens canónicos de arriba para que
+   no exista una segunda paleta compitiendo. */
 :root {
-  --sld-bg: #07070b;
-  --sld-surface: #101016;
-  --sld-surface-2: #15151d;
-  --sld-line: rgba(255,255,255,.09);
-  --sld-text: #f8f8fb;
-  --sld-muted: #9b9ba8;
-  --sld-accent: #a855f7;
-  --sld-accent-2: #6366f1;
+  --sld-bg: var(--bg);
+  --sld-surface: var(--surface);
+  --sld-surface-2: var(--surface2);
+  --sld-line: var(--line);
+  --sld-text: var(--text);
+  --sld-muted: var(--muted);
+  --sld-accent: var(--accent);
+  --sld-accent-2: var(--accent2);
 }
 
 .sld-home {
   min-height: 100vh;
   background:
-    radial-gradient(circle at 20% 0%, rgba(124,58,237,.12), transparent 32rem),
+    radial-gradient(circle at 20% 0%, rgba(249,115,22,.10), transparent 32rem),
     radial-gradient(circle at 90% 12%, rgba(236,72,153,.07), transparent 28rem),
     var(--sld-bg);
   color: var(--sld-text);
   overflow: hidden;
-}
-
-/* ============================================
-   SAN LORENZO DIGITAL — PREMIUM GATE (se usa en unlock-gate.tsx)
-   ============================================ */
-.sld-paywall {
-  position:relative;
-  min-height:520px;
-  display:grid;
-  place-items:center;
-  margin:20px 0 50px;
-  overflow:hidden;
-  border-radius:30px;
-}
-.sld-paywall-glow {
-  position:absolute;
-  width:420px;
-  height:420px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(139,92,246,.28),transparent 65%);
-  filter:blur(20px);
-}
-.sld-paywall-card {
-  position:relative;
-  z-index:2;
-  width:min(560px,100%);
-  padding:42px 30px;
-  text-align:center;
-  border:1px solid rgba(139,92,246,.28);
-  border-radius:30px;
-  background:
-    linear-gradient(145deg,rgba(24,24,35,.96),rgba(12,12,18,.98));
-  box-shadow:0 30px 100px rgba(0,0,0,.45);
-  backdrop-filter:blur(20px);
-}
-.sld-paywall-icon {
-  display:grid;
-  place-items:center;
-  width:72px;
-  height:72px;
-  margin:0 auto 20px;
-  border-radius:22px;
-  background:rgba(139,92,246,.13);
-  border:1px solid rgba(139,92,246,.28);
-  font-size:30px;
-}
-.sld-paywall-kicker {
-  display:block;
-  margin-bottom:10px;
-  color:#a78bfa;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.18em;
-}
-.sld-paywall-card h2 {
-  margin:0 0 12px;
-  font-size:32px;
-  line-height:1.08;
-  letter-spacing:-.04em;
-}
-.sld-paywall-card p {
-  max-width:440px;
-  margin:0 auto;
-  color:#92929f;
-  font-size:14px;
-  line-height:1.7;
-}
-.sld-paywall-price {
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  margin:25px 0;
-}
-.sld-paywall-price small {
-  color:#737381;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-}
-.sld-paywall-price strong {
-  font-size:32px;
-  letter-spacing:-.04em;
-}
-.sld-paywall-button {
-  width:100%;
-  padding:16px 20px;
-  border:0;
-  border-radius:15px;
-  background:linear-gradient(135deg,#8b5cf6,#6d28d9);
-  color:white;
-  font-size:14px;
-  font-weight:900;
-  cursor:pointer;
-  box-shadow:0 15px 35px rgba(109,40,217,.28);
-  transition:transform .2s,box-shadow .2s;
-}
-.sld-paywall-button:hover {
-  transform:translateY(-2px);
-  box-shadow:0 20px 45px rgba(109,40,217,.38);
-}
-.sld-paywall-note {
-  display:block;
-  margin-top:14px;
-  color:#62626e;
-  font-size:10px;
-}
-.sld-premium-loading {
-  min-height:400px;
-  display:grid;
-  place-items:center;
-  color:#888895;
-}
-.sld-unlocked-banner {
-  margin-bottom:20px;
-  padding:11px 15px;
-  border:1px solid rgba(34,197,94,.2);
-  border-radius:12px;
-  background:rgba(34,197,94,.07);
-  color:#86efac;
-  font-size:12px;
-  font-weight:800;
-}
-@media (max-width:640px) {
-  .sld-paywall { min-height:460px; }
-  .sld-paywall-card { padding:34px 22px; }
-  .sld-paywall-card h2 { font-size:27px; }
 }
 
 /* ===== ACCESIBILIDAD (WCAG AA) ===== */

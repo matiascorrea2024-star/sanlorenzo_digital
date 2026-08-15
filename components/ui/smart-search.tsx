@@ -116,7 +116,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
       </form>
 
       {open && (lower || recent.length) && (
-        <div className="absolute left-0 right-0 z-40 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#15101c] p-3 shadow-2xl">
+        <div className="absolute left-0 right-0 z-40 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#141018] p-3 shadow-2xl">
           {parsedQuery.city && (
             <div className="mb-3 rounded-xl bg-orange-500/10 border border-orange-400/30 p-3">
               <p className="text-xs text-orange-300 font-bold">📍 Buscando en {parsedQuery.city.name}</p>

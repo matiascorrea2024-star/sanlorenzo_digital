@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function PrivacidadPage() {
   return (
-    <main className="bg-[#0d0a12] text-white min-h-screen">
+    <main className="bg-[#0a0710] text-white min-h-screen">
       <PageHero title="📄 Política de Privacidad" subtitle="San Lorenzo Digital · Ley 25.326" />
       <div className="mx-auto max-w-3xl px-4 py-12">
         <p className="mt-2 text-sm text-white/50">Última actualización: agosto 2026 · San Lorenzo, Santa Fe, Argentina</p>

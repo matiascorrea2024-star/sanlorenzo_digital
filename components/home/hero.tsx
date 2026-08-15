@@ -63,7 +63,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f]">
       <div className="absolute inset-0 opacity-25">
-        <div className="absolute top-0 left-1/4 h-80 w-80 rounded-full bg-purple-600 mix-blend-screen filter blur-3xl animate-blob" />
+        <div className="absolute top-0 left-1/4 h-80 w-80 rounded-full bg-red-600 mix-blend-screen filter blur-3xl animate-blob" />
         <div className="absolute top-1/3 right-1/4 h-80 w-80 rounded-full bg-orange-600 mix-blend-screen filter blur-3xl animate-blob animation-delay-2000" />
         <div className="absolute bottom-1/4 left-1/3 h-80 w-80 rounded-full bg-pink-600 mix-blend-screen filter blur-3xl animate-blob animation-delay-4000" />
       </div>
@@ -82,7 +82,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
 
           <h1 className="mb-4 text-4xl font-black tracking-tight md:text-6xl lg:text-7xl">
             <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">LA GRAN</span>{" "}
-            <span className="bg-gradient-to-r from-orange-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient">BARATA DIGITAL</span>
+            <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent animate-gradient">BARATA DIGITAL</span>
           </h1>
 
           <p className={`mx-auto mb-6 max-w-2xl text-base text-white/60 md:text-lg transition-all duration-700 ${isVisible ? "opacity-100" : "opacity-0"}`}>
@@ -92,7 +92,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
 
           <div className={`mx-auto max-w-2xl transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             <div className="group relative">
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 opacity-75 blur transition duration-1000 group-hover:opacity-100 animate-gradient" />
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 opacity-75 blur transition duration-1000 group-hover:opacity-100 animate-gradient" />
               <div className="relative flex items-center rounded-2xl border border-white/20 bg-white/10 p-2 backdrop-blur-xl">
                 <Search className="ml-4 h-5 w-5 text-white/50" />
                 <input
@@ -135,12 +135,12 @@ export default function Hero({ onSearch, stats }: HeroProps) {
             </div>
             <div className="h-6 w-px bg-white/10" />
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-black text-purple-400 tabular-nums md:text-3xl">{display.negocios}</span>
+              <span className="text-2xl font-black text-white tabular-nums md:text-3xl">{display.negocios}</span>
               <span className="text-left text-[11px] leading-tight text-white/60">{plural(display.negocios, "negocio", "negocios")}</span>
             </div>
             <div className="h-6 w-px bg-white/10" />
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-black text-pink-400 tabular-nums md:text-3xl">{display.pronto}</span>
+              <span className="text-2xl font-black text-amber-400 tabular-nums md:text-3xl">{display.pronto}</span>
               <span className="text-left text-[11px] leading-tight text-white/60">{plural(display.pronto, "termina hoy", "terminan pronto")}</span>
             </div>
           </div>

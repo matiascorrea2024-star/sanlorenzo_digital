@@ -38,7 +38,7 @@ export default function DashboardPage() {
 
   if (!loading && !logueado) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-[#0d0a12] px-4 text-center text-white">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[#0a0710] px-4 text-center text-white">
         <p className="text-5xl">🔐</p>
         <h1 className="mt-4 text-2xl font-black">Iniciá sesión para gestionar tus negocios</h1>
         <Link href="/login" className="mt-6 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">Ingresar →</Link>
@@ -47,7 +47,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0d0a12] pb-24 text-white">
+    <main className="min-h-screen bg-[#0a0710] pb-24 text-white">
       <PageHero
         title="🏪 Mis negocios"
         subtitle="Control rápido: abrí, cerrá y manejá tus ofertas sin vueltas"

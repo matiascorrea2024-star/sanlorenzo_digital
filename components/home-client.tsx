@@ -156,7 +156,7 @@ export default function HomeClient({ initial }: { initial: any[] }) {
       <OfertaBomba />
 
       {/* ===== BARRA STICKY: TODO A MANO ===== */}
-      <div className="sticky top-14 z-40 border-b border-white/5 bg-[#07080d]/90 backdrop-blur-xl md:top-16">
+      <div className="sticky top-14 z-40 border-b border-white/5 bg-[#0a0710]/90 backdrop-blur-xl md:top-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="sld-no-scrollbar flex items-center gap-2 overflow-x-auto py-3">
             <button onClick={() => aplicarCat(null)} className={chip(!cat)}>🛍️ Todo</button>
@@ -292,10 +292,10 @@ export default function HomeClient({ initial }: { initial: any[] }) {
 
       {/* ===== CTA COMERCIOS ===== */}
       <section id="sumate" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-        <div className="relative overflow-hidden rounded-3xl border border-violet-400/20 bg-gradient-to-br from-violet-600/20 via-[#12111d] to-cyan-400/10 p-8 sm:p-12">
-          <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-violet-500/20 blur-3xl" />
+        <div className="relative overflow-hidden rounded-3xl border border-amber-400/20 bg-gradient-to-br from-amber-500/10 via-[#12111d] to-orange-500/10 p-8 sm:p-12">
+          <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-amber-500/15 blur-3xl" />
           <div className="relative max-w-2xl">
-            <p className="text-xs font-bold uppercase tracking-[.2em] text-violet-300">Para comercios</p>
+            <p className="text-xs font-bold uppercase tracking-[.2em] text-amber-300">Para comercios</p>
             <h2 className="mt-3 text-3xl font-black sm:text-4xl" style={{ fontFamily: "var(--font-space)" }}>
               Publicá tu oferta y aparecé en La Gran Barata.
             </h2>

@@ -39,7 +39,7 @@ export default function InstallApp() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-24 left-4 right-4 z-[90] mx-auto max-w-sm rounded-2xl border border-orange-400/40 bg-[#15101c]/95 p-4 shadow-2xl backdrop-blur-xl">
+    <div className="fixed bottom-24 left-4 right-4 z-[90] mx-auto max-w-sm rounded-2xl border border-orange-400/40 bg-[#141018]/95 p-4 shadow-2xl backdrop-blur-xl">
       <button onClick={close} aria-label="Cerrar aviso de instalación"
         className="absolute right-2 top-2 text-white/40 hover:text-white">
         <X className="h-4 w-4" />

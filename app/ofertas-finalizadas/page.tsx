@@ -28,7 +28,7 @@ export default function OfertasFinalizadasPage() {
   );
 
   return (
-    <main className="bg-[#0d0a12] text-white min-h-screen pb-24">
+    <main className="bg-[#0a0710] text-white min-h-screen pb-24">
       <PageHero
         title="😢 Ofertas que ya terminaron"
         subtitle="Mirá lo que te perdiste... y seguí a tus negocios favoritos para no perderte la próxima."
@@ -77,7 +77,7 @@ export default function OfertasFinalizadasPage() {
           </div>
         )}
 
-        <div className="mt-10 overflow-hidden rounded-3xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-purple-500/10 p-8 text-center">
+        <div className="mt-10 overflow-hidden rounded-3xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-8 text-center">
           <div className="mx-auto max-w-xl">
             <p className="text-3xl">🔔</p>
             <h2 className="mt-3 text-xl font-black">No te pierdas la próxima</h2>
