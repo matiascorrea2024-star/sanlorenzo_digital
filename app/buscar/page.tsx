@@ -30,6 +30,7 @@ export default function BuscarPage() {
   const [q, setQ] = useState("");
   const [conOfertas, setConOfertas] = useState(false);
   const [abiertos, setAbiertos] = useState(false);
+  const [conEnvios, setConEnvios] = useState(false);
   const [cerca, setCerca] = useState<{ lat: number; lng: number } | null>(null);
   const [distancias, setDistancias] = useState<Record<string, number>>({});
 
@@ -78,6 +79,7 @@ export default function BuscarPage() {
       }
       if (conOfertas && !tieneOfertas(b)) return false;
       if (abiertos && !b.open) return false;
+      if (conEnvios && !b.hace_envios) return false;
       if (cerca && distancias[b.id] == null) return false;
       return true;
     })
@@ -104,6 +106,9 @@ export default function BuscarPage() {
           </button>
           <button onClick={pedirUbicacion} className={`rounded-full px-4 py-2 text-xs font-black transition ${cerca ? "bg-sky-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
             📍 {cerca ? "Ordenando por cercanía ✓" : "Cerca mío"}
+          </button>
+          <button onClick={() => setConEnvios(!conEnvios)} className={`rounded-full px-4 py-2 text-xs font-black transition ${conEnvios ? "bg-sky-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
+            🚚 Hace envíos
           </button>
         </div>
 

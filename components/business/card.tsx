@@ -20,6 +20,8 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
   const isOpen = !!b.open;
   const isVerified = b.status === "verificado";
   const rating = Number(b.rating || 0).toFixed(1);
+  const esParticular = b.type && b.type !== "comercio";
+  const TIPO_LABEL: Record<string, string> = { particular: "🙋 Particular", servicio: "🔧 Servicio", profesional: "💼 Profesional" };
   const dist = userCoords && b.latitude && b.longitude
     ? fmtDistance(calcDistanceKm(userCoords.lat, userCoords.lon, Number(b.latitude), Number(b.longitude)))
     : null;
@@ -86,16 +88,18 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
           {b.name}
         </h3>
         <p className="mt-0.5 flex flex-wrap items-center gap-x-1 text-[11px] md:text-xs capitalize text-white/50">
-          <span>{b.category} · {b.address}</span>
+          <span>{b.category}{b.address ? ` · ${b.address}` : ""}</span>
+          {esParticular && <span className="normal-case text-white/40">· {TIPO_LABEL[b.type]}</span>}
           <RankBadge slug={b.slug} categoria={b.category} />
         </p>
         {b.description && (
           <p className="mt-2 line-clamp-2 text-xs text-white/60">{b.description}</p>
         )}
         <div className="mt-auto flex items-center justify-between pt-3">
-          <span className="flex items-center gap-1 text-xs font-bold text-yellow-300">
+          <span className="flex items-center gap-2 text-xs font-bold text-yellow-300">
             ★ {rating}
             <span className="font-normal text-white/40">({b.reviews || 0})</span>
+            {b.hace_envios && <span className="rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[9px] font-black text-sky-300">🚚 Envíos</span>}
           </span>
           <span className="text-xs font-bold text-orange-400 opacity-0 transition group-hover:opacity-100">
             Ver →

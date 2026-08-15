@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { PLAN_PREMIUM_PRICE } from "@/lib/config";
 import { usePlatformSetting } from "@/lib/hooks/use-platform-settings";
@@ -13,6 +13,7 @@ type Item = { name: string; price?: string; note?: string; photo?: string };
 
 export default function Editar() {
   const { slug } = useParams();
+  const router = useRouter();
   const platformWhatsapp = usePlatformSetting("whatsapp_contacto");
   const [b, setB] = useState<any>(null);
   const [denied, setDenied] = useState(false);
@@ -27,7 +28,7 @@ export default function Editar() {
     (async () => {
       const sb = supabase();
       const { data: { user } } = await sb.auth.getUser();
-      if (!user) { window.location.href = "/login"; return; }
+      if (!user) { router.push("/login"); return; }
       
       // Obtener role del usuario
       const { data: prof } = await sb.from("user_profiles")
@@ -53,6 +54,12 @@ export default function Editar() {
         longitude: data.longitude != null ? String(data.longitude) : "",
         portada_url: data.portada_url || "",
         logo_url: data.logo_url || "",
+        type: data.type || "comercio",
+        hace_envios: !!data.hace_envios,
+        retiro_en_local: data.retiro_en_local !== false,
+        envio_gratis: !!data.envio_gratis,
+        costo_envio: data.costo_envio != null ? String(data.costo_envio) : "",
+        zona_cobertura: data.zona_cobertura || "",
       });
       setItems(Array.isArray(data.items) ? data.items : []);
       setPromos(Array.isArray(data.promotions) ? data.promotions : []);
@@ -161,6 +168,15 @@ export default function Editar() {
           <div className="grid gap-4 sm:grid-cols-2">
             <label><span className={lbl}>Nombre</span><input className={inp} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></label>
             <label><span className={lbl}>WhatsApp</span><input className={inp} value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value.replace(/\D/g, "") })} /></label>
+            <label className="sm:col-span-2">
+              <span className={lbl}>Tipo de vendedor</span>
+              <select className={inp} value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
+                <option value="comercio">🏪 Comercio (local físico)</option>
+                <option value="particular">🙋 Vendedor particular (sin local)</option>
+                <option value="servicio">🔧 Servicio</option>
+                <option value="profesional">💼 Profesional</option>
+              </select>
+            </label>
             <label className="sm:col-span-2"><span className={lbl}>Descripción</span><textarea rows={3} className={inp + " resize-none"} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} /></label>
             <label><span className={lbl}>Dirección</span><input className={inp} value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} /></label>
             <label><span className={lbl}>Horarios</span><input className={inp} value={form.schedule} onChange={(e) => setForm({ ...form, schedule: e.target.value })} /></label>
@@ -174,6 +190,34 @@ export default function Editar() {
               />
             </div>
             <label className="flex items-end gap-2 pb-3"><input type="checkbox" checked={form.open} onChange={(e) => setForm({ ...form, open: e.target.checked })} /> <span className="text-sm">Abierto ahora</span></label>
+          </div>
+
+          <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
+            <p className={lbl}>🚚 Envíos</p>
+            <div className="flex flex-wrap gap-4">
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" checked={form.retiro_en_local} onChange={(e) => setForm({ ...form, retiro_en_local: e.target.checked })} />
+                Retiro {form.type === "comercio" ? "en el local" : "acordado"}
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" checked={form.hace_envios} onChange={(e) => setForm({ ...form, hace_envios: e.target.checked })} />
+                Hago envíos
+              </label>
+            </div>
+            {form.hace_envios && (
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <label className="flex items-center gap-2 text-sm">
+                  <input type="checkbox" checked={form.envio_gratis} onChange={(e) => setForm({ ...form, envio_gratis: e.target.checked })} />
+                  Envío gratis
+                </label>
+                {!form.envio_gratis && (
+                  <input type="number" min="0" value={form.costo_envio} onChange={(e) => setForm({ ...form, costo_envio: e.target.value })}
+                    className={inp} placeholder="Costo del envío" />
+                )}
+                <input type="text" value={form.zona_cobertura} onChange={(e) => setForm({ ...form, zona_cobertura: e.target.value })}
+                  className={inp + " sm:col-span-2"} placeholder="Zona de cobertura (ej: San Lorenzo y alrededores)" />
+              </div>
+            )}
           </div>
         </section>
 

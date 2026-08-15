@@ -56,6 +56,11 @@ export interface Business {
   destacado?: boolean;
   created_at?: string;
   updated_at?: string;
+  hace_envios?: boolean;
+  retiro_en_local?: boolean;
+  envio_gratis?: boolean;
+  costo_envio?: number;
+  zona_cobertura?: string;
 }
 
 export interface Offer {

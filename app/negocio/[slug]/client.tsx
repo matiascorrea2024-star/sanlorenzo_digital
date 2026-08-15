@@ -10,7 +10,7 @@ import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
-import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search } from "lucide-react";
+import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search, Truck } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import BusinessMap from "@/components/business/map";
 import ReviewsSection from "@/components/business/reviews-section";
@@ -188,6 +188,12 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                       {negocio.open ? "● Abierto ahora" : "● Cerrado"}
                     </Badge>
                   )}
+                  {negocio.type && negocio.type !== "comercio" && (
+                    <Badge variant="info" size="sm">
+                      {negocio.type === "particular" ? "🙋 Vendedor particular" : negocio.type === "servicio" ? "🔧 Servicio" : "💼 Profesional"}
+                    </Badge>
+                  )}
+                  {negocio.hace_envios && <Badge variant="info" size="sm">🚚 Hace envíos</Badge>}
                 </div>
                 <h1 className="truncate text-2xl font-black md:text-4xl">{negocio.name}</h1>
                 <p className="mt-1 truncate text-sm capitalize text-white/70">{negocio.category}</p>
@@ -291,6 +297,19 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   <div>
                     <p className="text-sm font-bold">Instagram</p>
                     <a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-orange-400 hover:text-orange-300">@{negocio.instagram}</a>
+                  </div>
+                </div>
+              )}
+              {negocio.hace_envios && (
+                <div className="flex items-start gap-3">
+                  <Truck className="mt-0.5 h-5 w-5 shrink-0 text-sky-400" />
+                  <div>
+                    <p className="text-sm font-bold">Envíos</p>
+                    <p className="text-sm text-white/70">
+                      {negocio.envio_gratis ? "Envío gratis" : negocio.costo_envio ? `Envío: $${Number(negocio.costo_envio).toLocaleString("es-AR")}` : "Hace envíos"}
+                      {negocio.zona_cobertura && ` · ${negocio.zona_cobertura}`}
+                    </p>
+                    {negocio.retiro_en_local && <p className="text-xs text-white/50">También hay retiro {negocio.type === "comercio" ? "en el local" : "acordado"}.</p>}
                   </div>
                 </div>
               )}

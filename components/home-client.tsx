@@ -153,6 +153,7 @@ export default function HomeClient({ initial, initialOfertas, initialTop }: { in
   const catName = CATEGORIES.find((c) => c.id === cat)?.name;
   const buscando = !!q.trim() || !!cat;
   const porVencer = ofertas.filter((o) => o.vence && daysTo(o.vence) <= 3).length;
+  const nuevasHoy = ofertas.filter((o) => o.creado && (ahora - new Date(o.creado).getTime()) / 86400000 <= 1).length;
 
   // Jerarquía visual: cuando no hay búsqueda/filtro activo, separamos
   // las ofertas de negocios Destacado Semanal en su propia fila -- no
@@ -213,8 +214,13 @@ export default function HomeClient({ initial, initialOfertas, initialTop }: { in
                 ? `Ofertas${catName ? ` de ${catName}` : ""}${q ? ` para “${q}”` : ""}`
                 : "Ofertas reales, ahora mismo."}
             </h2>
-            <p className="mt-1 text-xs text-[var(--muted)]">
-              {filteredOffers.length} {filteredOffers.length === 1 ? "oferta activa" : "ofertas activas"} · publicadas por comercios de San Lorenzo
+            <p className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-[var(--muted)]">
+              <span>{filteredOffers.length} {filteredOffers.length === 1 ? "oferta activa" : "ofertas activas"} · publicadas por comercios de San Lorenzo</span>
+              {nuevasHoy > 0 && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-black text-emerald-300">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" /> {nuevasHoy} nueva{nuevasHoy === 1 ? "" : "s"} hoy
+                </span>
+              )}
             </p>
           </div>
           <div className="flex items-center gap-2">

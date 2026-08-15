@@ -47,6 +47,11 @@ export default function NuevoNegocioPage() {
     whatsapp: "",
     instagram: "",
     schedule: "",
+    haceEnvios: false,
+    retiroEnLocal: true,
+    envioGratis: false,
+    costoEnvio: "",
+    zonaCobertura: "",
   });
 
   const categories = [
@@ -59,6 +64,14 @@ export default function NuevoNegocioPage() {
     { id: "profesionales", name: "Profesionales", icon: "💼" },
     { id: "tecnologia", name: "Tecnología", icon: "💻" },
   ];
+
+  const tiposVendedor = [
+    { id: "comercio", name: "Comercio", desc: "Tenés local físico", icon: "🏪" },
+    { id: "particular", name: "Vendedor particular", desc: "Vendés por tu cuenta, sin local", icon: "🙋" },
+    { id: "servicio", name: "Servicio", desc: "Ofrecés un servicio (reparaciones, limpieza, etc.)", icon: "🔧" },
+    { id: "profesional", name: "Profesional", desc: "Consultorio, estudio o atención profesional", icon: "💼" },
+  ];
+  const esParticular = formData.type !== "comercio";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,6 +106,11 @@ export default function NuevoNegocioPage() {
         whatsapp: formData.whatsapp,
         instagram: formData.instagram,
         schedule: formData.schedule,
+        hace_envios: formData.haceEnvios,
+        retiro_en_local: formData.retiroEnLocal,
+        envio_gratis: formData.haceEnvios ? formData.envioGratis : false,
+        costo_envio: formData.haceEnvios && formData.costoEnvio ? Number(formData.costoEnvio) : null,
+        zona_cobertura: formData.haceEnvios ? (formData.zonaCobertura || null) : null,
         status: "reclamado",
         demo: false,
         open: true,
@@ -148,9 +166,24 @@ export default function NuevoNegocioPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className={lbl}>Nombre del negocio *</label>
+            <label className={lbl}>¿Qué tipo de vendedor sos? *</label>
+            <div className="grid grid-cols-2 gap-2">
+              {tiposVendedor.map((t) => (
+                <button key={t.id} type="button" onClick={() => setFormData({ ...formData, type: t.id })}
+                  className={`rounded-xl border p-3 text-left transition ${
+                    formData.type === t.id ? "border-orange-400/60 bg-orange-500/10" : "border-white/15 bg-white/5 hover:border-white/30"
+                  }`}>
+                  <p className="text-sm font-bold">{t.icon} {t.name}</p>
+                  <p className="mt-0.5 text-[11px] text-white/50">{t.desc}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className={lbl}>{esParticular ? "Cómo querés que te encuentren *" : "Nombre del negocio *"}</label>
             <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              required className={inp} placeholder="Ej: Café La Esquina" />
+              required className={inp} placeholder={esParticular ? "Ej: Lu Vende Ropa" : "Ej: Café La Esquina"} />
           </div>
 
           <div>
@@ -183,9 +216,11 @@ export default function NuevoNegocioPage() {
           )}
 
           <div>
-            <label className={lbl}>Dirección *</label>
+            <label className={lbl}>{esParticular ? "Dirección o zona (opcional)" : "Dirección *"}</label>
             <input type="text" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-              required className={inp} placeholder="Ej: Belgrano 123, San Lorenzo" />
+              required={!esParticular} className={inp}
+              placeholder={esParticular ? "Ej: Zona centro (no hace falta la dirección exacta)" : "Ej: Belgrano 123, San Lorenzo"} />
+            {esParticular && <p className="mt-1.5 text-xs text-white/40">Como vendedor particular no necesitás local físico -- esto es opcional, solo para orientar a los compradores.</p>}
           </div>
 
           <div>
@@ -220,6 +255,34 @@ export default function NuevoNegocioPage() {
                 <label className={lbl}>Horarios</label>
                 <input type="text" value={formData.schedule} onChange={(e) => setFormData({ ...formData, schedule: e.target.value })}
                   className={inp} placeholder="Ej: Lun a Vie 9-18, Sáb 9-13" />
+              </div>
+
+              <div className="rounded-xl border border-white/10 bg-black/20 p-3">
+                <p className={lbl}>Envíos</p>
+                <div className="flex flex-wrap gap-4">
+                  <label className="flex items-center gap-2 text-sm">
+                    <input type="checkbox" checked={formData.retiroEnLocal} onChange={(e) => setFormData({ ...formData, retiroEnLocal: e.target.checked })} />
+                    Retiro {esParticular ? "acordado" : "en el local"}
+                  </label>
+                  <label className="flex items-center gap-2 text-sm">
+                    <input type="checkbox" checked={formData.haceEnvios} onChange={(e) => setFormData({ ...formData, haceEnvios: e.target.checked })} />
+                    Hago envíos
+                  </label>
+                </div>
+                {formData.haceEnvios && (
+                  <div className="mt-3 space-y-3">
+                    <label className="flex items-center gap-2 text-sm">
+                      <input type="checkbox" checked={formData.envioGratis} onChange={(e) => setFormData({ ...formData, envioGratis: e.target.checked })} />
+                      Envío gratis
+                    </label>
+                    {!formData.envioGratis && (
+                      <input type="number" min="0" value={formData.costoEnvio} onChange={(e) => setFormData({ ...formData, costoEnvio: e.target.value })}
+                        className={inp} placeholder="Costo del envío (opcional)" />
+                    )}
+                    <input type="text" value={formData.zonaCobertura} onChange={(e) => setFormData({ ...formData, zonaCobertura: e.target.value })}
+                      className={inp} placeholder="Zona de cobertura (ej: San Lorenzo y alrededores)" />
+                  </div>
+                )}
               </div>
             </div>
           )}
