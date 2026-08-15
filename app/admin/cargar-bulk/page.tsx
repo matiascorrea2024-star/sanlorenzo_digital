@@ -59,12 +59,38 @@ export default function CargarBulkPage() {
     a.href = url; a.download = "plantilla-negocios.csv"; a.click();
   };
 
+  // Geocodifica la dirección real contra OpenStreetMap (mismo servicio que
+  // usa el selector de ubicación de "nueva oferta"/"editar negocio") --
+  // antes esto le ponía a CADA negocio una coordenada al azar cerca del
+  // centro de San Lorenzo, sin relación con su dirección real. Si no se
+  // puede geocodificar, se deja sin coordenadas (null) en vez de inventar
+  // una -- el dueño puede cargarla a mano después desde "Editar negocio".
+  async function geocodificar(direccion: string): Promise<{ lat: number; lon: number } | null> {
+    if (!direccion.trim()) return null;
+    try {
+      const q = encodeURIComponent(`${direccion}, San Lorenzo, Santa Fe, Argentina`);
+      const r = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${q}`, {
+        headers: { Accept: "application/json" },
+      });
+      const j = await r.json();
+      if (!j[0]) return null;
+      const lat = Number(j[0].lat), lon = Number(j[0].lon);
+      return Number.isFinite(lat) && Number.isFinite(lon) ? { lat, lon } : null;
+    } catch {
+      return null;
+    }
+  }
+
   const cargar = async () => {
     if (!preview.length) return;
     setLoading(true);
-    let ok = 0, fail = 0;
+    let ok = 0, fail = 0, sinUbicar = 0;
     const errores: string[] = [];
     for (const b of preview) {
+      // Nominatim pide no superar 1 request/segundo.
+      const geo = await geocodificar(b.direccion || "");
+      if (!geo) sinUbicar++;
+      await new Promise((r) => setTimeout(r, 1100));
       const { error } = await supabase().from("businesses").insert({
         name: b.nombre,
         slug: b.slug,
@@ -76,13 +102,13 @@ export default function CargarBulkPage() {
         status: "pendiente",
         plan: "gratis",
         location_id: "a0000000-0000-0000-0000-000000000003",
-        latitude: -32.7475 + (Math.random() - 0.5) * 0.02,
-        longitude: -60.7285 + (Math.random() - 0.5) * 0.02,
+        latitude: geo?.lat ?? null,
+        longitude: geo?.lon ?? null,
       });
       if (error) { fail++; errores.push(`${b.nombre}: ${error.message}`); }
       else ok++;
     }
-    setResult({ ok, fail, errores });
+    setResult({ ok, fail, errores: sinUbicar > 0 ? [...errores, `⚠️ ${sinUbicar} negocio(s) se cargaron sin coordenadas (no se pudo ubicar la dirección) -- cargalas a mano desde "Editar negocio".`] : errores });
     setLoading(false);
   };
 
