@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper } from "lucide-react";
+import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper, Search, Trash2, Pencil } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
 import OnlineBadge from "@/components/ui/online-badge";
@@ -24,6 +24,18 @@ export default function AdminPage() {
   const [creandoCiudad, setCreandoCiudad] = useState(false);
   const [barrioAbierto, setBarrioAbierto] = useState<string | null>(null);
   const [nuevoBarrio, setNuevoBarrio] = useState("");
+  const [editandoCiudad, setEditandoCiudad] = useState<string | null>(null);
+  const [nombreCiudadEdit, setNombreCiudadEdit] = useState("");
+
+  // Negocios y ofertas se cargan bajo demanda al abrir la pestaña --
+  // son listas que pueden crecer mucho, no tiene sentido pedirlas
+  // junto con el resto del overview.
+  const [negocios, setNegocios] = useState<any[]>([]);
+  const [negociosCargados, setNegociosCargados] = useState(false);
+  const [qNegocios, setQNegocios] = useState("");
+  const [ofertasAdmin, setOfertasAdmin] = useState<any[]>([]);
+  const [ofertasCargadas, setOfertasCargadas] = useState(false);
+  const [qOfertas, setQOfertas] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -63,6 +75,28 @@ export default function AdminPage() {
       setLoading(false);
     })();
   }, []);
+
+  useEffect(() => {
+    if (tab === "negocios" && !negociosCargados) {
+      (async () => {
+        const { data } = await supabase().from("businesses").select("id, name, slug, category, status, activo, destacado, owner_id").order("created_at", { ascending: false }).limit(300);
+        setNegocios(data || []);
+        setNegociosCargados(true);
+      })();
+    }
+    if (tab === "ofertas" && !ofertasCargadas) {
+      (async () => {
+        // Tabla real (no la vista offers_with_business, que solo
+        // muestra active=true) -- el admin necesita ver también las
+        // desactivadas para poder reactivarlas.
+        const { data } = await supabase().from("offers")
+          .select("id, title, active, valid_until, discount_percent, businesses(name, slug)")
+          .order("created_at", { ascending: false }).limit(300);
+        setOfertasAdmin(data || []);
+        setOfertasCargadas(true);
+      })();
+    }
+  }, [tab, negociosCargados, ofertasCargadas]);
 
   // El navegador manda las cookies de sesión de Supabase automáticamente
   // (mismo origen); el servidor las lee vía lib/supabase-server.ts, igual
@@ -160,10 +194,79 @@ export default function AdminPage() {
     } catch (e: any) { alert(e.message); }
   };
 
+  const toggleDestacado = async (id: string, destacado: boolean) => {
+    try {
+      await authedFetch("/api/admin/businesses", "PATCH", { id, destacado: !destacado });
+      setNegocios(prev => prev.map(n => n.id === id ? { ...n, destacado: !destacado } : n));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const toggleActivoNegocio = async (id: string, activo: boolean) => {
+    try {
+      await authedFetch("/api/admin/businesses", "PATCH", { id, activo: !activo });
+      setNegocios(prev => prev.map(n => n.id === id ? { ...n, activo: !activo } : n));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const borrarNegocio = async (id: string, nombre: string) => {
+    if (!confirm(`¿Eliminar "${nombre}" definitivamente? Se borran también sus ofertas, productos y reseñas asociadas. Esta acción no se puede deshacer.`)) return;
+    try {
+      await authedFetch("/api/admin/businesses", "DELETE", { id });
+      setNegocios(prev => prev.filter(n => n.id !== id));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const toggleOfertaActiva = async (id: string, active: boolean) => {
+    try {
+      await authedFetch("/api/admin/offers", "PATCH", { id, active: !active });
+      setOfertasAdmin(prev => prev.map(o => o.id === id ? { ...o, active: !active } : o));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const borrarOferta = async (id: string, titulo: string) => {
+    if (!confirm(`¿Eliminar la oferta "${titulo}"? No se puede deshacer.`)) return;
+    try {
+      await authedFetch("/api/admin/offers", "DELETE", { id });
+      setOfertasAdmin(prev => prev.filter(o => o.id !== id));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const cambiarRolUsuario = async (userId: string, rolActual: string) => {
+    const nuevo = rolActual === "admin" ? "user" : "admin";
+    if (!confirm(`¿Cambiar el rol de este usuario a "${nuevo}"?`)) return;
+    try {
+      await authedFetch("/api/admin/users", "PATCH", { user_id: userId, role: nuevo });
+      setStats((prev: any) => ({
+        ...prev,
+        usersRecent: prev.usersRecent.map((u: any) => u.user_id === userId ? { ...u, role: nuevo } : u),
+      }));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const renombrarCiudad = async (id: string) => {
+    const nombre = nombreCiudadEdit.trim();
+    if (!nombre) return;
+    try {
+      await authedFetch("/api/admin/locations", "PATCH", { id, name: nombre });
+      setCiudades(prev => prev.map(c => c.id === id ? { ...c, name: nombre } : c));
+      setEditandoCiudad(null);
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const borrarCiudad = async (id: string, nombre: string) => {
+    if (!confirm(`¿Eliminar la ciudad "${nombre}"? Solo se puede borrar si no tiene negocios ni barrios asociados.`)) return;
+    try {
+      await authedFetch("/api/admin/locations", "DELETE", { id });
+      setCiudades(prev => prev.filter(c => c.id !== id));
+    } catch (e: any) { alert(e.message); }
+  };
+
   const pendientesPago = subs.filter(s => s.status === "pending").length;
 
   const TABS = [
     { k: "overview", l: "Overview", icon: TrendingUp, count: 0 },
+    { k: "negocios", l: "Negocios", icon: Store, count: 0 },
+    { k: "ofertas", l: "Ofertas", icon: Flame, count: 0 },
     { k: "verificacion", l: "Verificación", icon: Shield, count: pendientes.length },
     { k: "moderacion", l: "Moderación", icon: Star, count: 0 },
     { k: "reportes", l: "Reportes", icon: Flag, count: reportes.length },
@@ -260,6 +363,7 @@ export default function AdminPage() {
                         <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-white/40">Rol</th>
                         <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-white/40">Alta</th>
                         <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-white/40">Estado</th>
+                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-white/40">Acción</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -269,6 +373,12 @@ export default function AdminPage() {
                           <td className="px-4 py-3 text-xs capitalize text-white/60">{u.role}</td>
                           <td className="px-4 py-3 text-xs text-white/50">{new Date(u.created_at).toLocaleDateString("es-AR")}</td>
                           <td className="px-4 py-3"><OnlineBadge lastSeen={u.last_seen_at} /></td>
+                          <td className="px-4 py-3">
+                            <button onClick={() => cambiarRolUsuario(u.user_id, u.role)}
+                              className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">
+                              {u.role === "admin" ? "Quitar admin" : "Hacer admin"}
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -276,6 +386,108 @@ export default function AdminPage() {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {/* NEGOCIOS */}
+        {tab === "negocios" && (
+          <div className="mt-6">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className="text-lg font-black">Todos los negocios <span className="text-white/40">({negocios.length})</span></h2>
+              <div className="relative w-full max-w-xs">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+                <input value={qNegocios} onChange={(e) => setQNegocios(e.target.value)} placeholder="Buscar por nombre..."
+                  className="w-full rounded-xl border border-white/15 bg-black/20 py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400" />
+              </div>
+            </div>
+            {!negociosCargados ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
+            ) : negocios.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+                <Store className="mx-auto h-10 w-10 text-white/20" />
+                <p className="mt-3 text-sm text-white/40">Todavía no hay negocios cargados.</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {negocios.filter((n) => n.name.toLowerCase().includes(qNegocios.toLowerCase())).map((n) => (
+                  <div key={n.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-3 sm:flex-row sm:items-center">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-bold">{n.name}</p>
+                      <p className="truncate text-xs capitalize text-white/50">
+                        {n.category} · {n.status}{n.activo === false && " · oculto"}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      <a href={`/negocio/${n.slug}`} target="_blank" rel="noopener noreferrer"
+                        className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">Ver</a>
+                      <a href={`/dashboard/editar/${n.slug}`} target="_blank" rel="noopener noreferrer"
+                        className="flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">
+                        <Pencil className="h-3 w-3" /> Editar
+                      </a>
+                      <button onClick={() => toggleDestacado(n.id, n.destacado)}
+                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.destacado ? "bg-yellow-500/20 text-yellow-300" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
+                        {n.destacado ? "Quitar destacado" : "Destacar"}
+                      </button>
+                      <button onClick={() => toggleActivoNegocio(n.id, n.activo !== false)}
+                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.activo === false ? "bg-white/10 text-white/50" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
+                        {n.activo === false ? "Reactivar" : "Ocultar"}
+                      </button>
+                      <button onClick={() => borrarNegocio(n.id, n.name)}
+                        className="flex items-center gap-1 rounded-lg bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-red-300 hover:bg-red-500/25">
+                        <Trash2 className="h-3 w-3" /> Borrar
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* OFERTAS */}
+        {tab === "ofertas" && (
+          <div className="mt-6">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className="text-lg font-black">Todas las ofertas <span className="text-white/40">({ofertasAdmin.length})</span></h2>
+              <div className="relative w-full max-w-xs">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+                <input value={qOfertas} onChange={(e) => setQOfertas(e.target.value)} placeholder="Buscar por título..."
+                  className="w-full rounded-xl border border-white/15 bg-black/20 py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400" />
+              </div>
+            </div>
+            {!ofertasCargadas ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
+            ) : ofertasAdmin.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+                <Flame className="mx-auto h-10 w-10 text-white/20" />
+                <p className="mt-3 text-sm text-white/40">Todavía no hay ofertas publicadas.</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {ofertasAdmin.filter((o) => o.title.toLowerCase().includes(qOfertas.toLowerCase())).map((o) => (
+                  <div key={o.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-3 sm:flex-row sm:items-center">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-bold">{o.title}</p>
+                      <p className="truncate text-xs text-white/50">
+                        {o.businesses?.name || "Negocio eliminado"}{o.valid_until && ` · vence ${new Date(o.valid_until + "T00:00:00").toLocaleDateString("es-AR")}`}{!o.active && " · inactiva"}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      <a href={`/oferta/${o.id}`} target="_blank" rel="noopener noreferrer"
+                        className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">Ver</a>
+                      <button onClick={() => toggleOfertaActiva(o.id, o.active)}
+                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${!o.active ? "bg-white/10 text-white/50" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
+                        {o.active ? "Desactivar" : "Reactivar"}
+                      </button>
+                      <button onClick={() => borrarOferta(o.id, o.title)}
+                        className="flex items-center gap-1 rounded-lg bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-red-300 hover:bg-red-500/25">
+                        <Trash2 className="h-3 w-3" /> Borrar
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -512,9 +724,33 @@ export default function AdminPage() {
                     <div className="flex items-center gap-3">
                       <MapPin className="h-6 w-6 shrink-0 text-sky-400" />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-bold">{c.name}</p>
+                        {editandoCiudad === c.id ? (
+                          <input value={nombreCiudadEdit} onChange={(e) => setNombreCiudadEdit(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && renombrarCiudad(c.id)}
+                            autoFocus
+                            className="w-full rounded-lg border border-orange-400/40 bg-black/20 px-2 py-1 text-sm font-bold outline-none" />
+                        ) : (
+                          <p className="truncate font-bold">{c.name}</p>
+                        )}
                         <p className="text-xs text-white/50">/{c.slug}</p>
                       </div>
+                      {editandoCiudad === c.id ? (
+                        <>
+                          <button onClick={() => renombrarCiudad(c.id)}
+                            className="shrink-0 rounded-xl bg-orange-500/20 px-3 py-2 text-xs font-bold text-orange-300 hover:bg-orange-500/30">
+                            Guardar
+                          </button>
+                          <button onClick={() => setEditandoCiudad(null)}
+                            className="shrink-0 rounded-xl border border-white/15 px-3 py-2 text-xs font-bold text-white/60 hover:bg-white/5">
+                            Cancelar
+                          </button>
+                        </>
+                      ) : (
+                        <button onClick={() => { setEditandoCiudad(c.id); setNombreCiudadEdit(c.name); }}
+                          className="flex shrink-0 items-center gap-1 rounded-xl border border-white/15 px-3 py-2 text-xs font-bold text-white/60 hover:bg-white/5">
+                          <Pencil className="h-3 w-3" /> Renombrar
+                        </button>
+                      )}
                       <button onClick={() => setBarrioAbierto(barrioAbierto === c.id ? null : c.id)}
                         className="shrink-0 rounded-xl border border-white/15 px-3 py-2 text-xs font-bold text-white/60 hover:bg-white/5">
                         + Barrio
@@ -523,7 +759,11 @@ export default function AdminPage() {
                         className={`shrink-0 rounded-xl px-4 py-2 text-xs font-black transition ${
                           c.active ? "bg-green-500/15 text-green-300" : "bg-white/5 text-white/40"
                         }`}>
-                        {c.active ? "🟢 Activa" : "⚪ Inactiva"}
+                        {c.active ? "Activa" : "Inactiva"}
+                      </button>
+                      <button onClick={() => borrarCiudad(c.id, c.name)}
+                        className="flex shrink-0 items-center gap-1 rounded-xl bg-red-500/15 px-3 py-2 text-xs font-bold text-red-300 hover:bg-red-500/25">
+                        <Trash2 className="h-3 w-3" />
                       </button>
                     </div>
                     {barrioAbierto === c.id && (
