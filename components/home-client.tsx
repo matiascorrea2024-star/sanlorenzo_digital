@@ -6,6 +6,8 @@ import Hero from "@/components/home/hero";
 import OffersTicker from "@/components/home/offers-ticker";
 import Featured from "@/components/home/featured";
 import OfertaBomba from "@/components/home/oferta-bomba";
+import WallOfFame from "@/components/home/wall-of-fame";
+import TipRotativo from "@/components/home/tip-rotativo";
 import OfferCard from "@/components/ui/offer-card";
 import { CATEGORIES } from "@/lib/data";
 import { supabase } from "@/lib/supabase";
@@ -172,6 +174,10 @@ export default function HomeClient({ initial }: { initial: any[] }) {
         </div>
       </div>
 
+      <div className="pt-4">
+        <TipRotativo />
+      </div>
+
       {/* ===== LA GRAN BARATA (protagonista) ===== */}
       <section ref={ofertasRef} id="ofertas" className="mx-auto max-w-7xl scroll-mt-32 px-4 pt-8 sm:px-6">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
@@ -281,6 +287,8 @@ export default function HomeClient({ initial }: { initial: any[] }) {
           </Link>
         </div>
       </section>
+
+      <WallOfFame />
 
       {/* ===== CTA COMERCIOS ===== */}
       <section id="sumate" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">

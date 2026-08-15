@@ -1,8 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Star, CheckCircle2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Star, CheckCircle2, Camera, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { uploadReviewPhoto } from "@/lib/media";
 import Avatar from "@/components/ui/avatar";
+
+const MAX_FOTOS = 3;
 
 function timeAgo(d: string) {
   const s = Math.floor((Date.now() - new Date(d).getTime()) / 1000);
@@ -27,6 +31,7 @@ function Stars({ n, size = 16 }: { n: number; size?: number }) {
 export default function ReviewsSection({ businessId, baseRating = 0, baseCount = 0 }: {
   businessId: string; baseRating?: number; baseCount?: number;
 }) {
+  const router = useRouter();
   const [reviews, setReviews] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
   const [myName, setMyName] = useState("");
@@ -37,6 +42,8 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const [fotos, setFotos] = useState<File[]>([]);
+  const [lightbox, setLightbox] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -59,30 +66,41 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
   const avg = totalCount > 0 ? ((baseRating * baseCount) + realSum) / totalCount : 0;
 
   const send = async () => {
-    if (!user) { window.location.href = "/login"; return; }
+    if (!user) { router.push("/login"); return; }
     if (!comment.trim()) return;
     setSending(true);
     setError("");
-    const { error: err } = await supabase().from("business_reviews").insert({
-      business_id: businessId,
-      user_id: user.id,
-      reviewer_name: name || myName,
-      rating,
-      comment: comment.trim(),
-    });
-    if (!err) {
-      setSent(true);
-      setComment(""); setRating(5);
-      const { data } = await supabase().from("business_reviews")
-        .select("*").eq("business_id", businessId).order("created_at", { ascending: false });
-      if (data) setReviews(data);
-      setTimeout(() => setSent(false), 3000);
-    } else if (err.code === "23505") {
-      setError("Ya dejaste una reseña para este negocio.");
-    } else {
-      setError("No se pudo enviar tu reseña. Probá de nuevo.");
+    try {
+      const photos = await Promise.all(fotos.map(f => uploadReviewPhoto(f, businessId)));
+      const { error: err } = await supabase().from("business_reviews").insert({
+        business_id: businessId,
+        user_id: user.id,
+        reviewer_name: name || myName,
+        rating,
+        comment: comment.trim(),
+        photos,
+      });
+      if (!err) {
+        setSent(true);
+        setComment(""); setRating(5); setFotos([]);
+        const { data } = await supabase().from("business_reviews")
+          .select("*").eq("business_id", businessId).order("created_at", { ascending: false });
+        if (data) setReviews(data);
+        setTimeout(() => setSent(false), 3000);
+      } else if (err.code === "23505") {
+        setError("Ya dejaste una reseña para este negocio.");
+      } else {
+        setError("No se pudo enviar tu reseña. Probá de nuevo.");
+      }
+    } catch {
+      setError("No se pudieron subir las fotos. Probá de nuevo.");
     }
     setSending(false);
+  };
+
+  const agregarFotos = (files: FileList | null) => {
+    if (!files) return;
+    setFotos(prev => [...prev, ...Array.from(files)].slice(0, MAX_FOTOS));
   };
 
   return (
@@ -114,6 +132,26 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
         <textarea value={comment} onChange={(e) => setComment(e.target.value)} rows={3}
           placeholder="Contá tu experiencia..."
           className="mt-3 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm outline-none focus:border-orange-400" />
+
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          {fotos.map((f, i) => (
+            <div key={i} className="relative h-16 w-16 overflow-hidden rounded-xl border border-white/15">
+              <img src={URL.createObjectURL(f)} alt="" className="h-full w-full object-cover" />
+              <button onClick={() => setFotos(prev => prev.filter((_, j) => j !== i))}
+                className="absolute right-0.5 top-0.5 rounded-full bg-black/70 p-0.5">
+                <X className="h-3 w-3 text-white" />
+              </button>
+            </div>
+          ))}
+          {fotos.length < MAX_FOTOS && (
+            <label className="flex h-16 w-16 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-white/20 text-white/40 hover:border-orange-400/50 hover:text-orange-400">
+              <Camera className="h-5 w-5" />
+              <span className="text-[9px] font-bold">{fotos.length}/{MAX_FOTOS}</span>
+              <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => agregarFotos(e.target.files)} />
+            </label>
+          )}
+        </div>
+
         <button onClick={send} disabled={sending || !comment.trim()}
           className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black disabled:opacity-50">
           {sent ? "✅ ¡Gracias por tu reseña!" : sending ? "Enviando..." : "Publicar reseña"}
@@ -146,6 +184,15 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
               </div>
             </div>
             {r.comment && <p className="mt-3 text-sm text-white/80">{r.comment}</p>}
+            {r.photos?.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {r.photos.map((url: string, i: number) => (
+                  <button key={i} onClick={() => setLightbox(url)} className="h-20 w-20 overflow-hidden rounded-xl border border-white/10">
+                    <img src={url} alt="Foto de la reseña" className="h-full w-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
             {r.reply && (
               <div className="mt-3 rounded-xl border-l-4 border-orange-400 bg-orange-500/10 p-3">
                 <p className="text-xs font-black text-orange-300">↳ Respuesta del negocio</p>
@@ -155,6 +202,16 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
           </div>
         ))}
       </div>
+
+      {lightbox && (
+        <div onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4">
+          <img src={lightbox} alt="Foto de la reseña ampliada" className="max-h-[85vh] max-w-full rounded-xl object-contain" />
+          <button onClick={() => setLightbox(null)} className="absolute right-5 top-5 rounded-full bg-white/10 p-2">
+            <X className="h-5 w-5 text-white" />
+          </button>
+        </div>
+      )}
     </section>
   );
 }
