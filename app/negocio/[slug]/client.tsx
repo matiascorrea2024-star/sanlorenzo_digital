@@ -10,7 +10,7 @@ import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
-import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star } from "lucide-react";
+import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import BusinessMap from "@/components/business/map";
 import ReviewsSection from "@/components/business/reviews-section";
@@ -72,6 +72,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
     })
   );
   const [catProd, setCatProd] = useState<string | null>(null);
+  const [qProd, setQProd] = useState("");
   const catsProductos = Array.from(new Set(productos.map((p) => p.category).filter(Boolean))) as string[];
   const [loading] = useState(false);
   const [user, setUser] = useState<any>(null);
@@ -368,6 +369,14 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {productos.length > 0 && (
           <div className="mb-8">
             <h2 className="mb-4 text-xl font-black">🛍️ Productos ({productos.length})</h2>
+            {productos.length > 6 && (
+              <div className="relative mb-4">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
+                <input value={qProd} onChange={(e) => setQProd(e.target.value)}
+                  placeholder="Buscar en el catálogo..."
+                  className="w-full rounded-xl border border-white/15 bg-white/5 py-2.5 pl-9 pr-4 text-sm outline-none focus:border-orange-400" />
+              </div>
+            )}
             {catsProductos.length > 1 && (
               <div className="mb-4 flex flex-wrap gap-2">
                 <button onClick={() => setCatProd(null)}
@@ -382,9 +391,22 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 ))}
               </div>
             )}
+            {(() => {
+              const t = qProd.trim().toLowerCase();
+              const visibles = productos
+                .filter((p) => !catProd || p.category === catProd)
+                .filter((p) => !t || `${p.name} ${p.description || ""}`.toLowerCase().includes(t));
+              if (visibles.length === 0) {
+                return (
+                  <p className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-sm text-white/50">
+                    No encontramos productos con esa búsqueda.
+                  </p>
+                );
+              }
+              return (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {productos.filter((p) => !catProd || p.category === catProd).map((p) => (
-                <div key={p.id} className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+              {visibles.map((p) => (
+                <div key={p.id} className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-orange-400/40 hover:shadow-xl hover:shadow-orange-500/10">
                   {Array.isArray(p.images) && p.images[0] && (
                     <img src={p.images[0]} alt={p.name} className="h-40 w-full object-cover" />
                   )}
@@ -415,6 +437,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 </div>
               ))}
             </div>
+              );
+            })()}
           </div>
         )}
 

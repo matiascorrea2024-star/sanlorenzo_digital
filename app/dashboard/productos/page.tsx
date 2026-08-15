@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
-import { Package, Plus, Edit, Trash2, Star } from "lucide-react";
+import { Package, Edit, Trash2, Star, Eye, EyeOff } from "lucide-react";
 import ImageUploader from "@/components/upload/image-uploader";
 
 const emptyForm = () => ({
@@ -85,6 +85,11 @@ export default function ProductosPage() {
     setProductos(prev => prev.filter(p => p.id !== id));
   };
 
+  const toggleActive = async (p: any) => {
+    await supabase().from("products").update({ active: !p.active }).eq("id", p.id);
+    setProductos(prev => prev.map(x => x.id === p.id ? { ...x, active: !x.active } : x));
+  };
+
   if (loading) return <main className="min-h-screen bg-[#0a0710] flex items-center justify-center text-white">Cargando...</main>;
 
   if (!negocio) {
@@ -162,7 +167,7 @@ export default function ProductosPage() {
             </div>
           ) : (
             productos.map(p => (
-              <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div key={p.id} className={`flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 ${p.active === false ? "opacity-50" : ""}`}>
                 {Array.isArray(p.images) && p.images[0] ? (
                   <img src={p.images[0]} alt={p.name} className="h-12 w-12 rounded-xl object-cover" />
                 ) : (
@@ -174,10 +179,15 @@ export default function ProductosPage() {
                   <p className="font-bold flex items-center gap-1.5">
                     {p.name}
                     {p.featured && <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />}
+                    {p.active === false && <span className="rounded-full bg-white/10 px-2 py-0.5 text-[9px] font-black uppercase text-white/50">Oculto</span>}
                   </p>
                   <p className="text-xs text-white/50">{p.category || "Sin categoría"} · Stock: {p.stock ?? "—"}</p>
                   <p className="text-sm font-black text-orange-400">${Number(p.price).toLocaleString("es-AR")}</p>
                 </div>
+                <button onClick={() => toggleActive(p)} title={p.active === false ? "Mostrar en el catálogo" : "Ocultar del catálogo"}
+                  className="rounded-lg bg-white/10 p-2 hover:bg-white/20">
+                  {p.active === false ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
                 <button onClick={() => edit(p)} className="rounded-lg bg-white/10 p-2 hover:bg-white/20">
                   <Edit className="h-4 w-4" />
                 </button>
