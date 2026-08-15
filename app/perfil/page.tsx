@@ -6,6 +6,7 @@ import OnlineBadge from "@/components/ui/online-badge";
 import { supabase } from "@/lib/supabase";
 import ChangePassword from "@/components/profile/change-password";
 import PlatformWhatsappSetting from "@/components/profile/platform-whatsapp-setting";
+import PlatformPaymentSetting from "@/components/profile/platform-payment-setting";
 
 const NIVELES_USUARIO = [
   { min: 0, nombre: "Novato", icon: "🌱" },
@@ -173,6 +174,7 @@ export default function PerfilPage() {
         <div className="space-y-3">
           <ChangePassword email={user.email} />
           {isAdmin && <PlatformWhatsappSetting />}
+          {isAdmin && <PlatformPaymentSetting />}
         </div>
 
         <h2 className="mt-8 mb-3 text-xl font-black">📊 Tu actividad</h2>

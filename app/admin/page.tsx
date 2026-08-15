@@ -112,12 +112,21 @@ export default function AdminPage() {
     } catch (e: any) { alert(e.message); }
   };
 
+  const revisarSuscripcion = async (id: string, decision: "aprobar" | "rechazar") => {
+    try {
+      await authedFetch("/api/admin/subscriptions", "PATCH", { id, decision });
+      setSubs(prev => prev.map(s => s.id === id ? { ...s, status: decision === "aprobar" ? "active" : "rechazado" } : s));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const pendientesPago = subs.filter(s => s.status === "pending").length;
+
   const TABS = [
     { k: "overview", l: "Overview", icon: TrendingUp, count: 0 },
     { k: "verificacion", l: "Verificación", icon: Shield, count: pendientes.length },
     { k: "moderacion", l: "Moderación", icon: Star, count: 0 },
     { k: "reportes", l: "Reportes", icon: Flag, count: reportes.length },
-    { k: "suscripciones", l: "Suscripciones", icon: CreditCard, count: 0 },
+    { k: "suscripciones", l: "Suscripciones", icon: CreditCard, count: pendientesPago },
     { k: "ciudades", l: "Ciudades", icon: MapPin, count: 0 },
     { k: "cargar-bulk", l: "Cargar masiva", icon: Upload, count: 0 },
   ];
@@ -299,27 +308,67 @@ export default function AdminPage() {
 
         {/* SUSCRIPCIONES */}
         {tab === "suscripciones" && (
-          <div className="mt-6">
-            <h2 className="mb-4 text-lg font-black">Suscripciones activas <span className="text-white/40">({subs.length})</span></h2>
-            {subs.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
-                <CreditCard className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">Aún no hay suscripciones pagas. Cuando actives pagos, acá vas a ver los ingresos.</p>
-              </div>
-            ) : (
-              <div className="space-y-2.5">
-                {subs.map(s => (
-                  <div key={s.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-                    <CreditCard className="h-6 w-6 shrink-0 text-orange-400" />
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate font-bold">{(s as any).businesses?.name || "Negocio"}</p>
-                      <p className="text-xs capitalize text-white/50">Plan {s.plan} · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
+          <div className="mt-6 space-y-8">
+            <div>
+              <h2 className="mb-4 text-lg font-black">
+                Pagos pendientes de revisión <span className="text-white/40">({pendientesPago})</span>
+              </h2>
+              {pendientesPago === 0 ? (
+                <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+                  <CreditCard className="mx-auto h-10 w-10 text-white/20" />
+                  <p className="mt-3 text-sm text-white/40">No hay comprobantes esperando revisión.</p>
+                </div>
+              ) : (
+                <div className="space-y-2.5">
+                  {subs.filter(s => s.status === "pending").map(s => (
+                    <div key={s.id} className="flex flex-wrap items-center gap-3 rounded-2xl border border-yellow-400/30 bg-yellow-500/5 p-4">
+                      <CreditCard className="h-6 w-6 shrink-0 text-yellow-400" />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-bold">{(s as any).businesses?.name || "Negocio"}</p>
+                        <p className="text-xs text-white/50">Pide plan <strong className="capitalize">{s.plan}</strong> · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
+                      </div>
+                      {s.comprobante_url && (
+                        <a href={s.comprobante_url} target="_blank" rel="noopener noreferrer"
+                          className="rounded-lg border border-white/15 px-3 py-1.5 text-xs font-bold text-white/70 hover:bg-white/10">
+                          Ver comprobante
+                        </a>
+                      )}
+                      <button onClick={() => revisarSuscripcion(s.id, "aprobar")}
+                        className="rounded-lg bg-green-500/20 px-3 py-1.5 text-xs font-bold text-green-300 hover:bg-green-500/30">
+                        Aprobar
+                      </button>
+                      <button onClick={() => revisarSuscripcion(s.id, "rechazar")}
+                        className="rounded-lg bg-red-500/20 px-3 py-1.5 text-xs font-bold text-red-300 hover:bg-red-500/30">
+                        Rechazar
+                      </button>
                     </div>
-                    <Badge variant={s.plan === "premium" ? "warning" : "success"} size="sm">{s.plan}</Badge>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div>
+              <h2 className="mb-4 text-lg font-black">Historial <span className="text-white/40">({subs.length})</span></h2>
+              {subs.length === 0 ? (
+                <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+                  <CreditCard className="mx-auto h-10 w-10 text-white/20" />
+                  <p className="mt-3 text-sm text-white/40">Aún no hay solicitudes de plan pago.</p>
+                </div>
+              ) : (
+                <div className="space-y-2.5">
+                  {subs.map(s => (
+                    <div key={s.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                      <CreditCard className="h-6 w-6 shrink-0 text-orange-400" />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-bold">{(s as any).businesses?.name || "Negocio"}</p>
+                        <p className="text-xs capitalize text-white/50">Plan {s.plan} · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
+                      </div>
+                      <Badge variant={s.status === "active" ? "success" : s.status === "pending" ? "warning" : "danger"} size="sm">{s.status}</Badge>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
 

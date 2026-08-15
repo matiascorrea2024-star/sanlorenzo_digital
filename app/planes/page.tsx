@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { Check, X, Zap, Rocket, Crown } from "lucide-react";
 import Badge from "@/components/ui/badge";
+import { usePlatformSetting } from "@/lib/hooks/use-platform-settings";
+import { MAX_DESTACADOS_SEMANALES } from "@/lib/plans";
 
 const PLANES = [
   {
@@ -13,7 +15,7 @@ const PLANES = [
     desc: "Para empezar a vender en San Lorenzo",
     features: [
       { t: "Perfil de negocio completo", ok: true },
-      { t: "1 oferta activa", ok: true },
+      { t: "3 ofertas activas", ok: true },
       { t: "Chat con clientes", ok: true },
       { t: "Aparecer en mapa y búsqueda", ok: true },
       { t: "Estadísticas básicas", ok: false },
@@ -24,7 +26,7 @@ const PLANES = [
     href: "/registro",
   },
   {
-    nombre: "Profesional",
+    nombre: "PRO Comerciante",
     precio: "$9.900",
     periodo: "por mes",
     icon: Rocket,
@@ -37,36 +39,35 @@ const PLANES = [
       { t: "Estadísticas completas", ok: true },
       { t: "Historias 24h con fotos", ok: true },
       { t: "Responder reseñas", ok: true },
-      { t: "Sello de negocio activo", ok: true },
-      { t: "Banner en la home", ok: false },
+      { t: "Cupones ilimitados", ok: true },
+      { t: "Posición destacada fija", ok: false },
     ],
-    cta: "Quiero Profesional",
-    href: "/para-negocios",
+    cta: "Quiero PRO Comerciante",
+    href: "/dashboard/planes",
   },
   {
-    nombre: "Premium",
+    nombre: "Destacado Semanal",
     precio: "$19.900",
-    periodo: "por mes",
+    periodo: `7 días · cupo de ${MAX_DESTACADOS_SEMANALES} negocios`,
     icon: Crown,
     color: "border-yellow-400/50",
-    desc: "Máxima visibilidad en la ciudad",
+    desc: "Posición destacada fija por una semana",
     features: [
-      { t: "Todo lo del plan Profesional", ok: true },
-      { t: "Aparecer primero en búsqueda", ok: true },
-      { t: "Banner destacado en home", ok: true },
-      { t: "Campañas de ofertas push", ok: true },
-      { t: "Badge dorado en ranking", ok: true },
-      { t: "Soporte prioritario", ok: true },
-      { t: "Reporte mensual de mercado", ok: true },
+      { t: "Todo lo de PRO Comerciante", ok: true },
+      { t: "Posición destacada fija 7 días", ok: true },
+      { t: "Badge de destacado", ok: true },
+      { t: "Cupo limitado (solo 5 negocios a la vez)", ok: true },
+      { t: "Se renueva cada semana, sin permanencia", ok: true },
     ],
-    cta: "Quiero Premium",
-    href: "/para-negocios",
+    cta: "Quiero Destacado Semanal",
+    href: "/dashboard/planes",
   },
 ];
 
 import PageHero from "@/components/ui/page-hero";
 
 export default function PlanesPage() {
+  const whatsapp = usePlatformSetting("whatsapp_contacto");
   return (
     <main className="bg-[#0a0710] min-h-screen text-white pb-24">
       <PageHero title="💎 Planes y precios" subtitle="Elegí el plan que mejor se adapte a tu negocio" />
@@ -122,12 +123,20 @@ export default function PlanesPage() {
           ))}
         </div>
 
-        <p className="mt-10 text-center text-sm text-white/50">
-          ¿Dudas? Escribinos por WhatsApp y te asesoramos sin cargo →{" "}
-          <a href="https://wa.me/5493415555555" target="_blank" rel="noopener noreferrer" className="text-orange-400 font-bold">
-            Contactar
-          </a>
-        </p>
+        <div className="mx-auto mt-10 max-w-xl text-center text-sm text-white/50">
+          <p>
+            Los planes pagos se activan por transferencia: subís el comprobante desde tu panel y un admin lo
+            revisa y te lo activa. Pago automático con Mercado Pago: <span className="text-white/70">próximamente</span>.
+          </p>
+          {whatsapp && (
+            <p className="mt-2">
+              ¿Dudas? Escribinos por WhatsApp y te asesoramos sin cargo →{" "}
+              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="font-bold text-orange-400">
+                Contactar
+              </a>
+            </p>
+          )}
+        </div>
       </div>
     </main>
   );

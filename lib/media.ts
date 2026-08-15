@@ -33,3 +33,18 @@ export async function uploadProductImage(file: File, businessId: string, itemId:
   const { data } = sb.storage.from("business-media").getPublicUrl(path);
   return data.publicUrl;
 }
+
+export async function uploadComprobante(file: File, businessId: string): Promise<string> {
+  const sb = supabase();
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) throw new Error("No estás logueado");
+  const blob = await compressImage(file, 1600, 0.85);
+  const path = `${user.id}/${businessId}/comprobante-${Date.now()}.jpg`;
+  const { error } = await sb.storage.from("business-media").upload(path, blob, {
+    contentType: "image/jpeg",
+    upsert: false,
+  });
+  if (error) throw error;
+  const { data } = sb.storage.from("business-media").getPublicUrl(path);
+  return data.publicUrl;
+}
