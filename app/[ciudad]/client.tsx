@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import { MapPin, Store, Flame, ArrowRight } from "lucide-react";
+import { MapPin, Store, Flame, ArrowRight, Search, Sparkles } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import OfferCard from "@/components/ui/offer-card";
+import BusinessCard from "@/components/business/card";
 
 export default function CiudadView() {
   const params = useParams();
@@ -63,13 +64,15 @@ export default function CiudadView() {
     return (
       <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
         <div className="text-center">
-          <p className="text-5xl mb-4">🔍</p>
+          <Search className="mx-auto mb-4 h-10 w-10 text-white/30" />
           <h1 className="text-2xl font-black">Ciudad no encontrada</h1>
           <Link href="/" className="mt-4 inline-block text-orange-400">← Volver al inicio</Link>
         </div>
       </main>
     );
   }
+
+  const sinContenido = negocios.length === 0 && ofertas.length === 0;
 
   return (
     <main className="min-h-screen bg-[#120d09] text-white pb-24">
@@ -133,14 +136,32 @@ export default function CiudadView() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {negocios.slice(0, 8).map(b => (
-                <Link key={b.id} href={`/negocio/${b.slug}`}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-orange-400/50 transition">
-                  <p className="font-bold">{b.name}</p>
-                  <p className="text-xs capitalize text-white/50">{b.category}</p>
-                  <p className="text-xs text-white/40 mt-1">⭐ {(b.rating || 0).toFixed(1)}</p>
-                </Link>
+                <div key={b.id} className="stagger-item">
+                  <BusinessCard b={b} />
+                </div>
               ))}
             </div>
+          </section>
+        )}
+
+        {/* Ciudad recién activada: todavía sin negocios ni ofertas cargados.
+            En vez de una sección vacía muerta, invitamos a sumar el primero
+            (esto es lo que hace que una ciudad nueva se sienta "viva" desde
+            el día 1, no un cascarón). */}
+        {sinContenido && (
+          <section className="sld-card rounded-2xl px-6 py-12 text-center">
+            <Sparkles className="mx-auto mb-3 h-8 w-8 text-orange-400" />
+            <h2 className="text-xl font-black">{ciudad.name} recién se está sumando a la plataforma</h2>
+            <p className="mx-auto mt-2 max-w-md text-sm text-white/60">
+              Todavía no hay negocios ni ofertas cargados acá. Si tenés un comercio en {ciudad.name},
+              podés ser el primero en aparecer.
+            </p>
+            <Link
+              href="/registro"
+              className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-bold text-white"
+            >
+              Sumar mi negocio <ArrowRight className="h-4 w-4" />
+            </Link>
           </section>
         )}
       </div>

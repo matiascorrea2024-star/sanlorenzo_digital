@@ -23,6 +23,19 @@ export default function Editar() {
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
   const [stats, setStats] = useState<any>(null);
+  const [ciudades, setCiudades] = useState<any[]>([]);
+  const [barrios, setBarrios] = useState<any[]>([]);
+
+  useEffect(() => {
+    supabase().from("locations").select("id, name, status").eq("type", "city").order("name")
+      .then(({ data }) => setCiudades(data || []));
+  }, []);
+
+  useEffect(() => {
+    if (!form?.location_id) { setBarrios([]); return; }
+    supabase().from("locations").select("id, name").eq("type", "neighborhood").eq("parent_id", form.location_id)
+      .order("name").then(({ data }) => setBarrios(data || []));
+  }, [form?.location_id]);
 
   useEffect(() => {
     (async () => {
@@ -60,6 +73,8 @@ export default function Editar() {
         envio_gratis: !!data.envio_gratis,
         costo_envio: data.costo_envio != null ? String(data.costo_envio) : "",
         zona_cobertura: data.zona_cobertura || "",
+        location_id: data.location_id || "",
+        neighborhood_id: data.neighborhood_id || "",
       });
       setItems(Array.isArray(data.items) ? data.items : []);
       setPromos(Array.isArray(data.promotions) ? data.promotions : []);
@@ -180,6 +195,24 @@ export default function Editar() {
             <label className="sm:col-span-2"><span className={lbl}>Descripción</span><textarea rows={3} className={inp + " resize-none"} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} /></label>
             <label><span className={lbl}>Dirección</span><input className={inp} value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} /></label>
             <label><span className={lbl}>Horarios</span><input className={inp} value={form.schedule} onChange={(e) => setForm({ ...form, schedule: e.target.value })} /></label>
+            <label>
+              <span className={lbl}>Ciudad</span>
+              <select className={inp} value={form.location_id} onChange={(e) => setForm({ ...form, location_id: e.target.value, neighborhood_id: "" })}>
+                <option value="">Sin asignar</option>
+                {ciudades.map((c) => (
+                  <option key={c.id} value={c.id}>{c.name}{c.status && c.status !== "active" ? " (todavía no publicada)" : ""}</option>
+                ))}
+              </select>
+            </label>
+            {barrios.length > 0 && (
+              <label>
+                <span className={lbl}>Barrio</span>
+                <select className={inp} value={form.neighborhood_id} onChange={(e) => setForm({ ...form, neighborhood_id: e.target.value })}>
+                  <option value="">Sin asignar</option>
+                  {barrios.map((b2) => <option key={b2.id} value={b2.id}>{b2.name}</option>)}
+                </select>
+              </label>
+            )}
             <label><span className={lbl}>Instagram</span><input className={inp} value={form.instagram} onChange={(e) => setForm({ ...form, instagram: e.target.value })} /></label>
             <div className="sm:col-span-2">
               <LocationPicker

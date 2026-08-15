@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import { MapPin, Store, ArrowLeft } from "lucide-react";
+import { MapPin, Store, ArrowLeft, Search, Sparkles, ArrowRight } from "lucide-react";
 import Badge from "@/components/ui/badge";
+import BusinessCard from "@/components/business/card";
 
 export default function BarrioView() {
   const params = useParams();
@@ -42,7 +43,7 @@ export default function BarrioView() {
     return (
       <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
         <div className="text-center">
-          <p className="text-5xl mb-4">🔍</p>
+          <Search className="mx-auto mb-4 h-10 w-10 text-white/30" />
           <h1 className="text-2xl font-black">Barrio no encontrado</h1>
           <Link href={`/${ciudadSlug}`} className="mt-4 inline-block text-orange-400">← Volver a {ciudadSlug}</Link>
         </div>
@@ -69,18 +70,25 @@ export default function BarrioView() {
           Negocios en {barrio.name} ({negocios.length})
         </h2>
         {negocios.length === 0 ? (
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
-            Aún no hay negocios en este barrio.
+          <div className="sld-card rounded-2xl px-6 py-10 text-center">
+            <Sparkles className="mx-auto mb-3 h-7 w-7 text-orange-400" />
+            <p className="font-bold">Todavía no hay negocios en {barrio.name}</p>
+            <p className="mx-auto mt-1 max-w-sm text-sm text-white/50">
+              Si tenés un comercio en este barrio, podés ser el primero en aparecer acá.
+            </p>
+            <Link
+              href="/registro"
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-bold text-white"
+            >
+              Sumar mi negocio <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {negocios.map(b => (
-              <Link key={b.id} href={`/negocio/${b.slug}`}
-                className="rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-orange-400/50 transition">
-                <p className="font-bold">{b.name}</p>
-                <p className="text-xs capitalize text-white/50">{b.category}</p>
-                <p className="text-xs text-white/40 mt-1">⭐ {(b.rating || 0).toFixed(1)}</p>
-              </Link>
+              <div key={b.id} className="stagger-item">
+                <BusinessCard b={b} />
+              </div>
             ))}
           </div>
         )}

@@ -5,6 +5,7 @@ const EDITABLE_FIELDS = [
   "name", "description", "address", "schedule", "whatsapp", "instagram",
   "open", "latitude", "longitude", "portada_url", "logo_url", "items", "promotions",
   "type", "hace_envios", "retiro_en_local", "envio_gratis", "costo_envio", "zona_cobertura",
+  "location_id", "neighborhood_id",
 ] as const;
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
@@ -29,6 +30,8 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   if (typeof update.latitude === "string") update.latitude = update.latitude ? parseFloat(update.latitude as string) : null;
   if (typeof update.longitude === "string") update.longitude = update.longitude ? parseFloat(update.longitude as string) : null;
   if (typeof update.costo_envio === "string") update.costo_envio = update.costo_envio ? parseFloat(update.costo_envio as string) : null;
+  if (update.location_id === "") update.location_id = null;
+  if (update.neighborhood_id === "") update.neighborhood_id = null;
 
   const { error: dbError } = await sb.from("businesses").update(update).eq("id", business.id);
   if (dbError) return NextResponse.json({ error: dbError.message }, { status: 500 });

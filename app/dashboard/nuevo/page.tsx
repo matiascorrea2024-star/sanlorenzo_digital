@@ -21,7 +21,11 @@ export default function NuevoNegocioPage() {
   const [neighborhoodId, setNeighborhoodId] = useState("");
 
   useEffect(() => {
-    supabase().from("locations").select("id, name").eq("type", "city").eq("active", true)
+    // Todas las ciudades, no solo las activas -- una ciudad nueva se carga
+    // con negocios reales ANTES de activarse (así el admin puede revisarla
+    // con contenido real antes de publicarla), así que el picker no puede
+    // limitarse a active=true o sería imposible poblar una ciudad nueva.
+    supabase().from("locations").select("id, name, status").eq("type", "city")
       .order("name").then(({ data }) => {
         setCiudades(data || []);
         const sl = (data || []).find((c: any) => c.name === "San Lorenzo");
@@ -200,7 +204,11 @@ export default function NuevoNegocioPage() {
               <div>
                 <label className={lbl}>Ciudad *</label>
                 <select className={inp} value={locationId} onChange={(e) => setLocationId(e.target.value)}>
-                  {ciudades.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                  {ciudades.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}{c.status && c.status !== "active" ? " (todavía no publicada)" : ""}
+                    </option>
+                  ))}
                 </select>
               </div>
               {barrios.length > 0 && (

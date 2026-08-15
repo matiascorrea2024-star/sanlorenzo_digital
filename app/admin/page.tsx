@@ -73,6 +73,16 @@ export default function AdminPage() {
       setCiudades(ciu.data || []);
       setReportes(rep.data || []);
       setLoading(false);
+
+      // Cantidad real de negocios por ciudad -- una sola consulta
+      // agrupada en el cliente, no N+1.
+      const cityIds = (ciu.data || []).map((c: any) => c.id);
+      if (cityIds.length) {
+        const { data: bizRows } = await supabase().from("businesses").select("location_id").in("location_id", cityIds);
+        const counts: Record<string, number> = {};
+        (bizRows || []).forEach((r: any) => { if (r.location_id) counts[r.location_id] = (counts[r.location_id] || 0) + 1; });
+        setCiudades((prev) => prev.map((c) => ({ ...c, _negocios: counts[c.id] || 0 })));
+      }
     })();
   }, []);
 
@@ -143,10 +153,11 @@ export default function AdminPage() {
     } catch (e: any) { alert(e.message); }
   };
 
-  const toggleCiudad = async (id: string, active: boolean) => {
+  const cambiarEstadoCiudad = async (id: string, status: string) => {
     try {
-      await authedFetch("/api/admin/locations", "PATCH", { id, active: !active });
-      setCiudades(prev => prev.map(c => c.id === id ? { ...c, active: !active } : c));
+      const res = await authedFetch("/api/admin/locations", "PATCH", { id, status });
+      setCiudades(prev => prev.map(c => c.id === id ? { ...c, status, active: status === "active" } : c));
+      if (res.warning) alert(res.warning);
     } catch (e: any) { alert(e.message); }
   };
 
@@ -164,6 +175,7 @@ export default function AdminPage() {
         latitude: nuevaCiudad.lat ? Number(nuevaCiudad.lat) : null,
         longitude: nuevaCiudad.lon ? Number(nuevaCiudad.lon) : null,
         active: false,
+        status: "draft",
       }).select().single();
       if (error) throw error;
       setCiudades(prev => [...prev, data]);
@@ -709,7 +721,7 @@ export default function AdminPage() {
                   {creandoCiudad ? "…" : "Crear"}
                 </button>
               </div>
-              <p className="mt-2 text-[11px] text-white/40">Se crea inactiva -- activala cuando tenga negocios/ofertas reales cargados, no antes.</p>
+              <p className="mt-2 text-[11px] text-white/40">Se crea como borrador. Cargale coordenadas y algún negocio real antes de activarla -- sin coordenadas no se puede activar.</p>
             </div>
 
             {ciudades.length === 0 ? (
@@ -732,8 +744,20 @@ export default function AdminPage() {
                         ) : (
                           <p className="truncate font-bold">{c.name}</p>
                         )}
-                        <p className="text-xs text-white/50">/{c.slug}</p>
+                        <p className="text-xs text-white/50">
+                          /{c.slug} · {c._negocios ?? 0} negocio{c._negocios === 1 ? "" : "s"}
+                          {(c.latitude == null || c.longitude == null) && <span className="ml-2 text-amber-400">sin coordenadas</span>}
+                        </p>
                       </div>
+                      <span className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${
+                        c.status === "active" ? "bg-green-500/15 text-green-300"
+                        : c.status === "draft" ? "bg-white/10 text-white/50"
+                        : c.status === "suspended" ? "bg-red-500/15 text-red-300"
+                        : c.status === "archived" ? "bg-white/5 text-white/30"
+                        : "bg-amber-500/15 text-amber-300"
+                      }`}>
+                        {c.status === "active" ? "Activa" : c.status === "draft" ? "Borrador" : c.status === "suspended" ? "Suspendida" : c.status === "archived" ? "Archivada" : "Inactiva"}
+                      </span>
                       {editandoCiudad === c.id ? (
                         <>
                           <button onClick={() => renombrarCiudad(c.id)}
@@ -755,12 +779,14 @@ export default function AdminPage() {
                         className="shrink-0 rounded-xl border border-white/15 px-3 py-2 text-xs font-bold text-white/60 hover:bg-white/5">
                         + Barrio
                       </button>
-                      <button onClick={() => toggleCiudad(c.id, c.active)}
-                        className={`shrink-0 rounded-xl px-4 py-2 text-xs font-black transition ${
-                          c.active ? "bg-green-500/15 text-green-300" : "bg-white/5 text-white/40"
-                        }`}>
-                        {c.active ? "Activa" : "Inactiva"}
-                      </button>
+                      <select value={c.status || "draft"} onChange={(e) => cambiarEstadoCiudad(c.id, e.target.value)}
+                        className="shrink-0 rounded-xl border border-white/15 bg-black/20 px-2 py-2 text-xs font-bold outline-none focus:border-orange-400">
+                        <option value="draft">Borrador</option>
+                        <option value="inactive">Inactiva</option>
+                        <option value="active">Activar</option>
+                        <option value="suspended">Suspender</option>
+                        <option value="archived">Archivar</option>
+                      </select>
                       <button onClick={() => borrarCiudad(c.id, c.name)}
                         className="flex shrink-0 items-center gap-1 rounded-xl bg-red-500/15 px-3 py-2 text-xs font-bold text-red-300 hover:bg-red-500/25">
                         <Trash2 className="h-3 w-3" />
@@ -783,7 +809,9 @@ export default function AdminPage() {
               </div>
             )}
             <p className="mt-4 text-xs text-white/40">
-              Las ciudades inactivas no aparecen públicamente hasta que tengan contenido suficiente.
+              Solo las ciudades en estado "Activa" aparecen públicamente. Podés cargar negocios en una ciudad en
+              borrador antes de activarla -- desactivar/suspender/archivar nunca borra los datos, se puede
+              reactivar en cualquier momento.
             </p>
           </div>
         )}
