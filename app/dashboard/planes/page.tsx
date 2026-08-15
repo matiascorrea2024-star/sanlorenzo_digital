@@ -104,7 +104,7 @@ export default function PlanesDashboard() {
                   actual ? "border-orange-400/70 bg-orange-500/10" : "border-white/10 bg-white/5"
                 }`}>
                 {actual && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-1 text-xs font-black">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-1 text-xs font-black">
                     PLAN ACTUAL
                   </span>
                 )}
@@ -128,7 +128,7 @@ export default function PlanesDashboard() {
                     <input type="file" accept="image/*" onChange={(e) => setArchivo(e.target.files?.[0] || null)}
                       className="w-full text-xs text-white/60 file:mr-2 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-white" />
                     <button onClick={() => solicitar(p.k)} disabled={enviando}
-                      className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-2 text-sm font-black hover:opacity-90 disabled:opacity-50">
+                      className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-2 text-sm font-black hover:opacity-90 disabled:opacity-50">
                       {enviando ? "Enviando…" : "Enviar comprobante"}
                     </button>
                     <button onClick={() => { setPidiendo(null); setArchivo(null); setError(""); }} className="w-full text-xs text-white/40 hover:text-white/60">
@@ -137,7 +137,7 @@ export default function PlanesDashboard() {
                   </div>
                 ) : (
                   <button onClick={() => setPidiendo(p.k)}
-                    className="mt-5 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black hover:opacity-90">
+                    className="mt-5 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black hover:opacity-90">
                     Quiero este plan
                   </button>
                 )}

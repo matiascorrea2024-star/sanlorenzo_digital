@@ -58,7 +58,7 @@ export default function Header() {
       <div className="mx-auto max-w-7xl px-4 h-full">
         <div className="flex h-full items-center justify-between gap-4">
           <Link href="/" className="group flex shrink-0 items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-red-600 shadow-lg shadow-orange-500/25 transition group-hover:shadow-orange-500/45 group-hover:brightness-110">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 shadow-lg shadow-orange-500/25 transition group-hover:shadow-orange-500/45 group-hover:brightness-110">
               <ShoppingBag className="h-5 w-5 text-white" />
             </span>
             <span className="leading-tight">
@@ -94,7 +94,7 @@ export default function Header() {
                 <button
                   onClick={() => setOpen(!open)}
                   aria-label="Menú de usuario"
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-sm font-black text-white transition hover:scale-105 md:h-9 md:w-9"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white transition hover:scale-105 md:h-9 md:w-9"
                 >
                   {(user.email || "?")[0].toUpperCase()}
                 </button>
@@ -139,7 +139,7 @@ export default function Header() {
               <AuthButton />
             )}
 
-            <Link href="/para-negocios" className="btn-shine hidden rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black text-white hover:opacity-90 md:inline-block">
+            <Link href="/para-negocios" className="btn-shine hidden rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black text-white hover:opacity-90 md:inline-block">
               Publicar negocio
             </Link>
           </div>

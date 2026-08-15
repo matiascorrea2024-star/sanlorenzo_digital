@@ -29,7 +29,7 @@ export default function PlanLimitBanner() {
   const plan = PLANES[info.plan] || PLANES.gratis;
 
   return (
-    <div className="mb-6 rounded-2xl border-2 border-orange-400/50 bg-gradient-to-r from-orange-500/15 to-red-600/15 p-5">
+    <div className="mb-6 rounded-2xl border-2 border-orange-400/50 bg-gradient-to-r from-orange-500/15 to-pink-500/15 p-5">
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
         <div className="flex items-center gap-3">
           <Lock className="h-6 w-6 text-orange-400" />
@@ -43,7 +43,7 @@ export default function PlanLimitBanner() {
           </div>
         </div>
         <Link href="/dashboard/planes"
-          className="flex shrink-0 items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3 text-sm font-black hover:opacity-90">
+          className="flex shrink-0 items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-3 text-sm font-black hover:opacity-90">
           <Rocket className="h-4 w-4" /> Mejorar plan
         </Link>
       </div>

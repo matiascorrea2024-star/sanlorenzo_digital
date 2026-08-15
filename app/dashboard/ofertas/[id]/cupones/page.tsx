@@ -104,7 +104,7 @@ export default function CuponesPage() {
             <button
               onClick={validateCoupon}
               disabled={!validateCode}
-              className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
+              className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
             >
               Validar
             </button>

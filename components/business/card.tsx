@@ -76,7 +76,7 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
             className="h-9 w-9 md:h-11 md:w-11 rounded-2xl border-2 border-[#120d09] object-cover shadow-lg"
           />
         ) : (
-          <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#120d09] bg-gradient-to-br from-orange-500 to-red-600 text-sm font-black text-white shadow-lg">
+          <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#120d09] bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white shadow-lg">
             {(b.name || "?")[0]}
           </div>
         )}
@@ -89,11 +89,15 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
         </h3>
         <p className="mt-0.5 flex flex-wrap items-center gap-x-1 text-[11px] md:text-xs capitalize text-white/50">
           <span>{b.category}{b.address ? ` · ${b.address}` : ""}</span>
-          {esParticular && <span className="normal-case text-white/40">· {TIPO_LABEL[b.type]}</span>}
           <RankBadge slug={b.slug} categoria={b.category} />
         </p>
         {b.description && (
           <p className="mt-2 line-clamp-2 text-xs text-white/60">{b.description}</p>
+        )}
+        {esParticular && (
+          <span className="mt-2 w-fit rounded-full border border-cyan-400/30 bg-cyan-500/15 px-2 py-0.5 text-[10px] font-black text-cyan-300">
+            {TIPO_LABEL[b.type]}
+          </span>
         )}
         <div className="mt-auto flex items-center justify-between pt-3">
           <span className="flex items-center gap-2 text-xs font-bold text-yellow-300">

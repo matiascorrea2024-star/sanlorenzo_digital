@@ -159,7 +159,7 @@ export default function ProductosPage() {
             </label>
             <div className="flex gap-2">
               <button onClick={save} disabled={!form.name || !form.price}
-                className="flex-1 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black disabled:opacity-50">
+                className="flex-1 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black disabled:opacity-50">
                 {editing ? "Guardar cambios" : "Crear producto"}
               </button>
               {editing && (
@@ -182,7 +182,7 @@ export default function ProductosPage() {
                 {Array.isArray(p.images) && p.images[0] ? (
                   <img src={p.images[0]} alt={p.name} className="h-12 w-12 rounded-xl object-cover" />
                 ) : (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/20 to-red-600/20">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-500/20">
                     <Package className="h-6 w-6 text-orange-400" />
                   </div>
                 )}

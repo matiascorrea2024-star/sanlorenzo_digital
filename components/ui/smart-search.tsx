@@ -140,7 +140,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
             <X className="h-4 w-4" />
           </button>
         )}
-        <button className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90 transition">
+        <button className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90 transition">
           Buscar
         </button>
       </form>

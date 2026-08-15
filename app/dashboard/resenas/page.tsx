@@ -80,7 +80,7 @@ export default function ResenasPage() {
                         rows={2} placeholder="Respondé al cliente..."
                         className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
                       <button onClick={() => saveReply(r.id)}
-                        className="mt-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2 text-xs font-black">
+                        className="mt-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2 text-xs font-black">
                         {saved[r.id] ? "✅ Guardada" : "Responder"}
                       </button>
                     </>

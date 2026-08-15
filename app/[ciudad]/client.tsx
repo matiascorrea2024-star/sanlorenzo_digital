@@ -72,7 +72,7 @@ export default function CiudadView() {
   return (
     <main className="min-h-screen bg-[#120d09] text-white pb-24">
       {/* Hero de ciudad */}
-      <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 py-12">
+      <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 py-12">
         <div className="mx-auto max-w-6xl px-4">
           <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Ciudad</Badge>
           <h1 className="mt-3 text-4xl font-black md:text-5xl">{ciudad.name}</h1>

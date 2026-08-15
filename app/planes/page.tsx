@@ -76,7 +76,7 @@ export default function PlanesPage() {
           <Badge variant="warning" size="sm">Planes para comercios</Badge>
           <h1 className="mt-3 text-4xl font-black md:text-5xl">
             Empezá gratis. Crecé con tu negocio en{" "}
-            <span className="bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">San Lorenzo</span>
+            <span className="bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">San Lorenzo</span>
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-white/60">
             Sin tarjeta para arrancar, sin permanencia si después cambiás de plan. Vas subiendo cuando tu negocio lo necesite, no antes.
@@ -90,7 +90,7 @@ export default function PlanesPage() {
                 p.destacado ? "shadow-[0_0_40px_-10px_rgba(249,115,22,0.4)] md:-translate-y-3" : ""
               }`}>
               {p.destacado && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-1 text-xs font-black">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-1 text-xs font-black">
                   ⭐ MÁS ELEGIDO
                 </span>
               )}
@@ -114,7 +114,7 @@ export default function PlanesPage() {
               <Link href={p.href}
                 className={`mt-6 rounded-xl py-3 text-center text-sm font-black transition ${
                   p.destacado
-                    ? "bg-gradient-to-r from-orange-500 to-red-600 hover:opacity-90"
+                    ? "bg-gradient-to-r from-orange-500 to-pink-500 hover:opacity-90"
                     : "border border-white/20 hover:bg-white/10"
                 }`}>
                 {p.cta}

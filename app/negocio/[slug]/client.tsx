@@ -175,7 +175,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 </DivisionFrame>
               ) : (
                 <DivisionFrame puntos={negocio.puntos || 0} size={80} categoria={negocio.category} showLabel>
-                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#120d09] bg-gradient-to-br from-orange-500 to-red-600 text-3xl font-black shadow-2xl">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#120d09] bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black shadow-2xl">
                     {negocio.name[0]}
                   </div>
                 </DivisionFrame>
@@ -218,7 +218,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
       <div className="mx-auto max-w-4xl px-4 py-8">
         {/* ALERTA: te avisamos de ofertas nuevas */}
-        <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
+        <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-5 md:flex-row">
           <div>
             <p className="font-black">🔔 No te pierdas nada de {negocio.name}</p>
             <p className="text-sm text-white/60">Te avisamos cuando publiquen ofertas nuevas.</p>
@@ -410,12 +410,12 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             {catsProductos.length > 1 && (
               <div className="mb-4 flex flex-wrap gap-2">
                 <button onClick={() => setCatProd(null)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"}`}>
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5 text-white/70"}`}>
                   Todos
                 </button>
                 {catsProductos.map((c) => (
                   <button key={c} onClick={() => setCatProd(c)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"}`}>
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5 text-white/70"}`}>
                     {c}
                   </button>
                 ))}

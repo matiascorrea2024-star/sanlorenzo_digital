@@ -111,7 +111,7 @@ export default function AnalyticsPage() {
             {negocios.map(b => (
               <button key={b.id} onClick={() => setSelectedBiz(b.id)}
                 className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold transition ${
-                  selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5"
+                  selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5"
                 }`}>
                 {b.name}
               </button>
@@ -141,7 +141,7 @@ export default function AnalyticsPage() {
                 </span>
                 <div className="flex-1 flex items-center gap-2">
                   <div className="flex-1 h-6 bg-white/5 rounded overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-orange-500 to-red-600 transition-all"
+                    <div className="h-full bg-gradient-to-r from-orange-500 to-pink-500 transition-all"
                       style={{ width: `${(day.views / maxViews) * 100}%` }} />
                   </div>
                   <span className="text-xs font-bold w-12 text-right">{day.views}</span>
@@ -153,7 +153,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Conversión */}
-        <div className="rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-6">
+        <div className="rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-6">
           <h2 className="text-lg font-black mb-3">🎯 Tasa de conversión</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>

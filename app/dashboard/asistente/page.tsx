@@ -94,7 +94,7 @@ export default function AsistenteComerciantePage() {
                 className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
             <button onClick={generar} disabled={!form.producto}
-              className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
+              className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50">
               ✨ Generar publicación
             </button>
           </div>

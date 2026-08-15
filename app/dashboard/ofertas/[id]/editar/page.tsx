@@ -167,7 +167,7 @@ export default function EditarOferta() {
           )}
 
           <button onClick={guardar} disabled={saving}
-            className="btn-shine w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50">
+            className="btn-shine w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50">
             {saving ? "⏳ Guardando…" : "💾 Guardar cambios"}
           </button>
         </div>

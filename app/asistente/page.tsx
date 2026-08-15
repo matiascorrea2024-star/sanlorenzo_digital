@@ -174,7 +174,7 @@ export default function AsistentePage() {
                 <p className="mt-2 text-sm text-white/50">
                   Probá con menos filtros, o mirá todas las ofertas en La Gran Barata.
                 </p>
-                <Link href="/promociones" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">
+                <Link href="/promociones" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">
                   Ver todas las ofertas
                 </Link>
               </div>

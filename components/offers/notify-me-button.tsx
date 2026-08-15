@@ -88,7 +88,7 @@ export default function NotifyMeButton({
     <button
       onClick={handleClick}
       disabled={state === "loading"}
-      className={`rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black text-white hover:opacity-90 disabled:opacity-50 ${className}`}
+      className={`rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black text-white hover:opacity-90 disabled:opacity-50 ${className}`}
     >
       {state === "loading" ? "Suscribiendo..." : "🔔 Avisame si vuelve"}
     </button>

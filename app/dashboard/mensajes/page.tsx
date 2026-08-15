@@ -97,7 +97,7 @@ export default function MensajesPage() {
           <div className="mt-4 flex gap-2 overflow-x-auto">
             {businesses.map(b => (
               <button key={b.id} onClick={() => { setSelectedBiz(b.id); setSelectedCustomer(null); }}
-                className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-red-600" : "bg-white/5 border border-white/10"}`}>
+                className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-pink-500" : "bg-white/5 border border-white/10"}`}>
                 {b.name}
               </button>
             ))}

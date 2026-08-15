@@ -141,7 +141,7 @@ export default function MarketingPage() {
           </div>
           <button
             onClick={() => copyToClipboard(generateStoryText(), "story")}
-            className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
+            className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 font-black text-white hover:opacity-90"
           >
             {copied === "story" ? "✅ Copiado" : "📋 Copiar Story"}
           </button>

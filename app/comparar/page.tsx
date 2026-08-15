@@ -39,7 +39,7 @@ function CompararContent() {
           <Package className="mx-auto h-16 w-16 text-white/30 mb-4" />
           <h1 className="text-3xl font-black">Comparador de productos</h1>
           <p className="mt-3 text-white/60">No hay productos seleccionados para comparar.</p>
-          <Link href="/negocios" className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">
+          <Link href="/negocios" className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">
             Explorar productos
           </Link>
         </div>
@@ -79,7 +79,7 @@ function CompararContent() {
                     {p.id === mejorId && (
                       <Badge variant="success" size="sm" className="mb-2">🏆 Mejor opción</Badge>
                     )}
-                    <div className="mx-auto h-24 w-24 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-600/20 flex items-center justify-center mb-2">
+                    <div className="mx-auto h-24 w-24 rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-500/20 flex items-center justify-center mb-2">
                       <Package className="h-10 w-10 text-orange-400" />
                     </div>
                     <p className="font-black text-sm">{p.name}</p>
@@ -141,7 +141,7 @@ function CompararContent() {
                     <Link href={`/negocio/${p.businesses.slug}`}
                       className={`inline-block rounded-xl px-4 py-2 text-xs font-black transition ${
                         p.id === mejorId
-                          ? "bg-gradient-to-r from-orange-500 to-red-600 hover:opacity-90"
+                          ? "bg-gradient-to-r from-orange-500 to-pink-500 hover:opacity-90"
                           : "border border-white/20 hover:bg-white/10"
                       }`}>
                       Ver negocio

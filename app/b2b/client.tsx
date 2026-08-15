@@ -63,7 +63,7 @@ export default function B2bView() {
             </div>
             <div className="flex flex-col gap-3 md:items-end">
               <Link href="/para-negocios"
-                className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 text-base font-black hover:opacity-90 transition">
+                className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-8 py-4 text-base font-black hover:opacity-90 transition">
                 Publicar mi empresa →
               </Link>
               <Link href="/planes"
