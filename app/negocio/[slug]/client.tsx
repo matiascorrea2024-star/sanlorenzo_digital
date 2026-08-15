@@ -10,7 +10,7 @@ import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
-import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search, Truck, Navigation } from "lucide-react";
+import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search, Truck, Navigation, Package } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import BusinessMap from "@/components/business/map";
 import ReviewsSection from "@/components/business/reviews-section";
@@ -73,6 +73,12 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   );
   const [catProd, setCatProd] = useState<string | null>(null);
   const [qProd, setQProd] = useState("");
+  // Al entrar se ve primero lo que tenga contenido real: catálogo si hay
+  // productos cargados, si no ofertas. Si el negocio tiene las dos cosas,
+  // se muestran como pestañas (catálogo primero, es lo que pediste).
+  const [seccion, setSeccion] = useState<"catalogo" | "ofertas">(() =>
+    productos.length === 0 && ofertas.length > 0 ? "ofertas" : "catalogo"
+  );
   const catsProductos = Array.from(new Set(productos.map((p) => p.category).filter(Boolean))) as string[];
   const [loading] = useState(false);
   const [user, setUser] = useState<any>(null);
@@ -157,64 +163,66 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
     <main className="bg-[#120d09] min-h-screen pb-24 text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* HERO a medida: altura consistente */}
-      <section className="relative h-64 md:h-80">
+      {/* HERO: la foto se ve entera (sin apilarle toda la info arriba),
+          el logo/nombre/badges van debajo -- mismo patrón que ya usa
+          BusinessCard (portada + logo montado + info en flujo normal). */}
+      <section className="relative h-40 md:h-52">
         <img src={portada} alt={negocio.name} className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-[#120d09]/60 to-transparent" />
-
+        <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-transparent to-transparent" />
         <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md hover:bg-black/70">
           <ArrowLeft className="h-5 w-5" />
         </button>
-
-        <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-          <div className="mx-auto max-w-4xl">
-            <div className="flex items-start gap-4">
-              {negocio.logo_url ? (
-                <DivisionFrame puntos={negocio.puntos || 0} size={72} categoria={negocio.category}>
-                  <img src={negocio.logo_url} alt={negocio.name} className="h-20 w-20 rounded-2xl border-4 border-[#120d09] object-cover shadow-2xl" />
-                </DivisionFrame>
-              ) : (
-                <DivisionFrame puntos={negocio.puntos || 0} size={80} categoria={negocio.category} showLabel>
-                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#120d09] bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black shadow-2xl">
-                    {negocio.name[0]}
-                  </div>
-                </DivisionFrame>
-              )}
-              <div className="flex-1 min-w-0">
-                <div className="mb-1 flex flex-wrap items-center gap-2">
-                  {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
-                  {negocio.open !== undefined && (
-                    <Badge variant={negocio.open ? "success" : "danger"} size="sm">
-                      {negocio.open ? "● Abierto ahora" : "● Cerrado"}
-                    </Badge>
-                  )}
-                  {negocio.type && negocio.type !== "comercio" && (
-                    <Badge variant="info" size="sm">
-                      {negocio.type === "particular" ? "🙋 Vendedor particular" : negocio.type === "servicio" ? "🔧 Servicio" : "💼 Profesional"}
-                    </Badge>
-                  )}
-                  {negocio.hace_envios && <Badge variant="info" size="sm">🚚 Hace envíos</Badge>}
-                </div>
-                <h1 className="truncate text-2xl font-black md:text-4xl" style={{ fontFamily: "var(--font-space)" }}>{negocio.name}</h1>
-                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <p className="truncate text-sm capitalize text-white/70">{negocio.category}</p>
-                  {Number(negocio.reviews) > 0 && (
-                    <span className="flex items-center gap-1 text-sm font-bold text-amber-300">
-                      <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
-                      {Number(negocio.rating).toFixed(1)}
-                      <span className="font-normal text-white/50">({negocio.reviews})</span>
-                    </span>
-                  )}
-                </div>
-                <div className="mt-2 flex flex-wrap items-center gap-3">
-                  <FollowButton businessId={negocio.id} />
-                  <LevelBadge slug={negocio.slug} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
+
+      <div className="mx-auto max-w-4xl px-4">
+        {/* Logo montado sobre el borde de la foto -- solo el logo, no toda
+            la info al lado (el marco de rango tiene alto variable y
+            colisionaba con el nombre cuando iban lado a lado). */}
+        <div className="-mt-10 w-fit md:-mt-12">
+          {negocio.logo_url ? (
+            <DivisionFrame puntos={negocio.puntos || 0} size={72} categoria={negocio.category}>
+              <img src={negocio.logo_url} alt={negocio.name} className="h-20 w-20 rounded-2xl border-4 border-[#120d09] object-cover shadow-2xl" />
+            </DivisionFrame>
+          ) : (
+            <DivisionFrame puntos={negocio.puntos || 0} size={80} categoria={negocio.category} showLabel>
+              <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#120d09] bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black shadow-2xl">
+                {negocio.name[0]}
+              </div>
+            </DivisionFrame>
+          )}
+        </div>
+        <div className="mt-3">
+            <div className="mb-1 flex flex-wrap items-center gap-2">
+              {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
+              {negocio.open !== undefined && (
+                <Badge variant={negocio.open ? "success" : "danger"} size="sm">
+                  {negocio.open ? "● Abierto ahora" : "● Cerrado"}
+                </Badge>
+              )}
+              {negocio.type && negocio.type !== "comercio" && (
+                <Badge variant="info" size="sm">
+                  {negocio.type === "particular" ? "🙋 Vendedor particular" : negocio.type === "servicio" ? "🔧 Servicio" : "💼 Profesional"}
+                </Badge>
+              )}
+              {negocio.hace_envios && <Badge variant="info" size="sm">🚚 Hace envíos</Badge>}
+            </div>
+            <h1 className="truncate text-2xl font-black md:text-4xl" style={{ fontFamily: "var(--font-space)" }}>{negocio.name}</h1>
+            <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <p className="truncate text-sm capitalize text-white/70">{negocio.category}</p>
+              {Number(negocio.reviews) > 0 && (
+                <span className="flex items-center gap-1 text-sm font-bold text-amber-300">
+                  <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
+                  {Number(negocio.rating).toFixed(1)}
+                  <span className="font-normal text-white/50">({negocio.reviews})</span>
+                </span>
+              )}
+            </div>
+            <div className="mt-2 flex flex-wrap items-center gap-3">
+              <FollowButton businessId={negocio.id} />
+              <LevelBadge slug={negocio.slug} />
+            </div>
+        </div>
+      </div>
 
       <div className="mx-auto max-w-4xl px-4 py-8">
         {/* ALERTA: te avisamos de ofertas nuevas */}
@@ -342,8 +350,28 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </div>
         )}
 
+        {/* Catálogo y ofertas activas: si el negocio tiene las dos cosas,
+            se muestran como pestañas (catálogo primero por default). Si
+            solo tiene una, se muestra directo sin pestañas de más. */}
+        {productos.length > 0 && ofertas.length > 0 && (
+          <div className="mb-5 flex gap-2 rounded-2xl border border-white/10 bg-white/5 p-1.5">
+            <button
+              onClick={() => setSeccion("catalogo")}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "catalogo" ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "text-white/60 hover:text-white"}`}
+            >
+              <Package className="h-4 w-4" /> Catálogo ({productos.length})
+            </button>
+            <button
+              onClick={() => setSeccion("ofertas")}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "ofertas" ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "text-white/60 hover:text-white"}`}
+            >
+              <Flame className="h-4 w-4" /> Ofertas ({ofertas.length})
+            </button>
+          </div>
+        )}
+
         {/* OFERTAS ACTIVAS: tarjetas compactas horizontales */}
-        {ofertas.length > 0 && (
+        {ofertas.length > 0 && (productos.length === 0 || seccion === "ofertas") && (
           <div className="mb-8">
             <h2 className="mb-4 text-xl font-black">Ofertas activas ({ofertas.length})</h2>
             <div className="space-y-3">
@@ -395,10 +423,10 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </div>
         )}
 
-        {/* PRODUCTOS */}
-        {productos.length > 0 && (
+        {/* PRODUCTOS / CATÁLOGO */}
+        {productos.length > 0 && (ofertas.length === 0 || seccion === "catalogo") && (
           <div className="mb-8">
-            <h2 className="mb-4 text-xl font-black">Productos ({productos.length})</h2>
+            <h2 className="mb-4 text-xl font-black">Catálogo ({productos.length})</h2>
             {productos.length > 6 && (
               <div className="relative mb-4">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />

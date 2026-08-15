@@ -3,13 +3,17 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
-import { Package, Edit, Trash2, Star, Eye, EyeOff } from "lucide-react";
+import { Package, Edit, Trash2, Star, Eye, EyeOff, Images, X, Loader2 } from "lucide-react";
 import ImageUploader from "@/components/upload/image-uploader";
+import { uploadProductImage } from "@/lib/media";
+import HowItWorks from "@/components/ui/how-it-works";
 
 const emptyForm = () => ({
   name: "", description: "", price: "", old_price: "", category: "", stock: "",
   image: "", featured: false, imageId: crypto.randomUUID(),
 });
+
+type Pendiente = { id: string; file: File; preview: string; name: string; price: string; status: "pendiente" | "subiendo" | "ok" | "error" };
 
 export default function ProductosPage() {
   const { user } = useAuth();
@@ -18,6 +22,9 @@ export default function ProductosPage() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<any>(null);
   const [form, setForm] = useState(emptyForm);
+  const [modo, setModo] = useState<"uno" | "rapida">("rapida");
+  const [pendientes, setPendientes] = useState<Pendiente[]>([]);
+  const [guardandoTodo, setGuardandoTodo] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -90,6 +97,62 @@ export default function ProductosPage() {
     setProductos(prev => prev.map(x => x.id === p.id ? { ...x, active: !x.active } : x));
   };
 
+  // ===== Carga rápida: elegís varias fotos de una, completás nombre y
+  // precio al lado de cada una, y se suben todas juntas. Pensado para
+  // cargar un catálogo grande sin abrir el formulario 30 veces. =====
+  const agregarFotos = (files: FileList | null) => {
+    if (!files) return;
+    const nuevos: Pendiente[] = Array.from(files)
+      .filter((f) => f.type.startsWith("image/"))
+      .map((f) => ({
+        id: crypto.randomUUID(),
+        file: f,
+        preview: URL.createObjectURL(f),
+        name: "",
+        price: "",
+        status: "pendiente" as const,
+      }));
+    setPendientes((prev) => [...prev, ...nuevos]);
+  };
+
+  const quitarPendiente = (id: string) => {
+    setPendientes((prev) => {
+      const p = prev.find((x) => x.id === id);
+      if (p) URL.revokeObjectURL(p.preview);
+      return prev.filter((x) => x.id !== id);
+    });
+  };
+
+  const actualizarPendiente = (id: string, campo: "name" | "price", valor: string) => {
+    setPendientes((prev) => prev.map((p) => (p.id === id ? { ...p, [campo]: valor } : p)));
+  };
+
+  const listosParaGuardar = pendientes.filter((p) => p.name.trim() && p.price.trim());
+
+  const guardarTodo = async () => {
+    if (!negocio || listosParaGuardar.length === 0) return;
+    setGuardandoTodo(true);
+    for (const p of listosParaGuardar) {
+      setPendientes((prev) => prev.map((x) => (x.id === p.id ? { ...x, status: "subiendo" } : x)));
+      try {
+        const url = await uploadProductImage(p.file, String(negocio.id), p.id);
+        const { error } = await supabase().from("products").insert({
+          business_id: negocio.id,
+          name: p.name.trim(),
+          price: Number(p.price),
+          images: [url],
+        });
+        if (error) throw error;
+        setPendientes((prev) => prev.filter((x) => x.id !== p.id));
+        URL.revokeObjectURL(p.preview);
+      } catch {
+        setPendientes((prev) => prev.map((x) => (x.id === p.id ? { ...x, status: "error" } : x)));
+      }
+    }
+    setGuardandoTodo(false);
+    await reload();
+  };
+
   if (loading) return (
     <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
@@ -126,8 +189,81 @@ export default function ProductosPage() {
           </div>
         </div>
 
-        {/* Formulario */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
+        <HowItWorks steps={[
+          "Elegí varias fotos de tus productos de una sola vez (podés sacarlas con el celu en el momento).",
+          "Ponele nombre y precio a cada una -- lo demás (descripción, stock, categoría) lo podés completar después.",
+          "Tocá \"Guardar todo\" y se suben y publican todas juntas en tu catálogo.",
+        ]} />
+
+        {!editing && (
+          <div className="mb-4 flex gap-2 rounded-2xl border border-white/10 bg-white/5 p-1.5">
+            <button
+              onClick={() => setModo("rapida")}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "rapida" ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "text-white/60 hover:text-white"}`}
+            >
+              <Images className="h-4 w-4" /> Carga rápida por fotos
+            </button>
+            <button
+              onClick={() => setModo("uno")}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "uno" ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "text-white/60 hover:text-white"}`}
+            >
+              <Package className="h-4 w-4" /> Agregar de a uno
+            </button>
+          </div>
+        )}
+
+        {/* Carga rápida por fotos */}
+        {modo === "rapida" && !editing && (
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
+            <h2 className="text-lg font-black mb-1">Carga rápida</h2>
+            <p className="mb-4 text-sm text-white/50">Elegí todas las fotos que quieras cargar ahora.</p>
+            <label className="flex h-28 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-white/20 bg-white/[.03] text-white/50 transition hover:border-orange-400/60 hover:text-white">
+              <Images className="h-6 w-6" />
+              <span className="text-sm font-bold">Elegir fotos</span>
+              <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { agregarFotos(e.target.files); e.target.value = ""; }} />
+            </label>
+
+            {pendientes.length > 0 && (
+              <div className="mt-5 space-y-3">
+                {pendientes.map((p) => (
+                  <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-3">
+                    <img src={p.preview} alt="" className="h-16 w-16 shrink-0 rounded-xl object-cover" />
+                    <div className="flex flex-1 flex-col gap-2 sm:flex-row">
+                      <input value={p.name} onChange={(e) => actualizarPendiente(p.id, "name", e.target.value)}
+                        placeholder="Nombre del producto *" disabled={p.status === "subiendo"}
+                        className="flex-1 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm outline-none focus:border-orange-400 disabled:opacity-50" />
+                      <input value={p.price} onChange={(e) => actualizarPendiente(p.id, "price", e.target.value)}
+                        placeholder="Precio *" type="number" disabled={p.status === "subiendo"}
+                        className="w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm outline-none focus:border-orange-400 disabled:opacity-50 sm:w-32" />
+                    </div>
+                    {p.status === "subiendo" ? (
+                      <Loader2 className="h-5 w-5 shrink-0 animate-spin text-orange-400" />
+                    ) : p.status === "error" ? (
+                      <span title="No se pudo subir -- probá de nuevo" className="shrink-0 text-xs font-bold text-red-400">Error</span>
+                    ) : (
+                      <button onClick={() => quitarPendiente(p.id)} aria-label="Quitar foto" className="shrink-0 rounded-lg bg-white/10 p-2 hover:bg-red-500/20">
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <button
+                  onClick={guardarTodo}
+                  disabled={guardandoTodo || listosParaGuardar.length === 0}
+                  className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50"
+                >
+                  {guardandoTodo ? "Guardando..." : `Guardar todo (${listosParaGuardar.length})`}
+                </button>
+                {pendientes.length > listosParaGuardar.length && !guardandoTodo && (
+                  <p className="text-center text-xs text-white/40">Completá nombre y precio en todas para poder guardarlas.</p>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Formulario de a uno (también se usa para editar) */}
+        <div className={`rounded-2xl border border-white/10 bg-white/5 p-6 mb-6 ${modo === "rapida" && !editing ? "hidden" : ""}`}>
           <h2 className="text-lg font-black mb-4">{editing ? "Editar producto" : "Nuevo producto"}</h2>
           <div className="space-y-3">
             <ImageUploader

@@ -77,35 +77,41 @@ export default function OfertaPage() {
 
   return (
     <main className="bg-[#120d09] min-h-screen text-white pb-24">
-      {/* HERO a medida: ni gigante ni chico, título siempre legible */}
-      <section className="relative h-60 md:h-72">
-        <img src={img} alt={oferta.title} className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-[#120d09]/45 to-transparent" />
-        <button
-          onClick={() => router.back()}
-          aria-label="Volver"
-          className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md hover:bg-black/70"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </button>
-        <div className="absolute right-4 top-4">
-          <FavoriteButton itemType="offer" itemId={oferta.id} />
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 p-5">
-          <div className="mx-auto max-w-4xl">
-            <div className="mb-2 flex flex-wrap items-center gap-2">
-              {oferta.discount_percent && <Badge variant="danger" size="md">-{oferta.discount_percent}% OFF</Badge>}
-              {oferta.precio_prometido && <Badge variant="info" size="md">🔒 Precio Prometido</Badge>}
-              {venceHoy && <Badge variant="danger" size="md" pulse>🔥 VENCE HOY</Badge>}
-              {dias !== null && dias > 0 && dias <= 3 && <Badge variant="warning" size="md">En {dias} días</Badge>}
-              {vencido && <Badge variant="default" size="md">Finalizada</Badge>}
-              {venceHoy && oferta.valid_until && <CountdownTimer expiresAt={oferta.valid_until} compact />}
-            </div>
-            <h1 className="text-2xl font-black drop-shadow-[0_2px_10px_rgba(0,0,0,.9)] md:text-4xl">{oferta.title}</h1>
-            {oferta.product && <p className="mt-1 text-sm text-white/80 md:text-base">{oferta.product}</p>}
+      {/* HERO: foto de PRODUCTO, no de ambiente -- tarjeta centrada con
+          proporción fija (estilo ficha de producto de Mercado Libre), no
+          un banner de punta a punta. Un banner ancho y bajo recortaba mal
+          fotos de celular (verticales o cuadradas) en pantallas grandes:
+          con todo el ancho de la ventana y poca altura, terminaba
+          mostrando un pedazo irreconocible del producto. */}
+      <div className="mx-auto max-w-[480px] px-4 pt-4">
+        <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl">
+          <img src={img} alt={oferta.title} className="absolute inset-0 h-full w-full object-cover object-center" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#120d09]/40 via-transparent to-transparent" />
+          <button
+            onClick={() => router.back()}
+            aria-label="Volver"
+            className="absolute left-3 top-3 rounded-full bg-black/50 p-2 backdrop-blur-md hover:bg-black/70"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <div className="absolute right-3 top-3">
+            <FavoriteButton itemType="offer" itemId={oferta.id} />
           </div>
         </div>
-      </section>
+      </div>
+
+      <div className="mx-auto max-w-4xl px-4 pt-5">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          {oferta.discount_percent && <Badge variant="danger" size="md">-{oferta.discount_percent}% OFF</Badge>}
+          {oferta.precio_prometido && <Badge variant="info" size="md">🔒 Precio Prometido</Badge>}
+          {venceHoy && <Badge variant="danger" size="md" pulse>🔥 VENCE HOY</Badge>}
+          {dias !== null && dias > 0 && dias <= 3 && <Badge variant="warning" size="md">En {dias} días</Badge>}
+          {vencido && <Badge variant="default" size="md">Finalizada</Badge>}
+          {venceHoy && oferta.valid_until && <CountdownTimer expiresAt={oferta.valid_until} compact />}
+        </div>
+        <h1 className="text-2xl font-black md:text-4xl">{oferta.title}</h1>
+        {oferta.product && <p className="mt-1 text-sm text-white/80 md:text-base">{oferta.product}</p>}
+      </div>
 
       <div className="mx-auto max-w-4xl px-4 py-6">
         {vencido && (

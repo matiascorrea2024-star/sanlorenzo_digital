@@ -101,9 +101,19 @@ button{cursor:pointer}
   button, a { min-height: 32px; }
 }
 
-/* ===== RESPONSIVE FINO (320-430px) ===== */
+/* ===== RESPONSIVE FINO (320-430px) =====
+   OJO con esta regla: al no estar dentro de un @layer, en Tailwind v4
+   le gana a CUALQUIER utilidad h-* del propio componente (las capas sin
+   @layer tienen más prioridad que las que sí lo están, sin importar la
+   especificidad). Sin el :not([class*="h-"]), esto forzaba height:auto
+   en TODAS las imágenes del sitio -- portadas de ficha, ofertas, blog --
+   ignorando el alto que cada una ya define (h-40, h-64, etc.), y con
+   fotos subidas por el celular en vertical, el auto terminaba haciendo
+   la imagen altísima y tapando todo lo de abajo. Con el :not() solo
+   afecta a imágenes que NO definen su propio alto (el caso para el que
+   se escribió originalmente). */
 html, body { overflow-x: hidden; max-width: 100vw; }
-img, video, canvas, svg { max-width: 100%; height: auto; }
+img:not([class*="h-"]), video:not([class*="h-"]), canvas:not([class*="h-"]), svg:not([class*="h-"]) { max-width: 100%; height: auto; }
 .overflow-x-auto { -webkit-overflow-scrolling: touch; }
 
 @media (max-width: 380px) {
@@ -126,19 +136,18 @@ img, video, canvas, svg { max-width: 100%; height: auto; }
   main h2 { font-size: clamp(1.45rem, 6.5vw, 1.8rem) !important; line-height: 1.12 !important; letter-spacing: -0.02em !important; }
 }
 
-/* ===== FIX PORTADA FICHA DE NEGOCIO ===== */
-img[src*="unsplash"],
-img[src*="images."],
+/* ===== FIX PORTADA FICHA DE NEGOCIO =====
+   Ya no hace falta: forzaba max-height:320px por selector de tipo/atributo
+   (main img:first-of-type, img[src*="unsplash"]) a CUALQUIER primera
+   imagen o imagen de Unsplash de CUALQUIER página, con más especificidad
+   que las clases de Tailwind del propio componente (h-60/h-64/h-72/h-80).
+   Ese era el motivo real de "la portada se ve gigante": ganaba por
+   especificidad sobre el alto que cada hero ya define correctamente. */
 main img:not([class*="h-"]) {
   max-height: 320px;
   width: 100%;
   object-fit: cover;
   object-position: center;
-}
-main > section:first-of-type img,
-main img:first-of-type {
-  max-height: 320px;
-  object-fit: cover;
 }
 
 /* ===== EFECTOS ===== */
@@ -188,24 +197,6 @@ main img:first-of-type {
 @keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 .text-shimmer { background-size: 200% auto; animation: shimmer 3s linear infinite; }
 
-main section:first-of-type {
-  height: auto !important;
-  min-height: 0 !important;
-  aspect-ratio: auto !important;
-}
-main section:first-of-type .hero-media {
-  position: relative !important;
-  inset: auto !important;
-  width: 100% !important;
-  height: auto !important;
-  display: block !important;
-  max-height: 56vh !important;
-  object-fit: cover !important;
-  object-position: center 45% !important;
-}
-@media (min-width: 768px) {
-  main section:first-of-type .hero-media { max-height: 68vh !important; }
-}
 
 @keyframes blob {
   0%, 100% { transform: translate(0, 0) scale(1); }
