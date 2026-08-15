@@ -49,7 +49,7 @@ export default function Footer() {
             <p className="mt-2 text-sm text-white/50">
               Todas las ofertas y negocios de San Lorenzo en un solo lugar.
             </p>
-            <p className="mt-3 text-xs text-white/40">Hecho en San Lorenzo, Santa Fe · Argentina 🇦</p>
+            <p className="mt-3 text-xs text-white/55">Hecho en San Lorenzo, Santa Fe · Argentina 🇦</p>
             {whatsapp && (
               <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener" className="mt-3 inline-flex items-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-300 transition hover:bg-emerald-500/20">💬 WhatsApp de la plataforma</a>
             )}
@@ -69,7 +69,7 @@ export default function Footer() {
             </div>
           ))}
         </div>
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/40">
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/55">
           <p>© 2026 La Gran Barata Digital · San Lorenzo, Santa Fe</p>
           <div className="flex gap-4">
             <Link href="/privacidad" className="hover:text-orange-400">Política de Privacidad</Link>

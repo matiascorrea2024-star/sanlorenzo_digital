@@ -46,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
         <HeartbeatActivator />
           <Header />
-          {children}
+          <div id="contenido">{children}</div>
           <Footer />
           <BottomNav />
           <OnlineNow />
