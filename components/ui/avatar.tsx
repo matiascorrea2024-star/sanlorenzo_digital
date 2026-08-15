@@ -20,7 +20,7 @@ export default function Avatar({ name, size = 48, online }: { name?: string; siz
         {initials || "?"}
       </div>
       {online && (
-        <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#0d0a12] bg-green-500" />
+        <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#0a0710] bg-green-500" />
       )}
     </div>
   );

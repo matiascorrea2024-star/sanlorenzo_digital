@@ -81,7 +81,7 @@ export default function PromocionesPage() {
                     loading="lazy"
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0d0a12] via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0710] via-transparent to-transparent" />
                   {p.discount && (
                     <span className="absolute left-3 top-3 rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-2.5 py-1 text-xs font-black text-white shadow-lg">
                       {p.discount}

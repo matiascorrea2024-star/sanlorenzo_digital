@@ -5,7 +5,7 @@ import DivisionFrame from "@/components/ui/division-frame";
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Trophy, Star, Flame, Eye, Heart, TrendingUp, Activity, Rocket, Crown, Zap } from "lucide-react";
+import { Trophy, Star, Flame, Eye, Heart, TrendingUp, TrendingDown, Minus, Activity, Rocket, Crown, Zap } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { rangoDe } from "@/lib/ranks";
 import { calcReputation, reputationLabel } from "@/lib/reputation";
@@ -160,7 +160,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
 
 <div className="mt-6 flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-3">
           {RANGOS.map(r => (
-            <span key={r.nombre} className="rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider"
+            <span key={r.nombre} title={`Desde ${r.min} puntos`} className="rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider"
               style={{ color: r.accent, border: `1px solid ${r.accent}55`, background: "#0a0710" }}>
               {r.nombre}
             </span>
@@ -188,13 +188,17 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
           ) : sorted.map((r, i) => {
             const rango = rangoDe(r.puntos);
             const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
+            const esTop10 = i >= 3 && i < 10;
             return (
               <Link key={r.id} href={`/negocio/${r.slug}`}
                 className={`block rounded-2xl border p-4 transition hover:border-orange-400/50 ${
                   i === 0 ? "border-yellow-400/40 bg-yellow-500/10" : "border-white/10 bg-white/5"
                 }`}>
                 <div className="flex items-center gap-4">
-                  <span className="w-10 text-center text-2xl font-black">{medal}</span>
+                  <div className="flex w-10 shrink-0 flex-col items-center">
+                    <span className="text-center text-2xl font-black">{medal}</span>
+                    {esTop10 && <span className="mt-0.5 text-[8px] font-black text-orange-300">TOP 10</span>}
+                  </div>
                   {i < 3 ? (
               <DivisionFrame categoria={r.category} puntos={r.puntos} size={44}>
                 <RankedAvatar slug={r.slug} name={r.name} size={40} categoria={r.category} />
@@ -207,8 +211,17 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                       {r.name} <RankBadge puntos={r.puntos} categoria={r.category} />
                       {r.status === "verificado" && <span className="text-[10px] text-green-400">✓</span>}
                     </p>
-                    <p className="text-xs text-white/50 capitalize">
-                      {r.category} · ⭐ {r.rating.toFixed(1)} · 🔥 {r.ofertas} · 👀 {r.vistas} · ❤️ {r.favs} · 📰 {r.posts}
+                    <p className="flex flex-wrap items-center gap-x-1 text-xs text-white/50 capitalize">
+                      <span>{r.category}</span>
+                      <span title="Calificación promedio">· ⭐ {r.rating.toFixed(1)}</span>
+                      <span title="Ofertas activas">· 🔥 {r.ofertas}</span>
+                      <span title="Visitas al perfil">· 👀 {r.vistas}</span>
+                      <span title="Veces guardado como favorito">· ❤️ {r.favs}</span>
+                      <span title="Publicaciones en el Muro">· 📰 {r.posts}</span>
+                      <span title="Visitas de esta semana vs. la anterior" className={`flex items-center gap-0.5 font-bold normal-case ${r.crecimiento > 0 ? "text-green-400" : r.crecimiento < 0 ? "text-red-400" : "text-white/30"}`}>
+                        · {r.crecimiento > 0 ? <TrendingUp className="h-3 w-3" /> : r.crecimiento < 0 ? <TrendingDown className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
+                        {r.crecimiento !== 0 && (r.crecimiento > 0 ? `+${r.crecimiento}` : r.crecimiento)}
+                      </span>
                     </p>
                     <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden">
                       <div className="h-full bg-gradient-to-r from-orange-500 to-pink-500" style={{ width: `${rango.progreso}%` }} />

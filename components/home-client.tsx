@@ -299,6 +299,7 @@ export default function HomeClient({ initial }: { initial: any[] }) {
         <Featured
           list={filteredBusinesses}
           title={buscando ? `Negocios${catName ? ` de ${catName}` : ""}${q ? ` para “${q}”` : ""}` : "Negocios destacados"}
+          userCoords={coords}
         />
       </div>
 

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import RankBadge from "@/components/ui/rank-badge";
+import { calcDistanceKm, fmtDistance } from "@/lib/geo";
 
 const CAT_IMG: Record<string, string> = {
   calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=800&q=80",
@@ -12,12 +14,15 @@ const CAT_IMG: Record<string, string> = {
 };
 const FALLBACK = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=800&q=80";
 
-export default function BusinessCard({ b }: { b: any }) {
+export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: { lat: number; lon: number } | null }) {
   const cat = String(b.category || "").toLowerCase();
   const img = b.portada_url || CAT_IMG[cat] || FALLBACK;
   const isOpen = !!b.open;
   const isVerified = b.status === "verificado";
   const rating = Number(b.rating || 0).toFixed(1);
+  const dist = userCoords && b.latitude && b.longitude
+    ? fmtDistance(calcDistanceKm(userCoords.lat, userCoords.lon, Number(b.latitude), Number(b.longitude)))
+    : null;
 
   return (
     <Link
@@ -33,7 +38,7 @@ export default function BusinessCard({ b }: { b: any }) {
           loading="lazy"
           className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0a12] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0710] via-transparent to-transparent" />
         
         {/* Badge abierto/cerrado */}
         <span className={`absolute left-2 top-2 md:left-3 md:top-3 inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 md:px-2.5 md:py-1 text-[9px] md:text-[10px] font-black backdrop-blur ${
@@ -51,6 +56,11 @@ export default function BusinessCard({ b }: { b: any }) {
             ✓ Verificado
           </span>
         )}
+        {dist && (
+          <span className="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-black/70 px-2 py-0.5 text-[9px] font-bold text-sky-300 backdrop-blur">
+            📍 {dist}
+          </span>
+        )}
       </div>
 
       {/* Logo flotante -- afuera del overflow-hidden de la imagen (si no, se
@@ -61,10 +71,10 @@ export default function BusinessCard({ b }: { b: any }) {
           <img
             src={b.logo_url}
             alt=""
-            className="h-9 w-9 md:h-11 md:w-11 rounded-2xl border-2 border-[#0d0a12] object-cover shadow-lg"
+            className="h-9 w-9 md:h-11 md:w-11 rounded-2xl border-2 border-[#0a0710] object-cover shadow-lg"
           />
         ) : (
-          <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#0d0a12] bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white shadow-lg">
+          <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#0a0710] bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white shadow-lg">
             {(b.name || "?")[0]}
           </div>
         )}
@@ -75,8 +85,9 @@ export default function BusinessCard({ b }: { b: any }) {
         <h3 className="truncate text-sm md:text-base font-black transition group-hover:text-orange-300">
           {b.name}
         </h3>
-        <p className="mt-0.5 text-[11px] md:text-xs capitalize text-white/50">
-          {b.category} · {b.address}
+        <p className="mt-0.5 flex flex-wrap items-center gap-x-1 text-[11px] md:text-xs capitalize text-white/50">
+          <span>{b.category} · {b.address}</span>
+          <RankBadge slug={b.slug} categoria={b.category} />
         </p>
         {b.description && (
           <p className="mt-2 line-clamp-2 text-xs text-white/60">{b.description}</p>
