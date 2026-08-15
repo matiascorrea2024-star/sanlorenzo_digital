@@ -87,7 +87,7 @@ export default function MuroPage() {
       <div className="mx-auto max-w-2xl px-4 py-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-black">📰 Muro local</h1>
+            <h1 className="text-3xl font-black">Muro local</h1>
             <p className="text-white/60 mt-1">Lo que está pasando en el comercio de San Lorenzo</p>
           </div>
           <Link href="/dashboard/muro"

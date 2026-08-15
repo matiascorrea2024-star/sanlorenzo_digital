@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Share2 } from "lucide-react";
 import PageHero from "@/components/ui/page-hero";
 import { useAllBusinesses } from "@/lib/use-businesses";
 
@@ -52,7 +53,7 @@ export default function PromocionesPage() {
   return (
     <main className="min-h-screen bg-[#120d09] pb-24 text-white">
       <PageHero
-        title="🔥 Ofertas en este momento"
+        title="Ofertas en este momento"
         subtitle={`${activas.length} promocion${activas.length === 1 ? "" : "es"} corriendo ahora en San Lorenzo`}
       >
         <Link href="/" className="mt-3 inline-block text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
@@ -114,9 +115,9 @@ export default function PromocionesPage() {
                           const url = `https://sanlorenzodigital.vercel.app/negocio/${p.slug}`;
                           window.open(`https://wa.me/?text=${encodeURIComponent(`🔥 ${p.title} en ${p.negocio} — ${url}`)}`, "_blank");
                         }}
-                        className="cursor-pointer rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-2 py-1 text-[11px] font-black text-emerald-300 transition hover:bg-emerald-500/20"
+                        className="flex cursor-pointer items-center gap-1 rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-2 py-1 text-[11px] font-black text-emerald-300 transition hover:bg-emerald-500/20"
                       >
-                        📲 Compartir
+                        <Share2 className="h-3 w-3" /> Compartir
                       </span>
                       <span className="text-xs font-bold text-orange-400 opacity-0 transition group-hover:opacity-100">Ver →</span>
                     </div>

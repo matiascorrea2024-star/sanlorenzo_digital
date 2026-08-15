@@ -270,8 +270,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
         {/* INFO + MAPA */}
         <div className="mb-8 grid md:grid-cols-2 gap-6">
-          <div className="rounded-2xl border border-white/10 border-l-2 border-l-orange-400/50 bg-white/5 p-6">
-            <h2 className="mb-4 text-xl font-black">📞 Información</h2>
+          <div className="sld-card rounded-2xl p-6" style={{ borderLeft: "2px solid rgba(249,115,22,.5)" }}>
+            <h2 className="mb-4 text-xl font-black">Información</h2>
             <div className="space-y-3">
               {negocio.address && (
                 <div className="flex items-start gap-3">
@@ -326,7 +326,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </div>
 
           {negocio.latitude && negocio.longitude && (
-            <div className="rounded-2xl border border-white/10 border-l-2 border-l-cyan-400/50 bg-white/5 p-6">
+            <div className="sld-card rounded-2xl p-6" style={{ borderLeft: "2px solid rgba(34,211,238,.5)" }}>
               <h2 className="mb-4 flex items-center gap-2 text-xl font-black">
                 <Navigation className="h-4 w-4 text-cyan-300" /> Ubicación
               </h2>
@@ -345,7 +345,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {/* OFERTAS ACTIVAS: tarjetas compactas horizontales */}
         {ofertas.length > 0 && (
           <div className="mb-8">
-            <h2 className="mb-4 text-xl font-black">🔥 Ofertas activas ({ofertas.length})</h2>
+            <h2 className="mb-4 text-xl font-black">Ofertas activas ({ofertas.length})</h2>
             <div className="space-y-3">
               {ofertas.map((o) => {
                 const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
@@ -398,7 +398,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {/* PRODUCTOS */}
         {productos.length > 0 && (
           <div className="mb-8">
-            <h2 className="mb-4 text-xl font-black">🛍️ Productos ({productos.length})</h2>
+            <h2 className="mb-4 text-xl font-black">Productos ({productos.length})</h2>
             {productos.length > 6 && (
               <div className="relative mb-4">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
