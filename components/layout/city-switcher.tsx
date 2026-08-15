@@ -10,7 +10,7 @@ export default function CitySwitcher() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    supabase().from("locations").select("name, slug").eq("type", "city").eq("active", true)
+    supabase().from("locations").select("name, slug, status").eq("type", "city")
       .order("name").then(({ data }) => setCiudades(data || []));
     const handler = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
     document.addEventListener("mousedown", handler);
@@ -31,8 +31,11 @@ export default function CitySwitcher() {
           <div className="max-h-72 overflow-y-auto">
             {ciudades.map((c) => (
               <Link key={c.slug} href={`/${c.slug}`} onClick={() => setOpen(false)}
-                className="block rounded-xl px-3 py-2 text-sm hover:bg-white/5">
-                {c.name}
+                className="flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-white/5">
+                <span className={c.status !== "active" ? "text-white/50" : ""}>{c.name}</span>
+                {c.status !== "active" && (
+                  <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-white/40">Próximamente</span>
+                )}
               </Link>
             ))}
           </div>

@@ -114,14 +114,19 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
     <section className="mt-10">
       <h2 className="text-xl font-black text-orange-400">⭐ Reseñas</h2>
 
-      {/* Resumen */}
-      <div className="mt-4 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
-        <p className="text-5xl font-black">{avg ? avg.toFixed(1) : "—"}</p>
-        <div>
-          <Stars n={avg} size={20} />
-          <p className="mt-1 text-xs text-white/50">{totalCount} reseña{totalCount !== 1 ? "s" : ""}</p>
+      {/* Resumen -- solo si hay al menos una reseña real: un "—" gigante en
+          text-5xl con 0 reseñas se veía como una barra blanca rota, no como
+          un puntaje vacío. Con 0 reseñas alcanza con el mensaje de la lista
+          de abajo (evita además duplicar el mismo estado vacío dos veces). */}
+      {totalCount > 0 && (
+        <div className="mt-4 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
+          <p className="text-5xl font-black">{avg.toFixed(1)}</p>
+          <div>
+            <Stars n={avg} size={20} />
+            <p className="mt-1 text-xs text-white/50">{totalCount} reseña{totalCount !== 1 ? "s" : ""}</p>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Formulario */}
       <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-5">
@@ -164,6 +169,9 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
           className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black disabled:opacity-50">
           {sent ? "✅ ¡Gracias por tu reseña!" : sending ? "Enviando..." : "Publicar reseña"}
         </button>
+        {!sending && !sent && !comment.trim() && (
+          <p className="mt-2 text-xs text-white/40">Contá tu experiencia arriba para poder publicar.</p>
+        )}
         {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
       </div>
 

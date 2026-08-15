@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/toast";
 import ImageUploader from "@/components/upload/image-uploader";
 import { PLANES, planDe, puedePublicarOferta, puedePublicarHoy, OFERTA_DURACION_MAX_DIAS } from "@/lib/plans";
 import { friendlyError } from "@/lib/friendly-error";
+import HowItWorks from "@/components/ui/how-it-works";
 
 const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
@@ -147,6 +148,14 @@ export default function NuevaOferta() {
 
         <h1 className="mt-3 text-3xl font-black">Nueva Oferta</h1>
         <p className="mt-1 text-sm text-white/60">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
+
+        <div className="mt-4">
+          <HowItWorks steps={[
+            "Completá los datos: qué vendés, precios y hasta cuándo dura la oferta.",
+            "Sumale una foto clara -- las ofertas con foto se comparten y se miran mucho más.",
+            "Tocá \"Publicar Oferta\": aparece al instante en la home, el mapa, el radar y tu miniweb, sin esperar aprobación.",
+          ]} />
+        </div>
 
         {limite && planActual && limiteActivas !== -1 && (
           <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-xs text-white/60">

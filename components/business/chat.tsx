@@ -152,9 +152,19 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
         )}
       </div>
 
-      {/* MENSAJES con patrón de fondo */}
-      <div className="flex h-96 flex-col overflow-y-auto p-4 space-y-2"
+      {/* MENSAJES con patrón de fondo -- sin mensajes todavía usa un alto
+          compacto en vez del h-96 fijo (se veía como un bloque vacío
+          gigante en la primera conversación). */}
+      <div className={`flex flex-col overflow-y-auto p-4 space-y-2 ${rows.length === 0 ? "py-8" : "h-96"}`}
         style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "18px 18px" }}>
+        {rows.length === 0 && (
+          <div className="self-center text-center">
+            <p className="text-sm font-bold text-white/50">
+              {isOwner ? "Todavía no hay mensajes con este cliente." : `Todavía no le escribiste a ${businessName || "este negocio"}.`}
+            </p>
+            <p className="mt-1 text-xs text-white/35">Escribí abajo para empezar la conversación.</p>
+          </div>
+        )}
         {rows.map((r: any) => r.sep ? (
           <div key={r.id} className="my-2 self-center rounded-full bg-black/40 px-3 py-1 text-[10px] font-bold text-white/50">{r.label}</div>
         ) : (

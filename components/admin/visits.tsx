@@ -53,13 +53,17 @@ export default function AdminVisits() {
     <div className="mt-8">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-lg font-black">🌐 Últimas visitas (con IP)</h3>
-        <button
-          onClick={sembrar}
-          disabled={loading}
-          className="rounded-xl border border-orange-400/40 bg-orange-500/10 px-3 py-1.5 text-xs font-bold text-orange-300 transition hover:bg-orange-500/20 disabled:opacity-50"
-        >
-          {loading ? "⏳ Sembrando..." : "🌱 Simular 5 visitas"}
-        </button>
+        <div className="flex items-center gap-2">
+          <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[9px] font-bold uppercase tracking-wide text-white/40">Herramienta de prueba</span>
+          <button
+            onClick={sembrar}
+            disabled={loading}
+            title="Inserta 5 visitas falsas para probar cómo se ve la tabla -- no son datos reales"
+            className="rounded-xl border border-orange-400/40 bg-orange-500/10 px-3 py-1.5 text-xs font-bold text-orange-300 transition hover:bg-orange-500/20 disabled:opacity-50"
+          >
+            {loading ? "⏳ Sembrando..." : "🌱 Simular 5 visitas"}
+          </button>
+        </div>
       </div>
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
         <table className="w-full text-sm">

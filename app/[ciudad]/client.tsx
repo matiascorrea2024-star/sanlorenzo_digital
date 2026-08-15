@@ -22,10 +22,11 @@ export default function CiudadView() {
       // Ciudad
       const { data: loc } = await supabase().from("locations")
         .select("*").eq("slug", ciudadSlug).eq("type", "city").maybeSingle();
-      // Una ciudad creada pero todavía no activada por el admin no debe
-      // ser navegable públicamente -- se trata igual que "no encontrada".
-      if (loc && loc.active !== false) {
-        setCiudad(loc);
+      if (loc) setCiudad(loc);
+      // Una ciudad que existe pero todavía no está activada por el admin
+      // muestra el estado "Próximamente" (más abajo) en vez de su
+      // contenido -- no tiene sentido cargar barrios/negocios/ofertas.
+      if (loc && loc.status === "active") {
         // Barrios
         const { data: neighs } = await supabase().from("locations")
           .select("*").eq("parent_id", loc.id).eq("type", "neighborhood").order("name");
@@ -68,6 +69,31 @@ export default function CiudadView() {
           <h1 className="text-2xl font-black">Ciudad no encontrada</h1>
           <Link href="/" className="mt-4 inline-block text-orange-400">← Volver al inicio</Link>
         </div>
+      </main>
+    );
+  }
+
+  if (ciudad.status !== "active") {
+    return (
+      <main className="min-h-screen bg-[#120d09] text-white">
+        <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 py-16">
+          <div className="mx-auto max-w-2xl px-4 text-center">
+            <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Próximamente</Badge>
+            <h1 className="mt-3 text-4xl font-black md:text-5xl">Estamos llegando a {ciudad.name}</h1>
+            <p className="mx-auto mt-3 max-w-md text-white/70">
+              Todavía no activamos {ciudad.name} en La Gran Barata Digital. Estamos sumando ciudades
+              del cordón industrial de a poco -- pronto vas a poder encontrar negocios y ofertas acá.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link href="/" className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-bold text-white">
+                Ver ciudades activas
+              </Link>
+              <Link href="/para-negocios" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 hover:bg-white/5">
+                Tengo un negocio acá
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
     );
   }

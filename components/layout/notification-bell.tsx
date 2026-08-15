@@ -92,7 +92,7 @@ export default function NotificationBell() {
       {/* TOAST FLOTANTE (aparece al instante) */}
       {toast && (
         <button onClick={() => { irA(toast); setToast(null); }}
-          className="fixed bottom-24 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-2xl border border-orange-400/50 bg-[#141018] p-4 shadow-2xl animate-pulse">
+          className="fixed bottom-40 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-2xl border border-orange-400/50 bg-[#141018] p-4 shadow-2xl animate-pulse md:bottom-24">
           <span className="text-2xl">💬</span>
           <div className="text-left">
             <p className="text-sm font-black">{toast.title}</p>

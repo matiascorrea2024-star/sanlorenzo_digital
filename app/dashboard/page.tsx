@@ -4,6 +4,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import PageHero from "@/components/ui/page-hero";
 import { useToast } from "@/components/ui/toast";
+import DashboardNav from "@/components/dashboard/dashboard-nav";
 
 export default function DashboardPage() {
   const { show } = useToast();
@@ -61,16 +62,31 @@ export default function DashboardPage() {
       </PageHero>
 
       <div className="mx-auto max-w-5xl px-4">
+        <DashboardNav />
         {loading ? (
           <p className="py-16 text-center text-white/50">Cargando tus negocios…</p>
         ) : negocios.length === 0 ? (
           <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[.07] to-white/[.03] p-10 text-center">
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-orange-500/20 to-pink-500/20 text-5xl">🏪</div>
-            <h2 className="mt-4 text-2xl font-black">Todavía no tenés negocios</h2>
-            <p className="mx-auto mt-2 max-w-md text-sm text-white/60">Creá tu primera miniweb gratis en menos de 2 minutos y empezá a publicar ofertas al instante.</p>
+            <h2 className="mt-4 text-2xl font-black">Empezá acá</h2>
+            <p className="mx-auto mt-2 max-w-md text-sm text-white/60">3 pasos y tu negocio ya está funcionando en La Gran Barata Digital.</p>
+            <ol className="mx-auto mt-6 max-w-sm space-y-3 text-left">
+              <li className="flex items-start gap-3 rounded-2xl border border-orange-400/30 bg-orange-500/10 p-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-black">1</span>
+                <div><p className="text-sm font-bold">Completá tu negocio</p><p className="text-xs text-white/50">Nombre, rubro, WhatsApp y ubicación.</p></div>
+              </li>
+              <li className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-black text-white/60">2</span>
+                <div><p className="text-sm font-bold">Publicá tu primera oferta</p><p className="text-xs text-white/50">Aparece al instante en toda la plataforma.</p></div>
+              </li>
+              <li className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-black text-white/60">3</span>
+                <div><p className="text-sm font-bold">Compartí tu página</p><p className="text-xs text-white/50">Mandala por WhatsApp a tus clientes.</p></div>
+              </li>
+            </ol>
             <Link href="/dashboard/nuevo" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90 transition">
               <span>✨</span>
-              <span>Crear mi primer negocio →</span>
+              <span>Empezar: crear mi negocio →</span>
             </Link>
           </div>
         ) : (

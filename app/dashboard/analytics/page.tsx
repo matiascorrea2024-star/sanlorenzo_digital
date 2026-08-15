@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
+import Link from "next/link";
 import { TrendingUp, Eye, MessageCircle, MapPin, Heart, Ticket, Users } from "lucide-react";
+import InfoTip from "@/components/ui/info-tip";
 
 export default function AnalyticsPage() {
   const { user } = useAuth();
@@ -83,12 +85,12 @@ export default function AnalyticsPage() {
   }
 
   const cards = [
-    { icon: Eye, label: "Visitas", value: stats.views, color: "text-sky-400" },
-    { icon: MessageCircle, label: "WhatsApp", value: stats.whatsapp, color: "text-green-400" },
-    { icon: MapPin, label: "Cómo llegar", value: stats.map, color: "text-orange-400" },
-    { icon: Heart, label: "Favoritos", value: stats.favorites, color: "text-red-400" },
-    { icon: Users, label: "Seguidores", value: stats.follows, color: "text-purple-400" },
-    { icon: Ticket, label: "Cupones", value: stats.coupons, color: "text-emerald-400" },
+    { icon: Eye, label: "Visitas", value: stats.views, color: "text-sky-400", info: "Cuántas veces entraron a la ficha de tu negocio en los últimos 30 días." },
+    { icon: MessageCircle, label: "WhatsApp", value: stats.whatsapp, color: "text-green-400", info: "Cuántas personas tocaron el botón de WhatsApp para escribirte." },
+    { icon: MapPin, label: "Cómo llegar", value: stats.map, color: "text-orange-400", info: "Cuántas personas tocaron \"Cómo llegar\" para ver tu ubicación en el mapa." },
+    { icon: Heart, label: "Favoritos", value: stats.favorites, color: "text-red-400", info: "Cuántas personas guardaron tu negocio en sus favoritos." },
+    { icon: Users, label: "Seguidores", value: stats.follows, color: "text-purple-400", info: "Cuántas personas te siguen para enterarse de tus novedades y ofertas." },
+    { icon: Ticket, label: "Cupones", value: stats.coupons, color: "text-emerald-400", info: "Cuántos cupones de tus ofertas generaron los clientes para usar en el local." },
   ];
 
   const maxViews = Math.max(...timeline.map(d => d.views), 1);
@@ -106,6 +108,14 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
+        {negocios.length === 0 ? (
+          <div className="sld-card rounded-2xl p-8 text-center">
+            <p className="font-bold">Todavía no tenés un negocio creado.</p>
+            <p className="mt-1 text-sm text-white/50">Cuando crees tu negocio, acá vas a ver visitas, contactos por WhatsApp y más.</p>
+            <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black">Crear mi negocio</Link>
+          </div>
+        ) : (
+        <>
         {negocios.length > 1 && (
           <div className="mb-6 flex gap-2 overflow-x-auto pb-2">
             {negocios.map(b => (
@@ -125,7 +135,7 @@ export default function AnalyticsPage() {
             <div key={c.label} className="rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
               <c.icon className={`mx-auto h-6 w-6 ${c.color}`} />
               <p className="mt-2 text-3xl font-black">{c.value}</p>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">{c.label}</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">{c.label} <InfoTip label={`Qué significa ${c.label}`}>{c.info}</InfoTip></p>
             </div>
           ))}
         </div>
@@ -154,7 +164,10 @@ export default function AnalyticsPage() {
 
         {/* Conversión */}
         <div className="rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-6">
-          <h2 className="text-lg font-black mb-3">Tasa de conversión</h2>
+          <h2 className="text-lg font-black mb-3 flex items-center gap-1.5">
+            Tasa de conversión
+            <InfoTip label="Qué es la tasa de conversión">De cada 100 personas que ven tu negocio, cuántas terminan haciendo algo concreto (escribirte o generar un cupón). Un número más alto significa que tu ficha convence.</InfoTip>
+          </h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-xs text-white/60">Visitas → WhatsApp</p>
@@ -170,6 +183,8 @@ export default function AnalyticsPage() {
             </div>
           </div>
         </div>
+        </>
+        )}
       </div>
     </main>
   );

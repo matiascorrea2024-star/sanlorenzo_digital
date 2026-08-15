@@ -193,6 +193,13 @@ export default function PerfilPage() {
 
         <h2 className="mt-8 mb-3 text-xl font-black">Cuenta</h2>
         <div className="space-y-3">
+          <Link href="/planes" className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-orange-400/50 hover:bg-white/10 transition">
+            <div>
+              <p className="font-bold">Tu plan: Gratis</p>
+              <p className="text-xs text-white/50">Ver beneficios y mejorar</p>
+            </div>
+            <span className="text-orange-400">→</span>
+          </Link>
           <ChangePassword email={user.email} />
           <NewsletterOptIn userId={user.id} initial={newsletterOptIn} />
           {isAdmin && <PlatformWhatsappSetting />}

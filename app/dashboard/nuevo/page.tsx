@@ -6,8 +6,10 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import LocationPicker from "@/components/business/location-picker";
+import ImageUploader from "@/components/upload/image-uploader";
 import { postActivity } from "@/lib/activity";
 import { friendlyError } from "@/lib/friendly-error";
+import HowItWorks from "@/components/ui/how-it-works";
 
 export default function NuevoNegocioPage() {
   const router = useRouter();
@@ -56,7 +58,9 @@ export default function NuevoNegocioPage() {
     envioGratis: false,
     costoEnvio: "",
     zonaCobertura: "",
+    portadaUrl: "",
   });
+  const [imageId] = useState(() => crypto.randomUUID());
 
   const categories = [
     { id: "calzado", name: "Calzado", icon: "👟" },
@@ -115,6 +119,7 @@ export default function NuevoNegocioPage() {
         envio_gratis: formData.haceEnvios ? formData.envioGratis : false,
         costo_envio: formData.haceEnvios && formData.costoEnvio ? Number(formData.costoEnvio) : null,
         zona_cobertura: formData.haceEnvios ? (formData.zonaCobertura || null) : null,
+        portada_url: formData.portadaUrl || null,
         status: "reclamado",
         demo: false,
         open: true,
@@ -166,7 +171,13 @@ export default function NuevoNegocioPage() {
         </Link>
 
         <h1 className="text-3xl font-black mb-2">Subí tu negocio</h1>
-        <p className="text-white/60 mb-8">2 minutos: completá lo esencial y ya podés publicar tu primera oferta.</p>
+        <p className="text-white/60 mb-4">2 minutos: completá lo esencial y ya podés publicar tu primera oferta.</p>
+
+        <HowItWorks steps={[
+          "Contanos qué tipo de vendedor sos y completá lo esencial: nombre, rubro, ciudad y WhatsApp.",
+          "Sumá una foto y los datos de envío si aplica -- lo demás podés completarlo después.",
+          "Al crear el negocio, te llevamos directo a publicar tu primera oferta.",
+        ]} />
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -239,10 +250,14 @@ export default function NuevoNegocioPage() {
 
           {!masDetalles ? (
             <button type="button" onClick={() => setMasDetalles(true)} className="text-sm font-bold text-orange-400 hover:text-orange-300">
-              + Agregar descripción, Instagram, horarios y ubicación en el mapa (opcional)
+              + Agregar foto, descripción, Instagram, horarios y ubicación en el mapa (opcional)
             </button>
           ) : (
             <div className="space-y-4 rounded-2xl border border-white/10 bg-white/[.03] p-4">
+              <div>
+                <label className={lbl}>Foto de portada</label>
+                <ImageUploader value={formData.portadaUrl} onChange={(url) => setFormData({ ...formData, portadaUrl: url })} businessId="temp" itemId={imageId} previewClass="h-32 w-full rounded-xl" />
+              </div>
               <div>
                 <label className={lbl}>Descripción</label>
                 <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })}

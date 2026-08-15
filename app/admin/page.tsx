@@ -7,6 +7,7 @@ import Avatar from "@/components/ui/avatar";
 import OnlineBadge from "@/components/ui/online-badge";
 import AdminVisits from "@/components/admin/visits";
 import Badge from "@/components/ui/badge";
+import InfoTip from "@/components/ui/info-tip";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -758,6 +759,19 @@ export default function AdminPage() {
                       }`}>
                         {c.status === "active" ? "Activa" : c.status === "draft" ? "Borrador" : c.status === "suspended" ? "Suspendida" : c.status === "archived" ? "Archivada" : "Inactiva"}
                       </span>
+                      <InfoTip label="Qué implica activar una ciudad">
+                        Al activar una ciudad se publican su página (/{c.slug}), su selector, sus barrios, negocios y ofertas para todo el público. Al desactivarla, suspenderla o archivarla, su contenido deja de mostrarse pero no se borra nada.
+                      </InfoTip>
+                      <button
+                        onClick={() => cambiarEstadoCiudad(c.id, c.status === "active" ? "inactive" : "active")}
+                        className={`shrink-0 rounded-xl px-3 py-2 text-xs font-black transition ${
+                          c.status === "active"
+                            ? "border border-red-400/30 bg-red-500/10 text-red-300 hover:bg-red-500/20"
+                            : "bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:opacity-90"
+                        }`}
+                      >
+                        {c.status === "active" ? "Desactivar" : "Activar"}
+                      </button>
                       {editandoCiudad === c.id ? (
                         <>
                           <button onClick={() => renombrarCiudad(c.id)}
@@ -780,10 +794,11 @@ export default function AdminPage() {
                         + Barrio
                       </button>
                       <select value={c.status || "draft"} onChange={(e) => cambiarEstadoCiudad(c.id, e.target.value)}
+                        title="Otros estados (borrador, suspendida, archivada)"
                         className="shrink-0 rounded-xl border border-white/15 bg-black/20 px-2 py-2 text-xs font-bold outline-none focus:border-orange-400">
                         <option value="draft">Borrador</option>
                         <option value="inactive">Inactiva</option>
-                        <option value="active">Activar</option>
+                        <option value="active">Activa</option>
                         <option value="suspended">Suspender</option>
                         <option value="archived">Archivar</option>
                       </select>

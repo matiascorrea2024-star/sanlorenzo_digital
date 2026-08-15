@@ -32,11 +32,13 @@ async function loadFavorites(userId: string) {
   }
 }
 
-export default function FavoriteButton({ itemId, itemType = "business", size = 20, className = "" }: {
+export default function FavoriteButton({ itemId, itemType = "business", size = 20, className = "", variant = "floating" }: {
   itemId: string;
   itemType?: "business" | "offer";
   size?: number;
   className?: string;
+  /** "floating": círculo sobre una imagen (default, uso original). "card": mismo look que los botones de acción de la ficha (borde, fondo y label). */
+  variant?: "floating" | "card";
 }) {
   const [user, setUser] = useState<any>(null);
   const [, forceUpdate] = useState(0);
@@ -83,6 +85,19 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
       favCache.listeners.forEach(fn => fn());
     }
   }, [user, isFav, itemId, itemType, key]);
+
+  if (variant === "card") {
+    return (
+      <button
+        onClick={toggle}
+        aria-label={isFav ? "Quitar de favoritos" : "Guardar en favoritos"}
+        className={`flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 ${className}`}
+      >
+        <Heart className={isFav ? "fill-red-500 text-red-500" : "text-red-400"} style={{ width: size, height: size }} />
+        <span className="text-sm font-bold">{isFav ? "Guardado" : "Favorito"}</span>
+      </button>
+    );
+  }
 
   return (
     <button

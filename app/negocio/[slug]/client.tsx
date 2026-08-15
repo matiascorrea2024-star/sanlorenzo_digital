@@ -265,7 +265,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             <Share2 className="h-6 w-6 text-sky-400" />
             <span className="text-sm font-bold">Compartir</span>
           </button>
-          <FavoriteButton itemType="business" itemId={negocio.id} />
+          <FavoriteButton itemType="business" itemId={negocio.id} variant="card" size={24} />
         </div>
 
         {/* INFO + MAPA */}

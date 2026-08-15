@@ -18,6 +18,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Ciudad no encontrada | La Gran Barata Digital" };
   }
 
+  if (loc.status !== "active") {
+    return {
+      title: `Próximamente en ${loc.name} | La Gran Barata Digital`,
+      description: `Estamos llegando a ${loc.name}. Todavía no hay negocios ni ofertas publicados acá.`,
+      robots: { index: false, follow: false },
+    };
+  }
+
   const title = `${loc.name} — Negocios y ofertas en ${loc.name}`;
   const description = `Descubrí negocios, ofertas y servicios en ${loc.name}. Encontrá lo que necesitás cerca tuyo.`;
 
