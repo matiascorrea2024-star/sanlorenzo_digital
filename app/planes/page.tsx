@@ -75,11 +75,11 @@ export default function PlanesPage() {
         <div className="text-center">
           <Badge variant="warning" size="sm">Planes para comercios</Badge>
           <h1 className="mt-3 text-4xl font-black md:text-5xl">
-            Hacé crecer tu negocio en{" "}
+            Empezá gratis. Crecé con tu negocio en{" "}
             <span className="bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">San Lorenzo</span>
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-white/60">
-            Elegí el plan que se adapte a tu comercio. Sin permanencia, cancelás cuando quieras.
+            Sin tarjeta para arrancar, sin permanencia si después cambiás de plan. Vas subiendo cuando tu negocio lo necesite, no antes.
           </p>
         </div>
 

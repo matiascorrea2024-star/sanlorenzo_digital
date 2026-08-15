@@ -2,12 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 
 export default function OfertasPage() {
   const { user } = useAuth();
+  const searchParams = useSearchParams();
+  const bienvenida = searchParams.get("bienvenida") === "1";
   const [offers, setOffers] = useState<any[]>([]);
   const [businesses, setBusinesses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -101,6 +104,17 @@ export default function OfertasPage() {
         </div>
 
         <DashboardNav />
+
+        {bienvenida && (
+          <div className="mb-6 rounded-2xl border border-green-400/40 bg-green-500/10 p-5 text-center">
+            <p className="text-3xl">🎉</p>
+            <p className="mt-2 font-black text-green-300">¡Listo! Negocio creado y primera oferta publicada.</p>
+            <p className="mt-1 text-sm text-white/70">Ya está viva en la home, el radar, el mapa y tu miniweb. Ahora podés cargar tu catálogo de productos cuando quieras.</p>
+            <Link href="/dashboard/productos" className="mt-3 inline-block rounded-xl border border-green-400/30 px-4 py-2 text-xs font-bold text-green-200 hover:bg-green-500/10">
+              Cargar mi catálogo →
+            </Link>
+          </div>
+        )}
 
         {offers.length === 0 ? (
           <div className="rounded-3xl border border-white/10 bg-white/5 p-12 text-center">

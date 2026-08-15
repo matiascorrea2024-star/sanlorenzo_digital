@@ -44,7 +44,7 @@ export default function NuevaOferta() {
       const q = sb.from("businesses").select("id, name, plan").order("name");
       if (prof?.role !== "admin") q.eq("owner_id", user.id);
       const { data, error } = await q;
-      if (error) { setError(friendlyError(error, "No se pudo publicar la oferta. Probá de nuevo.")); return; }
+      if (error) { setError(friendlyError(error, "No se pudieron cargar tus negocios. Probá de nuevo.")); return; }
 
       const list = (data || []).filter((n: any) => n.name);
       setNegocios(list);
@@ -115,9 +115,9 @@ export default function NuevaOferta() {
     });
 
     setSaving(false);
-    if (e) { setError(e.message); return; }
-    show("🔥 Oferta publicada en toda la plataforma", "success");
-    setTimeout(() => router.push("/dashboard/ofertas"), 900);
+    if (e) { setError(friendlyError(e, "No se pudo publicar la oferta. Probá de nuevo.")); return; }
+    show(bienvenida ? "🎉 ¡Tu primera oferta ya está viva en la plataforma!" : "🔥 Oferta publicada en toda la plataforma", "success");
+    setTimeout(() => router.push(bienvenida ? "/dashboard/ofertas?bienvenida=1" : "/dashboard/ofertas"), 900);
   };
 
   const planActual = limite ? planDe({ plan: limite.plan }) : null;
@@ -131,8 +131,17 @@ export default function NuevaOferta() {
 
         {bienvenida && (
           <div className="mt-4 rounded-2xl border border-green-400/40 bg-green-500/10 p-4">
-            <p className="font-black text-green-300">🎉 ¡Tu negocio ya está creado!</p>
-            <p className="mt-1 text-sm text-white/70">Publicá tu primera oferta para que te empiecen a encontrar.</p>
+            <div className="flex items-center gap-1.5 text-[11px] font-bold text-white/50">
+              <span className="text-green-300">✓ Tu negocio</span>
+              <span className="text-white/20">→</span>
+              <span className="text-white/30">Catálogo (opcional)</span>
+              <span className="text-white/20">→</span>
+              <span className="text-orange-300">Tu primera oferta</span>
+              <span className="text-white/20">→</span>
+              <span className="text-white/30">Publicá</span>
+            </div>
+            <p className="mt-2 font-black text-green-300">🎉 ¡Tu negocio ya está creado!</p>
+            <p className="mt-1 text-sm text-white/70">Publicá tu primera oferta para que te empiecen a encontrar. El catálogo de productos podés cargarlo después, no hace falta ahora.</p>
           </div>
         )}
 
