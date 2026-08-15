@@ -20,6 +20,10 @@ export default function AdminPage() {
   const [subs, setSubs] = useState<any[]>([]);
   const [ciudades, setCiudades] = useState<any[]>([]);
   const [reportes, setReportes] = useState<any[]>([]);
+  const [nuevaCiudad, setNuevaCiudad] = useState({ nombre: "", lat: "", lon: "" });
+  const [creandoCiudad, setCreandoCiudad] = useState(false);
+  const [barrioAbierto, setBarrioAbierto] = useState<string | null>(null);
+  const [nuevoBarrio, setNuevoBarrio] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -109,6 +113,43 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/locations", "PATCH", { id, active: !active });
       setCiudades(prev => prev.map(c => c.id === id ? { ...c, active: !active } : c));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  // "locations" tiene RLS admin-only para escritura (locations_admin,
+  // sin FOR = todos los comandos) -- mismo patrón ya usado para
+  // platform_settings, sin necesitar una ruta server-side nueva.
+  const crearCiudad = async () => {
+    const nombre = nuevaCiudad.nombre.trim();
+    if (!nombre) return;
+    setCreandoCiudad(true);
+    try {
+      const slug = nombre.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      const { data, error } = await supabase().from("locations").insert({
+        type: "city", name: nombre, slug,
+        latitude: nuevaCiudad.lat ? Number(nuevaCiudad.lat) : null,
+        longitude: nuevaCiudad.lon ? Number(nuevaCiudad.lon) : null,
+        active: false,
+      }).select().single();
+      if (error) throw error;
+      setCiudades(prev => [...prev, data]);
+      setNuevaCiudad({ nombre: "", lat: "", lon: "" });
+    } catch (e: any) { alert(e.message); }
+    setCreandoCiudad(false);
+  };
+
+  const agregarBarrio = async (ciudadId: string) => {
+    const nombre = nuevoBarrio.trim();
+    if (!nombre) return;
+    try {
+      const slug = nombre.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      const { error } = await supabase().from("locations").insert({
+        type: "neighborhood", name: nombre, slug, parent_id: ciudadId, active: true,
+      });
+      if (error) throw error;
+      setCiudades(prev => prev.map(c => c.id === ciudadId ? { ...c, _barrios: (c._barrios || 0) + 1 } : c));
+      setNuevoBarrio("");
+      setBarrioAbierto(null);
     } catch (e: any) { alert(e.message); }
   };
 
@@ -441,6 +482,24 @@ export default function AdminPage() {
         {tab === "ciudades" && (
           <div className="mt-6">
             <h2 className="mb-4 text-lg font-black">Ciudades de la plataforma <span className="text-white/40">({ciudades.length})</span></h2>
+
+            <div className="mb-5 rounded-2xl border border-orange-400/20 bg-orange-500/[0.04] p-4">
+              <p className="mb-2 text-xs font-black uppercase tracking-wider text-orange-300">+ Agregar ciudad nueva</p>
+              <div className="grid gap-2 sm:grid-cols-[1fr_auto_auto_auto]">
+                <input value={nuevaCiudad.nombre} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, nombre: e.target.value })}
+                  placeholder="Nombre de la ciudad" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400" />
+                <input value={nuevaCiudad.lat} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, lat: e.target.value })}
+                  placeholder="Latitud (opcional)" className="w-full rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:w-36" />
+                <input value={nuevaCiudad.lon} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, lon: e.target.value })}
+                  placeholder="Longitud (opcional)" className="w-full rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:w-36" />
+                <button onClick={crearCiudad} disabled={creandoCiudad || !nuevaCiudad.nombre.trim()}
+                  className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black disabled:opacity-50">
+                  {creandoCiudad ? "…" : "Crear"}
+                </button>
+              </div>
+              <p className="mt-2 text-[11px] text-white/40">Se crea inactiva -- activala cuando tenga negocios/ofertas reales cargados, no antes.</p>
+            </div>
+
             {ciudades.length === 0 ? (
               <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
                 <MapPin className="mx-auto h-10 w-10 text-white/20" />
@@ -449,18 +508,36 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-2.5">
                 {ciudades.map(c => (
-                  <div key={c.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-                    <MapPin className="h-6 w-6 shrink-0 text-sky-400" />
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate font-bold">{c.name}</p>
-                      <p className="text-xs text-white/50">/{c.slug}</p>
+                  <div key={c.id} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                    <div className="flex items-center gap-3">
+                      <MapPin className="h-6 w-6 shrink-0 text-sky-400" />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-bold">{c.name}</p>
+                        <p className="text-xs text-white/50">/{c.slug}</p>
+                      </div>
+                      <button onClick={() => setBarrioAbierto(barrioAbierto === c.id ? null : c.id)}
+                        className="shrink-0 rounded-xl border border-white/15 px-3 py-2 text-xs font-bold text-white/60 hover:bg-white/5">
+                        + Barrio
+                      </button>
+                      <button onClick={() => toggleCiudad(c.id, c.active)}
+                        className={`shrink-0 rounded-xl px-4 py-2 text-xs font-black transition ${
+                          c.active ? "bg-green-500/15 text-green-300" : "bg-white/5 text-white/40"
+                        }`}>
+                        {c.active ? "🟢 Activa" : "⚪ Inactiva"}
+                      </button>
                     </div>
-                    <button onClick={() => toggleCiudad(c.id, c.active)}
-                      className={`shrink-0 rounded-xl px-4 py-2 text-xs font-black transition ${
-                        c.active ? "bg-green-500/15 text-green-300" : "bg-white/5 text-white/40"
-                      }`}>
-                      {c.active ? "🟢 Activa" : "⚪ Inactiva"}
-                    </button>
+                    {barrioAbierto === c.id && (
+                      <div className="mt-3 flex gap-2 border-t border-white/10 pt-3">
+                        <input value={nuevoBarrio} onChange={(e) => setNuevoBarrio(e.target.value)}
+                          onKeyDown={(e) => e.key === "Enter" && agregarBarrio(c.id)}
+                          placeholder="Nombre del barrio" autoFocus
+                          className="flex-1 rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400" />
+                        <button onClick={() => agregarBarrio(c.id)} disabled={!nuevoBarrio.trim()}
+                          className="rounded-xl bg-white/10 px-4 py-2 text-xs font-bold hover:bg-white/20 disabled:opacity-50">
+                          Agregar
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
