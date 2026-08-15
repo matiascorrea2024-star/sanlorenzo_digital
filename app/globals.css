@@ -269,6 +269,59 @@ input:focus, select:focus, textarea:focus {
    tocar), nunca de forma ambiente -- feedback, no decoración. */
 .hero-search:focus-within { box-shadow: 0 0 0 3px rgba(249,115,22,.22), 0 24px 60px -24px rgba(249,115,22,.4); }
 
+/* ============================================================
+   SISTEMA DE ELEVACIÓN (3 niveles) + GLASS 2.0 + MARCOS DE LETRA
+   ============================================================ */
+
+/* Nivel 1 -- flotante (buscador, paneles destacados): borde con
+   gradiente real (no 1px solid gris) vía la técnica de padding,
+   brillo interior arriba (como luz tocando vidrio) y sombra en capas. */
+.glass-2 {
+  padding: 1px;
+  border-radius: 1.05rem;
+  background: linear-gradient(135deg, rgba(249,115,22,.5), rgba(236,72,153,.35), rgba(255,255,255,.08));
+  box-shadow: 0 30px 70px -30px rgba(0,0,0,.75);
+  transition: background .5s ease;
+}
+.glass-2:hover, .glass-2:focus-within {
+  background: linear-gradient(135deg, rgba(249,115,22,.85), rgba(236,72,153,.65), rgba(249,115,22,.4));
+}
+.glass-2 > * { border-radius: calc(1.05rem - 1px) !important; }
+.glass-2-inner {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+/* Nivel 2 -- modal/overlay: mismo lenguaje, blur más fuerte, ring doble. */
+.glass-modal {
+  border: 1px solid rgba(255,247,237,.12);
+  background: linear-gradient(180deg, rgba(28,21,14,.96), rgba(18,13,9,.98));
+  box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 40px 100px -30px rgba(0,0,0,.85);
+}
+
+/* "Marcos" de letra: relleno en gradiente de marca + trazo fino --
+   cartel de neón/ticket, no texto plano de sistema. El color base
+   (currentColor / la clase de color que ya trae el elemento) queda
+   como fallback si el navegador no soporta background-clip:text. */
+.text-frame {
+  -webkit-text-stroke: 1.5px rgba(255,255,255,.24);
+  paint-order: stroke fill;
+}
+.text-frame-strong {
+  -webkit-text-stroke: 2px rgba(255,255,255,.3);
+  paint-order: stroke fill;
+}
+
+/* Aurora del hero: 3 capas de mesh gradient, movidas por transform
+   (nunca por posición/tamaño) -- GPU-only, sin filtros recalculando
+   por frame. gsap.quickTo mueve estas capas en desktop; en mobile o
+   con reduced-motion quedan fijas. */
+.aurora-layer {
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  will-change: transform;
+}
+
 [data-spot] { position: relative; }
 [data-spot]::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit;
