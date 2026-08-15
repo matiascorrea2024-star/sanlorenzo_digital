@@ -16,6 +16,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
   const [userCoords, setUserCoords] = useState<{ lat: number; lon: number } | null>(null);
   const [radio, setRadio] = useState<number | null>(null);
   const [stats, setStats] = useState({ total: 0, abiertos: 0, conOfertas: 0 });
+  const [mapReady, setMapReady] = useState(false);
 
   // Geolocalización
   useEffect(() => {
@@ -62,6 +63,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
         }).addTo(map).bindPopup("📍 Tu ubicación");
         map.setView([userCoords.lat, userCoords.lon], 15);
       }
+      setMapReady(true);
     })();
     return () => { cancelled = true; };
   }, [userCoords]);
@@ -148,20 +150,36 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
           </div>
         </div>
 
-        {/* Leyenda */}
-        <div className="mt-3 flex gap-4 text-xs text-white/60">
+        {/* Leyenda -- solo lo que realmente se dibuja en el mapa */}
+        <div className="mt-3 flex flex-wrap gap-4 text-xs text-white/60">
           <span>🟢 Abierto</span>
           <span>🔴 Cerrado</span>
           <span>🔥 Con ofertas</span>
-          <span>🏪 Negocio</span>
-          <span>🏭 Industria</span>
-          <span>⚓ Portuario</span>
-          <span>🤝 B2B</span>
+          <span>🏪 Sin ofertas</span>
           {userCoords ? <span className="text-sky-400">● Tu ubicación</span> : <span className="text-white/40">Distancias desde el centro de San Lorenzo</span>}
         </div>
 
         {/* Mapa */}
-        <div ref={mapRef} className="relative z-0 mt-4 h-[380px] md:h-[440px] w-full overflow-hidden rounded-2xl border border-white/10 mb-6" />
+        <div className="relative mt-4 mb-6">
+          <div ref={mapRef} className="relative z-0 h-[380px] md:h-[440px] w-full overflow-hidden rounded-2xl border border-white/10" />
+          {!mapReady && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+              <div className="flex flex-col items-center gap-3">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-500 border-t-transparent" />
+                <p className="text-sm text-white/50">Cargando el mapa...</p>
+              </div>
+            </div>
+          )}
+          {mapReady && stats.total === 0 && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl border border-white/10 bg-[#0a0710]/90 p-6 text-center backdrop-blur-sm">
+              <div>
+                <MapPin className="mx-auto h-8 w-8 text-white/30" />
+                <p className="mt-3 font-bold">Todavía no hay negocios con ubicación cargada</p>
+                <p className="mt-1 text-sm text-white/50">Los comercios van a aparecer acá a medida que carguen su ubicación exacta.</p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </main>
   );

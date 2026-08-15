@@ -7,6 +7,7 @@ import { usePlatformSetting } from "@/lib/hooks/use-platform-settings";
 import LevelBadge from "@/components/business/level-badge";
 import ImageUploader from "@/components/upload/image-uploader";
 import ReviewModeration from "@/components/business/review-moderation";
+import LocationPicker from "@/components/business/location-picker";
 
 type Item = { name: string; price?: string; note?: string; photo?: string };
 
@@ -164,36 +165,13 @@ export default function Editar() {
             <label><span className={lbl}>Dirección</span><input className={inp} value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} /></label>
             <label><span className={lbl}>Horarios</span><input className={inp} value={form.schedule} onChange={(e) => setForm({ ...form, schedule: e.target.value })} /></label>
             <label><span className={lbl}>Instagram</span><input className={inp} value={form.instagram} onChange={(e) => setForm({ ...form, instagram: e.target.value })} /></label>
-            <label><span className={lbl}>Latitud (mapa)</span><input className={inp} value={form.latitude} onChange={(e) => setForm({ ...form, latitude: e.target.value })} placeholder="-32.7475" /></label>
-            <label><span className={lbl}>Longitud (mapa)</span><input className={inp} value={form.longitude} onChange={(e) => setForm({ ...form, longitude: e.target.value })} placeholder="-60.7285" /></label>
             <div className="sm:col-span-2">
-              <button type="button" onClick={async () => {
-                try {
-                  const q = encodeURIComponent(form.address + ", San Lorenzo, Santa Fe, Argentina");
-                  const r = await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + q);
-                  const j = await r.json();
-                  if (j[0]) { setForm({ ...form, latitude: j[0].lat, longitude: j[0].lon }); setMsg("📍 Dirección ubicada en el mapa. Tocá Guardar cambios."); }
-                  else setMsg("No encontré esa dirección, agregá más detalle.");
-                } catch { setMsg("No pude geolocalizar ahora."); }
-              }} className="rounded-xl border border-orange-400/30 bg-orange-500/10 px-4 py-2.5 text-sm font-bold text-orange-300 hover:bg-orange-500/20">
-                📍 Ubicar en el mapa por dirección
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                navigator.geolocation?.getCurrentPosition(
-                  (p) => {
-                    setForm({ ...form, latitude: String(p.coords.latitude), longitude: String(p.coords.longitude) });
-                    alert("🎯 Ubicación GPS cargada con precisión de ±" + Math.round(p.coords.accuracy) + " metros. Guardá los cambios y tu pin queda clavado en tu puerta.");
-                  },
-                  () => alert("No se pudo obtener el GPS. Fijate si diste permiso."),
-                  { enableHighAccuracy: true }
-                )
-              }
-              className="mt-2 rounded-xl border border-sky-400/40 bg-sky-500/10 px-4 py-2 text-sm font-bold text-sky-300 hover:bg-sky-500/20"
-            >
-              🎯 Usar mi ubicación GPS exacta
-            </button>
+              <LocationPicker
+                address={form.address}
+                latitude={form.latitude}
+                longitude={form.longitude}
+                onChange={(loc) => { setForm({ ...form, ...loc }); setMsg("📍 Ubicación actualizada. Tocá Guardar cambios."); }}
+              />
             </div>
             <label className="flex items-end gap-2 pb-3"><input type="checkbox" checked={form.open} onChange={(e) => setForm({ ...form, open: e.target.checked })} /> <span className="text-sm">Abierto ahora</span></label>
           </div>
