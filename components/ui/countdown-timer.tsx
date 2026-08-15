@@ -42,7 +42,10 @@ export default function CountdownTimer({ expiresAt, compact = false }: {
 
   if (compact) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-lg bg-red-500/20 border border-red-400/40 px-2 py-0.5 text-[10px] font-black text-red-200 tabular-nums">
+      <span
+        className="inline-flex items-center gap-1 rounded-lg border border-red-400/40 bg-red-500/20 px-2 py-0.5 text-xs font-bold tabular-nums text-red-200"
+        style={{ fontFamily: "var(--font-ticket)" }}
+      >
         <Clock className="h-2.5 w-2.5" />
         {t.d > 0 ? `${t.d}d ${pad(t.h)}:${pad(t.m)}:${pad(t.s)}` : `${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`}
       </span>
@@ -50,10 +53,10 @@ export default function CountdownTimer({ expiresAt, compact = false }: {
   }
 
   return (
-    <div className="flex items-center gap-1.5 rounded-lg bg-red-500/20 border border-red-400/40 px-2.5 py-1 text-[11px] font-black text-red-200 tabular-nums backdrop-blur-md">
+    <div className="flex items-center gap-1.5 rounded-lg border border-red-400/40 bg-red-500/20 px-2.5 py-1 text-[11px] font-black text-red-200 tabular-nums">
       <Clock className="h-3 w-3 animate-pulse" />
       <span>Termina en</span>
-      <span className="bg-red-500/30 px-1.5 py-0.5 rounded font-mono">
+      <span className="rounded bg-red-500/30 px-1.5 py-0.5 text-sm" style={{ fontFamily: "var(--font-ticket)" }}>
         {t.d > 0 ? `${t.d}d ${pad(t.h)}:${pad(t.m)}:${pad(t.s)}` : `${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`}
       </span>
     </div>

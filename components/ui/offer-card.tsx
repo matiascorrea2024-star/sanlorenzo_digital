@@ -104,7 +104,10 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
             </span>
           )}
           {o.descuento ? (
-            <span className="rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-2.5 py-1 text-xs font-black text-white shadow-lg">
+            <span
+              className="rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-2.5 py-1 text-sm text-white shadow-lg"
+              style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}
+            >
               -{o.descuento}%
             </span>
           ) : (
@@ -143,7 +146,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
             <div className="flex items-end justify-between">
               <div>
                 <p className="text-[10px] text-white/40 line-through">{fmt(o.antes)}</p>
-                <p className="text-2xl font-black text-white">{fmt(o.ahora)}</p>
+                <p className="text-2xl text-white" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>{fmt(o.ahora)}</p>
               </div>
               {o.descuento && (
                 <span className="rounded-lg bg-green-500/15 px-2 py-1 text-xs font-black text-green-300">

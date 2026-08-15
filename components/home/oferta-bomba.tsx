@@ -82,7 +82,9 @@ export default function OfertaBomba() {
                 <p className="text-xs text-white/50">{o.business_name}</p>
                 <p className="mt-1 font-black group-hover:text-red-300">{o.title}</p>
                 <div className="mt-2 flex items-end justify-between">
-                  {o.offer_price && <p className="text-lg font-black text-red-300">{fmt(Number(o.offer_price))}</p>}
+                  {o.offer_price && (
+                    <p className="text-lg text-red-300" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>{fmt(Number(o.offer_price))}</p>
+                  )}
                   {o.discount_percent && <span className="rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-black text-red-300">-{o.discount_percent}%</span>}
                 </div>
               </Link>
