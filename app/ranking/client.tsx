@@ -228,8 +228,10 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                       <span title="Visitas al perfil">· 👀 {r.vistas}</span>
                       <span title="Veces guardado como favorito">· ❤️ {r.favs}</span>
                       <span title="Publicaciones en el Muro">· 📰 {r.posts}</span>
-                      <span title="Visitas de esta semana vs. la anterior" className={`flex items-center gap-0.5 font-bold normal-case ${r.crecimiento > 0 ? "text-green-400" : r.crecimiento < 0 ? "text-red-400" : "text-white/30"}`}>
-                        · {r.crecimiento > 0 ? <TrendingUp className="h-3 w-3" /> : r.crecimiento < 0 ? <TrendingDown className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
+                      <span title="Visitas de esta semana vs. la anterior"
+                        aria-label={`Tendencia: ${r.crecimiento > 0 ? `subió ${r.crecimiento} visitas` : r.crecimiento < 0 ? `bajó ${Math.abs(r.crecimiento)} visitas` : "sin cambios"} esta semana`}
+                        className={`flex items-center gap-0.5 font-bold normal-case ${r.crecimiento > 0 ? "text-green-400" : r.crecimiento < 0 ? "text-red-400" : "text-white/40"}`}>
+                        · {r.crecimiento > 0 ? <TrendingUp className="h-3 w-3" aria-hidden /> : r.crecimiento < 0 ? <TrendingDown className="h-3 w-3" aria-hidden /> : <Minus className="h-3 w-3" aria-hidden />}
                         {r.crecimiento !== 0 && (r.crecimiento > 0 ? `+${r.crecimiento}` : r.crecimiento)}
                       </span>
                     </p>

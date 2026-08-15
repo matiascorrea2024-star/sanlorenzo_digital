@@ -131,14 +131,14 @@ export default function NuevaOferta() {
 
         {bienvenida && (
           <div className="mt-4 rounded-2xl border border-green-400/40 bg-green-500/10 p-4">
-            <div className="flex items-center gap-1.5 text-[11px] font-bold text-white/50">
+            <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-bold text-white/60">
               <span className="text-green-300">✓ Tu negocio</span>
-              <span className="text-white/20">→</span>
-              <span className="text-white/30">Catálogo (opcional)</span>
-              <span className="text-white/20">→</span>
+              <span className="text-white/30" aria-hidden>→</span>
+              <span className="text-white/45">Catálogo (opcional)</span>
+              <span className="text-white/30" aria-hidden>→</span>
               <span className="text-orange-300">Tu primera oferta</span>
-              <span className="text-white/20">→</span>
-              <span className="text-white/30">Publicá</span>
+              <span className="text-white/30" aria-hidden>→</span>
+              <span className="text-white/45">Publicá</span>
             </div>
             <p className="mt-2 font-black text-green-300">🎉 ¡Tu negocio ya está creado!</p>
             <p className="mt-1 text-sm text-white/70">Publicá tu primera oferta para que te empiecen a encontrar. El catálogo de productos podés cargarlo después, no hace falta ahora.</p>

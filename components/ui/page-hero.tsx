@@ -15,14 +15,17 @@ export default function PageHero({
   useEffect(() => setVisible(true), []);
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 opacity-25 pointer-events-none">
+    <section className="relative">
+      {/* overflow-hidden va en la capa de decoración, no en la section,
+          para que cualquier dropdown/popover dentro de children pueda
+          desbordar el alto del hero sin recortarse. */}
+      <div className="absolute inset-0 overflow-hidden opacity-25 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-72 h-72 bg-red-600 rounded-full mix-blend-screen filter blur-3xl animate-blob"></div>
         <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-orange-600 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-2000"></div>
         <div className="absolute bottom-0 left-1/3 w-72 h-72 bg-pink-600 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-4000"></div>
       </div>
       <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
+        className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none"
         style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "40px 40px" }}
       ></div>
       <div className="absolute top-10 right-10 w-16 h-16 border border-orange-500/20 rounded-full animate-float pointer-events-none"></div>

@@ -44,15 +44,18 @@ export default function Hero({ onSearch, stats }: HeroProps) {
   const sugerencias = ["zapatillas", "pizza", "peluquería", "ferretería", "ofertas"];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f]">
-      <div className="absolute inset-0 opacity-25">
+    <section className="relative bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f]">
+      {/* Decoración: overflow-hidden va acá, no en la section -- si no,
+          recorta el dropdown del buscador inteligente que aparece por
+          debajo del buscador (necesita desbordar la altura del hero). */}
+      <div className="absolute inset-0 overflow-hidden opacity-25">
         <div className="absolute top-0 left-1/4 h-80 w-80 rounded-full bg-red-600 mix-blend-screen filter blur-3xl animate-blob" />
         <div className="absolute top-1/3 right-1/4 h-80 w-80 rounded-full bg-orange-600 mix-blend-screen filter blur-3xl animate-blob animation-delay-2000" />
         <div className="absolute bottom-1/4 left-1/3 h-80 w-80 rounded-full bg-pink-600 mix-blend-screen filter blur-3xl animate-blob animation-delay-4000" />
       </div>
 
       <div
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0 overflow-hidden opacity-10"
         style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "40px 40px" }}
       />
 
