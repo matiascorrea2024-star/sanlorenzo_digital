@@ -24,7 +24,11 @@ export default function Featured({ list, title, userCoords }: {
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {list.slice(0, 12).map((b) => <BusinessCard key={b.id} b={b} userCoords={userCoords} />)}
+          {list.slice(0, 12).map((b) => (
+            <div key={b.id} className="stagger-item">
+              <BusinessCard b={b} userCoords={userCoords} />
+            </div>
+          ))}
         </div>
       )}
     </section>

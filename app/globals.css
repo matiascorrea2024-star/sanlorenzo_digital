@@ -311,16 +311,49 @@ input:focus, select:focus, textarea:focus {
   paint-order: stroke fill;
 }
 
-/* Aurora del hero: 3 capas de mesh gradient, movidas por transform
-   (nunca por posición/tamaño) -- GPU-only, sin filtros recalculando
-   por frame. gsap.quickTo mueve estas capas en desktop; en mobile o
-   con reduced-motion quedan fijas. */
-.aurora-layer {
+/* ============================================================
+   COLOR QUE RESPIRA (debajo del hero) + STAGGERED REVEAL
+   El hero mantiene sus blobs originales intactos; esto es la capa
+   de fondo para el resto de la página -- mucho más sutil, solo
+   opacity (composable/GPU, nunca recalcula layout) en loop lento.
+   ============================================================ */
+.aurora-bg {
   position: absolute;
-  inset: -20%;
+  inset: 0;
+  overflow: hidden;
   pointer-events: none;
-  will-change: transform;
+  z-index: 0;
 }
+.aurora-bg > span {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(100px);
+  animation: breathe 9s ease-in-out infinite;
+}
+.aurora-bg > span:nth-child(1) { top: -6rem; left: 8%; width: 26rem; height: 26rem; background: rgba(249,115,22,.10); }
+.aurora-bg > span:nth-child(2) { top: 30%; right: 4%; width: 24rem; height: 24rem; background: rgba(236,72,153,.08); animation-delay: 3s; }
+.aurora-bg > span:nth-child(3) { bottom: -8rem; left: 35%; width: 22rem; height: 22rem; background: rgba(249,115,22,.07); animation-delay: 6s; }
+@keyframes breathe { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+
+/* Reveal escalonado de cards dentro de una grilla/fila -- se activa
+   solo cuando la <section> contenedora recibe .reveal-in (ScrollReveal
+   ya se encarga de eso), cada item entra con un pequeño delay extra
+   según su posición. Pura transición CSS, sin JS por card. */
+/* Fail-open: solo se ocultan si el JS de ScrollReveal ya marcó la
+   sección (reveal-init) -- si el JS no corre o algo falla, el
+   contenido queda visible por default en vez de invisible para
+   siempre. */
+.reveal-init .stagger-item { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
+.reveal-in .stagger-item { opacity: 1; transform: none; }
+.stagger-item:nth-child(1) { transition-delay: .02s; }
+.stagger-item:nth-child(2) { transition-delay: .07s; }
+.stagger-item:nth-child(3) { transition-delay: .12s; }
+.stagger-item:nth-child(4) { transition-delay: .17s; }
+.stagger-item:nth-child(5) { transition-delay: .22s; }
+.stagger-item:nth-child(6) { transition-delay: .27s; }
+.stagger-item:nth-child(7) { transition-delay: .32s; }
+.stagger-item:nth-child(8) { transition-delay: .37s; }
+.stagger-item:nth-child(n+9) { transition-delay: .4s; }
 
 [data-spot] { position: relative; }
 [data-spot]::before {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, MessageCircle, Search, Store } from "lucide-react";
 import Hero from "@/components/home/hero";
+import OffersTicker from "@/components/home/offers-ticker";
 import Featured from "@/components/home/featured";
 import OfferCard from "@/components/ui/offer-card";
 import SectionTitle from "@/components/ui/section-title";
@@ -28,6 +29,12 @@ type Oferta = {
   destacado?: boolean;
   rating?: number;
   verificado?: boolean;
+};
+
+const daysTo = (date: string) => {
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  return Math.round((new Date(date + "T00:00:00").getTime() - hoy.getTime()) / 86400000);
 };
 
 const chip = (active: boolean) =>
@@ -92,11 +99,24 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
   const irABuscar = (term: string) => router.push(`/buscar?q=${encodeURIComponent(term)}`);
 
   const plataformaVacia = initial.length === 0 && ofertas.length === 0;
+  const porVencer = ofertas.filter((o) => o.vence && daysTo(o.vence) <= 3).length;
 
   return (
     <main>
-      <Hero onSearch={irABuscar} seedNegocios={initial} />
+      <Hero
+        onSearch={irABuscar}
+        stats={{ promos: ofertas.length, negocios: initial.length, pronto: porVencer }}
+        seedNegocios={initial}
+      />
+      <OffersTicker />
 
+      {/* Color que respira debajo del hero: aurora muy sutil en loop
+          lento (solo opacity), detrás de todas las secciones nuevas. */}
+      <div className="relative">
+        <div className="aurora-bg" aria-hidden="true">
+          <span /><span /><span />
+        </div>
+        <div className="relative z-10">
       {/* ===== HOY EN SAN LORENZO ===== */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
         <SectionTitle
@@ -118,7 +138,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
             className="sld-no-scrollbar -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0"
           >
             {ofertas.slice(0, 10).map((o) => (
-              <div key={o.id} className="w-72 shrink-0">
+              <div key={o.id} className="stagger-item w-72 shrink-0">
                 <OfferCard o={o} userCoords={coords} />
               </div>
             ))}
@@ -175,7 +195,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         <SectionTitle eyebrow="Cómo funciona" title="Así de simple" />
         <div className="grid gap-4 sm:grid-cols-3">
           {PASOS.map(({ icon: Icon, titulo, texto }, i) => (
-            <div key={titulo} className="sld-card rounded-2xl p-5">
+            <div key={titulo} className="stagger-item sld-card rounded-2xl p-5">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-500/15 text-sm font-bold text-orange-300">
                 {i + 1}
               </div>
@@ -207,6 +227,8 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
           </Link>
         </div>
       </section>
+        </div>
+      </div>
     </main>
   );
 }

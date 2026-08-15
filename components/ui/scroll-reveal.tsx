@@ -21,31 +21,31 @@ export default function ScrollReveal() {
         { threshold: 0.08 }
       );
       els.forEach((el) => {
+        // Si el elemento ya está a la vista -- o el usuario ya scrolleó
+        // más allá -- revelarlo directo en vez de dejarlo esperando un
+        // evento de intersección que ya pasó (scroll rápido a fondo de
+        // página antes de que esto llegue a correr, ej. tecla "Fin").
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+          el.classList.add("reveal-init", "reveal-in");
+          return;
+        }
         el.classList.add("reveal-init");
         io!.observe(el);
       });
     };
 
-    // Esperamos a que el navegador esté ocioso (con tope de 500ms) antes
-    // de mutar el DOM -- un par de rAF no alcanza cuando la página tiene
-    // sus propios Suspense boundaries (ej. /buscar con useSearchParams)
-    // que pueden tardar más que un par de frames en terminar de hidratar;
-    // si esta mutación les gana de mano, React reporta un mismatch real.
-    // requestIdleCallback no existe en Safari -- fallback a setTimeout.
-    const ric = window.requestIdleCallback as typeof window.requestIdleCallback | undefined;
-    const cic = window.cancelIdleCallback as typeof window.cancelIdleCallback | undefined;
-    let idleId = 0;
-    let timeoutId = 0;
-    if (ric) {
-      idleId = ric(start, { timeout: 500 });
-    } else {
-      timeoutId = window.setTimeout(start, 150);
-    }
+    // Delay fijo y corto: alcanza de sobra para no ganarle a la
+    // hidratación de React (que termina en el mismo tick/microtask,
+    // incluso con Suspense boundaries propios como en /buscar) sin
+    // arriesgar perder contra un scroll rápido del usuario -- a
+    // diferencia de requestIdleCallback, que puede tardar hasta 500ms
+    // bajo carga y de hecho llegó a perder esa carrera en pruebas reales.
+    const timeoutId = window.setTimeout(start, 60);
 
     return () => {
       cancelled = true;
-      if (idleId && cic) cic(idleId);
-      if (timeoutId) window.clearTimeout(timeoutId);
+      window.clearTimeout(timeoutId);
       io?.disconnect();
     };
   }, []);
