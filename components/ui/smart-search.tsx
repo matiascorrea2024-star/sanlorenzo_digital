@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import type { RefObject } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X, Store, Tag, Grid3x3, MapPin, Flame, Package } from "lucide-react";
 import { CATEGORIES } from "@/lib/data";
 import { useAllBusinesses, type FullBusiness } from "@/lib/use-businesses";
 import { supabase } from "@/lib/supabase";
 
-export default function SmartSearch({ className = "", placeholder = "Buscá cualquier cosa en San Lorenzo...", onPlainSearch, shortcutSlash = false, seedNegocios, searchBtnRef }: {
+export default function SmartSearch({ className = "", placeholder = "Buscá cualquier cosa en San Lorenzo...", onPlainSearch, shortcutSlash = false, seedNegocios }: {
   className?: string; placeholder?: string;
   /** Si se pasa, un submit de texto libre (sin ir a un ítem puntual) llama a esto en vez de navegar a /negocios. */
   onPlainSearch?: (q: string) => void;
@@ -15,8 +14,6 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
   shortcutSlash?: boolean;
   /** Negocios ya traídos por el caller (ej. la home los recibe del servidor) -- evita un fetch cliente redundante. */
   seedNegocios?: FullBusiness[];
-  /** Ref opcional al botón "Buscar", para que el caller (ej. el hero) le aplique un efecto magnético con GSAP sin duplicar el botón. */
-  searchBtnRef?: RefObject<HTMLButtonElement | null>;
 }) {
   const router = useRouter();
   const negocios = useAllBusinesses(seedNegocios);
@@ -143,10 +140,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
             <X className="h-4 w-4" />
           </button>
         )}
-        <button
-          ref={searchBtnRef}
-          className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black transition hover:opacity-90 active:scale-95"
-        >
+        <button className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black transition hover:opacity-90 active:scale-95">
           Buscar
         </button>
       </form>

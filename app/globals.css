@@ -37,8 +37,11 @@ button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 .sld-grid{background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:42px 42px}
 .sld-glow{box-shadow:0 0 80px rgba(139,92,246,.13),0 30px 90px rgba(0,0,0,.3)}
-.sld-card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(23,27,37,.92),rgba(12,15,22,.96));box-shadow:0 16px 45px rgba(0,0,0,.18)}
-.sld-card:hover{border-color:var(--line-strong);transform:translateY(-2px)}
+/* Card canónica del sistema: superficie translúcida clara sobre el
+   fondo oscuro (no un panel casi opaco) -- así el fondo respira y las
+   cards se sienten "de vidrio ligero", no bloques sólidos apilados. */
+.sld-card{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);box-shadow:0 12px 30px rgba(0,0,0,.22);transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+.sld-card:hover{border-color:rgba(249,115,22,.35);box-shadow:0 16px 40px rgba(0,0,0,.28),0 0 0 1px rgba(249,115,22,.12);transform:translateY(-2px)}
 .sld-no-scrollbar::-webkit-scrollbar{display:none}.sld-no-scrollbar{scrollbar-width:none}
 
 /* SAN LORENZO DIGITAL · HOME
@@ -241,9 +244,6 @@ main section:first-of-type .hero-media {
 *::-webkit-scrollbar { width: 8px; height: 8px; }
 *::-webkit-scrollbar-track { background: rgba(255,255,255,.05); }
 *::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(249,115,22,.6), rgba(236,72,153,.6)); border-radius: 999px; }
-
-.sld-card { transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
-.sld-card:hover { transform: translateY(-4px); border-color: rgba(249,115,22,.35); box-shadow: 0 12px 40px -12px rgba(249,115,22,.25); }
 
 a, button { transition: all .25s ease; }
 

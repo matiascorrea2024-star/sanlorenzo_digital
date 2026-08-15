@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import PageHero from "@/components/ui/page-hero";
 import { useAllBusinesses } from "@/lib/use-businesses";
 
@@ -26,8 +27,20 @@ function dist(aLat: number, aLng: number, bLat: number, bLng: number) {
 const fmtDist = (m: number) => (m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(1)} km`);
 
 export default function BuscarPage() {
+  return (
+    <Suspense fallback={null}>
+      <BuscarContent />
+    </Suspense>
+  );
+}
+
+function BuscarContent() {
   const todos = useAllBusinesses();
-  const [q, setQ] = useState("");
+  const searchParams = useSearchParams();
+  // El buscador del hero navega acá con "?q=..." -- lo tomamos como
+  // valor inicial una sola vez (lazy initializer), no se vuelve a leer
+  // en cada render para no pisar lo que el usuario tipee después.
+  const [q, setQ] = useState(() => searchParams.get("q") || "");
   const [conOfertas, setConOfertas] = useState(false);
   const [abiertos, setAbiertos] = useState(false);
   const [conEnvios, setConEnvios] = useState(false);
