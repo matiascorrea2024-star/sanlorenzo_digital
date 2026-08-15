@@ -11,6 +11,7 @@ import TipRotativo from "@/components/home/tip-rotativo";
 import OfferCard from "@/components/ui/offer-card";
 import { CATEGORIES } from "@/lib/data";
 import { supabase } from "@/lib/supabase";
+import { calcDistanceKm } from "@/lib/geo";
 
 type Oferta = {
   id: string;
@@ -26,6 +27,8 @@ type Oferta = {
   portada_url?: string;
   logo_url?: string;
   creado?: string;
+  lat?: number;
+  lon?: number;
 };
 
 const daysTo = (date: string) => {
@@ -44,7 +47,7 @@ const chip = (active: boolean) =>
 export default function HomeClient({ initial }: { initial: any[] }) {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<string | null>(null);
-  const [offerFilter, setOfferFilter] = useState<"todas" | "hoy" | "50" | "nuevas">("todas");
+  const [offerFilter, setOfferFilter] = useState<"todas" | "hoy" | "50" | "nuevas" | "cerca" | "verificados">("todas");
   const [ofertas, setOfertas] = useState<Oferta[]>([]);
   const [cargando, setCargando] = useState(true);
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
@@ -87,6 +90,8 @@ export default function HomeClient({ initial }: { initial: any[] }) {
                 logo_url: o.business_logo,
                 creado: o.created_at,
                 precio_prometido: !!o.precio_prometido,
+                lat: o.business_latitude ? Number(o.business_latitude) : undefined,
+                lon: o.business_longitude ? Number(o.business_longitude) : undefined,
               }))
           );
         }
@@ -110,7 +115,7 @@ export default function HomeClient({ initial }: { initial: any[] }) {
     irAOfertas();
   };
 
-  const aplicarFiltro = (f: "todas" | "hoy" | "50" | "nuevas") => {
+  const aplicarFiltro = (f: "todas" | "hoy" | "50" | "nuevas" | "cerca" | "verificados") => {
     setOfferFilter(f);
     irAOfertas();
   };
@@ -118,6 +123,17 @@ export default function HomeClient({ initial }: { initial: any[] }) {
   // Snapshot de "ahora" tomado una sola vez al montar (lazy initializer
   // de useState, no dentro de un useMemo -- Date.now() ahí no es puro).
   const [ahora] = useState(() => Date.now());
+
+  const categoryCounts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const b of initial as any[]) m.set(b.category, (m.get(b.category) || 0) + 1);
+    return m;
+  }, [initial]);
+
+  const verificados = useMemo(
+    () => new Set(initial.filter((b: any) => b.status === "verificado").map((b: any) => b.slug)),
+    [initial]
+  );
 
   const filteredOffers = useMemo(() => {
     const t = q.trim().toLowerCase();
@@ -129,9 +145,11 @@ export default function HomeClient({ initial }: { initial: any[] }) {
       if (offerFilter === "hoy") okF = !!o.vence && daysTo(o.vence) <= 0;
       if (offerFilter === "50") okF = (o.descuento || 0) >= 50;
       if (offerFilter === "nuevas") okF = !!o.creado && (ahora - new Date(o.creado).getTime()) / 86400000 <= 7;
+      if (offerFilter === "verificados") okF = verificados.has(o.slug);
+      if (offerFilter === "cerca") okF = !!(coords && o.lat && o.lon && calcDistanceKm(coords.lat, coords.lon, o.lat, o.lon) <= 3);
       return okCat && okQ && okF;
     });
-  }, [ofertas, cat, q, offerFilter, ahora]);
+  }, [ofertas, cat, q, offerFilter, ahora, verificados, coords]);
 
   const filteredBusinesses = useMemo(() => {
     const t = q.trim().toLowerCase();
@@ -160,16 +178,22 @@ export default function HomeClient({ initial }: { initial: any[] }) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="sld-no-scrollbar flex items-center gap-2 overflow-x-auto py-3">
             <button onClick={() => aplicarCat(null)} className={chip(!cat)}>🛍️ Todo</button>
-            {CATEGORIES.map((c) => (
-              <button key={c.id} onClick={() => aplicarCat(c.id)} className={chip(cat === c.id)}>
-                {c.icon} {c.name}
-              </button>
-            ))}
+            {CATEGORIES.map((c) => {
+              const n = categoryCounts.get(c.id) || 0;
+              return (
+                <button key={c.id} onClick={() => aplicarCat(c.id)} className={chip(cat === c.id)}>
+                  {c.icon} {c.name}
+                  {n > 0 && <span className="ml-1.5 opacity-60">{n}</span>}
+                </button>
+              );
+            })}
             <span className="mx-1 h-5 w-px shrink-0 bg-white/10" />
             <button onClick={() => aplicarFiltro("todas")} className={chip(offerFilter === "todas")}>✨ Todas</button>
             <button onClick={() => aplicarFiltro("hoy")} className={chip(offerFilter === "hoy")}>🔥 Terminan hoy</button>
             <button onClick={() => aplicarFiltro("50")} className={chip(offerFilter === "50")}>💸 50%+ OFF</button>
             <button onClick={() => aplicarFiltro("nuevas")} className={chip(offerFilter === "nuevas")}>🆕 Nuevas</button>
+            {coords && <button onClick={() => aplicarFiltro("cerca")} className={chip(offerFilter === "cerca")}>📍 Cerca tuyo</button>}
+            <button onClick={() => aplicarFiltro("verificados")} className={chip(offerFilter === "verificados")}>⭐ Verificados</button>
           </div>
         </div>
       </div>

@@ -6,7 +6,13 @@ import { CATEGORIES } from "@/lib/data";
 import { useAllBusinesses } from "@/lib/use-businesses";
 import { supabase } from "@/lib/supabase";
 
-export default function SmartSearch({ className = "", placeholder = "Buscá cualquier cosa en San Lorenzo..." }: { className?: string; placeholder?: string }) {
+export default function SmartSearch({ className = "", placeholder = "Buscá cualquier cosa en San Lorenzo...", onPlainSearch, shortcutSlash = false }: {
+  className?: string; placeholder?: string;
+  /** Si se pasa, un submit de texto libre (sin ir a un ítem puntual) llama a esto en vez de navegar a /negocios. */
+  onPlainSearch?: (q: string) => void;
+  /** Foco con la tecla "/" cuando no hay otro input activo (para usar en la hero). */
+  shortcutSlash?: boolean;
+}) {
   const router = useRouter();
   const negocios = useAllBusinesses();
   const [q, setQ] = useState("");
@@ -16,6 +22,20 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
   const [ofertas, setOfertas] = useState<any[]>([]);
   const [ciudades, setCiudades] = useState<any[]>([]);
   const boxRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!shortcutSlash) return;
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (document.activeElement?.tagName || "").toLowerCase();
+      if (e.key === "/" && tag !== "input" && tag !== "textarea" && tag !== "select") {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [shortcutSlash]);
 
   useEffect(() => {
     try {
@@ -87,13 +107,18 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (q.trim()) {
-      // Si detectó ciudad, ir a esa ciudad con query
-      if (parsedQuery.city) {
-        go(`/${parsedQuery.city.slug}?q=${encodeURIComponent(parsedQuery.query)}`, q.trim());
-      } else {
-        go("/negocios?q=" + encodeURIComponent(q.trim()), q.trim());
-      }
+    const term = q.trim();
+    if (!term) return;
+    const newR = [term, ...recent.filter((r) => r !== term)].slice(0, 5);
+    setRecent(newR);
+    try { localStorage.setItem("sld-recent", JSON.stringify(newR)); } catch {}
+    setOpen(false);
+    if (onPlainSearch) { onPlainSearch(term); return; }
+    // Si detectó ciudad, ir a esa ciudad con query
+    if (parsedQuery.city) {
+      go(`/${parsedQuery.city.slug}?q=${encodeURIComponent(parsedQuery.query)}`);
+    } else {
+      go("/negocios?q=" + encodeURIComponent(term));
     }
   };
 
@@ -101,10 +126,13 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
     <div ref={boxRef} className={`relative w-full ${className}`}>
       <form onSubmit={onSubmit} className="flex items-center gap-2 rounded-2xl border border-white/15 bg-black/70 p-2 shadow-2xl backdrop-blur-xl">
         <div className="pl-3 text-orange-400"><Search className="h-5 w-5" /></div>
-        <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }}
+        <input ref={inputRef} value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }}
           onFocus={() => setOpen(true)}
           placeholder={placeholder}
           className="w-full bg-transparent px-2 py-3 text-sm outline-none placeholder:text-white/50 md:text-base" />
+        {shortcutSlash && !q && (
+          <kbd className="mr-1 hidden h-6 w-6 shrink-0 items-center justify-center rounded-md border border-white/15 bg-white/5 text-[10px] font-bold text-white/40 md:flex">/</kbd>
+        )}
         {q && (
           <button type="button" onClick={() => setQ("")} className="text-white/50 hover:text-white">
             <X className="h-4 w-4" />

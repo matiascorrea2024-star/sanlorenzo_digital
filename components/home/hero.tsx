@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { Search, MapPin, Sparkles, BadgeCheck, Flame } from "lucide-react";
+import { useEffect, useState } from "react";
+import { MapPin, Sparkles, BadgeCheck, Flame } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import SmartSearch from "@/components/ui/smart-search";
 
 interface HeroProps {
   onSearch?: (query: string) => void;
@@ -19,23 +20,9 @@ const TRUST: { icon: LucideIcon; label: string }[] = [
 
 export default function Hero({ onSearch, stats }: HeroProps) {
   const [display, setDisplay] = useState({ promos: 0, negocios: 0, pronto: 0 });
-  const [search, setSearch] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => { setIsVisible(true); }, []);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const tag = (document.activeElement?.tagName || "").toLowerCase();
-      if (e.key === "/" && tag !== "input" && tag !== "textarea" && tag !== "select") {
-        e.preventDefault();
-        inputRef.current?.focus();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
 
   useEffect(() => {
     const targets = stats || { promos: 0, negocios: 0, pronto: 0 };
@@ -53,10 +40,6 @@ export default function Hero({ onSearch, stats }: HeroProps) {
     }, 45);
     return () => clearInterval(timer);
   }, [stats]);
-
-  const handleSearch = () => {
-    if (onSearch && search.trim()) onSearch(search.trim());
-  };
 
   const sugerencias = ["zapatillas", "pizza", "peluquería", "ferretería", "ofertas"];
 
@@ -93,25 +76,12 @@ export default function Hero({ onSearch, stats }: HeroProps) {
           <div className={`mx-auto max-w-2xl transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             <div className="group relative">
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 opacity-75 blur transition duration-1000 group-hover:opacity-100 animate-gradient" />
-              <div className="relative flex items-center rounded-2xl border border-white/20 bg-white/10 p-2 backdrop-blur-xl">
-                <Search className="ml-4 h-5 w-5 text-white/50" />
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              <div className="relative">
+                <SmartSearch
                   placeholder="Buscar ofertas, negocios, productos..."
-                  className="flex-1 bg-transparent px-4 py-3 text-white placeholder-white/50 focus:outline-none"
+                  onPlainSearch={(term) => onSearch && onSearch(term)}
+                  shortcutSlash
                 />
-                <kbd className="mr-2 hidden h-6 w-6 items-center justify-center rounded-md border border-white/15 bg-white/5 text-[10px] font-bold text-white/40 md:flex">/</kbd>
-                <button
-                  onClick={handleSearch}
-                  className="btn-shine flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/50"
-                >
-                  <Search className="h-4 w-4" />
-                  Buscar
-                </button>
               </div>
             </div>
 
@@ -119,7 +89,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
               {sugerencias.map((sug) => (
                 <button
                   key={sug}
-                  onClick={() => { setSearch(sug); if (onSearch) onSearch(sug); }}
+                  onClick={() => onSearch && onSearch(sug)}
                   className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-white/30 hover:bg-white/10"
                 >
                   {sug}
