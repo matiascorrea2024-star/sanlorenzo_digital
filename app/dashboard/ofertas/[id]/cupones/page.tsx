@@ -92,7 +92,7 @@ export default function CuponesPage() {
         {offer && <p className="text-white/60 mb-8">{offer.title}</p>}
 
         <div className="rounded-2xl border border-orange-400/30 bg-orange-500/10 p-6 mb-8">
-          <h2 className="text-xl font-black mb-4">✅ Validar Cupón</h2>
+          <h2 className="text-xl font-black mb-4">Validar Cupón</h2>
           <div className="flex gap-3">
             <input
               type="text"

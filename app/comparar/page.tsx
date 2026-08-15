@@ -29,7 +29,7 @@ function CompararContent() {
 
   if (loading) {
     return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
-      <PageHero title="⚖️ Comparador" subtitle="Compará negocios y productos de un vistazo" />Cargando...</main>;
+      <PageHero title="Comparador" subtitle="Compará negocios y productos de un vistazo" />Cargando...</main>;
   }
 
   if (productos.length === 0) {

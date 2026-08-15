@@ -21,7 +21,9 @@ export default function BarrioView() {
         .select("*").eq("slug", ciudadSlug).eq("type", "city").maybeSingle();
       const { data: neigh } = await supabase().from("locations")
         .select("*").eq("slug", barrioSlug).eq("type", "neighborhood").maybeSingle();
-      if (city && neigh) {
+      // Igual que la página de ciudad: si la ciudad todavía no está
+      // activada por el admin, el barrio tampoco es navegable.
+      if (city && city.active !== false && neigh) {
         setCiudad(city);
         setBarrio(neigh);
         const { data: biz } = await supabase().from("businesses")

@@ -151,7 +151,7 @@ export default function PerfilPage() {
 
   return (
     <main className="bg-[#120d09] text-white min-h-screen pb-24">
-      <PageHero title="🎖 Tu perfil de vecino" subtitle="Tus misiones, medallas, rachas y premios" />
+      <PageHero title="Tu perfil de vecino" subtitle="Tus misiones, medallas, rachas y premios" />
       <div className="mx-auto max-w-3xl px-4 py-10">
         <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black">
@@ -191,7 +191,7 @@ export default function PerfilPage() {
           </Link>
         </div>
 
-        <h2 className="mt-8 mb-3 text-xl font-black">⚙️ Cuenta</h2>
+        <h2 className="mt-8 mb-3 text-xl font-black">Cuenta</h2>
         <div className="space-y-3">
           <ChangePassword email={user.email} />
           <NewsletterOptIn userId={user.id} initial={newsletterOptIn} />
@@ -199,7 +199,7 @@ export default function PerfilPage() {
           {isAdmin && <PlatformPaymentSetting />}
         </div>
 
-        <h2 className="mt-8 mb-3 text-xl font-black">📊 Tu actividad</h2>
+        <h2 className="mt-8 mb-3 text-xl font-black">Tu actividad</h2>
         <div className="grid grid-cols-3 gap-3 md:grid-cols-7 text-center">
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-orange-400">{stats.vis}</p><p className="text-[10px] text-white/50 uppercase">Visitas</p></div>
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-pink-400">{stats.cats}</p><p className="text-[10px] text-white/50 uppercase">Rubros</p></div>
@@ -212,7 +212,7 @@ export default function PerfilPage() {
 
         
         
-        <h2 className="mt-8 mb-3 text-xl font-black">🎯 Misiones de hoy</h2>
+        <h2 className="mt-8 mb-3 text-xl font-black">Misiones de hoy</h2>
         <div className="grid gap-2 md:grid-cols-3">
           {[
             { icon: "👁", txt: "Visitá 3 negocios distintos", act: misiones?.vis || 0, meta: 3 },
@@ -232,7 +232,7 @@ export default function PerfilPage() {
         </div>
 
         
-        <h2 className="mt-8 mb-3 text-xl font-black">🗓️ Misiones de la semana</h2>
+        <h2 className="mt-8 mb-3 text-xl font-black">Misiones de la semana</h2>
         <div className="grid gap-2 md:grid-cols-3">
           {[
             { icon: "👁", txt: "Visitá 10 negocios distintos", act: extra?.visWeek || 0, meta: 10 },
@@ -254,7 +254,7 @@ export default function PerfilPage() {
           🎁 Premios reales: racha de 7 días = <strong className="text-yellow-300">+50 pts</strong> · completar las 3 semanales = <strong className="text-yellow-300">+40 pts</strong>
         </div>
 
-        <h2 className="mt-8 mb-3 text-xl font-black">🎁 Premios por nivel — ¿hasta dónde llegás?</h2>
+        <h2 className="mt-8 mb-3 text-xl font-black">Premios por nivel — ¿hasta dónde llegás?</h2>
         <div className="grid gap-2">
           {[
             { ...NIVELES_USUARIO[0], premios: ["🗺️ Descubrís todos los negocios de la ciudad", "⭐ Sumás puntos por explorar, contactar y opinar"] },
@@ -281,7 +281,7 @@ export default function PerfilPage() {
           })}
         </div>
 
-        <h2 className="mt-8 mb-3 text-xl font-black">🎖 Tus medallas</h2>
+        <h2 className="mt-8 mb-3 text-xl font-black">Tus medallas</h2>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
           {medallas.map((m, i) => (
             <div key={i} className={`rounded-2xl border p-4 text-center ${m.ganada ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-white/5 opacity-40"}`}>
@@ -292,7 +292,7 @@ export default function PerfilPage() {
           ))}
         </div>
 
-        <h2 className="mt-8 mb-3 text-xl font-black">❤️ Negocios que seguís</h2>
+        <h2 className="mt-8 mb-3 text-xl font-black">Negocios que seguís</h2>
         <div className="grid gap-2">
           {seguidos.map((f: any) => (
             <Link key={f.business_id} href={"/negocio/" + (f.businesses?.slug || "")} className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-bold hover:border-orange-400/60">

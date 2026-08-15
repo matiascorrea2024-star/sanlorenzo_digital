@@ -39,7 +39,7 @@ export default function ResetPasswordPage() {
     <main className="bg-[#120d09] min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md">
-          <PageHero title="🔑 Restablecer contraseña" subtitle="Elegí una nueva contraseña para tu cuenta" />
+          <PageHero title="Restablecer contraseña" subtitle="Elegí una nueva contraseña para tu cuenta" />
 
           {!ready ? (
             <div className="text-center text-sm text-white/60">

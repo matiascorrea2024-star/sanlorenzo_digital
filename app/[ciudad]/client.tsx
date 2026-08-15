@@ -21,7 +21,9 @@ export default function CiudadView() {
       // Ciudad
       const { data: loc } = await supabase().from("locations")
         .select("*").eq("slug", ciudadSlug).eq("type", "city").maybeSingle();
-      if (loc) {
+      // Una ciudad creada pero todavía no activada por el admin no debe
+      // ser navegable públicamente -- se trata igual que "no encontrada".
+      if (loc && loc.active !== false) {
         setCiudad(loc);
         // Barrios
         const { data: neighs } = await supabase().from("locations")
@@ -86,7 +88,7 @@ export default function CiudadView() {
         {/* Barrios */}
         {barrios.length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl font-black mb-4">🏘️ Barrios de {ciudad.name}</h2>
+            <h2 className="text-2xl font-black mb-4">Barrios de {ciudad.name}</h2>
             <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
               {barrios.map(b => (
                 <Link key={b.id} href={`/${ciudadSlug}/${b.slug}`}

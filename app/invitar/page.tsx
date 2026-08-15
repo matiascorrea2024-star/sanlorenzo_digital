@@ -66,7 +66,7 @@ export default function InvitarPage() {
 
   return (
     <main className="min-h-screen bg-[#120d09] text-white pb-24">
-      <PageHero title="🔗 Invitá a tus vecinos" subtitle="Compartí tu link y sumá puntos cuando alguien se una" />
+      <PageHero title="Invitá a tus vecinos" subtitle="Compartí tu link y sumá puntos cuando alguien se una" />
       <div className="mx-auto max-w-lg px-4 py-8 text-center">
         <div className="rounded-3xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8">
           <img src={qrUrl} alt="QR de invitación" className="mx-auto h-52 w-52 rounded-2xl bg-white p-3" />

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import { ArrowLeft, Clock, MapPin, Share2, MessageCircle, Store } from "lucide-react";
+import { ArrowLeft, Clock, MapPin, Share2, MessageCircle, Store, Truck } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import CountdownTimer from "@/components/ui/countdown-timer";
 import CouponButton from "@/components/offers/coupon-button";
@@ -169,7 +169,14 @@ export default function OfertaPage() {
         </div>
 
         <div className="mb-5 rounded-2xl border border-white/10 bg-white/5 p-5">
-          <h2 className="mb-3 text-lg font-black">📍 {negocio.name}</h2>
+          <div className="mb-3 flex flex-wrap items-center gap-2">
+            <h2 className="text-lg font-black">{negocio.name}</h2>
+            {negocio.type && negocio.type !== "comercio" && (
+              <Badge variant="info" size="sm">
+                {negocio.type === "particular" ? "Vendedor particular" : negocio.type === "servicio" ? "Servicio" : "Profesional"}
+              </Badge>
+            )}
+          </div>
           <div className="space-y-2 text-sm">
             {negocio.address && (
               <div className="flex items-center gap-2">
@@ -181,6 +188,15 @@ export default function OfertaPage() {
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-orange-400" />
                 <span>{negocio.schedule}</span>
+              </div>
+            )}
+            {negocio.hace_envios && (
+              <div className="flex items-center gap-2">
+                <Truck className="h-4 w-4 text-sky-400" />
+                <span>
+                  {negocio.envio_gratis ? "Envío gratis" : negocio.costo_envio ? `Envío: ${fmt(Number(negocio.costo_envio))}` : "Hace envíos"}
+                  {negocio.zona_cobertura && ` · ${negocio.zona_cobertura}`}
+                </span>
               </div>
             )}
           </div>

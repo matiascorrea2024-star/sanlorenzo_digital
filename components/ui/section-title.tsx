@@ -4,10 +4,12 @@
 export default function SectionTitle({
   eyebrow,
   title,
+  subtitle,
   action,
 }: {
   eyebrow: string;
   title: string;
+  subtitle?: React.ReactNode;
   action?: React.ReactNode;
 }) {
   return (
@@ -17,6 +19,7 @@ export default function SectionTitle({
         <h2 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl" style={{ fontFamily: "var(--font-space)" }}>
           {title}
         </h2>
+        {subtitle && <p className="mt-1 text-sm text-[var(--muted)]">{subtitle}</p>}
       </div>
       {action}
     </div>

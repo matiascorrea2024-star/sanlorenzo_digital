@@ -15,27 +15,34 @@ export default function VecinosPage() {
   useEffect(() => {
     (async () => {
       const sb = supabase();
+      // Antes se armaban los nombres desde "reviews" (tabla huérfana --
+      // ver components/business/review-moderation.tsx: hace tiempo que
+      // nadie escribe ahí, las reseñas reales van a business_reviews),
+      // así que casi ningún vecino mostraba su nombre real. La fuente
+      // correcta de nombre es user_profiles.display_name.
       const [f, r, a] = await Promise.all([
         sb.from("followers").select("user_id"),
-        sb.from("reviews").select("user_id, user_email"),
+        sb.from("business_reviews").select("user_id"),
         sb.from("user_activity").select("user_id"),
       ]);
-      const emails: Record<string, string> = {};
-      (r.data || []).forEach((x: any) => {
-        if (x.user_id && x.user_email) emails[x.user_id] = x.user_email;
-      });
       const ids = [...new Set([
         ...(f.data || []).map((x: any) => x.user_id),
         ...(r.data || []).map((x: any) => x.user_id),
         ...(a.data || []).map((x: any) => x.user_id),
       ])].filter(Boolean) as string[];
 
+      const nombres: Record<string, string> = {};
+      if (ids.length) {
+        const { data: profs } = await sb.from("user_profiles").select("user_id, display_name").in("user_id", ids.slice(0, 30));
+        (profs || []).forEach((p: any) => { if (p.display_name) nombres[p.user_id] = p.display_name; });
+      }
+
       const lista: any[] = [];
       for (const id of ids.slice(0, 30)) {
         const { data: pts } = await sb.rpc("nivel_usuario", { uid: id });
         lista.push({
           id,
-          nombre: emails[id] ? emails[id].split("@")[0] : "Vecino #" + id.slice(0, 4),
+          nombre: nombres[id] || "Vecino #" + id.slice(0, 4),
           puntos: pts || 0,
         });
       }
@@ -57,7 +64,7 @@ export default function VecinosPage() {
       <div className="mx-auto max-w-4xl px-4 py-8">
         <RankingSwitch current="vecinos" />
 
-        <h1 className="mt-6 text-3xl font-black">👥 Ranking de vecinos</h1>
+        <h1 className="mt-6 text-3xl font-black">Ranking de vecinos</h1>
         <p className="mt-1 text-sm text-white/60">Los vecinos más activos de San Lorenzo. ¿Llegás al podio?</p>
 
         {miRank && (

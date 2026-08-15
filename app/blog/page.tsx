@@ -18,7 +18,7 @@ export default async function BlogPage() {
 
   return (
     <main className="min-h-screen bg-[#120d09] text-white pb-24">
-      <PageHero title="📰 Blog" subtitle="Novedades del comercio local de San Lorenzo y el cordón industrial" />
+      <PageHero title="Blog" subtitle="Novedades del comercio local de San Lorenzo y el cordón industrial" />
       <div className="mx-auto max-w-4xl px-4 py-10">
         {!posts || posts.length === 0 ? (
           <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-12 text-center">

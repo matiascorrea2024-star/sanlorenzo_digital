@@ -145,7 +145,7 @@ export default function NuevaOferta() {
           </div>
         )}
 
-        <h1 className="mt-3 text-3xl font-black">🔥 Nueva Oferta</h1>
+        <h1 className="mt-3 text-3xl font-black">Nueva Oferta</h1>
         <p className="mt-1 text-sm text-white/60">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
 
         {limite && planActual && limiteActivas !== -1 && (

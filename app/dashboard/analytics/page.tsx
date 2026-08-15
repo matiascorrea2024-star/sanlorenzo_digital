@@ -132,7 +132,7 @@ export default function AnalyticsPage() {
 
         {/* Timeline gráfico simple */}
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
-          <h2 className="text-lg font-black mb-4">📈 Actividad últimos 7 días</h2>
+          <h2 className="text-lg font-black mb-4">Actividad últimos 7 días</h2>
           <div className="space-y-3">
             {timeline.map(day => (
               <div key={day.date} className="flex items-center gap-3">
@@ -154,7 +154,7 @@ export default function AnalyticsPage() {
 
         {/* Conversión */}
         <div className="rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-6">
-          <h2 className="text-lg font-black mb-3">🎯 Tasa de conversión</h2>
+          <h2 className="text-lg font-black mb-3">Tasa de conversión</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-xs text-white/60">Visitas → WhatsApp</p>

@@ -100,6 +100,11 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
 
   const plataformaVacia = initial.length === 0 && ofertas.length === 0;
   const porVencer = ofertas.filter((o) => o.vence && daysTo(o.vence) <= 3).length;
+  // Snapshot de "ahora" tomado una sola vez (lazy initializer, no en
+  // cada render) para el resumen diario -- solo cuenta lo que es real.
+  const [ahora] = useState(() => Date.now());
+  const nuevasHoy = ofertas.filter((o) => o.creado && (ahora - new Date(o.creado).getTime()) / 86400000 <= 1).length;
+  const terminanHoy = ofertas.filter((o) => o.vence && daysTo(o.vence) === 0).length;
 
   return (
     <main>
@@ -122,6 +127,17 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         <SectionTitle
           eyebrow="Hoy en San Lorenzo"
           title="Ofertas activas"
+          subtitle={
+            ofertas.length > 0
+              ? [
+                  `${ofertas.length} ${ofertas.length === 1 ? "oferta activa" : "ofertas activas"}`,
+                  nuevasHoy > 0 && `${nuevasHoy} ${nuevasHoy === 1 ? "nueva" : "nuevas"} hoy`,
+                  terminanHoy > 0 && `${terminanHoy} ${terminanHoy === 1 ? "termina" : "terminan"} hoy`,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")
+              : undefined
+          }
           action={
             ofertas.length > 0 ? (
               <Link href="/promociones" className="flex items-center gap-1 text-sm text-[var(--muted)] hover:text-white">

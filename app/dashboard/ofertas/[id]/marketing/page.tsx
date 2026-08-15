@@ -99,11 +99,11 @@ export default function MarketingPage() {
           ← Volver a mis ofertas
         </Link>
 
-        <h1 className="text-3xl font-black mb-2">📱 Marketing de la Oferta</h1>
+        <h1 className="text-3xl font-black mb-2">Marketing de la Oferta</h1>
         <p className="text-white/60 mb-8">{offer.title}</p>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
-          <h2 className="text-xl font-black mb-4">🔗 Links Trackeables</h2>
+          <h2 className="text-xl font-black mb-4">Links Trackeables</h2>
           <p className="text-sm text-white/60 mb-4">
             Usá estos links para saber desde dónde vienen tus clientes
           </p>
@@ -132,7 +132,7 @@ export default function MarketingPage() {
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
-          <h2 className="text-xl font-black mb-4">📸 Story para Instagram</h2>
+          <h2 className="text-xl font-black mb-4">Story para Instagram</h2>
           <p className="text-sm text-white/60 mb-4">
             Copiá este texto y pegalo en tu historia de Instagram
           </p>
@@ -148,7 +148,7 @@ export default function MarketingPage() {
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-xl font-black mb-4">💬 Compartir en WhatsApp</h2>
+          <h2 className="text-xl font-black mb-4">Compartir en WhatsApp</h2>
           <p className="text-sm text-white/60 mb-4">
             Texto listo para enviar a tus clientes
           </p>

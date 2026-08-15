@@ -106,7 +106,7 @@ export default function AsistentePage() {
 
   return (
     <main className="min-h-screen bg-[#120d09] text-white pb-24">
-      <PageHero title="🤖 Asistente IA" subtitle="Preguntale lo que quieras de San Lorenzo" />
+      <PageHero title="Asistente IA" subtitle="Preguntale lo que quieras de San Lorenzo" />
       <div className="mx-auto max-w-5xl px-4 py-10">
         <div className="text-center">
           <Badge variant="warning" size="sm"><Sparkles className="h-3 w-3" /> Asistente local</Badge>
@@ -139,7 +139,7 @@ export default function AsistentePage() {
           <>
             {ofertasFiltradas.length > 0 && (
               <section className="mt-10">
-                <h2 className="text-xl font-black mb-4">🔥 Ofertas que coinciden ({ofertasFiltradas.length})</h2>
+                <h2 className="text-xl font-black mb-4">Ofertas que coinciden ({ofertasFiltradas.length})</h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {ofertasFiltradas.map(o => <OfferCard key={o.id} o={o} userCoords={coords} />)}
                 </div>
@@ -148,7 +148,7 @@ export default function AsistentePage() {
 
             {negociosFiltrados.length > 0 && (
               <section className="mt-10">
-                <h2 className="text-xl font-black mb-4">🏪 Negocios que coinciden ({negociosFiltrados.length})</h2>
+                <h2 className="text-xl font-black mb-4">Negocios que coinciden ({negociosFiltrados.length})</h2>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {negociosFiltrados.map((b: any) => (
                     <Link key={b.id} href={`/negocio/${b.slug}`}

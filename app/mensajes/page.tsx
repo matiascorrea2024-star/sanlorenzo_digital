@@ -55,14 +55,14 @@ export default function MensajesClientePage() {
 
   if (!user) {
     return <main className="bg-[#120d09] min-h-screen text-white flex items-center justify-center">
-      <PageHero title="💬 Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />Iniciá sesión para ver tus mensajes.</main>;
+      <PageHero title="Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />Iniciá sesión para ver tus mensajes.</main>;
   }
 
   const sel = selectedBiz ? bizMap[selectedBiz] : null;
 
   return (
     <main className="bg-[#120d09] min-h-screen text-white pb-24">
-      <PageHero title="💬 Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />
+      <PageHero title="Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />
       <div className="mx-auto max-w-3xl px-4 py-8">
         
         <p className="text-white/60 mt-1">Tus conversaciones con los negocios</p>

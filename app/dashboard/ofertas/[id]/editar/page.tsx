@@ -113,7 +113,7 @@ export default function EditarOferta() {
     <main className="min-h-screen bg-[#120d09] pb-24 text-white">
       <div className="mx-auto max-w-2xl px-4 py-10">
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
-        <h1 className="mt-3 text-3xl font-black">✏️ Editar oferta</h1>
+        <h1 className="mt-3 text-3xl font-black">Editar oferta</h1>
 
         <div className="mt-8 space-y-5 rounded-3xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div>

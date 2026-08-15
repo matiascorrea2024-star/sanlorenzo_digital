@@ -49,7 +49,7 @@ export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-[#120d09] pb-24 text-white">
       <PageHero
-        title="🏪 Mis negocios"
+        title="Mis negocios"
         subtitle="Control rápido: abrí, cerrá y manejá tus ofertas sin vueltas"
       >
         <div className="mt-4 flex flex-wrap gap-2">

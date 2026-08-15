@@ -55,7 +55,7 @@ export default function HistoriasPage() {
     <main className="bg-[#120d09] min-h-screen text-white">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <Link href="/dashboard" className="text-sm text-orange-400">← Volver</Link>
-        <h1 className="text-3xl font-black mt-2">📸 Publicar Historia (24h)</h1>
+        <h1 className="text-3xl font-black mt-2">Publicar Historia (24h)</h1>
         <p className="text-white/60 mt-1">Desaparece automáticamente en 24 horas</p>
 
         <div className="mt-6 space-y-4">

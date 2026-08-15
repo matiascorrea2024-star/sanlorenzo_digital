@@ -91,7 +91,7 @@ export default function MensajesPage() {
     <main className="bg-[#120d09] min-h-screen text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
-        <h1 className="text-3xl font-black">💬 Mensajes</h1>
+        <h1 className="text-3xl font-black">Mensajes</h1>
 
         {businesses.length > 1 && (
           <div className="mt-4 flex gap-2 overflow-x-auto">

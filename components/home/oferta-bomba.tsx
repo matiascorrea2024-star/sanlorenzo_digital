@@ -64,7 +64,7 @@ export default function OfertaBomba() {
           <Zap className="h-5 w-5 text-red-400" />
           <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">Oferta bomba · termina 20hs</p>
         </div>
-        <h2 className="relative mt-2 text-2xl font-black sm:text-3xl">💣 Solo por hoy, solo por 2 horas</h2>
+        <h2 className="relative mt-2 text-2xl font-black sm:text-3xl">Solo por hoy, solo por 2 horas</h2>
 
         {!desbloqueado ? (
           <div className="relative mt-5 flex items-center gap-4 rounded-2xl border border-white/10 bg-black/30 p-6">

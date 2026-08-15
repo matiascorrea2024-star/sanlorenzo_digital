@@ -75,7 +75,7 @@ export default function RegistroPage() {
             <p className="text-white/60 mt-2">Unite a San Lorenzo Digital</p>
           </div>
 
-          <PageHero title="✨ Crear cuenta" subtitle="Sumate a la comunidad de San Lorenzo Digital" />
+          <PageHero title="Crear cuenta" subtitle="Sumate a la comunidad de San Lorenzo Digital" />
       <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-white/80 mb-2">¿Cómo te llamas?</label>

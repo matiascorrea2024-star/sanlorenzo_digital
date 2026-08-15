@@ -59,7 +59,7 @@ export default function LoginPage() {
             <p className="text-white/60 mt-2">Entrá a tu cuenta de San Lorenzo Digital</p>
           </div>
 
-          <PageHero title="🔐 Iniciar sesión" subtitle="Entrá con tu cuenta de San Lorenzo Digital" />
+          <PageHero title="Iniciar sesión" subtitle="Entrá con tu cuenta de San Lorenzo Digital" />
       <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-white/80 mb-2">Email</label>

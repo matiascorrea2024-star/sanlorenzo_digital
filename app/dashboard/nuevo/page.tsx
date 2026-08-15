@@ -161,7 +161,7 @@ export default function NuevoNegocioPage() {
           ← Volver al dashboard
         </Link>
 
-        <h1 className="text-3xl font-black mb-2">🏪 Subí tu negocio</h1>
+        <h1 className="text-3xl font-black mb-2">Subí tu negocio</h1>
         <p className="text-white/60 mb-8">2 minutos: completá lo esencial y ya podés publicar tu primera oferta.</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
