@@ -3,18 +3,20 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X, Store, Tag, Grid3x3, MapPin, Flame, Package } from "lucide-react";
 import { CATEGORIES } from "@/lib/data";
-import { useAllBusinesses } from "@/lib/use-businesses";
+import { useAllBusinesses, type FullBusiness } from "@/lib/use-businesses";
 import { supabase } from "@/lib/supabase";
 
-export default function SmartSearch({ className = "", placeholder = "Buscá cualquier cosa en San Lorenzo...", onPlainSearch, shortcutSlash = false }: {
+export default function SmartSearch({ className = "", placeholder = "Buscá cualquier cosa en San Lorenzo...", onPlainSearch, shortcutSlash = false, seedNegocios }: {
   className?: string; placeholder?: string;
   /** Si se pasa, un submit de texto libre (sin ir a un ítem puntual) llama a esto en vez de navegar a /negocios. */
   onPlainSearch?: (q: string) => void;
   /** Foco con la tecla "/" cuando no hay otro input activo (para usar en la hero). */
   shortcutSlash?: boolean;
+  /** Negocios ya traídos por el caller (ej. la home los recibe del servidor) -- evita un fetch cliente redundante. */
+  seedNegocios?: FullBusiness[];
 }) {
   const router = useRouter();
-  const negocios = useAllBusinesses();
+  const negocios = useAllBusinesses(seedNegocios);
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [recent, setRecent] = useState<string[]>([]);

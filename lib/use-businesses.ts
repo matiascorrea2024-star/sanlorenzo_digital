@@ -12,10 +12,15 @@ export type { FullBusiness };
 const MOCKS_ACTIVOS = process.env.NEXT_PUBLIC_MOCKS === "on";
 const MOCK_BUSINESSES = MOCKS_ACTIVOS ? BUSINESSES : [];
 
-export function useAllBusinesses(): FullBusiness[] {
-  const [list, setList] = useState<FullBusiness[]>(MOCK_BUSINESSES as FullBusiness[]);
+// `seed`: si el caller ya tiene negocios recién traídos del servidor
+// (ej. la home los recibe como prop de un Server Component), se los
+// puede pasar acá para evitar un fetch cliente redundante -- el hook
+// arranca con esos datos y no vuelve a pedirlos.
+export function useAllBusinesses(seed?: FullBusiness[]): FullBusiness[] {
+  const [list, setList] = useState<FullBusiness[]>(() => seed || (MOCK_BUSINESSES as FullBusiness[]));
 
   useEffect(() => {
+    if (seed) return;
     (async () => {
       try {
         const { data } = await supabase().from("businesses").select("*");

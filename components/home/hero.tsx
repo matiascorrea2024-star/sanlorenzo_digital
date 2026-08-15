@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import { MapPin, Sparkles, BadgeCheck, Flame } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import SmartSearch from "@/components/ui/smart-search";
+import type { FullBusiness } from "@/lib/use-businesses";
 
 interface HeroProps {
   onSearch?: (query: string) => void;
   stats?: { promos: number; negocios: number; pronto: number };
+  seedNegocios?: FullBusiness[];
 }
 
 const plural = (n: number, sing: string, plur: string) => (n === 1 ? sing : plur);
@@ -18,11 +20,8 @@ const TRUST: { icon: LucideIcon; label: string }[] = [
   { icon: Sparkles, label: "Gratis para vecinos" },
 ];
 
-export default function Hero({ onSearch, stats }: HeroProps) {
+export default function Hero({ onSearch, stats, seedNegocios }: HeroProps) {
   const [display, setDisplay] = useState({ promos: 0, negocios: 0, pronto: 0 });
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => { setIsVisible(true); }, []);
 
   useEffect(() => {
     const targets = stats || { promos: 0, negocios: 0, pronto: 0 };
@@ -60,7 +59,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 md:py-16">
-        <div className={`text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+        <div className="fade-up text-center">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 backdrop-blur-sm">
             <Sparkles className="h-3.5 w-3.5 text-orange-400" />
             <span className="text-xs font-medium text-orange-300">San Lorenzo · Santa Fe</span>
@@ -71,12 +70,12 @@ export default function Hero({ onSearch, stats }: HeroProps) {
             <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent animate-gradient">BARATA DIGITAL</span>
           </h1>
 
-          <p className={`mx-auto mb-6 max-w-2xl text-base text-white/60 md:text-lg transition-all duration-700 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+          <p className="fade-up-2 mx-auto mb-6 max-w-2xl text-base text-white/60 md:text-lg">
             Las ofertas y promos de San Lorenzo, publicadas por los comercios en tiempo real.{" "}
             <span className="font-bold text-orange-300">Que no se te escape ninguna.</span>
           </p>
 
-          <div className={`mx-auto max-w-2xl transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <div className="fade-up-3 mx-auto max-w-2xl">
             <div className="group relative">
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 opacity-75 blur transition duration-1000 group-hover:opacity-100 animate-gradient" />
               <div className="relative">
@@ -84,6 +83,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
                   placeholder="Buscar ofertas, negocios, productos..."
                   onPlainSearch={(term) => onSearch && onSearch(term)}
                   shortcutSlash
+                  seedNegocios={seedNegocios}
                 />
               </div>
             </div>

@@ -1,20 +1,15 @@
-"use client";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Trophy } from "lucide-react";
-import { supabase } from "@/lib/supabase";
 import { rangoDe, gemaDe } from "@/lib/ranks";
 
 type Top = { id: string; name: string; slug: string; category: string; logo_url: string | null; puntos: number };
 
-export default function WallOfFame() {
-  const [top, setTop] = useState<Top[]>([]);
-
-  useEffect(() => {
-    supabase().from("business_leagues").select("id, name, slug, category, logo_url, puntos")
-      .eq("status", "verificado").order("puntos", { ascending: false }).limit(10)
-      .then(({ data }) => setTop((data || []).filter((b: any) => b.puntos > 0)));
-  }, []);
+// Recibe los datos ya resueltos del servidor (app/page.tsx) -- antes
+// este componente hacía su propio fetch al montarse y arrancaba en
+// null, lo que generaba un salto de layout grande (CLS) apenas la
+// data llegaba y la sección entera aparecía de golpe.
+export default function WallOfFame({ initialTop }: { initialTop: Top[] }) {
+  const top = initialTop;
 
   if (top.length === 0) return null;
 

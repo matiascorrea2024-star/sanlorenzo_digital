@@ -15,9 +15,11 @@ export default function OfertaBomba() {
   const [ofertas, setOfertas] = useState<any[]>([]);
   const [nivel, setNivel] = useState<number | null>(null);
   const [show, setShow] = useState(enHorario());
+  const [loading, setLoading] = useState(enHorario());
 
   useEffect(() => {
     if (!show) return;
+    setLoading(true);
     (async () => {
       const sb = supabase();
       const { data } = await sb.from("offers_with_business")
@@ -32,12 +34,25 @@ export default function OfertaBomba() {
       } else {
         setNivel(0);
       }
+      setLoading(false);
     })();
     const t = setInterval(() => setShow(enHorario()), 60000);
     return () => clearInterval(t);
   }, [show]);
 
-  if (!show || ofertas.length === 0) return null;
+  // Reservamos el alto mientras carga (en vez de "null" hasta que
+  // resuelva) para no generar un salto de layout grande cuando el
+  // contenido aparece -- eso fue justamente lo que detectó Lighthouse
+  // como el mayor causante de CLS en la home.
+  if (!show) return null;
+  if (loading) {
+    return (
+      <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
+        <div className="h-[220px] animate-pulse rounded-3xl border border-white/10 bg-white/5 sm:h-[196px]" />
+      </section>
+    );
+  }
+  if (ofertas.length === 0) return null;
 
   const desbloqueado = nivel !== null && nivel >= 50;
 

@@ -10,7 +10,6 @@ import WallOfFame from "@/components/home/wall-of-fame";
 import TipRotativo from "@/components/home/tip-rotativo";
 import OfferCard from "@/components/ui/offer-card";
 import { CATEGORIES } from "@/lib/data";
-import { supabase } from "@/lib/supabase";
 import { calcDistanceKm } from "@/lib/geo";
 
 type Oferta = {
@@ -47,14 +46,43 @@ const chip = (active: boolean) =>
       : "border-white/10 bg-white/[.03] text-white/60 hover:border-white/25 hover:text-white"
   }`;
 
-export default function HomeClient({ initial }: { initial: any[] }) {
+export default function HomeClient({ initial, initialOfertas, initialTop }: { initial: any[]; initialOfertas: any[]; initialTop: any[] }) {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<string | null>(null);
   const [offerFilter, setOfferFilter] = useState<"todas" | "hoy" | "50" | "nuevas" | "cerca" | "verificados">("todas");
-  const [ofertas, setOfertas] = useState<Oferta[]>([]);
-  const [cargando, setCargando] = useState(true);
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
   const ofertasRef = useRef<HTMLElement>(null);
+
+  // Las ofertas ya llegan resueltas del servidor (app/page.tsx) -- se
+  // mapean una sola vez con useMemo en vez de re-pedirlas al cliente
+  // (antes esto era un useEffect + fetch propio, un round-trip extra
+  // en el camino crítico de la home).
+  const ofertas = useMemo<Oferta[]>(() => {
+    const hoy = new Date().toISOString().slice(0, 10);
+    return (initialOfertas || [])
+      .filter((o: any) => o.active && (!o.valid_until || o.valid_until >= hoy))
+      .map((o: any) => ({
+        id: o.id,
+        negocio: o.business_name,
+        slug: o.business_slug,
+        producto: o.title,
+        cat: o.business_category || "",
+        vence: o.valid_until,
+        descuento: o.discount_percent ? Number(o.discount_percent) : undefined,
+        antes: o.old_price ? Number(o.old_price) : undefined,
+        ahora: o.offer_price ? Number(o.offer_price) : undefined,
+        real: true,
+        portada_url: o.business_portada,
+        logo_url: o.business_logo,
+        creado: o.created_at,
+        precio_prometido: !!o.precio_prometido,
+        lat: o.business_latitude ? Number(o.business_latitude) : undefined,
+        lon: o.business_longitude ? Number(o.business_longitude) : undefined,
+        destacado: !!o.business_destacado,
+        rating: o.business_rating ? Number(o.business_rating) : undefined,
+        verificado: o.business_status === "verificado",
+      }));
+  }, [initialOfertas]);
 
   useEffect(() => {
     if (!("geolocation" in navigator)) return;
@@ -63,50 +91,6 @@ export default function HomeClient({ initial }: { initial: any[] }) {
       () => {},
       { enableHighAccuracy: false, timeout: 8000, maximumAge: 300000 }
     );
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await supabase()
-          .from("offers_with_business")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .limit(100);
-        if (data) {
-          const hoy = new Date().toISOString().slice(0, 10);
-          setOfertas(
-            (data as any[])
-              .filter((o) => o.active && (!o.valid_until || o.valid_until >= hoy))
-              .map((o) => ({
-                id: o.id,
-                negocio: o.business_name,
-                slug: o.business_slug,
-                producto: o.title,
-                cat: o.business_category || "",
-                vence: o.valid_until,
-                descuento: o.discount_percent ? Number(o.discount_percent) : undefined,
-                antes: o.old_price ? Number(o.old_price) : undefined,
-                ahora: o.offer_price ? Number(o.offer_price) : undefined,
-                real: true,
-                portada_url: o.business_portada,
-                logo_url: o.business_logo,
-                creado: o.created_at,
-                precio_prometido: !!o.precio_prometido,
-                lat: o.business_latitude ? Number(o.business_latitude) : undefined,
-                lon: o.business_longitude ? Number(o.business_longitude) : undefined,
-                destacado: !!o.business_destacado,
-                rating: o.business_rating ? Number(o.business_rating) : undefined,
-                verificado: o.business_status === "verificado",
-              }))
-          );
-        }
-      } catch (e) {
-        console.error("No se pudieron cargar ofertas:", e);
-      } finally {
-        setCargando(false);
-      }
-    })();
   }, []);
 
   // "Apretás y lo tenés ahí": scroll suave hasta los resultados
@@ -185,6 +169,7 @@ export default function HomeClient({ initial }: { initial: any[] }) {
       <Hero
         onSearch={(v: string) => { setQ(v); setCat(null); irAOfertas(); }}
         stats={{ promos: ofertas.length, negocios: initial.length, pronto: porVencer }}
+        seedNegocios={initial}
       />
       <OffersTicker />
       <OfertaBomba />
@@ -229,7 +214,7 @@ export default function HomeClient({ initial }: { initial: any[] }) {
                 : "Ofertas reales, ahora mismo."}
             </h2>
             <p className="mt-1 text-xs text-[var(--muted)]">
-              {cargando ? "Cargando ofertas..." : `${filteredOffers.length} ${filteredOffers.length === 1 ? "oferta activa" : "ofertas activas"} · publicadas por comercios de San Lorenzo`}
+              {filteredOffers.length} {filteredOffers.length === 1 ? "oferta activa" : "ofertas activas"} · publicadas por comercios de San Lorenzo
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -247,13 +232,7 @@ export default function HomeClient({ initial }: { initial: any[] }) {
           </div>
         </div>
 
-        {cargando ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-72 animate-pulse rounded-2xl border border-white/10 bg-white/5" />
-            ))}
-          </div>
-        ) : filteredOffers.length > 0 ? (
+        {filteredOffers.length > 0 ? (
           <>
             {ofertasDestacadas.length > 0 && (
               <div className="mb-6">
@@ -345,7 +324,7 @@ export default function HomeClient({ initial }: { initial: any[] }) {
         </div>
       </section>
 
-      <WallOfFame />
+      <WallOfFame initialTop={initialTop} />
 
       {/* ===== CTA COMERCIOS ===== */}
       <section id="sumate" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
