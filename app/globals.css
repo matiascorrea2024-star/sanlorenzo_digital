@@ -153,6 +153,34 @@ main img:not([class*="h-"]) {
   object-position: center;
 }
 
+/* ===== LEAFLET, tema oscuro =====
+   Sin esto, el mapa se ve con el popup/controles blancos por default de
+   Leaflet -- un widget claro flotando sobre un sitio oscuro cálido, la
+   definición misma de "esto se siente pegado, no integrado". */
+.leaflet-popup-content-wrapper {
+  background: #1c150e;
+  color: #f7f3ec;
+  border: 1px solid rgba(255,247,237,.12);
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,.5);
+}
+.leaflet-popup-content { margin: 14px 16px; font-family: var(--font-inter), system-ui, sans-serif; }
+.leaflet-popup-tip { background: #1c150e; border: 1px solid rgba(255,247,237,.12); }
+.leaflet-container a.leaflet-popup-close-button { color: #a99b86; }
+.leaflet-container a.leaflet-popup-close-button:hover { color: #f7f3ec; }
+.leaflet-control-zoom a {
+  background: #1c150e !important;
+  color: #f7f3ec !important;
+  border-color: rgba(255,247,237,.12) !important;
+}
+.leaflet-control-zoom a:hover { background: #2a2015 !important; }
+.leaflet-control-attribution {
+  background: rgba(18,13,9,.75) !important;
+  color: #7d6f5c !important;
+  backdrop-filter: blur(4px);
+}
+.leaflet-control-attribution a { color: #a99b86 !important; }
+
 /* ===== EFECTOS ===== */
 @keyframes twinkle {
   0%, 100% { opacity: 0.15; transform: scale(0.7) rotate(0deg); }

@@ -103,19 +103,21 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
 
         const centroDist = userCoords || { lat: -32.7475, lon: -60.7285 };
         const kmDist = calcDistanceKm(centroDist.lat, centroDist.lon, Number(b.latitude), Number(b.longitude));
-        const dist = `<br/><span style="color:#666;font-size:12px">📍 ${fmtDistance(kmDist)} ${userCoords ? "de vos" : "del centro"}</span>`;
+        const dist = `<div style="margin-top:4px;color:#a99b86;font-size:12px">📍 ${fmtDistance(kmDist)} ${userCoords ? "de vos" : "del centro"}</div>`;
 
         const marker = L.marker([Number(b.latitude), Number(b.longitude)], { icon })
           .addTo(map)
           .bindPopup(`
-            <div style="font-family:system-ui,sans-serif;min-width:170px">
-              <strong style="font-size:14px">${b.name}</strong><br/>
-              <span style="color:#666;font-size:12px;text-transform:capitalize">${b.category}</span><br/>
-              <span style="font-size:12px">⭐ ${Number(b.rating || 0).toFixed(1)} (${b.reviews || 0})</span><br/>
-              <span style="color:${b.open ? "#16a34a" : "#dc2626"};font-size:12px;font-weight:bold">${b.open ? "🟢 Abierto ahora" : "🔴 Cerrado"}</span>
-              ${tieneOfertas ? `<br/><span style="color:#f97316;font-size:12px;font-weight:bold">🔥 ${b.promotions.length} oferta${b.promotions.length > 1 ? "s" : ""}</span>` : ""}
+            <div style="min-width:180px">
+              <strong style="font-size:15px;font-weight:900">${b.name}</strong>
+              <div style="color:#a99b86;font-size:12px;text-transform:capitalize;margin-top:2px">${b.category}</div>
+              <div style="margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <span style="font-size:12px;color:#fbbf24;font-weight:700">★ ${Number(b.rating || 0).toFixed(1)} <span style="color:#7d6f5c;font-weight:400">(${b.reviews || 0})</span></span>
+                <span style="font-size:11px;font-weight:900;color:${b.open ? "#34d399" : "#fb7185"}">${b.open ? "🟢 Abierto" : "🔴 Cerrado"}</span>
+              </div>
+              ${tieneOfertas ? `<div style="margin-top:4px;font-size:12px;font-weight:900;color:#f97316">🔥 ${b.promotions.length} oferta${b.promotions.length > 1 ? "s" : ""}</div>` : ""}
               ${dist}
-              <br/><a href="/negocio/${b.slug}" style="color:#f97316;font-weight:bold;font-size:13px;text-decoration:none">Ver negocio →</a>
+              <a href="/negocio/${b.slug}" style="display:inline-block;margin-top:10px;padding:6px 14px;border-radius:9999px;background:linear-gradient(90deg,#f97316,#ec4899);color:white;font-weight:900;font-size:12px;text-decoration:none">Ver negocio →</a>
             </div>
           `);
         markersRef.current.push(marker);
@@ -128,7 +130,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
       <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="flex items-center gap-2">
           <MapPin className="h-7 w-7 text-orange-400" />
-          <h1 className="text-3xl font-black">Mapa de San Lorenzo</h1>
+          <h1 className="text-3xl font-black tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mapa de San Lorenzo</h1>
         </div>
         <p className="mt-1 text-white/60">Tocá un marcador para ver el negocio</p>
 
@@ -138,13 +140,13 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
           <Badge variant="success" size="md">🟢 {stats.abiertos} abiertos</Badge>
           <Badge variant="warning" size="md"><Flame className="h-3 w-3" /> {stats.conOfertas} con ofertas</Badge>
 
-          <div className="ml-auto flex gap-1.5">
+          <div className="ml-auto flex gap-1.5 rounded-full border border-white/10 bg-white/[.03] p-1">
             {[0.5, 1, 2, 3, 5, 10].map(r => (
               <button key={r} onClick={() => setRadio(radio === r ? null : r)}
-                className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
-                  radio === r ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "border border-white/15 bg-white/5 text-white/70"
+                className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all duration-300 ${
+                  radio === r ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-lg shadow-orange-500/20" : "text-white/60 hover:bg-white/5 hover:text-white"
                 }`}>
-                📍 {r < 1 ? "500 m" : `${r} km`}
+                {r < 1 ? "500 m" : `${r} km`}
               </button>
             ))}
           </div>
@@ -159,26 +161,29 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
           {userCoords ? <span className="text-sky-400">● Tu ubicación</span> : <span className="text-white/40">Distancias desde el centro de San Lorenzo</span>}
         </div>
 
-        {/* Mapa */}
-        <div className="relative mt-4 mb-6">
-          <div ref={mapRef} className="relative z-0 h-[380px] md:h-[440px] w-full overflow-hidden rounded-2xl border border-white/10" />
-          {!mapReady && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl border border-white/10 bg-white/5">
-              <div className="flex flex-col items-center gap-3">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-500 border-t-transparent" />
-                <p className="text-sm text-white/50">Cargando el mapa...</p>
+        {/* Mapa -- mismo doble marco que el resto de la plataforma, no un
+            iframe pegado sin más. */}
+        <div className="relative mt-4 mb-6 rounded-[1.75rem] border border-white/[.08] bg-white/[.03] p-1.5 shadow-2xl shadow-black/30">
+          <div className="relative overflow-hidden rounded-[1.375rem] border border-white/[.06]">
+            <div ref={mapRef} className="relative z-0 h-[420px] md:h-[520px] w-full" />
+            {!mapReady && (
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/5">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-500 border-t-transparent" />
+                  <p className="text-sm text-white/50">Cargando el mapa...</p>
+                </div>
               </div>
-            </div>
-          )}
-          {mapReady && stats.total === 0 && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl border border-white/10 bg-[#120d09]/90 p-6 text-center backdrop-blur-sm">
-              <div>
-                <MapPin className="mx-auto h-8 w-8 text-white/30" />
-                <p className="mt-3 font-bold">Todavía no hay negocios con ubicación cargada</p>
-                <p className="mt-1 text-sm text-white/50">Los comercios van a aparecer acá a medida que carguen su ubicación exacta.</p>
+            )}
+            {mapReady && stats.total === 0 && (
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#120d09]/90 p-6 text-center backdrop-blur-sm">
+                <div>
+                  <MapPin className="mx-auto h-8 w-8 text-white/30" />
+                  <p className="mt-3 font-bold">Todavía no hay negocios con ubicación cargada</p>
+                  <p className="mt-1 text-sm text-white/50">Los comercios van a aparecer acá a medida que carguen su ubicación exacta.</p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </main>
