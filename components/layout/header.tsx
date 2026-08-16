@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ShoppingBag } from "lucide-react";
 import NotificationBell from "@/components/layout/notification-bell";
 import CitySwitcher from "@/components/layout/city-switcher";
+import MobileMenu from "@/components/layout/mobile-menu";
 import AuthButton from "./auth-button";
 import { supabase } from "@/lib/supabase";
 import { useUnreadMessages } from "@/lib/hooks/use-unread-messages";
@@ -95,6 +96,7 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <MobileMenu />
             <CitySwitcher />
             {user && <NotificationBell />}
 

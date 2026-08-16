@@ -22,6 +22,18 @@ export default function NuevoNegocioPage() {
   const [barrios, setBarrios] = useState<any[]>([]);
   const [locationId, setLocationId] = useState("");
   const [neighborhoodId, setNeighborhoodId] = useState("");
+  // Un usuario solo puede tener un negocio en plan gratis -- para sumar
+  // otro, alguno de los que ya tiene tiene que estar pago. Esto es solo
+  // el aviso amigable antes de llenar el formulario entero; la regla
+  // real (que no se puede evadir) está en la base (trigger).
+  const [misNegocios, setMisNegocios] = useState<any[] | null>(null);
+  const puedeCrear = !misNegocios || misNegocios.length === 0 || misNegocios.some((b) => b.plan && b.plan !== "gratis");
+
+  useEffect(() => {
+    if (!user) return;
+    supabase().from("businesses").select("id, name, plan").eq("owner_id", user.id)
+      .then(({ data }) => setMisNegocios(data || []));
+  }, [user]);
 
   useEffect(() => {
     // Todas las ciudades, no solo las activas -- una ciudad nueva se carga
@@ -174,6 +186,26 @@ export default function NuevoNegocioPage() {
         <h1 className="text-3xl font-black mb-2">Subí tu negocio</h1>
         <p className="text-white/60 mb-4">2 minutos: completá lo esencial y ya podés publicar tu primera oferta.</p>
 
+        {misNegocios !== null && !puedeCrear ? (
+          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <p className="text-3xl">🔒</p>
+              <h2 className="mt-3 text-lg font-black">Ya tenés un negocio en plan gratis</h2>
+              <p className="mx-auto mt-2 max-w-sm text-sm text-white/60">
+                Cada cuenta puede tener un negocio gratis. Para sumar otro, mejorá {misNegocios.length === 1 ? "tu negocio actual" : "alguno de tus negocios actuales"} a un plan pago.
+              </p>
+              <div className="mt-5 flex flex-wrap justify-center gap-3">
+                <Link href="/dashboard/planes" className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black hover:opacity-90">
+                  Ver planes →
+                </Link>
+                <Link href="/dashboard" className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-bold hover:bg-white/5">
+                  Volver al panel
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : (
+        <>
         <HowItWorks steps={[
           "Contanos qué tipo de vendedor sos y completá lo esencial: nombre, rubro, ciudad y WhatsApp.",
           "Sumá una foto y los datos de envío si aplica -- lo demás podés completarlo después.",
@@ -318,10 +350,12 @@ export default function NuevoNegocioPage() {
           )}
 
           <button type="submit" disabled={loading}
-            className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50">
+            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50">
             {loading ? "Creando…" : "Crear negocio y seguir →"}
           </button>
         </form>
+        </>
+        )}
       </div>
     </main>
   );

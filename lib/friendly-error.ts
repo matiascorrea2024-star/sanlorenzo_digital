@@ -18,6 +18,7 @@ export function friendlyError(err: unknown, fallback = "No se pudo completar la 
   if (e.code === "23505") return "Ya existe un registro igual a este.";
   if ((e.message || "").includes("MENSAJE_INAPROPIADO")) return "Ese mensaje tiene lenguaje que no permitimos acá. Reformulalo, por favor.";
   if ((e.message || "").includes("CHAT_MUY_SEGUIDO")) return "Vas muy rápido -- esperá unos segundos antes de mandar otro mensaje.";
+  if ((e.message || "").includes("LIMITE_NEGOCIOS_GRATIS")) return "Ya tenés un negocio en plan gratis. Para sumar otro, mejorá alguno de tus negocios actuales a un plan pago.";
   if (e.code === "42501" || (e.message || "").toLowerCase().includes("row-level security")) {
     return "No tenés permiso para hacer esta acción.";
   }
