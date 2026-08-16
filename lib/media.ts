@@ -67,3 +67,48 @@ export async function uploadComprobante(file: File, businessId: string): Promise
   const { data } = sb.storage.from("business-media").getPublicUrl(path);
   return data.publicUrl;
 }
+
+export const REEL_MAX_SECONDS = 15;
+export const REEL_MAX_MB = 35;
+
+// Lee la duración real del video antes de subir -- sin esto, un archivo
+// de 2 minutos se sube entero (pesado, lento, y rompe el formato "reel
+// corto") y recién se sabe que está mal cuando ya se gastó el ancho de
+// banda. No se recomprime en el celu (a diferencia de las fotos): la
+// compresión de video en el navegador es pesada y poco confiable en
+// equipos de gama baja, así que el tope está en duración + tamaño de
+// archivo, no en procesar el video.
+export function readVideoDuration(file: File): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement("video");
+    video.preload = "metadata";
+    video.onloadedmetadata = () => {
+      URL.revokeObjectURL(video.src);
+      resolve(video.duration);
+    };
+    video.onerror = () => reject(new Error("No se pudo leer el video"));
+    video.src = URL.createObjectURL(file);
+  });
+}
+
+export async function uploadReelVideo(file: File, businessId: string): Promise<string> {
+  const sb = supabase();
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) throw new Error("No estás logueado");
+  if (file.size > REEL_MAX_MB * 1024 * 1024) {
+    throw new Error(`El video pesa demasiado (máx. ${REEL_MAX_MB}MB). Grabá uno más corto.`);
+  }
+  const duration = await readVideoDuration(file);
+  if (duration > REEL_MAX_SECONDS + 0.5) {
+    throw new Error(`El video dura ${Math.round(duration)}s. El máximo es ${REEL_MAX_SECONDS}s -- recortalo antes de subir.`);
+  }
+  const ext = (file.name.split(".").pop() || "mp4").toLowerCase();
+  const path = `${user.id}/${businessId}/reels/reel-${Date.now()}.${ext}`;
+  const { error } = await sb.storage.from("business-media").upload(path, file, {
+    contentType: file.type || "video/mp4",
+    upsert: false,
+  });
+  if (error) throw error;
+  const { data } = sb.storage.from("business-media").getPublicUrl(path);
+  return data.publicUrl;
+}

@@ -14,6 +14,7 @@ const GROUPS: { title: string; items: { href: string; label: string }[] }[] = [
       { href: "/dashboard/nuevo", label: "➕ Nuevo Negocio" },
       { href: "/dashboard/productos", label: "🛍️ Productos" },
       { href: "/dashboard/historias", label: "📸 Historia 24h" },
+      { href: "/dashboard/reels", label: "🎬 Reels" },
       { href: "/dashboard/en-vivo", label: "🔴 En Vivo" },
       { href: "/dashboard/muro", label: "📌 Muro" },
       { href: "/dashboard/asistente", label: "🤖 Asistente" },

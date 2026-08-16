@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Search, Flame, Newspaper, Trophy, Map, User } from "lucide-react";
 import { useUnreadMessages } from "@/lib/hooks/use-unread-messages";
+import { useNewOffersToday } from "@/lib/hooks/use-new-offers-today";
 
 const ITEMS = [
   { href: "/", label: "Inicio", icon: Home },
@@ -19,6 +20,8 @@ export default function BottomNav() {
   // Se muestra como badge sobre "Perfil" ya que no hay un ítem dedicado
   // a Mensajes en la nav de 7 accesos que se pidió conservar.
   const unread = useUnreadMessages();
+  // Ofertas activas publicadas hoy, dato real -- no requiere login.
+  const nuevasHoy = useNewOffersToday();
 
   return (
     <nav aria-label="Navegación principal"
@@ -40,6 +43,14 @@ export default function BottomNav() {
                     className="absolute -right-1.5 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-red-500 px-0.5 text-[8px] font-black leading-none text-white"
                   >
                     {unread > 9 ? "9+" : unread}
+                  </span>
+                )}
+                {item.href === "/promociones" && nuevasHoy > 0 && (
+                  <span
+                    aria-label={`${nuevasHoy} ofertas nuevas hoy`}
+                    className="absolute -right-1.5 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-0.5 text-[8px] font-black leading-none text-white"
+                  >
+                    {nuevasHoy > 9 ? "9+" : nuevasHoy}
                   </span>
                 )}
               </span>

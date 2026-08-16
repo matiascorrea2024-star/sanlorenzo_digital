@@ -53,6 +53,7 @@ export default function Header() {
   const navItems = [
     { href: "/negocios", label: "Negocios" },
     { href: "/promociones", label: "Ofertas" },
+    { href: "/reels", label: "Reels" },
     { href: "/feed", label: "Muro" },
     { href: "/ranking", label: "Ranking" },
     { href: "/mapa", label: "Mapa" },
@@ -117,6 +118,7 @@ export default function Header() {
                     <p className="px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">🏪 Mi comercio</p>
                     <Link href="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-orange-300 hover:bg-orange-500/10">Mis negocios</Link>
                     <Link href="/dashboard/ofertas/nueva" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Nueva oferta</Link>
+                    <Link href="/dashboard/reels/nueva" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Nuevo reel</Link>
                     <Link href="/dashboard/analytics" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Estadísticas</Link>
 
                     <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">🎯 Mi actividad</p>

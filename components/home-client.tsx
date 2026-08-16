@@ -6,6 +6,9 @@ import { ArrowRight, MessageCircle, Search, Store } from "lucide-react";
 import Hero from "@/components/home/hero";
 import OffersTicker from "@/components/home/offers-ticker";
 import LiveNow from "@/components/home/live-now";
+import Stories from "@/components/home/stories";
+import ReelsStrip from "@/components/home/reels-strip";
+import NewThisWeek from "@/components/home/new-this-week";
 import Featured from "@/components/home/featured";
 import OfferCard from "@/components/ui/offer-card";
 import SectionTitle from "@/components/ui/section-title";
@@ -117,6 +120,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         seedNegocios={initial}
       />
       <OffersTicker />
+      <Stories />
 
       {/* Color que respira debajo del hero: aurora muy sutil en loop
           lento (solo opacity), detrás de todas las secciones nuevas. */}
@@ -126,6 +130,8 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         </div>
         <div className="relative z-10">
       <LiveNow />
+      <ReelsStrip />
+      <NewThisWeek />
       {/* ===== HOY EN SAN LORENZO ===== */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
         <SectionTitle

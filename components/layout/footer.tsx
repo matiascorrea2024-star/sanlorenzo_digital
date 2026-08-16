@@ -20,6 +20,7 @@ const COLS = [
   {
     t: "👥 Comunidad",
     links: [
+      { href: "/reels", l: "Reels" },
       { href: "/feed", l: "Muro en vivo" },
       { href: "/ranking", l: "Ranking de negocios" },
       { href: "/vecinos", l: "Ranking de vecinos" },
