@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Heart, Flame, Sparkles, PartyPopper, Store, Package, Megaphone, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -142,8 +143,9 @@ export default function MuroPage() {
                 <h2 className="mt-3 text-lg font-black">{p.title}</h2>
                 {p.body && <p className="mt-1 text-sm text-white/70 leading-relaxed">{p.body}</p>}
                 {p.image_url && (
-                  <img src={p.image_url} alt={p.title} loading="lazy"
-                    className="mt-3 max-h-72 w-full rounded-xl object-cover" />
+                  <div className="relative mt-3 h-72 w-full overflow-hidden rounded-xl">
+                    <Image src={p.image_url} alt={p.title} fill sizes="(max-width: 768px) 100vw, 640px" quality={88} className="object-cover" />
+                  </div>
                 )}
 
                 {/* Acciones */}

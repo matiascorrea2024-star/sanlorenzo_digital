@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Radio, Clock, Users, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
@@ -34,7 +35,8 @@ export default function EnVivoClient() {
       <div className="overflow-hidden rounded-[1.1rem] border border-white/[.06] bg-gradient-to-b from-white/[.05] to-white/[.015]">
         <div className="relative h-36 w-full overflow-hidden bg-gradient-to-br from-red-500/20 to-orange-500/20">
           {s.cover_url ? (
-            <img src={s.cover_url} alt={s.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+            <Image src={s.cover_url} alt={s.title} fill sizes="(max-width: 768px) 50vw, 320px" quality={88}
+              className="object-cover transition duration-500 group-hover:scale-110" />
           ) : (
             <div className="flex h-full w-full items-center justify-center"><Radio className="h-8 w-8 text-white/25" /></div>
           )}

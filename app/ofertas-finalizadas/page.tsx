@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import PageHero from "@/components/ui/page-hero";
 import NotifyMeButton from "@/components/offers/notify-me-button";
@@ -65,9 +66,11 @@ export default function OfertasFinalizadasPage() {
 
       <div className="mx-auto max-w-6xl px-4">
         {!loading && pasadas.length === 0 ? (
-          <div className="sld-card rounded-3xl p-10 text-center">
-            <p className="mt-3 text-xl font-black">Todavía no hay ofertas finalizadas</p>
-            <p className="mt-2 text-sm text-white/60">Las promociones vencidas van a aparecer acá cuando pasen su fecha.</p>
+          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-10 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <p className="text-xl font-black">Todavía no hay ofertas finalizadas</p>
+              <p className="mt-2 text-sm text-white/60">Las promociones vencidas van a aparecer acá cuando pasen su fecha.</p>
+            </div>
           </div>
         ) : loading ? (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -76,10 +79,11 @@ export default function OfertasFinalizadasPage() {
         ) : (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {pasadas.map((p) => (
-              <Link key={p.id} href={"/negocio/" + p.slug} className="group overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[.07] to-white/[.03] opacity-85 transition hover:opacity-100 hover:border-orange-400/60 hover:shadow-xl hover:shadow-orange-500/10">
+              <Link key={p.id} href={"/negocio/" + p.slug} className="group overflow-hidden rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 opacity-85 transition hover:opacity-100">
+                <div className="overflow-hidden rounded-[1.1rem] border border-white/[.05] bg-black/10 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/40">
                 <div className="relative h-28 overflow-hidden grayscale group-hover:grayscale-0 transition duration-500">
                   {p.img ? (
-                    <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <Image src={p.img} alt={p.title} fill sizes="(max-width: 768px) 50vw, 280px" quality={80} className="object-cover transition-transform duration-500 group-hover:scale-110" />
                   ) : (
                     <CategoryCover category={p.cat} seed={p.id} className="h-full w-full transition-transform duration-500 group-hover:scale-110" />
                   )}
@@ -107,23 +111,26 @@ export default function OfertasFinalizadasPage() {
                     )}
                   </div>
                 </div>
+                </div>
               </Link>
             ))}
           </div>
         )}
 
-        <div className="mt-10 overflow-hidden rounded-3xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-8 text-center">
+        <div className="mt-10 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="overflow-hidden rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <div className="mx-auto max-w-xl">
             <h2 className="text-xl font-black">No te pierdas la próxima</h2>
             <p className="mt-2 text-sm text-white/70">Entrá a tus negocios favoritos y seguilos. Las ofertas nuevas aparecen todos los días.</p>
             <div className="mt-5 flex flex-wrap justify-center gap-3">
-              <Link href="/negocios" className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90 transition">
+              <Link href="/negocios" className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90 transition">
                 Explorar negocios →
               </Link>
-              <Link href="/ranking" className="rounded-xl border border-white/20 px-5 py-2.5 text-sm font-bold hover:bg-white/5 transition">
+              <Link href="/ranking" className="rounded-full border border-white/20 px-5 py-2.5 text-sm font-bold hover:bg-white/5 transition">
                 Ver ranking
               </Link>
             </div>
+          </div>
           </div>
         </div>
       </div>

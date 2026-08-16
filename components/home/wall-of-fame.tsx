@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Trophy } from "lucide-react";
 import { rangoDe, gemaDe } from "@/lib/ranks";
 
@@ -32,7 +33,7 @@ export default function WallOfFame({ initialTop }: { initialTop: Top[] }) {
               <div className="relative flex h-16 w-16 items-center justify-center rounded-full border-2"
                 style={{ borderColor: r.accent, boxShadow: `0 0 16px ${r.accent}55` }}>
                 {b.logo_url ? (
-                  <img src={b.logo_url} alt={b.name} className="h-full w-full rounded-full object-cover" />
+                  <Image src={b.logo_url} alt={b.name} fill sizes="64px" quality={90} className="rounded-full object-cover" />
                 ) : (
                   <span className="text-lg font-black" style={{ color: r.accent }}>{b.name[0]}</span>
                 )}

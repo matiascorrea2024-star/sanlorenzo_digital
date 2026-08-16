@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Star, CheckCircle2, Camera, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { uploadReviewPhoto } from "@/lib/media";
@@ -204,8 +205,8 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
             {r.photos?.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
                 {r.photos.map((url: string, i: number) => (
-                  <button key={i} onClick={() => setLightbox(url)} className="h-20 w-20 overflow-hidden rounded-xl border border-white/10">
-                    <img src={url} alt="Foto de la reseña" className="h-full w-full object-cover" />
+                  <button key={i} onClick={() => setLightbox(url)} className="relative h-20 w-20 overflow-hidden rounded-xl border border-white/10">
+                    <Image src={url} alt="Foto de la reseña" fill sizes="80px" quality={85} className="object-cover" />
                   </button>
                 ))}
               </div>
