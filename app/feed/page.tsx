@@ -2,13 +2,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import PageHero from "@/components/ui/page-hero";
-import { Heart, Flame, Sparkles, PartyPopper, Store, Package, Megaphone, Share2, ArrowRight } from "lucide-react";
+import { Heart, Flame, Sparkles, PartyPopper, Store, Package, Megaphone, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAllBusinesses } from "@/lib/use-businesses";
-import Avatar from "@/components/ui/avatar";
 import RankedAvatar from "@/components/ui/ranked-avatar";
-import Badge from "@/components/ui/badge";
 
 const TIPOS: Record<string, { icon: any; label: string; color: string }> = {
   oferta: { icon: Flame, label: "Oferta", color: "text-red-400 bg-red-500/15 border-red-400/40" },
@@ -125,7 +122,8 @@ export default function MuroPage() {
             const t = TIPOS[p.type] || TIPOS.anuncio;
             const isLiked = !!liked[p.id];
             return (
-              <article key={p.id} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <article key={p.id} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-orange-400/20">
+              <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                 {/* Header del post */}
                 <div className="flex items-center gap-3">
                   <RankedAvatar slug={p.business_slug} name={p.business_name} size={44} />
@@ -160,6 +158,7 @@ export default function MuroPage() {
                     Ver negocio <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
+              </div>
               </article>
             );
           })}
