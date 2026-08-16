@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import HowItWorks from "@/components/ui/how-it-works";
 
 export default function CuponesPage() {
   const params = useParams();
@@ -89,9 +90,15 @@ export default function CuponesPage() {
         </Link>
 
         <h1 className="text-3xl font-black mb-2">Cupones de la Oferta</h1>
-        {offer && <p className="text-white/60 mb-8">{offer.title}</p>}
+        {offer && <p className="text-white/60 mb-4">{offer.title}</p>}
 
-        <div className="rounded-2xl border border-orange-400/30 bg-orange-500/10 p-6 mb-8">
+        <HowItWorks steps={[
+          "Cuando un cliente genera un cupón desde tu oferta, aparece acá como \"Generado\".",
+          "Cuando venga al local, pedile el código y validalo arriba para marcarlo \"Canjeado\".",
+          "Los que nadie usó antes de la fecha límite pasan a \"Vencido\" solos.",
+        ]} />
+
+        <div className="mt-4 rounded-2xl border border-orange-400/30 bg-orange-500/10 p-6 mb-8">
           <h2 className="text-xl font-black mb-4">Validar Cupón</h2>
           <div className="flex gap-3">
             <input

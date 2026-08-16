@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import HowItWorks from "@/components/ui/how-it-works";
 
 export default function MarketingPage() {
   const params = useParams();
@@ -100,9 +101,15 @@ export default function MarketingPage() {
         </Link>
 
         <h1 className="text-3xl font-black mb-2">Marketing de la Oferta</h1>
-        <p className="text-white/60 mb-8">{offer.title}</p>
+        <p className="text-white/60 mb-4">{offer.title}</p>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
+        <HowItWorks steps={[
+          "Cada link es igual a tu oferta, pero distinto según dónde lo compartas.",
+          "Así sabés si te llegan más clientes por Instagram o por WhatsApp.",
+          "Copiá el texto de la story o del mensaje y pegalo directo, sin editar nada.",
+        ]} />
+
+        <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
           <h2 className="text-xl font-black mb-4">Links Trackeables</h2>
           <p className="text-sm text-white/60 mb-4">
             Usá estos links para saber desde dónde vienen tus clientes

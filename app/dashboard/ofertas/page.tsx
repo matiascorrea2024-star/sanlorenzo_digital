@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
+import HowItWorks from "@/components/ui/how-it-works";
 import { useToast } from "@/components/ui/toast";
 import { friendlyError } from "@/lib/friendly-error";
 
@@ -106,6 +107,12 @@ export default function OfertasPage() {
         </div>
 
         <DashboardNav />
+
+        <HowItWorks steps={[
+          "Publicá una oferta y aparece al toque en la home, el radar y el mapa.",
+          "\"Activar/Desactivar\" la saca y la vuelve a poner sin borrarla.",
+          "La \"oferta bomba\" es tu promo estrella del día -- se destaca especialmente entre 18 y 20hs, solo podés tener una activa por negocio a la vez.",
+        ]} />
 
         {bienvenida && (
           <div className="mb-6 rounded-2xl border border-green-400/40 bg-green-500/10 p-5 text-center">

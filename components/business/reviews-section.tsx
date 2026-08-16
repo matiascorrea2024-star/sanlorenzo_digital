@@ -44,6 +44,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
   const [error, setError] = useState("");
   const [fotos, setFotos] = useState<File[]>([]);
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [mostrar, setMostrar] = useState(10);
 
   useEffect(() => {
     if (!lightbox) return;
@@ -180,7 +181,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
         {reviews.length === 0 && (
           <p className="text-sm text-white/40">Todavía no hay reseñas escritas. ¡Sé el primero!</p>
         )}
-        {reviews.map(r => (
+        {reviews.slice(0, mostrar).map(r => (
           <div key={r.id} className="rounded-2xl border border-white/10 bg-white/5 p-5">
             <div className="flex items-center gap-3">
               <Avatar name={r.reviewer_name} size={40} />
@@ -217,6 +218,12 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
             )}
           </div>
         ))}
+        {reviews.length > mostrar && (
+          <button onClick={() => setMostrar(m => m + 10)}
+            className="w-full rounded-xl border border-white/15 py-2.5 text-sm font-bold text-white/60 hover:bg-white/5">
+            Ver más reseñas ({reviews.length - mostrar} más)
+          </button>
+        )}
       </div>
 
       {lightbox && (

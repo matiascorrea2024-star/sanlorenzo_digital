@@ -23,9 +23,15 @@ export function useAllBusinesses(seed?: FullBusiness[]): FullBusiness[] {
     if (seed) return;
     (async () => {
       try {
-        const { data } = await supabase().from("businesses").select("*");
+        // Mismo criterio de visibilidad pública que la home/ranking/mapa
+        // (activo=true + status verificado/reclamado) -- aplicado en la
+        // query, no después: antes esto bajaba TODOS los negocios
+        // (incluidos ocultos/rechazados por un admin) al navegador y
+        // recién los filtraba en JS.
+        const { data } = await supabase().from("businesses").select("*")
+          .eq("activo", true).in("status", ["verificado", "reclamado"]);
         if (!data) return;
-        const reales: FullBusiness[] = (data as Array<Record<string, unknown>>).filter((b) => b.activo !== false).map((b) => ({
+        const reales: FullBusiness[] = (data as Array<Record<string, unknown>>).map((b) => ({
           id: String(b.id),
           slug: String(b.slug),
           name: String(b.name),

@@ -6,6 +6,7 @@ import LevelBadge from "@/components/business/level-badge";
 import ImageUploader from "@/components/upload/image-uploader";
 import ReviewModeration from "@/components/business/review-moderation";
 import LocationPicker from "@/components/business/location-picker";
+import HowItWorks from "@/components/ui/how-it-works";
 
 type Item = { name: string; price?: string; note?: string; photo?: string };
 
@@ -145,6 +146,14 @@ export default function Editar() {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-black">Editar {b.name}</h1>
           <a href={`/negocio/${b.slug}`} target="_blank" className="rounded-xl border border-orange-400/30 bg-orange-500/10 px-4 py-2.5 text-sm font-bold text-orange-300 hover:bg-orange-500/20">👁️ Ver en vivo</a>
+        </div>
+
+        <div className="mt-4">
+          <HowItWorks steps={[
+            "Completá fotos y datos básicos primero -- es lo que ven tus clientes al entrar.",
+            "Cargá productos y promociones cuando quieras, podés volver después.",
+            "Al final tenés tu QR para imprimir y pegar en el local.",
+          ]} />
         </div>
 
         {/* 📸 FOTOS DEL NEGOCIO */}

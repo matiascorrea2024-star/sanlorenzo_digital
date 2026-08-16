@@ -15,15 +15,14 @@ const GROUPS: { title: string; items: { href: string; label: string }[] }[] = [
       { href: "/dashboard/productos", label: "🛍️ Productos" },
       { href: "/dashboard/historias", label: "📸 Historia 24h" },
       { href: "/dashboard/en-vivo", label: "🔴 En Vivo" },
+      { href: "/dashboard/muro", label: "📌 Muro" },
+      { href: "/dashboard/asistente", label: "🤖 Asistente" },
     ],
-  },
-  {
-    title: "Analizar",
-    items: [{ href: "/dashboard/analytics", label: "📊 Analytics" }],
   },
   {
     title: "Relacionar",
     items: [
+      { href: "/dashboard/analytics", label: "📊 Analytics" },
       { href: "/dashboard/mensajes", label: "💬 Mensajes" },
       { href: "/dashboard/resenas", label: "⭐ Reseñas" },
       { href: "/dashboard/seguidores", label: "❤️ Seguidores" },
@@ -34,7 +33,6 @@ const GROUPS: { title: string; items: { href: string; label: string }[] }[] = [
     title: "Configurar",
     items: [
       { href: "/dashboard/planes", label: "💳 Plan" },
-      { href: "/dashboard/asistente", label: "🤖 Asistente" },
     ],
   },
 ];

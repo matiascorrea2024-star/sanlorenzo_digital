@@ -8,6 +8,7 @@ import { PLANES } from "@/lib/plans";
 import { usePlatformSetting } from "@/lib/hooks/use-platform-settings";
 import { uploadComprobante } from "@/lib/media";
 import { friendlyError } from "@/lib/friendly-error";
+import HowItWorks from "@/components/ui/how-it-works";
 
 const CARDS = [
   { k: "gratis", icon: Zap, precio: "$0", features: ["Perfil completo", "3 ofertas activas", "5 productos", "Chat con clientes"] },
@@ -114,6 +115,14 @@ export default function PlanesDashboard() {
             <span className="text-white/40"> · vence el {new Date(negocio.plan_expira).toLocaleDateString("es-AR")}</span>
           )}
         </p>
+
+        <div className="mt-4">
+          <HowItWorks steps={[
+            "Elegí el plan y subí el comprobante de tu transferencia.",
+            "Un admin lo revisa (normalmente el mismo día) y te activa el plan.",
+            "Si hay una campaña gratuita disponible, la reclamás con un botón, sin pagar nada.",
+          ]} />
+        </div>
 
         {campanas.filter((c) => !misReclamos.includes(c.id)).map((c) => (
           <div key={c.id} className="mt-6 flex flex-col items-start justify-between gap-3 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-5 sm:flex-row sm:items-center">

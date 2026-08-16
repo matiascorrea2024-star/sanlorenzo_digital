@@ -20,10 +20,14 @@ export default function VecinosPage() {
       // nadie escribe ahí, las reseñas reales van a business_reviews),
       // así que casi ningún vecino mostraba su nombre real. La fuente
       // correcta de nombre es user_profiles.display_name.
+      // Solo se necesitan ~30 vecinos distintos (ver slice más abajo) --
+      // traer las 3 tablas enteras crece para siempre con la actividad
+      // de toda la plataforma. Ordenado por más reciente + un límite
+      // generoso alcanza de sobra para juntar 30 ids distintos.
       const [f, r, a] = await Promise.all([
-        sb.from("followers").select("user_id"),
-        sb.from("business_reviews").select("user_id"),
-        sb.from("user_activity").select("user_id"),
+        sb.from("followers").select("user_id").order("created_at", { ascending: false }).limit(300),
+        sb.from("business_reviews").select("user_id").order("created_at", { ascending: false }).limit(300),
+        sb.from("user_activity").select("user_id").order("created_at", { ascending: false }).limit(300),
       ]);
       const ids = [...new Set([
         ...(f.data || []).map((x: any) => x.user_id),

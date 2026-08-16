@@ -41,7 +41,11 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
         // page_views_public (no page_views): la tabla real solo la puede
         // leer el dueño/admin (protege IPs) -- por eso esta pestaña de
         // crecimiento siempre le devolvía vacío a un visitante común.
-        supabase().from("page_views_public").select("business_id, viewed_at"),
+        // Límite defensivo: esto se agrega client-side en JS, así que si
+        // algún día supera esto en serio conviene mover el conteo a una
+        // vista/RPC agregada en Postgres en vez de bajar cada fila.
+        supabase().from("page_views_public").select("business_id, viewed_at")
+          .order("viewed_at", { ascending: false }).limit(20000),
         // Conteo agregado de favoritos: se lee de businesses.favorites_count
         // (mantenido por trigger), no de un SELECT abierto sobre favorites
         // -- esa tabla es privada por diseño (RLS: solo tus propios favoritos).
