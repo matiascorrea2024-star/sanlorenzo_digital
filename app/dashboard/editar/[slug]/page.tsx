@@ -2,8 +2,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { PLAN_PREMIUM_PRICE } from "@/lib/config";
-import { usePlatformSetting } from "@/lib/hooks/use-platform-settings";
 import LevelBadge from "@/components/business/level-badge";
 import ImageUploader from "@/components/upload/image-uploader";
 import ReviewModeration from "@/components/business/review-moderation";
@@ -14,7 +12,6 @@ type Item = { name: string; price?: string; note?: string; photo?: string };
 export default function Editar() {
   const { slug } = useParams();
   const router = useRouter();
-  const platformWhatsapp = usePlatformSetting("whatsapp_contacto");
   const [b, setB] = useState<any>(null);
   const [denied, setDenied] = useState(false);
   const [form, setForm] = useState<any>(null);
@@ -326,36 +323,21 @@ export default function Editar() {
         
         
         
-        {/* 💰 Premium */}
+        {/* 💰 Plan -- los precios y beneficios reales viven en un solo
+            lugar (/dashboard/planes), para no repetirlos acá desactualizados. */}
         <section className="mt-6 rounded-2xl border border-yellow-400/40 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 p-6">
-          <h2 className="mb-2 font-black text-yellow-300">Plan Premium — ${PLAN_PREMIUM_PRICE.toLocaleString("es-AR")}/mes</h2>
           {b.destacado ? (
-            <p className="text-sm text-green-300 font-bold">🎉 Ya sos Premium: tu negocio aparece destacado en la home con badge ⭐.</p>
+            <p className="text-sm font-bold text-green-300">🎉 Tu negocio está en Destacado Semanal: aparece con prioridad en la home y el mapa.</p>
           ) : (
             <>
-              <ul className="text-sm text-white/70 space-y-1 mb-4">
-                <li>⭐ Destacado en la home con badge PREMIUM</li>
-                <li>🔥 Ofertas ilimitadas en La Gran Barata</li>
-                <li>📊 Estadísticas completas de visitas</li>
-                <li> Prioridad en el directorio y el mapa</li>
-              </ul>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href="/dashboard/planes"
-                  className="inline-block rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 px-5 py-2.5 text-sm font-black text-black hover:opacity-90"
-                >
-                  ⭐ Activar Premium
-                </a>
-                {platformWhatsapp && (
-                  <a
-                    href={`https://wa.me/${platformWhatsapp}?text=${encodeURIComponent("¡Hola! Tengo una duda sobre el Plan Premium para mi negocio: " + b.name)}`}
-                    target="_blank"
-                    className="inline-block rounded-xl border border-white/20 px-5 py-2.5 text-sm font-bold text-white/80 hover:bg-white/10"
-                  >
-                    💬 Consultar por WhatsApp
-                  </a>
-                )}
-              </div>
+              <h2 className="mb-1 font-black text-yellow-300">¿Querés más visibilidad?</h2>
+              <p className="mb-4 text-sm text-white/70">Mirá los planes pagos: más ofertas, estadísticas, catálogo destacado y posición fija en la home.</p>
+              <a
+                href="/dashboard/planes"
+                className="inline-block rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 px-5 py-2.5 text-sm font-black text-black hover:opacity-90"
+              >
+                Ver planes y precios →
+              </a>
             </>
           )}
         </section>

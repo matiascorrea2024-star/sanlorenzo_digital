@@ -8,11 +8,16 @@ import CitySwitcher from "@/components/layout/city-switcher";
 import AuthButton from "./auth-button";
 import { supabase } from "@/lib/supabase";
 import { useUnreadMessages } from "@/lib/hooks/use-unread-messages";
+import { useAuth } from "@/components/providers/auth-provider";
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  // useAuth() está suscripto a onAuthStateChange (components/providers/auth-provider.tsx),
+  // así que el header se actualiza solo apenas cambia la sesión -- antes
+  // esto se resolvía con un getUser() de una sola vez que dejaba el menú
+  // "logueado" desactualizado hasta que el usuario refrescaba a mano.
+  const { user } = useAuth();
   const [role, setRole] = useState("user");
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -20,15 +25,15 @@ export default function Header() {
   const unread = useUnreadMessages();
 
   useEffect(() => {
+    if (!user) { setRole("user"); return; }
     (async () => {
-      const { data: { user } } = await supabase().auth.getUser();
-      setUser(user);
-      if (user) {
-        const { data: prof } = await supabase().from("user_profiles")
-          .select("role").eq("user_id", user.id).maybeSingle();
-        setRole(prof?.role || "user");
-      }
+      const { data: prof } = await supabase().from("user_profiles")
+        .select("role").eq("user_id", user.id).maybeSingle();
+      setRole(prof?.role || "user");
     })();
+  }, [user]);
+
+  useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setOpen(false);
     };
