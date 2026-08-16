@@ -134,7 +134,8 @@ export default function CargarBulkPage() {
 
         {/* Ciudad destino -- sin esto, antes se cargaban TODOS los negocios
             en San Lorenzo sin importar la ciudad real (bug corregido). */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 mb-6">
+        <div className="mb-6 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <p className="font-bold mb-2">Ciudad de estos negocios</p>
           <select value={ciudadId} onChange={(e) => setCiudadId(e.target.value)}
             className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm outline-none focus:border-orange-400">
@@ -145,37 +146,41 @@ export default function CargarBulkPage() {
             <p className="mt-2 text-xs text-white/40">No hay ciudades creadas todavía -- creá una desde la pestaña &quot;Ciudades&quot; del panel admin.</p>
           )}
         </div>
+        </div>
 
         {/* Plantilla */}
-        <div className="rounded-2xl border border-sky-400/30 bg-sky-500/10 p-5 mb-6">
-          <div className="flex items-center gap-3">
+        <div className="mb-6 rounded-[1.5rem] border border-sky-400/25 bg-sky-500/[.06] p-1.5">
+          <div className="flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <Download className="h-6 w-6 text-sky-400" />
             <div className="flex-1">
               <p className="font-bold">1. Descargá la plantilla CSV</p>
               <p className="text-sm text-white/60">Completala con los negocios reales de San Lorenzo</p>
             </div>
             <button onClick={descargarPlantilla}
-              className="rounded-xl bg-sky-500/20 border border-sky-400/40 px-4 py-2 text-xs font-black text-sky-200 hover:bg-sky-500/30">
+              className="rounded-full bg-sky-500/20 border border-sky-400/40 px-4 py-2 text-xs font-black text-sky-200 hover:bg-sky-500/30">
               Descargar CSV
             </button>
           </div>
         </div>
 
         {/* CSV input */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 mb-6">
+        <div className="mb-6 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <p className="font-bold mb-2">2. Pegá el CSV acá</p>
           <textarea value={csv} onChange={(e) => setCsv(e.target.value)} rows={10}
             placeholder="nombre,categoria,direccion,whatsapp,descripcion,horario\nPizzería X,gastronomia,Av. San Martín 100,5493415555555,Descripción,Horario"
             className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3 font-mono text-xs outline-none focus:border-orange-400" />
           <button onClick={parsear} disabled={!csv.trim()}
-            className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+            className="mt-3 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">
             Previsualizar ({preview.length} negocios)
           </button>
+        </div>
         </div>
 
         {/* Preview */}
         {preview.length > 0 && (
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 mb-6">
+          <div className="mb-6 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <p className="font-bold mb-3">3. Revisá antes de cargar ({preview.length} negocios)</p>
             <div className="max-h-64 overflow-y-auto space-y-2">
               {preview.map((b, i) => (
@@ -189,33 +194,36 @@ export default function CargarBulkPage() {
               ))}
             </div>
             <button onClick={cargar} disabled={loading || !ciudadId}
-              className="mt-4 w-full rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 py-3 text-sm font-black disabled:opacity-50">
+              className="mt-4 w-full rounded-full bg-gradient-to-r from-green-500 to-emerald-500 py-3 text-sm font-black disabled:opacity-50">
               {loading ? "Cargando..." : `✅ Cargar ${preview.length} negocios`}
             </button>
             {!ciudadId && <p className="mt-2 text-center text-xs text-red-300">Elegí una ciudad arriba antes de cargar.</p>}
+          </div>
           </div>
         )}
 
         {/* Resultado */}
         {result && (
-          <div className="rounded-2xl border border-green-400/40 bg-green-500/10 p-5">
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="h-8 w-8 text-green-400" />
-              <div>
-                <p className="text-xl font-black">Carga completada</p>
-                <p className="text-sm text-white/70">
-                  ✅ {result.ok} exitosos · ❌ {result.fail} fallidos
-                </p>
+          <div className="rounded-[1.5rem] border border-green-400/30 bg-green-500/[.06] p-1.5">
+            <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="flex items-center gap-3">
+                <CheckCircle2 className="h-8 w-8 text-green-400" />
+                <div>
+                  <p className="text-xl font-black">Carga completada</p>
+                  <p className="text-sm text-white/70">
+                    ✅ {result.ok} exitosos · ❌ {result.fail} fallidos
+                  </p>
+                </div>
               </div>
+              {result.errores.length > 0 && (
+                <div className="mt-4 rounded-xl bg-red-500/10 border border-red-400/30 p-3">
+                  <p className="text-xs font-bold text-red-300 mb-1">Errores:</p>
+                  {result.errores.slice(0, 5).map((e, i) => (
+                    <p key={i} className="text-xs text-white/60">• {e}</p>
+                  ))}
+                </div>
+              )}
             </div>
-            {result.errores.length > 0 && (
-              <div className="mt-4 rounded-xl bg-red-500/10 border border-red-400/30 p-3">
-                <p className="text-xs font-bold text-red-300 mb-1">Errores:</p>
-                {result.errores.slice(0, 5).map((e, i) => (
-                  <p key={i} className="text-xs text-white/60">• {e}</p>
-                ))}
-              </div>
-            )}
           </div>
         )}
 
