@@ -6,9 +6,12 @@ import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function OfertasPage() {
   const { user } = useAuth();
+  const { show } = useToast();
   const searchParams = useSearchParams();
   const bienvenida = searchParams.get("bienvenida") === "1";
   const [offers, setOffers] = useState<any[]>([]);
@@ -52,23 +55,22 @@ export default function OfertasPage() {
   }, [user]);
 
   const toggleOffer = async (offerId: string, active: boolean) => {
-    try {
-      await supabase()
-        .from("offers")
-        .update({ active: !active })
-        .eq("id", offerId);
+    const { error } = await supabase()
+      .from("offers")
+      .update({ active: !active })
+      .eq("id", offerId);
 
-      setOffers(offers.map(o => o.id === offerId ? { ...o, active: !active } : o));
-    } catch (error) {
-      console.error("Error actualizando oferta:", error);
-    }
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo actualizar la oferta.")}`, "error"); return; }
+    setOffers(offers.map(o => o.id === offerId ? { ...o, active: !active } : o));
   };
 
   const marcarBomba = async (offerId: string, bizId: string) => {
     const sb = supabase();
     // Solo una oferta bomba activa por negocio a la vez.
-    await sb.from("offers").update({ es_bomba: false }).eq("business_id", bizId).eq("es_bomba", true);
-    await sb.from("offers").update({ es_bomba: true }).eq("id", offerId);
+    const { error: e1 } = await sb.from("offers").update({ es_bomba: false }).eq("business_id", bizId).eq("es_bomba", true);
+    if (e1) { show(`❌ ${friendlyError(e1, "No se pudo marcar como oferta bomba.")}`, "error"); return; }
+    const { error: e2 } = await sb.from("offers").update({ es_bomba: true }).eq("id", offerId);
+    if (e2) { show(`❌ ${friendlyError(e2, "No se pudo marcar como oferta bomba.")}`, "error"); return; }
     setOffers(offers.map(o => {
       if (o.id === offerId) return { ...o, es_bomba: true };
       if (o.business_id === bizId) return { ...o, es_bomba: false };
