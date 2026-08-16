@@ -48,7 +48,7 @@ export default function AdminSoportePage() {
           <ArrowLeft className="h-4 w-4" /> Volver al panel
         </Link>
         <h1 className="mt-3 mb-6 text-3xl font-black">Soporte con {negocio.name}</h1>
-        {adminId && <Chat businessId={negocio.id} ownerId={negocio.owner_id} businessName={negocio.name} businessSlug={negocio.slug} customerId={adminId} />}
+        {adminId && <Chat businessId={negocio.id} ownerId={negocio.owner_id} businessName={negocio.name} businessSlug={negocio.slug} customerId={adminId} staffId={adminId} />}
       </div>
     </main>
   );

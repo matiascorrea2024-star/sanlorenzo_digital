@@ -198,6 +198,16 @@ main img:not([class*="h-"]) {
 .blaze-flame.b2 { animation-delay: .35s; }
 .blaze-flame.b3 { animation-delay: .7s; }
 
+/* Marco de STAFF (equipo San Lorenzo Digital) -- exclusivo, no se gana
+   con puntos como el resto de los rangos. Anillo prismático girando
+   detrás del marco metálico dorado. */
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+.holo-spin {
+  animation: spinSlow 3s linear infinite;
+}
+
 @keyframes rankPulse {
   0%, 100% { opacity: 0.55; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.12); }

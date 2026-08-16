@@ -61,7 +61,7 @@ export default function SoportePage() {
             No pudimos cargar el chat de soporte. Probá de nuevo en un rato.
           </div>
         ) : (
-          <Chat businessId={negocio.id} ownerId={negocio.owner_id} businessName={admin.name} customerId={admin.id} />
+          <Chat businessId={negocio.id} ownerId={negocio.owner_id} businessName={admin.name} customerId={admin.id} staffId={admin.id} />
         )}
       </div>
     </main>

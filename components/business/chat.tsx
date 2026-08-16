@@ -3,8 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
+import AdminFrame, { AdminBadge } from "@/components/ui/admin-frame";
 
-type Props = { businessId: string; ownerId?: string; businessName?: string; businessSlug?: string; customerId?: string };
+type Props = { businessId: string; ownerId?: string; businessName?: string; businessSlug?: string; customerId?: string; staffId?: string };
 
 function dayLabel(d: string) {
   const date = new Date(d); const hoy = new Date();
@@ -14,7 +15,7 @@ function dayLabel(d: string) {
   return date.toLocaleDateString("es-AR", { day: "2-digit", month: "long" });
 }
 
-export default function Chat({ businessId, ownerId, businessName, businessSlug, customerId }: Props) {
+export default function Chat({ businessId, ownerId, businessName, businessSlug, customerId, staffId }: Props) {
   const [user, setUser] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [body, setBody] = useState("");
@@ -27,6 +28,10 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
   const isOwner = !!user && !!ownerId && user.id === ownerId;
   const activeCustomer = customerId || user?.id;
   const headerName = isOwner ? contactName : (businessName || "Negocio");
+  // Solo tiene sentido del lado del negocio: la otra punta de ESTA
+  // conversación puntual es el staff (chat de soporte reusando esta
+  // misma UI, ver lib/support.ts).
+  const otherIsStaff = isOwner && !!staffId && customerId === staffId;
 
   const markRead = async (cust: string, owner: boolean) => {
     const sb = supabase();
@@ -142,9 +147,16 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
     <section className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
       {/* HEADER tipo WhatsApp */}
       <div className="flex items-center gap-3 border-b border-white/10 bg-black/30 p-4">
-        <Avatar name={headerName} size={44} online={online} />
+        {otherIsStaff ? (
+          <AdminFrame size={44}><Avatar name={headerName} size={44} online={online} /></AdminFrame>
+        ) : (
+          <Avatar name={headerName} size={44} online={online} />
+        )}
         <div className="flex-1">
-          <p className="font-black">{headerName}</p>
+          <p className="flex items-center gap-2 font-black">
+            {headerName}
+            {otherIsStaff && <AdminBadge />}
+          </p>
           <p className={`text-xs ${online ? "text-green-400" : "text-white/40"}`}>{online ? "🟢 En línea" : isOwner ? "Cliente" : "Negocio"}</p>
         </div>
         {isOwner && (
@@ -165,10 +177,18 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
             <p className="mt-1 text-xs text-white/35">Escribí abajo para empezar la conversación.</p>
           </div>
         )}
-        {rows.map((r: any) => r.sep ? (
+        {rows.map((r: any, i: number) => r.sep ? (
           <div key={r.id} className="my-2 self-center rounded-full bg-black/40 px-3 py-1 text-[10px] font-bold text-white/50">{r.label}</div>
         ) : (
-          <div key={r.id} className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow ${r.sender_id === user.id ? "self-end rounded-br-none bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "self-start rounded-bl-none bg-white/10 text-white/90"}`}>
+          <div key={r.id} className={`flex max-w-[80%] flex-col ${r.sender_id === user.id ? "items-end self-end" : "items-start self-start"}`}>
+            {otherIsStaff && r.sender_id === staffId && (rows[i - 1]?.sender_id !== staffId || rows[i - 1]?.sep) && (
+              <div className="mb-1"><AdminBadge /></div>
+            )}
+            <div className={`rounded-2xl px-4 py-2 text-sm shadow ${
+              r.sender_id === user.id ? "rounded-br-none bg-gradient-to-r from-orange-500 to-pink-500 text-white"
+              : otherIsStaff && r.sender_id === staffId ? "rounded-bl-none border border-yellow-400/30 bg-gradient-to-br from-yellow-500/15 to-orange-500/10 text-white/90"
+              : "rounded-bl-none bg-white/10 text-white/90"
+            }`}>
             <p>{r.body}</p>
             <p className={`mt-0.5 text-right text-[10px] ${r.sender_id === user.id ? "text-white/70" : "text-white/40"}`}>
               {new Date(r.created_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
@@ -178,6 +198,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
                 </span>
               )}
             </p>
+            </div>
           </div>
         ))}
         <div ref={bottomRef} />
