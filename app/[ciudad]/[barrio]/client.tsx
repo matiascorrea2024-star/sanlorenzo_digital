@@ -99,18 +99,20 @@ export default function BarrioView() {
           Negocios en {barrio.name} ({negocios.length})
         </h2>
         {negocios.length === 0 ? (
-          <div className="sld-card rounded-2xl px-6 py-10 text-center">
-            <Sparkles className="mx-auto mb-3 h-7 w-7 text-orange-400" />
-            <p className="font-bold">Todavía no hay negocios en {barrio.name}</p>
-            <p className="mx-auto mt-1 max-w-sm text-sm text-white/50">
-              Si tenés un comercio en este barrio, podés ser el primero en aparecer acá.
-            </p>
-            <Link
-              href="/registro"
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-bold text-white"
-            >
-              Sumar mi negocio <ArrowRight className="h-4 w-4" />
-            </Link>
+          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 px-6 py-10 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Sparkles className="mx-auto mb-3 h-7 w-7 text-orange-400" />
+              <p className="font-bold">Todavía no hay negocios en {barrio.name}</p>
+              <p className="mx-auto mt-1 max-w-sm text-sm text-white/50">
+                Si tenés un comercio en este barrio, podés ser el primero en aparecer acá.
+              </p>
+              <Link
+                href="/registro"
+                className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-bold text-white"
+              >
+                Sumar mi negocio <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

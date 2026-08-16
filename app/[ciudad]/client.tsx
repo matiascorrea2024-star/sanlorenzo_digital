@@ -121,9 +121,11 @@ export default function CiudadView() {
             <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
               {barrios.map(b => (
                 <Link key={b.id} href={`/${ciudadSlug}/${b.slug}`}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-orange-400/50 transition">
-                  <p className="font-bold">{b.name}</p>
-                  <p className="text-xs text-white/50">Ver negocios →</p>
+                  className="group rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
+                  <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+                    <p className="font-bold">{b.name}</p>
+                    <p className="text-xs text-white/50">Ver negocios →</p>
+                  </div>
                 </Link>
               ))}
             </div>
@@ -175,19 +177,21 @@ export default function CiudadView() {
             (esto es lo que hace que una ciudad nueva se sienta "viva" desde
             el día 1, no un cascarón). */}
         {sinContenido && (
-          <section className="sld-card rounded-2xl px-6 py-12 text-center">
-            <Sparkles className="mx-auto mb-3 h-8 w-8 text-orange-400" />
-            <h2 className="text-xl font-black">{ciudad.name} recién se está sumando a la plataforma</h2>
-            <p className="mx-auto mt-2 max-w-md text-sm text-white/60">
-              Todavía no hay negocios ni ofertas cargados acá. Si tenés un comercio en {ciudad.name},
-              podés ser el primero en aparecer.
-            </p>
-            <Link
-              href="/registro"
-              className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-bold text-white"
-            >
-              Sumar mi negocio <ArrowRight className="h-4 w-4" />
-            </Link>
+          <section className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 px-6 py-12 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Sparkles className="mx-auto mb-3 h-8 w-8 text-orange-400" />
+              <h2 className="text-xl font-black">{ciudad.name} recién se está sumando a la plataforma</h2>
+              <p className="mx-auto mt-2 max-w-md text-sm text-white/60">
+                Todavía no hay negocios ni ofertas cargados acá. Si tenés un comercio en {ciudad.name},
+                podés ser el primero en aparecer.
+              </p>
+              <Link
+                href="/registro"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-bold text-white"
+              >
+                Sumar mi negocio <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </section>
         )}
       </div>
