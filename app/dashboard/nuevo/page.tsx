@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -13,6 +13,7 @@ import HowItWorks from "@/components/ui/how-it-works";
 
 export default function NuevoNegocioPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -45,7 +46,7 @@ export default function NuevoNegocioPage() {
   const [formData, setFormData] = useState({
     name: "",
     category: "gastronomia",
-    type: "comercio",
+    type: searchParams.get("type") === "particular" ? "particular" : "comercio",
     description: "",
     address: "",
     latitude: "",

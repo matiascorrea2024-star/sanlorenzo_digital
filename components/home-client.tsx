@@ -132,6 +132,20 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
       <LiveNow />
       <ReelsStrip />
       <NewThisWeek />
+
+      {/* CTA compacta al chat comunitario -- sin fetch propio, no suma
+          peso a la home. */}
+      <div className="mx-auto max-w-4xl px-4">
+        <Link href="/comunidad"
+          className="group flex items-center justify-between gap-3 rounded-full border border-cyan-400/20 bg-cyan-500/[.05] px-5 py-3 text-sm transition hover:border-cyan-400/40 hover:bg-cyan-500/10">
+          <span className="flex items-center gap-2">
+            <MessageCircle className="h-4 w-4 shrink-0 text-cyan-300" />
+            <span className="font-bold text-cyan-100">Chat de tu ciudad</span>
+            <span className="hidden text-white/50 sm:inline">-- preguntas, avisos, conectá con tus vecinos</span>
+          </span>
+          <ArrowRight className="h-4 w-4 shrink-0 text-cyan-300 transition group-hover:translate-x-0.5" />
+        </Link>
+      </div>
       {/* ===== HOY EN SAN LORENZO ===== */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
         <SectionTitle
@@ -233,22 +247,38 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         </div>
       </section>
 
-      {/* ===== PARA COMERCIOS ===== */}
+      {/* ===== PARA COMERCIOS Y PARTICULARES ===== */}
       <section id="sumate" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-        <div className="sld-card rounded-2xl p-8 sm:p-10">
-          <p className="text-xs font-bold uppercase tracking-[.2em] text-[var(--accent2)]">Para comercios</p>
-          <h2 className="mt-2 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl" style={{ fontFamily: "var(--font-space)" }}>
-            Publicá tu negocio gratis y aparecé en San Lorenzo Digital.
-          </h2>
-          <p className="mt-3 max-w-xl text-sm leading-6 text-[var(--muted)]">
-            Sin saber programar, en 2 minutos. Los vecinos te encuentran buscando por rubro, producto o nombre.
-          </p>
-          <Link
-            href="/dashboard/nuevo"
-            className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-bold text-white transition hover:opacity-90"
-          >
-            Crear mi negocio
-          </Link>
+        <div className="rounded-[1.75rem] border border-orange-400/20 bg-gradient-to-br from-orange-500/[.06] to-pink-500/[.03] p-1.5">
+          <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-10">
+            <p className="text-xs font-bold uppercase tracking-[.2em] text-[var(--accent2)]">Para comercios</p>
+            <h2 className="mt-2 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl" style={{ fontFamily: "var(--font-space)" }}>
+              Publicá tu negocio gratis y aparecé en San Lorenzo Digital.
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-[var(--muted)]">
+              Sin saber programar, en 2 minutos. Los vecinos te encuentran buscando por rubro, producto o nombre.
+            </p>
+            <Link
+              href="/dashboard/nuevo"
+              className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-bold text-white transition hover:opacity-90"
+            >
+              Crear mi negocio
+            </Link>
+
+            <div className="mt-8 flex items-start gap-3 border-t border-white/10 pt-6">
+              <span className="text-2xl">🙋</span>
+              <div>
+                <p className="font-bold text-white">¿Vendés algo pero no tenés local?</p>
+                <p className="mt-1 max-w-xl text-sm leading-6 text-[var(--muted)]">
+                  También podés sumarte, gratis. Ropa, comida casera, changas, lo que sea -- sin necesidad de un
+                  comercio físico.
+                </p>
+                <Link href="/dashboard/nuevo?type=particular" className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-cyan-300 hover:text-cyan-200">
+                  Sumarme como particular →
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
         </div>

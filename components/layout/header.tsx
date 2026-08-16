@@ -122,6 +122,7 @@ export default function Header() {
                     <Link href="/dashboard/analytics" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Estadísticas</Link>
 
                     <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">🎯 Mi actividad</p>
+                    <Link href="/comunidad" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Chat de la ciudad</Link>
                     <Link href="/favoritos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Favoritos</Link>
                     <Link href="/mensajes" onClick={() => setOpen(false)} className="flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-white/5">
                       <span>Mensajes</span>
