@@ -25,6 +25,21 @@ export const PLANES: Record<string, {
     responderResenas: false,
     badge: "",
   },
+  // Escalón intermedio: más barato que PRO, para el que todavía no se
+  // anima a $9.900 pero ya quiere más de lo que da Gratis. Le damos
+  // estadísticas y responder reseñas (barato de dar, mucho enganche) y
+  // dejamos ofertas ilimitadas + historias como el salto real a PRO.
+  plus: {
+    name: "Comerciante Plus",
+    maxOfertas: 8,
+    ofertasNuevasPorDia: 2,
+    destacado: false,
+    stats: true,
+    historias: false,
+    cuponesIlimitados: false,
+    responderResenas: true,
+    badge: "⭐ Plus",
+  },
   profesional: {
     name: "PRO Comerciante",
     maxOfertas: -1,

@@ -23,7 +23,7 @@ export default function NewsletterOptIn({ userId, initial }: { userId: string; i
         <Mail className="h-5 w-5 shrink-0 text-orange-400" />
         <div>
           <p className="font-bold">Novedades por mail</p>
-          <p className="text-xs text-white/50">Ofertas destacadas y novedades de tu zona. Todavía no enviamos correos automáticos -- guardamos tu interés para cuando lo activemos.</p>
+          <p className="text-xs text-white/50">Un resumen semanal con las ofertas y negocios nuevos de tu zona. Podés desactivarlo cuando quieras.</p>
         </div>
       </div>
       <button onClick={toggle} disabled={saving}

@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Check, X, Zap, Rocket, Crown } from "lucide-react";
+import { Check, X, Zap, Star, Rocket, Crown } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import { usePlatformSetting } from "@/lib/hooks/use-platform-settings";
 import { MAX_DESTACADOS_SEMANALES } from "@/lib/plans";
@@ -24,6 +24,24 @@ const PLANES = [
     ],
     cta: "Crear cuenta gratis",
     href: "/registro",
+  },
+  {
+    nombre: "Comerciante Plus",
+    precio: "$4.900",
+    periodo: "por mes",
+    icon: Star,
+    color: "border-cyan-400/40",
+    desc: "El siguiente paso, sin comprometerte a mucho",
+    features: [
+      { t: "Todo lo del plan Gratis", ok: true },
+      { t: "8 ofertas activas", ok: true },
+      { t: "Estadísticas completas", ok: true },
+      { t: "Responder reseñas", ok: true },
+      { t: "Historias 24h con fotos", ok: false },
+      { t: "Ofertas ilimitadas", ok: false },
+    ],
+    cta: "Quiero Comerciante Plus",
+    href: "/dashboard/planes",
   },
   {
     nombre: "PRO Comerciante",
@@ -83,7 +101,7 @@ export default function PlanesPage() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {PLANES.map(p => (
             <div key={p.nombre}
               className={`relative flex flex-col rounded-3xl border-2 bg-white/[0.03] p-6 ${p.color} ${

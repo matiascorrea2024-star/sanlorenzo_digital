@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Check, Clock, Crown, Rocket, Zap, Gift } from "lucide-react";
+import { Check, Clock, Crown, Rocket, Zap, Gift, Star } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
@@ -11,6 +11,7 @@ import { friendlyError } from "@/lib/friendly-error";
 
 const CARDS = [
   { k: "gratis", icon: Zap, precio: "$0", features: ["Perfil completo", "3 ofertas activas", "Chat con clientes", "Mapa y búsqueda"] },
+  { k: "plus", icon: Star, precio: "$4.900/mes", features: ["8 ofertas activas", "Estadísticas completas", "Responder reseñas"] },
   { k: "profesional", icon: Rocket, precio: "$9.900/mes", features: ["Ofertas ilimitadas", "Estadísticas completas", "Historias 24h", "Responder reseñas"] },
   { k: "premium", icon: Crown, precio: "$19.900 / 7 días", features: ["Todo lo de PRO Comerciante", "Posición destacada fija (7 días)", "Cupo limitado a 5 negocios", "Badge de destacado"] },
 ];
@@ -143,7 +144,7 @@ export default function PlanesDashboard() {
           </div>
         )}
 
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {CARDS.map(p => {
             const actual = negocio.plan === p.k;
             const esGratis = p.k === "gratis";
