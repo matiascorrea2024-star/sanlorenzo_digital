@@ -4,6 +4,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
 import AdminFrame, { AdminBadge } from "@/components/ui/admin-frame";
+import StaffAvatar from "@/components/ui/staff-avatar";
 
 type Props = { businessId: string; ownerId?: string; businessName?: string; businessSlug?: string; customerId?: string; staffId?: string };
 
@@ -148,7 +149,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
       {/* HEADER tipo WhatsApp */}
       <div className="flex items-center gap-3 border-b border-white/10 bg-black/30 p-4">
         {otherIsStaff ? (
-          <AdminFrame size={44}><Avatar name={headerName} size={44} online={online} /></AdminFrame>
+          <AdminFrame size={44}><StaffAvatar size={44} online={online} /></AdminFrame>
         ) : (
           <Avatar name={headerName} size={44} online={online} />
         )}

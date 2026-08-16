@@ -9,6 +9,7 @@ import PlatformWhatsappSetting from "@/components/profile/platform-whatsapp-sett
 import PlatformPaymentSetting from "@/components/profile/platform-payment-setting";
 import NewsletterOptIn from "@/components/profile/newsletter-optin";
 import AdminFrame, { AdminBadge } from "@/components/ui/admin-frame";
+import StaffAvatar from "@/components/ui/staff-avatar";
 import DivisionFrame from "@/components/ui/division-frame";
 import { RANGOS, rangoDeUsuario, ESCALA_PUNTOS_USUARIO } from "@/lib/ranks";
 
@@ -168,9 +169,7 @@ export default function PerfilPage() {
           <div className="mt-4 rounded-3xl border border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-pink-500/10 p-8 text-center">
             <div className="mx-auto">
               <AdminFrame size={80}>
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black">
-                  {(user.email || "?")[0].toUpperCase()}
-                </div>
+                <StaffAvatar size={80} />
               </AdminFrame>
             </div>
             <div className="mt-3 flex items-center justify-center gap-2">
