@@ -22,21 +22,22 @@ export default function BottomNav() {
 
   return (
     <nav aria-label="Navegación principal"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-[#120d09]/95 backdrop-blur-xl md:hidden">
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/[.06] bg-[#120d09]/95 backdrop-blur-xl md:hidden">
+      <div className="pointer-events-none h-px bg-gradient-to-r from-transparent via-orange-500/40 to-transparent" />
       <div className="grid grid-cols-7">
         {ITEMS.map((item) => {
           const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
           return (
             <Link key={item.href} href={item.href}
-              className={`flex min-w-0 flex-col items-center gap-0.5 px-0.5 py-2 transition ${
-                active ? "text-orange-400" : "text-white/60 hover:text-white"
+              className={`flex min-w-0 flex-col items-center gap-0.5 px-0.5 py-2 transition-colors duration-300 ${
+                active ? "text-orange-400" : "text-white/50 hover:text-white"
               }`}>
-              <span className="relative">
-                <item.icon className="h-5 w-5 shrink-0" />
+              <span className={`relative flex h-7 w-9 items-center justify-center rounded-full transition-all duration-300 ${active ? "bg-gradient-to-b from-orange-500/20 to-pink-500/10" : ""}`}>
+                <item.icon className={`h-5 w-5 shrink-0 transition-transform duration-300 ${active ? "scale-105" : ""}`} />
                 {item.href === "/perfil" && unread > 0 && (
                   <span
                     aria-label={`${unread} mensajes sin leer`}
-                    className="absolute -right-2 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-red-500 px-0.5 text-[8px] font-black leading-none text-white"
+                    className="absolute -right-1.5 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-red-500 px-0.5 text-[8px] font-black leading-none text-white"
                   >
                     {unread > 9 ? "9+" : unread}
                   </span>

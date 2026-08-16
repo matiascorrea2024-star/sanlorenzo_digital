@@ -7,10 +7,10 @@ import Link from "next/link";
 export default function AuthButton() {
   return (
     <div className="flex items-center gap-2">
-      <Link href="/login" className="rounded-xl px-3 py-2 text-sm font-bold text-white/80 hover:bg-white/10">Ingresar</Link>
+      <Link href="/login" className="rounded-full px-3 py-2 text-sm font-bold text-white/80 hover:bg-white/10">Ingresar</Link>
       <Link
         href="/registro"
-        className="hidden rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-bold text-white transition hover:opacity-90 sm:inline-block"
+        className="hidden rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-bold text-white transition hover:opacity-90 sm:inline-block"
       >
         Crear cuenta
       </Link>

@@ -53,7 +53,7 @@ export default function Footer() {
             </p>
             <p className="mt-3 text-xs text-white/55">Hecho en San Lorenzo, Santa Fe · Argentina 🇦</p>
             {whatsapp && (
-              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener" className="mt-3 inline-flex items-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-300 transition hover:bg-emerald-500/20">💬 WhatsApp de la plataforma</a>
+              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener" className="mt-3 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-300 transition hover:bg-emerald-500/20">💬 WhatsApp de la plataforma</a>
             )}
           </div>
           {COLS.map((col) => (
