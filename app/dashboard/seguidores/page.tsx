@@ -96,13 +96,17 @@ export default function SeguidoresPage() {
         </div>
 
         <div className="mb-6 grid grid-cols-2 gap-3">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
-            <p className="text-3xl font-black text-orange-400">{total}</p>
-            <p className="text-xs text-white/50">Seguidores totales</p>
+          <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <p className="text-3xl font-black text-orange-400">{total}</p>
+              <p className="text-xs text-white/50">Seguidores totales</p>
+            </div>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
-            <p className="text-3xl font-black text-green-400">+{nuevosMes}</p>
-            <p className="text-xs text-white/50">Nuevos este mes</p>
+          <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <p className="text-3xl font-black text-green-400">+{nuevosMes}</p>
+              <p className="text-xs text-white/50">Nuevos este mes</p>
+            </div>
           </div>
         </div>
 
@@ -113,7 +117,8 @@ export default function SeguidoresPage() {
         ]} />
 
         {plan.campanas ? (
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <p className="mb-3 font-black">Enviar novedad a tus seguidores</p>
             <textarea
               value={mensaje}
@@ -127,17 +132,20 @@ export default function SeguidoresPage() {
             <button
               onClick={enviarNovedad}
               disabled={enviando || !mensaje.trim() || total === 0}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50"
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50"
             >
               <Send className="h-4 w-4" /> {enviando ? "Enviando..." : total === 0 ? "Todavía no tenés seguidores" : `Enviar a ${Math.min(total, MAX_DESTINATARIOS)} seguidor${total === 1 ? "" : "es"}`}
             </button>
           </div>
+          </div>
         ) : (
-          <div className="rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-6 text-center">
-            <Lock className="mx-auto mb-2 h-7 w-7 text-orange-400" />
-            <p className="font-black">Enviar novedades es una herramienta de Plan PRO</p>
-            <p className="mt-1 text-sm text-white/60">Construí tu propia audiencia y avisale directo cuando tengas algo nuevo.</p>
-            <Link href="/dashboard/planes" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black">Ver planes →</Link>
+          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Lock className="mx-auto mb-2 h-7 w-7 text-orange-400" />
+              <p className="font-black">Enviar novedades es una herramienta de Plan PRO</p>
+              <p className="mt-1 text-sm text-white/60">Construí tu propia audiencia y avisale directo cuando tengas algo nuevo.</p>
+              <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90">Ver planes →</Link>
+            </div>
           </div>
         )}
       </div>

@@ -107,24 +107,28 @@ export default function MensajesPage() {
         {!selectedCustomer && (
           <div className="mt-6 space-y-2">
             {convoList.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
-                Aún no tenés conversaciones.
+              <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">
+                  Aún no tenés conversaciones.
+                </div>
               </div>
             ) : (
               convoList.map(cv => (
                 <button key={cv.cust} onClick={() => setSelectedCustomer(cv.cust)}
-                  className="flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-left hover:border-orange-400/50 transition">
-                  <Avatar name={cv.name} size={48} />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between">
-                      <p className="font-bold">{cv.name}</p>
-                      <span className="text-[10px] text-white/40">{timeShort(cv.last.created_at)}</span>
+                  className="group flex w-full items-center gap-1.5 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 text-left transition-all duration-300 hover:-translate-y-0.5">
+                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+                    <Avatar name={cv.name} size={48} />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between">
+                        <p className="font-bold">{cv.name}</p>
+                        <span className="text-[10px] text-white/40">{timeShort(cv.last.created_at)}</span>
+                      </div>
+                      <p className="truncate text-xs text-white/50">{cv.last.sender_role === "business" ? "✓✓ " : ""}{cv.last.body}</p>
                     </div>
-                    <p className="truncate text-xs text-white/50">{cv.last.sender_role === "business" ? "✓✓ " : ""}{cv.last.body}</p>
+                    {cv.unread > 0 && (
+                      <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-green-500 px-1 text-xs font-black text-black">{cv.unread}</span>
+                    )}
                   </div>
-                  {cv.unread > 0 && (
-                    <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-green-500 px-1 text-xs font-black text-black">{cv.unread}</span>
-                  )}
                 </button>
               ))
             )}

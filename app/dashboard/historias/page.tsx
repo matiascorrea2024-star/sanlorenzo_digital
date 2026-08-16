@@ -65,16 +65,19 @@ export default function HistoriasPage() {
         <p className="text-white/60 mt-1">Desaparece automáticamente en 24 horas</p>
 
         {sinPlan ? (
-          <div className="mt-6 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
-            <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
-            <p className="font-black">Las Historias 24h son de Plan PRO</p>
-            <p className="mx-auto mt-1 max-w-sm text-sm text-white/60">
-              Con PRO Comerciante podés publicar historias que aparecen 24 horas en la plataforma, como Instagram.
-            </p>
-            <Link href="/dashboard/planes" className="mt-5 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black">Mejorar a PRO →</Link>
+          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
+              <p className="font-black">Las Historias 24h son de Plan PRO</p>
+              <p className="mx-auto mt-1 max-w-sm text-sm text-white/60">
+                Con PRO Comerciante podés publicar historias que aparecen 24 horas en la plataforma, como Instagram.
+              </p>
+              <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
+            </div>
           </div>
         ) : (
-        <div className="mt-6 space-y-4">
+        <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="space-y-4 rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <select value={businessId} onChange={e => setBusinessId(e.target.value)}
             className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3">
             {businesses.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
@@ -99,9 +102,10 @@ export default function HistoriasPage() {
           </div>
 
           <button onClick={publicar} disabled={loading || !text || !businessId}
-            className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black disabled:opacity-50">
+            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black disabled:opacity-50">
             {loading ? "Publicando..." : "Publicar Historia"}
           </button>
+        </div>
         </div>
         )}
       </div>

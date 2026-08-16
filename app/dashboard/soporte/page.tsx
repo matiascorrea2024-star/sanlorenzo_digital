@@ -54,7 +54,7 @@ export default function SoportePage() {
           <div className="sld-card rounded-2xl p-8 text-center">
             <p className="font-bold">Todavía no tenés un negocio creado.</p>
             <p className="mt-1 text-sm text-white/50">Creá tu negocio primero para poder hablar con soporte.</p>
-            <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black">Crear mi negocio</Link>
+            <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
           </div>
         ) : !admin ? (
           <div className="sld-card rounded-2xl p-8 text-center text-white/50">

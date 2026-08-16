@@ -74,7 +74,8 @@ export default function AsistenteComerciantePage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
+        <div className="mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <div className="space-y-3">
             <input value={form.producto} onChange={(e) => setForm({ ...form, producto: e.target.value })}
               placeholder="¿Qué vendés? Ej: Zapatillas deportivas *"
@@ -94,10 +95,11 @@ export default function AsistenteComerciantePage() {
                 className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
             <button onClick={generar} disabled={!form.producto}
-              className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50">
+              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50">
               ✨ Generar publicación
             </button>
           </div>
+        </div>
         </div>
 
         {resultado && (
@@ -107,21 +109,23 @@ export default function AsistenteComerciantePage() {
               { key: "descripcion", label: "📝 Descripción", texto: resultado.descripcion },
               { key: "whatsapp", label: "💬 Copy para WhatsApp", texto: resultado.whatsapp },
             ].map(item => (
-              <div key={item.key} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs font-bold uppercase tracking-wider text-white/50">{item.label}</p>
-                  <button onClick={() => copy(item.texto, item.key)}
-                    className="flex items-center gap-1 rounded-lg bg-white/10 px-3 py-1.5 text-xs font-bold hover:bg-white/20">
-                    {copied === item.key ? <Check className="h-3 w-3 text-green-400" /> : <Copy className="h-3 w-3" />}
-                    {copied === item.key ? "Copiado" : "Copiar"}
-                  </button>
+              <div key={item.key} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-xs font-bold uppercase tracking-wider text-white/50">{item.label}</p>
+                    <button onClick={() => copy(item.texto, item.key)}
+                      className="flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold hover:bg-white/20">
+                      {copied === item.key ? <Check className="h-3 w-3 text-green-400" /> : <Copy className="h-3 w-3" />}
+                      {copied === item.key ? "Copiado" : "Copiar"}
+                    </button>
+                  </div>
+                  <p className="text-sm whitespace-pre-line">{item.texto}</p>
                 </div>
-                <p className="text-sm whitespace-pre-line">{item.texto}</p>
               </div>
             ))}
 
             <button onClick={usarEnOferta}
-              className="w-full rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 py-3 text-sm font-black hover:opacity-90">
+              className="w-full rounded-full bg-gradient-to-r from-green-500 to-emerald-500 py-3 text-sm font-black hover:opacity-90">
               🚀 Usar en nueva oferta
             </button>
             <p className="text-center text-xs text-white/40">

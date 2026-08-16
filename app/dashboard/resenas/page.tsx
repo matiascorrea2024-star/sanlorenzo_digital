@@ -45,12 +45,15 @@ export default function ResenasPage() {
 
         <div className="mt-6 space-y-4">
           {reviews.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
-              Aún no tenés reseñas. Cuando un cliente te puntúe, aparece acá.
+            <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">
+                Aún no tenés reseñas. Cuando un cliente te puntúe, aparece acá.
+              </div>
             </div>
           ) : (
             reviews.map(r => (
-              <div key={r.id} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div key={r.id} className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                 <div className="flex items-center gap-3">
                   <Avatar name={r.reviewer_name} size={40} />
                   <div className="flex-1">
@@ -80,12 +83,13 @@ export default function ResenasPage() {
                         rows={2} placeholder="Respondé al cliente..."
                         className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
                       <button onClick={() => saveReply(r.id)}
-                        className="mt-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2 text-xs font-black">
+                        className="mt-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2 text-xs font-black hover:opacity-90">
                         {saved[r.id] ? "✅ Guardada" : "Responder"}
                       </button>
                     </>
                   )}
                 </div>
+              </div>
               </div>
             ))
           )}

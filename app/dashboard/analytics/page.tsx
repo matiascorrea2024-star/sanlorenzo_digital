@@ -135,7 +135,7 @@ export default function AnalyticsPage() {
           <div className="sld-card rounded-2xl p-8 text-center">
             <p className="font-bold">Todavía no tenés un negocio creado.</p>
             <p className="mt-1 text-sm text-white/50">Cuando crees tu negocio, acá vas a ver visitas, contactos por WhatsApp y más.</p>
-            <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black">Crear mi negocio</Link>
+            <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
           </div>
         ) : (
         <>
@@ -153,44 +153,51 @@ export default function AnalyticsPage() {
         )}
 
         {!planActual.stats ? (
-          <div className="rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
-            <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
-            <p className="font-black">Las estadísticas completas son de Plan PRO</p>
-            <p className="mx-auto mt-1 max-w-sm text-sm text-white/60">
-              Con el plan Gratis ves solo tus visitas totales. Con PRO Comerciante desbloqueás el detalle día a día,
-              contactos por WhatsApp, favoritos, cupones y tasa de conversión.
-            </p>
-            <p className="mt-4 text-3xl font-black text-orange-400">{stats.views} <span className="text-sm font-bold text-white/50">visitas (30 días)</span></p>
-            <Link href="/dashboard/planes" className="mt-5 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black">Mejorar a PRO →</Link>
+          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
+              <p className="font-black">Las estadísticas completas son de Plan PRO</p>
+              <p className="mx-auto mt-1 max-w-sm text-sm text-white/60">
+                Con el plan Gratis ves solo tus visitas totales. Con PRO Comerciante desbloqueás el detalle día a día,
+                contactos por WhatsApp, favoritos, cupones y tasa de conversión.
+              </p>
+              <p className="mt-4 text-3xl font-black text-orange-400 tabular-nums">{stats.views} <span className="text-sm font-bold text-white/50">visitas (30 días)</span></p>
+              <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
+            </div>
           </div>
         ) : (
         <>
         {/* Stats cards */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 mb-8">
           {cards.map(c => (
-            <div key={c.label} className="rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
-              <c.icon className={`mx-auto h-6 w-6 ${c.color}`} />
-              <p className="mt-2 text-3xl font-black">{c.value}</p>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">{c.label} <InfoTip label={`Qué significa ${c.label}`}>{c.info}</InfoTip></p>
+            <div key={c.label} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <c.icon className={`mx-auto h-6 w-6 ${c.color}`} />
+                <p className="mt-2 text-3xl font-black tabular-nums">{c.value}</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">{c.label} <InfoTip label={`Qué significa ${c.label}`}>{c.info}</InfoTip></p>
+              </div>
             </div>
           ))}
         </div>
 
         {posicion && (
-          <div className="mb-8 rounded-2xl border border-sky-400/30 bg-gradient-to-br from-sky-500/10 to-blue-500/10 p-6">
-            <p className="flex items-center gap-1.5 font-black">
-              📊 Tu lugar en la categoría
-              <InfoTip label="Cómo se calcula">Se compara con los demás negocios de tu mismo rubro usando los mismos puntos reales del ranking (seguidores, reseñas, ofertas, cupones canjeados) -- sin mostrar datos privados de nadie.</InfoTip>
-            </p>
-            <p className="mt-2 text-sm text-white/70">
-              Estás en el <strong className="text-sky-300">puesto {posicion.puesto} de {posicion.total}</strong> -- eso te ubica en el{" "}
-              <strong className="text-sky-300">top {posicion.percentil}%</strong> de tu rubro.
-            </p>
+          <div className="mb-8 rounded-[1.75rem] border border-sky-400/25 bg-gradient-to-br from-sky-500/[.08] to-blue-500/[.04] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <p className="flex items-center gap-1.5 font-black">
+                📊 Tu lugar en la categoría
+                <InfoTip label="Cómo se calcula">Se compara con los demás negocios de tu mismo rubro usando los mismos puntos reales del ranking (seguidores, reseñas, ofertas, cupones canjeados) -- sin mostrar datos privados de nadie.</InfoTip>
+              </p>
+              <p className="mt-2 text-sm text-white/70">
+                Estás en el <strong className="text-sky-300">puesto {posicion.puesto} de {posicion.total}</strong> -- eso te ubica en el{" "}
+                <strong className="text-sky-300">top {posicion.percentil}%</strong> de tu rubro.
+              </p>
+            </div>
           </div>
         )}
 
         {/* Timeline gráfico simple */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
+        <div className="mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <h2 className="text-lg font-black mb-4">Actividad últimos 7 días</h2>
           <div className="space-y-3">
             {timeline.map(day => (
@@ -203,32 +210,35 @@ export default function AnalyticsPage() {
                     <div className="h-full bg-gradient-to-r from-orange-500 to-pink-500 transition-all"
                       style={{ width: `${(day.views / maxViews) * 100}%` }} />
                   </div>
-                  <span className="text-xs font-bold w-12 text-right">{day.views}</span>
+                  <span className="text-xs font-bold w-12 text-right tabular-nums">{day.views}</span>
                 </div>
               </div>
             ))}
           </div>
           <p className="mt-3 text-xs text-white/40">Barras = visitas al negocio</p>
         </div>
+        </div>
 
         {/* Conversión */}
-        <div className="rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-6">
-          <h2 className="text-lg font-black mb-3 flex items-center gap-1.5">
-            Tasa de conversión
-            <InfoTip label="Qué es la tasa de conversión">De cada 100 personas que ven tu negocio, cuántas terminan haciendo algo concreto (escribirte o generar un cupón). Un número más alto significa que tu ficha convence.</InfoTip>
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-xs text-white/60">Visitas → WhatsApp</p>
-              <p className="text-2xl font-black text-green-400">
-                {stats.views > 0 ? ((stats.whatsapp / stats.views) * 100).toFixed(1) : 0}%
-              </p>
-            </div>
-            <div>
-              <p className="text-xs text-white/60">Visitas → Cupones</p>
-              <p className="text-2xl font-black text-emerald-400">
-                {stats.views > 0 ? ((stats.coupons / stats.views) * 100).toFixed(1) : 0}%
-              </p>
+        <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <h2 className="text-lg font-black mb-3 flex items-center gap-1.5">
+              Tasa de conversión
+              <InfoTip label="Qué es la tasa de conversión">De cada 100 personas que ven tu negocio, cuántas terminan haciendo algo concreto (escribirte o generar un cupón). Un número más alto significa que tu ficha convence.</InfoTip>
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-xs text-white/60">Visitas → WhatsApp</p>
+                <p className="text-2xl font-black text-green-400 tabular-nums">
+                  {stats.views > 0 ? ((stats.whatsapp / stats.views) * 100).toFixed(1) : 0}%
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-white/60">Visitas → Cupones</p>
+                <p className="text-2xl font-black text-emerald-400 tabular-nums">
+                  {stats.views > 0 ? ((stats.coupons / stats.views) * 100).toFixed(1) : 0}%
+                </p>
+              </div>
             </div>
           </div>
         </div>
