@@ -107,7 +107,8 @@ export default function Header() {
                   {(user.email || "?")[0].toUpperCase()}
                 </button>
                 {open && (
-                  <div className="absolute right-0 top-12 z-50 w-72 rounded-2xl border border-white/10 bg-[#141018] p-2 shadow-2xl max-h-[80vh] overflow-y-auto">
+                  <div className="absolute right-0 top-12 z-50 w-72 rounded-[1.5rem] border border-white/[.06] bg-white/[.03] p-1.5 shadow-2xl backdrop-blur-xl">
+                  <div className="max-h-[80vh] overflow-y-auto rounded-[1.1rem] border border-white/[.05] bg-[#141018] p-2">
                     <div className="mb-1 border-b border-white/10 px-3 py-2">
                       <p className="text-xs text-white/50">Conectado como</p>
                       <p className="truncate text-sm font-bold">{user.email}</p>
@@ -140,6 +141,7 @@ export default function Header() {
                         <Link href="/admin?tab=verificacion" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-red-500/10">Verificación</Link>
                       </>
                     )}
+                  </div>
                   </div>
                 )}
               </div>
