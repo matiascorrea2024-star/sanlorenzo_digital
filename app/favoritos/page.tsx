@@ -6,7 +6,7 @@ import { Heart, Store, Flame, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import OfferCard from "@/components/ui/offer-card";
-import Avatar from "@/components/ui/avatar";
+import RankedAvatar from "@/components/ui/ranked-avatar";
 
 export default function FavoritosPage() {
   const { user } = useAuth();
@@ -114,13 +114,15 @@ export default function FavoritosPage() {
                 <div className="grid gap-3 sm:grid-cols-2">
                   {negocios.map(b => (
                     <Link key={b.id} href={`/negocio/${b.slug}`}
-                      className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-orange-400/50 transition">
-                      <Avatar name={b.name} size={44} />
-                      <div className="flex-1">
-                        <p className="font-bold">{b.name}</p>
-                        <p className="text-xs capitalize text-white/50">{b.category} · ⭐ {(b.rating || 0).toFixed(1)}</p>
+                      className="group flex items-center gap-3 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:border-orange-400/30">
+                      <div className="flex flex-1 items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                        <RankedAvatar slug={b.slug} name={b.name} categoria={b.category} photoUrl={b.logo_url} size={44} />
+                        <div className="flex-1">
+                          <p className="font-bold">{b.name}</p>
+                          <p className="text-xs capitalize text-white/50">{b.category} · ⭐ {(b.rating || 0).toFixed(1)}</p>
+                        </div>
+                        <ArrowRight className="h-4 w-4 shrink-0 text-orange-400 transition group-hover:translate-x-0.5" />
                       </div>
-                      <ArrowRight className="h-4 w-4 text-orange-400" />
                     </Link>
                   ))}
                 </div>
