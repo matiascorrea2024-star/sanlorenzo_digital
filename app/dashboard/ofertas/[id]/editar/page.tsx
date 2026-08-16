@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/toast";
 import ImageUploader from "@/components/upload/image-uploader";
 import { OFERTA_DURACION_MAX_DIAS } from "@/lib/plans";
 import { friendlyError } from "@/lib/friendly-error";
+import HowItWorks from "@/components/ui/how-it-works";
 
 const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
@@ -115,18 +116,28 @@ export default function EditarOferta() {
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
         <h1 className="mt-3 text-3xl font-black">Editar oferta</h1>
 
-        <div className="mt-8 space-y-5 rounded-3xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+        <div className="mt-4">
+          <HowItWorks steps={[
+            "Cambiá lo que necesites y tocá \"Guardar cambios\" al final.",
+            "Los cambios se ven al instante en la home, el radar y el mapa.",
+            "Si querés desactivarla en vez de editarla, hacelo desde \"Mis Ofertas\".",
+          ]} />
+        </div>
+
+        <div className="mt-4 space-y-5 rounded-3xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div>
             <span className={lbl}>Título de la oferta *</span>
             <input className={inp} value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
           <div>
-            <span className={lbl}>Producto (opcional)</span>
+            <span className={lbl}>Nombre del producto o servicio (opcional)</span>
             <input className={inp} value={product} onChange={(e) => setProduct(e.target.value)} />
+            <p className="mt-1 text-[11px] text-white/40">Aparece como subtítulo debajo del título de la oferta.</p>
           </div>
           <div>
             <span className={lbl}>Descripción * <span className="normal-case font-normal text-white/30">(mín. 30 caracteres)</span></span>
             <textarea className={inp} rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
+            <p className="mt-1 text-right text-[10px] text-white/30">{description.trim().length}/30</p>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -145,7 +156,7 @@ export default function EditarOferta() {
             </div>
           )}
           <div>
-            <span className={lbl}>Válida hasta *</span>
+            <span className={lbl}>Válida hasta * <span className="normal-case font-normal text-white/30">(máx. {OFERTA_DURACION_MAX_DIAS} días)</span></span>
             <input className={inp} type="date" min={hoyStr} max={maxFechaStr} value={expires} onChange={(e) => setExpires(e.target.value)} />
           </div>
           <div>

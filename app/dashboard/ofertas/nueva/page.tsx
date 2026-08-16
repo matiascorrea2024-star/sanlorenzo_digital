@@ -25,7 +25,9 @@ export default function NuevaOferta() {
   const [description, setDescription] = useState("");
   const [priceBefore, setPriceBefore] = useState("");
   const [priceOffer, setPriceOffer] = useState("");
-  const [expires, setExpires] = useState("");
+  // Por defecto una semana -- así "Válida hasta" no es un campo obligatorio
+  // más para pensar; el comerciante lo cambia si quiere otra duración.
+  const [expires, setExpires] = useState(() => new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10));
   const [image, setImage] = useState("");
   const [imageId] = useState(() => crypto.randomUUID());
   const [saving, setSaving] = useState(false);
@@ -188,8 +190,9 @@ export default function NuevaOferta() {
           </div>
 
           <div>
-            <span className={lbl}>Producto (opcional)</span>
-            <input className={inp} value={product} onChange={(e) => setProduct(e.target.value)} placeholder="Ej: zapatillas" />
+            <span className={lbl}>Nombre del producto o servicio (opcional)</span>
+            <input className={inp} value={product} onChange={(e) => setProduct(e.target.value)} placeholder="Ej: Zapatillas Nike Air" />
+            <p className="mt-1 text-[11px] text-white/40">Aparece como subtítulo debajo del título de la oferta. Si tu título ya es bien específico, podés dejarlo vacío.</p>
           </div>
 
           <div>

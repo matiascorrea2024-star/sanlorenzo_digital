@@ -224,31 +224,32 @@ export default function OfertasPage() {
                     {offer.es_bomba ? "💣 Es tu oferta bomba de hoy (18-20hs)" : "💣 Marcar como oferta bomba de hoy"}
                   </button>
 
-                  <div className="flex flex-wrap gap-2">
+                  {/* Editar queda a la vista; el resto son acciones
+                      secundarias agrupadas -- 4 botones del mismo peso
+                      visual eran ruido para elegir de un vistazo. */}
+                  <div className="flex gap-2">
                     <Link
                       href={`/dashboard/ofertas/${offer.id}/editar`}
                       className="flex-1 rounded-xl border border-white/20 px-3 py-2 text-center text-xs font-bold hover:bg-white/5"
                     >
                       ✏️ Editar
                     </Link>
-                    <Link
-                      href={`/dashboard/ofertas/${offer.id}/cupones`}
-                      className="flex-1 rounded-xl border border-white/20 px-3 py-2 text-center text-xs font-bold hover:bg-white/5"
-                    >
-                      🎟️ Cupones
-                    </Link>
-                    <Link
-                      href={`/dashboard/ofertas/${offer.id}/marketing`}
-                      className="flex-1 rounded-xl border border-white/20 px-3 py-2 text-center text-xs font-bold hover:bg-white/5"
-                    >
-                      📱 Marketing
-                    </Link>
-                    <Link
-                      href={`/dashboard/ofertas/${offer.id}/campana`}
-                      className="flex-1 rounded-xl border border-cyan-400/30 bg-cyan-500/10 px-3 py-2 text-center text-xs font-bold text-cyan-300 hover:bg-cyan-500/20"
-                    >
-                      📍 Promocionar
-                    </Link>
+                    <details className="group relative">
+                      <summary className="flex h-full cursor-pointer list-none items-center rounded-xl border border-white/20 px-3 py-2 text-center text-xs font-bold marker:content-none hover:bg-white/5">
+                        ⋯ Más
+                      </summary>
+                      <div className="absolute right-0 z-10 mt-2 w-44 space-y-1 rounded-xl border border-white/10 bg-[#1a1420] p-2 shadow-2xl">
+                        <Link href={`/dashboard/ofertas/${offer.id}/cupones`} className="block rounded-lg px-3 py-2 text-xs font-bold hover:bg-white/10">
+                          🎟️ Cupones
+                        </Link>
+                        <Link href={`/dashboard/ofertas/${offer.id}/marketing`} className="block rounded-lg px-3 py-2 text-xs font-bold hover:bg-white/10">
+                          📱 Marketing
+                        </Link>
+                        <Link href={`/dashboard/ofertas/${offer.id}/campana`} className="block rounded-lg px-3 py-2 text-xs font-bold text-cyan-300 hover:bg-white/10">
+                          📍 Promocionar
+                        </Link>
+                      </div>
+                    </details>
                   </div>
                 </div>
               );
