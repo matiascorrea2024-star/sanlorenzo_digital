@@ -904,31 +904,35 @@ export default function AdminPage() {
 
         {/* CARGAR BULK */}
         {tab === "cargar-bulk" && (
-          <div className="mt-6 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/5 p-6">
-            <Upload className="h-8 w-8 text-orange-400" />
-            <p className="mt-3 text-lg font-black">Cargar masiva de negocios reales</p>
-            <p className="mt-1 text-sm text-white/70">
-              Subí negocios reales de San Lorenzo desde un CSV. Quedarán en estado &quot;pendiente&quot; para verificación.
-            </p>
-            <a href="/admin/cargar-bulk"
-              className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
-              Ir a la herramienta de carga →
-            </a>
+          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Upload className="h-8 w-8 text-orange-400" />
+              <p className="mt-3 text-lg font-black">Cargar masiva de negocios reales</p>
+              <p className="mt-1 text-sm text-white/70">
+                Subí negocios reales de San Lorenzo desde un CSV. Quedarán en estado &quot;pendiente&quot; para verificación.
+              </p>
+              <a href="/admin/cargar-bulk"
+                className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+                Ir a la herramienta de carga →
+              </a>
+            </div>
           </div>
         )}
 
         {/* BLOG */}
         {tab === "blog" && (
-          <div className="mt-6 rounded-2xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/10 to-purple-500/5 p-6">
-            <Newspaper className="h-8 w-8 text-indigo-300" />
-            <p className="mt-3 text-lg font-black">Blog / Novedades</p>
-            <p className="mt-1 text-sm text-white/70">
-              Escribí artículos y novedades de la plataforma. Se publican en /blog cuando los marcás como publicados.
-            </p>
-            <a href="/admin/blog"
-              className="mt-4 inline-block rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-6 py-3 text-sm font-black hover:opacity-90">
-              Ir al editor de artículos →
-            </a>
+          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Newspaper className="h-8 w-8 text-orange-400" />
+              <p className="mt-3 text-lg font-black">Blog / Novedades</p>
+              <p className="mt-1 text-sm text-white/70">
+                Escribí artículos y novedades de la plataforma. Se publican en /blog cuando los marcás como publicados.
+              </p>
+              <a href="/admin/blog"
+                className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+                Ir al editor de artículos →
+              </a>
+            </div>
           </div>
         )}
 

@@ -17,7 +17,7 @@ export default async function Page() {
     { i: "🔥", t: "Promociones inteligentes", d: "Con vencimiento: solas se apagan cuando terminan.", grad: "from-red-500 to-orange-400" },
     { i: "💬", t: "WhatsApp directo", d: "Cada visita a un toque de escribirte.", grad: "from-emerald-500 to-teal-400" },
     { i: "🔒", t: "Tu negocio, solo tuyo", d: "Protección de cuenta y datos.", grad: "from-sky-500 to-cyan-400" },
-    { i: "✅", t: "Sello verificado", d: "Cuando te verificamos, ganás confianza.", grad: "from-violet-500 to-fuchsia-400" },
+    { i: "✅", t: "Sello verificado", d: "Cuando te verificamos, ganás confianza.", grad: "from-amber-500 to-pink-500" },
   ];
 
   return (
