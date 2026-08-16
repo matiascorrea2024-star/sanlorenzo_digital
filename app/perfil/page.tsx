@@ -46,6 +46,7 @@ export default function PerfilPage() {
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [seguidos, setSeguidos] = useState<any[]>([]);
+  const [perdidas, setPerdidas] = useState(0);
   const [stats, setStats] = useState<Stats>({ seg: 0, res: 0, vis: 0, cats: 0, wa: 0, sh: 0, ref: 0 });
   const [cargando, setCargando] = useState(true);
   const [misiones, setMisiones] = useState<any>(null);
@@ -65,6 +66,18 @@ export default function PerfilPage() {
         const { data: fol } = await sb
           .from("followers").select("business_id, businesses(name, slug)")
           .eq("user_id", user.id);
+        // Loss aversion con datos 100% reales: ofertas de negocios que
+        // sigue este usuario, que ya vencieron en los últimos 14 días --
+        // no hace falta saber si las vio o no, alcanza con que existieron
+        // y se le pasaron.
+        const idsSeguidos = (fol || []).map((f: any) => f.business_id).filter(Boolean);
+        if (idsSeguidos.length) {
+          const hace14 = new Date(Date.now() - 14 * 86400000).toISOString().slice(0, 10);
+          const hoyStr = new Date().toISOString().slice(0, 10);
+          const { count: venc } = await sb.from("offers").select("*", { count: "exact", head: true })
+            .in("business_id", idsSeguidos).gte("valid_until", hace14).lt("valid_until", hoyStr);
+          setPerdidas(venc || 0);
+        }
         // Las reseñas reales viven en business_reviews (ver Fase 2/3 --
         // "reviews" es una tabla huérfana a la que ya nadie escribe).
         const { data: revsData } = await sb
@@ -203,7 +216,19 @@ export default function PerfilPage() {
         </div>
         )}
 
-        
+        {!isAdmin && perdidas > 0 && (
+          <div className="mt-4 flex items-center gap-3 rounded-2xl border border-red-400/30 bg-red-500/10 p-4">
+            <span className="text-2xl">⏰</span>
+            <div>
+              <p className="text-sm font-black text-red-300">
+                Se te {perdidas === 1 ? "pasó" : "pasaron"} {perdidas} oferta{perdidas === 1 ? "" : "s"} de negocios que seguís
+              </p>
+              <p className="text-xs text-white/50">Activá las notificaciones para no perderte la próxima.</p>
+            </div>
+          </div>
+        )}
+
+
         <div className="mt-6 grid grid-cols-2 gap-2 md:grid-cols-4">
           <Link href="/favoritos" className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center hover:border-orange-400/50 hover:bg-white/10 transition">
             <p className="text-2xl">❤️</p>

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { ArrowLeft, Clock, MapPin, Share2, MessageCircle, Store, Truck } from "lucide-react";
 import Badge from "@/components/ui/badge";
@@ -24,6 +25,7 @@ export default function OfertaPage() {
   const [oferta, setOferta] = useState<any>(null);
   const [negocio, setNegocio] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [canjeados, setCanjeados] = useState(0);
   const { trackViewOffer } = useAnalytics();
 
   useEffect(() => {
@@ -34,6 +36,14 @@ export default function OfertaPage() {
         trackViewOffer(offer.id, offer.business_id);
         const { data: biz } = await supabase().from("businesses").select("*").eq("id", offer.business_id).single();
         if (biz) setNegocio(biz);
+        // Prueba social real: cupones que YA se canjearon para esta oferta
+        // (nunca un número inventado -- si nadie canjeó todavía, no se
+        // muestra nada, en vez de arrancar en un "0" que se ve peor que
+        // no mostrar el bloque).
+        const { count } = await supabase().from("coupons")
+          .select("*", { count: "exact", head: true })
+          .eq("offer_id", offer.id).eq("status", "redeemed");
+        setCanjeados(count || 0);
       }
       setLoading(false);
     })();
@@ -89,7 +99,7 @@ export default function OfertaPage() {
           mostrando un pedazo irreconocible del producto. */}
       <div className="mx-auto max-w-[480px] px-4 pt-4">
         <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl">
-          <img src={img} alt={oferta.title} className="absolute inset-0 h-full w-full object-cover object-center" />
+          <Image src={img} alt={oferta.title} fill priority quality={92} sizes="480px" className="object-cover object-center" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#120d09]/40 via-transparent to-transparent" />
           <button
             onClick={() => router.back()}
@@ -111,10 +121,19 @@ export default function OfertaPage() {
           {venceHoy && <Badge variant="danger" size="md" pulse>🔥 VENCE HOY</Badge>}
           {dias !== null && dias > 0 && dias <= 3 && <Badge variant="warning" size="md">En {dias} días</Badge>}
           {vencido && <Badge variant="default" size="md">Finalizada</Badge>}
-          {venceHoy && oferta.valid_until && <CountdownTimer expiresAt={oferta.valid_until} compact />}
+          {/* Cuenta regresiva real siempre que quede poco -- antes solo se
+              mostraba el mismo día, perdiendo el "mañana también corre". */}
+          {!vencido && dias !== null && dias <= 2 && oferta.valid_until && <CountdownTimer expiresAt={oferta.valid_until} compact />}
         </div>
         <h1 className="text-2xl font-black md:text-4xl">{oferta.title}</h1>
         {oferta.product && <p className="mt-1 text-sm text-white/80 md:text-base">{oferta.product}</p>}
+        {/* Prueba social real (nunca inventada): solo aparece si de verdad
+            hay canjes -- "0 personas" se ve peor que no decir nada. */}
+        {canjeados > 0 && (
+          <p className="mt-2 flex items-center gap-1.5 text-sm font-bold text-green-300">
+            ✅ {canjeados} {canjeados === 1 ? "persona ya canjeó" : "personas ya canjearon"} esta oferta
+          </p>
+        )}
       </div>
 
       <div className="mx-auto max-w-4xl px-4 py-6">
