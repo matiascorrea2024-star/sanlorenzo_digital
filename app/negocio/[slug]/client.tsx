@@ -167,17 +167,19 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
     <main className="bg-[#120d09] min-h-screen pb-24 text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* HERO: la foto se ve entera (sin apilarle toda la info arriba),
-          el logo/nombre/badges van debajo -- mismo patrón que ya usa
+      {/* HERO: la foto es la protagonista (mucho más alta que antes -- esto
+          es la "miniweb" del negocio, no una ficha de directorio), el
+          logo/nombre/badges van debajo -- mismo patrón que ya usa
           BusinessCard (portada + logo montado + info en flujo normal). */}
-      <section className="relative h-40 md:h-52">
+      <section className="relative h-64 md:h-[26rem]">
         {negocio.portada_url ? (
           <img src={negocio.portada_url} alt={negocio.name} className="absolute inset-0 h-full w-full object-cover" />
         ) : (
           <CategoryCover category={negocio.category} seed={negocio.id || negocio.slug} className="absolute inset-0 h-full w-full" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-transparent to-transparent" />
-        <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md hover:bg-black/70">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-[#120d09]/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
+        <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 hover:bg-black/70">
           <ArrowLeft className="h-5 w-5" />
         </button>
       </section>
@@ -492,7 +494,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 const enOferta = p.old_price && Number(p.old_price) > Number(p.price);
                 const ultimasUnidades = p.stock != null && p.stock > 0 && p.stock <= 3;
                 return (
-                <div key={p.id} className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-orange-400/40 hover:shadow-xl hover:shadow-orange-500/10">
+                <div key={p.id} className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10">
+                <div className="overflow-hidden rounded-[1.375rem] border border-white/[.06] bg-gradient-to-b from-white/[.05] to-white/[.015] shadow-[inset_0_1px_1px_rgba(255,255,255,.08)]">
                   <div className="relative">
                     {Array.isArray(p.images) && p.images[0] && (
                       <img src={p.images[0]} alt={p.name} className="h-40 w-full object-cover" />
@@ -514,7 +517,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     <div className="mt-3 flex items-end justify-between">
                       <div>
                         {p.old_price && <p className="text-xs text-white/40 line-through">${Number(p.old_price).toLocaleString("es-AR")}</p>}
-                        <p className="text-xl font-black text-orange-400">${Number(p.price).toLocaleString("es-AR")}</p>
+                        <p className="text-2xl text-orange-400" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>${Number(p.price).toLocaleString("es-AR")}</p>
                       </div>
                       {p.stock && <span className="text-[10px] text-white/50">Stock: {p.stock}</span>}
                     </div>
@@ -530,6 +533,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                       </a>
                     )}
                   </div>
+                </div>
                 </div>
                 );
               })}
