@@ -103,23 +103,26 @@ export default function EnVivoDashboard() {
           "La gente te ve, te escribe por el chat y puede reservar lo que mostrás, todo en la misma pantalla.",
         ]} />
 
-        <div className="mb-4 flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4">
-          <p className="text-sm text-white/60">
-            {plan.maxVivosPorMes === -1 ? "Vivos ilimitados con tu plan" : `${vivosEsteMes}/${plan.maxVivosPorMes} vivos este mes (Plan ${plan.name})`}
-          </p>
-          {puedeCrear ? (
-            <button onClick={() => setCreando((v) => !v)} className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black">
-              <Plus className="h-4 w-4" /> Crear En Vivo
-            </button>
-          ) : (
-            <Link href="/dashboard/planes" className="flex items-center gap-1.5 rounded-xl border border-orange-400/40 px-4 py-2 text-sm font-bold text-orange-300">
-              <Lock className="h-4 w-4" /> Mejorar plan
-            </Link>
-          )}
+        <div className="mb-4 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="flex items-center justify-between rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <p className="text-sm text-white/60">
+              {plan.maxVivosPorMes === -1 ? "Vivos ilimitados con tu plan" : `${vivosEsteMes}/${plan.maxVivosPorMes} vivos este mes (Plan ${plan.name})`}
+            </p>
+            {puedeCrear ? (
+              <button onClick={() => setCreando((v) => !v)} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black">
+                <Plus className="h-4 w-4" /> Crear En Vivo
+              </button>
+            ) : (
+              <Link href="/dashboard/planes" className="flex items-center gap-1.5 rounded-full border border-orange-400/40 px-4 py-2 text-sm font-bold text-orange-300">
+                <Lock className="h-4 w-4" /> Mejorar plan
+              </Link>
+            )}
+          </div>
         </div>
 
         {creando && (
-          <div className="mb-6 space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5">
+          <div className="mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="space-y-3 rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
               placeholder="Título (ej: Liquidación de invierno 🔥)" className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2}
@@ -129,25 +132,30 @@ export default function EnVivoDashboard() {
               <input type="datetime-local" value={form.scheduled_at} onChange={(e) => setForm({ ...form, scheduled_at: e.target.value })}
                 className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
-            <button onClick={crear} disabled={!form.title.trim()} className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50">
+            <button onClick={crear} disabled={!form.title.trim()} className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50">
               Crear
             </button>
+          </div>
           </div>
         )}
 
         <div className="space-y-2.5">
           {streams.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">Todavía no creaste ninguna transmisión.</div>
+            <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">Todavía no creaste ninguna transmisión.</div>
+            </div>
           ) : streams.map((s) => (
-            <Link key={s.id} href={`/dashboard/en-vivo/${s.id}`} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-orange-400/40">
-              <div className="min-w-0 flex-1">
-                <p className="truncate font-bold">{s.title}</p>
-                <p className="flex items-center gap-2 text-xs text-white/40">
-                  {s.scheduled_at && <><Calendar className="h-3 w-3" /> {new Date(s.scheduled_at).toLocaleString("es-AR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</>}
-                  {s.status === "ended" && <><Clock className="h-3 w-3" /> {s.total_viewers} espectadores en total</>}
-                </p>
+            <Link key={s.id} href={`/dashboard/en-vivo/${s.id}`} className="group block rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
+              <div className="flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-bold">{s.title}</p>
+                  <p className="flex items-center gap-2 text-xs text-white/40">
+                    {s.scheduled_at && <><Calendar className="h-3 w-3" /> {new Date(s.scheduled_at).toLocaleString("es-AR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</>}
+                    {s.status === "ended" && <><Clock className="h-3 w-3" /> {s.total_viewers} espectadores en total</>}
+                  </p>
+                </div>
+                <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-black ${ESTADO_LABEL[s.status]?.c}`}>{ESTADO_LABEL[s.status]?.t}</span>
               </div>
-              <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-black ${ESTADO_LABEL[s.status]?.c}`}>{ESTADO_LABEL[s.status]?.t}</span>
             </Link>
           ))}
         </div>

@@ -100,16 +100,16 @@ export default function ControlEnVivo() {
           <div className="flex gap-2">
             {stream.status === "scheduled" && (
               <>
-                <button onClick={empezar} disabled={busy} className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 px-4 py-2 text-sm font-black disabled:opacity-50">
+                <button onClick={empezar} disabled={busy} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-red-500 to-orange-500 px-4 py-2 text-sm font-black disabled:opacity-50">
                   <Play className="h-4 w-4" /> Empezar
                 </button>
-                <button onClick={cancelar} className="flex items-center gap-1.5 rounded-xl border border-white/20 px-4 py-2 text-sm font-bold text-white/60">
+                <button onClick={cancelar} className="flex items-center gap-1.5 rounded-full border border-white/20 px-4 py-2 text-sm font-bold text-white/60">
                   <XCircle className="h-4 w-4" /> Cancelar
                 </button>
               </>
             )}
             {stream.status === "live" && (
-              <button onClick={finalizar} disabled={busy} className="flex items-center gap-1.5 rounded-xl border border-red-400/40 bg-red-500/15 px-4 py-2 text-sm font-black text-red-300 disabled:opacity-50">
+              <button onClick={finalizar} disabled={busy} className="flex items-center gap-1.5 rounded-full border border-red-400/40 bg-red-500/15 px-4 py-2 text-sm font-black text-red-300 disabled:opacity-50">
                 <Square className="h-4 w-4" /> Terminar
               </button>
             )}
@@ -126,18 +126,28 @@ export default function ControlEnVivo() {
               <BroadcasterRoom token={token.token} url={token.url} />
             ) : stream.status === "ended" ? (
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center"><p className="text-2xl font-black text-orange-400">{stream.max_viewers}</p><p className="text-[10px] text-white/50">Pico de espectadores</p></div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center"><p className="text-2xl font-black text-orange-400">{stream.total_viewers}</p><p className="text-[10px] text-white/50">Espectadores totales</p></div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center"><p className="text-2xl font-black text-orange-400">{stream.started_at && stream.ended_at ? Math.round((new Date(stream.ended_at).getTime() - new Date(stream.started_at).getTime()) / 60000) : 0}</p><p className="text-[10px] text-white/50">Minutos en vivo</p></div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center"><p className="text-2xl font-black text-orange-400">{items.length}</p><p className="text-[10px] text-white/50">Productos mostrados</p></div>
+                {[
+                  ["Pico de espectadores", stream.max_viewers],
+                  ["Espectadores totales", stream.total_viewers],
+                  ["Minutos en vivo", stream.started_at && stream.ended_at ? Math.round((new Date(stream.ended_at).getTime() - new Date(stream.started_at).getTime()) / 60000) : 0],
+                  ["Productos mostrados", items.length],
+                ].map(([label, value]) => (
+                  <div key={label as string} className="rounded-[1.25rem] border border-white/[.06] bg-white/[.02] p-1">
+                    <div className="rounded-[.9rem] border border-white/[.05] bg-black/10 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                      <p className="text-2xl font-black text-orange-400 tabular-nums">{value}</p>
+                      <p className="text-[10px] text-white/50">{label}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : (
-              <div className="flex h-64 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white/40">
+              <div className="flex h-64 items-center justify-center rounded-[1.5rem] border border-white/[.06] bg-white/[.02] text-white/40">
                 Todavía no empezaste esta transmisión.
               </div>
             )}
 
-            <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div className="mt-4 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <p className="mb-3 flex items-center gap-1.5 font-black">
                 🛍️ Productos en este vivo
                 {!plan.vivoProductos && <Lock className="h-3.5 w-3.5 text-orange-400" />}
@@ -167,6 +177,7 @@ export default function ControlEnVivo() {
                   )}
                 </>
               )}
+            </div>
             </div>
           </div>
 
