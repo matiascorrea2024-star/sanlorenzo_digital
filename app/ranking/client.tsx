@@ -9,7 +9,6 @@ import { Trophy, Star, Flame, Eye, Heart, TrendingUp, TrendingDown, Minus, Activ
 import { supabase } from "@/lib/supabase";
 import { rangoDe } from "@/lib/ranks";
 import { calcReputation, reputationLabel } from "@/lib/reputation";
-import Avatar from "@/components/ui/avatar";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 import Badge from "@/components/ui/badge";
 
@@ -136,7 +135,9 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
               <p className="text-xs font-black uppercase tracking-[0.2em] text-yellow-300">Negocio del día</p>
             </div>
             <Link href={`/negocio/${negocioDelDia.slug}`} className="flex items-center gap-4">
-              <Avatar name={negocioDelDia.name} size={64} />
+              <DivisionFrame puntos={negocioDelDia.puntos} categoria={negocioDelDia.category} size={64}>
+                <RankedAvatar slug={negocioDelDia.slug} name={negocioDelDia.name} categoria={negocioDelDia.category} size={60} />
+              </DivisionFrame>
               <div className="flex-1">
                 <p className="text-2xl font-black">{negocioDelDia.name}</p>
                 <p className="text-sm text-white/60 capitalize">{negocioDelDia.category} · ⭐ {negocioDelDia.rating.toFixed(1)}</p>
@@ -208,10 +209,10 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
             const esTop10 = i >= 3 && i < 10;
             return (
               <Link key={r.id} href={`/negocio/${r.slug}`}
-                className={`block rounded-2xl border p-4 transition hover:border-orange-400/50 ${
-                  i === 0 ? "border-yellow-400/40 bg-yellow-500/10" : "border-white/10 bg-white/5"
+                className={`block rounded-[1.5rem] border p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 ${
+                  i === 0 ? "border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 to-transparent hover:border-yellow-400/60" : "border-white/[.06] bg-white/[.02] hover:border-orange-400/30"
                 }`}>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-3.5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                   <div className="flex w-10 shrink-0 flex-col items-center">
                     <span className="text-center text-2xl font-black">{medal}</span>
                     {esTop10 && <span className="mt-0.5 text-[8px] font-black text-orange-300">TOP 10</span>}
