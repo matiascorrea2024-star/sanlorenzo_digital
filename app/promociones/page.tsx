@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import PageHero from "@/components/ui/page-hero";
+import { useEffect, useMemo, useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import OfferCard from "@/components/ui/offer-card";
 import { supabase } from "@/lib/supabase";
 
@@ -27,9 +28,18 @@ type Row = {
   business_status?: string;
 };
 
+function diasA(vence?: string) {
+  if (!vence) return null;
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  const f = new Date(vence + "T00:00:00");
+  return Math.round((f.getTime() - hoy.getTime()) / 86400000);
+}
+
 export default function PromocionesPage() {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
+  const [count, setCount] = useState(0);
+  const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     (async () => {
@@ -69,16 +79,50 @@ export default function PromocionesPage() {
     [rows, hoy]
   );
 
+  const urgentes = useMemo(() => activas.filter((o) => { const d = diasA(o.vence); return d !== null && d <= 1; }), [activas]);
+  const resto = useMemo(() => activas.filter((o) => !urgentes.includes(o)), [activas, urgentes]);
+
+  // Contador que sube en vivo hasta la cantidad real -- nada de "0" estático
+  // mientras carga, y nada inventado: apenas hay datos reales, cuenta hasta ahí.
+  useGSAP(() => {
+    if (loading) return;
+    const obj = { n: 0 };
+    gsap.to(obj, {
+      n: activas.length, duration: 1.1, ease: "power2.out",
+      onUpdate: () => setCount(Math.round(obj.n)),
+    });
+  }, { dependencies: [loading, activas.length] });
+
   return (
     <main className="min-h-screen bg-[#120d09] pb-24 text-white">
-      <PageHero
-        title="Ofertas en este momento"
-        subtitle={loading ? "Cargando..." : `${activas.length} promocion${activas.length === 1 ? "" : "es"} corriendo ahora en San Lorenzo`}
-      >
-        <Link href="/" className="mt-3 inline-block text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
-      </PageHero>
+      {/* Header propio del evento "Gran Barata" -- no el PageHero genérico
+          del resto del sitio: acá la energía/urgencia es el punto. */}
+      <section ref={heroRef} className="relative overflow-hidden border-b border-white/5">
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 20% 0%, rgba(249,115,22,.22), transparent 60%), radial-gradient(circle at 85% 30%, rgba(236,72,153,.14), transparent 55%)" }} />
+        <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
+          <Link href="/" className="text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
+          <div className="mt-3 flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1">
+                <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" /></span>
+                <span className="text-[11px] font-black uppercase tracking-widest text-red-300">Corriendo ahora</span>
+              </div>
+              <h1 className="text-5xl font-black leading-[0.95] tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
+                <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">La Gran</span>{" "}
+                <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent animate-gradient">Barata</span>
+              </h1>
+            </div>
+            <div className="shrink-0 rounded-[1.75rem] border border-orange-400/20 bg-gradient-to-br from-orange-500/10 to-transparent p-1.5">
+              <div className="rounded-[1.375rem] border border-white/10 bg-black/30 px-6 py-4 text-center backdrop-blur">
+                <p className="tabular-nums text-4xl font-black text-orange-400 md:text-5xl" style={{ fontFamily: "var(--font-ticket)" }}>{count}</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">oferta{count === 1 ? "" : "s"} activa{count === 1 ? "" : "s"}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <div className="mx-auto max-w-6xl px-4">
+      <div className="mx-auto max-w-6xl px-4 pt-10">
         {!loading && activas.length === 0 ? (
           <div className="sld-card rounded-3xl p-10 text-center">
             <p className="mt-3 text-xl font-black">No hay ofertas activas ahora</p>
@@ -97,11 +141,26 @@ export default function PromocionesPage() {
             ))}
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {activas.map((o) => (
-              <OfferCard key={o.id} o={o} />
-            ))}
-          </div>
+          <>
+            {urgentes.length > 0 && (
+              <div className="mb-10">
+                <h2 className="mb-4 flex items-center gap-2 text-lg font-black text-red-300">
+                  ⏰ Vencen hoy o mañana -- corré
+                </h2>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {urgentes.map((o) => <OfferCard key={o.id} o={o} />)}
+                </div>
+              </div>
+            )}
+            {resto.length > 0 && (
+              <div>
+                {urgentes.length > 0 && <h2 className="mb-4 text-lg font-black text-white/70">El resto de las ofertas</h2>}
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {resto.map((o) => <OfferCard key={o.id} o={o} />)}
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         <div className="mt-10 text-center">

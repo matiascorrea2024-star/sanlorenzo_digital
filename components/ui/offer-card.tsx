@@ -66,7 +66,12 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
 
   return (
     <Link href={o.id.startsWith("demo-") ? ("/negocio/" + o.slug) : ("/oferta/" + o.id)}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] transition hover:border-orange-400/60 hover:shadow-[0_10px_40px_-10px_rgba(249,115,22,0.3)]">
+      className={`group relative block rounded-[1.75rem] border p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 ${
+        esUrgente
+          ? "border-red-400/30 bg-gradient-to-br from-red-500/[.08] to-transparent hover:border-red-400/60 hover:shadow-2xl hover:shadow-red-500/20"
+          : "border-white/[.06] bg-white/[.02] hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10"
+      }`}>
+      <div className="relative flex flex-col overflow-hidden rounded-[1.375rem] border border-white/[.06] bg-gradient-to-b from-white/[.05] to-white/[.015] shadow-[inset_0_1px_1px_rgba(255,255,255,.08)]">
       <div className="relative aspect-[16/10] w-full overflow-hidden">
         {o.portada_url ? (
           <img src={o.portada_url} alt={o.producto} loading="lazy"
@@ -139,7 +144,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
             <div className="flex items-end justify-between">
               <div>
                 <p className="text-[10px] text-white/40 line-through">{fmt(o.antes)}</p>
-                <p className="text-2xl text-white" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>{fmt(o.ahora)}</p>
+                <p className="text-3xl leading-none text-white" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>{fmt(o.ahora)}</p>
               </div>
               {o.descuento && (
                 <span className="rounded-lg bg-green-500/15 px-2 py-1 text-xs font-black text-green-300">
@@ -151,6 +156,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
             <p className="text-sm font-bold text-orange-400">Ver oferta →</p>
           )}
         </div>
+      </div>
       </div>
     </Link>
   );
