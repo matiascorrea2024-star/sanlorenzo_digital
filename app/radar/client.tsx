@@ -108,10 +108,12 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
             ))}
           </div>
         ) : ofertas.length === 0 ? (
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-12 text-center">
-            <Flame className="mx-auto h-12 w-12 text-white/30 mb-3" />
-            <p className="text-lg font-bold">No hay ofertas que terminen hoy</p>
-            <p className="mt-2 text-sm text-white/50">Volvé mañana o mirá todas las ofertas activas.</p>
+          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-12 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Flame className="mx-auto h-12 w-12 text-white/30 mb-3" />
+              <p className="text-lg font-bold">No hay ofertas que terminen hoy</p>
+              <p className="mt-2 text-sm text-white/50">Volvé mañana o mirá todas las ofertas activas.</p>
+            </div>
           </div>
         ) : (
           <>
