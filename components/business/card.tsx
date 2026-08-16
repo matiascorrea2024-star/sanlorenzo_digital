@@ -16,15 +16,19 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
     : null;
 
   return (
+    // Doble-marco: la card real (bordes redondeados grandes, radio
+    // "cuadrado" -1.5) vive DENTRO de una bandeja con su propio fondo/borde
+    // -- se lee como una pieza montada, no un rectángulo plano más.
     <Link
       href={`/negocio/${b.slug}`}
       data-spot
-      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border transition duration-300 hover:-translate-y-1 ${
+      className={`group relative block h-full rounded-[1.75rem] border p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 ${
         featured
-          ? "border-orange-400/30 bg-gradient-to-b from-orange-500/[.09] to-white/[.02] hover:border-orange-400/60 hover:shadow-2xl hover:shadow-orange-500/20"
-          : "border-white/10 bg-gradient-to-b from-white/[.06] to-white/[.02] hover:border-orange-400/40 hover:shadow-xl hover:shadow-orange-500/10"
+          ? "border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-transparent hover:border-orange-400/50 hover:shadow-2xl hover:shadow-orange-500/20"
+          : "border-white/[.06] bg-white/[.02] hover:border-orange-400/30 hover:shadow-xl hover:shadow-black/40"
       }`}
     >
+    <div className="relative flex h-full flex-col overflow-hidden rounded-[1.375rem] border border-white/[.06] bg-gradient-to-b from-white/[.05] to-white/[.015] shadow-[inset_0_1px_1px_rgba(255,255,255,.08)]">
       {/* Imagen de portada */}
       <div className={`relative overflow-hidden ${featured ? "h-48 md:h-72" : "h-24 md:h-32"}`}>
         {b.portada_url ? (
@@ -104,6 +108,7 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
           </span>
         </div>
       </div>
+    </div>
     </Link>
   );
 }

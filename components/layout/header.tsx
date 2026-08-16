@@ -59,31 +59,34 @@ export default function Header() {
   ];
 
   return (
-    <header className={`sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300 relative h-14 md:h-16 ${scrolled ? "border-white/10 bg-[#120d09]/95 shadow-lg shadow-black/40" : "border-transparent bg-[#120d09]/70"}`}>
-      <div className="mx-auto max-w-7xl px-4 h-full">
-        <div className="flex h-full items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 px-2 pt-2 md:top-3 md:px-3 md:pt-3">
+      {/* Isla flotante, no una barra pegada al borde -- el blur/sombra crece
+          apenas se scrollea para que se note que "levanta" sobre el contenido. */}
+      <div className={`mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full border px-3 backdrop-blur-xl transition-all duration-500 md:h-16 md:px-5 ${
+        scrolled ? "border-white/15 bg-[#120d09]/90 shadow-2xl shadow-black/50" : "border-white/10 bg-[#120d09]/70 shadow-lg shadow-black/30"
+      }`}>
           <Link href="/" className="group flex shrink-0 items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 shadow-lg shadow-orange-500/25 transition group-hover:shadow-orange-500/45 group-hover:brightness-110">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 shadow-lg shadow-orange-500/25 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 group-hover:shadow-orange-500/45 group-hover:brightness-110">
               <ShoppingBag className="h-5 w-5 text-white" />
             </span>
-            <span className="leading-tight">
+            <span className="hidden leading-tight sm:block">
               <span className="block text-sm font-black tracking-tight text-white md:text-base">LA GRAN BARATA</span>
               <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-orange-400">Digital · San Lorenzo</span>
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-6 md:flex">
+          <nav className="hidden items-center gap-1 md:flex">
             {navItems.map((it) => {
               const active = pathname === it.href;
               return (
                 <Link
                   key={it.href}
                   href={it.href}
-                  className={`relative text-sm font-semibold transition ${active ? "text-white" : "text-white/60 hover:text-white"}`}
+                  className={`relative rounded-full px-3.5 py-2 text-sm font-semibold transition-all duration-300 ${active ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
                 >
                   {it.label}
                   {active && (
-                    <span className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(249,115,22,.9)]" />
+                    <span className="absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(249,115,22,.9)]" />
                   )}
                 </Link>
               );
@@ -144,16 +147,12 @@ export default function Header() {
               <AuthButton />
             )}
 
-            <Link href="/para-negocios" className="btn-shine hidden rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black text-white hover:opacity-90 md:inline-block">
+            <Link href="/para-negocios" className="group/cta btn-shine hidden items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-1.5 pl-4 pr-1.5 text-sm font-black text-white transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.98] md:inline-flex">
               Publicar negocio
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black/15 transition-transform duration-300 group-hover/cta:translate-x-0.5">↗</span>
             </Link>
           </div>
-        </div>
       </div>
-
-      <div
-        className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent transition-opacity duration-300 ${scrolled ? "opacity-100" : "opacity-0"}`}
-      />
     </header>
   );
 }
