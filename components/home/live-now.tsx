@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import SectionTitle from "@/components/ui/section-title";
@@ -40,16 +41,21 @@ export default function LiveNow() {
         className="sld-no-scrollbar -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
         {streams.map((s) => (
           <Link key={s.id} href={`/en-vivo/${s.id}`}
-            className="group w-56 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:border-red-400/40">
-            <div className="relative h-32 w-full overflow-hidden bg-gradient-to-br from-red-500/20 to-orange-500/20">
-              {s.cover_url && <img src={s.cover_url} alt={s.title} className="h-full w-full object-cover transition group-hover:scale-105" />}
-              <span className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-red-500 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> En vivo
-              </span>
-            </div>
-            <div className="p-3">
-              <p className="truncate text-sm font-bold">{s.title}</p>
-              <p className="truncate text-xs text-[var(--muted)]">{s.businesses?.name}</p>
+            className="group w-56 shrink-0 rounded-[1.5rem] border border-red-400/20 bg-white/[.02] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
+            <div className="overflow-hidden rounded-[1.1rem] border border-white/[.05] bg-black/10 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-red-400/40">
+              <div className="relative h-32 w-full overflow-hidden bg-gradient-to-br from-red-500/20 to-orange-500/20">
+                {s.cover_url && (
+                  <Image src={s.cover_url} alt={s.title} fill sizes="224px" quality={85}
+                    className="object-cover transition duration-500 group-hover:scale-105" />
+                )}
+                <span className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-red-500 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> En vivo
+                </span>
+              </div>
+              <div className="p-3">
+                <p className="truncate text-sm font-bold">{s.title}</p>
+                <p className="truncate text-xs text-[var(--muted)]">{s.businesses?.name}</p>
+              </div>
             </div>
           </Link>
         ))}
