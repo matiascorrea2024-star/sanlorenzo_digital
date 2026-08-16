@@ -480,15 +480,28 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               }
               return (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {visibles.map((p) => (
+              {visibles.map((p) => {
+                const esNuevo = p.created_at && (Date.now() - new Date(p.created_at).getTime()) < 7 * 86400000;
+                const enOferta = p.old_price && Number(p.old_price) > Number(p.price);
+                const ultimasUnidades = p.stock != null && p.stock > 0 && p.stock <= 3;
+                return (
                 <div key={p.id} className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-orange-400/40 hover:shadow-xl hover:shadow-orange-500/10">
-                  {Array.isArray(p.images) && p.images[0] && (
-                    <img src={p.images[0]} alt={p.name} className="h-40 w-full object-cover" />
-                  )}
+                  <div className="relative">
+                    {Array.isArray(p.images) && p.images[0] && (
+                      <img src={p.images[0]} alt={p.name} className="h-40 w-full object-cover" />
+                    )}
+                    {(enOferta || esNuevo || ultimasUnidades || p.featured) && (
+                      <div className="absolute left-2 top-2 flex flex-col gap-1">
+                        {p.featured && <span className="rounded-full bg-yellow-500/90 px-2 py-0.5 text-[9px] font-black text-black">⭐ Destacado</span>}
+                        {enOferta && <span className="rounded-full bg-gradient-to-r from-red-500 to-orange-500 px-2 py-0.5 text-[9px] font-black text-white">🔥 Oferta</span>}
+                        {esNuevo && <span className="rounded-full bg-sky-500/90 px-2 py-0.5 text-[9px] font-black text-white">🆕 Nuevo</span>}
+                        {ultimasUnidades && <span className="rounded-full bg-red-600/90 px-2 py-0.5 text-[9px] font-black text-white">⚡ Últimas unidades</span>}
+                      </div>
+                    )}
+                  </div>
                   <div className="p-4">
                     <p className="font-bold flex items-center gap-1.5">
                       {p.name}
-                      {p.featured && <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />}
                     </p>
                     {p.description && <p className="mt-1 line-clamp-2 text-xs text-white/60">{p.description}</p>}
                     <div className="mt-3 flex items-end justify-between">
@@ -500,6 +513,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     </div>
                     {negocio.whatsapp && (
                       <a
+                        onClick={() => track(negocio.id, "whatsapp")}
                         href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, te consulto por "${p.name}" que vi en La Gran Barata Digital`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -510,7 +524,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     )}
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
               );
             })()}

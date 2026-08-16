@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data: barrios } = await sb.from("locations").select("slug, parent_id").eq("type", "neighborhood").eq("active", true);
   const { data: posts } = await sb.from("blog_posts").select("slug, updated_at").eq("published", true);
   const base = "https://sanlorenzodigital.vercel.app";
-  const estaticas = ["", "/negocios", "/particulares", "/promociones", "/mapa", "/ranking", "/vecinos", "/feed", "/buscar", "/para-negocios", "/planes", "/b2b", "/portuario", "/blog"].map((p) => ({
+  const estaticas = ["", "/pulso", "/negocios", "/particulares", "/promociones", "/mapa", "/ranking", "/vecinos", "/feed", "/buscar", "/para-negocios", "/planes", "/b2b", "/portuario", "/blog"].map((p) => ({
     url: base + p, lastModified: new Date(), changeFrequency: "daily" as const, priority: p === "" ? 1 : 0.8,
   }));
   const negociosSitemap = (negocios || []).map((b: any) => ({

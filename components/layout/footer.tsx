@@ -6,6 +6,7 @@ const COLS = [
   {
     t: "🔍 Explorá",
     links: [
+      { href: "/pulso", l: "Pulso de la ciudad" },
       { href: "/negocios", l: "Negocios" },
       { href: "/particulares", l: "Venta entre vecinos" },
       { href: "/promociones", l: "Ofertas activas" },

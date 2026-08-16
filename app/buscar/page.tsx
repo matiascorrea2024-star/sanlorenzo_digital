@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import PageHero from "@/components/ui/page-hero";
 import { useAllBusinesses } from "@/lib/use-businesses";
+import { useAnalytics } from "@/lib/hooks/use-analytics";
 
 const CATEGORY_IMAGES: Record<string, string> = {
   calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=900&q=85",
@@ -46,6 +47,17 @@ function BuscarContent() {
   const [conEnvios, setConEnvios] = useState(false);
   const [cerca, setCerca] = useState<{ lat: number; lng: number } | null>(null);
   const [distancias, setDistancias] = useState<Record<string, number>>({});
+  const { trackSearch } = useAnalytics();
+
+  // Búsquedas reales, con debounce -- alimenta "oportunidades de hoy" y el
+  // futuro "pulso comercial" (categoría más buscada). Antes de esto no se
+  // guardaba ningún término de búsqueda en ningún lado.
+  useEffect(() => {
+    const term = q.trim();
+    if (term.length < 2) return;
+    const t = setTimeout(() => trackSearch(term), 800);
+    return () => clearTimeout(t);
+  }, [q]);
 
   const hoy = new Date().toISOString().slice(0, 10);
   const tieneOfertas = (b: any) =>

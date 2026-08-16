@@ -38,7 +38,10 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
 
       const [ligas, views, favBiz, posts] = await Promise.all([
         supabase().from("business_leagues").select("*"),
-        supabase().from("page_views").select("business_id, viewed_at"),
+        // page_views_public (no page_views): la tabla real solo la puede
+        // leer el dueño/admin (protege IPs) -- por eso esta pestaña de
+        // crecimiento siempre le devolvía vacío a un visitante común.
+        supabase().from("page_views_public").select("business_id, viewed_at"),
         // Conteo agregado de favoritos: se lee de businesses.favorites_count
         // (mantenido por trigger), no de un SELECT abierto sobre favorites
         // -- esa tabla es privada por diseño (RLS: solo tus propios favoritos).

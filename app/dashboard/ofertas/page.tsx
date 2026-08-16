@@ -215,24 +215,30 @@ export default function OfertasPage() {
                     {offer.es_bomba ? "💣 Es tu oferta bomba de hoy (18-20hs)" : "💣 Marcar como oferta bomba de hoy"}
                   </button>
 
-                  <div className="flex gap-3">
+                  <div className="flex flex-wrap gap-2">
                     <Link
                       href={`/dashboard/ofertas/${offer.id}/editar`}
-                      className="flex-1 rounded-xl border border-white/20 px-4 py-2 text-center text-sm hover:bg-white/5"
+                      className="flex-1 rounded-xl border border-white/20 px-3 py-2 text-center text-xs font-bold hover:bg-white/5"
                     >
                       ✏️ Editar
                     </Link>
                     <Link
                       href={`/dashboard/ofertas/${offer.id}/cupones`}
-                      className="flex-1 rounded-xl border border-white/20 px-4 py-2 text-center text-sm hover:bg-white/5"
+                      className="flex-1 rounded-xl border border-white/20 px-3 py-2 text-center text-xs font-bold hover:bg-white/5"
                     >
                       🎟️ Cupones
                     </Link>
                     <Link
                       href={`/dashboard/ofertas/${offer.id}/marketing`}
-                      className="flex-1 rounded-xl border border-white/20 px-4 py-2 text-center text-sm hover:bg-white/5"
+                      className="flex-1 rounded-xl border border-white/20 px-3 py-2 text-center text-xs font-bold hover:bg-white/5"
                     >
                       📱 Marketing
+                    </Link>
+                    <Link
+                      href={`/dashboard/ofertas/${offer.id}/campana`}
+                      className="flex-1 rounded-xl border border-cyan-400/30 bg-cyan-500/10 px-3 py-2 text-center text-xs font-bold text-cyan-300 hover:bg-cyan-500/20"
+                    >
+                      📍 Promocionar
                     </Link>
                   </div>
                 </div>

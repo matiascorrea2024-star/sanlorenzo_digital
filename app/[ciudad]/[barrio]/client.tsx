@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import { MapPin, Store, ArrowLeft, Search, Sparkles, ArrowRight } from "lucide-react";
+import { MapPin, Store, ArrowLeft, Search, Sparkles, ArrowRight, Flame } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import BusinessCard from "@/components/business/card";
+import OfferCard from "@/components/ui/offer-card";
 
 export default function BarrioView() {
   const params = useParams();
@@ -14,6 +15,7 @@ export default function BarrioView() {
   const [barrio, setBarrio] = useState<any>(null);
   const [ciudad, setCiudad] = useState<any>(null);
   const [negocios, setNegocios] = useState<any[]>([]);
+  const [ofertasPromo, setOfertasPromo] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,6 +32,22 @@ export default function BarrioView() {
         const { data: biz } = await supabase().from("businesses")
           .select("*").eq("neighborhood_id", neigh.id).limit(20);
         setNegocios(biz || []);
+
+        // Ofertas que un negocio (de cualquier parte de la ciudad, plan
+        // PRO+) eligió promocionar puntualmente en este barrio.
+        const { data: promo } = await supabase().from("offers")
+          .select("*, businesses(name, slug, category, portada_url, rating, status)")
+          .eq("promoted_neighborhood_id", neigh.id).eq("active", true).limit(6);
+        setOfertasPromo((promo || []).map((o: any) => ({
+          id: o.id, negocio: o.businesses?.name, slug: o.businesses?.slug,
+          producto: o.title, cat: o.businesses?.category || "",
+          vence: o.valid_until, descuento: o.discount_percent,
+          antes: o.old_price ? Number(o.old_price) : undefined,
+          ahora: o.offer_price ? Number(o.offer_price) : undefined,
+          portada_url: o.businesses?.portada_url,
+          rating: o.businesses?.rating ? Number(o.businesses.rating) : undefined,
+          verificado: o.businesses?.status === "verificado",
+        })));
       }
       setLoading(false);
     })();
@@ -65,6 +83,17 @@ export default function BarrioView() {
       </section>
 
       <div className="mx-auto max-w-6xl px-4 py-8">
+        {ofertasPromo.length > 0 && (
+          <section className="mb-10">
+            <h2 className="mb-4 flex items-center gap-2 text-2xl font-black">
+              <Flame className="h-6 w-6 text-orange-400" /> Ofertas para {barrio.name}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {ofertasPromo.map((o) => <OfferCard key={o.id} o={o} />)}
+            </div>
+          </section>
+        )}
+
         <h2 className="text-2xl font-black mb-4">
           <Store className="inline h-6 w-6 mr-2" />
           Negocios en {barrio.name} ({negocios.length})

@@ -1,0 +1,146 @@
+"use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Heart, Send, Lock } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/providers/auth-provider";
+import DashboardNav from "@/components/dashboard/dashboard-nav";
+import HowItWorks from "@/components/ui/how-it-works";
+import { planDe } from "@/lib/plans";
+import { useToast } from "@/components/ui/toast";
+
+const MAX_DESTINATARIOS = 500;
+
+export default function SeguidoresPage() {
+  const { user } = useAuth();
+  const { show } = useToast();
+  const [negocio, setNegocio] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
+  const [nuevosMes, setNuevosMes] = useState(0);
+  const [mensaje, setMensaje] = useState("");
+  const [enviando, setEnviando] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (!user) return;
+      const sb = supabase();
+      const { data: biz } = await sb.from("businesses").select("*").eq("owner_id", user.id).maybeSingle();
+      if (biz) {
+        setNegocio(biz);
+        const desdeMes = new Date(Date.now() - 30 * 86400000).toISOString();
+        const [{ count: t }, { count: nm }] = await Promise.all([
+          sb.from("followers").select("id", { count: "exact", head: true }).eq("business_id", biz.id),
+          sb.from("followers").select("id", { count: "exact", head: true }).eq("business_id", biz.id).gte("created_at", desdeMes),
+        ]);
+        setTotal(t || 0);
+        setNuevosMes(nm || 0);
+      }
+      setLoading(false);
+    })();
+  }, [user]);
+
+  const plan = planDe(negocio);
+
+  const enviarNovedad = async () => {
+    if (!negocio || !mensaje.trim()) return;
+    setEnviando(true);
+    try {
+      const sb = supabase();
+      const { data: seguidores } = await sb.from("followers").select("user_id").eq("business_id", negocio.id).limit(MAX_DESTINATARIOS);
+      const filas = (seguidores || []).map((s) => ({
+        user_id: s.user_id,
+        business_id: negocio.id,
+        type: "business_news",
+        title: `📣 Novedad de ${negocio.name}`,
+        body: mensaje.trim().slice(0, 200),
+        link: `/negocio/${negocio.slug}`,
+      }));
+      if (filas.length > 0) {
+        const { error } = await sb.from("notifications").insert(filas);
+        if (error) throw error;
+      }
+      show(`✅ Enviado a ${filas.length} seguidor${filas.length === 1 ? "" : "es"}`, "success");
+      setMensaje("");
+    } catch {
+      show("❌ No se pudo enviar. Probá de nuevo.", "error");
+    }
+    setEnviando(false);
+  };
+
+  if (loading) {
+    return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
+  }
+
+  if (!negocio) {
+    return (
+      <main className="min-h-screen bg-[#120d09] text-white pb-24">
+        <div className="mx-auto max-w-2xl px-4 py-8">
+          <DashboardNav />
+          <p className="text-white/50">Necesitás un negocio para ver tus seguidores.</p>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+      <div className="mx-auto max-w-2xl px-4 py-8">
+        <DashboardNav />
+        <div className="mb-6 flex items-center gap-3">
+          <Heart className="h-8 w-8 text-orange-400" />
+          <div>
+            <h1 className="text-3xl font-black">Tus seguidores</h1>
+            <p className="text-white/60">La audiencia propia de {negocio.name} dentro de la plataforma</p>
+          </div>
+        </div>
+
+        <div className="mb-6 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
+            <p className="text-3xl font-black text-orange-400">{total}</p>
+            <p className="text-xs text-white/50">Seguidores totales</p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
+            <p className="text-3xl font-black text-green-400">+{nuevosMes}</p>
+            <p className="text-xs text-white/50">Nuevos este mes</p>
+          </div>
+        </div>
+
+        <HowItWorks steps={[
+          "Escribí una novedad corta: una oferta nueva, un producto que llegó, un cambio de horario.",
+          "Se la mandamos como notificación a todos tus seguidores dentro de la plataforma.",
+          "Usalo con criterio -- es tu audiencia, no un lugar para spamear todos los días.",
+        ]} />
+
+        {plan.campanas ? (
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <p className="mb-3 font-black">Enviar novedad a tus seguidores</p>
+            <textarea
+              value={mensaje}
+              onChange={(e) => setMensaje(e.target.value)}
+              rows={3}
+              maxLength={200}
+              placeholder="Ej: Llegó stock nuevo de zapatillas talle 42 👟"
+              className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-sm outline-none focus:border-orange-400"
+            />
+            <p className="mt-1 text-right text-[10px] text-white/30">{mensaje.length}/200</p>
+            <button
+              onClick={enviarNovedad}
+              disabled={enviando || !mensaje.trim() || total === 0}
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50"
+            >
+              <Send className="h-4 w-4" /> {enviando ? "Enviando..." : total === 0 ? "Todavía no tenés seguidores" : `Enviar a ${Math.min(total, MAX_DESTINATARIOS)} seguidor${total === 1 ? "" : "es"}`}
+            </button>
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-6 text-center">
+            <Lock className="mx-auto mb-2 h-7 w-7 text-orange-400" />
+            <p className="font-black">Enviar novedades es una herramienta de Plan PRO</p>
+            <p className="mt-1 text-sm text-white/60">Construí tu propia audiencia y avisale directo cuando tengas algo nuevo.</p>
+            <Link href="/dashboard/planes" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black">Ver planes →</Link>
+          </div>
+        )}
+      </div>
+    </main>
+  );
+}

@@ -10,6 +10,7 @@ const EXTRAS: TickerItem[] = [
   { id: "x2", label: "Ranking de negocios de San Lorenzo", sub: "votado por vecinos", href: "/ranking", emoji: "🏆" },
   { id: "x3", label: "Mapa de la ciudad", sub: "negocios cerca tuyo", href: "/mapa", emoji: "📍" },
   { id: "x4", label: "Ofertas que terminan hoy", sub: "corré antes de que venzan", href: "/#ofertas", emoji: "⏰" },
+  { id: "x5", label: "¿Qué está pasando hoy en la ciudad?", sub: "el pulso comercial de San Lorenzo", href: "/pulso", emoji: "📊" },
 ];
 
 export default function OffersTicker() {

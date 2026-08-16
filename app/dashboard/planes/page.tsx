@@ -10,9 +10,9 @@ import { uploadComprobante } from "@/lib/media";
 import { friendlyError } from "@/lib/friendly-error";
 
 const CARDS = [
-  { k: "gratis", icon: Zap, precio: "$0", features: ["Perfil completo", "3 ofertas activas", "Chat con clientes", "Mapa y búsqueda"] },
-  { k: "plus", icon: Star, precio: "$4.900/mes", features: ["8 ofertas activas", "Estadísticas completas", "Responder reseñas"] },
-  { k: "profesional", icon: Rocket, precio: "$9.900/mes", features: ["Ofertas ilimitadas", "Estadísticas completas", "Historias 24h", "Responder reseñas"] },
+  { k: "gratis", icon: Zap, precio: "$0", features: ["Perfil completo", "3 ofertas activas", "5 productos", "Chat con clientes"] },
+  { k: "plus", icon: Star, precio: "$4.900/mes", features: ["8 ofertas activas", "30 productos", "Estadísticas de visitas", "Responder reseñas", "WhatsApp destacado"] },
+  { k: "profesional", icon: Rocket, precio: "$9.900/mes", features: ["Ofertas y catálogo ilimitados", "Historias 24h", "Estadísticas avanzadas", "Cupones con código", "Destacar catálogo", "Campañas por barrio"] },
   { k: "premium", icon: Crown, precio: "$19.900 / 7 días", features: ["Todo lo de PRO Comerciante", "Posición destacada fija (7 días)", "Cupo limitado a 5 negocios", "Badge de destacado"] },
 ];
 
