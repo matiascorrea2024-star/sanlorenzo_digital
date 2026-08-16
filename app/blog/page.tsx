@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Newspaper } from "lucide-react";
 import { createClient } from "@/lib/supabase-server";
 import PageHero from "@/components/ui/page-hero";
@@ -21,23 +22,30 @@ export default async function BlogPage() {
       <PageHero title="Blog" subtitle="Novedades del comercio local de San Lorenzo y el cordón industrial" />
       <div className="mx-auto max-w-4xl px-4 py-10">
         {!posts || posts.length === 0 ? (
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-12 text-center">
-            <Newspaper className="mx-auto h-10 w-10 text-white/20" />
-            <p className="mt-3 text-sm text-white/40">Todavía no publicamos artículos. Volvé pronto.</p>
+          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-12 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Newspaper className="mx-auto h-10 w-10 text-white/20" />
+              <p className="mt-3 text-sm text-white/40">Todavía no publicamos artículos. Volvé pronto.</p>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
             {posts.map((p: any) => (
               <Link key={p.id} href={`/blog/${p.slug}`}
-                className="block rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-orange-400/40 hover:bg-white/[0.05]">
-                {p.cover_url && (
-                  <img src={p.cover_url} alt={p.title} className="mb-4 h-48 w-full rounded-xl object-cover" />
-                )}
-                <h2 className="text-xl font-black">{p.title}</h2>
-                {p.excerpt && <p className="mt-1.5 text-sm text-white/60">{p.excerpt}</p>}
-                <p className="mt-3 text-xs text-white/40">
-                  {p.author && `${p.author} · `}{new Date(p.created_at).toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" })}
-                </p>
+                className="group block rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5">
+                <div className="overflow-hidden rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+                  {p.cover_url && (
+                    <div className="relative mb-4 h-48 w-full overflow-hidden rounded-[1rem]">
+                      <Image src={p.cover_url} alt={p.title} fill sizes="(max-width: 768px) 100vw, 768px" quality={90}
+                        className="object-cover transition duration-500 group-hover:scale-105" />
+                    </div>
+                  )}
+                  <h2 className="text-xl font-black">{p.title}</h2>
+                  {p.excerpt && <p className="mt-1.5 text-sm text-white/60">{p.excerpt}</p>}
+                  <p className="mt-3 text-xs text-white/40">
+                    {p.author && `${p.author} · `}{new Date(p.created_at).toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" })}
+                  </p>
+                </div>
               </Link>
             ))}
           </div>

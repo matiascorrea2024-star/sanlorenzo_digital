@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
 
@@ -35,9 +36,11 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="mx-auto max-w-2xl px-4 py-10">
         <Link href="/blog" className="text-sm text-orange-400 hover:text-orange-300">← Volver al blog</Link>
         {post.cover_url && (
-          <img src={post.cover_url} alt={post.title} className="mt-5 h-64 w-full rounded-2xl object-cover" />
+          <div className="relative mt-5 h-64 w-full overflow-hidden rounded-[1.5rem] border border-white/[.06]">
+            <Image src={post.cover_url} alt={post.title} fill sizes="(max-width: 768px) 100vw, 672px" quality={92} priority className="object-cover" />
+          </div>
         )}
-        <h1 className="mt-5 text-3xl font-black">{post.title}</h1>
+        <h1 className="mt-5 text-3xl font-black tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-space)" }}>{post.title}</h1>
         <p className="mt-2 text-xs text-white/40">
           {post.author && `${post.author} · `}{new Date(post.created_at).toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" })}
         </p>
