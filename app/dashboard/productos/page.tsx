@@ -209,9 +209,11 @@ export default function ProductosPage() {
         </div>
 
         {!puedeSumar && (
-          <div className="mb-4 flex flex-col items-start justify-between gap-3 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-4 sm:flex-row sm:items-center">
-            <p className="text-sm">Llegaste al límite de {planActual.maxProductos} productos del plan {planActual.name}.</p>
-            <Link href="/dashboard/planes" className="shrink-0 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-xs font-black">Mejorar plan →</Link>
+          <div className="mb-4 rounded-[1.5rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.1rem] border border-white/[.06] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:flex-row sm:items-center">
+              <p className="text-sm">Llegaste al límite de {planActual.maxProductos} productos del plan {planActual.name}.</p>
+              <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
+            </div>
           </div>
         )}
 
@@ -240,7 +242,8 @@ export default function ProductosPage() {
 
         {/* Carga rápida por fotos */}
         {modo === "rapida" && !editing && (
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
+          <div className="mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <h2 className="text-lg font-black mb-1">Carga rápida</h2>
             <p className="mb-4 text-sm text-white/50">Elegí todas las fotos que quieras cargar ahora.</p>
             <label className="flex h-28 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-white/20 bg-white/[.03] text-white/50 transition hover:border-orange-400/60 hover:text-white">
@@ -276,7 +279,7 @@ export default function ProductosPage() {
                 <button
                   onClick={guardarTodo}
                   disabled={guardandoTodo || listosParaGuardar.length === 0 || cupoRestante <= 0}
-                  className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50"
+                  className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50"
                 >
                   {guardandoTodo ? "Guardando..." : `Guardar todo (${Math.min(listosParaGuardar.length, cupoRestante)})`}
                 </button>
@@ -289,10 +292,12 @@ export default function ProductosPage() {
               </div>
             )}
           </div>
+          </div>
         )}
 
         {/* Formulario de a uno (también se usa para editar) */}
-        <div className={`rounded-2xl border border-white/10 bg-white/5 p-6 mb-6 ${modo === "rapida" && !editing ? "hidden" : ""}`}>
+        <div className={`mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 ${modo === "rapida" && !editing ? "hidden" : ""}`}>
+        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <h2 className="text-lg font-black mb-4">{editing ? "Editar producto" : "Nuevo producto"}</h2>
           <div className="space-y-3">
             <ImageUploader
@@ -330,26 +335,30 @@ export default function ProductosPage() {
             )}
             <div className="flex gap-2">
               <button onClick={save} disabled={!form.name || !form.price || !puedeSumar}
-                className="flex-1 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black disabled:opacity-50">
+                className="flex-1 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black disabled:opacity-50">
                 {editing ? "Guardar cambios" : "Crear producto"}
               </button>
               {editing && (
                 <button onClick={() => { setEditing(null); setForm(emptyForm()); }}
-                  className="rounded-xl border border-white/20 px-4 py-2.5 text-sm font-bold">Cancelar</button>
+                  className="rounded-full border border-white/20 px-4 py-2.5 text-sm font-bold">Cancelar</button>
               )}
             </div>
           </div>
+        </div>
         </div>
 
         {/* Lista */}
         <div className="space-y-2">
           {productos.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
-              Aún no tenés productos. Creá el primero arriba.
+            <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">
+                Aún no tenés productos. Creá el primero arriba.
+              </div>
             </div>
           ) : (
             productos.map(p => (
-              <div key={p.id} className={`flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 ${p.active === false ? "opacity-50" : ""}`}>
+              <div key={p.id} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className={`flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] ${p.active === false ? "opacity-50" : ""}`}>
                 {Array.isArray(p.images) && p.images[0] ? (
                   <img src={p.images[0]} alt={p.name} className="h-12 w-12 rounded-xl object-cover" />
                 ) : (
@@ -376,6 +385,7 @@ export default function ProductosPage() {
                 <button onClick={() => del(p.id)} className="rounded-lg bg-red-500/20 p-2 hover:bg-red-500/30">
                   <Trash2 className="h-4 w-4 text-red-400" />
                 </button>
+              </div>
               </div>
             ))
           )}
