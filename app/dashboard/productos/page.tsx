@@ -8,6 +8,8 @@ import ImageUploader from "@/components/upload/image-uploader";
 import { uploadProductImage } from "@/lib/media";
 import HowItWorks from "@/components/ui/how-it-works";
 import { planDe, puedeAgregarProducto } from "@/lib/plans";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 import Link from "next/link";
 
 const emptyForm = () => ({
@@ -19,6 +21,7 @@ type Pendiente = { id: string; file: File; preview: string; name: string; price:
 
 export default function ProductosPage() {
   const { user } = useAuth();
+  const { show } = useToast();
   const [negocio, setNegocio] = useState<any>(null);
   const [productos, setProductos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,11 +70,12 @@ export default function ProductosPage() {
       images: form.image ? [form.image] : [],
       featured: form.featured,
     };
-    if (editing) {
-      await supabase().from("products").update(data).eq("id", editing.id);
-    } else {
-      await supabase().from("products").insert(data);
-    }
+    // active solo se setea al crear -- si el negocio lo ocultó con
+    // toggleActive(), editar nombre/precio no debe reactivarlo solo.
+    const { error } = editing
+      ? await supabase().from("products").update(data).eq("id", editing.id)
+      : await supabase().from("products").insert({ ...data, active: true });
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo guardar el producto.")}`, "error"); return; }
     await reload();
     setForm(emptyForm());
     setEditing(null);
@@ -94,12 +98,14 @@ export default function ProductosPage() {
 
   const del = async (id: string) => {
     if (!confirm("¿Eliminar este producto?")) return;
-    await supabase().from("products").delete().eq("id", id);
+    const { error } = await supabase().from("products").delete().eq("id", id);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo eliminar el producto.")}`, "error"); return; }
     setProductos(prev => prev.filter(p => p.id !== id));
   };
 
   const toggleActive = async (p: any) => {
-    await supabase().from("products").update({ active: !p.active }).eq("id", p.id);
+    const { error } = await supabase().from("products").update({ active: !p.active }).eq("id", p.id);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo actualizar el producto.")}`, "error"); return; }
     setProductos(prev => prev.map(x => x.id === p.id ? { ...x, active: !x.active } : x));
   };
 

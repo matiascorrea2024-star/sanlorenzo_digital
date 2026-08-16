@@ -2,19 +2,20 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/providers/auth-provider";
 
 // Mensajes no leídos, como cliente y (si tiene negocio propio) como dueño.
 // Compartido entre la nav inferior y el menú del header para no duplicar
 // la lógica de conteo en dos lugares.
 export function useUnreadMessages() {
   const pathname = usePathname();
+  const { user } = useAuth();
   const [unread, setUnread] = useState(0);
 
   useEffect(() => {
+    if (!user) { setUnread(0); return; }
     (async () => {
       const sb = supabase();
-      const { data: { user } } = await sb.auth.getUser();
-      if (!user) { setUnread(0); return; }
 
       const { count: asCustomer } = await sb.from("messages")
         .select("*", { count: "exact", head: true })
@@ -31,7 +32,7 @@ export function useUnreadMessages() {
       }
       setUnread((asCustomer || 0) + asOwner);
     })();
-  }, [pathname]);
+  }, [pathname, user]);
 
   return unread;
 }

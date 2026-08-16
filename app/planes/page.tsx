@@ -67,7 +67,7 @@ const PLANES = [
   {
     nombre: "Destacado Semanal",
     precio: "$19.900",
-    periodo: `7 días · cupo de ${MAX_DESTACADOS_SEMANALES} negocios`,
+    periodo: "7 días",
     icon: Crown,
     color: "border-yellow-400/50",
     desc: "Posición destacada fija por una semana",
@@ -75,7 +75,7 @@ const PLANES = [
       { t: "Todo lo de PRO Comerciante", ok: true },
       { t: "Posición destacada fija 7 días", ok: true },
       { t: "Badge de destacado", ok: true },
-      { t: "Cupo limitado (solo 5 negocios a la vez)", ok: true },
+      { t: `Cupo limitado (solo ${MAX_DESTACADOS_SEMANALES} negocios a la vez)`, ok: true },
       { t: "Se renueva cada semana, sin permanencia", ok: true },
     ],
     cta: "Quiero Destacado Semanal",

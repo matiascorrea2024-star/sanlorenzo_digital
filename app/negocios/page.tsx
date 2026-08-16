@@ -13,6 +13,8 @@ export default async function Page() {
   const { data } = await sb
     .from("businesses")
     .select("id, name, slug, category, rating, reviews, open, description, portada_url, address, whatsapp, plan, status, type, hace_envios, destacado")
+    .in("status", ["verificado", "reclamado"])
+    .eq("activo", true)
     .order("name")
     .limit(200);
 

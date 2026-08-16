@@ -8,6 +8,7 @@ import { planDe } from "@/lib/plans";
 import BroadcasterRoom from "@/components/live/broadcaster-room";
 import LiveChat from "@/components/live/live-chat";
 import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function ControlEnVivo() {
   const params = useParams();
@@ -43,7 +44,8 @@ export default function ControlEnVivo() {
   const empezar = async () => {
     setBusy(true);
     const sb = supabase();
-    await sb.from("live_streams").update({ status: "live", started_at: new Date().toISOString() }).eq("id", streamId);
+    const { error } = await sb.from("live_streams").update({ status: "live", started_at: new Date().toISOString() }).eq("id", streamId);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo iniciar la transmisión.")}`, "error"); setBusy(false); return; }
     const res = await fetch("/api/live/token", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ live_stream_id: streamId }),
@@ -58,7 +60,8 @@ export default function ControlEnVivo() {
   const finalizar = async () => {
     if (!confirm("¿Terminar la transmisión?")) return;
     setBusy(true);
-    await supabase().from("live_streams").update({ status: "ended", ended_at: new Date().toISOString() }).eq("id", streamId);
+    const { error } = await supabase().from("live_streams").update({ status: "ended", ended_at: new Date().toISOString() }).eq("id", streamId);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo finalizar la transmisión.")}`, "error"); setBusy(false); return; }
     setToken(null);
     await cargar();
     setBusy(false);
@@ -66,17 +69,20 @@ export default function ControlEnVivo() {
 
   const cancelar = async () => {
     if (!confirm("¿Cancelar esta transmisión programada?")) return;
-    await supabase().from("live_streams").update({ status: "cancelled" }).eq("id", streamId);
+    const { error } = await supabase().from("live_streams").update({ status: "cancelled" }).eq("id", streamId);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo cancelar la transmisión.")}`, "error"); return; }
     router.push("/dashboard/en-vivo");
   };
 
   const agregarProducto = async (productId: string) => {
-    await supabase().from("live_stream_items").insert({ live_stream_id: streamId, product_id: productId });
+    const { error } = await supabase().from("live_stream_items").insert({ live_stream_id: streamId, product_id: productId });
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo agregar el producto.")}`, "error"); return; }
     await cargar();
   };
 
   const quitarProducto = async (itemId: string) => {
-    await supabase().from("live_stream_items").delete().eq("id", itemId);
+    const { error } = await supabase().from("live_stream_items").delete().eq("id", itemId);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo quitar el producto.")}`, "error"); return; }
     await cargar();
   };
 

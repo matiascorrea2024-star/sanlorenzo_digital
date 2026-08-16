@@ -5,11 +5,18 @@ import NegocioPage from "./client";
 
 type Props = { params: Promise<{ slug: string }> };
 
+// Mismo criterio que la home y el ranking (app/page.tsx, app/ranking/page.tsx):
+// un negocio oculto por admin o todavía no verificado no debe tener página
+// pública, aunque alguien tenga el link directo.
+function esPublico(b: { status?: string | null; activo?: boolean | null }) {
+  return ["verificado", "reclamado"].includes(b.status || "") && b.activo !== false;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const sb = await createClient();
   const { data } = await sb.from("businesses").select("*").eq("slug", slug).maybeSingle();
-  if (!data) return { title: "Negocio no encontrado | La Gran Barata Digital" };
+  if (!data || !esPublico(data)) return { title: "Negocio no encontrado | La Gran Barata Digital" };
   const image = (data as any).portada_url || (data as any).logo_url || "https://sanlorenzodigital.vercel.app/banner.jpg";
   return {
     title: `${data.name} — ${data.category} en San Lorenzo`,
@@ -30,7 +37,7 @@ export default async function Page({ params }: Props) {
   const { slug } = await params;
   const sb = await createClient();
   const { data: negocio } = await sb.from("businesses").select("*").eq("slug", slug).maybeSingle();
-  if (!negocio) notFound();
+  if (!negocio || !esPublico(negocio)) notFound();
   const { data: ofertas } = await sb.from("offers")
     .select("*").eq("business_id", negocio?.id).eq("active", true).limit(20);
   const { data: productos } = await sb.from("products")

@@ -26,6 +26,8 @@ export default function CargarBulkPage() {
   const [preview, setPreview] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ ok: number; fail: number; errores: string[] } | null>(null);
+  const [ciudades, setCiudades] = useState<any[]>([]);
+  const [ciudadId, setCiudadId] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -35,6 +37,9 @@ export default function CargarBulkPage() {
         .select("role").eq("user_id", user.id).maybeSingle();
       if (prof?.role !== "admin") { router.push("/"); return; }
       setRole("admin");
+      const { data: ciu } = await supabase().from("locations").select("id, name").eq("type", "city").order("name");
+      setCiudades(ciu || []);
+      if (ciu && ciu.length === 1) setCiudadId(ciu[0].id);
     })();
   }, []);
 
@@ -65,10 +70,10 @@ export default function CargarBulkPage() {
   // centro de San Lorenzo, sin relación con su dirección real. Si no se
   // puede geocodificar, se deja sin coordenadas (null) en vez de inventar
   // una -- el dueño puede cargarla a mano después desde "Editar negocio".
-  async function geocodificar(direccion: string): Promise<{ lat: number; lon: number } | null> {
+  async function geocodificar(direccion: string, ciudadNombre: string): Promise<{ lat: number; lon: number } | null> {
     if (!direccion.trim()) return null;
     try {
-      const q = encodeURIComponent(`${direccion}, San Lorenzo, Santa Fe, Argentina`);
+      const q = encodeURIComponent(`${direccion}, ${ciudadNombre}, Argentina`);
       const r = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${q}`, {
         headers: { Accept: "application/json" },
       });
@@ -82,13 +87,14 @@ export default function CargarBulkPage() {
   }
 
   const cargar = async () => {
-    if (!preview.length) return;
+    if (!preview.length || !ciudadId) return;
+    const ciudadNombre = ciudades.find((c) => c.id === ciudadId)?.name || "";
     setLoading(true);
     let ok = 0, fail = 0, sinUbicar = 0;
     const errores: string[] = [];
     for (const b of preview) {
       // Nominatim pide no superar 1 request/segundo.
-      const geo = await geocodificar(b.direccion || "");
+      const geo = await geocodificar(b.direccion || "", ciudadNombre);
       if (!geo) sinUbicar++;
       await new Promise((r) => setTimeout(r, 1100));
       const { error } = await supabase().from("businesses").insert({
@@ -101,7 +107,7 @@ export default function CargarBulkPage() {
         schedule: b.horario || null,
         status: "pendiente",
         plan: "gratis",
-        location_id: "a0000000-0000-0000-0000-000000000003",
+        location_id: ciudadId,
         latitude: geo?.lat ?? null,
         longitude: geo?.lon ?? null,
       });
@@ -124,6 +130,20 @@ export default function CargarBulkPage() {
             <h1 className="text-3xl font-black">Carga masiva de negocios</h1>
             <p className="text-white/60">Cargá negocios reales desde CSV en 2 minutos</p>
           </div>
+        </div>
+
+        {/* Ciudad destino -- sin esto, antes se cargaban TODOS los negocios
+            en San Lorenzo sin importar la ciudad real (bug corregido). */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 mb-6">
+          <p className="font-bold mb-2">Ciudad de estos negocios</p>
+          <select value={ciudadId} onChange={(e) => setCiudadId(e.target.value)}
+            className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm outline-none focus:border-orange-400">
+            <option value="">Elegí una ciudad...</option>
+            {ciudades.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+          </select>
+          {ciudades.length === 0 && (
+            <p className="mt-2 text-xs text-white/40">No hay ciudades creadas todavía -- creá una desde la pestaña &quot;Ciudades&quot; del panel admin.</p>
+          )}
         </div>
 
         {/* Plantilla */}
@@ -168,10 +188,11 @@ export default function CargarBulkPage() {
                 </div>
               ))}
             </div>
-            <button onClick={cargar} disabled={loading}
+            <button onClick={cargar} disabled={loading || !ciudadId}
               className="mt-4 w-full rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 py-3 text-sm font-black disabled:opacity-50">
               {loading ? "Cargando..." : `✅ Cargar ${preview.length} negocios`}
             </button>
+            {!ciudadId && <p className="mt-2 text-center text-xs text-red-300">Elegí una ciudad arriba antes de cargar.</p>}
           </div>
         )}
 

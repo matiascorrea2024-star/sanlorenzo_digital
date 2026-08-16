@@ -2,9 +2,18 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/providers/auth-provider";
 
 export default function NotificationBell() {
   const router = useRouter();
+  // useAuth() reacciona a login/logout en el momento (mismo fix que
+  // header.tsx) -- antes esto tenía su propio getUser() de una sola vez:
+  // no solo quedaba desactualizado al loguearse sin refrescar, sino que en
+  // un dispositivo compartido, si el usuario A cerraba sesión y B iniciaba
+  // sesión sin recargar, el canal realtime seguía escuchando las
+  // notificaciones de A.
+  const { user } = useAuth();
+  const userId = user?.id || null;
   const [count, setCount] = useState(0);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -12,20 +21,17 @@ export default function NotificationBell() {
   // Cerrar el menú automáticamente al navegar (evita overlay trabado)
   useEffect(() => { setOpen(false); }, [pathname]);
   const [items, setItems] = useState<any[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
   const [toast, setToast] = useState<any>(null);
 
   useEffect(() => {
+    if (!userId) { setItems([]); setCount(0); return; }
     (async () => {
-      const { data: { user } } = await supabase().auth.getUser();
-      if (!user) return;
-      setUserId(user.id);
       const { data } = await supabase().from("notifications")
-        .select("*").eq("user_id", user.id).eq("read", false)
+        .select("*").eq("user_id", userId).eq("read", false)
         .order("created_at", { ascending: false }).limit(10);
       if (data) { setItems(data); setCount(data.length); }
     })();
-  }, []);
+  }, [userId]);
 
   // Realtime + toast al instante
   useEffect(() => {

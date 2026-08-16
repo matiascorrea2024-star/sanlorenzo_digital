@@ -4,22 +4,23 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import PageHero from "@/components/ui/page-hero";
 import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
+import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 import BusinessPulse from "@/components/dashboard/business-pulse";
 
 export default function DashboardPage() {
   const { show } = useToast();
+  const { user, loading: authLoading } = useAuth();
   const [negocios, setNegocios] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState("user");
-  const [logueado, setLogueado] = useState(false);
 
   useEffect(() => {
+    if (authLoading) return;
+    if (!user) { setLoading(false); return; }
     (async () => {
       const sb = supabase();
-      const { data: { user } } = await sb.auth.getUser();
-      if (!user) { setLoading(false); return; }
-      setLogueado(true);
       const { data: prof } = await sb.from("user_profiles")
         .select("role").eq("user_id", user.id).maybeSingle();
       const r = prof?.role || "user";
@@ -30,15 +31,16 @@ export default function DashboardPage() {
       setNegocios(data || []);
       setLoading(false);
     })();
-  }, []);
+  }, [user, authLoading]);
 
   const toggle = async (id: string, campo: string, valor: any) => {
-    await supabase().from("businesses").update({ [campo]: valor }).eq("id", id);
+    const { error } = await supabase().from("businesses").update({ [campo]: valor }).eq("id", id);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo actualizar.")}`, "error"); return; }
     setNegocios(prev => prev.map(b => (b.id === id ? { ...b, [campo]: valor } : b)));
     show(`✅ ${campo === "open" ? (valor ? "Negocio abierto" : "Negocio cerrado") : "Ofertas actualizadas"}`, "success");
   };
 
-  if (!loading && !logueado) {
+  if (!loading && !user) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-[#120d09] px-4 text-center text-white">
         <p className="text-5xl">🔐</p>
