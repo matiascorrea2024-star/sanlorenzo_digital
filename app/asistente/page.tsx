@@ -17,8 +17,6 @@ type Oferta = {
   rating?: number; verificado?: boolean;
 };
 
-import PageHero from "@/components/ui/page-hero";
-
 export default function AsistentePage() {
   const [q, setQ] = useState("");
   const negocios = useAllBusinesses();
@@ -106,34 +104,35 @@ export default function AsistentePage() {
 
   return (
     <main className="min-h-screen bg-[#120d09] text-white pb-24">
-      <PageHero title="Asistente IA" subtitle="Preguntale lo que quieras de San Lorenzo" />
-      <div className="mx-auto max-w-5xl px-4 py-10">
-        <div className="text-center">
+      <section className="relative overflow-hidden border-b border-white/5">
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.18), transparent 55%), radial-gradient(circle at 90% 30%, rgba(34,211,238,.12), transparent 55%)" }} />
+        <div className="relative mx-auto max-w-5xl px-4 py-14 text-center md:py-20">
           <Badge variant="warning" size="sm"><Sparkles className="h-3 w-3" /> Asistente local</Badge>
-          <h1 className="mt-3 text-3xl font-black md:text-5xl">¿Qué estás buscando?</h1>
+          <h1 className="mt-3 text-4xl font-black tracking-tight md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>¿Qué estás buscando?</h1>
           <p className="mt-2 text-white/60">
             Escribí como se lo dirías a un amigo: &quot;zapatillas menos de 50000 cerca mío&quot;
           </p>
         </div>
-
-        <div className="mt-8">
+      </section>
+      <div className="mx-auto max-w-5xl px-4 py-10">
+        <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Ej: pizza barata abierta ahora..."
-            className="w-full rounded-2xl border border-white/15 bg-black/70 px-6 py-4 text-lg outline-none focus:border-orange-400"
+            className="w-full rounded-[1.1rem] border border-white/[.05] bg-black/30 px-6 py-4 text-lg text-white outline-none placeholder:text-white/35 focus:border-orange-400/50"
           />
-          {chips.length > 0 && (
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <span className="text-xs text-white/50">Entendimos:</span>
-              {chips.map(c => (
-                <span key={c} className="rounded-full bg-orange-500/15 border border-orange-400/30 px-3 py-1 text-xs font-bold text-orange-300">
-                  {c}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
+        {chips.length > 0 && (
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="text-xs text-white/50">Entendimos:</span>
+            {chips.map(c => (
+              <span key={c} className="rounded-full bg-orange-500/15 border border-orange-400/30 px-3 py-1 text-xs font-bold text-orange-300">
+                {c}
+              </span>
+            ))}
+          </div>
+        )}
 
         {q.trim().length > 2 && (
           <>
@@ -152,16 +151,18 @@ export default function AsistentePage() {
                 <div className="grid gap-3 sm:grid-cols-2">
                   {negociosFiltrados.map((b: any) => (
                     <Link key={b.id} href={`/negocio/${b.slug}`}
-                      className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-orange-400/50 transition">
-                      <div className="flex-1">
-                        <p className="font-bold">{b.name}</p>
-                        <p className="text-xs capitalize text-white/50">{b.category} · ⭐ {(b.rating || 0).toFixed(1)}</p>
-                        <div className="mt-1 flex gap-2">
-                          {b.open && <span className="text-[10px] text-green-400 flex items-center gap-1"><Clock className="h-3 w-3" /> Abierto</span>}
-                          {b._dist !== undefined && <span className="text-[10px] text-sky-400 flex items-center gap-1"><MapPin className="h-3 w-3" /> {fmtDistance(b._dist)}</span>}
+                      className="group rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
+                      <div className="flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+                        <div className="flex-1">
+                          <p className="font-bold">{b.name}</p>
+                          <p className="text-xs capitalize text-white/50">{b.category} · ⭐ {(b.rating || 0).toFixed(1)}</p>
+                          <div className="mt-1 flex gap-2">
+                            {b.open && <span className="text-[10px] text-green-400 flex items-center gap-1"><Clock className="h-3 w-3" /> Abierto</span>}
+                            {b._dist !== undefined && <span className="text-[10px] text-sky-400 flex items-center gap-1"><MapPin className="h-3 w-3" /> {fmtDistance(b._dist)}</span>}
+                          </div>
                         </div>
+                        <ArrowRight className="h-4 w-4 shrink-0 text-orange-400 transition duration-300 group-hover:translate-x-1" />
                       </div>
-                      <ArrowRight className="h-4 w-4 text-orange-400" />
                     </Link>
                   ))}
                 </div>
@@ -169,14 +170,16 @@ export default function AsistentePage() {
             )}
 
             {ofertasFiltradas.length === 0 && negociosFiltrados.length === 0 && (
-              <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-10 text-center">
-                <p className="text-lg font-bold">😕 No encontramos resultados exactos</p>
-                <p className="mt-2 text-sm text-white/50">
-                  Probá con menos filtros, o mirá todas las ofertas en La Gran Barata.
-                </p>
-                <Link href="/promociones" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">
-                  Ver todas las ofertas
-                </Link>
+              <div className="mt-10 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-10 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="text-lg font-bold">😕 No encontramos resultados exactos</p>
+                  <p className="mt-2 text-sm text-white/50">
+                    Probá con menos filtros, o mirá todas las ofertas en La Gran Barata.
+                  </p>
+                  <Link href="/promociones" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+                    Ver todas las ofertas
+                  </Link>
+                </div>
               </div>
             )}
           </>
