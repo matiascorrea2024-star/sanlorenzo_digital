@@ -21,7 +21,15 @@ function Escenario() {
 export default function ViewerStage({ token, url }: { token: string; url: string }) {
   return (
     <div className="aspect-video w-full overflow-hidden rounded-2xl border border-white/10 bg-black">
-      <LiveKitRoom token={token} serverUrl={url} video={false} audio={false} connect style={{ height: "100%" }}>
+      <LiveKitRoom
+        token={token}
+        serverUrl={url}
+        video={false}
+        audio={false}
+        connect
+        style={{ height: "100%" }}
+        options={{ adaptiveStream: true, dynacast: true }}
+      >
         <Escenario />
         <RoomAudioRenderer />
       </LiveKitRoom>
