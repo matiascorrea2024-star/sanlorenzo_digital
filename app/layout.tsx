@@ -11,7 +11,6 @@ import ScrollReveal from "@/components/ui/scroll-reveal";
 import { ToastProvider } from "@/components/ui/toast";
 import HeartbeatActivator from "@/components/heartbeat-activator";
 import { AuthProvider } from "@/components/providers/auth-provider";
-import SmoothScroll from "@/components/providers/smooth-scroll";
 import OnboardingOverlay from "@/components/onboarding/onboarding-overlay";
 import ReferralTracker from "@/components/referral-tracker";
 
@@ -50,7 +49,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <a href="#contenido" className="skip-link">Saltar al contenido</a>
         <ToastProvider>
         <AuthProvider>
-        <SmoothScroll>
         <HeartbeatActivator />
           <Header />
           <div id="contenido">{children}</div>
@@ -62,7 +60,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <ScrollReveal />
       <OnboardingOverlay />
       <ReferralTracker />
-        </SmoothScroll>
         </AuthProvider>
       </ToastProvider>
       <InstallApp />

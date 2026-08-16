@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import RankBadge from "@/components/ui/rank-badge";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 import CategoryCover from "@/components/ui/category-cover";
@@ -32,11 +33,13 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
       {/* Imagen de portada */}
       <div className={`relative overflow-hidden ${featured ? "h-48 md:h-72" : "h-24 md:h-32"}`}>
         {b.portada_url ? (
-          <img
+          <Image
             src={b.portada_url}
             alt={b.name}
-            loading="lazy"
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+            fill
+            quality={90}
+            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition duration-500 group-hover:scale-110"
           />
         ) : (
           <CategoryCover category={cat} seed={String(b.id || b.slug || b.name)} className="h-full w-full transition duration-500 group-hover:scale-110" />

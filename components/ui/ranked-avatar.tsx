@@ -1,4 +1,6 @@
 "use client";
+import { useState } from "react";
+import Image from "next/image";
 import Avatar from "@/components/ui/avatar";
 import { useRank } from "@/lib/rank-cache";
 import { rangoDe, gemaDe } from "@/lib/ranks";
@@ -19,7 +21,8 @@ export default function RankedAvatar({ slug, name, size = 44, categoria, photoUr
   const cache = useRank(slug);
   const pts = cache?.puntos ?? 0;
   const cat = categoria ?? cache?.category;
-  const foto = photoUrl ?? cache?.logo_url;
+  const [fotoRota, setFotoRota] = useState(false);
+  const foto = fotoRota ? null : (photoUrl ?? cache?.logo_url);
   const r = rangoDe(pts);
   const gema = gemaDe(cat);
   const gemaSize = Math.max(12, Math.round(size / 2.8));
@@ -39,10 +42,10 @@ export default function RankedAvatar({ slug, name, size = 44, categoria, photoUr
             boxShadow: `0 0 14px ${r.accent}99, 0 2px 6px rgba(0,0,0,.6), inset 0 1px 1px rgba(255,255,255,.5)`,
           }}>
           {/* Separador oscuro interior */}
-          <span className="block h-full w-full overflow-hidden rounded-full bg-[#120d09]" style={{ padding: 2 }}>
+          <span className="relative block h-full w-full overflow-hidden rounded-full bg-[#120d09]" style={{ padding: 2 }}>
             {foto ? (
-              <img src={foto} alt={name} className="h-full w-full rounded-full object-cover"
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+              <Image src={foto} alt={name} fill quality={90} sizes={`${size}px`}
+                className="rounded-full object-cover" onError={() => setFotoRota(true)} />
             ) : (
               <Avatar name={name} size={size} />
             )}

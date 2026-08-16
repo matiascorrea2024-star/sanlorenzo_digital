@@ -29,10 +29,9 @@
   --premium:#fbbf24;    /* Destacado Semanal / badges premium */
 }
 *{box-sizing:border-box}
-/* scroll-behavior nativo apagado a propósito -- Lenis (components/providers/
-   smooth-scroll.tsx) maneja el scroll suave con física real; mezclarlo con
-   el smooth-scroll nativo del navegador duplica la animación y se traba. */
-html{color-scheme: dark;}
+/* Se probó Lenis (scroll con inercia) y se sacó -- feedback directo: no
+   gustó cómo se sentía. Vuelve el scroll nativo. */
+html{scroll-behavior:smooth; color-scheme: dark;}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-inter),system-ui,sans-serif}
 ::selection{background:rgba(139,92,246,.35);color:white}
 a{transition:color .2s ease,border-color .2s ease,background-color .2s ease,transform .2s ease,opacity .2s ease}

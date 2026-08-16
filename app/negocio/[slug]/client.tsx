@@ -7,6 +7,7 @@ import ReportButton from "@/components/business/report-button";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { track } from "@/lib/track";
@@ -173,7 +174,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           BusinessCard (portada + logo montado + info en flujo normal). */}
       <section className="relative h-64 md:h-[26rem]">
         {negocio.portada_url ? (
-          <img src={negocio.portada_url} alt={negocio.name} className="absolute inset-0 h-full w-full object-cover" />
+          <Image src={negocio.portada_url} alt={negocio.name} fill priority quality={92}
+            sizes="100vw" className="object-cover" />
         ) : (
           <CategoryCover category={negocio.category} seed={negocio.id || negocio.slug} className="absolute inset-0 h-full w-full" />
         )}
@@ -191,7 +193,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         <div className="-mt-10 w-fit md:-mt-12">
           {negocio.logo_url ? (
             <DivisionFrame puntos={negocio.puntos || 0} size={72} categoria={negocio.category}>
-              <img src={negocio.logo_url} alt={negocio.name} className="h-20 w-20 rounded-2xl border-4 border-[#120d09] object-cover shadow-2xl" />
+              <Image src={negocio.logo_url} alt={negocio.name} width={80} height={80} quality={92} className="h-20 w-20 rounded-2xl border-4 border-[#120d09] object-cover shadow-2xl" />
             </DivisionFrame>
           ) : (
             <DivisionFrame puntos={negocio.puntos || 0} size={80} categoria={negocio.category} showLabel>
@@ -413,10 +415,13 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     className="group flex gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-3 transition hover:border-orange-400/40 hover:bg-white/[.07]"
                   >
                     <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-28">
-                      <img
+                      <Image
                         src={o.image_url || portada}
                         alt={o.title}
-                        className="h-full w-full object-cover transition group-hover:scale-105"
+                        fill
+                        quality={88}
+                        sizes="112px"
+                        className="object-cover transition group-hover:scale-105"
                       />
                       {o.discount_percent > 0 && (
                         <span className="absolute left-1 top-1 rounded-md bg-gradient-to-r from-red-500 to-orange-500 px-1.5 py-0.5 text-[10px] font-black text-white shadow">
@@ -496,9 +501,11 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 return (
                 <div key={p.id} className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10">
                 <div className="overflow-hidden rounded-[1.375rem] border border-white/[.06] bg-gradient-to-b from-white/[.05] to-white/[.015] shadow-[inset_0_1px_1px_rgba(255,255,255,.08)]">
-                  <div className="relative">
+                  <div className="relative h-40 w-full overflow-hidden">
                     {Array.isArray(p.images) && p.images[0] && (
-                      <img src={p.images[0]} alt={p.name} className="h-40 w-full object-cover" />
+                      <Image src={p.images[0]} alt={p.name} fill quality={90}
+                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover" />
                     )}
                     {(enOferta || esNuevo || ultimasUnidades || p.featured) && (
                       <div className="absolute left-2 top-2 flex flex-col gap-1">

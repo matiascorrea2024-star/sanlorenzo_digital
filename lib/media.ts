@@ -1,6 +1,10 @@
 import { supabase } from "./supabase";
 
-async function compressImage(file: File, maxW = 1200, quality = 0.82): Promise<Blob> {
+// 1200px/0.82 se veía borroso en las fotos grandes (portada de negocio,
+// hero de ficha) -- esto es lo que vende, así que el piso de calidad sube:
+// 1920px alcanza para verse nítido incluso en pantallas retina sin subir
+// el peso del archivo de forma desproporcionada.
+async function compressImage(file: File, maxW = 1920, quality = 0.88): Promise<Blob> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
@@ -38,7 +42,7 @@ export async function uploadReviewPhoto(file: File, businessId: string): Promise
   const sb = supabase();
   const { data: { user } } = await sb.auth.getUser();
   if (!user) throw new Error("No estás logueado");
-  const blob = await compressImage(file, 1200, 0.8);
+  const blob = await compressImage(file, 1400, 0.85);
   const path = `${user.id}/${businessId}/review-${Date.now()}-${Math.floor(Math.random() * 1e6)}.jpg`;
   const { error } = await sb.storage.from("business-media").upload(path, blob, {
     contentType: "image/jpeg",
@@ -53,7 +57,7 @@ export async function uploadComprobante(file: File, businessId: string): Promise
   const sb = supabase();
   const { data: { user } } = await sb.auth.getUser();
   if (!user) throw new Error("No estás logueado");
-  const blob = await compressImage(file, 1600, 0.85);
+  const blob = await compressImage(file, 1600, 0.9);
   const path = `${user.id}/${businessId}/comprobante-${Date.now()}.jpg`;
   const { error } = await sb.storage.from("business-media").upload(path, blob, {
     contentType: "image/jpeg",

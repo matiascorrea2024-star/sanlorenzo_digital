@@ -2,6 +2,7 @@
 import RankBadge from "@/components/ui/rank-badge";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 import Link from "next/link";
+import Image from "next/image";
 import { Clock, MapPin, BadgeCheck } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import FavoriteButton from "@/components/ui/favorite-button";
@@ -74,8 +75,9 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
       <div className="relative flex flex-col overflow-hidden rounded-[1.375rem] border border-white/[.06] bg-gradient-to-b from-white/[.05] to-white/[.015] shadow-[inset_0_1px_1px_rgba(255,255,255,.08)]">
       <div className="relative aspect-[16/10] w-full overflow-hidden">
         {o.portada_url ? (
-          <img src={o.portada_url} alt={o.producto} loading="lazy"
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+          <Image src={o.portada_url} alt={o.producto} fill quality={90}
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition duration-500 group-hover:scale-110" />
         ) : (
           <CategoryCover category={o.cat} seed={o.id} className="h-full w-full transition duration-500 group-hover:scale-110" />
         )}
