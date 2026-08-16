@@ -4,7 +4,7 @@ import RankedAvatar from "@/components/ui/ranked-avatar";
 import CategoryCover from "@/components/ui/category-cover";
 import { calcDistanceKm, fmtDistance } from "@/lib/geo";
 
-export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: { lat: number; lon: number } | null }) {
+export default function BusinessCard({ b, userCoords, featured = false }: { b: any; userCoords?: { lat: number; lon: number } | null; featured?: boolean }) {
   const cat = String(b.category || "").toLowerCase();
   const isOpen = !!b.open;
   const isVerified = b.status === "verificado";
@@ -19,10 +19,14 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
     <Link
       href={`/negocio/${b.slug}`}
       data-spot
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[.06] to-white/[.02] transition duration-300 hover:-translate-y-1 hover:border-orange-400/40 hover:shadow-xl hover:shadow-orange-500/10"
+      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border transition duration-300 hover:-translate-y-1 ${
+        featured
+          ? "border-orange-400/30 bg-gradient-to-b from-orange-500/[.09] to-white/[.02] hover:border-orange-400/60 hover:shadow-2xl hover:shadow-orange-500/20"
+          : "border-white/10 bg-gradient-to-b from-white/[.06] to-white/[.02] hover:border-orange-400/40 hover:shadow-xl hover:shadow-orange-500/10"
+      }`}
     >
       {/* Imagen de portada */}
-      <div className="relative h-24 md:h-32 overflow-hidden">
+      <div className={`relative overflow-hidden ${featured ? "h-48 md:h-72" : "h-24 md:h-32"}`}>
         {b.portada_url ? (
           <img
             src={b.portada_url}
@@ -32,6 +36,11 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
           />
         ) : (
           <CategoryCover category={cat} seed={String(b.id || b.slug || b.name)} className="h-full w-full transition duration-500 group-hover:scale-110" />
+        )}
+        {featured && (
+          <span className="absolute right-2 top-2 md:right-3 md:top-3 flex items-center gap-1 rounded-full border border-yellow-400/40 bg-yellow-500/20 px-2.5 py-1 text-[10px] font-black text-yellow-200 backdrop-blur">
+            🔥 Destacado
+          </span>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-transparent to-transparent" />
         
@@ -63,21 +72,21 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
           que quede apoyado sobre el borde inferior de la portada sin cortarse.
           Mismo marco de rango que /ranking (anillo metálico + gema de
           categoría) -- antes esta era la única card sin ese lenguaje visual. */}
-      <div className="relative z-10 -mt-5 ml-3 w-fit md:-mt-6 md:ml-4">
-        <RankedAvatar slug={b.slug} name={b.name} categoria={b.category} photoUrl={b.logo_url} size={36} />
+      <div className={`relative z-10 ml-3 w-fit md:ml-4 ${featured ? "-mt-8 md:-mt-10" : "-mt-5 md:-mt-6"}`}>
+        <RankedAvatar slug={b.slug} name={b.name} categoria={b.category} photoUrl={b.logo_url} size={featured ? 52 : 36} />
       </div>
 
       {/* Info */}
-      <div className="flex flex-1 flex-col p-3 md:p-4 pt-1">
-        <h3 className="truncate text-sm md:text-base font-black transition group-hover:text-orange-300">
+      <div className={`flex flex-1 flex-col pt-1 ${featured ? "p-4 md:p-6" : "p-3 md:p-4"}`}>
+        <h3 className={`truncate font-black transition group-hover:text-orange-300 ${featured ? "text-xl md:text-2xl" : "text-sm md:text-base"}`}>
           {b.name}
         </h3>
-        <p className="mt-0.5 flex flex-wrap items-center gap-x-1 text-[11px] md:text-xs capitalize text-white/50">
+        <p className={`mt-0.5 flex flex-wrap items-center gap-x-1 capitalize text-white/50 ${featured ? "text-xs md:text-sm" : "text-[11px] md:text-xs"}`}>
           <span>{b.category}{b.address ? ` · ${b.address}` : ""}</span>
           <RankBadge slug={b.slug} categoria={b.category} />
         </p>
         {b.description && (
-          <p className="mt-2 line-clamp-2 text-xs text-white/60">{b.description}</p>
+          <p className={`mt-2 line-clamp-2 text-white/60 ${featured ? "text-sm" : "text-xs"}`}>{b.description}</p>
         )}
         {esParticular && (
           <span className="mt-2 w-fit rounded-full border border-cyan-400/30 bg-cyan-500/15 px-2 py-0.5 text-[10px] font-black text-cyan-300">

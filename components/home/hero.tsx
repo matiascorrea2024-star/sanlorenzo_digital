@@ -87,12 +87,12 @@ export default function Hero({ onSearch, stats, seedNegocios }: HeroProps) {
             <span className="text-xs font-medium text-orange-300">San Lorenzo · Santa Fe</span>
           </div>
 
-          <h1 className="mb-4 text-4xl font-black tracking-tight md:text-6xl lg:text-7xl">
-            <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">LA GRAN</span>{" "}
-            <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent animate-gradient">BARATA DIGITAL</span>
+          <h1 className="mb-4 text-6xl font-black leading-[0.95] tracking-tighter md:text-8xl lg:text-9xl" style={{ fontFamily: "var(--font-space)" }}>
+            <span className="block bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">LA GRAN</span>
+            <span className="block bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent animate-gradient">BARATA DIGITAL</span>
           </h1>
 
-          <p className="fade-up-2 mx-auto mb-6 max-w-2xl text-base text-white/60 md:text-lg">
+          <p className="fade-up-2 mx-auto mb-6 max-w-2xl text-lg text-white/75 md:text-xl">
             Las ofertas y promos de San Lorenzo, publicadas por los comercios en tiempo real.{" "}
             <span className="font-bold text-orange-300">Que no se te escape ninguna.</span>
           </p>
