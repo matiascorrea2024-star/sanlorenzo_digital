@@ -309,6 +309,14 @@ input:focus, select:focus, textarea:focus {
 @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-33.33%); } }
 .ticker { animation: ticker 60s linear infinite; width: max-content; }
 .ticker:hover { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  /* Con reduce-motion, la regla global de arriba corta la animación
+     casi al instante y el ticker queda congelado en el primer cuadro
+     (recortado por overflow-hidden del padre) -- en vez de eso, se
+     vuelve una tira deslizable a mano, sin animación pero navegable. */
+  .ticker-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .ticker { animation: none !important; width: auto; }
+}
 
 .btn-shine { position: relative; overflow: hidden; }
 .btn-shine::after {

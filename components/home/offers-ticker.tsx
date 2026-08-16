@@ -15,6 +15,15 @@ const EXTRAS: TickerItem[] = [
 
 export default function OffersTicker() {
   const [items, setItems] = useState<TickerItem[]>([]);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduceMotion(mq.matches);
+    const onChange = () => setReduceMotion(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -45,11 +54,13 @@ export default function OffersTicker() {
     })();
   }, []);
 
-  // Triplicado para el loop infinito sin costuras del CSS
-  const loop = [...items, ...items, ...items];
+  // Triplicado para el loop infinito sin costuras del CSS -- si el
+  // usuario pidió reduce-motion, la animación se apaga (ver globals.css)
+  // y se muestra una sola vuelta deslizable a mano, sin repetir.
+  const loop = reduceMotion ? items : [...items, ...items, ...items];
 
   return (
-    <div className="relative overflow-hidden border-y border-orange-400/20 bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-orange-500/10 py-2.5">
+    <div className="ticker-wrap relative overflow-hidden border-y border-orange-400/20 bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-orange-500/10 py-2.5">
       <div className="ticker flex gap-10 whitespace-nowrap px-4">
         {loop.map((p, i) => (
           <Link
