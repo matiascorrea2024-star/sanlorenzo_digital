@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Shield, Store, Flag, MapPin } from "lucide-react";
 import PageHero from "@/components/ui/page-hero";
-import OnlineBadge from "@/components/ui/online-badge";
 import { supabase } from "@/lib/supabase";
 import ChangePassword from "@/components/profile/change-password";
 import PlatformWhatsappSetting from "@/components/profile/platform-whatsapp-setting";
 import PlatformPaymentSetting from "@/components/profile/platform-payment-setting";
 import NewsletterOptIn from "@/components/profile/newsletter-optin";
+import AdminFrame, { AdminBadge } from "@/components/ui/admin-frame";
 
 const NIVELES_USUARIO = [
   { min: 0, nombre: "Novato", icon: "🌱" },
@@ -151,8 +152,29 @@ export default function PerfilPage() {
 
   return (
     <main className="bg-[#120d09] text-white min-h-screen pb-24">
-      <PageHero title="Tu perfil de vecino" subtitle="Tus misiones, medallas, rachas y premios" />
+      <PageHero
+        title={isAdmin ? "Panel del fundador" : "Tu perfil de vecino"}
+        subtitle={isAdmin ? "Vos armaste esto -- acá no hay ranking que valga" : "Tus misiones, medallas, rachas y premios"}
+      />
       <div className="mx-auto max-w-3xl px-4 py-10">
+        {isAdmin ? (
+          <div className="mt-4 rounded-3xl border border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-pink-500/10 p-8 text-center">
+            <div className="mx-auto">
+              <AdminFrame size={80}>
+                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black">
+                  {(user.email || "?")[0].toUpperCase()}
+                </div>
+              </AdminFrame>
+            </div>
+            <div className="mt-3 flex items-center justify-center gap-2">
+              <Shield className="h-5 w-5 text-yellow-300" />
+              <span className="text-lg font-black text-yellow-200">Fundador · San Lorenzo Digital</span>
+            </div>
+            <div className="mt-2 flex justify-center"><AdminBadge text="Staff" /></div>
+            <p className="mt-3 text-sm text-white/50">{user.email}</p>
+            <p className="mt-4 text-sm text-white/70">No hay nivel que te quede grande: sos quien mueve todo esto.</p>
+          </div>
+        ) : (
         <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black">
             {(user.email || "?")[0].toUpperCase()}
@@ -170,6 +192,7 @@ export default function PerfilPage() {
             </div>
           )}
         </div>
+        )}
 
         
         <div className="mt-6 grid grid-cols-2 gap-2 md:grid-cols-4">
@@ -217,8 +240,26 @@ export default function PerfilPage() {
           <Link href="/invitar" className="rounded-xl bg-white/5 p-3 hover:bg-white/10 transition"><p className="text-xl font-black text-purple-400">{stats.ref}</p><p className="text-[10px] text-white/50 uppercase">Referidos</p></Link>
         </div>
 
-        
-        
+        {isAdmin ? (
+          <>
+            <h2 id="misiones" className="mt-8 mb-3 scroll-mt-24 text-xl font-black">Accesos rápidos</h2>
+            <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
+              {[
+                { href: "/admin", icon: Shield, txt: "Overview" },
+                { href: "/admin?tab=negocios", icon: Store, txt: "Negocios" },
+                { href: "/admin?tab=reportes", icon: Flag, txt: "Reportes" },
+                { href: "/admin?tab=ciudades", icon: MapPin, txt: "Ciudades" },
+              ].map((a) => (
+                <Link key={a.href} href={a.href}
+                  className="flex flex-col items-center gap-1.5 rounded-2xl border border-yellow-400/25 bg-yellow-500/5 p-4 text-center hover:border-yellow-400/50 hover:bg-yellow-500/10 transition">
+                  <a.icon className="h-5 w-5 text-yellow-300" />
+                  <p className="text-xs font-bold">{a.txt}</p>
+                </Link>
+              ))}
+            </div>
+          </>
+        ) : (
+        <>
         <h2 id="misiones" className="mt-8 mb-3 scroll-mt-24 text-xl font-black">Misiones de hoy</h2>
         <div className="grid gap-2 md:grid-cols-3">
           {[
@@ -238,7 +279,7 @@ export default function PerfilPage() {
           })}
         </div>
 
-        
+
         <h2 className="mt-8 mb-3 text-xl font-black">Misiones de la semana</h2>
         <div className="grid gap-2 md:grid-cols-3">
           {[
@@ -287,6 +328,8 @@ export default function PerfilPage() {
             );
           })}
         </div>
+        </>
+        )}
 
         <h2 className="mt-8 mb-3 text-xl font-black">Tus medallas</h2>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
