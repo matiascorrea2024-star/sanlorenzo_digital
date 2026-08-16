@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X, Store, Tag, Grid3x3, MapPin, Flame, Package } from "lucide-react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { CATEGORIES } from "@/lib/data";
 import { useAllBusinesses, type FullBusiness } from "@/lib/use-businesses";
 import { supabase } from "@/lib/supabase";
@@ -23,8 +25,10 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
   const [productos, setProductos] = useState<any[]>([]);
   const [ofertas, setOfertas] = useState<any[]>([]);
   const [ciudades, setCiudades] = useState<any[]>([]);
+  const [buscando, setBuscando] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dropRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!shortcutSlash) return;
@@ -56,16 +60,26 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
     if (lower.length < 2) {
       setProductos([]);
       setOfertas([]);
+      setBuscando(false);
       return;
     }
+    setBuscando(true);
     const timer = setTimeout(async () => {
       const { data: prods } = await supabase().from("products").select("*, businesses(name, slug)").ilike("name", `%${lower}%`).eq("active", true).limit(4);
       setProductos(prods || []);
       const { data: offs } = await supabase().from("offers_with_business").select("*").ilike("title", `%${lower}%`).eq("active", true).limit(3);
       setOfertas(offs || []);
+      setBuscando(false);
     }, 300);
     return () => clearTimeout(timer);
   }, [q]);
+
+  // Entrada real del dropdown -- antes aparecía instantáneo, se sentía
+  // como un <select> más. Un fade+rise corto comunica "esto reaccionó".
+  useGSAP(() => {
+    if (!open || !dropRef.current) return;
+    gsap.fromTo(dropRef.current, { opacity: 0, y: -8, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power2.out" });
+  }, { dependencies: [open] });
 
   useEffect(() => {
     const h = (e: MouseEvent) => {
@@ -126,7 +140,8 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
 
   return (
     <div ref={boxRef} className={`relative w-full ${className}`}>
-      <form onSubmit={onSubmit} className="flex items-center gap-2 rounded-2xl border border-white/15 bg-black/70 p-2 shadow-2xl backdrop-blur-xl">
+      <form onSubmit={onSubmit} className="rounded-[1.5rem] border border-white/15 bg-white/[.03] p-1 shadow-2xl backdrop-blur-xl">
+      <div className="flex items-center gap-2 rounded-[1.25rem] border border-white/10 bg-black/70 pr-1 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
         <div className="pl-3 text-orange-400"><Search className="h-5 w-5" /></div>
         <input ref={inputRef} value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }}
           onFocus={() => setOpen(true)}
@@ -140,13 +155,20 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
             <X className="h-4 w-4" />
           </button>
         )}
-        <button className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black transition hover:opacity-90 active:scale-95">
+        <button className="group/btn m-1 flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 pl-5 pr-2 text-sm font-black transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.97]">
           Buscar
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black/15 transition-transform duration-300 group-hover/btn:translate-x-0.5"><Search className="h-3 w-3" /></span>
         </button>
+      </div>
       </form>
 
       {open && (lower || recent.length) && (
-        <div className="absolute left-0 right-0 z-40 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#141018] p-3 shadow-2xl">
+        <div ref={dropRef} className="absolute left-0 right-0 z-40 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#141018] p-3 shadow-2xl">
+          {buscando && (
+            <p className="mb-2 flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-orange-300/70">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-orange-400" /> Buscando...
+            </p>
+          )}
           {parsedQuery.city && (
             <div className="mb-3 rounded-xl bg-orange-500/10 border border-orange-400/30 p-3">
               <p className="text-xs text-orange-300 font-bold">📍 Buscando en {parsedQuery.city.name}</p>
