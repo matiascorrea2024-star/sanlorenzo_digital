@@ -10,6 +10,8 @@ import CouponButton from "@/components/offers/coupon-button";
 import FavoriteButton from "@/components/ui/favorite-button";
 import NotifyMeButton from "@/components/offers/notify-me-button";
 import { track } from "@/lib/track";
+import { useAnalytics } from "@/lib/hooks/use-analytics";
+import { planDe } from "@/lib/plans";
 import { useToast } from "@/components/ui/toast";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
@@ -22,12 +24,14 @@ export default function OfertaPage() {
   const [oferta, setOferta] = useState<any>(null);
   const [negocio, setNegocio] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { trackViewOffer } = useAnalytics();
 
   useEffect(() => {
     (async () => {
       const { data: offer } = await supabase().from("offers").select("*").eq("id", offerId).single();
       if (offer) {
         setOferta(offer);
+        trackViewOffer(offer.id, offer.business_id);
         const { data: biz } = await supabase().from("businesses").select("*").eq("id", offer.business_id).single();
         if (biz) setNegocio(biz);
       }
@@ -161,10 +165,14 @@ export default function OfertaPage() {
           </Link>
         </div>
 
-        {/* Cupón: uno solo, protagonista */}
-        <div className="mb-5">
-          <CouponButton offerId={oferta.id} businessId={negocio.id} offerTitle={oferta.title} />
-        </div>
+        {/* Cupón: uno solo, protagonista -- herramienta de Plan PRO, no se
+            muestra el botón si el negocio no lo tiene habilitado (evita
+            ofrecer algo que después falla al tocarlo). */}
+        {planDe(negocio).cupones && (
+          <div className="mb-5">
+            <CouponButton offerId={oferta.id} businessId={negocio.id} offerTitle={oferta.title} />
+          </div>
+        )}
 
         <div className="mb-5 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-5 md:flex-row">
           <div>

@@ -7,59 +7,82 @@ export const PLANES: Record<string, {
   name: string;
   maxOfertas: number; // -1 = ilimitadas
   ofertasNuevasPorDia: number;
+  maxProductos: number; // -1 = ilimitados
   destacado: boolean;
-  stats: boolean;
+  stats: boolean; // estadísticas básicas (solo visitas totales)
+  statsAvanzadas: boolean; // detalle día a día + comparación con la categoría
   historias: boolean;
-  cuponesIlimitados: boolean;
+  cupones: boolean; // crear cupones exclusivos con código
   responderResenas: boolean;
+  destacarCatalogo: boolean; // marcar productos/ofertas propias como destacados
+  campanas: boolean; // campañas segmentadas por barrio con estimación de alcance
+  whatsappDestacado: boolean; // botón de WhatsApp más grande/prioritario en la ficha
   badge: string;
 }> = {
   gratis: {
     name: "Gratis",
     maxOfertas: 3,
     ofertasNuevasPorDia: 1,
+    maxProductos: 5,
     destacado: false,
     stats: false,
+    statsAvanzadas: false,
     historias: false,
-    cuponesIlimitados: false,
+    cupones: false,
     responderResenas: false,
+    destacarCatalogo: false,
+    campanas: false,
+    whatsappDestacado: false,
     badge: "",
   },
   // Escalón intermedio: más barato que PRO, para el que todavía no se
-  // anima a $9.900 pero ya quiere más de lo que da Gratis. Le damos
-  // estadísticas y responder reseñas (barato de dar, mucho enganche) y
-  // dejamos ofertas ilimitadas + historias como el salto real a PRO.
+  // anima a $9.900 pero ya quiere más de lo que da Gratis.
   plus: {
     name: "Comerciante Plus",
     maxOfertas: 8,
     ofertasNuevasPorDia: 2,
+    maxProductos: 30,
     destacado: false,
     stats: true,
+    statsAvanzadas: false,
     historias: false,
-    cuponesIlimitados: false,
+    cupones: false,
     responderResenas: true,
+    destacarCatalogo: false,
+    campanas: false,
+    whatsappDestacado: true,
     badge: "⭐ Plus",
   },
   profesional: {
     name: "PRO Comerciante",
     maxOfertas: -1,
     ofertasNuevasPorDia: 2,
+    maxProductos: -1,
     destacado: false,
     stats: true,
+    statsAvanzadas: true,
     historias: true,
-    cuponesIlimitados: true,
+    cupones: true,
     responderResenas: true,
+    destacarCatalogo: true,
+    campanas: true,
+    whatsappDestacado: true,
     badge: "🚀 Pro",
   },
   premium: {
     name: "Destacado Semanal",
     maxOfertas: -1,
     ofertasNuevasPorDia: 2,
+    maxProductos: -1,
     destacado: true,
     stats: true,
+    statsAvanzadas: true,
     historias: true,
-    cuponesIlimitados: true,
+    cupones: true,
     responderResenas: true,
+    destacarCatalogo: true,
+    campanas: true,
+    whatsappDestacado: true,
     badge: "🔥 Destacado",
   },
 };
@@ -85,4 +108,11 @@ export function puedePublicarOferta(plan: string, ofertasActivas: number): boole
 export function puedePublicarHoy(plan: string, ofertasCreadasHoy: number): boolean {
   const p = PLANES[plan] || PLANES.gratis;
   return ofertasCreadasHoy < p.ofertasNuevasPorDia;
+}
+
+// ¿Puede este negocio cargar un producto más al catálogo?
+export function puedeAgregarProducto(plan: string, productosActivos: number): boolean {
+  const p = PLANES[plan] || PLANES.gratis;
+  if (p.maxProductos === -1) return true;
+  return productosActivos < p.maxProductos;
 }

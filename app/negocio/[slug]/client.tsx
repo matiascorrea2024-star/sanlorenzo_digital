@@ -19,6 +19,7 @@ import FollowButton from "@/components/business/follow-button";
 import NotifyMeButton from "@/components/offers/notify-me-button";
 import FavoriteButton from "@/components/ui/favorite-button";
 import LevelBadge from "@/components/business/level-badge";
+import { planDe } from "@/lib/plans";
 
 const CATEGORY_IMAGES: Record<string, string> = {
   calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=1200&q=85",
@@ -138,6 +139,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   }
 
   const portada = negocio.portada_url || CATEGORY_IMAGES[negocio.category] || CATEGORY_IMAGES.gastronomia;
+  const waDestacado = negocio.whatsapp && planDe(negocio).whatsappDestacado;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -243,9 +245,24 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </div>
         )}
 
+        {/* WhatsApp destacado (Plan Plus+): CTA propia, más grande, arriba
+            de la grilla en vez de compartir espacio con las demás. */}
+        {waDestacado && (
+          <a
+            onClick={() => trackClickWhatsApp(negocio.id)}
+            href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${negocio.name} en La Gran Barata Digital`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-3 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 p-4 text-white shadow-lg shadow-green-500/20 transition hover:opacity-90"
+          >
+            <MessageCircle className="h-6 w-6" />
+            <span className="text-base font-black">Escribir por WhatsApp</span>
+          </a>
+        )}
+
         {/* ACCIONES RÁPIDAS: 4 tarjetas limpias */}
         <div className="mb-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-          {negocio.whatsapp && (
+          {negocio.whatsapp && !waDestacado && (
             <a
               onClick={() => trackClickWhatsApp(negocio.id)}
               href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${negocio.name} en La Gran Barata Digital`)}`}

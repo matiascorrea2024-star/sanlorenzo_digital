@@ -17,12 +17,13 @@ export default function AnalyticsPage() {
   });
   const [timeline, setTimeline] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [posicion, setPosicion] = useState<{ puesto: number; total: number; percentil: number } | null>(null);
 
   useEffect(() => {
     (async () => {
       if (!user) return;
       const { data: biz } = await supabase().from("businesses")
-        .select("id, name, plan").eq("owner_id", user.id);
+        .select("id, name, plan, category").eq("owner_id", user.id);
       if (biz && biz.length) {
         setNegocios(biz);
         setSelectedBiz(biz[0].id);
@@ -30,6 +31,24 @@ export default function AnalyticsPage() {
       setLoading(false);
     })();
   }, [user]);
+
+  // Comparación real contra el resto de negocios de la misma categoría
+  // (business_leagues ya calcula puntos reales por negocio -- no se
+  // inventa nada, se ordena y se ve dónde queda éste).
+  useEffect(() => {
+    if (!selectedBiz) { setPosicion(null); return; }
+    (async () => {
+      const negocio = negocios.find((n) => n.id === selectedBiz);
+      if (!negocio?.category) { setPosicion(null); return; }
+      const { data: liga } = await supabase().from("business_leagues")
+        .select("id, puntos").eq("category", negocio.category).order("puntos", { ascending: false });
+      if (!liga || liga.length < 2) { setPosicion(null); return; }
+      const puesto = liga.findIndex((l) => l.id === selectedBiz) + 1;
+      if (puesto === 0) { setPosicion(null); return; }
+      const percentil = Math.max(1, Math.round((puesto / liga.length) * 100));
+      setPosicion({ puesto, total: liga.length, percentil });
+    })();
+  }, [selectedBiz, negocios]);
 
   useEffect(() => {
     if (!selectedBiz) return;
@@ -156,6 +175,19 @@ export default function AnalyticsPage() {
             </div>
           ))}
         </div>
+
+        {posicion && (
+          <div className="mb-8 rounded-2xl border border-sky-400/30 bg-gradient-to-br from-sky-500/10 to-blue-500/10 p-6">
+            <p className="flex items-center gap-1.5 font-black">
+              📊 Tu lugar en la categoría
+              <InfoTip label="Cómo se calcula">Se compara con los demás negocios de tu mismo rubro usando los mismos puntos reales del ranking (seguidores, reseñas, ofertas, cupones canjeados) -- sin mostrar datos privados de nadie.</InfoTip>
+            </p>
+            <p className="mt-2 text-sm text-white/70">
+              Estás en el <strong className="text-sky-300">puesto {posicion.puesto} de {posicion.total}</strong> -- eso te ubica en el{" "}
+              <strong className="text-sky-300">top {posicion.percentil}%</strong> de tu rubro.
+            </p>
+          </div>
+        )}
 
         {/* Timeline gráfico simple */}
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">

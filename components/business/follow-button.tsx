@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { postActivity } from "@/lib/activity";
+import { useAnalytics } from "@/lib/hooks/use-analytics";
 
 export default function FollowButton({ businessId }: { businessId: string }) {
   const [user, setUser] = useState<any>(null);
   const [count, setCount] = useState(0);
   const [siguiendo, setSiguiendo] = useState(false);
   const [busy, setBusy] = useState(false);
+  const { trackFollow } = useAnalytics();
 
   useEffect(() => {
     (async () => {
@@ -34,6 +36,7 @@ export default function FollowButton({ businessId }: { businessId: string }) {
     } else {
       await supabase().from("followers").insert({ business_id: businessId, user_id: user.id });
       setCount(c => c + 1); setSiguiendo(true);
+      trackFollow(businessId);
       await postActivity({ type: "new_follower", businessId, title: "👥 Nuevo seguidor" });
     }
     setBusy(false);

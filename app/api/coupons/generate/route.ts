@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
+import { planDe } from "@/lib/plans";
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,6 +31,13 @@ export async function POST(request: NextRequest) {
 
     if (!offer) {
       return NextResponse.json({ error: "Oferta no encontrada o inactiva" }, { status: 404 });
+    }
+
+    // Los cupones con código son una herramienta de Plan PRO -- el negocio
+    // dueño de la oferta tiene que tener el plan habilitado.
+    const { data: business } = await supabase.from("businesses").select("plan").eq("id", offer.business_id).maybeSingle();
+    if (!planDe(business).cupones) {
+      return NextResponse.json({ error: "Este negocio no tiene cupones habilitados (es una herramienta de Plan PRO)." }, { status: 403 });
     }
 
     // Verificar si el usuario ya tiene un cupón para esta oferta

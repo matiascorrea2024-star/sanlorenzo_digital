@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Heart } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { useAnalytics } from "@/lib/hooks/use-analytics";
 
 // Cache global de favoritos del usuario (evita N+1 queries)
 const favCache = {
@@ -42,6 +43,7 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
 }) {
   const [user, setUser] = useState<any>(null);
   const [, forceUpdate] = useState(0);
+  const { trackFavorite } = useAnalytics();
 
   useEffect(() => {
     (async () => {
@@ -77,6 +79,7 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
         await supabase().from("favorites").delete().eq("user_id", user.id).eq("item_id", itemId).eq("item_type", itemType);
       } else {
         await supabase().from("favorites").insert({ user_id: user.id, item_id: itemId, item_type: itemType });
+        if (itemType === "business") trackFavorite(itemId);
       }
     } catch {
       // Revertir si falla (sin loguear para no spamear consola)

@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import PageHero from "@/components/ui/page-hero";
 import { useToast } from "@/components/ui/toast";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
+import BusinessPulse from "@/components/dashboard/business-pulse";
 
 export default function DashboardPage() {
   const { show } = useToast();
@@ -90,6 +91,8 @@ export default function DashboardPage() {
             </Link>
           </div>
         ) : (
+          <>
+          <BusinessPulse negocio={negocios[0]} />
           <div className="grid gap-4 md:grid-cols-2">
             {negocios.map((b) => (
               <div key={b.id} className="rounded-3xl border border-white/10 bg-white/5 p-5">
@@ -144,6 +147,7 @@ export default function DashboardPage() {
               </div>
             ))}
           </div>
+          </>
         )}
       </div>
     </main>

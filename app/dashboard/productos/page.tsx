@@ -7,6 +7,8 @@ import { Package, Edit, Trash2, Star, Eye, EyeOff, Images, X, Loader2 } from "lu
 import ImageUploader from "@/components/upload/image-uploader";
 import { uploadProductImage } from "@/lib/media";
 import HowItWorks from "@/components/ui/how-it-works";
+import { planDe, puedeAgregarProducto } from "@/lib/plans";
+import Link from "next/link";
 
 const emptyForm = () => ({
   name: "", description: "", price: "", old_price: "", category: "", stock: "",
@@ -48,8 +50,12 @@ export default function ProductosPage() {
     setProductos(prods || []);
   };
 
+  const planActual = planDe(negocio);
+  const puedeSumar = editing || puedeAgregarProducto(negocio?.plan, productos.length);
+
   const save = async () => {
     if (!negocio || !form.name || !form.price) return;
+    if (!puedeSumar) return;
     const data = {
       business_id: negocio.id,
       name: form.name,
@@ -129,10 +135,12 @@ export default function ProductosPage() {
 
   const listosParaGuardar = pendientes.filter((p) => p.name.trim() && p.price.trim());
 
+  const cupoRestante = planActual.maxProductos === -1 ? Infinity : Math.max(0, planActual.maxProductos - productos.length);
+
   const guardarTodo = async () => {
     if (!negocio || listosParaGuardar.length === 0) return;
     setGuardandoTodo(true);
-    for (const p of listosParaGuardar) {
+    for (const p of listosParaGuardar.slice(0, cupoRestante)) {
       setPendientes((prev) => prev.map((x) => (x.id === p.id ? { ...x, status: "subiendo" } : x)));
       try {
         const url = await uploadProductImage(p.file, String(negocio.id), p.id);
@@ -185,9 +193,21 @@ export default function ProductosPage() {
           <Package className="h-8 w-8 text-orange-400" />
           <div>
             <h1 className="text-3xl font-black">Mis Productos</h1>
-            <p className="text-white/60">Gestioná el catálogo de {negocio.name}</p>
+            <p className="text-white/60">
+              Gestioná el catálogo de {negocio.name}
+              {planActual.maxProductos !== -1 && (
+                <span className="text-white/40"> · {productos.length}/{planActual.maxProductos} productos (Plan {planActual.name})</span>
+              )}
+            </p>
           </div>
         </div>
+
+        {!puedeSumar && (
+          <div className="mb-4 flex flex-col items-start justify-between gap-3 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-4 sm:flex-row sm:items-center">
+            <p className="text-sm">Llegaste al límite de {planActual.maxProductos} productos del plan {planActual.name}.</p>
+            <Link href="/dashboard/planes" className="shrink-0 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-xs font-black">Mejorar plan →</Link>
+          </div>
+        )}
 
         <HowItWorks steps={[
           "Elegí varias fotos de tus productos de una sola vez (podés sacarlas con el celu en el momento).",
@@ -249,13 +269,16 @@ export default function ProductosPage() {
                 ))}
                 <button
                   onClick={guardarTodo}
-                  disabled={guardandoTodo || listosParaGuardar.length === 0}
+                  disabled={guardandoTodo || listosParaGuardar.length === 0 || cupoRestante <= 0}
                   className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50"
                 >
-                  {guardandoTodo ? "Guardando..." : `Guardar todo (${listosParaGuardar.length})`}
+                  {guardandoTodo ? "Guardando..." : `Guardar todo (${Math.min(listosParaGuardar.length, cupoRestante)})`}
                 </button>
                 {pendientes.length > listosParaGuardar.length && !guardandoTodo && (
                   <p className="text-center text-xs text-white/40">Completá nombre y precio en todas para poder guardarlas.</p>
+                )}
+                {isFinite(cupoRestante) && listosParaGuardar.length > cupoRestante && (
+                  <p className="text-center text-xs text-orange-300">Tu plan permite {cupoRestante} más -- el resto queda pendiente hasta que mejores el plan.</p>
                 )}
               </div>
             )}
@@ -289,12 +312,18 @@ export default function ProductosPage() {
               <input value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })}
                 placeholder="Stock (opcional)" type="number" className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
-            <label className="flex items-center gap-2 text-sm text-white/80">
-              <input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} />
-              <Star className="h-4 w-4 text-yellow-400" /> Destacar este producto (aparece primero en el catálogo)
-            </label>
+            {planActual.destacarCatalogo ? (
+              <label className="flex items-center gap-2 text-sm text-white/80">
+                <input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} />
+                <Star className="h-4 w-4 text-yellow-400" /> Destacar este producto (aparece primero en el catálogo)
+              </label>
+            ) : (
+              <Link href="/dashboard/planes" className="flex items-center gap-1.5 text-xs font-bold text-orange-400 hover:text-orange-300">
+                <Star className="h-3.5 w-3.5" /> Destacar productos es de Plan PRO -- mejorar plan →
+              </Link>
+            )}
             <div className="flex gap-2">
-              <button onClick={save} disabled={!form.name || !form.price}
+              <button onClick={save} disabled={!form.name || !form.price || !puedeSumar}
                 className="flex-1 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black disabled:opacity-50">
                 {editing ? "Guardar cambios" : "Crear producto"}
               </button>
