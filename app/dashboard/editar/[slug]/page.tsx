@@ -263,7 +263,7 @@ export default function Editar() {
         <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Productos / servicios</h2>
-            <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
+            <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
           </div>
           {items.length === 0 && <p className="text-sm text-white/50">Agregá tu primer producto.</p>}
           <div className="grid gap-3">
@@ -281,7 +281,7 @@ export default function Editar() {
         <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Promociones</h2>
-            <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
+            <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
           </div>
           {promos.length === 0 && <p className="text-sm text-white/50">Creá promos con vencimiento: solas se apagan cuando terminan.</p>}
           <div className="grid gap-3">
@@ -357,13 +357,17 @@ export default function Editar() {
             <div className="mb-4"><LevelBadge slug={b.slug} /></div>
             <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-pink-300 bg-clip-text text-transparent">Estadísticas de tu negocio (últimos 7 días)</h2>
             <div className="grid grid-cols-2 gap-4 mb-5">
-              <div className="rounded-xl bg-black/20 p-4 text-center">
-                <p className="text-3xl font-black text-orange-400">{stats.views}</p>
-                <p className="text-xs text-white/60 uppercase mt-1">👁 Vistas a tu miniweb</p>
+              <div className="rounded-[1.25rem] border border-white/[.05] bg-black/20 p-1">
+                <div className="rounded-[.9rem] bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="text-3xl font-black text-orange-400 tabular-nums">{stats.views}</p>
+                  <p className="text-xs text-white/60 uppercase mt-1">👁 Vistas a tu miniweb</p>
+                </div>
               </div>
-              <div className="rounded-xl bg-black/20 p-4 text-center">
-                <p className="text-3xl font-black text-green-400">{stats.wa}</p>
-                <p className="text-xs text-white/60 uppercase mt-1">💬 Clicks a WhatsApp</p>
+              <div className="rounded-[1.25rem] border border-white/[.05] bg-black/20 p-1">
+                <div className="rounded-[.9rem] bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="text-3xl font-black text-green-400 tabular-nums">{stats.wa}</p>
+                  <p className="text-xs text-white/60 uppercase mt-1">💬 Clicks a WhatsApp</p>
+                </div>
               </div>
             </div>
             <p className="text-xs text-white/50 mb-2">Vistas por día:</p>
@@ -416,7 +420,7 @@ export default function Editar() {
         <ReviewModeration businessId={b.id} plan={b.plan} />
 
         <div className="mt-6 flex items-center gap-4">
-          <button onClick={save} disabled={saving} className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black text-white hover:opacity-90 disabled:opacity-40">
+          <button onClick={save} disabled={saving} className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black text-white hover:opacity-90 disabled:opacity-40">
             {saving ? "Guardando…" : "💾 Guardar cambios"}
           </button>
           {msg && <span className="text-sm">{msg}</span>}
