@@ -125,30 +125,34 @@ export default function PlanesDashboard() {
         </div>
 
         {campanas.filter((c) => !misReclamos.includes(c.id)).map((c) => (
-          <div key={c.id} className="mt-6 flex flex-col items-start justify-between gap-3 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-5 sm:flex-row sm:items-center">
-            <div className="flex items-start gap-3">
-              <Gift className="h-6 w-6 shrink-0 text-orange-400" />
-              <div>
-                <p className="font-black">{c.title}</p>
-                <p className="text-sm text-white/60">
-                  {c.description || `Obtenés ${PLANES[c.grants_plan]?.name} gratis por ${c.grants_dias} días.`}
-                </p>
+          <div key={c.id} className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.375rem] border border-white/[.06] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:flex-row sm:items-center">
+              <div className="flex items-start gap-3">
+                <Gift className="h-6 w-6 shrink-0 text-orange-400" />
+                <div>
+                  <p className="font-black">{c.title}</p>
+                  <p className="text-sm text-white/60">
+                    {c.description || `Obtenés ${PLANES[c.grants_plan]?.name} gratis por ${c.grants_dias} días.`}
+                  </p>
+                </div>
               </div>
+              <button onClick={() => reclamarCampana(c.id)} disabled={reclamando === c.id}
+                className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+                {reclamando === c.id ? "Reclamando..." : "Reclamar beneficio"}
+              </button>
             </div>
-            <button onClick={() => reclamarCampana(c.id)} disabled={reclamando === c.id}
-              className="shrink-0 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">
-              {reclamando === c.id ? "Reclamando..." : "Reclamar beneficio"}
-            </button>
           </div>
         ))}
         {avisoCampana && <p className="mt-3 text-sm text-red-300">{avisoCampana}</p>}
 
         {pendiente && (
-          <div className="mt-6 flex items-center gap-3 rounded-2xl border border-yellow-400/30 bg-yellow-500/10 p-4">
-            <Clock className="h-6 w-6 shrink-0 text-yellow-400" />
-            <div>
-              <p className="font-bold text-yellow-200">Solicitud de plan {PLANES[pendiente.plan]?.name} en revisión</p>
-              <p className="text-xs text-white/60">Enviamos tu comprobante. Te activamos el plan en cuanto lo revisemos (normalmente en el día).</p>
+          <div className="mt-6 rounded-[1.5rem] border border-yellow-400/25 bg-yellow-500/[.06] p-1.5">
+            <div className="flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Clock className="h-6 w-6 shrink-0 text-yellow-400" />
+              <div>
+                <p className="font-bold text-yellow-200">Solicitud de plan {PLANES[pendiente.plan]?.name} en revisión</p>
+                <p className="text-xs text-white/60">Enviamos tu comprobante. Te activamos el plan en cuanto lo revisemos (normalmente en el día).</p>
+              </div>
             </div>
           </div>
         )}
@@ -159,47 +163,49 @@ export default function PlanesDashboard() {
             const esGratis = p.k === "gratis";
             return (
               <div key={p.k}
-                className={`relative flex flex-col rounded-3xl border-2 p-6 ${
-                  actual ? "border-orange-400/70 bg-orange-500/10" : "border-white/10 bg-white/5"
+                className={`relative rounded-[1.75rem] p-1.5 ${
+                  actual ? "border border-orange-400/50 bg-gradient-to-b from-orange-500/[.1] to-pink-500/[.04]" : "border border-white/[.06] bg-white/[.02]"
                 }`}>
                 {actual && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-1 text-xs font-black">
                     PLAN ACTUAL
                   </span>
                 )}
-                <p.icon className={`h-7 w-7 ${actual ? "text-orange-400" : "text-white/50"}`} />
-                <h2 className="mt-2 text-lg font-black">{PLANES[p.k].name}</h2>
-                <p className="text-2xl font-black text-orange-400">{p.precio}</p>
-                <ul className="mt-4 flex-1 space-y-2">
-                  {p.features.map(f => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-white/80">
-                      <Check className="h-4 w-4 shrink-0 text-green-400" /> {f}
-                    </li>
-                  ))}
-                </ul>
+                <div className={`flex h-full flex-col rounded-[1.375rem] border p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] ${actual ? "border-white/[.08] bg-black/10" : "border-white/[.05] bg-black/10"}`}>
+                  <p.icon className={`h-7 w-7 ${actual ? "text-orange-400" : "text-white/50"}`} />
+                  <h2 className="mt-2 text-lg font-black">{PLANES[p.k].name}</h2>
+                  <p className="text-2xl font-black text-orange-400">{p.precio}</p>
+                  <ul className="mt-4 flex-1 space-y-2">
+                    {p.features.map(f => (
+                      <li key={f} className="flex items-center gap-2 text-sm text-white/80">
+                        <Check className="h-4 w-4 shrink-0 text-green-400" /> {f}
+                      </li>
+                    ))}
+                  </ul>
 
-                {actual || esGratis || pendiente ? (
-                  <button disabled className="mt-5 rounded-xl border border-white/20 py-2.5 text-sm font-black text-white/40">
-                    {actual ? "Activo" : esGratis ? "Plan sin costo" : "Solicitud en curso"}
-                  </button>
-                ) : pidiendo === p.k ? (
-                  <div className="mt-5 space-y-2 rounded-xl border border-white/10 bg-black/20 p-3">
-                    <input type="file" accept="image/*" onChange={(e) => setArchivo(e.target.files?.[0] || null)}
-                      className="w-full text-xs text-white/60 file:mr-2 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-white" />
-                    <button onClick={() => solicitar(p.k)} disabled={enviando}
-                      className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-2 text-sm font-black hover:opacity-90 disabled:opacity-50">
-                      {enviando ? "Enviando…" : "Enviar comprobante"}
+                  {actual || esGratis || pendiente ? (
+                    <button disabled className="mt-5 rounded-full border border-white/20 py-2.5 text-sm font-black text-white/40">
+                      {actual ? "Activo" : esGratis ? "Plan sin costo" : "Solicitud en curso"}
                     </button>
-                    <button onClick={() => { setPidiendo(null); setArchivo(null); setError(""); }} className="w-full text-xs text-white/40 hover:text-white/60">
-                      Cancelar
+                  ) : pidiendo === p.k ? (
+                    <div className="mt-5 space-y-2 rounded-xl border border-white/10 bg-black/20 p-3">
+                      <input type="file" accept="image/*" onChange={(e) => setArchivo(e.target.files?.[0] || null)}
+                        className="w-full text-xs text-white/60 file:mr-2 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-white" />
+                      <button onClick={() => solicitar(p.k)} disabled={enviando}
+                        className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-2 text-sm font-black hover:opacity-90 disabled:opacity-50">
+                        {enviando ? "Enviando…" : "Enviar comprobante"}
+                      </button>
+                      <button onClick={() => { setPidiendo(null); setArchivo(null); setError(""); }} className="w-full text-xs text-white/40 hover:text-white/60">
+                        Cancelar
+                      </button>
+                    </div>
+                  ) : (
+                    <button onClick={() => setPidiendo(p.k)}
+                      className="mt-5 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black hover:opacity-90">
+                      Quiero este plan
                     </button>
-                  </div>
-                ) : (
-                  <button onClick={() => setPidiendo(p.k)}
-                    className="mt-5 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black hover:opacity-90">
-                    Quiero este plan
-                  </button>
-                )}
+                  )}
+                </div>
               </div>
             );
           })}
@@ -207,18 +213,20 @@ export default function PlanesDashboard() {
 
         {error && <p className="mt-4 text-center text-sm text-red-300">❌ {error}</p>}
 
-        <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-white/10 bg-white/[0.02] p-5 text-center text-sm text-white/60">
-          <p className="font-bold text-white/80">¿Cómo se activa un plan pago?</p>
-          <p className="mt-1">Transferí el importe y subí el comprobante desde el botón &quot;Quiero este plan&quot;. Un admin lo revisa y te lo activa.</p>
-          {datosPago ? (
-            <p className="mt-2 whitespace-pre-line rounded-xl bg-black/20 p-3 font-mono text-xs text-emerald-300">{datosPago}</p>
-          ) : whatsapp ? (
-            <p className="mt-2">
-              Escribinos por WhatsApp para coordinar el pago:{" "}
-              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="font-bold text-orange-400">Contactar</a>
-            </p>
-          ) : null}
-          <p className="mt-3 text-xs text-white/30">Pago automático con Mercado Pago: próximamente.</p>
+        <div className="mx-auto mt-8 max-w-xl rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 text-center text-sm text-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <p className="font-bold text-white/80">¿Cómo se activa un plan pago?</p>
+            <p className="mt-1">Transferí el importe y subí el comprobante desde el botón &quot;Quiero este plan&quot;. Un admin lo revisa y te lo activa.</p>
+            {datosPago ? (
+              <p className="mt-2 whitespace-pre-line rounded-xl bg-black/20 p-3 font-mono text-xs text-emerald-300">{datosPago}</p>
+            ) : whatsapp ? (
+              <p className="mt-2">
+                Escribinos por WhatsApp para coordinar el pago:{" "}
+                <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="font-bold text-orange-400">Contactar</a>
+              </p>
+            ) : null}
+            <p className="mt-3 text-xs text-white/30">Pago automático con Mercado Pago: próximamente.</p>
+          </div>
         </div>
       </div>
     </main>
