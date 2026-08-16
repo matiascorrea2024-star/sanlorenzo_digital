@@ -113,66 +113,78 @@ export default function PulsoClient() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {categoriaTop && (
-              <div className="rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-6">
-                <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-orange-300"><Search className="h-3.5 w-3.5" /> Categoría más buscada hoy</p>
-                <p className="mt-2 text-2xl font-black">{categoriaTop.icon} {categoriaTop.nombre}</p>
-                <p className="mt-1 text-sm text-white/50">{categoriaTop.busquedas} búsqueda{categoriaTop.busquedas === 1 ? "" : "s"} hoy</p>
+              <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+                <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-orange-300"><Search className="h-3.5 w-3.5" /> Categoría más buscada hoy</p>
+                  <p className="mt-2 text-2xl font-black">{categoriaTop.icon} {categoriaTop.nombre}</p>
+                  <p className="mt-1 text-sm text-white/50">{categoriaTop.busquedas} búsqueda{categoriaTop.busquedas === 1 ? "" : "s"} hoy</p>
+                </div>
               </div>
             )}
 
             {negocioEnAlza && (
-              <div className="rounded-2xl border border-green-400/30 bg-gradient-to-br from-green-500/10 to-emerald-500/10 p-6">
-                <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-green-300"><TrendingUp className="h-3.5 w-3.5" /> Negocio en alza esta semana</p>
-                <Link href={`/negocio/${negocioEnAlza.slug}`} className="mt-2 block text-2xl font-black hover:text-green-300">{negocioEnAlza.name}</Link>
-                <p className="mt-1 text-sm text-white/50">+{negocioEnAlza.crecimiento} visitas vs la semana anterior</p>
+              <div className="rounded-[1.75rem] border border-green-400/25 bg-gradient-to-br from-green-500/[.08] to-emerald-500/[.04] p-1.5">
+                <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-green-300"><TrendingUp className="h-3.5 w-3.5" /> Negocio en alza esta semana</p>
+                  <Link href={`/negocio/${negocioEnAlza.slug}`} className="mt-2 block text-2xl font-black hover:text-green-300">{negocioEnAlza.name}</Link>
+                  <p className="mt-1 text-sm text-white/50">+{negocioEnAlza.crecimiento} visitas vs la semana anterior</p>
+                </div>
               </div>
             )}
 
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-sky-300"><PieChart className="h-3.5 w-3.5" /> Tendencia de la semana</p>
-              <p className="mt-2 text-2xl font-black">{ofertasSemana} oferta{ofertasSemana === 1 ? "" : "s"} nueva{ofertasSemana === 1 ? "" : "s"}</p>
-              <p className="mt-1 text-sm text-white/50">{negociosSemana} negocio{negociosSemana === 1 ? "" : "s"} nuevo{negociosSemana === 1 ? "" : "s"} esta semana</p>
+            <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-sky-300"><PieChart className="h-3.5 w-3.5" /> Tendencia de la semana</p>
+                <p className="mt-2 text-2xl font-black">{ofertasSemana} oferta{ofertasSemana === 1 ? "" : "s"} nueva{ofertasSemana === 1 ? "" : "s"}</p>
+                <p className="mt-1 text-sm text-white/50">{negociosSemana} negocio{negociosSemana === 1 ? "" : "s"} nuevo{negociosSemana === 1 ? "" : "s"} esta semana</p>
+              </div>
             </div>
 
             {categoriasConMas.length > 0 && (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <p className="mb-2 text-xs font-black uppercase tracking-wider text-white/40">Rubros con más negocios</p>
-                <div className="space-y-1.5">
-                  {categoriasConMas.map((c) => (
-                    <div key={c.nombre} className="flex items-center justify-between text-sm">
-                      <span>{c.icon} {c.nombre}</span>
-                      <span className="text-white/40">{c.cant}</span>
-                    </div>
-                  ))}
+              <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="mb-2 text-xs font-black uppercase tracking-wider text-white/40">Rubros con más negocios</p>
+                  <div className="space-y-1.5">
+                    {categoriasConMas.map((c) => (
+                      <div key={c.nombre} className="flex items-center justify-between text-sm">
+                        <span>{c.icon} {c.nombre}</span>
+                        <span className="text-white/40">{c.cant}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
 
             {vencenHoy.length > 0 && (
-              <div className="rounded-2xl border border-red-400/30 bg-gradient-to-br from-red-500/10 to-orange-500/10 p-6 md:col-span-2">
-                <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-red-300"><Clock className="h-3.5 w-3.5" /> {vencenHoy.length} oferta{vencenHoy.length === 1 ? "" : "s"} vence{vencenHoy.length === 1 ? "" : "n"} hoy</p>
-                <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-                  {vencenHoy.map((o: any) => (
-                    <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-white/10 bg-black/20 p-3 hover:border-red-400/40">
-                      <p className="truncate text-sm font-bold">{o.title}</p>
-                      <p className="text-xs text-white/50">{o.business_name}</p>
-                      {o.offer_price && <p className="mt-1 text-sm font-black text-orange-400">{fmt(Number(o.offer_price))}</p>}
-                    </Link>
-                  ))}
+              <div className="rounded-[1.75rem] border border-red-400/25 bg-gradient-to-br from-red-500/[.08] to-orange-500/[.04] p-1.5 md:col-span-2">
+                <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-red-300"><Clock className="h-3.5 w-3.5" /> {vencenHoy.length} oferta{vencenHoy.length === 1 ? "" : "s"} vence{vencenHoy.length === 1 ? "" : "n"} hoy</p>
+                  <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                    {vencenHoy.map((o: any) => (
+                      <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-white/10 bg-black/20 p-3 hover:border-red-400/40">
+                        <p className="truncate text-sm font-bold">{o.title}</p>
+                        <p className="text-xs text-white/50">{o.business_name}</p>
+                        {o.offer_price && <p className="mt-1 text-sm font-black text-orange-400">{fmt(Number(o.offer_price))}</p>}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
 
             {recienPublicado.length > 0 && (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:col-span-2">
-                <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-sky-300"><Flame className="h-3.5 w-3.5" /> Recién publicado</p>
-                <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-                  {recienPublicado.map((o: any) => (
-                    <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-white/10 bg-black/20 p-3 hover:border-sky-400/40">
-                      <p className="truncate text-sm font-bold">{o.title}</p>
-                      <p className="text-xs text-white/50">{o.business_name}</p>
-                    </Link>
-                  ))}
+              <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 md:col-span-2">
+                <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-sky-300"><Flame className="h-3.5 w-3.5" /> Recién publicado</p>
+                  <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                    {recienPublicado.map((o: any) => (
+                      <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-white/10 bg-black/20 p-3 hover:border-sky-400/40">
+                        <p className="truncate text-sm font-bold">{o.title}</p>
+                        <p className="text-xs text-white/50">{o.business_name}</p>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
