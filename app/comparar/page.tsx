@@ -42,11 +42,15 @@ function CompararContent() {
       <main className="min-h-screen bg-[#120d09] text-white pb-24">
         <PageHero title="Comparador" subtitle="Compará negocios y productos de un vistazo" />
         <div className="mx-auto max-w-5xl px-4 py-12 text-center">
-          <Package className="mx-auto h-16 w-16 text-white/30 mb-4" />
-          <p className="mt-3 text-white/60">No hay productos seleccionados para comparar.</p>
-          <Link href="/negocios" className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">
-            Explorar productos
-          </Link>
+          <div className="mx-auto max-w-md rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-10 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Package className="mx-auto h-16 w-16 text-white/30 mb-4" />
+              <p className="text-white/60">No hay productos seleccionados para comparar.</p>
+              <Link href="/negocios" className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+                Explorar productos
+              </Link>
+            </div>
+          </div>
         </div>
       </main>
     );
@@ -72,7 +76,8 @@ function CompararContent() {
           <ArrowLeft className="h-4 w-4" /> Volver a productos
         </Link>
 
-        <div className="mt-8 overflow-x-auto">
+        <div className="mt-8 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="overflow-x-auto rounded-[1.375rem] border border-white/[.05] bg-black/10 p-2 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <table className="w-full border-collapse">
             <thead>
               <tr>
@@ -154,6 +159,7 @@ function CompararContent() {
               </tr>
             </tbody>
           </table>
+        </div>
         </div>
 
         <p className="mt-8 text-center text-xs text-white/40">
