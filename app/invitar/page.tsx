@@ -68,37 +68,41 @@ export default function InvitarPage() {
     <main className="min-h-screen bg-[#120d09] text-white pb-24">
       <PageHero title="Invitá a tus vecinos" subtitle="Compartí tu link y sumá puntos cuando alguien se una" />
       <div className="mx-auto max-w-lg px-4 py-8 text-center">
-        <div className="rounded-3xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8">
-          <img src={qrUrl} alt="QR de invitación" className="mx-auto h-52 w-52 rounded-2xl bg-white p-3" />
-          <p className="mt-5 break-all rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/70">{link}</p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
-            <button onClick={compartir} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90">
-              <Share2 className="h-4 w-4" /> Compartir
-            </button>
-            <button onClick={copiar} className="flex items-center gap-2 rounded-xl border border-white/20 px-5 py-2.5 text-sm font-bold hover:bg-white/10">
-              {copied ? <Check className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />}
-              {copied ? "¡Copiado!" : "Copiar link"}
-            </button>
+        <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <img src={qrUrl} alt="QR de invitación" className="mx-auto h-52 w-52 rounded-2xl bg-white p-3" />
+            <p className="mt-5 break-all rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/70">{link}</p>
+            <div className="mt-4 flex flex-wrap justify-center gap-3">
+              <button onClick={compartir} className="flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90">
+                <Share2 className="h-4 w-4" /> Compartir
+              </button>
+              <button onClick={copiar} className="flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-sm font-bold hover:bg-white/10">
+                {copied ? <Check className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />}
+                {copied ? "¡Copiado!" : "Copiar link"}
+              </button>
+            </div>
           </div>
         </div>
-        <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-left">
-          <p className="flex items-center justify-between font-black">
-            <span>Tus referidos</span>
-            <span className="text-orange-400">{activos} activos <span className="text-white/40 font-normal">/ {total} totales</span></span>
-          </p>
-          <p className="mt-1 text-xs text-white/40">Activo = la persona ya completó el onboarding, no solo se registró.</p>
-          <div className="mt-4 space-y-2">
-            {HITOS.map((h) => {
-              const logrado = activos >= h.n;
-              return (
-                <div key={h.n} className={`flex items-center gap-3 rounded-xl border p-3 ${logrado ? "border-green-400/40 bg-green-500/10" : "border-white/10 bg-white/[0.02]"}`}>
-                  <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black ${logrado ? "bg-green-500 text-black" : "bg-white/10 text-white/50"}`}>
-                    {logrado ? "✓" : h.n}
-                  </span>
-                  <p className={`text-xs ${logrado ? "text-green-200" : "text-white/60"}`}>{h.premio}</p>
-                </div>
-              );
-            })}
+        <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 text-left">
+          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <p className="flex items-center justify-between font-black">
+              <span>Tus referidos</span>
+              <span className="text-orange-400">{activos} activos <span className="text-white/40 font-normal">/ {total} totales</span></span>
+            </p>
+            <p className="mt-1 text-xs text-white/40">Activo = la persona ya completó el onboarding, no solo se registró.</p>
+            <div className="mt-4 space-y-2">
+              {HITOS.map((h) => {
+                const logrado = activos >= h.n;
+                return (
+                  <div key={h.n} className={`flex items-center gap-3 rounded-xl border p-3 ${logrado ? "border-green-400/40 bg-green-500/10" : "border-white/10 bg-white/[0.02]"}`}>
+                    <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black ${logrado ? "bg-green-500 text-black" : "bg-white/10 text-white/50"}`}>
+                      {logrado ? "✓" : h.n}
+                    </span>
+                    <p className={`text-xs ${logrado ? "text-green-200" : "text-white/60"}`}>{h.premio}</p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
