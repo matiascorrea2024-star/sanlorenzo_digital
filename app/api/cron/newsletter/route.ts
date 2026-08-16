@@ -56,6 +56,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
+  // ?dry=1 -- corre toda la lógica (base de datos, armado del mail,
+  // destinatarios) pero NUNCA llama a Resend. Sirve para probar que todo
+  // está bien conectado sin mandarle un mail real a nadie.
+  const dry = request.nextUrl.searchParams.get("dry") === "1";
+
+  const env = {
+    SUPABASE_SERVICE_ROLE_KEY: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+    RESEND_API_KEY: !!process.env.RESEND_API_KEY,
+    CRON_SECRET: !!process.env.CRON_SECRET,
+  };
+
   const sb = supabaseCron();
   const desde = new Date(Date.now() - 7 * 86400000).toISOString();
 
@@ -67,22 +78,36 @@ export async function GET(request: NextRequest) {
     sb.from("user_profiles").select("user_id").eq("newsletter_opt_in", true),
   ]);
 
+  const resumen = {
+    ok: true,
+    dry,
+    env,
+    ofertasEstaSemana: ofertas?.length || 0,
+    negociosEstaSemana: negocios?.length || 0,
+    suscriptosNewsletter: perfiles?.length || 0,
+  };
+
   if (!ofertas?.length && !negocios?.length) {
-    return NextResponse.json({ ok: true, skipped: "sin novedades esta semana, no se envió nada" });
+    return NextResponse.json({ ...resumen, skipped: "sin novedades esta semana, no se envía nada" });
   }
 
   const userIds = (perfiles || []).map((p) => p.user_id);
   if (userIds.length === 0) {
-    return NextResponse.json({ ok: true, skipped: "nadie con newsletter_opt_in activo" });
+    return NextResponse.json({ ...resumen, skipped: "nadie con newsletter_opt_in activo" });
   }
 
   const { data: emails } = await sb.from("user_emails").select("email").in("user_id", userIds);
   const destinatarios = (emails || []).map((e) => e.email).filter(Boolean);
   if (destinatarios.length === 0) {
-    return NextResponse.json({ ok: true, skipped: "sin emails disponibles" });
+    return NextResponse.json({ ...resumen, skipped: "hay suscriptos pero sin email guardado todavía (revisá la sync)" });
   }
 
   const html = armarHtml({ ofertas: ofertas || [], negocios: negocios || [] });
+
+  if (dry) {
+    return NextResponse.json({ ...resumen, destinatarios: destinatarios.length, wouldSend: true, htmlPreviewLength: html.length });
+  }
+
   const resend = new Resend(process.env.RESEND_API_KEY);
   const from = process.env.NEWSLETTER_FROM || "La Gran Barata Digital <onboarding@resend.dev>";
 
@@ -91,5 +116,5 @@ export async function GET(request: NextRequest) {
   );
   const enviados = resultados.filter((r) => r.status === "fulfilled").length;
 
-  return NextResponse.json({ ok: true, enviados, total: destinatarios.length });
+  return NextResponse.json({ ...resumen, enviados, total: destinatarios.length });
 }
