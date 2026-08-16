@@ -14,6 +14,7 @@ import { track } from "@/lib/track";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { planDe } from "@/lib/plans";
 import { useToast } from "@/components/ui/toast";
+import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
@@ -27,6 +28,7 @@ export default function OfertaPage() {
   const [loading, setLoading] = useState(true);
   const [canjeados, setCanjeados] = useState(0);
   const { trackViewOffer } = useAnalytics();
+  const viendo = useLiveViewers(offerId);
 
   useEffect(() => {
     (async () => {
@@ -132,6 +134,15 @@ export default function OfertaPage() {
         {canjeados > 0 && (
           <p className="mt-2 flex items-center gap-1.5 text-sm font-bold text-green-300">
             ✅ {canjeados} {canjeados === 1 ? "persona ya canjeó" : "personas ya canjearon"} esta oferta
+          </p>
+        )}
+        {/* Gente mirando esto AHORA (presencia real) -- solo se muestra con
+            actividad real de más de una persona, nunca "1 persona" (sos
+            vos) ni un número inventado. */}
+        {viendo >= 2 && (
+          <p className="mt-1 flex items-center gap-1.5 text-sm font-bold text-orange-300">
+            <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-orange-500" /></span>
+            👀 {viendo} personas viendo esto ahora
           </p>
         )}
       </div>

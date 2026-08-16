@@ -10,6 +10,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
+import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
 import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
 import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search, Truck, Navigation, Package } from "lucide-react";
@@ -53,6 +54,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   // (SSR, bueno para SEO). Antes este cliente volvía a pedir todo de cero
   // acá, duplicando el fetch y agregando un parpadeo de loading evitable.
   const [negocio] = useState<any>(() => initialNegocio);
+  const viendo = useLiveViewers(negocio?.id);
   const [ofertas] = useState<any[]>(() => {
     const hoy = new Date().toISOString().slice(0, 10);
     return (initialOfertas || [])
@@ -227,6 +229,12 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
                   {Number(negocio.rating).toFixed(1)}
                   <span className="font-normal text-white/50">({negocio.reviews})</span>
+                </span>
+              )}
+              {viendo >= 2 && (
+                <span className="flex items-center gap-1.5 text-sm font-bold text-orange-300">
+                  <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-orange-500" /></span>
+                  {viendo} viendo esto ahora
                 </span>
               )}
             </div>
