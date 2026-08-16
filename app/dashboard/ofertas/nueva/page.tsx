@@ -239,7 +239,7 @@ export default function NuevaOferta() {
           <button
             onClick={publicar}
             disabled={saving || negocios.length === 0}
-            className="btn-shine w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50"
+            className="btn-shine w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50"
           >
             {saving ? "⏳ Publicando…" : "🔥 Publicar Oferta"}
           </button>

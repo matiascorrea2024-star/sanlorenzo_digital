@@ -100,7 +100,7 @@ export default function OfertasPage() {
           </div>
           <Link
             href="/dashboard/ofertas/nueva"
-            className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 font-black text-white hover:opacity-90"
+            className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 font-black text-white hover:opacity-90"
           >
             + Nueva Oferta
           </Link>
@@ -126,18 +126,20 @@ export default function OfertasPage() {
         )}
 
         {offers.length === 0 ? (
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-12 text-center">
-            <div className="text-6xl mb-4">🔥</div>
-            <h2 className="text-2xl font-black mb-2">Aún no tenés ofertas</h2>
-            <p className="text-white/60 mb-6">
-              Creá tu primera oferta para aparecer en La Gran Barata
-            </p>
-            <Link
-              href="/dashboard/ofertas/nueva"
-              className="inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-8 py-4 font-black text-white hover:opacity-90"
-            >
-              Crear mi primera oferta
-            </Link>
+          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-12 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="text-6xl mb-4">🔥</div>
+              <h2 className="text-2xl font-black mb-2">Aún no tenés ofertas</h2>
+              <p className="text-white/60 mb-6">
+                Creá tu primera oferta para aparecer en La Gran Barata
+              </p>
+              <Link
+                href="/dashboard/ofertas/nueva"
+                className="inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-8 py-4 font-black text-white hover:opacity-90"
+              >
+                Crear mi primera oferta
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="grid gap-4">
@@ -146,8 +148,9 @@ export default function OfertasPage() {
               return (
                 <div
                   key={offer.id}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-6"
+                  className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5"
                 >
+                <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
@@ -251,6 +254,7 @@ export default function OfertasPage() {
                       </div>
                     </details>
                   </div>
+                </div>
                 </div>
               );
             })}
