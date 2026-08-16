@@ -46,9 +46,9 @@ const chip = (active: boolean) =>
   }`;
 
 const PASOS = [
-  { icon: Search, titulo: "Buscá", texto: "Escribí lo que necesitás y mirá qué hay cerca tuyo." },
-  { icon: Store, titulo: "Elegí", texto: "Mirá fotos, precios y datos reales de cada negocio." },
-  { icon: MessageCircle, titulo: "Contactá", texto: "Hablá directo por WhatsApp con el comercio." },
+  { icon: Search, titulo: "Buscá", texto: "Escribí lo que necesitás y mirá qué hay cerca tuyo.", grad: "from-orange-500 to-amber-400", glow: "shadow-orange-500/40" },
+  { icon: Store, titulo: "Elegí", texto: "Mirá fotos, precios y datos reales de cada negocio.", grad: "from-pink-500 to-rose-400", glow: "shadow-pink-500/40" },
+  { icon: MessageCircle, titulo: "Contactá", texto: "Hablá directo por WhatsApp con el comercio.", grad: "from-cyan-500 to-sky-400", glow: "shadow-cyan-500/40" },
 ];
 
 export default function HomeClient({ initial, initialOfertas }: { initial: any[]; initialOfertas: any[] }) {
@@ -214,16 +214,14 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
         <SectionTitle eyebrow="Cómo funciona" title="Así de simple" />
         <div className="grid gap-4 sm:grid-cols-3">
-          {PASOS.map(({ icon: Icon, titulo, texto }, i) => (
-            <div key={titulo} className="stagger-item sld-card rounded-2xl p-5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-500/15 text-sm font-bold text-orange-300">
-                {i + 1}
+          {PASOS.map(({ icon: Icon, titulo, texto, grad, glow }, i) => (
+            <div key={titulo} className="stagger-item sld-card relative overflow-hidden rounded-2xl p-5">
+              <span className="pointer-events-none absolute -right-6 -top-6 text-7xl font-black text-white/[.04]">{i + 1}</span>
+              <div className={`relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${grad} shadow-lg ${glow}`}>
+                <Icon className="h-6 w-6 text-white" strokeWidth={2.4} />
               </div>
-              <div className="mt-3 flex items-center gap-2">
-                <Icon className="h-4 w-4 text-orange-400" />
-                <h3 className="font-bold">{titulo}</h3>
-              </div>
-              <p className="mt-1.5 text-sm text-[var(--muted)]">{texto}</p>
+              <h3 className="relative mt-3 text-lg font-black">{titulo}</h3>
+              <p className="relative mt-1.5 text-sm text-[var(--muted)]">{texto}</p>
             </div>
           ))}
         </div>

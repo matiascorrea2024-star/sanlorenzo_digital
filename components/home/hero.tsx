@@ -1,7 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MapPin, Sparkles, BadgeCheck, Flame } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import SmartSearch from "@/components/ui/smart-search";
 import type { FullBusiness } from "@/lib/use-businesses";
 
@@ -13,15 +15,35 @@ interface HeroProps {
 
 const plural = (n: number, sing: string, plur: string) => (n === 1 ? sing : plur);
 
-const TRUST: { icon: LucideIcon; label: string }[] = [
-  { icon: BadgeCheck, label: "Comercios verificados" },
-  { icon: Flame, label: "Ofertas reales, no humo" },
-  { icon: MapPin, label: "100% San Lorenzo" },
-  { icon: Sparkles, label: "Gratis para vecinos" },
+const TRUST: { icon: LucideIcon; label: string; color: string }[] = [
+  { icon: BadgeCheck, label: "Comercios verificados", color: "emerald" },
+  { icon: Flame, label: "Ofertas reales, no humo", color: "orange" },
+  { icon: MapPin, label: "100% San Lorenzo", color: "sky" },
+  { icon: Sparkles, label: "Gratis para vecinos", color: "pink" },
 ];
+
+const TRUST_STYLE: Record<string, { icon: string; ring: string; glow: string }> = {
+  emerald: { icon: "text-emerald-300", ring: "border-emerald-400/30 bg-emerald-500/10", glow: "shadow-emerald-500/20" },
+  orange: { icon: "text-orange-300", ring: "border-orange-400/30 bg-orange-500/10", glow: "shadow-orange-500/20" },
+  sky: { icon: "text-sky-300", ring: "border-sky-400/30 bg-sky-500/10", glow: "shadow-sky-500/20" },
+  pink: { icon: "text-pink-300", ring: "border-pink-400/30 bg-pink-500/10", glow: "shadow-pink-500/20" },
+};
 
 export default function Hero({ onSearch, stats, seedNegocios }: HeroProps) {
   const [display, setDisplay] = useState({ promos: 0, negocios: 0, pronto: 0 });
+  const trustRef = useRef<HTMLDivElement>(null);
+
+  // Entrada real (no solo CSS instantáneo) de la barra de confianza --
+  // respeta prefers-reduced-motion, y si por lo que sea GSAP no corre
+  // (SSR/primer paint) los badges igual son visibles por default.
+  useGSAP(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!trustRef.current) return;
+    gsap.fromTo(trustRef.current.children,
+      { opacity: 0, y: 10, scale: 0.9 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.08, ease: "back.out(1.7)", delay: 0.5 }
+    );
+  }, { scope: trustRef });
 
   useEffect(() => {
     const targets = stats || { promos: 0, negocios: 0, pronto: 0 };
@@ -120,14 +142,19 @@ export default function Hero({ onSearch, stats, seedNegocios }: HeroProps) {
         </div>
       </div>
 
-      <div className="relative z-10 border-t border-white/5 bg-black/20 backdrop-blur-sm">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-2 px-4 py-3 md:grid-cols-4">
-          {TRUST.map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center justify-center gap-2 text-[11px] font-semibold text-white/45">
-              <Icon className="h-3.5 w-3.5 text-orange-400/70" />
-              {label}
-            </div>
-          ))}
+      <div className="relative z-10 border-t border-white/10 bg-black/30 backdrop-blur-sm">
+        <div ref={trustRef} className="mx-auto grid max-w-7xl grid-cols-2 gap-2 px-4 py-4 md:grid-cols-4">
+          {TRUST.map(({ icon: Icon, label, color }) => {
+            const s = TRUST_STYLE[color];
+            return (
+              <div key={label} className="flex items-center justify-center gap-2 text-[12px] font-bold text-white/80">
+                <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border shadow-lg ${s.ring} ${s.glow}`}>
+                  <Icon className={`h-3.5 w-3.5 ${s.icon}`} />
+                </span>
+                {label}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

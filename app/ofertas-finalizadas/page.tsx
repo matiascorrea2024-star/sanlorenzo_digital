@@ -4,18 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import PageHero from "@/components/ui/page-hero";
 import NotifyMeButton from "@/components/offers/notify-me-button";
 import { supabase } from "@/lib/supabase";
-
-const CATEGORY_IMAGES: Record<string, string> = {
-  calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=900&q=85",
-  gastronomia: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=85",
-  ferreteria: "https://images.unsplash.com/photo-1581244277943-fe4f9c777189?auto=format&fit=crop&w=900&q=85",
-  belleza: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=85",
-  ropa: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=85",
-  automotor: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85",
-  profesionales: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85",
-  tecnologia: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85",
-};
-const FALLBACK = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85";
+import CategoryCover from "@/components/ui/category-cover";
 
 type Row = {
   id: string;
@@ -89,7 +78,11 @@ export default function OfertasFinalizadasPage() {
             {pasadas.map((p) => (
               <Link key={p.id} href={"/negocio/" + p.slug} className="group overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[.07] to-white/[.03] opacity-85 transition hover:opacity-100 hover:border-orange-400/60 hover:shadow-xl hover:shadow-orange-500/10">
                 <div className="relative h-28 overflow-hidden grayscale group-hover:grayscale-0 transition duration-500">
-                  <img src={p.img || CATEGORY_IMAGES[p.cat] || FALLBACK} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  {p.img ? (
+                    <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  ) : (
+                    <CategoryCover category={p.cat} seed={p.id} className="h-full w-full transition-transform duration-500 group-hover:scale-110" />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   <div className="absolute left-2 top-2 rounded-lg bg-black/70 px-2 py-1 text-[10px] font-black text-red-300 backdrop-blur">
                     Terminó

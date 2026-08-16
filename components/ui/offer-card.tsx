@@ -8,6 +8,7 @@ import FavoriteButton from "@/components/ui/favorite-button";
 import { fmtDistance } from "@/lib/geo";
 import { calcSDLScore, sdlLabel } from "@/lib/sdl-score";
 import CountdownTimer from "@/components/ui/countdown-timer";
+import CategoryCover from "@/components/ui/category-cover";
 
 type Offer = {
   id: string; negocio: string; slug: string; producto: string; cat: string;
@@ -19,17 +20,6 @@ type Offer = {
   verificado?: boolean;
 };
 
-const CAT_IMAGES: Record<string, string> = {
-  calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=900&q=85",
-  gastronomia: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=85",
-  ferreteria: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=900&q=85",
-  belleza: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=85",
-  ropa: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=85",
-  automotor: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85",
-  profesionales: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85",
-  tecnologia: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85",
-};
-const FALLBACK = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85";
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
 function venceInfo(expires?: string) {
@@ -47,7 +37,6 @@ function venceInfo(expires?: string) {
 export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { lat: number; lon: number } | null }) {
   const v = venceInfo(o.vence);
   const isDemo = o.id.startsWith("demo-");
-  const img = o.portada_url || CAT_IMAGES[o.cat] || FALLBACK;
   let dist: string | null = null;
   let distKm: number | null = null;
   if (userCoords && o.latitude && o.longitude) {
@@ -79,8 +68,12 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
     <Link href={o.id.startsWith("demo-") ? ("/negocio/" + o.slug) : ("/oferta/" + o.id)}
       className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] transition hover:border-orange-400/60 hover:shadow-[0_10px_40px_-10px_rgba(249,115,22,0.3)]">
       <div className="relative aspect-[16/10] w-full overflow-hidden">
-        <img src={img} alt={o.producto} loading="lazy"
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+        {o.portada_url ? (
+          <img src={o.portada_url} alt={o.producto} loading="lazy"
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+        ) : (
+          <CategoryCover category={o.cat} seed={o.id} className="h-full w-full transition duration-500 group-hover:scale-110" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
           {esEscaso && (

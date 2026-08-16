@@ -1,23 +1,11 @@
 import Link from "next/link";
 import RankBadge from "@/components/ui/rank-badge";
 import RankedAvatar from "@/components/ui/ranked-avatar";
+import CategoryCover from "@/components/ui/category-cover";
 import { calcDistanceKm, fmtDistance } from "@/lib/geo";
-
-const CAT_IMG: Record<string, string> = {
-  calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=800&q=80",
-  gastronomia: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80",
-  ferreteria: "https://images.unsplash.com/photo-1581244277943-fe4f9c777189?auto=format&fit=crop&w=800&q=80",
-  belleza: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80",
-  ropa: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=800&q=80",
-  automotor: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
-  profesionales: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=80",
-  tecnologia: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80",
-};
-const FALLBACK = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=800&q=80";
 
 export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: { lat: number; lon: number } | null }) {
   const cat = String(b.category || "").toLowerCase();
-  const img = b.portada_url || CAT_IMG[cat] || FALLBACK;
   const isOpen = !!b.open;
   const isVerified = b.status === "verificado";
   const rating = Number(b.rating || 0).toFixed(1);
@@ -35,12 +23,16 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
     >
       {/* Imagen de portada */}
       <div className="relative h-24 md:h-32 overflow-hidden">
-        <img
-          src={img}
-          alt={b.name}
-          loading="lazy"
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-        />
+        {b.portada_url ? (
+          <img
+            src={b.portada_url}
+            alt={b.name}
+            loading="lazy"
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+          />
+        ) : (
+          <CategoryCover category={cat} seed={String(b.id || b.slug || b.name)} className="h-full w-full transition duration-500 group-hover:scale-110" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-transparent to-transparent" />
         
         {/* Badge abierto/cerrado */}

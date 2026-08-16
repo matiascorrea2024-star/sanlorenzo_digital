@@ -1,6 +1,7 @@
 "use client";
 import LevelUpCard from "@/components/ui/level-up-card";
 import DivisionFrame from "@/components/ui/division-frame";
+import CategoryCover from "@/components/ui/category-cover";
 
 import ReportButton from "@/components/business/report-button";
 import { useEffect, useState } from "react";
@@ -170,7 +171,11 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           el logo/nombre/badges van debajo -- mismo patrón que ya usa
           BusinessCard (portada + logo montado + info en flujo normal). */}
       <section className="relative h-40 md:h-52">
-        <img src={portada} alt={negocio.name} className="absolute inset-0 h-full w-full object-cover" />
+        {negocio.portada_url ? (
+          <img src={negocio.portada_url} alt={negocio.name} className="absolute inset-0 h-full w-full object-cover" />
+        ) : (
+          <CategoryCover category={negocio.category} seed={negocio.id || negocio.slug} className="absolute inset-0 h-full w-full" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-transparent to-transparent" />
         <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md hover:bg-black/70">
           <ArrowLeft className="h-5 w-5" />
