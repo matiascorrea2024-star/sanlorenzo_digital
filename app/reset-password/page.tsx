@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import PageHero from "@/components/ui/page-hero";
 import { supabase } from "@/lib/supabase";
 
 export default function ResetPasswordPage() {
@@ -36,10 +35,15 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <main className="bg-[#120d09] min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md">
-          <PageHero title="Restablecer contraseña" subtitle="Elegí una nueva contraseña para tu cuenta" />
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#120d09] px-4">
+      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.16), transparent 55%), radial-gradient(circle at 90% 100%, rgba(34,211,238,.1), transparent 55%)" }} />
+      <div className="relative w-full max-w-md">
+        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="mb-6 text-center">
+            <h1 className="text-2xl font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Restablecer contraseña</h1>
+            <p className="mt-2 text-white/60">Elegí una nueva contraseña para tu cuenta</p>
+          </div>
 
           {!ready ? (
             <div className="text-center text-sm text-white/60">
@@ -62,11 +66,12 @@ export default function ResetPasswordPage() {
                 </div>
               )}
               <button onClick={submit} disabled={saving}
-                className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50">
+                className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50">
                 {saving ? "Guardando…" : "Guardar nueva contraseña"}
               </button>
             </div>
           )}
+        </div>
         </div>
       </div>
     </main>

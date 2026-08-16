@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import PageHero from "@/components/ui/page-hero";
 import { signUpWithEmail } from "@/lib/auth-helpers";
 import { supabase } from "@/lib/supabase";
 import { friendlyError } from "@/lib/friendly-error";
@@ -53,10 +52,12 @@ export default function RegistroPage() {
     return (
       <main className="bg-[#120d09] min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-md">
-          <div className="rounded-3xl border border-green-500/30 bg-green-500/10 p-8 text-center">
-            <div className="text-5xl mb-4">✅</div>
-            <h2 className="text-2xl font-black text-white mb-2">¡Cuenta creada!</h2>
-            <p className="text-white/70 mb-6">Redirigiendo…</p>
+          <div className="rounded-[1.75rem] border border-green-400/25 bg-green-500/[.06] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="text-5xl mb-4">✅</div>
+              <h2 className="text-2xl font-black text-white mb-2">¡Cuenta creada!</h2>
+              <p className="text-white/70 mb-6">Redirigiendo…</p>
+            </div>
           </div>
         </div>
       </main>
@@ -64,18 +65,19 @@ export default function RegistroPage() {
   }
 
   return (
-    <main className="bg-[#120d09] min-h-screen flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md">
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#120d09] px-4 py-8">
+      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.16), transparent 55%), radial-gradient(circle at 90% 100%, rgba(34,211,238,.1), transparent 55%)" }} />
+      <div className="relative w-full max-w-md">
+        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <div className="text-center mb-8">
-            <Link href="/" className="inline-block mb-6">
+            <Link href="/" className="inline-block mb-4">
               <span className="text-3xl">🛍️</span>
             </Link>
-            
-            <p className="text-white/60 mt-2">Unite a San Lorenzo Digital</p>
+            <h1 className="text-2xl font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Crear cuenta</h1>
+            <p className="mt-2 text-white/60">Unite a San Lorenzo Digital</p>
           </div>
 
-          <PageHero title="Crear cuenta" subtitle="Sumate a la comunidad de San Lorenzo Digital" />
       <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-white/80 mb-2">¿Cómo te llamas?</label>
@@ -120,8 +122,8 @@ export default function RegistroPage() {
                 <button
                   type="button"
                   onClick={() => setRole("user")}
-                  className={`rounded-xl border-2 p-4 text-center transition ${
-                    role === "user" ? "border-orange-400 bg-orange-500/10" : "border-white/15 bg-white/5"
+                  className={`rounded-2xl border p-4 text-center transition ${
+                    role === "user" ? "border-orange-400/70 bg-orange-500/10" : "border-white/15 bg-white/5"
                   }`}
                 >
                   <div className="text-2xl mb-1">👤</div>
@@ -131,8 +133,8 @@ export default function RegistroPage() {
                 <button
                   type="button"
                   onClick={() => setRole("business_owner")}
-                  className={`rounded-xl border-2 p-4 text-center transition ${
-                    role === "business_owner" ? "border-orange-400 bg-orange-500/10" : "border-white/15 bg-white/5"
+                  className={`rounded-2xl border p-4 text-center transition ${
+                    role === "business_owner" ? "border-orange-400/70 bg-orange-500/10" : "border-white/15 bg-white/5"
                   }`}
                 >
                   <div className="text-2xl mb-1">🏪</div>
@@ -151,7 +153,7 @@ export default function RegistroPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
+              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
             >
               {loading ? "Creando cuenta..." : "Crear cuenta"}
             </button>
@@ -165,6 +167,7 @@ export default function RegistroPage() {
               ← Volver al inicio
             </Link>
           </div>
+        </div>
         </div>
       </div>
     </main>

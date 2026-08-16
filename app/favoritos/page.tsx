@@ -76,21 +76,23 @@ export default function FavoritosPage() {
             ))}
           </div>
         ) : vacio ? (
-          <div className="mt-12 rounded-3xl border border-white/10 bg-white/5 p-12 text-center">
-            <Heart className="mx-auto h-16 w-16 text-white/20" />
-            <h2 className="mt-4 text-xl font-black">Todavía no guardaste nada</h2>
-            <p className="mx-auto mt-2 max-w-sm text-sm text-white/50">
-              Tocá el corazón en cualquier oferta o negocio para guardarlo acá y volver cuando quieras.
-            </p>
-            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-              <Link href="/promociones"
-                className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">
-                🔥 Explorar ofertas
-              </Link>
-              <Link href="/negocios"
-                className="rounded-xl border border-white/20 px-6 py-3 text-sm font-black hover:bg-white/10">
-                🏪 Ver negocios
-              </Link>
+          <div className="mt-12 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-12 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Heart className="mx-auto h-16 w-16 text-white/20" />
+              <h2 className="mt-4 text-xl font-black">Todavía no guardaste nada</h2>
+              <p className="mx-auto mt-2 max-w-sm text-sm text-white/50">
+                Tocá el corazón en cualquier oferta o negocio para guardarlo acá y volver cuando quieras.
+              </p>
+              <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+                <Link href="/promociones"
+                  className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+                  🔥 Explorar ofertas
+                </Link>
+                <Link href="/negocios"
+                  className="rounded-full border border-white/20 px-6 py-3 text-sm font-black hover:bg-white/10">
+                  🏪 Ver negocios
+                </Link>
+              </div>
             </div>
           </div>
         ) : (

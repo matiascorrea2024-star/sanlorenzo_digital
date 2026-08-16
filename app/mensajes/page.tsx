@@ -54,8 +54,15 @@ export default function MensajesClientePage() {
   })).sort((a, b) => (a.last.created_at < b.last.created_at ? 1 : -1));
 
   if (!user) {
-    return <main className="bg-[#120d09] min-h-screen text-white flex items-center justify-center">
-      <PageHero title="Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />Iniciá sesión para ver tus mensajes.</main>;
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#120d09] px-4 text-center text-white/60">
+        <div>
+          <p className="text-3xl">💬</p>
+          <h1 className="mt-3 text-xl font-bold text-white">Mis mensajes</h1>
+          <p className="mt-1 text-sm">Iniciá sesión para ver tus conversaciones.</p>
+        </div>
+      </main>
+    );
   }
 
   const sel = selectedBiz ? bizMap[selectedBiz] : null;
@@ -64,25 +71,26 @@ export default function MensajesClientePage() {
     <main className="bg-[#120d09] min-h-screen text-white pb-24">
       <PageHero title="Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />
       <div className="mx-auto max-w-3xl px-4 py-8">
-        
-        <p className="text-white/60 mt-1">Tus conversaciones con los negocios</p>
-
         {!selectedBiz && (
-          <div className="mt-6 space-y-2">
+          <div className="space-y-2">
             {convoList.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
-                Aún no tenés conversaciones. Escribile a un negocio desde su página.
+              <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">
+                  Aún no tenés conversaciones. Escribile a un negocio desde su página.
+                </div>
               </div>
             ) : (
               convoList.map(cv => (
                 <button key={cv.biz} onClick={() => setSelectedBiz(cv.biz)}
-                  className="flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-left hover:border-orange-400/50">
-                  <Avatar name={cv.name} size={48} />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex justify-between"><p className="font-bold">{cv.name}</p><span className="text-[10px] text-white/40">{timeShort(cv.last.created_at)}</span></div>
-                    <p className="truncate text-xs text-white/50">{cv.last.body}</p>
+                  className="group flex w-full items-center gap-1.5 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 text-left transition-all duration-300 hover:-translate-y-0.5">
+                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+                    <Avatar name={cv.name} size={48} />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex justify-between"><p className="font-bold">{cv.name}</p><span className="text-[10px] text-white/40">{timeShort(cv.last.created_at)}</span></div>
+                      <p className="truncate text-xs text-white/50">{cv.last.body}</p>
+                    </div>
+                    {cv.unread > 0 && <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-green-500 px-1 text-xs font-black text-black">{cv.unread}</span>}
                   </div>
-                  {cv.unread > 0 && <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-green-500 px-1 text-xs font-black text-black">{cv.unread}</span>}
                 </button>
               ))
             )}
