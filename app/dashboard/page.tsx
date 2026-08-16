@@ -97,7 +97,8 @@ export default function DashboardPage() {
           <BusinessPulse negocio={negocios[0]} />
           <div className="grid gap-4 md:grid-cols-2">
             {negocios.map((b) => (
-              <div key={b.id} className="rounded-3xl border border-white/10 bg-white/5 p-5">
+              <div key={b.id} className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="text-lg font-black">{b.name}</h3>
@@ -146,6 +147,7 @@ export default function DashboardPage() {
                     📲 Compartir
                   </button>
                 </div>
+              </div>
               </div>
             ))}
           </div>
