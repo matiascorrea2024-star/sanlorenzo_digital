@@ -16,7 +16,7 @@ function Gema({ color, size }: { color: string; size: number }) {
   );
 }
 
-export default function DivisionFrame({ children, puntos, size = 96, showLabel = false, categoria, enFuego = false }: {
+export default function DivisionFrame({ children, puntos, size = 96, showLabel = false, categoria, enFuego = false, escala = 1 }: {
   children: ReactNode;
   puntos: number;
   size?: number;
@@ -26,8 +26,14 @@ export default function DivisionFrame({ children, puntos, size = 96, showLabel =
    * anterior) -- suma un halo y llamas encima del marco de rango, sin
    * tocar el sistema de rangos en sí. */
   enFuego?: boolean;
+  /** Los puntos de negocio (RANGOS de lib/ranks.ts) y los de usuario
+   * (actividad: seguir, reseñar, contactar) viven en escalas distintas --
+   * en vez de tener dos escaleras de rango separadas, se reusa la misma
+   * (mismos nombres/colores en toda la plataforma) y se ajusta la escala
+   * según de dónde vienen los puntos. Ver app/perfil/page.tsx. */
+  escala?: number;
 }) {
-  const r = rangoDe(puntos);
+  const r = rangoDe(puntos * escala);
   const gema = gemaDe(categoria);
 
   return (

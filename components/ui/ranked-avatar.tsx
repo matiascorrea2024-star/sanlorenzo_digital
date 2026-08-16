@@ -5,17 +5,21 @@ import { rangoDe, gemaDe } from "@/lib/ranks";
 
 // Icono de negocio PRO: doble anillo metálico, brillo especular,
 // gema facetada de categoría y nivel opcional.
-export default function RankedAvatar({ slug, name, size = 44, categoria, showLevel = false }: {
+export default function RankedAvatar({ slug, name, size = 44, categoria, photoUrl, showLevel = false }: {
   slug?: string;
   name: string;
   size?: number;
   categoria?: string;
+  /** Si el caller ya tiene el logo cargado (ej. viene de una card con los
+   * datos del negocio a mano), se puede pasar directo -- evita esperar
+   * al cache de rangos solo para mostrar la foto. */
+  photoUrl?: string | null;
   showLevel?: boolean;
 }) {
   const cache = useRank(slug);
   const pts = cache?.puntos ?? 0;
   const cat = categoria ?? cache?.category;
-  const foto = (cache as any)?.portada_url;
+  const foto = photoUrl ?? cache?.logo_url;
   const r = rangoDe(pts);
   const gema = gemaDe(cat);
   const gemaSize = Math.max(12, Math.round(size / 2.8));

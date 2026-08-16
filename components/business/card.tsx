@@ -1,5 +1,6 @@
 import Link from "next/link";
 import RankBadge from "@/components/ui/rank-badge";
+import RankedAvatar from "@/components/ui/ranked-avatar";
 import { calcDistanceKm, fmtDistance } from "@/lib/geo";
 
 const CAT_IMG: Record<string, string> = {
@@ -67,19 +68,11 @@ export default function BusinessCard({ b, userCoords }: { b: any; userCoords?: {
 
       {/* Logo flotante -- afuera del overflow-hidden de la imagen (si no, se
           recorta) y en el flujo normal (margen negativo, no absolute) para
-          que quede apoyado sobre el borde inferior de la portada sin cortarse. */}
+          que quede apoyado sobre el borde inferior de la portada sin cortarse.
+          Mismo marco de rango que /ranking (anillo metálico + gema de
+          categoría) -- antes esta era la única card sin ese lenguaje visual. */}
       <div className="relative z-10 -mt-5 ml-3 w-fit md:-mt-6 md:ml-4">
-        {b.logo_url ? (
-          <img
-            src={b.logo_url}
-            alt=""
-            className="h-9 w-9 md:h-11 md:w-11 rounded-2xl border-2 border-[#120d09] object-cover shadow-lg"
-          />
-        ) : (
-          <div className="grid h-9 w-9 md:h-11 md:w-11 place-items-center rounded-2xl border-2 border-[#120d09] bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white shadow-lg">
-            {(b.name || "?")[0]}
-          </div>
-        )}
+        <RankedAvatar slug={b.slug} name={b.name} categoria={b.category} photoUrl={b.logo_url} size={36} />
       </div>
 
       {/* Info */}

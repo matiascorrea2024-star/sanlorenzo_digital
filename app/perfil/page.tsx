@@ -9,14 +9,23 @@ import PlatformWhatsappSetting from "@/components/profile/platform-whatsapp-sett
 import PlatformPaymentSetting from "@/components/profile/platform-payment-setting";
 import NewsletterOptIn from "@/components/profile/newsletter-optin";
 import AdminFrame, { AdminBadge } from "@/components/ui/admin-frame";
+import DivisionFrame from "@/components/ui/division-frame";
+import { RANGOS, rangoDeUsuario, ESCALA_PUNTOS_USUARIO } from "@/lib/ranks";
 
-const NIVELES_USUARIO = [
-  { min: 0, nombre: "Novato", icon: "🌱" },
-  { min: 50, nombre: "Explorador", icon: "🚶" },
-  { min: 150, nombre: "Guía", icon: "🧭" },
-  { min: 300, nombre: "Descubridor", icon: "🔎" },
-  { min: 600, nombre: "Embajador", icon: "👑" },
-];
+// Mismos rangos que los negocios (lib/ranks.ts) -- un solo lenguaje visual
+// en toda la plataforma, en vez de una escalera de "vecino" separada.
+// Cada escalón tiene su propio texto positivo: nadie es "el último", cada
+// uno tiene su propio marco.
+const PREMIOS_RANGO: Record<string, string[]> = {
+  "Nuevo": ["🗺️ Descubrís todos los negocios de la ciudad", "⭐ Sumás puntos por explorar, contactar y opinar"],
+  "Activo": ["🎖 Marco propio visible en tus reseñas", "🔔 Avisos prioritarios de ofertas que seguís"],
+  "Destacado": ["🧭 Subís posiciones en el ranking de vecinos", "🎖 Marco plateado en toda la plataforma"],
+  "Oro": ["🔥 Acceso a ofertas secretas solo para rangos altos", "🎖 Marco dorado en tus reseñas"],
+  "Élite": ["💎 Prioridad en sorteos y beneficios especiales", "🎖 Marco de cristal, se nota en cualquier lado"],
+  "Maestro": ["👑 Reconocido como referente del barrio", "🎖 Marco violeta, muy pocos vecinos llegan acá"],
+  "Leyenda": ["🏆 Podio permanente en el ranking del barrio", "🎖 Marco de fuego, el tuyo es único"],
+  "Gran Barata": ["🌈 El rango más alto de San Lorenzo Digital", "🎖 Marco holográfico -- prácticamente nadie llega"],
+};
 
 type Stats = { seg: number; res: number; vis: number; cats: number; wa: number; sh: number; ref: number };
 
@@ -140,10 +149,8 @@ export default function PerfilPage() {
   const bonusRacha = (extra?.maxRacha || 0) >= 7 ? 50 : 0;
   const bonusSemana = (extra?.visWeek || 0) >= 10 && (extra?.waWeek || 0) >= 3 && (extra?.resWeek || 0) >= 1 ? 40 : 0;
   const puntos = stats.seg * 10 + stats.res * 25 + stats.wa * 15 + stats.sh * 10 + stats.vis * 2 + stats.ref * 30 + bonusRacha + bonusSemana;
-  let nivel = NIVELES_USUARIO[0];
-  for (const n of NIVELES_USUARIO) if (puntos >= n.min) nivel = n;
-  const sig = NIVELES_USUARIO[NIVELES_USUARIO.indexOf(nivel) + 1];
-  const progreso = sig ? Math.min(100, ((puntos - nivel.min) / (sig.min - nivel.min)) * 100) : 100;
+  const nivel = rangoDeUsuario(puntos);
+  const faltanReal = Math.ceil(nivel.faltan / ESCALA_PUNTOS_USUARIO);
 
   const medallas = MEDALLAS.map((m) => ({
     ...m,
@@ -176,19 +183,22 @@ export default function PerfilPage() {
           </div>
         ) : (
         <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black">
-            {(user.email || "?")[0].toUpperCase()}
+          <div className="mx-auto">
+            <DivisionFrame puntos={puntos} escala={ESCALA_PUNTOS_USUARIO} size={80} showLabel>
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black">
+                {(user.email || "?")[0].toUpperCase()}
+              </div>
+            </DivisionFrame>
           </div>
-          <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500/20 to-pink-500/20 px-4 py-1 border border-orange-400/30"><span className="text-2xl">{nivel.icon}</span><span className="text-lg font-black">{nivel.nombre}</span></div>
-          <p className="text-sm text-white/50">{user.email}</p>
+          <p className="mt-3 text-sm text-white/50">{user.email}</p>
           <p className="mt-3 text-3xl font-black text-orange-400">{puntos} <span className="text-sm text-white/50">puntos</span></p>
           {racha > 0 && <p className="mt-1 text-sm font-black text-orange-300">🔥 Racha de {racha} día{racha > 1 ? "s" : ""} seguidos</p>}
-          {sig && (
+          {nivel.proximo && (
             <div className="mt-4">
               <div className="h-2 rounded-full bg-white/10">
-                <div className="h-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500" style={{ width: `${progreso}%` }} />
+                <div className="h-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500" style={{ width: `${nivel.progreso}%` }} />
               </div>
-              <p className="mt-1 text-xs text-white/50">Te faltan {sig.min - puntos} pts para {sig.icon} {sig.nombre}</p>
+              <p className="mt-1 text-xs text-white/50">Te faltan {faltanReal} pts para {nivel.proximo}</p>
             </div>
           )}
         </div>
@@ -302,25 +312,22 @@ export default function PerfilPage() {
           🎁 Premios reales: racha de 7 días = <strong className="text-yellow-300">+50 pts</strong> · completar las 3 semanales = <strong className="text-yellow-300">+40 pts</strong>
         </div>
 
-        <h2 className="mt-8 mb-3 text-xl font-black">Premios por nivel — ¿hasta dónde llegás?</h2>
+        <h2 className="mt-8 mb-3 text-xl font-black">Rangos — ¿hasta dónde llegás?</h2>
         <div className="grid gap-2">
-          {[
-            { ...NIVELES_USUARIO[0], premios: ["🗺️ Descubrís todos los negocios de la ciudad", "⭐ Sumás puntos por explorar, contactar y opinar"] },
-            { ...NIVELES_USUARIO[1], premios: ["🎖 Badge 'Explorador' visible en tus reseñas", "🔔 Avisos prioritarios de ofertas que seguís"] },
-            { ...NIVELES_USUARIO[2], premios: ["🧭 Subís posiciones en el ranking de vecinos", "🎖 Badge 'Guía' en tus reseñas"] },
-            { ...NIVELES_USUARIO[3], premios: ["🔥 Acceso a ofertas secretas solo para niveles altos", "🎖 Badge dorado en tus reseñas"] },
-            { ...NIVELES_USUARIO[4], premios: ["👑 Podio eterno en el ranking del barrio", "💎 Badge diamante en toda la plataforma"] },
-          ].map((n) => {
-            const esActual = n.nombre === nivel.nombre;
-            const bloqueado = puntos < n.min;
+          {RANGOS.map((n) => {
+            const minReal = Math.round(n.min / ESCALA_PUNTOS_USUARIO);
+            const esActual = n.nombre === nivel.rango;
+            const alcanzado = puntos >= minReal;
             return (
-              <div key={n.nombre} className={`rounded-2xl border p-4 ${esActual ? "border-orange-400/60 bg-orange-500/10" : bloqueado ? "border-white/10 bg-white/5 opacity-50" : "border-green-400/40 bg-green-500/10"}`}>
+              <div key={n.nombre} className={`rounded-2xl border p-4 ${esActual ? "border-orange-400/60 bg-orange-500/10" : alcanzado ? "border-green-400/40 bg-green-500/10" : "border-white/10 bg-white/5"}`}>
                 <div className="flex items-center justify-between">
-                  <p className="font-black">{n.icon} {n.nombre} <span className="text-xs text-white/50">· {n.min} pts</span></p>
-                  <p className="text-xs font-bold">{esActual ? "📍 Tu nivel" : bloqueado ? "🔒" : "✅"}</p>
+                  <p className="font-black" style={{ color: alcanzado || esActual ? n.accent : undefined }}>
+                    {n.nombre} <span className="text-xs text-white/50">· {minReal} pts</span>
+                  </p>
+                  <p className="text-xs font-bold">{esActual ? "📍 Tu rango" : alcanzado ? "✅" : ""}</p>
                 </div>
                 <ul className="mt-2 space-y-1 text-xs text-white/70">
-                  {n.premios.map((p, i) => (
+                  {(PREMIOS_RANGO[n.nombre] || []).map((p, i) => (
                     <li key={i}>{p}</li>
                   ))}
                 </ul>

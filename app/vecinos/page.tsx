@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import RankingSwitch from "@/components/ui/ranking-switch";
+import DivisionFrame from "@/components/ui/division-frame";
+import Avatar from "@/components/ui/avatar";
+import { rangoDeUsuario, ESCALA_PUNTOS_USUARIO } from "@/lib/ranks";
 
-const icono = (p: number) => (p >= 600 ? "👑" : p >= 300 ? "🔎" : p >= 150 ? "🧭" : p >= 50 ? "🚶" : "🌱");
 const medalla = (i: number) => (i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`);
 
 export default function VecinosPage() {
@@ -83,20 +85,25 @@ export default function VecinosPage() {
         <div className="mt-6 space-y-3">
           {loading && <p className="text-center text-white/50">Cargando vecinos...</p>}
           {!loading &&
-            vecinos.map((v, i) => (
-              <div key={v.id} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[.04] p-4">
-                <span className="w-10 text-center text-xl font-black">{medalla(i)}</span>
-                <span className="text-2xl">{icono(v.puntos)}</span>
-                <div className="flex-1">
-                  <p className="font-bold capitalize">{v.nombre}</p>
-                  <p className="text-xs text-white/50">Vecino de San Lorenzo</p>
+            vecinos.map((v, i) => {
+              const r = rangoDeUsuario(v.puntos);
+              return (
+                <div key={v.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[.04] p-4">
+                  <span className="w-8 shrink-0 text-center text-xl font-black">{medalla(i)}</span>
+                  <DivisionFrame puntos={v.puntos} escala={ESCALA_PUNTOS_USUARIO} size={40}>
+                    <Avatar name={v.nombre} size={40} />
+                  </DivisionFrame>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-bold capitalize">{v.nombre}</p>
+                    <p className="text-xs font-bold uppercase tracking-wide" style={{ color: r.accent }}>{r.rango}{r.tier && ` ${r.tier}`}</p>
+                  </div>
+                  <div className="shrink-0 text-right">
+                    <p className="text-xl font-black text-orange-400">{v.puntos}</p>
+                    <p className="text-[10px] uppercase tracking-wider text-white/40">puntos</p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-xl font-black text-orange-400">{v.puntos}</p>
-                  <p className="text-[10px] uppercase tracking-wider text-white/40">puntos</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           {!loading && vecinos.length === 0 && (
             <div className="rounded-2xl border border-white/10 bg-white/[.03] p-10 text-center">
               <p className="text-lg font-bold">Todavía no hay vecinos en el ranking</p>

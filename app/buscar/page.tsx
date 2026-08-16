@@ -1,22 +1,10 @@
 "use client";
 import { Suspense, useEffect, useState } from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import PageHero from "@/components/ui/page-hero";
+import BusinessCard from "@/components/business/card";
 import { useAllBusinesses } from "@/lib/use-businesses";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
-
-const CATEGORY_IMAGES: Record<string, string> = {
-  calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=900&q=85",
-  gastronomia: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=85",
-  ferreteria: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=900&q=85",
-  belleza: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=85",
-  ropa: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=85",
-  automotor: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85",
-  profesionales: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85",
-  tecnologia: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85",
-};
-const FALLBACK = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85";
 
 function dist(aLat: number, aLng: number, bLat: number, bLng: number) {
   const R = 6371000;
@@ -25,7 +13,6 @@ function dist(aLat: number, aLng: number, bLat: number, bLng: number) {
   const s = Math.sin(dLat / 2) ** 2 + Math.cos((aLat * Math.PI) / 180) * Math.cos((bLat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
   return 2 * R * Math.asin(Math.sqrt(s));
 }
-const fmtDist = (m: number) => (m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(1)} km`);
 
 export default function BuscarPage() {
   return (
@@ -139,24 +126,12 @@ function BuscarContent() {
 
         <p className="mt-6 text-sm text-white/50">{resultados.length} resultados</p>
 
+        {/* Misma card que Home/Negocios (marco de rango, badges, hover) --
+            antes el buscador tenía su propia versión más pobre, sin logo
+            ni rango, que se sentía como una pantalla distinta del resto. */}
         <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {resultados.map((b: any) => (
-            <Link key={b.id} href={"/negocio/" + b.slug} className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:border-orange-400/60">
-              <div className="relative h-32">
-                <img src={b.portada_url || CATEGORY_IMAGES[b.category] || FALLBACK} alt={b.name} loading="lazy" className="h-56 w-full object-cover md:h-72" />
-                <div className="absolute left-2 top-2 flex gap-1">
-                  {b.open && <span className="rounded-md bg-green-500/90 px-2 py-0.5 text-[10px] font-black">🟢 Abierto</span>}
-                  {tieneOfertas(b) && <span className="rounded-md bg-orange-500/90 px-2 py-0.5 text-[10px] font-black">🔥 Ofertas</span>}
-                </div>
-                {cerca && distancias[b.id] != null && (
-                  <span className="absolute right-2 top-2 rounded-md bg-black/80 px-2 py-0.5 text-[10px] font-black text-sky-300">📍 {fmtDist(distancias[b.id])}</span>
-                )}
-              </div>
-              <div className="p-3">
-                <p className="font-bold text-sm">{b.name}</p>
-                <p className="text-xs capitalize text-white/50">{b.category}</p>
-              </div>
-            </Link>
+            <BusinessCard key={b.id} b={b} userCoords={cerca ? { lat: cerca.lat, lon: cerca.lng } : null} />
           ))}
           {resultados.length === 0 && (
             <p className="col-span-full text-center text-white/50 py-16">No encontramos nada con esos filtros. Probá con menos filtros o otra palabra.</p>

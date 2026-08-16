@@ -52,6 +52,19 @@ export function gemaDe(categoria?: string): string {
   return (categoria && GEMAS[categoria]) || "#e2e8f0";
 }
 
+// Los puntos de usuario (seguir, reseñar, contactar, compartir) se
+// acumulan en un rango mucho más chico que los de negocio (destacado,
+// ofertas, reseñas). Reusar la MISMA escalera de rangos para toda la
+// plataforma (un solo lenguaje visual, no dos sistemas separados) pide
+// escalar los puntos de usuario antes de ubicarlos en ella -- si no,
+// casi nadie pasaría de "Activo". Mismo factor que usa DivisionFrame
+// vía su prop `escala` para el marco de usuarios.
+export const ESCALA_PUNTOS_USUARIO = 5;
+
+export function rangoDeUsuario(puntos: number) {
+  return rangoDe(puntos * ESCALA_PUNTOS_USUARIO);
+}
+
 export function rangoDe(puntos: number) {
   let actual = RANGOS[0];
   let proximo: Rango | null = null;
