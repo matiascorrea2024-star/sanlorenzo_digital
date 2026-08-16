@@ -80,13 +80,14 @@ export default function BusinessPulse({ negocio }: Props) {
   return (
     <div className="mb-8 grid gap-4 lg:grid-cols-2">
       {/* Reputación digital */}
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+      <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+      <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
         <div className="mb-3 flex items-center justify-between">
           <p className="flex items-center gap-1.5 font-black">
             💎 Reputación digital
             <InfoTip label="Qué es la reputación digital">Un puntaje de 0 a 100 basado en cosas reales: perfil completo, buenas reseñas, si respondés a clientes, si publicás ofertas y si mantenés el catálogo actualizado.</InfoTip>
           </p>
-          <span className={`text-2xl font-black ${scoreColor}`}>{score}<span className="text-sm text-white/40">/100</span></span>
+          <span className={`text-2xl font-black tabular-nums ${scoreColor}`}>{score}<span className="text-sm text-white/40">/100</span></span>
         </div>
         <p className={`mb-3 text-xs font-bold ${scoreColor}`}>{scoreLabel}</p>
         <div className="space-y-1.5">
@@ -99,9 +100,11 @@ export default function BusinessPulse({ negocio }: Props) {
           ))}
         </div>
       </div>
+      </div>
 
       {/* Misión semanal */}
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+      <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+      <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
         <p className="mb-3 flex items-center gap-1.5 font-black"><Target className="h-4 w-4 text-orange-400" /> Misión de la semana</p>
         <div className="space-y-2.5">
           {misiones.map((m) => (
@@ -128,6 +131,7 @@ export default function BusinessPulse({ negocio }: Props) {
             </Link>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

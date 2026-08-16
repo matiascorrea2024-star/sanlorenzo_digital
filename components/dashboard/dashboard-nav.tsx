@@ -46,7 +46,7 @@ export default function DashboardNav() {
       <Link
         key={item.href}
         href={item.href}
-        className={`rounded-xl px-4 py-2 text-sm font-bold transition ${
+        className={`rounded-full px-4 py-2 text-sm font-bold transition-colors duration-300 ${
           isActive
             ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
             : "text-white/70 hover:bg-white/10 hover:text-white"
@@ -58,16 +58,18 @@ export default function DashboardNav() {
   };
 
   return (
-    <nav className="mb-8 space-y-3 rounded-2xl border border-white/10 bg-white/5 p-3">
-      <div className="flex flex-wrap gap-2 border-b border-white/10 pb-3">
-        {pill(HOME_ITEM, true)}
-      </div>
-      {GROUPS.map((g) => (
-        <div key={g.title}>
-          <p className="mb-1.5 px-1 text-[10px] font-black uppercase tracking-wider text-white/35">{g.title}</p>
-          <div className="flex flex-wrap gap-2">{g.items.map((item) => pill(item))}</div>
+    <nav className="mb-8 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+      <div className="space-y-3 rounded-[1.375rem] border border-white/[.05] bg-black/10 p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="flex flex-wrap gap-2 border-b border-white/10 pb-3">
+          {pill(HOME_ITEM, true)}
         </div>
-      ))}
+        {GROUPS.map((g) => (
+          <div key={g.title}>
+            <p className="mb-1.5 px-1 text-[10px] font-black uppercase tracking-wider text-white/35">{g.title}</p>
+            <div className="flex flex-wrap gap-2">{g.items.map((item) => pill(item))}</div>
+          </div>
+        ))}
+      </div>
     </nav>
   );
 }

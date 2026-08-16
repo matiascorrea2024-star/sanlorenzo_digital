@@ -53,10 +53,12 @@ export default function BusinessStats() {
   return (
     <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
       {cards.map((c) => (
-        <div key={c.label} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
-          <c.icon className={`mx-auto h-5 w-5 ${c.color}`} />
-          <p className="mt-1 text-2xl font-black">{c.value}</p>
-          <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">{c.label}</p>
+        <div key={c.label} className="rounded-[1.25rem] border border-white/[.06] bg-white/[.02] p-1">
+          <div className="rounded-[.9rem] border border-white/[.05] bg-black/10 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <c.icon className={`mx-auto h-5 w-5 ${c.color}`} />
+            <p className="mt-1 text-2xl font-black tabular-nums">{c.value}</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">{c.label}</p>
+          </div>
         </div>
       ))}
     </div>

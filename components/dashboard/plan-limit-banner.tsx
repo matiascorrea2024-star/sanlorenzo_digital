@@ -29,23 +29,25 @@ export default function PlanLimitBanner() {
   const plan = PLANES[info.plan] || PLANES.gratis;
 
   return (
-    <div className="mb-6 rounded-2xl border-2 border-orange-400/50 bg-gradient-to-r from-orange-500/15 to-pink-500/15 p-5">
-      <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-        <div className="flex items-center gap-3">
-          <Lock className="h-6 w-6 text-orange-400" />
-          <div>
-            <p className="font-black">
-              Llegaste al límite del plan {plan.name} ({info.activas} oferta{info.activas === 1 ? "" : "s"} activa{info.activas === 1 ? "" : "s"})
-            </p>
-            <p className="text-sm text-white/60">
-              Pasá a PRO Comerciante para publicar ofertas ilimitadas + estadísticas + historias.
-            </p>
+    <div className="mb-6 rounded-[1.75rem] border border-orange-400/30 bg-gradient-to-r from-orange-500/[.1] to-pink-500/[.06] p-1.5">
+      <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <div className="flex items-center gap-3">
+            <Lock className="h-6 w-6 text-orange-400" />
+            <div>
+              <p className="font-black">
+                Llegaste al límite del plan {plan.name} ({info.activas} oferta{info.activas === 1 ? "" : "s"} activa{info.activas === 1 ? "" : "s"})
+              </p>
+              <p className="text-sm text-white/60">
+                Pasá a PRO Comerciante para publicar ofertas ilimitadas + estadísticas + historias.
+              </p>
+            </div>
           </div>
+          <Link href="/dashboard/planes"
+            className="flex shrink-0 items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-3 text-sm font-black hover:opacity-90">
+            <Rocket className="h-4 w-4" /> Mejorar plan
+          </Link>
         </div>
-        <Link href="/dashboard/planes"
-          className="flex shrink-0 items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-3 text-sm font-black hover:opacity-90">
-          <Rocket className="h-4 w-4" /> Mejorar plan
-        </Link>
       </div>
     </div>
   );
