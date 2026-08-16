@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper, Search, Trash2, Pencil, MessageCircle, Gift } from "lucide-react";
+import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper, Search, Trash2, Pencil, MessageCircle, Gift, Radio, Square, EyeOff } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
 import OnlineBadge from "@/components/ui/online-badge";
 import AdminVisits from "@/components/admin/visits";
 import Badge from "@/components/ui/badge";
 import InfoTip from "@/components/ui/info-tip";
+import LiveChat from "@/components/live/live-chat";
 import { PLANES } from "@/lib/plans";
 
 export default function AdminPage() {
@@ -42,6 +43,9 @@ export default function AdminPage() {
   const [campanasCargadas, setCampanasCargadas] = useState(false);
   const [nuevaCampana, setNuevaCampana] = useState({ title: "", description: "", grants_plan: "profesional", grants_dias: "90", max_cupos: "20" });
   const [creandoCampana, setCreandoCampana] = useState(false);
+  const [vivos, setVivos] = useState<any[]>([]);
+  const [vivosCargados, setVivosCargados] = useState(false);
+  const [vivoSeleccionado, setVivoSeleccionado] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -120,7 +124,15 @@ export default function AdminPage() {
         setCampanasCargadas(true);
       })();
     }
-  }, [tab, negociosCargados, ofertasCargadas, campanasCargadas]);
+    if (tab === "en-vivo" && !vivosCargados) {
+      (async () => {
+        const { data } = await supabase().from("live_streams")
+          .select("*, businesses(name, slug)").order("created_at", { ascending: false }).limit(200);
+        setVivos(data || []);
+        setVivosCargados(true);
+      })();
+    }
+  }, [tab, negociosCargados, ofertasCargadas, campanasCargadas, vivosCargados]);
 
   // El navegador manda las cookies de sesión de Supabase automáticamente
   // (mismo origen); el servidor las lee vía lib/supabase-server.ts, igual
@@ -258,6 +270,30 @@ export default function AdminPage() {
     } catch (e: any) { alert(e.message); }
   };
 
+  const toggleBloqueoVivo = async (id: string, blocked: boolean) => {
+    try {
+      await authedFetch("/api/admin/live-streams", "PATCH", { id, blocked: !blocked });
+      setVivos(prev => prev.map(v => v.id === id ? { ...v, blocked: !blocked } : v));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const finalizarVivoAdmin = async (id: string) => {
+    if (!confirm("¿Finalizar esta transmisión ahora?")) return;
+    try {
+      await authedFetch("/api/admin/live-streams", "PATCH", { id, status: "ended" });
+      setVivos(prev => prev.map(v => v.id === id ? { ...v, status: "ended", ended_at: new Date().toISOString() } : v));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const borrarVivo = async (id: string, titulo: string) => {
+    if (!confirm(`¿Eliminar la transmisión "${titulo}" definitivamente? Se borran también su chat y sus productos asociados.`)) return;
+    try {
+      await authedFetch("/api/admin/live-streams", "DELETE", { id });
+      setVivos(prev => prev.filter(v => v.id !== id));
+      if (vivoSeleccionado === id) setVivoSeleccionado(null);
+    } catch (e: any) { alert(e.message); }
+  };
+
   const cambiarPlan = async (id: string, plan: string) => {
     try {
       await authedFetch("/api/admin/businesses", "PATCH", { id, plan });
@@ -327,6 +363,7 @@ export default function AdminPage() {
     { k: "verificacion", l: "Verificación", icon: Shield, count: pendientes.length },
     { k: "moderacion", l: "Moderación", icon: Star, count: 0 },
     { k: "reportes", l: "Reportes", icon: Flag, count: reportes.length },
+    { k: "en-vivo", l: "En Vivo", icon: Radio, count: vivos.filter(v => v.status === "live").length },
     { k: "suscripciones", l: "Suscripciones", icon: CreditCard, count: pendientesPago },
     { k: "campanas", l: "Campañas", icon: Gift, count: 0 },
     { k: "ciudades", l: "Ciudades", icon: MapPin, count: 0 },
@@ -788,6 +825,76 @@ export default function AdminPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* EN VIVO */}
+        {tab === "en-vivo" && (
+          <div className="mt-6">
+            <h2 className="mb-4 text-lg font-black">Transmisiones <span className="text-white/40">({vivos.length})</span></h2>
+            {!vivosCargados ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
+            ) : vivos.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+                <Radio className="mx-auto h-10 w-10 text-white/20" />
+                <p className="mt-3 text-sm text-white/40">Todavía no hubo transmisiones en la plataforma.</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {vivos.map((v) => {
+                  const ESTADO: Record<string, { l: string; c: string }> = {
+                    scheduled: { l: "Programado", c: "bg-sky-500/15 text-sky-300" },
+                    live: { l: "🔴 En vivo", c: "bg-red-500/20 text-red-300" },
+                    ended: { l: "Finalizado", c: "bg-white/10 text-white/50" },
+                    cancelled: { l: "Cancelado", c: "bg-white/10 text-white/40" },
+                  };
+                  const e = ESTADO[v.status] || ESTADO.ended;
+                  const abierto = vivoSeleccionado === v.id;
+                  return (
+                    <div key={v.id} className="rounded-2xl border border-white/10 bg-white/[0.02]">
+                      <div className="flex flex-col gap-2 p-3 sm:flex-row sm:items-center">
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate font-bold">{v.title} {v.blocked && <span className="ml-1 text-[10px] font-black text-red-400">BLOQUEADO</span>}</p>
+                          <p className="truncate text-xs text-white/50">
+                            {v.businesses?.name} · <span className={`rounded px-1.5 py-0.5 font-bold ${e.c}`}>{e.l}</span>
+                            {v.status !== "scheduled" && ` · ${v.max_viewers} pico · ${v.total_viewers} totales`}
+                          </p>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <a href={`/en-vivo/${v.id}`} target="_blank" rel="noopener noreferrer"
+                            className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">Ver</a>
+                          <a href={`/negocio/${v.businesses?.slug}`} target="_blank" rel="noopener noreferrer"
+                            className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">Negocio</a>
+                          <button onClick={() => setVivoSeleccionado(abierto ? null : v.id)}
+                            className="flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">
+                            <MessageCircle className="h-3 w-3" /> {abierto ? "Cerrar chat" : "Moderar chat"}
+                          </button>
+                          {v.status === "live" && (
+                            <button onClick={() => finalizarVivoAdmin(v.id)}
+                              className="flex items-center gap-1 rounded-lg bg-orange-500/15 px-2.5 py-1 text-[11px] font-bold text-orange-300 hover:bg-orange-500/25">
+                              <Square className="h-3 w-3" /> Finalizar
+                            </button>
+                          )}
+                          <button onClick={() => toggleBloqueoVivo(v.id, v.blocked)}
+                            className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-bold ${v.blocked ? "bg-white/10 text-white/50" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
+                            <EyeOff className="h-3 w-3" /> {v.blocked ? "Desbloquear" : "Bloquear"}
+                          </button>
+                          <button onClick={() => borrarVivo(v.id, v.title)}
+                            className="flex items-center gap-1 rounded-lg bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-red-300 hover:bg-red-500/25">
+                            <Trash2 className="h-3 w-3" /> Borrar
+                          </button>
+                        </div>
+                      </div>
+                      {abierto && (
+                        <div className="border-t border-white/10 p-3">
+                          <LiveChat liveStreamId={v.id} puedeModerar />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>

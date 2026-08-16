@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight, MessageCircle, Search, Store } from "lucide-react";
 import Hero from "@/components/home/hero";
 import OffersTicker from "@/components/home/offers-ticker";
+import LiveNow from "@/components/home/live-now";
 import Featured from "@/components/home/featured";
 import OfferCard from "@/components/ui/offer-card";
 import SectionTitle from "@/components/ui/section-title";
@@ -124,6 +125,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
           <span /><span /><span />
         </div>
         <div className="relative z-10">
+      <LiveNow />
       {/* ===== HOY EN SAN LORENZO ===== */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
         <SectionTitle

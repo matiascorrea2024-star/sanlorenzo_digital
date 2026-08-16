@@ -17,6 +17,9 @@ export const PLANES: Record<string, {
   destacarCatalogo: boolean; // marcar productos/ofertas propias como destacados
   campanas: boolean; // campañas segmentadas por barrio con estimación de alcance
   whatsappDestacado: boolean; // botón de WhatsApp más grande/prioritario en la ficha
+  maxVivosPorMes: number; // -1 = ilimitados
+  vivoProductos: boolean; // asociar productos/ofertas a la transmisión
+  vivoDestacado: boolean; // aparece primero en /en-vivo + notifica seguidores al arrancar
   badge: string;
 }> = {
   gratis: {
@@ -33,6 +36,9 @@ export const PLANES: Record<string, {
     destacarCatalogo: false,
     campanas: false,
     whatsappDestacado: false,
+    maxVivosPorMes: 2,
+    vivoProductos: false,
+    vivoDestacado: false,
     badge: "",
   },
   // Escalón intermedio: más barato que PRO, para el que todavía no se
@@ -51,6 +57,9 @@ export const PLANES: Record<string, {
     destacarCatalogo: false,
     campanas: false,
     whatsappDestacado: true,
+    maxVivosPorMes: 8,
+    vivoProductos: false,
+    vivoDestacado: false,
     badge: "⭐ Plus",
   },
   profesional: {
@@ -67,6 +76,9 @@ export const PLANES: Record<string, {
     destacarCatalogo: true,
     campanas: true,
     whatsappDestacado: true,
+    maxVivosPorMes: -1,
+    vivoProductos: true,
+    vivoDestacado: false,
     badge: "🚀 Pro",
   },
   premium: {
@@ -83,6 +95,9 @@ export const PLANES: Record<string, {
     destacarCatalogo: true,
     campanas: true,
     whatsappDestacado: true,
+    maxVivosPorMes: -1,
+    vivoProductos: true,
+    vivoDestacado: true,
     badge: "🔥 Destacado",
   },
 };
@@ -115,4 +130,11 @@ export function puedeAgregarProducto(plan: string, productosActivos: number): bo
   const p = PLANES[plan] || PLANES.gratis;
   if (p.maxProductos === -1) return true;
   return productosActivos < p.maxProductos;
+}
+
+// ¿Puede crear otro En Vivo este mes?
+export function puedeCrearVivo(plan: string, vivosEsteMes: number): boolean {
+  const p = PLANES[plan] || PLANES.gratis;
+  if (p.maxVivosPorMes === -1) return true;
+  return vivosEsteMes < p.maxVivosPorMes;
 }

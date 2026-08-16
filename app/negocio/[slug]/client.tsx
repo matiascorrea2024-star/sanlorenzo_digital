@@ -19,6 +19,7 @@ import FollowButton from "@/components/business/follow-button";
 import NotifyMeButton from "@/components/offers/notify-me-button";
 import FavoriteButton from "@/components/ui/favorite-button";
 import LevelBadge from "@/components/business/level-badge";
+import BusinessLiveBadge from "@/components/business/live-badge";
 import { planDe } from "@/lib/plans";
 
 const CATEGORY_IMAGES: Record<string, string> = {
@@ -195,6 +196,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         </div>
         <div className="mt-3">
             <div className="mb-1 flex flex-wrap items-center gap-2">
+              <BusinessLiveBadge businessId={negocio.id} />
               {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
               {negocio.open !== undefined && (
                 <Badge variant={negocio.open ? "success" : "danger"} size="sm">
