@@ -244,13 +244,15 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         <SectionTitle eyebrow="Cómo funciona" title="Así de simple" />
         <div className="grid gap-4 sm:grid-cols-3">
           {PASOS.map(({ icon: Icon, titulo, texto, grad, glow }, i) => (
-            <div key={titulo} className="stagger-item sld-card relative overflow-hidden rounded-2xl p-5">
-              <span className="pointer-events-none absolute -right-6 -top-6 text-7xl font-black text-white/[.04]">{i + 1}</span>
-              <div className={`relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${grad} shadow-lg ${glow}`}>
-                <Icon className="h-6 w-6 text-white" strokeWidth={2.4} />
+            <div key={titulo} className="stagger-item rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1">
+              <div className="relative overflow-hidden rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <span className="pointer-events-none absolute -right-4 -top-6 text-8xl font-black text-white/[.04]" style={{ fontFamily: "var(--font-ticket)" }}>{i + 1}</span>
+                <div className={`relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${grad} shadow-lg ${glow}`}>
+                  <Icon className="h-6 w-6 text-white" strokeWidth={2.4} />
+                </div>
+                <h3 className="relative mt-4 text-lg font-black" style={{ fontFamily: "var(--font-space)" }}>{titulo}</h3>
+                <p className="relative mt-1.5 text-sm text-[var(--muted)]">{texto}</p>
               </div>
-              <h3 className="relative mt-3 text-lg font-black">{titulo}</h3>
-              <p className="relative mt-1.5 text-sm text-[var(--muted)]">{texto}</p>
             </div>
           ))}
         </div>

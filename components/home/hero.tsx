@@ -62,86 +62,98 @@ export default function Hero({ onSearch, stats }: HeroProps) {
 
   const sugerencias = ["zapatillas", "pizza", "peluquería", "ferretería", "ofertas"];
 
+  // "Termina hoy" no tiene tarjeta propia (el mockup aprobado mostraba
+  // solo 2 tarjetas apiladas) -- se cuela como nota chica dentro de la
+  // tarjeta de promociones en vez de perder ese dato real.
   const STATS = [
-    { value: display.promos, label: plural(display.promos, "promoción activa", "promociones activas"), color: "text-orange-400" },
-    { value: display.negocios, label: plural(display.negocios, "negocio", "negocios"), color: "text-[var(--text)]" },
-    { value: display.pronto, label: plural(display.pronto, "termina hoy", "terminan pronto"), color: "text-amber-400" },
+    { value: display.promos, label: plural(display.promos, "promoción activa", "promociones activas"), sub: display.pronto > 0 ? `${display.pronto} ${plural(display.pronto, "termina", "terminan")} hoy` : undefined },
+    { value: display.negocios, label: plural(display.negocios, "negocio", "negocios") },
   ];
 
   return (
-    <section className="relative bg-[#0c0a0b]">
-      {/* Decoración: overflow-hidden va acá, no en la section -- si no,
-          recorta el dropdown del buscador inteligente que aparece por
-          debajo del buscador (necesita desbordar la altura del hero). */}
-      <div className="absolute inset-0 overflow-hidden opacity-25">
+    <section className="relative overflow-hidden bg-[#0c0a0b]">
+      {/* Decoración: overflow-hidden va en un layer propio, no en la
+          section -- si no, recorta el dropdown del buscador inteligente
+          que necesita desbordar la altura del hero. */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-25">
         <div className="absolute top-0 left-1/4 h-80 w-80 rounded-full bg-red-600 mix-blend-screen filter blur-3xl animate-blob" />
         <div className="absolute top-1/3 right-1/4 h-80 w-80 rounded-full bg-orange-600 mix-blend-screen filter blur-3xl animate-blob animation-delay-2000" />
         <div className="absolute bottom-1/4 left-1/3 h-80 w-80 rounded-full bg-red-700 mix-blend-screen filter blur-3xl animate-blob animation-delay-4000" />
       </div>
-
       <div
-        className="absolute inset-0 overflow-hidden opacity-10"
+        className="pointer-events-none absolute inset-0 opacity-10"
         style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "40px 40px" }}
       />
+      {/* Auroras premium fijas en las esquinas, como en el diseño aprobado. */}
+      <div className="pointer-events-none absolute -left-[10%] -top-[20%] h-[60vw] w-[60vw] max-h-[560px] max-w-[560px] rounded-full bg-orange-600 opacity-[.15] blur-[120px]" />
+      <div className="pointer-events-none absolute -right-[10%] -bottom-[20%] h-[60vw] w-[60vw] max-h-[560px] max-w-[560px] rounded-full bg-red-800 opacity-[.15] blur-[120px]" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 pb-12 pt-14 sm:px-6 md:pb-16 md:pt-20">
-        {/* Momento tipográfico grande, alineado a la izquierda -- editorial,
-            no un banner centrado más. El buscador y las estadísticas viven
-            en tarjetas de vidrio aparte, en grilla asimétrica 8/4. */}
-        <div className="fade-up mb-10 md:mb-14">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 backdrop-blur-sm">
-            <Sparkles className="h-3.5 w-3.5 text-orange-400" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-300">San Lorenzo · Santa Fe</span>
-          </div>
-          <h1 className="text-[15vw] font-black leading-[0.85] tracking-tighter sm:text-7xl md:text-8xl lg:text-[8.5rem]" style={{ fontFamily: "var(--font-space)" }}>
-            <span className="block text-[var(--text)]">LA GRAN</span>
-            <span className="block bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">BARATA DIGITAL</span>
-          </h1>
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 md:pb-20 md:pt-20">
+        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 backdrop-blur-sm">
+          <Sparkles className="h-3.5 w-3.5 text-orange-400" />
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-300">San Lorenzo · Santa Fe</span>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-12">
-          {/* Buscador -- bloque principal (8/12) */}
-          <div className="fade-up-2 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 lg:col-span-8">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
-              <p className="mb-2 text-lg font-bold text-[var(--text)] sm:text-xl" style={{ fontFamily: "var(--font-space)" }}>
-                ¿Qué estás buscando hoy en tu ciudad?
-              </p>
-              <p className="mb-5 max-w-lg text-sm text-[var(--muted)]">
-                Las ofertas y promos de San Lorenzo, publicadas por los comercios en tiempo real.{" "}
-                <span className="font-bold text-orange-300">Que no se te escape ninguna.</span>
-              </p>
-              <div className="group relative">
-                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-orange-500 to-red-600 opacity-60 blur transition duration-1000 group-hover:opacity-90 animate-gradient" />
-                <div className="relative">
-                  <SmartSearch
-                    placeholder="Buscar ofertas, negocios, productos..."
-                    onPlainSearch={(term) => onSearch && onSearch(term)}
-                    shortcutSlash
-                  />
-                </div>
+        {/* Momento tipográfico: 3 líneas apiladas, la última alineada a
+            la derecha, líneas 1 y 3 solo con contorno (sin relleno) y
+            la del medio con el degradé de marca -- tal cual el diseño
+            aprobado en Superdesign. */}
+        <div className="relative mb-16 md:mb-20">
+          <h1
+            className="flex flex-col font-black uppercase leading-[0.85] tracking-tighter"
+            style={{ fontFamily: "var(--font-space)", fontSize: "clamp(3.2rem, 15vw, 10rem)" }}
+          >
+            <span style={{ WebkitTextStroke: "1.5px rgba(255,247,237,.5)", color: "transparent" }}>LA GRAN</span>
+            <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">BARATA</span>
+            <span className="text-right" style={{ WebkitTextStroke: "1.5px rgba(255,247,237,.5)", color: "transparent" }}>DIGITAL</span>
+          </h1>
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-[var(--muted)] md:absolute md:bottom-0 md:right-0 md:mt-0 md:text-right md:text-base">
+            Las ofertas y promos de San Lorenzo, publicadas por los comercios en tiempo real.{" "}
+            <span className="font-bold text-orange-300">Que no se te escape ninguna.</span>
+          </p>
+        </div>
+
+        {/* Grilla editorial 8/4: buscador como bloque principal + panel
+            de 2 tarjetas de estadística apiladas. */}
+        <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
+          <div className="group relative lg:col-span-8">
+            <div className="relative flex h-full min-h-[420px] flex-col justify-between overflow-hidden rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] md:p-12">
+              <div className="pointer-events-none absolute -right-[10%] -top-[10%] aspect-square w-[60%] rounded-full bg-gradient-to-br from-orange-500 to-red-600 opacity-10 blur-[100px]" />
+              <div className="relative z-10">
+                <span className="mb-8 inline-block rounded-full border border-orange-500/30 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-orange-400">
+                  Búsqueda inteligente
+                </span>
+                <h2 className="max-w-xl text-3xl font-bold leading-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>
+                  ¿Qué estás buscando hoy en tu ciudad?
+                </h2>
               </div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {sugerencias.map((sug) => (
-                  <button
-                    key={sug}
-                    onClick={() => onSearch && onSearch(sug)}
-                    className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-white/30 hover:bg-white/10"
-                  >
-                    {sug}
-                  </button>
-                ))}
+              <div className="relative z-10 mt-10 w-full max-w-2xl">
+                <SmartSearch
+                  placeholder="Buscar ofertas, negocios, productos..."
+                  onPlainSearch={(term) => onSearch && onSearch(term)}
+                  shortcutSlash
+                />
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {sugerencias.map((sug) => (
+                    <button
+                      key={sug}
+                      onClick={() => onSearch && onSearch(sug)}
+                      className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-white/30 hover:bg-white/10"
+                    >
+                      {sug}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Estadísticas -- panel lateral (4/12), apiladas */}
-          <div className="fade-up-3 grid grid-cols-3 gap-4 lg:col-span-4 lg:grid-cols-1">
+          <div className="flex flex-col gap-6 lg:col-span-4">
             {STATS.map((s) => (
-              <div key={s.label} className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-                <div className="flex h-full flex-col items-center justify-center rounded-[1.375rem] border border-white/[.05] bg-black/20 px-3 py-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:py-6">
-                  <span className={`text-3xl font-black tabular-nums sm:text-4xl ${s.color}`} style={{ fontFamily: "var(--font-ticket)" }}>{s.value}</span>
-                  <span className="mt-1 text-[10px] font-bold uppercase tracking-widest text-white/40 sm:text-[11px]">{s.label}</span>
-                </div>
+              <div key={s.label} className="flex flex-1 flex-col items-center justify-center rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-10">
+                <span className="text-5xl font-black tabular-nums text-[var(--text)] sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>{s.value}</span>
+                <span className="mt-2 text-xs font-black uppercase tracking-widest text-white/40">{s.label}</span>
+                {s.sub && <span className="mt-2 text-[11px] font-bold text-orange-400">{s.sub}</span>}
               </div>
             ))}
           </div>

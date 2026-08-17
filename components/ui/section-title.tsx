@@ -13,13 +13,13 @@ export default function SectionTitle({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+    <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
       <div>
-        <p className="text-xs font-bold uppercase tracking-[.2em] text-[var(--accent2)]">{eyebrow}</p>
-        <h2 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl" style={{ fontFamily: "var(--font-space)" }}>
+        <p className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent)]">{eyebrow}</p>
+        <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl" style={{ fontFamily: "var(--font-space)" }}>
           {title}
         </h2>
-        {subtitle && <p className="mt-1 text-sm text-[var(--muted)]">{subtitle}</p>}
+        {subtitle && <p className="mt-1.5 text-sm text-[var(--muted)]">{subtitle}</p>}
       </div>
       {action}
     </div>
