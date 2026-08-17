@@ -5,6 +5,8 @@ import { calcDistanceKm, fmtDistance } from "@/lib/geo";
 import { MapPin, Flame, Store } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 const CENTRO: [number, number] = [-32.7475, -60.7285];
 
@@ -13,6 +15,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
+  const clusterRef = useRef<any>(null);
   const [userCoords, setUserCoords] = useState<{ lat: number; lon: number } | null>(null);
   const [radio, setRadio] = useState<number | null>(null);
   const [stats, setStats] = useState({ total: 0, abiertos: 0, conOfertas: 0 });
@@ -68,15 +71,35 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
     return () => { cancelled = true; };
   }, [userCoords]);
 
-  // Marcadores de negocios (diferenciados)
+  // Marcadores de negocios (diferenciados), agrupados por cercanía --
+  // con muchos negocios simultáneos, un marker por uno sin agrupar
+  // pone pesado el mapa en celulares de gama media. El plugin extiende
+  // el propio "leaflet" importado arriba (mismo L, no una copia nueva).
   useEffect(() => {
     (async () => {
       const L = await import("leaflet");
+      // leaflet.markercluster es un plugin UMD viejo que espera un "L"
+      // global (window.L) al cargarse, no un import de "leaflet" --
+      // usamos require() acá puntualmente porque devuelve el mismo
+      // module.exports mutable que el plugin necesita poder extender
+      // (un namespace de import() puede quedar congelado y tirar error).
+      const Lglobal = require("leaflet");
+      (window as any).L = Lglobal;
+      await import("leaflet.markercluster");
       const map = leafletRef.current;
       if (!map) return;
 
-      // Limpiar marcadores previos
-      markersRef.current.forEach(m => m.remove());
+      // Limpiar cluster previo (mismo criterio que antes con markersRef,
+      // pero ahora las capas viven adentro del grupo, no del mapa).
+      if (clusterRef.current) { map.removeLayer(clusterRef.current); }
+      const cluster = Lglobal.markerClusterGroup({
+        maxClusterRadius: 60,
+        iconCreateFunction: (c: any) => Lglobal.divIcon({
+          html: `<div style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ec4899);border:2px solid white;box-shadow:0 3px 10px rgba(0,0,0,.5);color:white;font-weight:900;font-size:13px">${c.getChildCount()}</div>`,
+          className: "", iconSize: [40, 40],
+        }),
+      });
+      clusterRef.current = cluster;
       markersRef.current = [];
 
       negocios.forEach((b: any) => {
@@ -106,7 +129,6 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
         const dist = `<div style="margin-top:4px;color:#a99b86;font-size:12px">📍 ${fmtDistance(kmDist)} ${userCoords ? "de vos" : "del centro"}</div>`;
 
         const marker = L.marker([Number(b.latitude), Number(b.longitude)], { icon })
-          .addTo(map)
           .bindPopup(`
             <div style="min-width:180px">
               <strong style="font-size:15px;font-weight:900">${b.name}</strong>
@@ -121,7 +143,10 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
             </div>
           `);
         markersRef.current.push(marker);
+        cluster.addLayer(marker);
       });
+
+      map.addLayer(cluster);
     })();
   }, [negocios, radio, userCoords]);
 

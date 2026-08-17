@@ -39,9 +39,16 @@ export default function AdminPage() {
   const [negocios, setNegocios] = useState<any[]>([]);
   const [negociosCargados, setNegociosCargados] = useState(false);
   const [qNegocios, setQNegocios] = useState("");
+  // Buscar en la base, no solo en los primeros 300 ya cargados en
+  // memoria -- con miles de negocios, el resto quedaba invisible para
+  // el propio buscador del admin. null = sin búsqueda activa.
+  const [negociosBusqueda, setNegociosBusqueda] = useState<any[] | null>(null);
+  const [buscandoNegocios, setBuscandoNegocios] = useState(false);
   const [ofertasAdmin, setOfertasAdmin] = useState<any[]>([]);
   const [ofertasCargadas, setOfertasCargadas] = useState(false);
   const [qOfertas, setQOfertas] = useState("");
+  const [ofertasBusqueda, setOfertasBusqueda] = useState<any[] | null>(null);
+  const [buscandoOfertas, setBuscandoOfertas] = useState(false);
   const [campanas, setCampanas] = useState<any[]>([]);
   const [campanasCargadas, setCampanasCargadas] = useState(false);
   const [nuevaCampana, setNuevaCampana] = useState({ title: "", description: "", grants_plan: "profesional", grants_dias: "90", max_cupos: "20" });
@@ -149,6 +156,39 @@ export default function AdminPage() {
       })();
     }
   }, [tab, negociosCargados, ofertasCargadas, campanasCargadas, vivosCargados, chatCargados]);
+
+  // Búsqueda server-side: los primeros 300/300 ya cargados no alcanzan
+  // para encontrar un negocio/oferta cualquiera con miles en la base.
+  useEffect(() => {
+    const term = qNegocios.trim();
+    if (term.length < 2) { setNegociosBusqueda(null); return; }
+    setBuscandoNegocios(true);
+    const t = setTimeout(async () => {
+      const { data } = await supabase().from("businesses")
+        .select("id, name, slug, category, status, activo, destacado, owner_id, plan, plan_expira")
+        .ilike("name", `%${term}%`).order("name").limit(200);
+      setNegociosBusqueda(data || []);
+      setBuscandoNegocios(false);
+    }, 300);
+    return () => clearTimeout(t);
+  }, [qNegocios]);
+
+  useEffect(() => {
+    const term = qOfertas.trim();
+    if (term.length < 2) { setOfertasBusqueda(null); return; }
+    setBuscandoOfertas(true);
+    const t = setTimeout(async () => {
+      const { data } = await supabase().from("offers")
+        .select("id, title, active, valid_until, discount_percent, impulsada_hasta, businesses(name, slug)")
+        .ilike("title", `%${term}%`).order("created_at", { ascending: false }).limit(200);
+      setOfertasBusqueda(data || []);
+      setBuscandoOfertas(false);
+    }, 300);
+    return () => clearTimeout(t);
+  }, [qOfertas]);
+
+  const negociosMostrados = negociosBusqueda ?? negocios;
+  const ofertasMostradas = ofertasBusqueda ?? ofertasAdmin;
 
   // El navegador manda las cookies de sesión de Supabase automáticamente
   // (mismo origen); el servidor las lee vía lib/supabase-server.ts, igual
@@ -529,23 +569,26 @@ export default function AdminPage() {
         {tab === "negocios" && (
           <div className="mt-6">
             <div className="mb-4 flex items-center justify-between gap-3">
-              <h2 className="text-lg font-black">Todos los negocios <span className="text-white/40">({negocios.length})</span></h2>
+              <h2 className="text-lg font-black">
+                {negociosBusqueda ? "Resultados" : "Todos los negocios"} <span className="text-white/40">({negociosMostrados.length}{negociosBusqueda && negociosMostrados.length >= 200 ? "+" : ""})</span>
+                {buscandoNegocios && <span className="ml-2 text-xs font-normal text-white/40">buscando...</span>}
+              </h2>
               <div className="relative w-full max-w-xs">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
-                <input value={qNegocios} onChange={(e) => setQNegocios(e.target.value)} placeholder="Buscar por nombre..."
+                <input value={qNegocios} onChange={(e) => setQNegocios(e.target.value)} placeholder="Buscar por nombre (en toda la base)..."
                   className="w-full rounded-xl border border-white/15 bg-black/20 py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400" />
               </div>
             </div>
             {!negociosCargados ? (
               <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
-            ) : negocios.length === 0 ? (
+            ) : negociosMostrados.length === 0 ? (
               <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
                 <Store className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">Todavía no hay negocios cargados.</p>
+                <p className="mt-3 text-sm text-white/40">{negociosBusqueda ? "Ningún negocio coincide con esa búsqueda." : "Todavía no hay negocios cargados."}</p>
               </div>
             ) : (
               <div className="space-y-2">
-                {negocios.filter((n) => n.name.toLowerCase().includes(qNegocios.toLowerCase())).map((n) => (
+                {negociosMostrados.map((n) => (
                   <div key={n.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-3 sm:flex-row sm:items-center">
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-bold">{n.name}</p>
@@ -594,23 +637,26 @@ export default function AdminPage() {
         {tab === "ofertas" && (
           <div className="mt-6">
             <div className="mb-4 flex items-center justify-between gap-3">
-              <h2 className="text-lg font-black">Todas las ofertas <span className="text-white/40">({ofertasAdmin.length})</span></h2>
+              <h2 className="text-lg font-black">
+                {ofertasBusqueda ? "Resultados" : "Todas las ofertas"} <span className="text-white/40">({ofertasMostradas.length}{ofertasBusqueda && ofertasMostradas.length >= 200 ? "+" : ""})</span>
+                {buscandoOfertas && <span className="ml-2 text-xs font-normal text-white/40">buscando...</span>}
+              </h2>
               <div className="relative w-full max-w-xs">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
-                <input value={qOfertas} onChange={(e) => setQOfertas(e.target.value)} placeholder="Buscar por título..."
+                <input value={qOfertas} onChange={(e) => setQOfertas(e.target.value)} placeholder="Buscar por título (en toda la base)..."
                   className="w-full rounded-xl border border-white/15 bg-black/20 py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400" />
               </div>
             </div>
             {!ofertasCargadas ? (
               <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
-            ) : ofertasAdmin.length === 0 ? (
+            ) : ofertasMostradas.length === 0 ? (
               <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
                 <Flame className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">Todavía no hay ofertas publicadas.</p>
+                <p className="mt-3 text-sm text-white/40">{ofertasBusqueda ? "Ninguna oferta coincide con esa búsqueda." : "Todavía no hay ofertas publicadas."}</p>
               </div>
             ) : (
               <div className="space-y-2">
-                {ofertasAdmin.filter((o) => o.title.toLowerCase().includes(qOfertas.toLowerCase())).map((o) => (
+                {ofertasMostradas.map((o) => (
                   <div key={o.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-3 sm:flex-row sm:items-center">
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-bold">{o.title}</p>
