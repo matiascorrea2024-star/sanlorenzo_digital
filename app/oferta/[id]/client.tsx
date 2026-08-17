@@ -282,13 +282,6 @@ export default function OfertaPage() {
             </div>
           </div>
         </div>
-
-        {oferta.description && (
-          <div>
-            <h2 className="mb-2 text-lg font-black">Detalles de la oferta</h2>
-            <p className="text-sm leading-relaxed text-white/80">{oferta.description}</p>
-          </div>
-        )}
       </div>
     </main>
   );

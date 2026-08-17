@@ -3,32 +3,50 @@ import RankBadge from "@/components/ui/rank-badge";
 import { RANGOS } from "@/lib/ranks";
 import DivisionFrame from "@/components/ui/division-frame";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { Trophy, Star, Flame, Eye, Heart, TrendingUp, TrendingDown, Minus, Activity, Rocket, Crown, Zap } from "lucide-react";
+import { Trophy, Star, Flame, Eye, Heart, TrendingUp, TrendingDown, Minus, Activity, Rocket, Crown, Zap, SlidersHorizontal, ChevronDown } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { rangoDe } from "@/lib/ranks";
 import { calcReputation, reputationLabel } from "@/lib/reputation";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 import Badge from "@/components/ui/badge";
 
-const TABS = [
+// 10 formas de ordenar era demasiada decisión de una sola vez (la
+// crítica real: "hay demasiada información, se pierde"). Las 4 que más
+// se usan quedan siempre a la vista; el resto se agrupa en "Más filtros"
+// -- sigue estando todo, pero no compite por atención de entrada.
+const TABS_PRINCIPALES = [
   { k: "dia", l: "🔥 Del día", icon: Zap },
-  { k: "reputacion", l: "👑 Reputación", icon: Crown },
   { k: "ligas", l: "🏆 Ligas", icon: Trophy },
   { k: "rating", l: "⭐ Valorados", icon: Star },
   { k: "ofertas", l: "🔥 Ofertas", icon: Flame },
+];
+const TABS_MAS = [
+  { k: "reputacion", l: "👑 Reputación", icon: Crown },
   { k: "vistas", l: "👀 Vistos", icon: Eye },
   { k: "guardados", l: "❤️ Guardados", icon: Heart },
   { k: "activos", l: "⚡ Activos", icon: Activity },
   { k: "crecimiento", l: "📈 Crecimiento", icon: Rocket },
   { k: "semanal", l: "📅 Semana", icon: TrendingUp },
 ];
+const TABS = [...TABS_PRINCIPALES, ...TABS_MAS];
 
 export default function RankingPage({ initial = [] }: { initial?: any[] }) {
   const [rows, setRows] = useState<any[]>(initial || []);
   const [tab, setTab] = useState("dia");
   const [loading, setLoading] = useState(true);
+  const [masAbierto, setMasAbierto] = useState(false);
+  const masRef = useRef<HTMLDivElement>(null);
+  const tabMasActivo = TABS_MAS.find((t) => t.k === tab);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (masRef.current && !masRef.current.contains(e.target as Node)) setMasAbierto(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -179,10 +197,11 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
           ))}
         </div>
 
-        {/* Tabs */}
-        <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
-          {TABS.map(t => (
-            <button key={t.k} onClick={() => setTab(t.k)}
+        {/* Tabs: las 4 más usadas siempre visibles + "Más filtros" agrupa
+            el resto en un desplegable, así no compiten 10 opciones a la vez. */}
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          {TABS_PRINCIPALES.map(t => (
+            <button key={t.k} onClick={() => { setTab(t.k); setMasAbierto(false); }}
               className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
                 tab === t.k
                   ? "bg-gradient-to-r from-orange-500 to-red-600 text-white"
@@ -191,6 +210,30 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
               {t.l}
             </button>
           ))}
+          <div className="relative" ref={masRef}>
+            <button onClick={() => setMasAbierto(v => !v)}
+              className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition ${
+                tabMasActivo
+                  ? "bg-gradient-to-r from-orange-500 to-red-600 text-white"
+                  : "border border-white/15 bg-white/5 text-white/70 hover:border-orange-400/50"
+              }`}>
+              <SlidersHorizontal className="h-3.5 w-3.5" />
+              {tabMasActivo ? tabMasActivo.l : "Más filtros"}
+              <ChevronDown className={`h-3.5 w-3.5 transition-transform ${masAbierto ? "rotate-180" : ""}`} />
+            </button>
+            {masAbierto && (
+              <div className="absolute left-0 top-[calc(100%+8px)] z-20 w-56 rounded-2xl border border-white/10 bg-[#1c1819] p-1.5 shadow-2xl">
+                {TABS_MAS.map(t => (
+                  <button key={t.k} onClick={() => { setTab(t.k); setMasAbierto(false); }}
+                    className={`flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-bold transition ${
+                      tab === t.k ? "bg-orange-500/15 text-orange-300" : "text-white/70 hover:bg-white/5"
+                    }`}>
+                    {t.l}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Lista */}

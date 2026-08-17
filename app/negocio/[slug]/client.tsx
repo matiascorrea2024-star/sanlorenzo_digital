@@ -93,6 +93,10 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   const [seccion, setSeccion] = useState<"catalogo" | "ofertas">(() =>
     productos.length === 0 && ofertas.length > 0 ? "ofertas" : "catalogo"
   );
+  // Info/Reseñas/Chat competían por atención apiladas una debajo de la
+  // otra en una sola pantalla larguísima -- agrupadas en pestañas queda
+  // todo junto y el visitante no se pierde scrolleando.
+  const [detalle, setDetalle] = useState<"info" | "resenas" | "chat">("info");
   const catsProductos = Array.from(new Set(productos.map((p) => p.category).filter(Boolean))) as string[];
   const [loading] = useState(false);
   const [user, setUser] = useState<any>(null);
@@ -356,78 +360,6 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </button>
         </div>
 
-        {/* INFO + MAPA -- tarjetas de doble borde con ícono en caja de
-            color, tal cual el panel de información del mockup. */}
-        <div className="mb-8 grid gap-6 md:grid-cols-2">
-          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
-              <p className="mb-5 text-[10px] font-black uppercase tracking-[.35em] text-white/40">Información</p>
-              <div className="space-y-5">
-                {negocio.address && (
-                  <div className="flex items-start gap-4">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><MapPin className="h-4 w-4 text-orange-400" /></span>
-                    <div className="min-w-0">
-                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Dirección</p>
-                      <p className="text-sm text-white/90">{negocio.address}</p>
-                    </div>
-                  </div>
-                )}
-                {negocio.schedule && (
-                  <div className="flex items-start gap-4">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><Clock className="h-4 w-4 text-orange-400" /></span>
-                    <div className="min-w-0">
-                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Horarios</p>
-                      <p className="text-sm text-white/90">{negocio.schedule}</p>
-                    </div>
-                  </div>
-                )}
-                {negocio.whatsapp && (
-                  <div className="flex items-start gap-4">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><Phone className="h-4 w-4 text-orange-400" /></span>
-                    <div className="min-w-0">
-                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">WhatsApp</p>
-                      <p className="text-sm font-bold text-white/90">{negocio.whatsapp}</p>
-                    </div>
-                  </div>
-                )}
-                {negocio.instagram && (
-                  <div className="flex items-start gap-4">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><ExternalLink className="h-4 w-4 text-orange-400" /></span>
-                    <div className="min-w-0">
-                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Instagram</p>
-                      <a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-orange-400 hover:text-orange-300">@{negocio.instagram}</a>
-                    </div>
-                  </div>
-                )}
-                {negocio.hace_envios && (
-                  <div className="flex items-start gap-4">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10"><Truck className="h-4 w-4 text-sky-400" /></span>
-                    <div className="min-w-0">
-                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-400/70">Envíos</p>
-                      <p className="text-sm text-white/90">
-                        {negocio.envio_gratis ? "Envío gratis" : negocio.costo_envio ? `Envío: $${Number(negocio.costo_envio).toLocaleString("es-AR")}` : "Hace envíos"}
-                        {negocio.zona_cobertura && ` · ${negocio.zona_cobertura}`}
-                      </p>
-                      {negocio.retiro_en_local && <p className="text-xs text-white/50">También hay retiro {negocio.type === "comercio" ? "en el local" : "acordado"}.</p>}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {negocio.latitude && negocio.longitude && (
-            <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
-                <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.35em] text-white/40">
-                  <Navigation className="h-3.5 w-3.5 text-cyan-300" /> Ubicación
-                </p>
-                <BusinessMap latitude={negocio.latitude} longitude={negocio.longitude} address={negocio.address} />
-              </div>
-            </div>
-          )}
-        </div>
-
         {negocio.description && (
           <div className="mb-8">
             <h2 className="mb-3 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Sobre el negocio</h2>
@@ -624,8 +556,103 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </div>
         )}
 
-        <ReviewsSection businessId={negocio.id} baseRating={Number(negocio.rating || 0)} baseCount={Number(negocio.reviews || 0)} />
-        <Chat businessId={negocio.id} ownerId={negocio.owner_id} businessName={negocio.name} businessSlug={negocio.slug} />
+        {/* Info, reseñas y chat agrupados en pestañas -- antes se apilaban
+            uno debajo del otro, ahora está todo junto y elegible. */}
+        <div className="mb-5 flex gap-2 rounded-2xl border border-white/10 bg-white/5 p-1.5">
+          {([
+            { key: "info" as const, label: "Info y mapa", icon: MapPin },
+            { key: "resenas" as const, label: `Reseñas${negocio.reviews ? ` (${negocio.reviews})` : ""}`, icon: Star },
+            { key: "chat" as const, label: "Chat", icon: MessageCircle },
+          ]).map(({ key, label, icon: Icon }) => (
+            <button
+              key={key}
+              onClick={() => setDetalle(key)}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${detalle === key ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-white/60 hover:text-white"}`}
+            >
+              <Icon className="h-4 w-4" /> {label}
+            </button>
+          ))}
+        </div>
+
+        {detalle === "info" && (
+          <div className="mb-8 grid gap-6 md:grid-cols-2">
+            <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
+                <p className="mb-5 text-[10px] font-black uppercase tracking-[.35em] text-white/40">Información</p>
+                <div className="space-y-5">
+                  {negocio.address && (
+                    <div className="flex items-start gap-4">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><MapPin className="h-4 w-4 text-orange-400" /></span>
+                      <div className="min-w-0">
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Dirección</p>
+                        <p className="text-sm text-white/90">{negocio.address}</p>
+                      </div>
+                    </div>
+                  )}
+                  {negocio.schedule && (
+                    <div className="flex items-start gap-4">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><Clock className="h-4 w-4 text-orange-400" /></span>
+                      <div className="min-w-0">
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Horarios</p>
+                        <p className="text-sm text-white/90">{negocio.schedule}</p>
+                      </div>
+                    </div>
+                  )}
+                  {negocio.whatsapp && (
+                    <div className="flex items-start gap-4">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><Phone className="h-4 w-4 text-orange-400" /></span>
+                      <div className="min-w-0">
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">WhatsApp</p>
+                        <p className="text-sm font-bold text-white/90">{negocio.whatsapp}</p>
+                      </div>
+                    </div>
+                  )}
+                  {negocio.instagram && (
+                    <div className="flex items-start gap-4">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><ExternalLink className="h-4 w-4 text-orange-400" /></span>
+                      <div className="min-w-0">
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Instagram</p>
+                        <a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-orange-400 hover:text-orange-300">@{negocio.instagram}</a>
+                      </div>
+                    </div>
+                  )}
+                  {negocio.hace_envios && (
+                    <div className="flex items-start gap-4">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10"><Truck className="h-4 w-4 text-sky-400" /></span>
+                      <div className="min-w-0">
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-400/70">Envíos</p>
+                        <p className="text-sm text-white/90">
+                          {negocio.envio_gratis ? "Envío gratis" : negocio.costo_envio ? `Envío: $${Number(negocio.costo_envio).toLocaleString("es-AR")}` : "Hace envíos"}
+                          {negocio.zona_cobertura && ` · ${negocio.zona_cobertura}`}
+                        </p>
+                        {negocio.retiro_en_local && <p className="text-xs text-white/50">También hay retiro {negocio.type === "comercio" ? "en el local" : "acordado"}.</p>}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {negocio.latitude && negocio.longitude && (
+              <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
+                  <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.35em] text-white/40">
+                    <Navigation className="h-3.5 w-3.5 text-cyan-300" /> Ubicación
+                  </p>
+                  <BusinessMap latitude={negocio.latitude} longitude={negocio.longitude} address={negocio.address} />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {detalle === "resenas" && (
+          <ReviewsSection businessId={negocio.id} baseRating={Number(negocio.rating || 0)} baseCount={Number(negocio.reviews || 0)} />
+        )}
+
+        {detalle === "chat" && (
+          <Chat businessId={negocio.id} ownerId={negocio.owner_id} businessName={negocio.name} businessSlug={negocio.slug} />
+        )}
       </div>
 
       <div className="mx-auto max-w-4xl px-4 pb-10 text-center">
