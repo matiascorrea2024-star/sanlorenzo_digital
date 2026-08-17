@@ -29,8 +29,20 @@ export default function PlanesDashboard() {
   const [misReclamos, setMisReclamos] = useState<string[]>([]);
   const [reclamando, setReclamando] = useState<string | null>(null);
   const [avisoCampana, setAvisoCampana] = useState("");
+  const [pagandoMP, setPagandoMP] = useState<string | null>(null);
+  const [avisoMP, setAvisoMP] = useState("");
   const whatsapp = usePlatformSetting("whatsapp_contacto");
   const datosPago = usePlatformSetting("datos_pago");
+
+  // Vuelta desde Mercado Pago (back_urls) -- el plan recién se activa
+  // cuando llega el webhook (puede tardar unos segundos), así que esto
+  // es solo el mensaje inmediato, no la confirmación final.
+  useEffect(() => {
+    const pago = new URLSearchParams(window.location.search).get("pago");
+    if (pago === "exito") setAvisoMP("✅ Pago recibido -- tu plan se activa en unos segundos.");
+    else if (pago === "pendiente") setAvisoMP("⏳ Tu pago está pendiente de acreditarse.");
+    else if (pago === "error") setAvisoMP("❌ El pago no se completó. Podés intentar de nuevo.");
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -70,6 +82,25 @@ export default function PlanesDashboard() {
       setAvisoCampana(e.message);
     }
     setReclamando(null);
+  };
+
+  const pagarConMP = async (plan: string) => {
+    if (!negocio) return;
+    setPagandoMP(plan);
+    setAvisoMP("");
+    try {
+      const res = await fetch("/api/mercadopago/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ businessId: negocio.id, plan }),
+      });
+      const j = await res.json();
+      if (!res.ok) throw new Error(j.error || "No se pudo iniciar el pago.");
+      window.location.assign(j.init_point);
+    } catch (e) {
+      setAvisoMP(e instanceof Error ? e.message : "No se pudo iniciar el pago.");
+      setPagandoMP(null);
+    }
   };
 
   const solicitar = async (plan: string) => {
@@ -200,10 +231,16 @@ export default function PlanesDashboard() {
                       </button>
                     </div>
                   ) : (
-                    <button onClick={() => setPidiendo(p.k)}
-                      className="mt-5 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black hover:opacity-90">
-                      Quiero este plan
-                    </button>
+                    <div className="mt-5 space-y-2">
+                      <button onClick={() => pagarConMP(p.k)} disabled={pagandoMP === p.k}
+                        className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
+                        {pagandoMP === p.k ? "Redirigiendo…" : "Pagar con Mercado Pago"}
+                      </button>
+                      <button onClick={() => setPidiendo(p.k)}
+                        className="w-full rounded-full border border-white/20 py-2 text-xs font-bold text-white/50 hover:text-white/80">
+                        O transferir y subir comprobante
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
@@ -212,11 +249,12 @@ export default function PlanesDashboard() {
         </div>
 
         {error && <p className="mt-4 text-center text-sm text-red-300">❌ {error}</p>}
+        {avisoMP && <p className="mt-4 text-center text-sm text-white/70">{avisoMP}</p>}
 
         <div className="mx-auto mt-8 max-w-xl rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
           <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 text-center text-sm text-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <p className="font-bold text-white/80">¿Cómo se activa un plan pago?</p>
-            <p className="mt-1">Transferí el importe y subí el comprobante desde el botón &quot;Quiero este plan&quot;. Un admin lo revisa y te lo activa.</p>
+            <p className="mt-1">Con &quot;Pagar con Mercado Pago&quot; se activa solo apenas se acredita. Si preferís transferir, usá &quot;O transferir y subir comprobante&quot; -- un admin lo revisa y te lo activa.</p>
             {datosPago ? (
               <p className="mt-2 whitespace-pre-line rounded-xl bg-black/20 p-3 font-mono text-xs text-emerald-300">{datosPago}</p>
             ) : whatsapp ? (
@@ -225,7 +263,6 @@ export default function PlanesDashboard() {
                 <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="font-bold text-orange-400">Contactar</a>
               </p>
             ) : null}
-            <p className="mt-3 text-xs text-white/30">Pago automático con Mercado Pago: próximamente.</p>
           </div>
         </div>
       </div>

@@ -21,6 +21,8 @@ export const PLANES: Record<string, {
   vivoProductos: boolean; // asociar productos/ofertas a la transmisión
   vivoDestacado: boolean; // aparece primero en /en-vivo + notifica seguidores al arrancar
   badge: string;
+  precioARS: number; // 0 = sin costo. Mismos montos que muestra app/dashboard/planes/page.tsx.
+  duracionDias: number; // vigencia que otorga un pago aprobado de este plan
 }> = {
   gratis: {
     name: "Gratis",
@@ -40,6 +42,8 @@ export const PLANES: Record<string, {
     vivoProductos: false,
     vivoDestacado: false,
     badge: "",
+    precioARS: 0,
+    duracionDias: 0,
   },
   // Escalón intermedio: más barato que PRO, para el que todavía no se
   // anima a $9.900 pero ya quiere más de lo que da Gratis.
@@ -61,6 +65,8 @@ export const PLANES: Record<string, {
     vivoProductos: false,
     vivoDestacado: false,
     badge: "⭐ Plus",
+    precioARS: 4900,
+    duracionDias: 30,
   },
   profesional: {
     name: "PRO Comerciante",
@@ -80,6 +86,8 @@ export const PLANES: Record<string, {
     vivoProductos: true,
     vivoDestacado: false,
     badge: "🚀 Pro",
+    precioARS: 9900,
+    duracionDias: 30,
   },
   premium: {
     name: "Destacado Semanal",
@@ -99,6 +107,8 @@ export const PLANES: Record<string, {
     vivoProductos: true,
     vivoDestacado: true,
     badge: "🔥 Destacado",
+    precioARS: 19900,
+    duracionDias: 7,
   },
 };
 
