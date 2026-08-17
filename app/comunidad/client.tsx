@@ -49,7 +49,7 @@ export default function ComunidadPage() {
             <MapPin className="h-4 w-4 shrink-0 text-orange-400" />
             <select value={locationId} onChange={(e) => setLocationId(e.target.value)}
               className="w-full rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-bold outline-none focus:border-orange-400 sm:w-auto">
-              {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[#1a1420]">{c.name}</option>)}
+              {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[#1c1819]">{c.name}</option>)}
             </select>
           </div>
         )}

@@ -53,7 +53,7 @@ export default function ReelComments({ reelId, onClose, onCommentAdded }: {
   return (
     <div className="absolute inset-0 z-20 flex flex-col justify-end bg-black/60" onClick={onClose}>
       <div
-        className="max-h-[70vh] rounded-t-[1.75rem] border-t border-white/[.08] bg-[#141018] p-1.5"
+        className="max-h-[70vh] rounded-t-[1.75rem] border-t border-white/[.08] bg-[#1c1819] p-1.5"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex max-h-[70vh] flex-col rounded-t-[1.375rem] border border-white/[.05] bg-black/20 p-4">

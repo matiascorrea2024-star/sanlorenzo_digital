@@ -111,7 +111,7 @@ export default function Header() {
                 </button>
                 {open && (
                   <div className="absolute right-0 top-12 z-50 w-72 rounded-[1.5rem] border border-white/[.06] bg-white/[.03] p-1.5 shadow-2xl backdrop-blur-xl">
-                  <div className="max-h-[80vh] overflow-y-auto rounded-[1.1rem] border border-white/[.05] bg-[#141018] p-2">
+                  <div className="max-h-[80vh] overflow-y-auto rounded-[1.1rem] border border-white/[.05] bg-[#1c1819] p-2">
                     <div className="mb-1 border-b border-white/10 px-3 py-2">
                       <p className="text-xs text-white/50">Conectado como</p>
                       <p className="truncate text-sm font-bold">{user.email}</p>

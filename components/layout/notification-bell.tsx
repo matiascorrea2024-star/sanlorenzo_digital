@@ -74,7 +74,7 @@ export default function NotificationBell() {
         </button>
         {open && (
           <div className="fixed left-4 right-4 top-20 z-[60] sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-96 w-80 rounded-[1.5rem] border border-white/[.06] bg-white/[.03] p-1.5 shadow-2xl backdrop-blur-xl">
-            <div className="rounded-[1.1rem] border border-white/[.05] bg-[#141018] p-4">
+            <div className="rounded-[1.1rem] border border-white/[.05] bg-[#1c1819] p-4">
               <div className="mb-3 flex items-center justify-between">
                 <p className="font-black">Notificaciones</p>
                 {count > 0 && <button onClick={marcarLeidas} className="text-xs font-bold text-orange-400 hover:text-orange-300">Marcar leídas</button>}
@@ -101,7 +101,7 @@ export default function NotificationBell() {
       {/* TOAST FLOTANTE (aparece al instante) */}
       {toast && (
         <button onClick={() => { irA(toast); setToast(null); }}
-          className="fixed bottom-40 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-[1.375rem] border border-orange-400/40 bg-[#141018] p-4 shadow-2xl shadow-orange-500/10 animate-pulse md:bottom-24">
+          className="fixed bottom-40 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-[1.375rem] border border-orange-400/40 bg-[#1c1819] p-4 shadow-2xl shadow-orange-500/10 animate-pulse md:bottom-24">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500/25 to-red-600/15">
             <MessageCircle className="h-4 w-4 text-orange-300" />
           </span>

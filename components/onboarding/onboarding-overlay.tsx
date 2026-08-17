@@ -66,7 +66,7 @@ export default function OnboardingOverlay() {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/70 backdrop-blur-sm sm:items-center">
-      <div className="relative w-full max-w-md rounded-t-3xl border border-white/10 bg-[#141018] p-6 sm:rounded-3xl">
+      <div className="relative w-full max-w-md rounded-t-3xl border border-white/10 bg-[#1c1819] p-6 sm:rounded-3xl">
         <button onClick={finish} aria-label="Cerrar" className="absolute right-4 top-4 rounded-full p-1.5 text-white/50 hover:bg-white/10 hover:text-white">
           <X className="h-5 w-5" />
         </button>

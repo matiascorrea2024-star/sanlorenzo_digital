@@ -110,7 +110,7 @@ export default function NegocioDelMes() {
                 className="w-full bg-transparent text-sm outline-none placeholder:text-white/35" />
             </div>
             {sugerencias.length > 0 && (
-              <div className="absolute left-0 right-0 top-full z-10 mt-1 rounded-xl border border-white/10 bg-[#1a1420] p-1.5 shadow-2xl">
+              <div className="absolute left-0 right-0 top-full z-10 mt-1 rounded-xl border border-white/10 bg-[#1c1819] p-1.5 shadow-2xl">
                 {sugerencias.map((n) => (
                   <button key={n.id} onClick={() => votar(n.id)}
                     className="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-sm font-bold hover:bg-white/10">

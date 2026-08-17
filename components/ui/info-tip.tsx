@@ -29,7 +29,7 @@ export default function InfoTip({ children, label = "Más información" }: { chi
       {open && (
         <span
           role="tooltip"
-          className="absolute left-1/2 top-full z-50 mt-2 w-56 -translate-x-1/2 rounded-xl border border-white/15 bg-[#1a1420] p-3 text-left text-xs font-normal normal-case leading-snug text-white/70 shadow-2xl"
+          className="absolute left-1/2 top-full z-50 mt-2 w-56 -translate-x-1/2 rounded-xl border border-white/15 bg-[#1c1819] p-3 text-left text-xs font-normal normal-case leading-snug text-white/70 shadow-2xl"
         >
           {children}
         </span>

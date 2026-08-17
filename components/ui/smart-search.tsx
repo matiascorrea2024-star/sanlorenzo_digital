@@ -169,7 +169,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
       </form>
 
       {open && (lower || recent.length) && (
-        <div ref={dropRef} className="absolute left-0 right-0 z-40 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#141018] p-3 shadow-2xl">
+        <div ref={dropRef} className="absolute left-0 right-0 z-40 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#1c1819] p-3 shadow-2xl">
           {buscando && (
             <p className="mb-2 flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-orange-300/70">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-orange-400" /> Buscando...

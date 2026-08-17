@@ -27,7 +27,7 @@ export default function CitySwitcher() {
       </button>
       {open && (
         <div className="absolute left-0 top-10 z-50 w-56 rounded-[1.5rem] border border-white/[.06] bg-white/[.03] p-1.5 shadow-2xl backdrop-blur-xl">
-          <div className="rounded-[1.1rem] border border-white/[.05] bg-[#141018] p-2">
+          <div className="rounded-[1.1rem] border border-white/[.05] bg-[#1c1819] p-2">
             <p className="px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-white/35">Cordón industrial</p>
             <div className="max-h-72 overflow-y-auto">
               {ciudades.map((c) => (

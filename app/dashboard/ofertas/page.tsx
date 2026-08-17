@@ -241,7 +241,7 @@ export default function OfertasPage() {
                       <summary className="flex h-full cursor-pointer list-none items-center rounded-xl border border-white/20 px-3 py-2 text-center text-xs font-bold marker:content-none hover:bg-white/5">
                         ⋯ Más
                       </summary>
-                      <div className="absolute right-0 z-10 mt-2 w-44 space-y-1 rounded-xl border border-white/10 bg-[#1a1420] p-2 shadow-2xl">
+                      <div className="absolute right-0 z-10 mt-2 w-44 space-y-1 rounded-xl border border-white/10 bg-[#1c1819] p-2 shadow-2xl">
                         <Link href={`/dashboard/ofertas/${offer.id}/cupones`} className="block rounded-lg px-3 py-2 text-xs font-bold hover:bg-white/10">
                           🎟️ Cupones
                         </Link>

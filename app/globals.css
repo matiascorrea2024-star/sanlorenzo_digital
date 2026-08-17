@@ -449,7 +449,7 @@ body::after {
 }
 
 select { color-scheme: dark; }
-select option { background-color: #17121f; color: #fff; }
+select option { background-color: #1c1819; color: #fff; }
 select option:checked { background-color: #7c2d12; }
 
 body { padding-bottom: 64px; }

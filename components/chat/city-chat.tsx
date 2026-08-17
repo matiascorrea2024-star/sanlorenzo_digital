@@ -149,7 +149,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
         {user ? (
           <div className="relative border-t border-white/10 p-3">
             {sugerencias.length > 0 && (
-              <div className="absolute bottom-full left-3 right-3 mb-1 rounded-xl border border-white/10 bg-[#1a1420] p-1.5 shadow-2xl">
+              <div className="absolute bottom-full left-3 right-3 mb-1 rounded-xl border border-white/10 bg-[#1c1819] p-1.5 shadow-2xl">
                 {sugerencias.map((n) => (
                   <button key={n.slug} onClick={() => elegirMencion(n)}
                     className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs font-bold hover:bg-white/10">
