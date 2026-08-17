@@ -473,20 +473,21 @@ export default function AdminPage() {
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="border-b border-white/5 bg-gradient-to-b from-red-950/20 to-transparent">
-        <div className="mx-auto max-w-6xl px-4 py-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20">
-              <Shield className="h-6 w-6 text-red-400" />
+        <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
+          <p className="mb-3 text-[10px] font-black uppercase tracking-[.4em] text-red-400">Control total</p>
+          <div className="flex items-center gap-4">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20">
+              <Shield className="h-7 w-7 text-red-400" />
             </div>
             <div>
-              <h1 className="text-2xl font-black md:text-3xl" style={{ fontFamily: "var(--font-space)" }}>Panel de administración</h1>
-              <p className="text-sm text-white/50">San Lorenzo Digital · control total de la plataforma</p>
+              <h1 className="text-3xl font-black leading-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Panel de administración</h1>
+              <p className="mt-1 text-sm text-white/50">San Lorenzo Digital · toda la plataforma en un solo lugar</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 py-6">
+      <div className="mx-auto max-w-6xl px-4 py-8">
         {/* Tabs */}
         <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0">
           {TABS.map(t => (
@@ -506,7 +507,7 @@ export default function AdminPage() {
 
         {/* OVERVIEW */}
         {tab === "overview" && (
-          <div className="mt-6 space-y-8">
+          <div className="mt-8 space-y-8">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
               {cards.map(c => (
                 <div key={c.label} className={`rounded-[1.5rem] border border-white/[.06] bg-gradient-to-b ${c.bg} to-transparent p-1 transition hover:border-white/15`}>
@@ -527,11 +528,11 @@ export default function AdminPage() {
                 <span className="text-xs text-white/40">{stats.usersRecent?.length || 0}</span>
               </div>
               {!stats.usersRecent?.length ? (
-                <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center text-sm text-white/40">
+                <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-8 text-center text-sm text-white/40">
                   Todavía no hay usuarios registrados.
                 </div>
               ) : (
-                <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02]">
+                <div className="overflow-x-auto rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)]">
                   <table className="w-full text-sm">
                     <thead className="border-b border-white/10 bg-white/[0.03]">
                       <tr>
@@ -567,7 +568,7 @@ export default function AdminPage() {
 
         {/* NEGOCIOS */}
         {tab === "negocios" && (
-          <div className="mt-6">
+          <div className="mt-8">
             <div className="mb-4 flex items-center justify-between gap-3">
               <h2 className="text-lg font-black">
                 {negociosBusqueda ? "Resultados" : "Todos los negocios"} <span className="text-white/40">({negociosMostrados.length}{negociosBusqueda && negociosMostrados.length >= 200 ? "+" : ""})</span>
@@ -580,16 +581,16 @@ export default function AdminPage() {
               </div>
             </div>
             {!negociosCargados ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center text-sm text-white/40">Cargando...</div>
             ) : negociosMostrados.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                 <Store className="mx-auto h-10 w-10 text-white/20" />
                 <p className="mt-3 text-sm text-white/40">{negociosBusqueda ? "Ningún negocio coincide con esa búsqueda." : "Todavía no hay negocios cargados."}</p>
               </div>
             ) : (
               <div className="space-y-2">
                 {negociosMostrados.map((n) => (
-                  <div key={n.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-3 sm:flex-row sm:items-center">
+                  <div key={n.id} className="flex flex-col gap-2 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-3 sm:flex-row sm:items-center">
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-bold">{n.name}</p>
                       <p className="truncate text-xs capitalize text-white/50">
@@ -635,7 +636,7 @@ export default function AdminPage() {
 
         {/* OFERTAS */}
         {tab === "ofertas" && (
-          <div className="mt-6">
+          <div className="mt-8">
             <div className="mb-4 flex items-center justify-between gap-3">
               <h2 className="text-lg font-black">
                 {ofertasBusqueda ? "Resultados" : "Todas las ofertas"} <span className="text-white/40">({ofertasMostradas.length}{ofertasBusqueda && ofertasMostradas.length >= 200 ? "+" : ""})</span>
@@ -648,16 +649,16 @@ export default function AdminPage() {
               </div>
             </div>
             {!ofertasCargadas ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center text-sm text-white/40">Cargando...</div>
             ) : ofertasMostradas.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                 <Flame className="mx-auto h-10 w-10 text-white/20" />
                 <p className="mt-3 text-sm text-white/40">{ofertasBusqueda ? "Ninguna oferta coincide con esa búsqueda." : "Todavía no hay ofertas publicadas."}</p>
               </div>
             ) : (
               <div className="space-y-2">
                 {ofertasMostradas.map((o) => (
-                  <div key={o.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-3 sm:flex-row sm:items-center">
+                  <div key={o.id} className="flex flex-col gap-2 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-3 sm:flex-row sm:items-center">
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-bold">{o.title}</p>
                       <p className="truncate text-xs text-white/50">
@@ -696,10 +697,10 @@ export default function AdminPage() {
 
         {/* VERIFICACIÓN */}
         {tab === "verificacion" && (
-          <div className="mt-6">
-            <h2 className="mb-4 text-lg font-black">Negocios pendientes de verificación <span className="text-white/40">({pendientes.length})</span></h2>
+          <div className="mt-8">
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Negocios pendientes de verificación <span className="text-white/40">({pendientes.length})</span></h2>
             {pendientes.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                 <CheckCircle2 className="mx-auto h-10 w-10 text-green-400/60" />
                 <p className="mt-3 font-bold text-white/70">Todo verificado</p>
                 <p className="mt-1 text-sm text-white/40">No hay negocios pendientes ahora mismo.</p>
@@ -707,7 +708,7 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-2.5">
                 {pendientes.map(p => (
-                  <div key={p.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:flex-row sm:items-center">
+                  <div key={p.id} className="flex flex-col gap-3 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-4 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-3">
                       <Avatar name={p.name} size={44} />
                       <div className="min-w-0 flex-1">
@@ -734,17 +735,17 @@ export default function AdminPage() {
 
         {/* MODERACIÓN */}
         {tab === "moderacion" && (
-          <div className="mt-6">
-            <h2 className="mb-4 text-lg font-black">Últimas reseñas <span className="text-white/40">({resenas.length})</span></h2>
+          <div className="mt-8">
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Últimas reseñas <span className="text-white/40">({resenas.length})</span></h2>
             {resenas.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                 <Star className="mx-auto h-10 w-10 text-white/20" />
                 <p className="mt-3 text-sm text-white/40">Aún no hay reseñas para moderar.</p>
               </div>
             ) : (
               <div className="space-y-2.5">
                 {resenas.map(r => (
-                  <div key={r.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:flex-row sm:items-center">
+                  <div key={r.id} className="flex flex-col gap-3 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-4 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-3">
                       <Avatar name={r.reviewer_name} size={40} />
                       <div className="min-w-0 flex-1">
@@ -765,13 +766,13 @@ export default function AdminPage() {
 
         {/* SUSCRIPCIONES */}
         {tab === "suscripciones" && (
-          <div className="mt-6 space-y-8">
+          <div className="mt-8 space-y-8">
             <div>
-              <h2 className="mb-4 text-lg font-black">
+              <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>
                 Pagos pendientes de revisión <span className="text-white/40">({pendientesPago})</span>
               </h2>
               {pendientesPago === 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+                <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                   <CreditCard className="mx-auto h-10 w-10 text-white/20" />
                   <p className="mt-3 text-sm text-white/40">No hay comprobantes esperando revisión.</p>
                 </div>
@@ -805,16 +806,16 @@ export default function AdminPage() {
             </div>
 
             <div>
-              <h2 className="mb-4 text-lg font-black">Historial <span className="text-white/40">({subs.length})</span></h2>
+              <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Historial <span className="text-white/40">({subs.length})</span></h2>
               {subs.length === 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+                <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                   <CreditCard className="mx-auto h-10 w-10 text-white/20" />
                   <p className="mt-3 text-sm text-white/40">Aún no hay solicitudes de plan pago.</p>
                 </div>
               ) : (
                 <div className="space-y-2.5">
                   {subs.map(s => (
-                    <div key={s.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                    <div key={s.id} className="flex items-center gap-3 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-4">
                       <CreditCard className="h-6 w-6 shrink-0 text-orange-400" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-bold">{(s as any).businesses?.name || "Negocio"}</p>
@@ -835,8 +836,8 @@ export default function AdminPage() {
             negocio lo reclama solo desde /dashboard/planes mientras haya
             cupo -- no hay que dárselo a mano uno por uno. */}
         {tab === "campanas" && (
-          <div className="mt-6">
-            <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+          <div className="mt-8">
+            <div className="mb-6 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-5">
               <h2 className="mb-1 text-lg font-black flex items-center gap-2"><Gift className="h-5 w-5 text-orange-400" /> Nueva campaña</h2>
               <p className="mb-4 text-xs text-white/50">Ej: &quot;Fundadores&quot; -- 3 meses de PRO gratis para los primeros 20 negocios. La cancelás cuando quieras sin borrar el historial.</p>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -859,11 +860,11 @@ export default function AdminPage() {
               </button>
             </div>
 
-            <h2 className="mb-4 text-lg font-black">Campañas <span className="text-white/40">({campanas.length})</span></h2>
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Campañas <span className="text-white/40">({campanas.length})</span></h2>
             {!campanasCargadas ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center text-sm text-white/40">Cargando...</div>
             ) : campanas.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                 <Gift className="mx-auto h-10 w-10 text-white/20" />
                 <p className="mt-3 text-sm text-white/40">Todavía no creaste ninguna campaña.</p>
               </div>
@@ -873,7 +874,7 @@ export default function AdminPage() {
                   const usados = c.campaign_claims?.[0]?.count ?? 0;
                   const agotada = c.max_cupos != null && usados >= c.max_cupos;
                   return (
-                    <div key={c.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:flex-row sm:items-center">
+                    <div key={c.id} className="flex flex-col gap-2 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-4 sm:flex-row sm:items-center">
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-bold">{c.title}</p>
                         <p className="truncate text-xs text-white/50">
@@ -896,10 +897,10 @@ export default function AdminPage() {
 
         {/* REPORTES */}
         {tab === "reportes" && (
-          <div className="mt-6">
-            <h2 className="mb-4 text-lg font-black">Reportes de la comunidad <span className="text-white/40">({reportes.length})</span></h2>
+          <div className="mt-8">
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Reportes de la comunidad <span className="text-white/40">({reportes.length})</span></h2>
             {reportes.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                 <Flag className="mx-auto h-10 w-10 text-white/20" />
                 <p className="mt-3 text-sm text-white/40">No hay reportes pendientes. La comunidad confía en el directorio ✅</p>
               </div>
@@ -930,12 +931,12 @@ export default function AdminPage() {
 
         {/* EN VIVO */}
         {tab === "en-vivo" && (
-          <div className="mt-6">
-            <h2 className="mb-4 text-lg font-black">Transmisiones <span className="text-white/40">({vivos.length})</span></h2>
+          <div className="mt-8">
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Transmisiones <span className="text-white/40">({vivos.length})</span></h2>
             {!vivosCargados ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center text-sm text-white/40">Cargando...</div>
             ) : vivos.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                 <Radio className="mx-auto h-10 w-10 text-white/20" />
                 <p className="mt-3 text-sm text-white/40">Todavía no hubo transmisiones en la plataforma.</p>
               </div>
@@ -951,7 +952,7 @@ export default function AdminPage() {
                   const e = ESTADO[v.status] || ESTADO.ended;
                   const abierto = vivoSeleccionado === v.id;
                   return (
-                    <div key={v.id} className="rounded-2xl border border-white/10 bg-white/[0.02]">
+                    <div key={v.id} className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)]">
                       <div className="flex flex-col gap-2 p-3 sm:flex-row sm:items-center">
                         <div className="min-w-0 flex-1">
                           <p className="truncate font-bold">{v.title} {v.blocked && <span className="ml-1 text-[10px] font-black text-red-400">BLOQUEADO</span>}</p>
@@ -1000,13 +1001,13 @@ export default function AdminPage() {
 
         {/* CHAT */}
         {tab === "chat" && (
-          <div className="mt-6">
-            <h2 className="mb-4 text-lg font-black">Mensajes reportados del chat <span className="text-white/40">({chatMensajes.length})</span></h2>
+          <div className="mt-8">
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Mensajes reportados del chat <span className="text-white/40">({chatMensajes.length})</span></h2>
             <p className="mb-4 text-xs text-white/40">Solo se listan acá los que llegaron a 3+ reportes y se auto-ocultaron. El chat en general no necesita revisión manual.</p>
             {!chatCargados ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center text-sm text-white/40">Cargando...</div>
             ) : chatMensajes.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                 <MessageCircle className="mx-auto h-10 w-10 text-white/20" />
                 <p className="mt-3 text-sm text-white/40">No hay mensajes reportados pendientes de revisión.</p>
               </div>
@@ -1038,7 +1039,7 @@ export default function AdminPage() {
 
         {/* CARGAR BULK */}
         {tab === "cargar-bulk" && (
-          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
+          <div className="mt-8 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Upload className="h-8 w-8 text-orange-400" />
               <p className="mt-3 text-lg font-black">Cargar masiva de negocios reales</p>
@@ -1055,7 +1056,7 @@ export default function AdminPage() {
 
         {/* BLOG */}
         {tab === "blog" && (
-          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
+          <div className="mt-8 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Newspaper className="h-8 w-8 text-orange-400" />
               <p className="mt-3 text-lg font-black">Blog / Novedades</p>
@@ -1072,8 +1073,8 @@ export default function AdminPage() {
 
         {/* CIUDADES */}
         {tab === "ciudades" && (
-          <div className="mt-6">
-            <h2 className="mb-4 text-lg font-black">Ciudades de la plataforma <span className="text-white/40">({ciudades.length})</span></h2>
+          <div className="mt-8">
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Ciudades de la plataforma <span className="text-white/40">({ciudades.length})</span></h2>
 
             <div className="mb-5 rounded-2xl border border-orange-400/20 bg-orange-500/[0.04] p-4">
               <p className="mb-2 text-xs font-black uppercase tracking-wider text-orange-300">+ Agregar ciudad nueva</p>
@@ -1093,14 +1094,14 @@ export default function AdminPage() {
             </div>
 
             {ciudades.length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
                 <MapPin className="mx-auto h-10 w-10 text-white/20" />
                 <p className="mt-3 text-sm text-white/40">Todavía no hay ciudades cargadas.</p>
               </div>
             ) : (
               <div className="space-y-2.5">
                 {ciudades.map(c => (
-                  <div key={c.id} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                  <div key={c.id} className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-4">
                     <div className="flex items-center gap-3">
                       <MapPin className="h-6 w-6 shrink-0 text-sky-400" />
                       <div className="min-w-0 flex-1">
