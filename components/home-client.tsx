@@ -155,28 +155,31 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
 
       {/* ===== HOY EN SAN LORENZO ===== */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
-        <SectionTitle
-          eyebrow="Hoy en San Lorenzo"
-          title="Ofertas activas"
-          subtitle={
-            ofertas.length > 0
-              ? [
+        <div className="mb-10 flex flex-col items-baseline justify-between gap-4 md:flex-row md:gap-6">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent)]">Hoy en San Lorenzo</p>
+            <h2 className="mt-2 text-5xl font-black uppercase leading-[0.9] tracking-tighter sm:text-6xl md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
+              OFERTAS{" "}
+              <span style={{ WebkitTextStroke: "1.5px rgba(255,247,237,.5)", color: "transparent" }}>ACTIVAS</span>
+            </h2>
+            {ofertas.length > 0 && (
+              <p className="mt-2 text-sm text-[var(--muted)]">
+                {[
                   `${ofertas.length} ${ofertas.length === 1 ? "oferta activa" : "ofertas activas"}`,
                   nuevasHoy > 0 && `${nuevasHoy} ${nuevasHoy === 1 ? "nueva" : "nuevas"} hoy`,
                   terminanHoy > 0 && `${terminanHoy} ${terminanHoy === 1 ? "termina" : "terminan"} hoy`,
                 ]
                   .filter(Boolean)
-                  .join(" · ")
-              : undefined
-          }
-          action={
-            ofertas.length > 0 ? (
-              <Link href="/promociones" className="flex items-center gap-1 text-sm text-[var(--muted)] hover:text-white">
-                Ver todas <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            ) : undefined
-          }
-        />
+                  .join(" · ")}
+              </p>
+            )}
+          </div>
+          {ofertas.length > 0 && (
+            <Link href="/promociones" className="shrink-0 border-b border-orange-500/30 pb-1 text-xs font-black uppercase tracking-[.3em] text-orange-500 hover:text-orange-400">
+              Ver todas
+            </Link>
+          )}
+        </div>
         {ofertas.length > 0 ? (
           <div
             role="region"

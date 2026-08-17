@@ -83,31 +83,19 @@ export default function NegocioDelMes() {
   const nombreMes = new Date().toLocaleDateString("es-AR", { month: "long" });
 
   return (
-    <section className="mx-auto max-w-4xl px-4 py-10">
-      <div className="rounded-[1.75rem] border border-yellow-400/25 bg-gradient-to-br from-yellow-500/[.08] to-orange-500/[.03] p-1.5">
-        <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-          <div className="mb-4 flex items-center gap-2">
-            <Crown className="h-5 w-5 text-yellow-400" />
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-yellow-300">Negocio del mes de {nombreMes}</p>
-          </div>
+    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
+      <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+        <div className="lg:col-span-5">
+          <p className="text-[10px] font-black uppercase tracking-[.35em] text-yellow-400">Reconocimiento del mes</p>
+          <h2 className="mt-2 text-5xl font-black uppercase leading-[0.9] tracking-tighter sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
+            NEGOCIO{" "}
+            <span style={{ WebkitTextStroke: "1.5px rgba(255,247,237,.5)", color: "transparent" }}>DEL MES</span>
+          </h2>
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-[var(--muted)]">
+            El reconocimiento de los vecinos a los negocios de San Lorenzo -- se vota una vez por mes, sin trampa.
+          </p>
 
-          {top.length === 0 ? (
-            <p className="text-sm text-white/50">Todavía no hay votos este mes. ¡Sé el primero en votar a tu negocio favorito!</p>
-          ) : (
-            <div className="space-y-2">
-              {top.map((f, i) => (
-                <Link key={f.business_id} href={`/negocio/${f.slug}`}
-                  className="group flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-white/[.02] p-2.5 transition hover:border-yellow-400/30">
-                  <span className="w-5 shrink-0 text-center text-sm font-black text-white/40">{i + 1}</span>
-                  <RankedAvatar slug={f.slug} name={f.name} categoria={f.category} photoUrl={f.logo_url} size={36} />
-                  <span className="min-w-0 flex-1 truncate text-sm font-bold">{f.name}</span>
-                  <span className="shrink-0 text-xs font-black text-yellow-300">{f.votos} 🗳️</span>
-                </Link>
-              ))}
-            </div>
-          )}
-
-          <div className="relative mt-4">
+          <div className="relative mt-6 max-w-sm">
             <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2.5">
               <Search className="h-4 w-4 shrink-0 text-white/40" />
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscá tu negocio favorito para votarlo..."
@@ -125,7 +113,33 @@ export default function NegocioDelMes() {
               </div>
             )}
           </div>
-          {miVoto && <p className="mt-2 text-center text-xs text-white/40">Votás una vez por mes -- podés cambiar tu voto cuando quieras.</p>}
+          {miVoto && <p className="mt-2 max-w-sm text-xs text-white/40">Votás una vez por mes -- podés cambiar tu voto cuando quieras.</p>}
+        </div>
+
+        <div className="lg:col-span-7">
+          <div className="rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[calc(2.5rem-0.375rem)] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
+              <div className="mb-4 flex items-center gap-2">
+                <Crown className="h-5 w-5 text-yellow-400" />
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-yellow-300">{nombreMes}</p>
+              </div>
+              {top.length === 0 ? (
+                <p className="text-sm text-white/50">Todavía no hay votos este mes. ¡Sé el primero en votar a tu negocio favorito!</p>
+              ) : (
+                <div className="space-y-2">
+                  {top.map((f, i) => (
+                    <Link key={f.business_id} href={`/negocio/${f.slug}`}
+                      className="group flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-white/[.02] p-3 transition hover:border-yellow-400/30">
+                      <span className={`w-6 shrink-0 text-center text-lg font-black ${i === 0 ? "text-yellow-400" : "text-white/40"}`} style={{ fontFamily: "var(--font-ticket)" }}>{i + 1}</span>
+                      <RankedAvatar slug={f.slug} name={f.name} categoria={f.category} photoUrl={f.logo_url} size={40} />
+                      <span className="min-w-0 flex-1 truncate text-sm font-bold">{f.name}</span>
+                      <span className="shrink-0 text-xs font-black text-yellow-300">{f.votos} 🗳️</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </section>

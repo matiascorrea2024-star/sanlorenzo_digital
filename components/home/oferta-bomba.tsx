@@ -56,27 +56,41 @@ export default function OfertaBomba() {
 
   const desbloqueado = nivel !== null && nivel >= 50;
 
+  if (!desbloqueado) {
+    // Panel bloqueado -- calco literal del mockup aprobado: candado
+    // grande centrado, título editorial, CTA en píldora degradé.
+    return (
+      <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
+        <div className="relative overflow-hidden rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="relative flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-[calc(2.5rem-0.375rem)] border border-white/[.05] bg-black/20 px-8 py-16 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:px-20">
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-600/10" />
+            <Lock className="relative z-10 mb-8 h-16 w-16 text-white/10" strokeWidth={1.5} />
+            <h2 className="relative z-10 text-4xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Oferta Bomba</h2>
+            <p className="relative z-10 mx-auto mt-4 max-w-xs text-sm text-white/40">
+              Solo disponible para vecinos nivel 🚶 Explorador o más -- seguí negocios, dejá reseñas o compartí ofertas para desbloquearla.
+            </p>
+            <Link href="/perfil"
+              className="relative z-10 mt-8 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-10 py-3.5 text-xs font-black uppercase tracking-widest text-white transition hover:opacity-90">
+              Ver mi progreso
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
-      <div className="relative overflow-hidden rounded-3xl border border-red-400/40 bg-gradient-to-br from-red-950/60 via-[#1a0a0a] to-orange-950/40 p-6 sm:p-8">
-        <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-red-500/20 blur-3xl animate-pulse" />
-        <div className="relative flex items-center gap-2">
-          <Zap className="h-5 w-5 text-red-400" />
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">Oferta bomba · termina 20hs</p>
-        </div>
-        <h2 className="relative mt-2 text-2xl font-black sm:text-3xl">Solo por hoy, solo por 2 horas</h2>
-
-        {!desbloqueado ? (
-          <div className="relative mt-5 flex items-center gap-4 rounded-2xl border border-white/10 bg-black/30 p-6">
-            <Lock className="h-8 w-8 shrink-0 text-white/40" />
-            <div>
-              <p className="font-bold">Exclusivo para vecinos nivel 🚶 Explorador o más</p>
-              <p className="mt-1 text-sm text-white/50">Seguí negocios, dejá reseñas o compartí ofertas para desbloquearla.</p>
-              <Link href="/perfil" className="mt-2 inline-block text-sm font-bold text-orange-400 hover:text-orange-300">Ver mi progreso →</Link>
-            </div>
+      <div className="relative overflow-hidden rounded-[2.5rem] border border-red-400/25 bg-white/[.02] p-1.5">
+        <div className="relative rounded-[calc(2.5rem-0.375rem)] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
+          <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-red-500/20 blur-3xl animate-pulse" />
+          <div className="relative flex items-center gap-2">
+            <Zap className="h-5 w-5 text-red-400" />
+            <p className="text-[10px] font-black uppercase tracking-[.3em] text-red-300">Oferta bomba · termina 20hs</p>
           </div>
-        ) : (
-          <div className="relative mt-5 grid gap-3 sm:grid-cols-3">
+          <h2 className="relative mt-2 text-3xl font-bold sm:text-4xl" style={{ fontFamily: "var(--font-space)" }}>Solo por hoy, solo por 2 horas</h2>
+
+          <div className="relative mt-6 grid gap-3 sm:grid-cols-3">
             {ofertas.map((o: any) => (
               <Link key={o.id} href={`/oferta/${o.id}`} className="group rounded-2xl border border-white/10 bg-black/30 p-4 transition hover:border-red-400/50">
                 <p className="text-xs text-white/50">{o.business_name}</p>
@@ -90,7 +104,7 @@ export default function OfertaBomba() {
               </Link>
             ))}
           </div>
-        )}
+        </div>
       </div>
     </section>
   );

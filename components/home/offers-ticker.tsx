@@ -61,17 +61,17 @@ export default function OffersTicker() {
   const loop = reduceMotion ? items : [...items, ...items, ...items];
 
   return (
-    <div className="ticker-wrap relative overflow-hidden border-y border-orange-400/20 bg-gradient-to-r from-orange-500/10 via-red-600/10 to-orange-500/10 py-2.5">
-      <div className="ticker flex gap-10 whitespace-nowrap px-4">
+    <div className="ticker-wrap relative overflow-hidden border-y border-white/[.06] bg-white/[.01] py-6 sm:py-8">
+      <div className="ticker flex gap-16 whitespace-nowrap px-4 sm:gap-20">
         {loop.map((p, i) => (
           <Link
             key={p.id + "-" + i}
             href={p.href}
-            className="flex items-center gap-2 text-xs font-bold text-white/80 transition hover:text-orange-300"
+            className="flex items-center gap-4 text-sm font-black uppercase tracking-[0.3em] text-white/25 transition hover:text-orange-500"
           >
-            <span className="animate-pulse">{p.emoji}</span>
+            <span className="text-orange-500">{String((i % items.length) + 1).padStart(2, "0")}</span>
             <span>{p.label}</span>
-            <span className="text-white/40">· {p.sub}</span>
+            <span>· {p.sub}</span>
           </Link>
         ))}
       </div>
