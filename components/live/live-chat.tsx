@@ -2,12 +2,15 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 import { Send, Trash2 } from "lucide-react";
 
 type Props = { liveStreamId: string; puedeModerar?: boolean };
 
 export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) {
   const { user } = useAuth();
+  const { show } = useToast();
   const [mensajes, setMensajes] = useState<any[]>([]);
   const [texto, setTexto] = useState("");
   const [nombre, setNombre] = useState("Vecino");
@@ -39,10 +42,11 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
   const enviar = async () => {
     if (!texto.trim() || !user) return;
     const body = texto.trim().slice(0, 300);
-    setTexto("");
-    await supabase().from("live_stream_messages").insert({
+    const { error } = await supabase().from("live_stream_messages").insert({
       live_stream_id: liveStreamId, user_id: user.id, sender_name: nombre, body,
     });
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo enviar el mensaje.")}`, "error"); return; }
+    setTexto("");
   };
 
   const ocultar = async (id: string) => {
