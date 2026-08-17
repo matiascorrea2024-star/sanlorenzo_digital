@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Crown, Search } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import RankedAvatar from "@/components/ui/ranked-avatar";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 type Fila = { business_id: string; name: string; slug: string; category: string; logo_url: string | null; votos: number };
 
@@ -15,6 +17,7 @@ function mesActual() {
 
 export default function NegocioDelMes() {
   const router = useRouter();
+  const { show } = useToast();
   const [top, setTop] = useState<Fila[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [miVoto, setMiVoto] = useState<string | null>(null);
@@ -66,7 +69,8 @@ export default function NegocioDelMes() {
 
   const votar = async (businessId: string) => {
     if (!userId) { router.push("/login"); return; }
-    await supabase().from("business_month_votes").upsert({ user_id: userId, business_id: businessId, month: mes }, { onConflict: "user_id,month" });
+    const { error } = await supabase().from("business_month_votes").upsert({ user_id: userId, business_id: businessId, month: mes }, { onConflict: "user_id,month" });
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo registrar tu voto.")}`, "error"); return; }
     setMiVoto(businessId);
     setQ("");
     setSugerencias([]);

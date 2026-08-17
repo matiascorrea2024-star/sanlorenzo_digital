@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import { Bell, Share2, Store, Check, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { subscribeToPush } from "@/lib/push";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 type Biz = { id: string; name: string; category: string; portada_url?: string; logo_url?: string };
 
 export default function OnboardingOverlay() {
+  const { show: toast } = useToast();
   const [user, setUser] = useState<any>(null);
   const [show, setShow] = useState(false);
   const [step, setStep] = useState(1);
@@ -35,10 +38,12 @@ export default function OnboardingOverlay() {
   const toggleFollow = async (bizId: string) => {
     const sb = supabase();
     if (followed.has(bizId)) {
-      await sb.from("followers").delete().eq("user_id", user.id).eq("business_id", bizId);
+      const { error } = await sb.from("followers").delete().eq("user_id", user.id).eq("business_id", bizId);
+      if (error) { toast(`❌ ${friendlyError(error, "No se pudo dejar de seguir.")}`, "error"); return; }
       setFollowed((prev) => { const n = new Set(prev); n.delete(bizId); return n; });
     } else {
-      await sb.from("followers").insert({ user_id: user.id, business_id: bizId });
+      const { error } = await sb.from("followers").insert({ user_id: user.id, business_id: bizId });
+      if (error) { toast(`❌ ${friendlyError(error, "No se pudo seguir el negocio.")}`, "error"); return; }
       setFollowed((prev) => new Set(prev).add(bizId));
     }
   };
