@@ -11,6 +11,10 @@ import HowItWorks from "@/components/ui/how-it-works";
 
 const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
+// Tope duro para que un negocio chico no se comprometa a una cantidad
+// de canjes que después no puede cumplir -- mismo error que hundió
+// muchos negocios chicos con Groupon.
+const META_PARTICIPANTES_MAX = 500;
 
 export default function NuevaOferta() {
   const router = useRouter();
@@ -92,6 +96,7 @@ export default function NuevaOferta() {
     if (expires > maxFechaStr) { setError(`La oferta puede durar hasta ${OFERTA_DURACION_MAX_DIAS} días. Elegí una fecha más cercana.`); return; }
     if (priceBefore && priceOffer && Number(priceOffer) >= Number(priceBefore)) { setError("El precio de oferta tiene que ser menor al precio anterior."); return; }
     if (esGrupal && (!Number(metaParticipantes) || Number(metaParticipantes) < 2)) { setError("La oferta grupal necesita un mínimo de al menos 2 personas."); return; }
+    if (esGrupal && Number(metaParticipantes) > META_PARTICIPANTES_MAX) { setError(`El cupo de una oferta grupal es de hasta ${META_PARTICIPANTES_MAX} personas -- no te comprometas a más de lo que podés cumplir.`); return; }
 
     if (limite) {
       if (!puedePublicarOferta(limite.plan, limite.activas)) {
@@ -235,8 +240,20 @@ export default function NuevaOferta() {
             </label>
             {esGrupal && (
               <div className="mt-3">
-                <span className={lbl}>Mínimo de personas para activarse *</span>
-                <input className={inp} type="number" min={2} value={metaParticipantes} onChange={(e) => setMetaParticipantes(e.target.value)} placeholder="10" />
+                <span className={lbl}>Mínimo de personas para activarse * <span className="normal-case font-normal text-white/30">(máx. {META_PARTICIPANTES_MAX})</span></span>
+                <input className={inp} type="number" min={2} max={META_PARTICIPANTES_MAX} value={metaParticipantes} onChange={(e) => setMetaParticipantes(e.target.value)} placeholder="10" />
+                {/* Lección de Groupon: negocios que no calcularon cuánto
+                    perdían si TODOS los cupones se canjeaban. Mostramos el
+                    peor caso con los números que el comercio ya cargó, para
+                    que decida con esa cuenta hecha, no después de activarse. */}
+                {Number(metaParticipantes) >= 2 && Number(priceOffer) > 0 && (
+                  <p className="mt-2 rounded-lg bg-black/20 px-3 py-2 text-xs text-white/60">
+                    ⚠️ Peor caso: si se llena el cupo, vas a entregar <strong className="text-white">{metaParticipantes} unidades</strong> a ${Number(priceOffer).toLocaleString("es-AR")} c/u
+                    {Number(priceBefore) > Number(priceOffer) && (
+                      <> -- resignás ${((Number(priceBefore) - Number(priceOffer)) * Number(metaParticipantes)).toLocaleString("es-AR")} respecto al precio de lista</>
+                    )}. Asegurate de tener stock/capacidad real para eso antes de publicar.
+                  </p>
+                )}
               </div>
             )}
           </div>
