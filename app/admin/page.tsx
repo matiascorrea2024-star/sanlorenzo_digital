@@ -45,6 +45,8 @@ export default function AdminPage() {
   const [creandoCampana, setCreandoCampana] = useState(false);
   const [vivos, setVivos] = useState<any[]>([]);
   const [vivosCargados, setVivosCargados] = useState(false);
+  const [chatMensajes, setChatMensajes] = useState<any[]>([]);
+  const [chatCargados, setChatCargados] = useState(false);
   const [vivoSeleccionado, setVivoSeleccionado] = useState<string | null>(null);
 
   useEffect(() => {
@@ -132,7 +134,18 @@ export default function AdminPage() {
         setVivosCargados(true);
       })();
     }
-  }, [tab, negociosCargados, ofertasCargadas, campanasCargadas, vivosCargados]);
+    // Solo los mensajes reportados/auto-ocultados (hidden=true) -- el
+    // chat en general funciona solo, esto es puntualmente lo que
+    // necesita revisión humana.
+    if (tab === "chat" && !chatCargados) {
+      (async () => {
+        const { data } = await supabase().from("city_chat_messages")
+          .select("*, locations(name)").eq("hidden", true).order("created_at", { ascending: false }).limit(200);
+        setChatMensajes(data || []);
+        setChatCargados(true);
+      })();
+    }
+  }, [tab, negociosCargados, ofertasCargadas, campanasCargadas, vivosCargados, chatCargados]);
 
   // El navegador manda las cookies de sesión de Supabase automáticamente
   // (mismo origen); el servidor las lee vía lib/supabase-server.ts, igual
@@ -294,6 +307,21 @@ export default function AdminPage() {
     } catch (e: any) { alert(e.message); }
   };
 
+  const restaurarMensajeChat = async (id: string) => {
+    try {
+      await authedFetch("/api/admin/chat", "PATCH", { id });
+      setChatMensajes(prev => prev.filter(m => m.id !== id));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const borrarMensajeChat = async (id: string) => {
+    if (!confirm("¿Eliminar este mensaje definitivamente?")) return;
+    try {
+      await authedFetch("/api/admin/chat", "DELETE", { id });
+      setChatMensajes(prev => prev.filter(m => m.id !== id));
+    } catch (e: any) { alert(e.message); }
+  };
+
   const cambiarPlan = async (id: string, plan: string) => {
     try {
       await authedFetch("/api/admin/businesses", "PATCH", { id, plan });
@@ -363,6 +391,7 @@ export default function AdminPage() {
     { k: "verificacion", l: "Verificación", icon: Shield, count: pendientes.length },
     { k: "moderacion", l: "Moderación", icon: Star, count: 0 },
     { k: "reportes", l: "Reportes", icon: Flag, count: reportes.length },
+    { k: "chat", l: "Chat", icon: MessageCircle, count: chatCargados ? chatMensajes.length : 0 },
     { k: "en-vivo", l: "En Vivo", icon: Radio, count: vivos.filter(v => v.status === "live").length },
     { k: "suscripciones", l: "Suscripciones", icon: CreditCard, count: pendientesPago },
     { k: "campanas", l: "Campañas", icon: Gift, count: 0 },
@@ -897,6 +926,44 @@ export default function AdminPage() {
                     </div>
                   );
                 })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* CHAT */}
+        {tab === "chat" && (
+          <div className="mt-6">
+            <h2 className="mb-4 text-lg font-black">Mensajes reportados del chat <span className="text-white/40">({chatMensajes.length})</span></h2>
+            <p className="mb-4 text-xs text-white/40">Solo se listan acá los que llegaron a 3+ reportes y se auto-ocultaron. El chat en general no necesita revisión manual.</p>
+            {!chatCargados ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">Cargando...</div>
+            ) : chatMensajes.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center">
+                <MessageCircle className="mx-auto h-10 w-10 text-white/20" />
+                <p className="mt-3 text-sm text-white/40">No hay mensajes reportados pendientes de revisión.</p>
+              </div>
+            ) : (
+              <div className="space-y-2.5">
+                {chatMensajes.map((m) => (
+                  <div key={m.id} className="flex flex-col gap-3 rounded-2xl border border-red-400/20 bg-red-500/[0.03] p-4 sm:flex-row sm:items-center">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs text-white/40">{m.locations?.name} · {m.reports_count} reporte{m.reports_count === 1 ? "" : "s"}</p>
+                      <p className="font-bold">{m.sender_name}</p>
+                      <p className="text-sm text-white/70">{m.body}</p>
+                    </div>
+                    <div className="flex shrink-0 gap-1.5">
+                      <button onClick={() => restaurarMensajeChat(m.id)}
+                        className="rounded-lg bg-green-500/15 px-3 py-1.5 text-xs font-black text-green-300 hover:bg-green-500/25">
+                        Restaurar
+                      </button>
+                      <button onClick={() => borrarMensajeChat(m.id)}
+                        className="rounded-lg bg-red-500/15 px-3 py-1.5 text-xs font-black text-red-300 hover:bg-red-500/25">
+                        Eliminar
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
