@@ -22,10 +22,14 @@ export default function TipRotativo() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6">
-      <div className="flex items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[.03] px-4 py-2.5 text-xs text-white/60">
-        <Lightbulb className="h-4 w-4 shrink-0 text-orange-400" />
-        <span className="font-bold text-white/80">¿Sabías que?</span>
-        <span className="truncate">{TIPS[i]}</span>
+      {/* "truncate" cortaba la frase con "..." apenas no entraba en una
+          sola línea -- en mobile, con el ícono + "¿Sabías que?" ya
+          ocupando espacio, casi ningún tip completaba. Ahora se permite
+          que baje a una segunda línea en vez de recortar el texto. */}
+      <div className="flex items-start gap-2.5 rounded-2xl border border-white/10 bg-white/[.03] px-4 py-2.5 text-xs text-white/60 sm:items-center">
+        <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-orange-400 sm:mt-0" />
+        <span className="shrink-0 font-bold text-white/80">¿Sabías que?</span>
+        <span>{TIPS[i]}</span>
       </div>
     </div>
   );
