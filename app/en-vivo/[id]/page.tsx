@@ -50,52 +50,52 @@ export default function VerEnVivo() {
     return () => clearInterval(t);
   }, [cargar]);
 
-  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
+  if (loading) return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Cargando...</main>;
   if (!stream || !negocio) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] flex flex-col items-center justify-center gap-3 text-white">
-        <p className="text-white/60">Esta transmisión no está disponible.</p>
+      <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center justify-center gap-3 text-[var(--text)]">
+        <p className="text-[var(--muted)]">Esta transmisión no está disponible.</p>
         <Link href="/en-vivo" className="text-orange-400">← Ver otras transmisiones</Link>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-6xl px-4 py-6">
         <button onClick={() => router.back()} className="mb-4 text-sm text-orange-400"><ArrowLeft className="mr-1 inline h-4 w-4" />Volver</button>
 
         <div className="grid gap-4 lg:grid-cols-3">
           <div className="lg:col-span-2">
             {stream.status === "live" ? (
-              token ? <ViewerStage token={token.token} url={token.url} /> : <div className="flex aspect-video items-center justify-center rounded-2xl border border-white/10 bg-black text-white/40">Conectando...</div>
+              token ? <ViewerStage token={token.token} url={token.url} /> : <div className="flex aspect-video items-center justify-center rounded-2xl border border-[var(--line)] bg-black text-[var(--muted2)]">Conectando...</div>
             ) : stream.status === "scheduled" ? (
-              <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-                <div className="flex aspect-video flex-col items-center justify-center gap-2 rounded-[1.375rem] border border-white/[.05] bg-black/20 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+                <div className="flex aspect-video flex-col items-center justify-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <p className="font-bold">Todavía no empezó</p>
-                  {stream.scheduled_at && <p className="text-sm text-white/50">Programado para {new Date(stream.scheduled_at).toLocaleString("es-AR", { weekday: "long", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>}
+                  {stream.scheduled_at && <p className="text-sm text-[var(--muted)]">Programado para {new Date(stream.scheduled_at).toLocaleString("es-AR", { weekday: "long", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>}
                 </div>
               </div>
             ) : (
-              <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-                <div className="flex aspect-video items-center justify-center rounded-[1.375rem] border border-white/[.05] bg-black/20 text-white/40 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">Esta transmisión ya terminó.</div>
+              <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+                <div className="flex aspect-video items-center justify-center rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] text-[var(--muted2)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">Esta transmisión ya terminó.</div>
               </div>
             )}
 
-            <div className="mt-4 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="flex flex-wrap items-start justify-between gap-3 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="mt-4 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="flex flex-wrap items-start justify-between gap-3 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <div className="min-w-0 flex-1">
                   <h1 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>{stream.title}</h1>
-                  <Link href={`/negocio/${negocio.slug}`} className="mt-1 flex items-center gap-1.5 text-sm text-white/60 hover:text-orange-300">
+                  <Link href={`/negocio/${negocio.slug}`} className="mt-1 flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-orange-300">
                     <Store className="h-3.5 w-3.5" /> {negocio.name}
                   </Link>
-                  {stream.description && <p className="mt-2 text-sm text-white/70">{stream.description}</p>}
+                  {stream.description && <p className="mt-2 text-sm text-[var(--text)]/70">{stream.description}</p>}
                 </div>
                 <div className="flex shrink-0 gap-2">
                   <FollowButton businessId={negocio.id} />
                   {negocio.address && (
                     <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(negocio.address)}`} target="_blank" rel="noopener noreferrer"
-                      className="rounded-full border border-white/15 p-2 hover:bg-white/10"><MapPin className="h-4 w-4" /></a>
+                      className="rounded-full border border-[var(--line-strong)] p-2 hover:bg-[var(--ov-10)]"><MapPin className="h-4 w-4" /></a>
                   )}
                 </div>
               </div>
@@ -110,8 +110,8 @@ export default function VerEnVivo() {
                     const o = it.offers;
                     if (!p && !o) return null;
                     return (
-                      <div key={it.id} className="rounded-[1.25rem] border border-white/[.06] bg-white/[.02] p-1.5">
-                        <div className="flex items-center gap-3 rounded-[.9rem] border border-white/[.05] bg-black/10 p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                      <div key={it.id} className="rounded-[1.25rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+                        <div className="flex items-center gap-3 rounded-[.9rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-3 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                           {(p?.images?.[0]) && <img src={p.images[0]} alt="" className="h-14 w-14 rounded-lg object-cover" />}
                           <div className="min-w-0 flex-1">
                             <p className="truncate text-sm font-bold">{p?.name || o?.title}</p>

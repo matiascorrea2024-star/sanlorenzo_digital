@@ -48,7 +48,7 @@ export default function OfertaBomba() {
   if (loading) {
     return (
       <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
-        <div className="h-[220px] animate-pulse rounded-3xl border border-white/10 bg-white/5 sm:h-[196px]" />
+        <div className="h-[220px] animate-pulse rounded-3xl border border-[var(--line-strong)] bg-[var(--ov-05)] sm:h-[196px]" />
       </section>
     );
   }
@@ -61,12 +61,12 @@ export default function OfertaBomba() {
     // grande centrado, título editorial, CTA en píldora degradé.
     return (
       <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
-        <div className="relative overflow-hidden rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="relative flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-[calc(2.5rem-0.375rem)] border border-white/[.05] bg-black/20 px-8 py-16 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:px-20">
+        <div className="relative overflow-hidden rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="relative flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-[calc(2.5rem-0.375rem)] border border-[var(--ov-05)] bg-[var(--card-inner)] px-8 py-16 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:px-20">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-600/10" />
-            <Lock className="relative z-10 mb-8 h-16 w-16 text-white/10" strokeWidth={1.5} />
+            <Lock className="relative z-10 mb-8 h-16 w-16 text-[var(--ov-10)]" strokeWidth={1.5} />
             <h2 className="relative z-10 text-4xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Oferta Bomba</h2>
-            <p className="relative z-10 mx-auto mt-4 max-w-xs text-sm text-white/40">
+            <p className="relative z-10 mx-auto mt-4 max-w-xs text-sm text-[var(--muted2)]">
               Solo disponible para vecinos nivel 🚶 Explorador o más -- seguí negocios, dejá reseñas o compartí ofertas para desbloquearla.
             </p>
             <Link href="/perfil"
@@ -81,8 +81,8 @@ export default function OfertaBomba() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
-      <div className="relative overflow-hidden rounded-[2.5rem] border border-red-400/25 bg-white/[.02] p-1.5">
-        <div className="relative rounded-[calc(2.5rem-0.375rem)] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
+      <div className="relative overflow-hidden rounded-[2.5rem] border border-red-400/25 bg-[var(--ov-02)] p-1.5">
+        <div className="relative rounded-[calc(2.5rem-0.375rem)] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-8">
           <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-red-500/20 blur-3xl animate-pulse" />
           <div className="relative flex items-center gap-2">
             <Zap className="h-5 w-5 text-red-400" />
@@ -92,8 +92,8 @@ export default function OfertaBomba() {
 
           <div className="relative mt-6 grid gap-3 sm:grid-cols-3">
             {ofertas.map((o: any) => (
-              <Link key={o.id} href={`/oferta/${o.id}`} className="group rounded-2xl border border-white/10 bg-black/30 p-4 transition hover:border-red-400/50">
-                <p className="text-xs text-white/50">{o.business_name}</p>
+              <Link key={o.id} href={`/oferta/${o.id}`} className="group rounded-2xl border border-[var(--line)] bg-[var(--ov-10)] p-4 transition hover:border-red-400/50">
+                <p className="text-xs text-[var(--muted)]">{o.business_name}</p>
                 <p className="mt-1 font-black group-hover:text-red-300">{o.title}</p>
                 <div className="mt-2 flex items-end justify-between">
                   {o.offer_price && (

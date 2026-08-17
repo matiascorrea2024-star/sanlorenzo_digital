@@ -80,10 +80,10 @@ export default function AdminBlogPage() {
     await cargar();
   };
 
-  if (!ready) return <main className="min-h-screen bg-[#0c0a0b]" />;
+  if (!ready) return <main className="min-h-screen bg-[var(--bg)]" />;
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <Link href="/admin?tab=blog" className="text-sm text-orange-400 hover:text-orange-300">← Volver al panel</Link>
         <div className="mt-4 flex items-center justify-between">
@@ -96,20 +96,20 @@ export default function AdminBlogPage() {
         </div>
 
         {editing ? (
-          <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="space-y-4 rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="space-y-4 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <input value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })}
-              placeholder="Título" className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 font-bold outline-none focus:border-orange-400" />
+              placeholder="Título" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 font-bold outline-none focus:border-orange-400" />
             <input value={draft.excerpt} onChange={(e) => setDraft({ ...draft, excerpt: e.target.value })}
-              placeholder="Copete corto (aparece en la lista)" className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              placeholder="Copete corto (aparece en la lista)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <textarea value={draft.content} onChange={(e) => setDraft({ ...draft, content: e.target.value })}
               placeholder="Contenido del artículo" rows={10}
-              className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-sm outline-none focus:border-orange-400" />
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 text-sm outline-none focus:border-orange-400" />
             <div className="grid gap-3 sm:grid-cols-2">
               <input value={draft.cover_url} onChange={(e) => setDraft({ ...draft, cover_url: e.target.value })}
-                placeholder="URL de imagen de portada (opcional)" className="rounded-xl border border-white/15 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="URL de imagen de portada (opcional)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
               <input value={draft.author} onChange={(e) => setDraft({ ...draft, author: e.target.value })}
-                placeholder="Autor (opcional)" className="rounded-xl border border-white/15 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="Autor (opcional)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
             <label className="flex items-center gap-2 text-sm">
               <input type="checkbox" checked={draft.published} onChange={(e) => setDraft({ ...draft, published: e.target.checked })} />
@@ -121,33 +121,33 @@ export default function AdminBlogPage() {
                 className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
                 {saving ? "Guardando…" : "Guardar"}
               </button>
-              <button onClick={() => setEditing(false)} className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-bold text-white/70 hover:bg-white/5">
+              <button onClick={() => setEditing(false)} className="rounded-full border border-[var(--line-strong)] px-6 py-2.5 text-sm font-bold text-[var(--text)]/70 hover:bg-[var(--ov-05)]">
                 Cancelar
               </button>
             </div>
           </div>
           </div>
         ) : posts.length === 0 ? (
-          <div className="mt-8 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-10 text-center">
-              <Newspaper className="mx-auto h-10 w-10 text-white/20" />
-              <p className="mt-3 text-sm text-white/40">Todavía no escribiste ningún artículo.</p>
+          <div className="mt-8 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-10 text-center">
+              <Newspaper className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+              <p className="mt-3 text-sm text-[var(--muted2)]">Todavía no escribiste ningún artículo.</p>
             </div>
           </div>
         ) : (
           <div className="mt-6 space-y-2.5">
             {posts.map(p => (
-              <div key={p.id} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div key={p.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-bold">{p.title}</p>
-                  <p className="text-xs text-white/50">{p.published ? "✅ Publicado" : "⏸️ Borrador"} · {new Date(p.created_at).toLocaleDateString("es-AR")}</p>
+                  <p className="text-xs text-[var(--muted)]">{p.published ? "✅ Publicado" : "⏸️ Borrador"} · {new Date(p.created_at).toLocaleDateString("es-AR")}</p>
                 </div>
                 <button onClick={() => togglePublicado(p)} title={p.published ? "Despublicar" : "Publicar"}
-                  className="rounded-lg border border-white/15 p-2 text-white/60 hover:bg-white/10">
+                  className="rounded-lg border border-[var(--line-strong)] p-2 text-[var(--muted)] hover:bg-[var(--ov-10)]">
                   {p.published ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
-                <button onClick={() => editar(p)} className="rounded-lg border border-white/15 p-2 text-white/60 hover:bg-white/10">
+                <button onClick={() => editar(p)} className="rounded-lg border border-[var(--line-strong)] p-2 text-[var(--muted)] hover:bg-[var(--ov-10)]">
                   <Pencil className="h-4 w-4" />
                 </button>
                 <button onClick={() => borrar(p.id)} className="rounded-lg border border-red-500/30 p-2 text-red-300 hover:bg-red-500/10">

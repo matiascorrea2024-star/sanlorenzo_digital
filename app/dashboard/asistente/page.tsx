@@ -74,29 +74,29 @@ export default function AsistenteComerciantePage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">
           <Wand2 className="h-8 w-8 text-orange-400" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Asistente de publicaciones</h1>
-            <p className="text-white/60">Generá títulos, descripciones y copy para WhatsApp en segundos</p>
+            <p className="text-[var(--muted)]">Generá títulos, descripciones y copy para WhatsApp en segundos</p>
           </div>
         </div>
 
         <div className="mb-6">
-          <p className="mb-3 flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-white/40">
+          <p className="mb-3 flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-[var(--muted2)]">
             <Lightbulb className="h-3.5 w-3.5 text-orange-400" /> Tips que realmente ayudan a vender
           </p>
           <div className="grid gap-2.5 sm:grid-cols-2">
             {TIPS.map((tip) => (
-              <div key={tip.t} className="rounded-[1.25rem] border border-white/[.06] bg-white/[.02] p-1">
-                <div className="flex items-start gap-2.5 rounded-[.9rem] border border-white/[.05] bg-black/10 p-3.5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div key={tip.t} className="rounded-[1.25rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1">
+                <div className="flex items-start gap-2.5 rounded-[.9rem] border border-[var(--ov-05)] bg-black/10 p-3.5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                   <span className="text-lg leading-none">{tip.i}</span>
                   <div className="min-w-0">
                     <p className="text-sm font-bold">{tip.t}</p>
-                    <p className="mt-0.5 text-xs leading-snug text-white/50">{tip.d}</p>
+                    <p className="mt-0.5 text-xs leading-snug text-[var(--muted)]">{tip.d}</p>
                   </div>
                 </div>
               </div>
@@ -104,25 +104,25 @@ export default function AsistenteComerciantePage() {
           </div>
         </div>
 
-        <div className="mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <div className="space-y-3">
             <input value={form.producto} onChange={(e) => setForm({ ...form, producto: e.target.value })}
               placeholder="¿Qué vendés? Ej: Zapatillas deportivas *"
-              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <input value={form.negocio} onChange={(e) => setForm({ ...form, negocio: e.target.value })}
               placeholder="Nombre de tu negocio"
-              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <div className="grid grid-cols-3 gap-3">
               <input value={form.precio} onChange={(e) => setForm({ ...form, precio: e.target.value })}
                 placeholder="Precio" type="number"
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
               <input value={form.precioAntes} onChange={(e) => setForm({ ...form, precioAntes: e.target.value })}
                 placeholder="Precio anterior" type="number"
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
               <input value={form.descuento} onChange={(e) => setForm({ ...form, descuento: e.target.value })}
                 placeholder="% OFF" type="number"
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
             <button onClick={generar} disabled={!form.producto}
               className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
@@ -139,12 +139,12 @@ export default function AsistenteComerciantePage() {
               { key: "descripcion", label: "📝 Descripción", texto: resultado.descripcion },
               { key: "whatsapp", label: "💬 Copy para WhatsApp", texto: resultado.whatsapp },
             ].map(item => (
-              <div key={item.key} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-                <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div key={item.key} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+                <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                   <div className="flex items-center justify-between mb-2">
-                    <p className="text-xs font-bold uppercase tracking-wider text-white/50">{item.label}</p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">{item.label}</p>
                     <button onClick={() => copy(item.texto, item.key)}
-                      className="flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold hover:bg-white/20">
+                      className="flex items-center gap-1 rounded-full bg-[var(--ov-10)] px-3 py-1.5 text-xs font-bold hover:bg-[var(--ov-20)]">
                       {copied === item.key ? <Check className="h-3 w-3 text-green-400" /> : <Copy className="h-3 w-3" />}
                       {copied === item.key ? "Copiado" : "Copiar"}
                     </button>
@@ -158,7 +158,7 @@ export default function AsistenteComerciantePage() {
               className="w-full rounded-full bg-gradient-to-r from-green-500 to-emerald-500 py-3 text-sm font-black hover:opacity-90">
               🚀 Usar en nueva oferta
             </button>
-            <p className="text-center text-xs text-white/40">
+            <p className="text-center text-xs text-[var(--muted2)]">
               Siempre podés editar todo antes de publicar.
             </p>
           </div>

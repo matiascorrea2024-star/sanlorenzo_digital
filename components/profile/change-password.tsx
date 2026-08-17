@@ -35,35 +35,35 @@ export default function ChangePassword({ email }: { email: string }) {
   if (!open) {
     return (
       <button onClick={() => setOpen(true)}
-        className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-left text-sm font-bold hover:border-orange-400/50 hover:bg-white/10 transition">
+        className="w-full rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-4 text-left text-sm font-bold text-[var(--text)] hover:border-orange-400/50 hover:bg-[var(--ov-10)] transition">
         🔑 Cambiar contraseña
       </button>
     );
   }
 
   return (
-    <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-      <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-        <p className="mb-3 font-bold">🔑 Cambiar contraseña</p>
+    <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+      <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+        <p className="mb-3 font-bold text-[var(--text)]">🔑 Cambiar contraseña</p>
         <div className="space-y-2">
           <input type="password" value={current} onChange={(e) => setCurrent(e.target.value)}
             placeholder="Contraseña actual"
-            className="w-full rounded-xl border border-white/15 bg-black/30 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+            className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm text-[var(--text)] outline-none focus:border-orange-400" />
           <input type="password" value={next} onChange={(e) => setNext(e.target.value)}
             placeholder="Nueva contraseña (mín. 8 caracteres)"
-            className="w-full rounded-xl border border-white/15 bg-black/30 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+            className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm text-[var(--text)] outline-none focus:border-orange-400" />
           <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
             placeholder="Repetir nueva contraseña"
-            className="w-full rounded-xl border border-white/15 bg-black/30 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+            className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm text-[var(--text)] outline-none focus:border-orange-400" />
         </div>
         {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
         {done && <p className="mt-2 text-xs text-green-400">✅ Contraseña actualizada.</p>}
         <div className="mt-3 flex gap-2">
           <button onClick={submit} disabled={saving || !current || !next || !confirm}
-            className="flex-1 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black disabled:opacity-50">
+            className="flex-1 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black text-white disabled:opacity-50">
             {saving ? "Guardando…" : "Guardar"}
           </button>
-          <button onClick={() => { setOpen(false); setError(""); }} className="rounded-full border border-white/20 px-4 py-2.5 text-sm font-bold">
+          <button onClick={() => { setOpen(false); setError(""); }} className="rounded-full border border-[var(--line-strong)] px-4 py-2.5 text-sm font-bold text-[var(--text)]">
             Cancelar
           </button>
         </div>

@@ -31,12 +31,12 @@ export default function LevelUpCard({ slug, showCtas = false }: { slug?: string;
   const r = rangoDe(pts);
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-5">
+    <div className="rounded-2xl border border-[var(--line)] bg-gradient-to-br from-[var(--ov-05)] to-transparent p-5">
       <div className="flex items-center gap-2">
         <TrendingUp className="h-5 w-5" style={{ color: r.accent }} />
-        <h3 className="font-black">Subir de nivel</h3>
+        <h3 className="font-black text-[var(--text)]">Subir de nivel</h3>
       </div>
-      <p className="mt-1 text-xs text-white/60">
+      <p className="mt-1 text-xs text-[var(--muted)]">
         {r.faltan > 0
           ? <>Te faltan <strong style={{ color: r.accent }}>{r.faltan} pts</strong> para llegar a <strong style={{ color: r.accent }}>{r.proximo}</strong>.</>
           : "¡Estás en la máxima división!"}
@@ -45,10 +45,10 @@ export default function LevelUpCard({ slug, showCtas = false }: { slug?: string;
         {ACCIONES.map(a => (
           <div key={a.l} className="flex items-center gap-2 text-xs">
             <span>{a.icon}</span>
-            <span className="flex-1 text-white/80">{a.l}</span>
+            <span className="flex-1 text-[var(--text)]/80">{a.l}</span>
             <span className="font-black text-green-400">{a.pts}</span>
             {showCtas && a.href && (
-              <Link href={a.href} className="rounded-lg bg-white/10 px-2 py-1 text-[10px] font-bold hover:bg-white/20">
+              <Link href={a.href} className="rounded-lg bg-[var(--ov-10)] px-2 py-1 text-[10px] font-bold hover:bg-[var(--ov-20)]">
                 Ir →
               </Link>
             )}

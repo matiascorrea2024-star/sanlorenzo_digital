@@ -102,10 +102,10 @@ export default function PromocionesPage() {
   }, { dependencies: [loading, activas.length] });
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       {/* Header propio del evento "Gran Barata" -- no el PageHero genérico
           del resto del sitio: acá la energía/urgencia es el punto. */}
-      <section ref={heroRef} className="relative overflow-hidden border-b border-white/5">
+      <section ref={heroRef} className="relative overflow-hidden border-b border-[var(--ov-05)]">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 20% 0%, rgba(249,115,22,.22), transparent 60%), radial-gradient(circle at 85% 30%, rgba(220,38,38,.14), transparent 55%)" }} />
         <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
           <Link href="/" className="text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
@@ -121,9 +121,9 @@ export default function PromocionesPage() {
               </h1>
             </div>
             <div className="shrink-0 rounded-[1.75rem] border border-orange-400/20 bg-gradient-to-br from-orange-500/10 to-transparent p-1.5">
-              <div className="rounded-[1.375rem] border border-white/10 bg-black/30 px-6 py-4 text-center backdrop-blur">
+              <div className="rounded-[1.375rem] border border-[var(--line)] bg-[var(--card-inner)] px-6 py-4 text-center backdrop-blur">
                 <p className="tabular-nums text-4xl font-black text-orange-400 md:text-5xl" style={{ fontFamily: "var(--font-ticket)" }}>{count}</p>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">oferta{count === 1 ? "" : "s"} activa{count === 1 ? "" : "s"}</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted)]">oferta{count === 1 ? "" : "s"} activa{count === 1 ? "" : "s"}</p>
               </div>
             </div>
           </div>
@@ -134,7 +134,7 @@ export default function PromocionesPage() {
         {!loading && activas.length === 0 ? (
           <div className="sld-card rounded-3xl p-10 text-center">
             <p className="mt-3 text-xl font-black">No hay ofertas activas ahora</p>
-            <p className="mt-2 text-sm text-white/60">Los negocios publican ofertas nuevas todos los días. Volvé a pasar más tarde.</p>
+            <p className="mt-2 text-sm text-[var(--muted)]">Los negocios publican ofertas nuevas todos los días. Volvé a pasar más tarde.</p>
             <Link
               href="/dashboard/ofertas/nueva"
               className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold hover:opacity-90"
@@ -145,7 +145,7 @@ export default function PromocionesPage() {
         ) : loading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="h-72 animate-pulse rounded-2xl border border-white/10 bg-white/5" />
+              <div key={i} className="h-72 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--ov-05)]" />
             ))}
           </div>
         ) : (
@@ -156,7 +156,7 @@ export default function PromocionesPage() {
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-red-300">
                     ⏰ Vencen hoy o mañana
                   </span>
-                  <span className="text-sm font-bold text-white/40">corré antes de que se acaben</span>
+                  <span className="text-sm font-bold text-[var(--muted2)]">corré antes de que se acaben</span>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {urgentes.map((o) => <OfferCard key={o.id} o={o} />)}
@@ -166,7 +166,7 @@ export default function PromocionesPage() {
             {resto.length > 0 && (
               <div>
                 {urgentes.length > 0 && (
-                  <p className="mb-4 text-[11px] font-black uppercase tracking-widest text-white/40">El resto de las ofertas</p>
+                  <p className="mb-4 text-[11px] font-black uppercase tracking-widest text-[var(--muted2)]">El resto de las ofertas</p>
                 )}
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {resto.map((o) => <OfferCard key={o.id} o={o} />)}
@@ -177,7 +177,7 @@ export default function PromocionesPage() {
         )}
 
         <div className="mt-10 text-center">
-          <Link href="/ofertas-finalizadas" className="text-sm text-white/50 transition hover:text-orange-300">
+          <Link href="/ofertas-finalizadas" className="text-sm text-[var(--muted)] transition hover:text-orange-300">
             Ver ofertas que ya terminaron →
           </Link>
         </div>

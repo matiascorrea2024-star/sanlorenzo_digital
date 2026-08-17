@@ -55,15 +55,15 @@ export default function DashboardNav() {
       <Link
         key={item.href}
         href={item.href}
-        className={`group rounded-[1.75rem] border p-1.5 transition-all duration-300 hover:-translate-y-1 ${isActive ? "border-orange-400/30 bg-orange-500/[.04]" : "border-white/[.06] bg-white/[.02]"}`}
+        className={`group rounded-[1.75rem] border p-1.5 transition-all duration-300 hover:-translate-y-1 ${isActive ? "border-orange-400/30 bg-orange-500/[.04]" : "border-[var(--ov-06)] bg-[var(--ov-02)]"}`}
       >
-        <div className="flex h-full flex-col gap-6 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-          <span className={`flex h-11 w-11 items-center justify-center rounded-2xl transition-all ${isActive ? "bg-gradient-to-br from-orange-500 to-red-600 text-white" : "bg-white/5 text-white/50 group-hover:text-orange-400"}`}>
+        <div className="flex h-full flex-col gap-6 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+          <span className={`flex h-11 w-11 items-center justify-center rounded-2xl transition-all ${isActive ? "bg-gradient-to-br from-orange-500 to-red-600 text-white" : "bg-[var(--ov-05)] text-[var(--muted)] group-hover:text-orange-400"}`}>
             <Icon className="h-5 w-5" />
           </span>
           <div>
-            <p className="text-sm font-bold">{item.label}</p>
-            <p className="mt-0.5 text-xs text-white/40">{item.sub}</p>
+            <p className="text-sm font-bold text-[var(--text)]">{item.label}</p>
+            <p className="mt-0.5 text-xs text-[var(--muted2)]">{item.sub}</p>
           </div>
         </div>
       </Link>
@@ -74,18 +74,18 @@ export default function DashboardNav() {
     <nav className="mb-10 space-y-10">
       <div>
         <div className="mb-5 flex items-center gap-4">
-          <div className="h-px flex-1 bg-white/10" />
+          <div className="h-px flex-1 bg-[var(--line)]" />
           <span className="text-[10px] font-black uppercase tracking-[.35em] text-orange-400">Panel</span>
-          <div className="h-px w-8 bg-white/10" />
+          <div className="h-px w-8 bg-[var(--line)]" />
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{card(HOME_ITEM, true)}</div>
       </div>
       {GROUPS.map((g) => (
         <div key={g.title}>
           <div className="mb-5 flex items-center gap-4">
-            <div className="h-px flex-1 bg-white/10" />
+            <div className="h-px flex-1 bg-[var(--line)]" />
             <span className="text-[10px] font-black uppercase tracking-[.35em] text-orange-400">{g.title}</span>
-            <div className="h-px w-8 bg-white/10" />
+            <div className="h-px w-8 bg-[var(--line)]" />
           </div>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {g.items.map((item) => card(item))}

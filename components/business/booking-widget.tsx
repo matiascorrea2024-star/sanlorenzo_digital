@@ -90,7 +90,7 @@ export default function BookingWidget({ businessId, businessName }: { businessId
 
   return (
     <div className="mb-6 rounded-[1.75rem] border border-sky-400/20 bg-gradient-to-br from-sky-500/[.06] to-blue-500/[.03] p-1.5">
-      <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+      <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
         <h3 className="mb-4 flex items-center gap-2 font-black">
           <Calendar className="h-5 w-5 text-sky-400" /> Reservá tu turno
         </h3>
@@ -103,7 +103,7 @@ export default function BookingWidget({ businessId, businessName }: { businessId
             </p>
           </div>
         ) : !user ? (
-          <Link href="/login" className="block rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-center text-sm font-bold text-white/70 hover:bg-white/10">
+          <Link href="/login" className="block rounded-xl border border-[var(--line)] bg-[var(--ov-05)] px-4 py-2.5 text-center text-sm font-bold text-[var(--text)]/70 hover:bg-[var(--ov-10)]">
             Iniciá sesión para reservar
           </Link>
         ) : (
@@ -114,7 +114,7 @@ export default function BookingWidget({ businessId, businessName }: { businessId
                 const activo = fechaSel === f;
                 return (
                   <button key={f} onClick={() => setFechaSel(f)}
-                    className={`flex shrink-0 flex-col items-center rounded-xl px-3 py-2 text-xs font-bold transition ${activo ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white" : "border border-white/15 bg-white/5 text-white/70"}`}>
+                    className={`flex shrink-0 flex-col items-center rounded-xl px-3 py-2 text-xs font-bold transition ${activo ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"}`}>
                     <span className="uppercase">{d.toLocaleDateString("es-AR", { weekday: "short" })}</span>
                     <span className="text-base">{d.getDate()}</span>
                   </button>
@@ -124,7 +124,7 @@ export default function BookingWidget({ businessId, businessName }: { businessId
 
             {fechaSel && (
               slotsDelDia.length === 0 ? (
-                <p className="text-sm text-white/50">No quedan horarios libres ese día -- probá otra fecha.</p>
+                <p className="text-sm text-[var(--muted)]">No quedan horarios libres ese día -- probá otra fecha.</p>
               ) : (
                 <div className="flex flex-wrap gap-2">
                   {slotsDelDia.map((h) => (

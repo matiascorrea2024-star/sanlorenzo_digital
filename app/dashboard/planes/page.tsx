@@ -125,28 +125,28 @@ export default function PlanesDashboard() {
 
   if (!negocio) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+      <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
         <div className="mx-auto max-w-4xl px-4 py-8">
           <DashboardNav />
-          <p className="text-white/50">Necesitás un negocio para gestionar tu plan.</p>
+          <p className="text-[var(--muted)]">Necesitás un negocio para gestionar tu plan.</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <DashboardNav />
         <div className="mb-2 flex items-center gap-3">
           <Crown className="h-8 w-8 text-orange-400" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Tu plan</h1>
-            <p className="text-white/60">
+            <p className="text-[var(--muted)]">
               Plan actual de <strong>{negocio.name}</strong>:{" "}
               <span className="font-black text-orange-400">{PLANES[negocio.plan]?.name || "Gratis"}</span>
               {negocio.plan_expira && (
-                <span className="text-white/40"> · vence el {new Date(negocio.plan_expira).toLocaleDateString("es-AR")}</span>
+                <span className="text-[var(--muted2)]"> · vence el {new Date(negocio.plan_expira).toLocaleDateString("es-AR")}</span>
               )}
             </p>
           </div>
@@ -162,12 +162,12 @@ export default function PlanesDashboard() {
 
         {campanas.filter((c) => !misReclamos.includes(c.id)).map((c) => (
           <div key={c.id} className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.375rem] border border-white/[.06] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:flex-row sm:items-center">
+            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:flex-row sm:items-center">
               <div className="flex items-start gap-3">
                 <Gift className="h-6 w-6 shrink-0 text-orange-400" />
                 <div>
                   <p className="font-black">{c.title}</p>
-                  <p className="text-sm text-white/60">
+                  <p className="text-sm text-[var(--muted)]">
                     {c.description || `Obtenés ${PLANES[c.grants_plan]?.name} gratis por ${c.grants_dias} días.`}
                   </p>
                 </div>
@@ -183,11 +183,11 @@ export default function PlanesDashboard() {
 
         {pendiente && (
           <div className="mt-6 rounded-[1.5rem] border border-yellow-400/25 bg-yellow-500/[.06] p-1.5">
-            <div className="flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Clock className="h-6 w-6 shrink-0 text-yellow-400" />
               <div>
                 <p className="font-bold text-yellow-200">Solicitud de plan {PLANES[pendiente.plan]?.name} en revisión</p>
-                <p className="text-xs text-white/60">Enviamos tu comprobante. Te activamos el plan en cuanto lo revisemos (normalmente en el día).</p>
+                <p className="text-xs text-[var(--muted)]">Enviamos tu comprobante. Te activamos el plan en cuanto lo revisemos (normalmente en el día).</p>
               </div>
             </div>
           </div>
@@ -200,38 +200,38 @@ export default function PlanesDashboard() {
             return (
               <div key={p.k}
                 className={`relative rounded-[1.75rem] p-1.5 ${
-                  actual ? "border border-orange-400/50 bg-gradient-to-b from-orange-500/[.1] to-red-600/[.04]" : "border border-white/[.06] bg-white/[.02]"
+                  actual ? "border border-orange-400/50 bg-gradient-to-b from-orange-500/[.1] to-red-600/[.04]" : "border border-[var(--ov-06)] bg-[var(--ov-02)]"
                 }`}>
                 {actual && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-1 text-xs font-black">
                     PLAN ACTUAL
                   </span>
                 )}
-                <div className={`flex h-full flex-col rounded-[1.375rem] border p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] ${actual ? "border-white/[.08] bg-black/10" : "border-white/[.05] bg-black/10"}`}>
-                  <p.icon className={`h-7 w-7 ${actual ? "text-orange-400" : "text-white/50"}`} />
+                <div className={`flex h-full flex-col rounded-[1.375rem] border p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] ${actual ? "border-[var(--ov-08)] bg-black/10" : "border-[var(--ov-05)] bg-black/10"}`}>
+                  <p.icon className={`h-7 w-7 ${actual ? "text-orange-400" : "text-[var(--muted)]"}`} />
                   <h2 className="mt-2 text-lg font-black">{PLANES[p.k].name}</h2>
                   <p className="text-2xl font-black text-orange-400">{p.precio}</p>
                   <ul className="mt-4 flex-1 space-y-2">
                     {p.features.map(f => (
-                      <li key={f} className="flex items-center gap-2 text-sm text-white/80">
+                      <li key={f} className="flex items-center gap-2 text-sm text-[var(--text)]/80">
                         <Check className="h-4 w-4 shrink-0 text-green-400" /> {f}
                       </li>
                     ))}
                   </ul>
 
                   {actual || esGratis || pendiente ? (
-                    <button disabled className="mt-5 rounded-full border border-white/20 py-2.5 text-sm font-black text-white/40">
+                    <button disabled className="mt-5 rounded-full border border-[var(--line-strong)] py-2.5 text-sm font-black text-[var(--muted2)]">
                       {actual ? "Activo" : esGratis ? "Plan sin costo" : "Solicitud en curso"}
                     </button>
                   ) : pidiendo === p.k ? (
-                    <div className="mt-5 space-y-2 rounded-xl border border-white/10 bg-black/20 p-3">
+                    <div className="mt-5 space-y-2 rounded-xl border border-[var(--line)] bg-black/20 p-3">
                       <input type="file" accept="image/*" onChange={(e) => setArchivo(e.target.files?.[0] || null)}
-                        className="w-full text-xs text-white/60 file:mr-2 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-white" />
+                        className="w-full text-xs text-[var(--muted)] file:mr-2 file:rounded-lg file:border-0 file:bg-[var(--ov-10)] file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-[var(--text)]" />
                       <button onClick={() => solicitar(p.k)} disabled={enviando}
                         className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2 text-sm font-black hover:opacity-90 disabled:opacity-50">
                         {enviando ? "Enviando…" : "Enviar comprobante"}
                       </button>
-                      <button onClick={() => { setPidiendo(null); setArchivo(null); setError(""); }} className="w-full text-xs text-white/40 hover:text-white/60">
+                      <button onClick={() => { setPidiendo(null); setArchivo(null); setError(""); }} className="w-full text-xs text-[var(--muted2)] hover:text-[var(--muted)]">
                         Cancelar
                       </button>
                     </div>
@@ -242,7 +242,7 @@ export default function PlanesDashboard() {
                         {pagandoMP === p.k ? "Redirigiendo…" : "Pagar con Mercado Pago"}
                       </button>
                       <button onClick={() => setPidiendo(p.k)}
-                        className="w-full rounded-full border border-white/20 py-2 text-xs font-bold text-white/50 hover:text-white/80">
+                        className="w-full rounded-full border border-[var(--line-strong)] py-2 text-xs font-bold text-[var(--muted)] hover:text-[var(--text)]/80">
                         O transferir y subir comprobante
                       </button>
                     </div>
@@ -254,11 +254,11 @@ export default function PlanesDashboard() {
         </div>
 
         {error && <p className="mt-4 text-center text-sm text-red-300">❌ {error}</p>}
-        {avisoMP && <p className="mt-4 text-center text-sm text-white/70">{avisoMP}</p>}
+        {avisoMP && <p className="mt-4 text-center text-sm text-[var(--text)]/70">{avisoMP}</p>}
 
-        <div className="mx-auto mt-8 max-w-xl rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 text-center text-sm text-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-            <p className="font-bold text-white/80">¿Cómo se activa un plan pago?</p>
+        <div className="mx-auto mt-8 max-w-xl rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center text-sm text-[var(--muted)] shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <p className="font-bold text-[var(--text)]/80">¿Cómo se activa un plan pago?</p>
             <p className="mt-1">Con &quot;Pagar con Mercado Pago&quot; se activa solo apenas se acredita. Si preferís transferir, usá &quot;O transferir y subir comprobante&quot; -- un admin lo revisa y te lo activa.</p>
             {datosPago ? (
               <p className="mt-2 whitespace-pre-line rounded-xl bg-black/20 p-3 font-mono text-xs text-emerald-300">{datosPago}</p>

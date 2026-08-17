@@ -68,31 +68,31 @@ export default function CampanaPage() {
     setGuardando(false);
   };
 
-  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
-  if (!offer || !business) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Oferta no encontrada.</main>;
+  if (loading) return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Cargando...</main>;
+  if (!offer || !business) return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Oferta no encontrada.</main>;
 
   const plan = planDe(business);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
         <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-cyan-400">Alcance segmentado</p>
         <h1 className="mt-2 flex items-center gap-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}><MapPin className="h-9 w-9 text-cyan-400" /> Promocionar por barrio</h1>
-        <p className="mt-3 text-white/50">&quot;{offer.title}&quot;</p>
+        <p className="mt-3 text-[var(--muted)]">&quot;{offer.title}&quot;</p>
 
         {!plan.campanas ? (
-          <div className="mt-8 rounded-[1.75rem] border border-orange-400/20 bg-white/[.02] p-1.5">
+          <div className="mt-8 rounded-[1.75rem] border border-orange-400/20 bg-[var(--ov-02)] p-1.5">
             <div className="rounded-[1.375rem] border border-orange-400/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
               <p className="font-black">Promocionar por barrio es de Plan PRO</p>
-              <p className="mt-1 text-sm text-white/60">Hacé que tu oferta se destaque en el barrio que más te importa.</p>
+              <p className="mt-1 text-sm text-[var(--muted)]">Hacé que tu oferta se destaque en el barrio que más te importa.</p>
               <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">Ver planes →</Link>
             </div>
           </div>
         ) : barrios.length === 0 ? (
-          <div className="mt-8 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-8 text-center text-white/50 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="mt-8 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-8 text-center text-[var(--muted)] shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               Tu ciudad todavía no tiene barrios cargados para poder segmentar.
             </div>
           </div>
@@ -106,11 +106,11 @@ export default function CampanaPage() {
               ]} />
             </div>
 
-            <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-white/60">Barrio</label>
+            <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Barrio</label>
               <select value={seleccionado} onChange={(e) => setSeleccionado(e.target.value)}
-                className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-sm outline-none focus:border-orange-400">
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-4 py-3 text-sm outline-none focus:border-orange-400">
                 <option value="">Sin promocionar</option>
                 {barrios.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
               </select>
@@ -119,8 +119,8 @@ export default function CampanaPage() {
                 <div className="mt-4 rounded-xl border border-cyan-400/20 bg-cyan-500/5 p-4">
                   <p className="mb-2 text-xs font-bold text-cyan-300">Alcance estimado (no es una promesa, es un cálculo real de hoy)</p>
                   <div className="flex gap-4 text-sm">
-                    <span className="flex items-center gap-1.5"><Store className="h-4 w-4 text-white/40" /> {alcance.negocios} negocio{alcance.negocios === 1 ? "" : "s"} en el barrio</span>
-                    <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-white/40" /> {alcance.seguidores} seguidor{alcance.seguidores === 1 ? "" : "es"} en total</span>
+                    <span className="flex items-center gap-1.5"><Store className="h-4 w-4 text-[var(--muted2)]" /> {alcance.negocios} negocio{alcance.negocios === 1 ? "" : "s"} en el barrio</span>
+                    <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-[var(--muted2)]" /> {alcance.seguidores} seguidor{alcance.seguidores === 1 ? "" : "es"} en total</span>
                   </div>
                 </div>
               )}

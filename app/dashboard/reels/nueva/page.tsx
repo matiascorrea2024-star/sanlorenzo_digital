@@ -60,7 +60,7 @@ export default function NuevoReelPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-2xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-8 flex items-start gap-3">
@@ -68,7 +68,7 @@ export default function NuevoReelPage() {
           <div>
             <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Video corto</p>
             <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Nuevo reel</h1>
-            <p className="mt-3 text-white/50">Un video corto de tu negocio, hasta {REEL_MAX_SECONDS} segundos.</p>
+            <p className="mt-3 text-[var(--muted)]">Un video corto de tu negocio, hasta {REEL_MAX_SECONDS} segundos.</p>
           </div>
         </div>
 
@@ -78,35 +78,35 @@ export default function NuevoReelPage() {
           "Se publica al instante en /reels y en la home, con reacciones, comentarios y para compartir.",
         ]} />
 
-        <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="space-y-4 rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="space-y-4 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             {negocios.length > 1 && (
               <select value={businessId} onChange={(e) => setBusinessId(e.target.value)}
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm outline-none focus:border-orange-400">
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm outline-none focus:border-orange-400">
                 {negocios.map((n) => <option key={n.id} value={n.id}>{n.name}</option>)}
               </select>
             )}
 
             {preview ? (
-              <div className="relative overflow-hidden rounded-xl border border-white/10 bg-black">
+              <div className="relative overflow-hidden rounded-xl border border-[var(--line)] bg-black">
                 <video src={preview} controls playsInline className="max-h-96 w-full" />
                 <button onClick={() => elegirArchivo(null)}
-                  className="absolute right-2 top-2 rounded-full bg-black/70 px-3 py-1.5 text-xs font-bold text-white hover:bg-black/90">
+                  className="absolute right-2 top-2 rounded-full bg-black/70 px-3 py-1.5 text-xs font-bold text-[var(--text)] hover:bg-black/90">
                   Quitar
                 </button>
               </div>
             ) : (
-              <label className="flex h-40 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 bg-white/[.03] text-white/50 transition hover:border-orange-400/60 hover:text-white">
+              <label className="flex h-40 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--line-strong)] bg-[var(--ov-03)] text-[var(--muted)] transition hover:border-orange-400/60 hover:text-[var(--text)]">
                 <Video className="h-7 w-7" />
                 <span className="text-sm font-bold">Elegir video</span>
-                <span className="text-xs text-white/30">Hasta {REEL_MAX_SECONDS}s · máx. {REEL_MAX_MB}MB</span>
+                <span className="text-xs text-[var(--muted2)]">Hasta {REEL_MAX_SECONDS}s · máx. {REEL_MAX_MB}MB</span>
                 <input type="file" accept="video/*" className="hidden" onChange={(e) => elegirArchivo(e.target.files?.[0] || null)} />
               </label>
             )}
 
             <textarea value={caption} onChange={(e) => setCaption(e.target.value)} rows={2} maxLength={200}
               placeholder="Contá qué muestra el video..."
-              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm outline-none focus:border-orange-400" />
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm outline-none focus:border-orange-400" />
 
             {error && (
               <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-3">

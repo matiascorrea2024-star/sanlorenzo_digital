@@ -86,13 +86,13 @@ export default function ControlEnVivo() {
     await cargar();
   };
 
-  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
-  if (!stream || !negocio) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Transmisión no encontrada.</main>;
+  if (loading) return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Cargando...</main>;
+  if (!stream || !negocio) return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Transmisión no encontrada.</main>;
 
   const plan = planDe(negocio);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <Link href="/dashboard/en-vivo" className="text-sm font-bold text-orange-400 hover:text-orange-300"><ArrowLeft className="mr-1 inline h-4 w-4" />Volver</Link>
         <div className="mt-4 mb-8 flex flex-wrap items-center justify-between gap-3">
@@ -103,7 +103,7 @@ export default function ControlEnVivo() {
                 <button onClick={empezar} disabled={busy} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-red-500 to-orange-500 px-4 py-2 text-sm font-black disabled:opacity-50">
                   <Play className="h-4 w-4" /> Empezar
                 </button>
-                <button onClick={cancelar} className="flex items-center gap-1.5 rounded-full border border-white/20 px-4 py-2 text-sm font-bold text-white/60">
+                <button onClick={cancelar} className="flex items-center gap-1.5 rounded-full border border-[var(--line-strong)] px-4 py-2 text-sm font-bold text-[var(--muted)]">
                   <XCircle className="h-4 w-4" /> Cancelar
                 </button>
               </>
@@ -117,7 +117,7 @@ export default function ControlEnVivo() {
         </div>
 
         {stream.status === "live" && !token && (
-          <p className="mb-4 rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">Conectando la cámara...</p>
+          <p className="mb-4 rounded-xl border border-[var(--line)] bg-[var(--ov-05)] p-4 text-sm text-[var(--muted)]">Conectando la cámara...</p>
         )}
 
         <div className="grid gap-4 lg:grid-cols-3">
@@ -132,43 +132,43 @@ export default function ControlEnVivo() {
                   ["Minutos en vivo", stream.started_at && stream.ended_at ? Math.round((new Date(stream.ended_at).getTime() - new Date(stream.started_at).getTime()) / 60000) : 0],
                   ["Productos mostrados", items.length],
                 ].map(([label, value]) => (
-                  <div key={label as string} className="rounded-[1.25rem] border border-white/[.06] bg-white/[.02] p-1">
-                    <div className="rounded-[.9rem] border border-white/[.05] bg-black/10 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <div key={label as string} className="rounded-[1.25rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1">
+                    <div className="rounded-[.9rem] border border-[var(--ov-05)] bg-black/10 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                       <p className="text-2xl font-black text-orange-400 tabular-nums">{value}</p>
-                      <p className="text-[10px] text-white/50">{label}</p>
+                      <p className="text-[10px] text-[var(--muted)]">{label}</p>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="flex h-64 items-center justify-center rounded-[1.5rem] border border-white/[.06] bg-white/[.02] text-white/40">
+              <div className="flex h-64 items-center justify-center rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] text-[var(--muted2)]">
                 Todavía no empezaste esta transmisión.
               </div>
             )}
 
-            <div className="mt-4 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="mt-4 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <p className="mb-3 flex items-center gap-1.5 font-black">
                 🛍️ Productos en este vivo
                 {!plan.vivoProductos && <Lock className="h-3.5 w-3.5 text-orange-400" />}
               </p>
               {!plan.vivoProductos ? (
-                <p className="text-sm text-white/50">Mostrar productos durante el vivo es una herramienta de Plan PRO. <Link href="/dashboard/planes" className="font-bold text-orange-400">Mejorar plan →</Link></p>
+                <p className="text-sm text-[var(--muted)]">Mostrar productos durante el vivo es una herramienta de Plan PRO. <Link href="/dashboard/planes" className="font-bold text-orange-400">Mejorar plan →</Link></p>
               ) : (
                 <>
                   {items.length > 0 && (
                     <div className="mb-3 space-y-2">
                       {items.map((it) => (
-                        <div key={it.id} className="flex items-center justify-between rounded-xl border border-white/10 bg-black/20 p-2.5">
+                        <div key={it.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-black/20 p-2.5">
                           <span className="text-sm">{it.products?.name}</span>
-                          <button onClick={() => quitarProducto(it.id)}><X className="h-4 w-4 text-white/40" /></button>
+                          <button onClick={() => quitarProducto(it.id)}><X className="h-4 w-4 text-[var(--muted2)]" /></button>
                         </div>
                       ))}
                     </div>
                   )}
                   {productos.filter((p) => !items.some((it) => it.product_id === p.id)).length > 0 && (
                     <select onChange={(e) => e.target.value && agregarProducto(e.target.value)} value=""
-                      className="w-full rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none">
+                      className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-3 py-2 text-sm outline-none">
                       <option value="">+ Agregar producto...</option>
                       {productos.filter((p) => !items.some((it) => it.product_id === p.id)).map((p) => (
                         <option key={p.id} value={p.id}>{p.name}</option>

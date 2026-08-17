@@ -71,9 +71,9 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
       className={`group relative block rounded-[1.75rem] border p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 ${
         esUrgente
           ? "border-red-400/30 bg-gradient-to-br from-red-500/[.08] to-transparent hover:border-red-400/60 hover:shadow-2xl hover:shadow-red-500/20"
-          : "border-white/[.06] bg-white/[.02] hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10"
+          : "border-[var(--ov-06)] bg-[var(--ov-02)] hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10"
       }`}>
-      <div className="relative flex flex-col overflow-hidden rounded-[1.375rem] border border-white/[.06] bg-gradient-to-b from-white/[.05] to-white/[.015] shadow-[inset_0_1px_1px_rgba(255,255,255,.08)]">
+      <div className="relative flex flex-col overflow-hidden rounded-[1.375rem] border border-[var(--ov-06)] bg-gradient-to-b from-[var(--ov-05)] to-[var(--ov-02)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
       <div className="relative aspect-[16/10] w-full overflow-hidden">
         {o.portada_url ? (
           <Image src={o.portada_url} alt={o.producto} fill quality={90}
@@ -146,13 +146,13 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
             🔥 {sdlScore}/100
           </span>
         </div>
-        <h3 className="mt-1 line-clamp-2 min-h-[2.5rem] text-sm font-black leading-tight text-white">{o.producto}</h3>
+        <h3 className="mt-1 line-clamp-2 min-h-[2.5rem] text-sm font-black leading-tight text-[var(--text)]">{o.producto}</h3>
         <div className="mt-auto pt-3">
           {o.ahora && o.antes ? (
             <div className="flex items-end justify-between">
               <div>
-                <p className="text-[10px] text-white/40 line-through">{fmt(o.antes)}</p>
-                <p className="text-3xl leading-none text-white" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>{fmt(o.ahora)}</p>
+                <p className="text-[10px] text-[var(--muted2)] line-through">{fmt(o.antes)}</p>
+                <p className="text-3xl leading-none text-[var(--text)]" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>{fmt(o.ahora)}</p>
               </div>
               {o.descuento && (
                 <span className="rounded-lg bg-green-500/15 px-2 py-1 text-xs font-black text-green-300">

@@ -32,7 +32,7 @@ export default function LiveNow() {
         title="🔴 En vivo ahora"
         subtitle={`${streams.length} ${streams.length === 1 ? "comercio está transmitiendo" : "comercios están transmitiendo"}`}
         action={
-          <Link href="/en-vivo" className="flex items-center gap-1 text-sm text-[var(--muted)] hover:text-white">
+          <Link href="/en-vivo" className="flex items-center gap-1 text-sm text-[var(--muted)] hover:text-[var(--text)]">
             Ver todos <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         }
@@ -41,8 +41,8 @@ export default function LiveNow() {
         className="sld-no-scrollbar -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
         {streams.map((s) => (
           <Link key={s.id} href={`/en-vivo/${s.id}`}
-            className="group w-56 shrink-0 rounded-[1.5rem] border border-red-400/20 bg-white/[.02] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
-            <div className="overflow-hidden rounded-[1.1rem] border border-white/[.05] bg-black/10 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-red-400/40">
+            className="group w-56 shrink-0 rounded-[1.5rem] border border-red-400/20 bg-[var(--ov-02)] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
+            <div className="overflow-hidden rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-red-400/40">
               <div className="relative h-32 w-full overflow-hidden bg-gradient-to-br from-red-500/20 to-orange-500/20">
                 {s.cover_url && (
                   <Image src={s.cover_url} alt={s.title} fill sizes="224px" quality={85}

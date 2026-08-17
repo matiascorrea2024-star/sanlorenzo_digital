@@ -132,16 +132,16 @@ export default function Editar() {
     <main className="mx-auto max-w-xl px-4 py-20 text-center">
       <p className="text-3xl">🔒</p>
       <h1 className="mt-4 text-xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Este negocio no te pertenece.</h1>
-      <p className="mt-2 text-sm text-white/60">Solo el dueño puede editarlo.</p>
+      <p className="mt-2 text-sm text-[var(--muted)]">Solo el dueño puede editarlo.</p>
     </main>
   );
-  if (!form) return <main className="px-4 py-20 text-center text-sm text-white/60">Cargando…</main>;
+  if (!form) return <main className="px-4 py-20 text-center text-sm text-[var(--muted)]">Cargando…</main>;
 
-  const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
-  const lbl = "mb-1 block text-xs font-semibold uppercase tracking-wider text-white/60";
+  const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-orange-400/60 focus:outline-none transition";
+  const lbl = "mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]";
 
   return (
-    <main className="bg-[#0c0a0b] text-white min-h-screen">
+    <main className="bg-[var(--bg)] text-[var(--text)] min-h-screen">
       <div className="mx-auto max-w-3xl px-4 py-10">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Editar {b.name}</h1>
@@ -159,7 +159,7 @@ export default function Editar() {
         {/* 📸 FOTOS DEL NEGOCIO */}
         <section className="mt-8 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">Fotos de tu negocio</h2>
-          <p className="mb-4 text-sm text-white/60">La foto de portada aparece en la home y en el directorio. El logo aparece junto al nombre en tu miniweb.</p>
+          <p className="mb-4 text-sm text-[var(--muted)]">La foto de portada aparece en la home y en el directorio. El logo aparece junto al nombre en tu miniweb.</p>
           <div className="grid gap-6 md:grid-cols-2">
             <div>
               <span className={lbl}>Foto de portada (16:9)</span>
@@ -231,7 +231,7 @@ export default function Editar() {
             <label className="flex items-end gap-2 pb-3"><input type="checkbox" checked={form.open} onChange={(e) => setForm({ ...form, open: e.target.checked })} /> <span className="text-sm">Abierto ahora</span></label>
           </div>
 
-          <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
+          <div className="mt-4 rounded-xl border border-[var(--line)] bg-black/20 p-4">
             <p className={lbl}>🚚 Envíos</p>
             <div className="flex flex-wrap gap-4">
               <label className="flex items-center gap-2 text-sm">
@@ -263,16 +263,16 @@ export default function Editar() {
         <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Productos / servicios</h2>
-            <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
+            <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-[var(--text)]">+ Agregar</button>
           </div>
-          {items.length === 0 && <p className="text-sm text-white/50">Agregá tu primer producto.</p>}
+          {items.length === 0 && <p className="text-sm text-[var(--muted)]">Agregá tu primer producto.</p>}
           <div className="grid gap-3">
             {items.map((it, i) => (
-              <div key={i} className="grid gap-2 rounded-xl border border-white/10 bg-black/20 p-3 sm:grid-cols-[80px_1fr_140px_40px] items-center">
+              <div key={i} className="grid gap-2 rounded-xl border border-[var(--line)] bg-black/20 p-3 sm:grid-cols-[80px_1fr_140px_40px] items-center">
                 <ImageUploader value={it.photo} onChange={(url) => setItems(items.map((x, j) => j === i ? { ...x, photo: url } : x))} businessId={String(b.id)} itemId={String(i)} />
                 <input className={inp} placeholder="Nombre" value={it.name} onChange={(e) => setItems(items.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} />
                 <input className={inp} placeholder="Precio" value={it.price || ""} onChange={(e) => setItems(items.map((x, j) => j === i ? { ...x, price: e.target.value } : x))} />
-                <button onClick={() => setItems(items.filter((_, j) => j !== i))} className="rounded-lg border border-white/20 text-red-400 hover:border-red-400">🗑</button>
+                <button onClick={() => setItems(items.filter((_, j) => j !== i))} className="rounded-lg border border-[var(--line-strong)] text-red-400 hover:border-red-400">🗑</button>
               </div>
             ))}
           </div>
@@ -281,12 +281,12 @@ export default function Editar() {
         <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Promociones</h2>
-            <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
+            <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-[var(--text)]">+ Agregar</button>
           </div>
-          {promos.length === 0 && <p className="text-sm text-white/50">Creá promos con vencimiento: solas se apagan cuando terminan.</p>}
+          {promos.length === 0 && <p className="text-sm text-[var(--muted)]">Creá promos con vencimiento: solas se apagan cuando terminan.</p>}
           <div className="grid gap-3">
             {promos.map((pr, i) => (
-              <div key={i} className="grid gap-2 rounded-xl border border-white/10 bg-black/20 p-3 sm:grid-cols-[1fr_120px_150px_40px]">
+              <div key={i} className="grid gap-2 rounded-xl border border-[var(--line)] bg-black/20 p-3 sm:grid-cols-[1fr_120px_150px_40px]">
                 <input className={inp} placeholder="Título (ej: 2x1 en texanas)" value={pr.title} onChange={(e) => setPromos(promos.map((x, j) => j === i ? { ...x, title: e.target.value } : x))} />
                 <input className={inp} placeholder="20% OFF" value={pr.discount} onChange={(e) => setPromos(promos.map((x, j) => j === i ? { ...x, discount: e.target.value } : x))} />
                 <div>
@@ -309,12 +309,12 @@ export default function Editar() {
                     }));
                   }}
                 >
-                  <option value="" className="bg-neutral-900 text-white">⏱ Duración…</option>
+                  <option value="" className="bg-neutral-900 text-[var(--text)]">⏱ Duración…</option>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 24].map((h) => (
-                    <option key={h} value={h + "h"} className="bg-neutral-900 text-white">🔥 {h} hora{h > 1 ? "s" : ""} (relámpago)</option>
+                    <option key={h} value={h + "h"} className="bg-neutral-900 text-[var(--text)]">🔥 {h} hora{h > 1 ? "s" : ""} (relámpago)</option>
                   ))}
                   {[2, 3, 4, 5, 6, 7].map((d) => (
-                    <option key={d} value={d + "d"} className="bg-neutral-900 text-white">📅 {d} días</option>
+                    <option key={d} value={d + "d"} className="bg-neutral-900 text-[var(--text)]">📅 {d} días</option>
                   ))}
                 </select>
                 {pr.expires_at && (
@@ -323,7 +323,7 @@ export default function Editar() {
                   </p>
                 )}
               </div>
-                <button onClick={() => setPromos(promos.filter((_, j) => j !== i))} className="rounded-lg border border-white/20 text-red-400 hover:border-red-400">🗑</button>
+                <button onClick={() => setPromos(promos.filter((_, j) => j !== i))} className="rounded-lg border border-[var(--line-strong)] text-red-400 hover:border-red-400">🗑</button>
               </div>
             ))}
           </div>
@@ -340,7 +340,7 @@ export default function Editar() {
           ) : (
             <>
               <h2 className="mb-1 font-black text-yellow-300">¿Querés más visibilidad?</h2>
-              <p className="mb-4 text-sm text-white/70">Mirá los planes pagos: más ofertas, estadísticas, catálogo destacado y posición fija en la home.</p>
+              <p className="mb-4 text-sm text-[var(--text)]/70">Mirá los planes pagos: más ofertas, estadísticas, catálogo destacado y posición fija en la home.</p>
               <a
                 href="/dashboard/planes"
                 className="inline-block rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 px-5 py-2.5 text-sm font-black text-black hover:opacity-90"
@@ -357,31 +357,31 @@ export default function Editar() {
             <div className="mb-4"><LevelBadge slug={b.slug} /></div>
             <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">Estadísticas de tu negocio (últimos 7 días)</h2>
             <div className="grid grid-cols-2 gap-4 mb-5">
-              <div className="rounded-[1.25rem] border border-white/[.05] bg-black/20 p-1">
+              <div className="rounded-[1.25rem] border border-[var(--ov-05)] bg-black/20 p-1">
                 <div className="rounded-[.9rem] bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                   <p className="text-3xl font-black text-orange-400 tabular-nums">{stats.views}</p>
-                  <p className="text-xs text-white/60 uppercase mt-1">👁 Vistas a tu miniweb</p>
+                  <p className="text-xs text-[var(--muted)] uppercase mt-1">👁 Vistas a tu miniweb</p>
                 </div>
               </div>
-              <div className="rounded-[1.25rem] border border-white/[.05] bg-black/20 p-1">
+              <div className="rounded-[1.25rem] border border-[var(--ov-05)] bg-black/20 p-1">
                 <div className="rounded-[.9rem] bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                   <p className="text-3xl font-black text-green-400 tabular-nums">{stats.wa}</p>
-                  <p className="text-xs text-white/60 uppercase mt-1">💬 Clicks a WhatsApp</p>
+                  <p className="text-xs text-[var(--muted)] uppercase mt-1">💬 Clicks a WhatsApp</p>
                 </div>
               </div>
             </div>
-            <p className="text-xs text-white/50 mb-2">Vistas por día:</p>
+            <p className="text-xs text-[var(--muted)] mb-2">Vistas por día:</p>
             <div className="flex items-end gap-2">
               {stats.days.map((d: any, i: number) => {
                 const max = Math.max(...stats.days.map((x: any) => x.n), 1);
                 return (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                    <span className="text-[10px] text-white/60">{d.n}</span>
+                    <span className="text-[10px] text-[var(--muted)]">{d.n}</span>
                     <div
                       className="w-full rounded-t bg-gradient-to-t from-orange-500 to-red-600"
                       style={{ height: `${(d.n / max) * 70 + 4}px` }}
                     />
-                    <span className="text-[10px] text-white/50">{d.d}</span>
+                    <span className="text-[10px] text-[var(--muted)]">{d.d}</span>
                   </div>
                 );
               })}
@@ -392,7 +392,7 @@ export default function Editar() {
         {/* 🤳 QR */}
         <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <h2 className="mb-2 font-bold">QR de tu negocio</h2>
-          <p className="mb-4 text-sm text-white/60">Imprimilo y pegalo en tu vidriera: los clientes lo escanean y caen directo en tu miniweb.</p>
+          <p className="mb-4 text-sm text-[var(--muted)]">Imprimilo y pegalo en tu vidriera: los clientes lo escanean y caen directo en tu miniweb.</p>
           <div className="flex items-center gap-6 flex-wrap">
             <img
               src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent("https://sanlorenzodigital.vercel.app/negocio/" + b.slug)}`}
@@ -420,7 +420,7 @@ export default function Editar() {
         <ReviewModeration businessId={b.id} plan={b.plan} />
 
         <div className="mt-6 flex items-center gap-4">
-          <button onClick={save} disabled={saving} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black text-white hover:opacity-90 disabled:opacity-40">
+          <button onClick={save} disabled={saving} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black text-[var(--text)] hover:opacity-90 disabled:opacity-40">
             {saving ? "Guardando…" : "💾 Guardar cambios"}
           </button>
           {msg && <span className="text-sm">{msg}</span>}

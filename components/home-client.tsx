@@ -48,8 +48,8 @@ const daysTo = (date: string) => {
 const chip = (active: boolean) =>
   `shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
     active
-      ? "border-orange-400/50 bg-gradient-to-r from-orange-500/20 to-red-600/20 text-white"
-      : "border-white/10 bg-white/5 text-white/60 hover:border-white/20 hover:text-white"
+      ? "border-orange-400/50 bg-gradient-to-r from-orange-500/20 to-red-600/20 text-[var(--text)]"
+      : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]"
   }`;
 
 const PASOS = [
@@ -145,7 +145,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
           <span className="flex items-center gap-2">
             <MessageCircle className="h-4 w-4 shrink-0 text-cyan-300" />
             <span className="font-bold text-cyan-100">Chat de tu ciudad</span>
-            <span className="hidden text-white/50 sm:inline">-- preguntas, avisos, conectá con tus vecinos</span>
+            <span className="hidden text-[var(--muted)] sm:inline">-- preguntas, avisos, conectá con tus vecinos</span>
           </span>
           <ArrowRight className="h-4 w-4 shrink-0 text-cyan-300 transition group-hover:translate-x-0.5" />
         </Link>
@@ -215,7 +215,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
             className="sld-no-scrollbar mt-3 flex gap-2 overflow-x-auto"
           >
             {CATEGORIES.slice(0, 8).map((c) => (
-              <span key={c.id} className="shrink-0 rounded-full border border-white/10 bg-white/[.03] px-3 py-1 text-xs text-[var(--muted)]">
+              <span key={c.id} className="shrink-0 rounded-full border border-[var(--line)] bg-[var(--ov-03)] px-3 py-1 text-xs text-[var(--muted)]">
                 {c.icon} {c.name} · próximamente
               </span>
             ))}
@@ -247,9 +247,9 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         <SectionTitle eyebrow="Cómo funciona" title="Así de simple" />
         <div className="grid gap-4 sm:grid-cols-3">
           {PASOS.map(({ icon: Icon, titulo, texto, grad, glow }, i) => (
-            <div key={titulo} className="stagger-item rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1">
-              <div className="relative overflow-hidden rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-                <span className="pointer-events-none absolute -right-4 -top-6 text-8xl font-black text-white/[.04]" style={{ fontFamily: "var(--font-ticket)" }}>{i + 1}</span>
+            <div key={titulo} className="stagger-item rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1">
+              <div className="relative overflow-hidden rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+                <span className="pointer-events-none absolute -right-4 -top-6 text-8xl font-black text-[var(--ov-05)]" style={{ fontFamily: "var(--font-ticket)" }}>{i + 1}</span>
                 <div className={`relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${grad} shadow-lg ${glow}`}>
                   <Icon className="h-6 w-6 text-white" strokeWidth={2.4} />
                 </div>
@@ -264,7 +264,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
       {/* ===== PARA COMERCIOS Y PARTICULARES ===== */}
       <section id="sumate" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
         <div className="rounded-[1.75rem] border border-orange-400/20 bg-gradient-to-br from-orange-500/[.06] to-red-600/[.03] p-1.5">
-          <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-10">
+          <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-10">
             <p className="text-xs font-bold uppercase tracking-[.2em] text-[var(--accent2)]">Para comercios</p>
             <h2 className="mt-2 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl" style={{ fontFamily: "var(--font-space)" }}>
               Publicá tu negocio gratis y aparecé en San Lorenzo Digital.
@@ -279,10 +279,10 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
               Crear mi negocio
             </Link>
 
-            <div className="mt-8 flex items-start gap-3 border-t border-white/10 pt-6">
+            <div className="mt-8 flex items-start gap-3 border-t border-[var(--line)] pt-6">
               <span className="text-2xl">🙋</span>
               <div>
-                <p className="font-bold text-white">¿Vendés algo pero no tenés local?</p>
+                <p className="font-bold text-[var(--text)]">¿Vendés algo pero no tenés local?</p>
                 <p className="mt-1 max-w-xl text-sm leading-6 text-[var(--muted)]">
                   También podés sumarte, gratis. Ropa, comida casera, changas, lo que sea -- sin necesidad de un
                   comercio físico.

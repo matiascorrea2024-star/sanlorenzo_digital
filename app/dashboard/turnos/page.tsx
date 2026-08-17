@@ -88,7 +88,7 @@ export default function TurnosPage() {
     show("Turno cancelado", "info");
   };
 
-  if (loading) return <main className="mx-auto max-w-4xl px-4 py-24 text-center text-white/50">Cargando...</main>;
+  if (loading) return <main className="mx-auto max-w-4xl px-4 py-24 text-center text-[var(--muted)]">Cargando...</main>;
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-10">
@@ -97,29 +97,29 @@ export default function TurnosPage() {
         <Calendar className="h-8 w-8 text-orange-400" />
         <div>
           <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Turnos</h1>
-          <p className="text-sm text-white/50">
+          <p className="text-sm text-[var(--muted)]">
             Definí tu horario de atención y los vecinos reservan directo desde tu ficha, sin ida y vuelta por WhatsApp.
           </p>
         </div>
       </div>
 
       {!negocio ? (
-        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-8 text-center text-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-8 text-center text-[var(--muted)] shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             Primero necesitás tener un negocio creado.
           </div>
         </div>
       ) : (
         <div className="space-y-8">
-          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <h2 className="mb-4 font-black">Horario de atención</h2>
 
-              <p className="mb-1.5 text-xs font-bold text-white/60">Días</p>
+              <p className="mb-1.5 text-xs font-bold text-[var(--muted)]">Días</p>
               <div className="mb-4 flex flex-wrap gap-2">
                 {DIAS.map((d) => (
                   <button key={d.v} onClick={() => toggleDia(d.v)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${diasSemana.includes(d.v) ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/60"}`}>
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${diasSemana.includes(d.v) ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
                     {d.l}
                   </button>
                 ))}
@@ -127,25 +127,25 @@ export default function TurnosPage() {
 
               <div className="grid gap-4 sm:grid-cols-3">
                 <div>
-                  <label className="mb-1.5 block text-xs font-bold text-white/60">Desde</label>
+                  <label className="mb-1.5 block text-xs font-bold text-[var(--muted)]">Desde</label>
                   <input type="time" value={horaDesde} onChange={(e) => setHoraDesde(e.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 outline-none focus:border-orange-400" />
+                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-orange-400" />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-xs font-bold text-white/60">Hasta</label>
+                  <label className="mb-1.5 block text-xs font-bold text-[var(--muted)]">Hasta</label>
                   <input type="time" value={horaHasta} onChange={(e) => setHoraHasta(e.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 outline-none focus:border-orange-400" />
+                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-orange-400" />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-xs font-bold text-white/60">Duración del turno (min)</label>
+                  <label className="mb-1.5 block text-xs font-bold text-[var(--muted)]">Duración del turno (min)</label>
                   <select value={duracion} onChange={(e) => setDuracion(e.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 outline-none focus:border-orange-400">
+                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-orange-400">
                     {[15, 20, 30, 45, 60, 90].map((m) => <option key={m} value={m}>{m} min</option>)}
                   </select>
                 </div>
               </div>
 
-              <label className="mt-4 flex items-center gap-2 text-sm text-white/70">
+              <label className="mt-4 flex items-center gap-2 text-sm text-[var(--text)]/70">
                 <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} className="h-4 w-4" />
                 Reservas activas (visible en mi ficha)
               </label>
@@ -158,20 +158,20 @@ export default function TurnosPage() {
           </div>
 
           {config && (
-            <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                 <h2 className="mb-4 flex items-center gap-2 font-black">
                   <Clock className="h-5 w-5 text-sky-400" /> Próximos turnos ({turnos.length})
                 </h2>
                 {turnos.length === 0 ? (
-                  <p className="text-sm text-white/50">Todavía no tenés turnos reservados.</p>
+                  <p className="text-sm text-[var(--muted)]">Todavía no tenés turnos reservados.</p>
                 ) : (
                   <div className="space-y-2">
                     {turnos.map((t) => (
-                      <div key={t.id} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+                      <div key={t.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--ov-05)] px-4 py-3">
                         <div>
                           <p className="text-sm font-bold">{t.nombre}</p>
-                          <p className="text-xs text-white/50">{new Date(t.fecha + "T00:00:00").toLocaleDateString("es-AR", { weekday: "short", day: "numeric", month: "short" })} · {t.hora.slice(0, 5)}hs</p>
+                          <p className="text-xs text-[var(--muted)]">{new Date(t.fecha + "T00:00:00").toLocaleDateString("es-AR", { weekday: "short", day: "numeric", month: "short" })} · {t.hora.slice(0, 5)}hs</p>
                         </div>
                         <button onClick={() => cancelar(t.id)} aria-label="Cancelar turno"
                           className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/10 text-red-400 hover:bg-red-500/20">

@@ -116,14 +116,14 @@ export default function CityChat({ locationId }: { locationId: string }) {
   };
 
   return (
-    <div className="flex h-[75vh] flex-col rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-1.5 shadow-2xl shadow-black/50">
-      <div className="flex h-full flex-col rounded-[calc(2.5rem-0.375rem)] border border-white/[.05] bg-black/20 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-        <div className="flex items-center gap-3 border-b border-white/5 px-6 py-5 sm:px-8">
+    <div className="flex h-[75vh] flex-col rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 shadow-2xl shadow-black/50">
+      <div className="flex h-full flex-col rounded-[calc(2.5rem-0.375rem)] border border-[var(--ov-05)] bg-[var(--card-inner)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+        <div className="flex items-center gap-3 border-b border-[var(--ov-05)] px-6 py-5 sm:px-8">
           <span className="h-2.5 w-2.5 shrink-0 animate-pulse rounded-full bg-emerald-500" />
-          <p className="text-xs font-bold text-white/40">Chat en vivo de la ciudad -- podés etiquetar un negocio con @nombre</p>
+          <p className="text-xs font-bold text-[var(--muted2)]">Chat en vivo de la ciudad -- podés etiquetar un negocio con @nombre</p>
         </div>
         <div className="flex-1 space-y-5 overflow-y-auto p-6 sm:p-8">
-          {mensajes.length === 0 && <p className="text-center text-xs text-white/30">Todavía no hay mensajes. ¡Escribí el primero!</p>}
+          {mensajes.length === 0 && <p className="text-center text-xs text-[var(--muted2)]">Todavía no hay mensajes. ¡Escribí el primero!</p>}
           {mensajes.map((m) => (
             <div key={m.id} className="group flex items-start justify-between gap-2 text-sm">
               <p className="min-w-0">
@@ -133,12 +133,12 @@ export default function CityChat({ locationId }: { locationId: string }) {
                     <Store className="h-2.5 w-2.5" /> Negocio
                   </span>
                 )}
-                <span className="text-white/40">: </span>
-                <span className="text-white/85">{renderBody(m.body, negociosPorSlug)}</span>
+                <span className="text-[var(--muted2)]">: </span>
+                <span className="text-[var(--text)]/85">{renderBody(m.body, negociosPorSlug)}</span>
               </p>
               {user && user.id !== m.user_id && (
                 <button onClick={() => reportar(m.id)} title="Reportar mensaje" aria-label="Reportar mensaje"
-                  className="shrink-0 text-white/20 opacity-0 transition group-hover:opacity-100 hover:text-red-400">
+                  className="shrink-0 text-[var(--muted2)] opacity-0 transition group-hover:opacity-100 hover:text-red-400">
                   <Flag className="h-3.5 w-3.5" />
                 </button>
               )}
@@ -147,12 +147,12 @@ export default function CityChat({ locationId }: { locationId: string }) {
           <div ref={bottomRef} />
         </div>
         {user ? (
-          <div className="relative border-t border-white/5 bg-white/[.01] p-5 sm:p-6">
+          <div className="relative border-t border-[var(--ov-05)] bg-[var(--ov-02)] p-5 sm:p-6">
             {sugerencias.length > 0 && (
-              <div className="absolute bottom-full left-3 right-3 mb-1 rounded-xl border border-white/10 bg-[#1c1819] p-1.5 shadow-2xl">
+              <div className="absolute bottom-full left-3 right-3 mb-1 rounded-xl border border-[var(--line)] bg-[var(--surface2)] p-1.5 shadow-2xl">
                 {sugerencias.map((n) => (
                   <button key={n.slug} onClick={() => elegirMencion(n)}
-                    className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs font-bold hover:bg-white/10">
+                    className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs font-bold text-[var(--text)] hover:bg-[var(--ov-10)]">
                     <Store className="h-3 w-3 text-orange-400" /> {n.name}
                   </button>
                 ))}
@@ -161,15 +161,15 @@ export default function CityChat({ locationId }: { locationId: string }) {
             <div className="flex gap-2">
               <input value={texto} onChange={(e) => onChangeTexto(e.target.value)} onKeyDown={(e) => e.key === "Enter" && enviar()}
                 placeholder="Escribí algo... (@ para etiquetar un negocio)" maxLength={500}
-                className="flex-1 rounded-full border border-white/15 bg-black/20 px-4 py-2 text-sm outline-none focus:border-orange-400" />
+                className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2 text-sm text-[var(--text)] outline-none focus:border-orange-400" />
               <button onClick={enviar} disabled={!texto.trim() || enviando} aria-label="Enviar"
                 className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 disabled:opacity-50">
-                <Send className="h-4 w-4" />
+                <Send className="h-4 w-4 text-white" />
               </button>
             </div>
           </div>
         ) : (
-          <p className="border-t border-white/5 p-5 text-center text-xs text-white/40 sm:p-6">
+          <p className="border-t border-[var(--ov-05)] p-5 text-center text-xs text-[var(--muted2)] sm:p-6">
             <Link href="/login" className="font-bold text-orange-400 hover:text-orange-300">Iniciá sesión</Link> para participar del chat.
           </p>
         )}

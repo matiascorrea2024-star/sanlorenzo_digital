@@ -101,7 +101,7 @@ export default function AnalyticsPage() {
   }, [selectedBiz]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
+    return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Cargando...</main>;
   }
 
   const negocioSel = negocios.find(b => b.id === selectedBiz);
@@ -119,7 +119,7 @@ export default function AnalyticsPage() {
   const maxViews = Math.max(...timeline.map(d => d.views), 1);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <DashboardNav />
         
@@ -127,15 +127,15 @@ export default function AnalyticsPage() {
           <TrendingUp className="h-8 w-8 text-orange-400" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Analytics</h1>
-            <p className="text-white/60">Estadísticas de los últimos 30 días</p>
+            <p className="text-[var(--muted)]">Estadísticas de los últimos 30 días</p>
           </div>
         </div>
 
         {negocios.length === 0 ? (
-          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <p className="font-bold">Todavía no tenés un negocio creado.</p>
-              <p className="mt-1 text-sm text-white/50">Cuando crees tu negocio, acá vas a ver visitas, contactos por WhatsApp y más.</p>
+              <p className="mt-1 text-sm text-[var(--muted)]">Cuando crees tu negocio, acá vas a ver visitas, contactos por WhatsApp y más.</p>
               <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
             </div>
           </div>
@@ -146,7 +146,7 @@ export default function AnalyticsPage() {
             {negocios.map(b => (
               <button key={b.id} onClick={() => setSelectedBiz(b.id)}
                 className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold transition ${
-                  selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5"
+                  selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)]"
                 }`}>
                 {b.name}
               </button>
@@ -156,14 +156,14 @@ export default function AnalyticsPage() {
 
         {!planActual.stats ? (
           <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
               <p className="font-black">Las estadísticas completas son de Plan PRO</p>
-              <p className="mx-auto mt-1 max-w-sm text-sm text-white/60">
+              <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
                 Con el plan Gratis ves solo tus visitas totales. Con PRO Comerciante desbloqueás el detalle día a día,
                 contactos por WhatsApp, favoritos, cupones y tasa de conversión.
               </p>
-              <p className="mt-4 text-3xl font-black text-orange-400 tabular-nums">{stats.views} <span className="text-sm font-bold text-white/50">visitas (30 días)</span></p>
+              <p className="mt-4 text-3xl font-black text-orange-400 tabular-nums">{stats.views} <span className="text-sm font-bold text-[var(--muted)]">visitas (30 días)</span></p>
               <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
             </div>
           </div>
@@ -172,11 +172,11 @@ export default function AnalyticsPage() {
         {/* Stats cards */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 mb-8">
           {cards.map(c => (
-            <div key={c.label} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div key={c.label} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                 <c.icon className={`mx-auto h-6 w-6 ${c.color}`} />
                 <p className="mt-2 text-3xl font-black tabular-nums">{c.value}</p>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">{c.label} <InfoTip label={`Qué significa ${c.label}`}>{c.info}</InfoTip></p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{c.label} <InfoTip label={`Qué significa ${c.label}`}>{c.info}</InfoTip></p>
               </div>
             </div>
           ))}
@@ -184,12 +184,12 @@ export default function AnalyticsPage() {
 
         {posicion && (
           <div className="mb-8 rounded-[1.75rem] border border-sky-400/25 bg-gradient-to-br from-sky-500/[.08] to-blue-500/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <p className="flex items-center gap-1.5 font-black">
                 📊 Tu lugar en la categoría
                 <InfoTip label="Cómo se calcula">Se compara con los demás negocios de tu mismo rubro usando los mismos puntos reales del ranking (seguidores, reseñas, ofertas, cupones canjeados) -- sin mostrar datos privados de nadie.</InfoTip>
               </p>
-              <p className="mt-2 text-sm text-white/70">
+              <p className="mt-2 text-sm text-[var(--text)]/70">
                 Estás en el <strong className="text-sky-300">puesto {posicion.puesto} de {posicion.total}</strong> -- eso te ubica en el{" "}
                 <strong className="text-sky-300">top {posicion.percentil}%</strong> de tu rubro.
               </p>
@@ -198,17 +198,17 @@ export default function AnalyticsPage() {
         )}
 
         {/* Timeline gráfico simple */}
-        <div className="mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <h2 className="text-lg font-black mb-4">Actividad últimos 7 días</h2>
           <div className="space-y-3">
             {timeline.map(day => (
               <div key={day.date} className="flex items-center gap-3">
-                <span className="w-20 text-xs text-white/50">
+                <span className="w-20 text-xs text-[var(--muted)]">
                   {new Date(day.date).toLocaleDateString("es-AR", { weekday: "short", day: "numeric" })}
                 </span>
                 <div className="flex-1 flex items-center gap-2">
-                  <div className="flex-1 h-6 bg-white/5 rounded overflow-hidden">
+                  <div className="flex-1 h-6 bg-[var(--ov-05)] rounded overflow-hidden">
                     <div className="h-full bg-gradient-to-r from-orange-500 to-red-600 transition-all"
                       style={{ width: `${(day.views / maxViews) * 100}%` }} />
                   </div>
@@ -217,26 +217,26 @@ export default function AnalyticsPage() {
               </div>
             ))}
           </div>
-          <p className="mt-3 text-xs text-white/40">Barras = visitas al negocio</p>
+          <p className="mt-3 text-xs text-[var(--muted2)]">Barras = visitas al negocio</p>
         </div>
         </div>
 
         {/* Conversión */}
         <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-          <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <h2 className="text-lg font-black mb-3 flex items-center gap-1.5">
               Tasa de conversión
               <InfoTip label="Qué es la tasa de conversión">De cada 100 personas que ven tu negocio, cuántas terminan haciendo algo concreto (escribirte o generar un cupón). Un número más alto significa que tu ficha convence.</InfoTip>
             </h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-xs text-white/60">Visitas → WhatsApp</p>
+                <p className="text-xs text-[var(--muted)]">Visitas → WhatsApp</p>
                 <p className="text-2xl font-black text-green-400 tabular-nums">
                   {stats.views > 0 ? ((stats.whatsapp / stats.views) * 100).toFixed(1) : 0}%
                 </p>
               </div>
               <div>
-                <p className="text-xs text-white/60">Visitas → Cupones</p>
+                <p className="text-xs text-[var(--muted)]">Visitas → Cupones</p>
                 <p className="text-2xl font-black text-emerald-400 tabular-nums">
                   {stats.views > 0 ? ((stats.coupons / stats.views) * 100).toFixed(1) : 0}%
                 </p>

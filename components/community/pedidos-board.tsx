@@ -140,18 +140,18 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
     <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
       {/* IZQUIERDA: intro editorial + compositor + stats reales */}
       <div className="lg:col-span-5">
-        <div className="rounded-[2rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="rounded-[1.625rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[2rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="rounded-[1.625rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <div className="mb-4 flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10"><PenTool className="h-3.5 w-3.5 text-orange-400" /></span>
-              <span className="text-xs font-bold uppercase tracking-widest text-white/70">Nueva solicitud</span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--ov-10)]"><PenTool className="h-3.5 w-3.5 text-orange-400" /></span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--muted)]">Nueva solicitud</span>
             </div>
             <textarea value={texto} onChange={(e) => setTexto(e.target.value)} rows={3} maxLength={280}
               placeholder="¿Qué estás buscando? Ej: alguien que tenga un repuesto de..."
-              className="w-full resize-none border-none bg-transparent text-lg font-medium text-white outline-none placeholder:text-white/20" />
-            <div className="flex items-center justify-end border-t border-white/5 pt-4">
+              className="w-full resize-none border-none bg-transparent text-lg font-medium text-[var(--text)] outline-none placeholder:text-[var(--muted2)]" />
+            <div className="flex items-center justify-end border-t border-[var(--ov-05)] pt-4">
               <button onClick={publicar} disabled={publicando || texto.trim().length < 5}
-                className="flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-xs font-black uppercase tracking-widest disabled:opacity-50">
+                className="flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-xs font-black uppercase tracking-widest text-white disabled:opacity-50">
                 <Send className="h-3.5 w-3.5" /> {publicando ? "Publicando..." : "Publicar pedido"}
               </button>
             </div>
@@ -160,13 +160,13 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
 
         <div className="mt-10 flex gap-10">
           <div>
-            <span className="block text-4xl font-black" style={{ fontFamily: "var(--font-ticket)" }}>{activos}</span>
-            <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Pedidos activos</span>
+            <span className="block text-4xl font-black text-[var(--text)]" style={{ fontFamily: "var(--font-ticket)" }}>{activos}</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-[var(--muted2)]">Pedidos activos</span>
           </div>
           {tasaRespuesta !== null && (
             <div>
               <span className="block text-4xl font-black text-orange-400" style={{ fontFamily: "var(--font-ticket)" }}>{tasaRespuesta}%</span>
-              <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Tasa de respuesta</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-[var(--muted2)]">Tasa de respuesta</span>
             </div>
           )}
         </div>
@@ -175,30 +175,30 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
       {/* DERECHA: feed */}
       <div className="lg:col-span-7">
         {pedidos.some((p) => p.resuelto) && (
-          <div className="mb-6 flex items-center justify-between border-b border-white/5 pb-4">
-            <span className="text-xs font-black uppercase tracking-widest text-white">Pedidos</span>
-            <button onClick={() => setVerResueltos((v) => !v)} className="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white">
+          <div className="mb-6 flex items-center justify-between border-b border-[var(--ov-05)] pb-4">
+            <span className="text-xs font-black uppercase tracking-widest text-[var(--text)]">Pedidos</span>
+            <button onClick={() => setVerResueltos((v) => !v)} className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted2)] hover:text-[var(--text)]">
               {verResueltos ? "Ocultar resueltos" : "Ver resueltos también"}
             </button>
           </div>
         )}
 
         {visibles.length === 0 ? (
-          <p className="rounded-[2rem] border border-white/10 bg-white/[.02] p-8 text-center text-sm text-white/50">
+          <p className="rounded-[2rem] border border-[var(--line)] bg-[var(--ov-02)] p-8 text-center text-sm text-[var(--muted)]">
             Todavía nadie pidió nada por acá. ¡Arrancá vos!
           </p>
         ) : (
           <div className="space-y-6">
             {visibles.map((p) => (
-              <article key={p.id} className={`rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-6 transition-all duration-500 hover:-translate-y-1 sm:p-8 ${p.resuelto ? "opacity-60" : ""}`}>
+              <article key={p.id} className={`rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-6 transition-all duration-500 hover:-translate-y-1 sm:p-8 ${p.resuelto ? "opacity-60" : ""}`}>
                 <div className="mb-6 flex items-start justify-between gap-3">
                   <div className="flex items-center gap-4">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/5 bg-gradient-to-br from-white/10 to-transparent text-sm font-bold" style={{ fontFamily: "var(--font-space)" }}>
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[var(--ov-05)] bg-gradient-to-br from-[var(--ov-10)] to-transparent text-sm font-bold text-[var(--text)]" style={{ fontFamily: "var(--font-space)" }}>
                       {p.autor.split(" ").map((s: string) => s[0]).slice(0, 2).join("").toUpperCase()}
                     </span>
                     <div>
-                      <h3 className="font-bold">{p.autor}</h3>
-                      <span className="text-xs text-white/40">{tiempoDesde(p.created_at)}</span>
+                      <h3 className="font-bold text-[var(--text)]">{p.autor}</h3>
+                      <span className="text-xs text-[var(--muted2)]">{tiempoDesde(p.created_at)}</span>
                     </div>
                   </div>
                   {p.resuelto ? (
@@ -210,23 +210,23 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
                   )}
                 </div>
 
-                <p className={`mb-6 text-lg font-medium leading-snug ${p.resuelto ? "text-white/50" : "text-white/90"}`}>{p.texto}</p>
+                <p className={`mb-6 text-lg font-medium leading-snug ${p.resuelto ? "text-[var(--muted)]" : "text-[var(--text)]/90"}`}>{p.texto}</p>
 
                 {(respuestas[p.id] || []).length > 0 && (
                   <div className="mb-6 space-y-3">
                     {respuestas[p.id].map((r) => (
-                      <div key={r.id} className="flex items-start gap-3 rounded-3xl border border-white/5 bg-white/5 p-4">
+                      <div key={r.id} className="flex items-start gap-3 rounded-3xl border border-[var(--ov-05)] bg-[var(--ov-05)] p-4">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/20"><Store className="h-3.5 w-3.5 text-emerald-400" /></span>
                         <div className="min-w-0">
                           {r.negocio ? (
                             <div className="mb-1 flex items-center gap-2">
                               <Link href={`/negocio/${r.negocio.slug}`} className="text-xs font-bold text-orange-400 hover:underline">{r.negocio.name}</Link>
-                              <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] font-black uppercase text-white/40">Negocio</span>
+                              <span className="rounded bg-[var(--ov-10)] px-1.5 py-0.5 text-[9px] font-black uppercase text-[var(--muted2)]">Negocio</span>
                             </div>
                           ) : (
-                            <p className="mb-1 text-xs font-bold text-white/70">{r.autor}</p>
+                            <p className="mb-1 text-xs font-bold text-[var(--text)]/70">{r.autor}</p>
                           )}
-                          <p className="text-sm text-white/70">{r.mensaje}</p>
+                          <p className="text-sm text-[var(--text)]/70">{r.mensaje}</p>
                         </div>
                       </div>
                     ))}
@@ -234,12 +234,12 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
                 )}
 
                 {!p.resuelto && (
-                  <div className="flex items-center gap-4 border-t border-white/5 pt-4">
+                  <div className="flex items-center gap-4 border-t border-[var(--ov-05)] pt-4">
                     {abierto === p.id ? (
                       <div className="flex w-full gap-2">
                         <input type="text" value={respTexto} onChange={(e) => setRespTexto(e.target.value)} maxLength={200}
                           placeholder="Yo tengo / conozco un lugar..." autoFocus
-                          className="flex-1 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs outline-none focus:border-orange-400" />
+                          className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2 text-xs text-[var(--text)] outline-none focus:border-orange-400" />
                         <button onClick={() => responder(p.id)} disabled={respondiendo || respTexto.trim().length < 2}
                           className="rounded-full border border-orange-400/40 bg-orange-500/20 px-4 py-2 text-xs font-bold text-orange-300 disabled:opacity-50">
                           Enviar
@@ -247,7 +247,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
                       </div>
                     ) : (
                       <button onClick={() => { setAbierto(p.id); setRespTexto(""); }}
-                        className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/40 hover:text-orange-400">
+                        className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--muted2)] hover:text-orange-400">
                         <MessageCircle className="h-4 w-4" /> Responder
                       </button>
                     )}
@@ -255,7 +255,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
                       const url = typeof window !== "undefined" ? `${window.location.origin}/pedidos` : "/pedidos";
                       if (navigator.share) navigator.share({ title: "¿Quién tiene esto?", text: p.texto, url }).catch(() => {});
                       else navigator.clipboard?.writeText(url);
-                    }} className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/40 hover:text-white">
+                    }} className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--muted2)] hover:text-[var(--text)]">
                       <Share2 className="h-4 w-4" /> Compartir
                     </button>
                     {user?.id === p.user_id && (

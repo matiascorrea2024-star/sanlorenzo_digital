@@ -30,15 +30,15 @@ export default function PlanLimitBanner() {
 
   return (
     <div className="mb-6 rounded-[1.75rem] border border-orange-400/30 bg-gradient-to-r from-orange-500/[.1] to-red-600/[.06] p-1.5">
-      <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+      <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-3">
             <Lock className="h-6 w-6 text-orange-400" />
             <div>
-              <p className="font-black">
+              <p className="font-black text-[var(--text)]">
                 Llegaste al límite del plan {plan.name} ({info.activas} oferta{info.activas === 1 ? "" : "s"} activa{info.activas === 1 ? "" : "s"})
               </p>
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-[var(--muted)]">
                 Pasá a PRO Comerciante para publicar ofertas ilimitadas + estadísticas + historias.
               </p>
             </div>

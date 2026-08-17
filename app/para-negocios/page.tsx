@@ -21,9 +21,9 @@ export default async function Page() {
   ];
 
   return (
-    <main className="bg-[#0c0a0b] text-white">
+    <main className="bg-[var(--bg)] text-[var(--text)]">
       {/* Hero editorial -- página de venta, no un listado más */}
-      <section className="relative overflow-hidden border-b border-white/5">
+      <section className="relative overflow-hidden border-b border-[var(--ov-05)]">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.22), transparent 55%), radial-gradient(circle at 90% 30%, rgba(34,211,238,.12), transparent 55%)" }} />
         <div className="relative mx-auto max-w-4xl px-4 py-20 text-center md:py-28">
           <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/10 px-4 py-1.5 text-xs font-black uppercase tracking-[.2em] text-orange-300">
@@ -34,13 +34,13 @@ export default async function Page() {
             <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">mapa digital</span>{" "}
             de la ciudad.
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-white/70">Miniweb propia, productos con fotos, promociones que se renuevan solas y contacto directo por WhatsApp. Sin saber programar.</p>
+          <p className="mx-auto mt-5 max-w-xl text-lg text-[var(--text)]/70">Miniweb propia, productos con fotos, promociones que se renuevan solas y contacto directo por WhatsApp. Sin saber programar.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="/dashboard/nuevo" className="group/cta flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 pl-6 pr-2 text-sm font-black text-white transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.98]">
+            <a href="/dashboard/nuevo" className="group/cta flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 pl-6 pr-2 text-sm font-black text-[var(--text)] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.98]">
               Crear mi miniweb gratis
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black/15 transition-transform duration-300 group-hover/cta:translate-x-0.5">→</span>
             </a>
-            {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/15 px-6 py-3 text-sm font-bold hover:bg-white/5">Hablar por WhatsApp</a>}
+            {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className="rounded-full border border-[var(--line-strong)] px-6 py-3 text-sm font-bold hover:bg-[var(--ov-05)]">Hablar por WhatsApp</a>}
           </div>
         </div>
       </section>
@@ -49,11 +49,11 @@ export default async function Page() {
         <h2 className="mb-8 text-center text-2xl font-black tracking-tight md:text-3xl" style={{ fontFamily: "var(--font-space)" }}>Qué obtenés</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {BENEFICIOS.map((b) => (
-            <div key={b.t} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div key={b.t} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${b.grad} text-2xl shadow-lg`}>{b.i}</div>
                 <h3 className="mt-3 font-black">{b.t}</h3>
-                <p className="mt-1.5 text-sm text-white/60">{b.d}</p>
+                <p className="mt-1.5 text-sm text-[var(--muted)]">{b.d}</p>
               </div>
             </div>
           ))}
@@ -66,14 +66,14 @@ export default async function Page() {
           <div className="grid gap-4 sm:grid-cols-2">
             {ejemplos.map((b: any) => (
               <a key={b.slug} href={`/negocio/${b.slug}`}
-                className="group overflow-hidden rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:border-orange-400/30">
-                <div className="overflow-hidden rounded-[1.1rem] border border-white/[.05] bg-black/10">
+                className="group overflow-hidden rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:border-orange-400/30">
+                <div className="overflow-hidden rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)]">
                   <div className="relative h-28 w-full overflow-hidden">
                     <CategoryCover category={b.category} seed={b.slug} className="h-full w-full transition duration-500 group-hover:scale-110" />
                   </div>
                   <div className="p-4">
                     <h3 className="font-black">{b.name}</h3>
-                    <p className="text-sm capitalize text-white/50">{b.category} · ✓ verificado</p>
+                    <p className="text-sm capitalize text-[var(--muted)]">{b.category} · ✓ verificado</p>
                   </div>
                 </div>
               </a>
@@ -84,9 +84,9 @@ export default async function Page() {
 
       <section className="mx-auto max-w-4xl px-4 pb-20">
         <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-          <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] md:p-12">
+          <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)] md:p-12">
             <h2 className="text-2xl font-black tracking-tight md:text-3xl" style={{ fontFamily: "var(--font-space)" }}>Fundadores de la plataforma</h2>
-            <p className="mx-auto mt-3 max-w-md text-sm text-white/60">Los primeros comercios entran con beneficios de fundador -- se reclama solo, sin esperar a nadie.</p>
+            <p className="mx-auto mt-3 max-w-md text-sm text-[var(--muted)]">Los primeros comercios entran con beneficios de fundador -- se reclama solo, sin esperar a nadie.</p>
             <a href="/dashboard/nuevo" className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-95">Crear mi negocio y reclamar</a>
           </div>
         </div>

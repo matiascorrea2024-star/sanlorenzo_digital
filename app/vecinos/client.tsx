@@ -66,7 +66,7 @@ export default function VecinosPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
         <RankingSwitch current="vecinos" />
 
@@ -75,27 +75,27 @@ export default function VecinosPage() {
           RANKING DE{" "}
           <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">VECINOS</span>
         </h1>
-        <p className="mt-4 max-w-lg text-lg text-white/50">Los vecinos más activos de San Lorenzo. ¿Llegás al podio?</p>
+        <p className="mt-4 max-w-lg text-lg text-[var(--muted)]">Los vecinos más activos de San Lorenzo. ¿Llegás al podio?</p>
 
         {miRank && (
-          <div className="mt-8 rounded-[1.75rem] border border-orange-400/20 bg-white/[.02] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="mt-8 rounded-[1.75rem] border border-orange-400/20 bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-sm font-black text-orange-300">
                 📍 Vas {miRank.puesto}º de {miRank.total} vecinos · {miRank.puntos} puntos
               </p>
-              <p className="mt-1 text-xs text-white/50">Seguí sumando para aparecer en el podio 👇</p>
+              <p className="mt-1 text-xs text-[var(--muted)]">Seguí sumando para aparecer en el podio 👇</p>
             </div>
           </div>
         )}
 
         <div className="mt-8 space-y-3">
-          {loading && <p className="text-center text-white/50">Cargando vecinos...</p>}
+          {loading && <p className="text-center text-[var(--muted)]">Cargando vecinos...</p>}
           {!loading &&
             vecinos.map((v, i) => {
               const r = rangoDeUsuario(v.puntos);
               return (
-                <div key={v.id} className={`rounded-[1.5rem] border transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 ${i === 0 ? "p-2 border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 to-transparent" : "p-1.5 border-white/[.06] bg-white/[.02]"}`}>
-                  <div className={`flex items-center gap-4 rounded-[1.1rem] border border-white/[.05] bg-black/10 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] ${i === 0 ? "p-5" : "p-3.5"}`}>
+                <div key={v.id} className={`rounded-[1.5rem] border transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 ${i === 0 ? "p-2 border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 to-transparent" : "p-1.5 border-[var(--ov-06)] bg-[var(--ov-02)]"}`}>
+                  <div className={`flex items-center gap-4 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] ${i === 0 ? "p-5" : "p-3.5"}`}>
                     <span className={`shrink-0 text-center font-black ${i === 0 ? "w-12 text-4xl" : "w-8 text-xl"}`}>{medalla(i)}</span>
                     <DivisionFrame puntos={v.puntos} escala={ESCALA_PUNTOS_USUARIO} size={i === 0 ? 56 : 40}>
                       <Avatar name={v.nombre} size={i === 0 ? 52 : 40} />
@@ -106,17 +106,17 @@ export default function VecinosPage() {
                     </div>
                     <div className="shrink-0 text-right">
                       <p className="text-xl font-black text-orange-400" style={{ fontFamily: "var(--font-ticket)" }}>{v.puntos}</p>
-                      <p className="text-[10px] uppercase tracking-wider text-white/40">puntos</p>
+                      <p className="text-[10px] uppercase tracking-wider text-[var(--muted2)]">puntos</p>
                     </div>
                   </div>
                 </div>
               );
             })}
           {!loading && vecinos.length === 0 && (
-            <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-10 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-10 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <p className="text-lg font-bold">Todavía no hay vecinos en el ranking</p>
-                <p className="mt-1 text-sm text-white/50">
+                <p className="mt-1 text-sm text-[var(--muted)]">
                   Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas para sumar puntos.
                 </p>
                 <Link href="/promociones" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">
@@ -127,10 +127,10 @@ export default function VecinosPage() {
           )}
         </div>
 
-        <div className="mt-8 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="mt-8 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <p className="font-black">🎖 ¿Cómo se sube?</p>
-            <p className="mt-1 text-sm text-white/50">
+            <p className="mt-1 text-sm text-[var(--muted)]">
               Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas.
             </p>
             <Link href="/perfil" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">

@@ -26,9 +26,9 @@ export default function TipRotativo() {
           sola línea -- en mobile, con el ícono + "¿Sabías que?" ya
           ocupando espacio, casi ningún tip completaba. Ahora se permite
           que baje a una segunda línea en vez de recortar el texto. */}
-      <div className="flex items-start gap-2.5 rounded-2xl border border-white/10 bg-white/[.03] px-4 py-2.5 text-xs text-white/60 sm:items-center">
+      <div className="flex items-start gap-2.5 rounded-2xl border border-[var(--line)] bg-[var(--ov-03)] px-4 py-2.5 text-xs text-[var(--muted)] sm:items-center">
         <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-orange-400 sm:mt-0" />
-        <span className="shrink-0 font-bold text-white/80">¿Sabías que?</span>
+        <span className="shrink-0 font-bold text-[var(--text)]/80">¿Sabías que?</span>
         <span>{TIPS[i]}</span>
       </div>
     </div>

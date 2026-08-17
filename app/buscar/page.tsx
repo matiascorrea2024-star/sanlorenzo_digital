@@ -122,38 +122,38 @@ function BuscarContent() {
     .sort((a: any, b: any) => (cerca ? (distancias[a.id] ?? 9e9) - (distancias[b.id] ?? 9e9) : 0));
 
   return (
-    <main className="bg-[#0c0a0b] text-white min-h-screen pb-24">
+    <main className="bg-[var(--bg)] text-[var(--text)] min-h-screen pb-24">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <PageHero title="Buscador inteligente" subtitle="Buscá por nombre, producto o rubro, y filtrá como quieras" />
 
-        <div className="mt-5 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-5">
+        <div className="mt-5 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-5">
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Probá: zapatillas, pizza, peluquería…"
-              className="w-full rounded-2xl border border-white/15 bg-white/5 px-5 py-4 text-base outline-none focus:border-orange-400"
+              className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-5 py-4 text-base outline-none focus:border-orange-400"
             />
 
             <div className="mt-4 flex flex-wrap gap-2">
-              <button onClick={() => setConOfertas(!conOfertas)} className={`rounded-full px-4 py-2 text-xs font-black transition ${conOfertas ? "bg-orange-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
+              <button onClick={() => setConOfertas(!conOfertas)} className={`rounded-full px-4 py-2 text-xs font-black transition ${conOfertas ? "bg-orange-500 text-[var(--text)]" : "bg-[var(--ov-05)] text-[var(--text)]/70 hover:bg-[var(--ov-10)]"}`}>
                 🔥 Con ofertas ahora
               </button>
-              <button onClick={() => setAbiertos(!abiertos)} className={`rounded-full px-4 py-2 text-xs font-black transition ${abiertos ? "bg-green-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
+              <button onClick={() => setAbiertos(!abiertos)} className={`rounded-full px-4 py-2 text-xs font-black transition ${abiertos ? "bg-green-500 text-[var(--text)]" : "bg-[var(--ov-05)] text-[var(--text)]/70 hover:bg-[var(--ov-10)]"}`}>
                 🟢 Abierto ahora
               </button>
-              <button onClick={pedirUbicacion} className={`rounded-full px-4 py-2 text-xs font-black transition ${cerca ? "bg-sky-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
+              <button onClick={pedirUbicacion} className={`rounded-full px-4 py-2 text-xs font-black transition ${cerca ? "bg-sky-500 text-[var(--text)]" : "bg-[var(--ov-05)] text-[var(--text)]/70 hover:bg-[var(--ov-10)]"}`}>
                 📍 {cerca ? "Ordenando por cercanía ✓" : "Cerca mío"}
               </button>
-              <button onClick={() => setConEnvios(!conEnvios)} className={`rounded-full px-4 py-2 text-xs font-black transition ${conEnvios ? "bg-sky-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
+              <button onClick={() => setConEnvios(!conEnvios)} className={`rounded-full px-4 py-2 text-xs font-black transition ${conEnvios ? "bg-sky-500 text-[var(--text)]" : "bg-[var(--ov-05)] text-[var(--text)]/70 hover:bg-[var(--ov-10)]"}`}>
                 🚚 Hace envíos
               </button>
             </div>
           </div>
         </div>
 
-        <p className="mt-6 text-sm text-white/50">
-          {resultados.length} resultados{buscando && <span className="ml-2 text-white/30">buscando...</span>}
+        <p className="mt-6 text-sm text-[var(--muted)]">
+          {resultados.length} resultados{buscando && <span className="ml-2 text-[var(--muted2)]">buscando...</span>}
         </p>
 
         {/* Misma card que Home/Negocios (marco de rango, badges, hover) --
@@ -164,7 +164,7 @@ function BuscarContent() {
             <BusinessCard key={b.id} b={b} userCoords={cerca ? { lat: cerca.lat, lon: cerca.lng } : null} />
           ))}
           {!buscando && resultados.length === 0 && (
-            <p className="col-span-full text-center text-white/50 py-16">No encontramos nada con esos filtros. Probá con menos filtros o otra palabra.</p>
+            <p className="col-span-full text-center text-[var(--muted)] py-16">No encontramos nada con esos filtros. Probá con menos filtros o otra palabra.</p>
           )}
         </div>
       </div>

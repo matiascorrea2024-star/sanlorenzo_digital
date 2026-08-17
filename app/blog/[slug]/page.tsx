@@ -32,19 +32,19 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-2xl px-4 py-10">
         <Link href="/blog" className="text-sm text-orange-400 hover:text-orange-300">← Volver al blog</Link>
         {post.cover_url && (
-          <div className="relative mt-5 h-64 w-full overflow-hidden rounded-[1.5rem] border border-white/[.06]">
+          <div className="relative mt-5 h-64 w-full overflow-hidden rounded-[1.5rem] border border-[var(--ov-06)]">
             <Image src={post.cover_url} alt={post.title} fill sizes="(max-width: 768px) 100vw, 672px" quality={92} priority className="object-cover" />
           </div>
         )}
         <h1 className="mt-5 text-3xl font-black tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-space)" }}>{post.title}</h1>
-        <p className="mt-2 text-xs text-white/40">
+        <p className="mt-2 text-xs text-[var(--muted2)]">
           {post.author && `${post.author} · `}{new Date(post.created_at).toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" })}
         </p>
-        <div className="mt-6 whitespace-pre-line text-[15px] leading-relaxed text-white/80">
+        <div className="mt-6 whitespace-pre-line text-[15px] leading-relaxed text-[var(--text)]/80">
           {post.content}
         </div>
       </div>

@@ -121,40 +121,40 @@ export default function CargarBulkPage() {
   if (role !== "admin") return null;
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">
           <Upload className="h-8 w-8 text-orange-400" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Carga masiva de negocios</h1>
-            <p className="text-white/60">Cargá negocios reales desde CSV en 2 minutos</p>
+            <p className="text-[var(--muted)]">Cargá negocios reales desde CSV en 2 minutos</p>
           </div>
         </div>
 
         {/* Ciudad destino -- sin esto, antes se cargaban TODOS los negocios
             en San Lorenzo sin importar la ciudad real (bug corregido). */}
-        <div className="mb-6 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-        <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="mb-6 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <p className="font-bold mb-2">Ciudad de estos negocios</p>
           <select value={ciudadId} onChange={(e) => setCiudadId(e.target.value)}
-            className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm outline-none focus:border-orange-400">
+            className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400">
             <option value="">Elegí una ciudad...</option>
             {ciudades.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
           {ciudades.length === 0 && (
-            <p className="mt-2 text-xs text-white/40">No hay ciudades creadas todavía -- creá una desde la pestaña &quot;Ciudades&quot; del panel admin.</p>
+            <p className="mt-2 text-xs text-[var(--muted2)]">No hay ciudades creadas todavía -- creá una desde la pestaña &quot;Ciudades&quot; del panel admin.</p>
           )}
         </div>
         </div>
 
         {/* Plantilla */}
         <div className="mb-6 rounded-[1.5rem] border border-sky-400/25 bg-sky-500/[.06] p-1.5">
-          <div className="flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <Download className="h-6 w-6 text-sky-400" />
             <div className="flex-1">
               <p className="font-bold">1. Descargá la plantilla CSV</p>
-              <p className="text-sm text-white/60">Completala con los negocios reales de San Lorenzo</p>
+              <p className="text-sm text-[var(--muted)]">Completala con los negocios reales de San Lorenzo</p>
             </div>
             <button onClick={descargarPlantilla}
               className="rounded-full bg-sky-500/20 border border-sky-400/40 px-4 py-2 text-xs font-black text-sky-200 hover:bg-sky-500/30">
@@ -164,12 +164,12 @@ export default function CargarBulkPage() {
         </div>
 
         {/* CSV input */}
-        <div className="mb-6 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-        <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="mb-6 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <p className="font-bold mb-2">2. Pegá el CSV acá</p>
           <textarea value={csv} onChange={(e) => setCsv(e.target.value)} rows={10}
             placeholder="nombre,categoria,direccion,whatsapp,descripcion,horario\nPizzería X,gastronomia,Av. San Martín 100,5493415555555,Descripción,Horario"
-            className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3 font-mono text-xs outline-none focus:border-orange-400" />
+            className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 font-mono text-xs outline-none focus:border-orange-400" />
           <button onClick={parsear} disabled={!csv.trim()}
             className="mt-3 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">
             Previsualizar ({preview.length} negocios)
@@ -179,17 +179,17 @@ export default function CargarBulkPage() {
 
         {/* Preview */}
         {preview.length > 0 && (
-          <div className="mb-6 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="mb-6 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <p className="font-bold mb-3">3. Revisá antes de cargar ({preview.length} negocios)</p>
             <div className="max-h-64 overflow-y-auto space-y-2">
               {preview.map((b, i) => (
-                <div key={i} className="rounded-lg border border-white/10 bg-black/30 p-3 text-sm">
+                <div key={i} className="rounded-lg border border-[var(--line)] bg-[var(--card-inner)] p-3 text-sm">
                   <p className="font-bold">{b.nombre}</p>
-                  <p className="text-xs text-white/50 capitalize">
+                  <p className="text-xs text-[var(--muted)] capitalize">
                     {b.categoria} · {b.direccion || "sin dirección"}
                   </p>
-                  {b.whatsapp && <p className="text-xs text-white/40">📱 {b.whatsapp}</p>}
+                  {b.whatsapp && <p className="text-xs text-[var(--muted2)]">📱 {b.whatsapp}</p>}
                 </div>
               ))}
             </div>
@@ -205,12 +205,12 @@ export default function CargarBulkPage() {
         {/* Resultado */}
         {result && (
           <div className="rounded-[1.5rem] border border-green-400/30 bg-green-500/[.06] p-1.5">
-            <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="h-8 w-8 text-green-400" />
                 <div>
                   <p className="text-xl font-black">Carga completada</p>
-                  <p className="text-sm text-white/70">
+                  <p className="text-sm text-[var(--text)]/70">
                     ✅ {result.ok} exitosos · ❌ {result.fail} fallidos
                   </p>
                 </div>
@@ -219,7 +219,7 @@ export default function CargarBulkPage() {
                 <div className="mt-4 rounded-xl bg-red-500/10 border border-red-400/30 p-3">
                   <p className="text-xs font-bold text-red-300 mb-1">Errores:</p>
                   {result.errores.slice(0, 5).map((e, i) => (
-                    <p key={i} className="text-xs text-white/60">• {e}</p>
+                    <p key={i} className="text-xs text-[var(--muted)]">• {e}</p>
                   ))}
                 </div>
               )}
@@ -227,7 +227,7 @@ export default function CargarBulkPage() {
           </div>
         )}
 
-        <p className="mt-6 text-center text-xs text-white/40">
+        <p className="mt-6 text-center text-xs text-[var(--muted2)]">
           Los negocios cargados quedan en estado &quot;pendiente&quot; y se verifican desde /admin.
         </p>
       </div>

@@ -52,9 +52,9 @@ export default function AdminVisits() {
   return (
     <div className="mt-8">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-lg font-black">🌐 Últimas visitas (con IP)</h3>
+        <h3 className="text-lg font-black text-[var(--text)]">🌐 Últimas visitas (con IP)</h3>
         <div className="flex items-center gap-2">
-          <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[9px] font-bold uppercase tracking-wide text-white/40">Herramienta de prueba</span>
+          <span className="rounded-full border border-[var(--line)] bg-[var(--ov-05)] px-2 py-1 text-[9px] font-bold uppercase tracking-wide text-[var(--muted2)]">Herramienta de prueba</span>
           <button
             onClick={sembrar}
             disabled={loading}
@@ -65,30 +65,30 @@ export default function AdminVisits() {
           </button>
         </div>
       </div>
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+      <div className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--ov-05)]">
         <table className="w-full text-sm">
-          <thead className="border-b border-white/10 bg-white/5">
+          <thead className="border-b border-[var(--line)] bg-[var(--ov-05)]">
             <tr>
-              <th className="px-3 py-2 text-left text-[10px] font-bold text-white/60 md:px-4 md:text-xs">IP</th>
-              <th className="px-3 py-2 text-left text-[10px] font-bold text-white/60 md:px-4 md:text-xs">Negocio / Página</th>
-              <th className="px-3 py-2 text-left text-[10px] font-bold text-white/60 md:px-4 md:text-xs">Cuándo</th>
+              <th className="px-3 py-2 text-left text-[10px] font-bold text-[var(--muted)] md:px-4 md:text-xs">IP</th>
+              <th className="px-3 py-2 text-left text-[10px] font-bold text-[var(--muted)] md:px-4 md:text-xs">Negocio / Página</th>
+              <th className="px-3 py-2 text-left text-[10px] font-bold text-[var(--muted)] md:px-4 md:text-xs">Cuándo</th>
             </tr>
           </thead>
           <tbody>
             {visibles.length === 0 ? (
               <tr>
-                <td colSpan={3} className="px-4 py-6 text-center text-xs text-white/40">
+                <td colSpan={3} className="px-4 py-6 text-center text-xs text-[var(--muted2)]">
                   Todavía no hay visitas. Tocá &quot;Simular 5 visitas&quot; para ver datos de ejemplo.
                 </td>
               </tr>
             ) : (
               visibles.map((v, i) => (
-                <tr key={v.id || i} className="border-b border-white/5 hover:bg-white/5">
+                <tr key={v.id || i} className="border-b border-[var(--ov-05)] hover:bg-[var(--ov-05)]">
                   <td className="px-3 py-2 font-mono text-[10px] text-orange-300 md:px-4 md:text-xs">{v.ip || "—"}</td>
-                  <td className="max-w-[140px] truncate px-3 py-2 text-[10px] md:max-w-none md:px-4 md:text-xs">
+                  <td className="max-w-[140px] truncate px-3 py-2 text-[10px] text-[var(--text)] md:max-w-none md:px-4 md:text-xs">
                     {v.business_id ? (nombres[v.business_id] || "Miniweb") : v.path || "/"}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-2 text-[10px] text-white/50 md:px-4 md:text-xs">{timeAgo(v.viewed_at)}</td>
+                  <td className="whitespace-nowrap px-3 py-2 text-[10px] text-[var(--muted)] md:px-4 md:text-xs">{timeAgo(v.viewed_at)}</td>
                 </tr>
               ))
             )}
@@ -98,12 +98,12 @@ export default function AdminVisits() {
       {views.length > 8 && (
         <button
           onClick={() => setVerMas(!verMas)}
-          className="mt-3 w-full rounded-xl border border-white/10 bg-white/5 py-2 text-xs font-bold text-white/60 transition hover:bg-white/10 hover:text-white"
+          className="mt-3 w-full rounded-xl border border-[var(--line)] bg-[var(--ov-05)] py-2 text-xs font-bold text-[var(--muted)] transition hover:bg-[var(--ov-10)] hover:text-[var(--text)]"
         >
           {verMas ? "▲ Ver menos" : `▼ Ver las ${views.length} visitas`}
         </button>
       )}
-      <p className="mt-2 text-[11px] text-white/40">💡 Las visitas reales se guardan cuando alguien entra a una miniweb.</p>
+      <p className="mt-2 text-[11px] text-[var(--muted2)]">💡 Las visitas reales se guardan cuando alguien entra a una miniweb.</p>
     </div>
   );
 }

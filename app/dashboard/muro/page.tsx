@@ -64,7 +64,7 @@ export default function MuroDashboard() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-2xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-8 flex items-start gap-3">
@@ -72,25 +72,25 @@ export default function MuroDashboard() {
           <div>
             <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Comunidad</p>
             <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Publicar en el muro</h1>
-            <p className="mt-3 text-white/50">Compartí novedades con toda la comunidad.</p>
+            <p className="mt-3 text-[var(--muted)]">Compartí novedades con toda la comunidad.</p>
           </div>
         </div>
 
         {!negocio ? (
-          <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">
+          <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-8 text-center text-[var(--muted)]">
               Necesitás un negocio para publicar en el muro.
             </div>
           </div>
         ) : (
           <>
-            <div className="mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <div className="flex flex-wrap gap-2 mb-4">
                 {TIPOS.map(t => (
                   <button key={t.k} onClick={() => setForm({ ...form, type: t.k })}
                     className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
-                      form.type === t.k ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"
+                      form.type === t.k ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
                     }`}>
                     {t.l}
                   </button>
@@ -98,13 +98,13 @@ export default function MuroDashboard() {
               </div>
               <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
                 placeholder="Título de la publicación *"
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
               <textarea value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })}
                 placeholder="Contale a la comunidad..." rows={3}
-                className="mt-3 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="mt-3 w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
               <input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })}
                 placeholder="URL de imagen (opcional)"
-                className="mt-3 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="mt-3 w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
               <button onClick={publish} disabled={sending || !form.title}
                 className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
                 {sending ? "Publicando..." : "📢 Publicar en el muro"}
@@ -115,11 +115,11 @@ export default function MuroDashboard() {
             <h2 className="mb-3 mt-10 text-lg font-black" style={{ fontFamily: "var(--font-space)" }}>Mis publicaciones ({posts.length})</h2>
             <div className="space-y-3">
               {posts.map(p => (
-                <div key={p.id} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-                <div className="flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <div key={p.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+                <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                   <div className="flex-1">
                     <p className="font-bold">{p.title}</p>
-                    <p className="text-xs text-white/50 capitalize">{p.type} · ❤️ {p.likes || 0}</p>
+                    <p className="text-xs text-[var(--muted)] capitalize">{p.type} · ❤️ {p.likes || 0}</p>
                   </div>
                   <button onClick={() => del(p.id)} className="rounded-lg bg-red-500/20 p-2 hover:bg-red-500/30">
                     <Trash2 className="h-4 w-4 text-red-400" />

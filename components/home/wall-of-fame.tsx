@@ -19,7 +19,7 @@ export default function WallOfFame({ initialTop }: { initialTop: Top[] }) {
       <div className="mb-5 flex items-center gap-2">
         <Trophy className="h-5 w-5 text-yellow-400" />
         <h2 className="text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Salón de la fama</h2>
-        <span className="text-xs text-white/40">· los negocios mejor rankeados de San Lorenzo</span>
+        <span className="text-xs text-[var(--muted2)]">· los negocios mejor rankeados de San Lorenzo</span>
       </div>
       <div className="flex gap-3 overflow-x-auto pb-2">
         {top.map((b, i) => {
@@ -29,7 +29,7 @@ export default function WallOfFame({ initialTop }: { initialTop: Top[] }) {
             <Link key={b.id} href={`/negocio/${b.slug}`}
               className="group relative flex w-40 shrink-0 flex-col items-center gap-2 rounded-2xl border p-4 transition hover:-translate-y-1"
               style={{ borderColor: `${r.accent}55`, background: `linear-gradient(180deg, ${r.accent}14, transparent)` }}>
-              <span className="absolute left-2 top-2 text-xs font-black text-white/30">#{i + 1}</span>
+              <span className="absolute left-2 top-2 text-xs font-black text-[var(--muted2)]">#{i + 1}</span>
               <div className="relative flex h-16 w-16 items-center justify-center rounded-full border-2"
                 style={{ borderColor: r.accent, boxShadow: `0 0 16px ${r.accent}55` }}>
                 {b.logo_url ? (

@@ -32,7 +32,7 @@ export default function InvitarPage() {
     })();
   }, []);
 
-  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white/60 text-sm">Cargando…</main>;
+  if (loading) return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--muted)] text-sm">Cargando…</main>;
 
   const link = user ? `https://sanlorenzodigital.vercel.app/?ref=${user.id}` : "";
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(link)}`;
@@ -65,23 +65,23 @@ export default function InvitarPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <PageHero title="Invitá a tus vecinos" subtitle="Compartí tu link y sumá puntos cuando alguien se una" />
       <div className="mx-auto max-w-lg px-4 py-8 text-center">
 
         {/* Invitar a un negocio -- disponible para cualquiera, sin cuenta. */}
         <div className="mb-6 rounded-[1.75rem] border border-red-400/25 bg-gradient-to-br from-red-600/[.08] to-orange-500/[.04] p-1.5 text-left">
-          <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <div className="flex items-center gap-2">
               <Store className="h-5 w-5 shrink-0 text-orange-400" />
               <p className="font-black">¿Tu negocio favorito no está?</p>
             </div>
-            <p className="mt-1 text-sm text-white/60">Avisale vos mismo por WhatsApp -- es gratis para el negocio y le lleva dos minutos sumarse.</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">Avisale vos mismo por WhatsApp -- es gratis para el negocio y le lleva dos minutos sumarse.</p>
             <input
               value={nombreNegocio}
               onChange={(e) => setNombreNegocio(e.target.value)}
               placeholder="Nombre del negocio (opcional)"
-              className="mt-4 w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white outline-none focus:border-orange-400/60"
+              className="mt-4 w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] outline-none focus:border-orange-400/60"
             />
             <button onClick={invitarNegocio} className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3 text-sm font-black hover:opacity-90">
               <MessageCircle className="h-4 w-4" /> Invitar por WhatsApp
@@ -90,45 +90,45 @@ export default function InvitarPage() {
         </div>
 
         {!user ? (
-          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-8 text-center">
+          <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-8 text-center">
             <p className="mb-3 text-4xl">🔗</p>
             <p className="font-black">¿Querés tu propio link de invitación y sumar puntos?</p>
-            <p className="mt-1 text-sm text-white/60">Iniciá sesión para conseguirlo.</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">Iniciá sesión para conseguirlo.</p>
             <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">Ingresar →</Link>
           </div>
         ) : (
         <>
         <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-          <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <img src={qrUrl} alt="QR de invitación" className="mx-auto h-52 w-52 rounded-2xl bg-white p-3" />
-            <p className="mt-5 break-all rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/70">{link}</p>
+            <p className="mt-5 break-all rounded-xl border border-[var(--line)] bg-[var(--card-inner)] px-4 py-3 text-xs text-[var(--text)]/70">{link}</p>
             <div className="mt-4 flex flex-wrap justify-center gap-3">
               <button onClick={compartir} className="flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">
                 <Share2 className="h-4 w-4" /> Compartir
               </button>
-              <button onClick={copiar} className="flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-sm font-bold hover:bg-white/10">
+              <button onClick={copiar} className="flex items-center gap-2 rounded-full border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold hover:bg-[var(--ov-10)]">
                 {copied ? <Check className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />}
                 {copied ? "¡Copiado!" : "Copiar link"}
               </button>
             </div>
           </div>
         </div>
-        <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 text-left">
-          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 text-left">
+          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <p className="flex items-center justify-between font-black">
               <span>Tus referidos</span>
-              <span className="text-orange-400">{activos} activos <span className="text-white/40 font-normal">/ {total} totales</span></span>
+              <span className="text-orange-400">{activos} activos <span className="text-[var(--muted2)] font-normal">/ {total} totales</span></span>
             </p>
-            <p className="mt-1 text-xs text-white/40">Activo = la persona ya completó el onboarding, no solo se registró.</p>
+            <p className="mt-1 text-xs text-[var(--muted2)]">Activo = la persona ya completó el onboarding, no solo se registró.</p>
             <div className="mt-4 space-y-2">
               {HITOS.map((h) => {
                 const logrado = activos >= h.n;
                 return (
-                  <div key={h.n} className={`flex items-center gap-3 rounded-xl border p-3 ${logrado ? "border-green-400/40 bg-green-500/10" : "border-white/10 bg-white/[0.02]"}`}>
-                    <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black ${logrado ? "bg-green-500 text-black" : "bg-white/10 text-white/50"}`}>
+                  <div key={h.n} className={`flex items-center gap-3 rounded-xl border p-3 ${logrado ? "border-green-400/40 bg-green-500/10" : "border-[var(--line)] bg-[var(--ov-02)]"}`}>
+                    <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black ${logrado ? "bg-green-500 text-black" : "bg-[var(--ov-10)] text-[var(--muted)]"}`}>
                       {logrado ? "✓" : h.n}
                     </span>
-                    <p className={`text-xs ${logrado ? "text-green-200" : "text-white/60"}`}>{h.premio}</p>
+                    <p className={`text-xs ${logrado ? "text-green-200" : "text-[var(--muted)]"}`}>{h.premio}</p>
                   </div>
                 );
               })}

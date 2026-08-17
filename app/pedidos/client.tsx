@@ -28,7 +28,7 @@ export default function PedidosPage() {
   }, [locationId]);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       {/* Hero editorial: calco del mockup aprobado -- headline gigante de
           2 líneas con degradé en la segunda, sin centrar. */}
       <div className="relative overflow-hidden">
@@ -43,16 +43,16 @@ export default function PedidosPage() {
                 ¿Quién<br />
                 <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">tiene esto?</span>
               </h1>
-              <p className="mt-5 max-w-md text-lg font-medium leading-relaxed text-white/50">
+              <p className="mt-5 max-w-md text-lg font-medium leading-relaxed text-[var(--muted)]">
                 Publicá lo que buscás y recibí respuestas directas de vecinos y comercios locales. El mercado colaborativo de San Lorenzo.
               </p>
             </div>
             {!loading && ciudades.length > 1 && (
-              <div className="flex min-w-[220px] items-center gap-2 rounded-2xl border border-white/10 bg-white/[.02] px-4 py-3">
+              <div className="flex min-w-[220px] items-center gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-02)] px-4 py-3">
                 <MapPin className="h-4 w-4 shrink-0 text-orange-400" />
                 <select value={locationId} onChange={(e) => setLocationId(e.target.value)}
                   className="w-full cursor-pointer appearance-none bg-transparent text-sm font-bold outline-none">
-                  {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[#1c1819]">{c.name}</option>)}
+                  {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[var(--surface2)]">{c.name}</option>)}
                 </select>
               </div>
             )}

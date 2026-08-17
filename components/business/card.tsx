@@ -26,10 +26,10 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
       className={`group relative block h-full rounded-[1.75rem] border p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 ${
         featured
           ? "border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-transparent hover:border-orange-400/50 hover:shadow-2xl hover:shadow-orange-500/20"
-          : "border-white/[.06] bg-white/[.02] hover:border-orange-400/30 hover:shadow-xl hover:shadow-black/40"
+          : "border-[var(--ov-06)] bg-[var(--ov-02)] hover:border-orange-400/30 hover:shadow-xl hover:shadow-black/40"
       }`}
     >
-    <div className="relative flex h-full flex-col overflow-hidden rounded-[1.375rem] border border-white/[.06] bg-gradient-to-b from-white/[.05] to-white/[.015] shadow-[inset_0_1px_1px_rgba(255,255,255,.08)]">
+    <div className="relative flex h-full flex-col overflow-hidden rounded-[1.375rem] border border-[var(--ov-06)] bg-gradient-to-b from-[var(--ov-05)] to-[var(--ov-02)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
       {/* Imagen de portada */}
       <div className={`relative overflow-hidden ${featured ? "h-48 md:h-72" : "h-24 md:h-32"}`}>
         {b.portada_url ? (
@@ -88,12 +88,12 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
         <h3 className={`truncate font-black transition group-hover:text-orange-300 ${featured ? "text-xl md:text-2xl" : "text-sm md:text-base"}`}>
           {b.name}
         </h3>
-        <p className={`mt-0.5 flex flex-wrap items-center gap-x-1 capitalize text-white/50 ${featured ? "text-xs md:text-sm" : "text-[11px] md:text-xs"}`}>
+        <p className={`mt-0.5 flex flex-wrap items-center gap-x-1 capitalize text-[var(--muted)] ${featured ? "text-xs md:text-sm" : "text-[11px] md:text-xs"}`}>
           <span>{b.category}{b.address ? ` · ${b.address}` : ""}</span>
           <RankBadge slug={b.slug} categoria={b.category} />
         </p>
         {b.description && (
-          <p className={`mt-2 line-clamp-2 text-white/60 ${featured ? "text-sm" : "text-xs"}`}>{b.description}</p>
+          <p className={`mt-2 line-clamp-2 text-[var(--muted)] ${featured ? "text-sm" : "text-xs"}`}>{b.description}</p>
         )}
         {esParticular && (
           <span className="mt-2 w-fit rounded-full border border-cyan-400/30 bg-cyan-500/15 px-2 py-0.5 text-[10px] font-black text-cyan-300">
@@ -103,7 +103,7 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
         <div className="mt-auto flex items-center justify-between pt-3">
           <span className="flex items-center gap-2 text-xs font-bold text-yellow-300">
             ★ {rating}
-            <span className="font-normal text-white/40">({b.reviews || 0})</span>
+            <span className="font-normal text-[var(--muted2)]">({b.reviews || 0})</span>
             {b.hace_envios && <span className="rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[9px] font-black text-sky-300">🚚 Envíos</span>}
           </span>
           <span className="text-xs font-bold text-orange-400 opacity-0 transition group-hover:opacity-100">

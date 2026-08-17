@@ -160,10 +160,10 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   if (loading) {
     return (
-      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
           <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-orange-500"></div>
-          <p className="mt-4 text-white/60">Cargando negocio...</p>
+          <p className="mt-4 text-[var(--muted)]">Cargando negocio...</p>
         </div>
       </main>
     );
@@ -171,7 +171,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   if (!negocio) {
     return (
-      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
           <p className="mb-4 text-5xl">🔍</p>
           <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Negocio no encontrado</h1>
@@ -205,7 +205,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   };
 
   return (
-    <main className="bg-[#0c0a0b] min-h-screen pb-24 text-white">
+    <main className="bg-[var(--bg)] min-h-screen pb-24 text-[var(--text)]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
 
       {/* HERO editorial: foto grande con esquinas muy redondeadas y las
@@ -218,7 +218,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             en mobile, el aspect-ratio ganaba y forzaba el ancho del box
             por ENCIMA del viewport (overflow horizontal real, no cosmético).
             Por eso en mobile usa una relación más vertical y sin mínimo. */}
-        <section className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-2xl shadow-black/50 sm:aspect-[16/9] md:aspect-[21/8]">
+        <section className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem] border border-[var(--line)] shadow-2xl shadow-black/50 sm:aspect-[16/9] md:aspect-[21/8]">
           {negocio.portada_url ? (
             <Image src={negocio.portada_url} alt={negocio.name} fill priority quality={92}
               sizes="100vw" className="object-cover" />
@@ -250,24 +250,24 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         <div className="relative z-10 -mt-10 flex flex-col items-start gap-4 px-2 sm:-mt-14 sm:flex-row sm:items-end sm:px-4">
           {negocio.logo_url ? (
             <DivisionFrame puntos={negocio.puntos || 0} size={104} categoria={negocio.category}>
-              <Image src={negocio.logo_url} alt={negocio.name} width={112} height={112} quality={92} className="h-28 w-28 rounded-3xl border-[6px] border-[#0c0a0b] object-cover shadow-2xl" />
+              <Image src={negocio.logo_url} alt={negocio.name} width={112} height={112} quality={92} className="h-28 w-28 rounded-3xl border-[6px] border-[var(--bg)] object-cover shadow-2xl" />
             </DivisionFrame>
           ) : (
             <DivisionFrame puntos={negocio.puntos || 0} size={112} categoria={negocio.category} showLabel>
-              <div className="flex h-28 w-28 items-center justify-center rounded-3xl border-[6px] border-[#0c0a0b] bg-gradient-to-br from-orange-500 to-red-600 text-4xl font-black shadow-2xl">
+              <div className="flex h-28 w-28 items-center justify-center rounded-3xl border-[6px] border-[var(--bg)] bg-gradient-to-br from-orange-500 to-red-600 text-4xl font-black shadow-2xl">
                 {negocio.name[0]}
               </div>
             </DivisionFrame>
           )}
           <div className="min-w-0 flex-1 pb-1">
-            <p className="text-[10px] font-black uppercase tracking-[.35em] text-white/40">{negocio.category}</p>
+            <p className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--muted2)]">{negocio.category}</p>
             <h1 className="truncate text-3xl font-bold leading-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{negocio.name}</h1>
             <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5">
               {Number(negocio.reviews) > 0 && (
                 <span className="flex items-center gap-1.5 text-amber-400">
                   <Star className="h-4 w-4 fill-current" />
                   <span className="font-black leading-none" style={{ fontFamily: "var(--font-ticket)" }}>{Number(negocio.rating).toFixed(1)}</span>
-                  <span className="text-xs font-normal text-white/40">({negocio.reviews} reseñas)</span>
+                  <span className="text-xs font-normal text-[var(--muted2)]">({negocio.reviews} reseñas)</span>
                 </span>
               )}
               {viendo >= 2 && (
@@ -291,7 +291,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
           <div>
             <p className="font-black">🔔 No te pierdas nada de {negocio.name}</p>
-            <p className="text-sm text-white/60">Te avisamos cuando publiquen ofertas nuevas.</p>
+            <p className="text-sm text-[var(--muted)]">Te avisamos cuando publiquen ofertas nuevas.</p>
           </div>
           <NotifyMeButton businessId={String(negocio.id)} productName={negocio.name} />
         </div>
@@ -299,7 +299,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {negocio.open === false && (
           <div className="mb-6 rounded-2xl border border-red-400/40 bg-red-500/10 p-4 text-center">
             <p className="font-black text-red-300">🔴 Cerrado ahora</p>
-            <p className="mt-1 text-sm text-white/60">
+            <p className="mt-1 text-sm text-[var(--muted)]">
               {negocio.schedule ? `Horario: ${negocio.schedule}` : "Consultá el horario antes de ir."}
             </p>
           </div>
@@ -329,11 +329,11 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${negocio.name} en La Gran Barata Digital`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition hover:-translate-y-1"
+              className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1"
             >
-              <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <MessageCircle className="h-6 w-6 text-emerald-400" />
-                <span className="text-xs font-bold uppercase tracking-widest text-white/80">WhatsApp</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">WhatsApp</span>
               </div>
             </a>
           )}
@@ -343,19 +343,19 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(negocio.address)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition hover:-translate-y-1"
+              className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1"
             >
-              <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <MapPin className="h-6 w-6 text-orange-400" />
-                <span className="text-xs font-bold uppercase tracking-widest text-white/80">Mapa</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">Mapa</span>
               </div>
             </a>
           )}
           <button onClick={share} disabled={compartiendo}
-            className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition hover:-translate-y-1 disabled:opacity-60">
-            <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1 disabled:opacity-60">
+            <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Share2 className={`h-6 w-6 text-sky-400 ${compartiendo ? "animate-pulse" : ""}`} />
-              <span className="text-xs font-bold uppercase tracking-widest text-white/80">{compartiendo ? "Generando..." : "Compartir"}</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">{compartiendo ? "Generando..." : "Compartir"}</span>
             </div>
           </button>
         </div>
@@ -363,7 +363,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {negocio.description && (
           <div className="mb-8">
             <h2 className="mb-3 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Sobre el negocio</h2>
-            <p className="leading-relaxed text-white/80">{negocio.description}</p>
+            <p className="leading-relaxed text-[var(--text)]/80">{negocio.description}</p>
           </div>
         )}
 
@@ -374,16 +374,16 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             se muestran como pestañas (catálogo primero por default). Si
             solo tiene una, se muestra directo sin pestañas de más. */}
         {productos.length > 0 && ofertas.length > 0 && (
-          <div className="mb-5 flex gap-2 rounded-2xl border border-white/10 bg-white/5 p-1.5">
+          <div className="mb-5 flex gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-1.5">
             <button
               onClick={() => setSeccion("catalogo")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "catalogo" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-white/60 hover:text-white"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "catalogo" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Package className="h-4 w-4" /> Catálogo ({productos.length})
             </button>
             <button
               onClick={() => setSeccion("ofertas")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "ofertas" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-white/60 hover:text-white"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "ofertas" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Flame className="h-4 w-4" /> Ofertas ({ofertas.length})
             </button>
@@ -404,7 +404,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   <Link
                     key={o.id}
                     href={`/oferta/${o.id}`}
-                    className="group flex gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-3 transition hover:border-orange-400/40 hover:bg-white/[.07]"
+                    className="group flex gap-4 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-3 transition hover:border-orange-400/40 hover:bg-[var(--ov-08)]"
                   >
                     <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-28">
                       <Image
@@ -429,7 +429,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                       <h3 className="line-clamp-2 text-sm font-black leading-snug sm:text-base">{o.title}</h3>
                       <div className="mt-auto flex items-end justify-between gap-2 pt-1">
                         <div>
-                          {o.old_price && <p className="text-[11px] text-white/40 line-through">{fmt(Number(o.old_price))}</p>}
+                          {o.old_price && <p className="text-[11px] text-[var(--muted2)] line-through">{fmt(Number(o.old_price))}</p>}
                           {o.offer_price && <p className="text-lg font-black text-orange-400">{fmt(Number(o.offer_price))}</p>}
                         </div>
                         {ahorro && ahorro > 0 && (
@@ -452,21 +452,21 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             <h2 className="mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Catálogo ({productos.length})</h2>
             {productos.length > 6 && (
               <div className="relative mb-4">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted2)]" />
                 <input value={qProd} onChange={(e) => setQProd(e.target.value)}
                   placeholder="Buscar en el catálogo..."
-                  className="w-full rounded-xl border border-white/15 bg-white/5 py-2.5 pl-9 pr-4 text-sm outline-none focus:border-orange-400" />
+                  className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] py-2.5 pl-9 pr-4 text-sm outline-none focus:border-orange-400" />
               </div>
             )}
             {catsProductos.length > 1 && (
               <div className="mb-4 flex flex-wrap gap-2">
                 <button onClick={() => setCatProd(null)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"}`}>
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
                   Todos
                 </button>
                 {catsProductos.map((c) => (
                   <button key={c} onClick={() => setCatProd(c)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"}`}>
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
                     {c}
                   </button>
                 ))}
@@ -479,7 +479,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 .filter((p) => !t || `${p.name} ${p.description || ""}`.toLowerCase().includes(t));
               if (visibles.length === 0) {
                 return (
-                  <p className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-sm text-white/50">
+                  <p className="rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-8 text-center text-sm text-[var(--muted)]">
                     No encontramos productos con esa búsqueda.
                   </p>
                 );
@@ -491,8 +491,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 const enOferta = p.old_price && Number(p.old_price) > Number(p.price);
                 const ultimasUnidades = p.stock != null && p.stock > 0 && p.stock <= 3;
                 return (
-                <div key={p.id} className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10">
-                <div className="overflow-hidden rounded-[1.375rem] border border-white/[.06] bg-gradient-to-b from-white/[.05] to-white/[.015] shadow-[inset_0_1px_1px_rgba(255,255,255,.08)]">
+                <div key={p.id} className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10">
+                <div className="overflow-hidden rounded-[1.375rem] border border-[var(--ov-06)] bg-gradient-to-b from-white/[.05] to-white/[.015] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <div className="relative h-40 w-full overflow-hidden">
                     {Array.isArray(p.images) && p.images[0] && (
                       <Image src={p.images[0]} alt={p.name} fill quality={90}
@@ -512,13 +512,13 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     <p className="font-bold flex items-center gap-1.5">
                       {p.name}
                     </p>
-                    {p.description && <p className="mt-1 line-clamp-2 text-xs text-white/60">{p.description}</p>}
+                    {p.description && <p className="mt-1 line-clamp-2 text-xs text-[var(--muted)]">{p.description}</p>}
                     <div className="mt-3 flex items-end justify-between">
                       <div>
-                        {p.old_price && <p className="text-xs text-white/40 line-through">${Number(p.old_price).toLocaleString("es-AR")}</p>}
+                        {p.old_price && <p className="text-xs text-[var(--muted2)] line-through">${Number(p.old_price).toLocaleString("es-AR")}</p>}
                         <p className="text-2xl text-orange-400" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>${Number(p.price).toLocaleString("es-AR")}</p>
                       </div>
-                      {p.stock && <span className="text-[10px] text-white/50">Stock: {p.stock}</span>}
+                      {p.stock && <span className="text-[10px] text-[var(--muted)]">Stock: {p.stock}</span>}
                     </div>
                     <div className="mt-3 flex gap-1.5">
                       {negocio.whatsapp && (
@@ -558,7 +558,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
         {/* Info, reseñas y chat agrupados en pestañas -- antes se apilaban
             uno debajo del otro, ahora está todo junto y elegible. */}
-        <div className="mb-5 flex gap-2 rounded-2xl border border-white/10 bg-white/5 p-1.5">
+        <div className="mb-5 flex gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-1.5">
           {([
             { key: "info" as const, label: "Info y mapa", icon: MapPin },
             { key: "resenas" as const, label: `Reseñas${negocio.reviews ? ` (${negocio.reviews})` : ""}`, icon: Star },
@@ -567,7 +567,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             <button
               key={key}
               onClick={() => setDetalle(key)}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${detalle === key ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-white/60 hover:text-white"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${detalle === key ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Icon className="h-4 w-4" /> {label}
             </button>
@@ -576,16 +576,16 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
         {detalle === "info" && (
           <div className="mb-8 grid gap-6 md:grid-cols-2">
-            <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
-                <p className="mb-5 text-[10px] font-black uppercase tracking-[.35em] text-white/40">Información</p>
+            <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-8">
+                <p className="mb-5 text-[10px] font-black uppercase tracking-[.35em] text-[var(--muted2)]">Información</p>
                 <div className="space-y-5">
                   {negocio.address && (
                     <div className="flex items-start gap-4">
                       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><MapPin className="h-4 w-4 text-orange-400" /></span>
                       <div className="min-w-0">
-                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Dirección</p>
-                        <p className="text-sm text-white/90">{negocio.address}</p>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Dirección</p>
+                        <p className="text-sm text-[var(--text)]/90">{negocio.address}</p>
                       </div>
                     </div>
                   )}
@@ -593,8 +593,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     <div className="flex items-start gap-4">
                       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><Clock className="h-4 w-4 text-orange-400" /></span>
                       <div className="min-w-0">
-                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Horarios</p>
-                        <p className="text-sm text-white/90">{negocio.schedule}</p>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Horarios</p>
+                        <p className="text-sm text-[var(--text)]/90">{negocio.schedule}</p>
                       </div>
                     </div>
                   )}
@@ -602,8 +602,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     <div className="flex items-start gap-4">
                       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><Phone className="h-4 w-4 text-orange-400" /></span>
                       <div className="min-w-0">
-                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">WhatsApp</p>
-                        <p className="text-sm font-bold text-white/90">{negocio.whatsapp}</p>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">WhatsApp</p>
+                        <p className="text-sm font-bold text-[var(--text)]/90">{negocio.whatsapp}</p>
                       </div>
                     </div>
                   )}
@@ -611,7 +611,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     <div className="flex items-start gap-4">
                       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><ExternalLink className="h-4 w-4 text-orange-400" /></span>
                       <div className="min-w-0">
-                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Instagram</p>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Instagram</p>
                         <a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-orange-400 hover:text-orange-300">@{negocio.instagram}</a>
                       </div>
                     </div>
@@ -621,11 +621,11 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10"><Truck className="h-4 w-4 text-sky-400" /></span>
                       <div className="min-w-0">
                         <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-400/70">Envíos</p>
-                        <p className="text-sm text-white/90">
+                        <p className="text-sm text-[var(--text)]/90">
                           {negocio.envio_gratis ? "Envío gratis" : negocio.costo_envio ? `Envío: $${Number(negocio.costo_envio).toLocaleString("es-AR")}` : "Hace envíos"}
                           {negocio.zona_cobertura && ` · ${negocio.zona_cobertura}`}
                         </p>
-                        {negocio.retiro_en_local && <p className="text-xs text-white/50">También hay retiro {negocio.type === "comercio" ? "en el local" : "acordado"}.</p>}
+                        {negocio.retiro_en_local && <p className="text-xs text-[var(--muted)]">También hay retiro {negocio.type === "comercio" ? "en el local" : "acordado"}.</p>}
                       </div>
                     </div>
                   )}
@@ -634,9 +634,9 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             </div>
 
             {negocio.latitude && negocio.longitude && (
-              <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-                <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
-                  <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.35em] text-white/40">
+              <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+                <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-8">
+                  <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.35em] text-[var(--muted2)]">
                     <Navigation className="h-3.5 w-3.5 text-cyan-300" /> Ubicación
                   </p>
                   <BusinessMap latitude={negocio.latitude} longitude={negocio.longitude} address={negocio.address} />

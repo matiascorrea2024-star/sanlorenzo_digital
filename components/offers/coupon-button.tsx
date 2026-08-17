@@ -106,19 +106,19 @@ export default function CouponButton({ offerId, businessId, offerTitle }: {
         </Badge>
       </div>
       
-      <p className="text-xs text-white/60 mb-2">Para: {offerTitle}</p>
-      
+      <p className="text-xs text-[var(--muted)] mb-2">Para: {offerTitle}</p>
+
       <div className="flex items-center gap-3 mb-3">
-        <div className="flex-1 rounded-xl bg-black/40 border border-white/20 px-4 py-3 text-center">
-          <p className="text-2xl font-black tracking-wider">{coupon.code}</p>
+        <div className="flex-1 rounded-xl bg-[var(--card-inner)] border border-[var(--line-strong)] px-4 py-3 text-center">
+          <p className="text-2xl font-black tracking-wider text-[var(--text)]">{coupon.code}</p>
         </div>
         <button onClick={copyCode}
-          className="rounded-xl bg-white/10 border border-white/20 p-3 hover:bg-white/20 transition">
-          {copied ? <Check className="h-5 w-5 text-green-400" /> : <Copy className="h-5 w-5" />}
+          className="rounded-xl bg-[var(--ov-10)] border border-[var(--line-strong)] p-3 hover:bg-[var(--ov-20)] transition">
+          {copied ? <Check className="h-5 w-5 text-green-400" /> : <Copy className="h-5 w-5 text-[var(--text)]" />}
         </button>
       </div>
 
-      <div className="flex items-center justify-between text-xs text-white/50">
+      <div className="flex items-center justify-between text-xs text-[var(--muted)]">
         <span>⏰ Válido por 7 días</span>
         <span className="flex items-center gap-1">
           <QrCode className="h-3 w-3" /> Mostrá este código en el negocio

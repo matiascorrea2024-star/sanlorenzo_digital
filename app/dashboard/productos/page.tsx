@@ -168,12 +168,12 @@ export default function ProductosPage() {
   };
 
   if (loading) return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
-        <div className="h-8 w-40 animate-pulse rounded bg-white/10" />
+        <div className="h-8 w-40 animate-pulse rounded bg-[var(--ov-10)]" />
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-24 animate-pulse rounded-2xl border border-white/10 bg-white/5" />
+            <div key={i} className="h-24 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--ov-05)]" />
           ))}
         </div>
       </div>
@@ -182,7 +182,7 @@ export default function ProductosPage() {
 
   if (!negocio) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+      <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
         <div className="mx-auto max-w-3xl px-4 py-8">
           <DashboardNav />
           <p>No tenés negocios. Creá uno primero.</p>
@@ -192,7 +192,7 @@ export default function ProductosPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-3xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-10 flex items-start gap-3">
@@ -200,10 +200,10 @@ export default function ProductosPage() {
           <div>
             <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Catálogo</p>
             <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mis productos</h1>
-            <p className="mt-3 text-white/50">
+            <p className="mt-3 text-[var(--muted)]">
               Gestioná el catálogo de {negocio.name}
               {planActual.maxProductos !== -1 && (
-                <span className="text-white/40"> · {productos.length}/{planActual.maxProductos} productos (Plan {planActual.name})</span>
+                <span className="text-[var(--muted2)]"> · {productos.length}/{planActual.maxProductos} productos (Plan {planActual.name})</span>
               )}
             </p>
           </div>
@@ -211,7 +211,7 @@ export default function ProductosPage() {
 
         {!puedeSumar && (
           <div className="mb-4 rounded-[1.5rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.1rem] border border-white/[.06] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:flex-row sm:items-center">
+            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.1rem] border border-[var(--ov-06)] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:flex-row sm:items-center">
               <p className="text-sm">Llegaste al límite de {planActual.maxProductos} productos del plan {planActual.name}.</p>
               <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
             </div>
@@ -225,16 +225,16 @@ export default function ProductosPage() {
         ]} />
 
         {!editing && (
-          <div className="mb-4 flex gap-2 rounded-2xl border border-white/10 bg-white/5 p-1.5">
+          <div className="mb-4 flex gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-1.5">
             <button
               onClick={() => setModo("rapida")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "rapida" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-white/60 hover:text-white"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "rapida" ? "bg-gradient-to-r from-orange-500 to-red-600 text-[var(--text)]" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Images className="h-4 w-4" /> Carga rápida por fotos
             </button>
             <button
               onClick={() => setModo("uno")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "uno" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-white/60 hover:text-white"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "uno" ? "bg-gradient-to-r from-orange-500 to-red-600 text-[var(--text)]" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Package className="h-4 w-4" /> Agregar de a uno
             </button>
@@ -243,11 +243,11 @@ export default function ProductosPage() {
 
         {/* Carga rápida por fotos */}
         {modo === "rapida" && !editing && (
-          <div className="mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <h2 className="text-lg font-black mb-1">Carga rápida</h2>
-            <p className="mb-4 text-sm text-white/50">Elegí todas las fotos que quieras cargar ahora.</p>
-            <label className="flex h-28 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-white/20 bg-white/[.03] text-white/50 transition hover:border-orange-400/60 hover:text-white">
+            <p className="mb-4 text-sm text-[var(--muted)]">Elegí todas las fotos que quieras cargar ahora.</p>
+            <label className="flex h-28 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-[var(--line-strong)] bg-[var(--ov-03)] text-[var(--muted)] transition hover:border-orange-400/60 hover:text-[var(--text)]">
               <Images className="h-6 w-6" />
               <span className="text-sm font-bold">Elegir fotos</span>
               <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { agregarFotos(e.target.files); e.target.value = ""; }} />
@@ -256,22 +256,22 @@ export default function ProductosPage() {
             {pendientes.length > 0 && (
               <div className="mt-5 space-y-3">
                 {pendientes.map((p) => (
-                  <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-3">
+                  <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-[var(--line)] bg-black/20 p-3">
                     <img src={p.preview} alt="" className="h-16 w-16 shrink-0 rounded-xl object-cover" />
                     <div className="flex flex-1 flex-col gap-2 sm:flex-row">
                       <input value={p.name} onChange={(e) => actualizarPendiente(p.id, "name", e.target.value)}
                         placeholder="Nombre del producto *" disabled={p.status === "subiendo"}
-                        className="flex-1 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm outline-none focus:border-orange-400 disabled:opacity-50" />
+                        className="flex-1 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-2 text-sm outline-none focus:border-orange-400 disabled:opacity-50" />
                       <input value={p.price} onChange={(e) => actualizarPendiente(p.id, "price", e.target.value)}
                         placeholder="Precio *" type="number" disabled={p.status === "subiendo"}
-                        className="w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm outline-none focus:border-orange-400 disabled:opacity-50 sm:w-32" />
+                        className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-2 text-sm outline-none focus:border-orange-400 disabled:opacity-50 sm:w-32" />
                     </div>
                     {p.status === "subiendo" ? (
                       <Loader2 className="h-5 w-5 shrink-0 animate-spin text-orange-400" />
                     ) : p.status === "error" ? (
                       <span title="No se pudo subir -- probá de nuevo" className="shrink-0 text-xs font-bold text-red-400">Error</span>
                     ) : (
-                      <button onClick={() => quitarPendiente(p.id)} aria-label="Quitar foto" className="shrink-0 rounded-lg bg-white/10 p-2 hover:bg-red-500/20">
+                      <button onClick={() => quitarPendiente(p.id)} aria-label="Quitar foto" className="shrink-0 rounded-lg bg-[var(--ov-10)] p-2 hover:bg-red-500/20">
                         <X className="h-4 w-4" />
                       </button>
                     )}
@@ -285,7 +285,7 @@ export default function ProductosPage() {
                   {guardandoTodo ? "Guardando..." : `Guardar todo (${Math.min(listosParaGuardar.length, cupoRestante)})`}
                 </button>
                 {pendientes.length > listosParaGuardar.length && !guardandoTodo && (
-                  <p className="text-center text-xs text-white/40">Completá nombre y precio en todas para poder guardarlas.</p>
+                  <p className="text-center text-xs text-[var(--muted2)]">Completá nombre y precio en todas para poder guardarlas.</p>
                 )}
                 {isFinite(cupoRestante) && listosParaGuardar.length > cupoRestante && (
                   <p className="text-center text-xs text-orange-300">Tu plan permite {cupoRestante} más -- el resto queda pendiente hasta que mejores el plan.</p>
@@ -297,8 +297,8 @@ export default function ProductosPage() {
         )}
 
         {/* Formulario de a uno (también se usa para editar) */}
-        <div className={`mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 ${modo === "rapida" && !editing ? "hidden" : ""}`}>
-        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className={`mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 ${modo === "rapida" && !editing ? "hidden" : ""}`}>
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <h2 className="text-lg font-black mb-4">{editing ? "Editar producto" : "Nuevo producto"}</h2>
           <div className="space-y-3">
             <ImageUploader
@@ -309,23 +309,23 @@ export default function ProductosPage() {
               previewClass="h-40 w-full rounded-xl"
             />
             <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-              placeholder="Nombre del producto *" className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              placeholder="Nombre del producto *" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
-              placeholder="Descripción" rows={2} className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              placeholder="Descripción" rows={2} className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <div className="grid grid-cols-2 gap-3">
               <input value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })}
-                placeholder="Precio *" type="number" className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="Precio *" type="number" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
               <input value={form.old_price} onChange={(e) => setForm({ ...form, old_price: e.target.value })}
-                placeholder="Precio anterior (opcional)" type="number" className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="Precio anterior (opcional)" type="number" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
-                placeholder="Categoría" className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="Categoría" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
               <input value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })}
-                placeholder="Stock (opcional)" type="number" className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="Stock (opcional)" type="number" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
             {planActual.destacarCatalogo ? (
-              <label className="flex items-center gap-2 text-sm text-white/80">
+              <label className="flex items-center gap-2 text-sm text-[var(--text)]/80">
                 <input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} />
                 <Star className="h-4 w-4 text-yellow-400" /> Destacar este producto (aparece primero en el catálogo)
               </label>
@@ -341,7 +341,7 @@ export default function ProductosPage() {
               </button>
               {editing && (
                 <button onClick={() => { setEditing(null); setForm(emptyForm()); }}
-                  className="rounded-full border border-white/20 px-4 py-2.5 text-sm font-bold">Cancelar</button>
+                  className="rounded-full border border-[var(--line-strong)] px-4 py-2.5 text-sm font-bold">Cancelar</button>
               )}
             </div>
           </div>
@@ -351,15 +351,15 @@ export default function ProductosPage() {
         {/* Lista */}
         <div className="space-y-2">
           {productos.length === 0 ? (
-            <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">
+            <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-8 text-center text-[var(--muted)]">
                 Aún no tenés productos. Creá el primero arriba.
               </div>
             </div>
           ) : (
             productos.map(p => (
-              <div key={p.id} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className={`flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] ${p.active === false ? "opacity-50" : ""}`}>
+              <div key={p.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className={`flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] ${p.active === false ? "opacity-50" : ""}`}>
                 {Array.isArray(p.images) && p.images[0] ? (
                   <img src={p.images[0]} alt={p.name} className="h-12 w-12 rounded-xl object-cover" />
                 ) : (
@@ -371,16 +371,16 @@ export default function ProductosPage() {
                   <p className="font-bold flex items-center gap-1.5">
                     {p.name}
                     {p.featured && <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />}
-                    {p.active === false && <span className="rounded-full bg-white/10 px-2 py-0.5 text-[9px] font-black uppercase text-white/50">Oculto</span>}
+                    {p.active === false && <span className="rounded-full bg-[var(--ov-10)] px-2 py-0.5 text-[9px] font-black uppercase text-[var(--muted)]">Oculto</span>}
                   </p>
-                  <p className="text-xs text-white/50">{p.category || "Sin categoría"} · Stock: {p.stock ?? "—"}</p>
+                  <p className="text-xs text-[var(--muted)]">{p.category || "Sin categoría"} · Stock: {p.stock ?? "—"}</p>
                   <p className="text-sm font-black text-orange-400">${Number(p.price).toLocaleString("es-AR")}</p>
                 </div>
                 <button onClick={() => toggleActive(p)} title={p.active === false ? "Mostrar en el catálogo" : "Ocultar del catálogo"}
-                  className="rounded-lg bg-white/10 p-2 hover:bg-white/20">
+                  className="rounded-lg bg-[var(--ov-10)] p-2 hover:bg-[var(--ov-20)]">
                   {p.active === false ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
-                <button onClick={() => edit(p)} className="rounded-lg bg-white/10 p-2 hover:bg-white/20">
+                <button onClick={() => edit(p)} className="rounded-lg bg-[var(--ov-10)] p-2 hover:bg-[var(--ov-20)]">
                   <Edit className="h-4 w-4" />
                 </button>
                 <button onClick={() => del(p.id)} className="rounded-lg bg-red-500/20 p-2 hover:bg-red-500/30">

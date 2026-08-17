@@ -11,7 +11,7 @@ const PLANES = [
     precio: "$0",
     periodo: "para siempre",
     icon: Zap,
-    color: "border-white/15",
+    color: "border-[var(--line-strong)]",
     desc: "Presencia básica para empezar",
     features: [
       { t: "Perfil de negocio completo", ok: true },
@@ -88,7 +88,7 @@ import PageHero from "@/components/ui/page-hero";
 export default function PlanesPage() {
   const whatsapp = usePlatformSetting("whatsapp_contacto");
   return (
-    <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
+    <main className="bg-[var(--bg)] min-h-screen text-[var(--text)] pb-24">
       <PageHero title="Planes y precios" subtitle="Elegí el plan que mejor se adapte a tu negocio" />
       <div className="mx-auto max-w-5xl px-4 py-12">
         <div className="text-center">
@@ -97,7 +97,7 @@ export default function PlanesPage() {
             Empezá gratis. Crecé con tu negocio en{" "}
             <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">San Lorenzo</span>
           </h1>
-          <p className="mx-auto mt-3 max-w-xl text-white/60">
+          <p className="mx-auto mt-3 max-w-xl text-[var(--muted)]">
             Sin tarjeta para arrancar, sin permanencia si después cambiás de plan. Vas subiendo cuando tu negocio lo necesite, no antes.
           </p>
         </div>
@@ -113,19 +113,19 @@ export default function PlanesPage() {
                   ⭐ MÁS ELEGIDO
                 </span>
               )}
-              <div className="flex h-full flex-col rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-                <p.icon className={`h-8 w-8 ${p.destacado ? "text-orange-400" : "text-white/60"}`} />
+              <div className="flex h-full flex-col rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+                <p.icon className={`h-8 w-8 ${p.destacado ? "text-orange-400" : "text-[var(--muted)]"}`} />
                 <h2 className="mt-3 text-xl font-black">{p.nombre}</h2>
-                <p className="text-sm text-white/50">{p.desc}</p>
+                <p className="text-sm text-[var(--muted)]">{p.desc}</p>
                 <p className="mt-4">
                   <span className="text-4xl font-black" style={{ fontFamily: "var(--font-ticket)" }}>{p.precio}</span>
-                  <span className="ml-1 text-sm text-white/50">/{p.periodo}</span>
+                  <span className="ml-1 text-sm text-[var(--muted)]">/{p.periodo}</span>
                 </p>
 
                 <ul className="mt-6 flex-1 space-y-2.5">
                   {p.features.map(f => (
-                    <li key={f.t} className={`flex items-center gap-2 text-sm ${f.ok ? "text-white/80" : "text-white/30 line-through"}`}>
-                      {f.ok ? <Check className="h-4 w-4 shrink-0 text-green-400" /> : <X className="h-4 w-4 shrink-0 text-white/20" />}
+                    <li key={f.t} className={`flex items-center gap-2 text-sm ${f.ok ? "text-[var(--text)]/80" : "text-[var(--muted2)] line-through"}`}>
+                      {f.ok ? <Check className="h-4 w-4 shrink-0 text-green-400" /> : <X className="h-4 w-4 shrink-0 text-[var(--muted2)]" />}
                       {f.t}
                     </li>
                   ))}
@@ -135,7 +135,7 @@ export default function PlanesPage() {
                   className={`mt-6 rounded-full py-3 text-center text-sm font-black transition ${
                     p.destacado
                       ? "bg-gradient-to-r from-orange-500 to-red-600 hover:opacity-90"
-                      : "border border-white/20 hover:bg-white/10"
+                      : "border border-[var(--line-strong)] hover:bg-[var(--ov-10)]"
                   }`}>
                   {p.cta}
                 </Link>
@@ -144,10 +144,10 @@ export default function PlanesPage() {
           ))}
         </div>
 
-        <div className="mx-auto mt-10 max-w-xl text-center text-sm text-white/50">
+        <div className="mx-auto mt-10 max-w-xl text-center text-sm text-[var(--muted)]">
           <p>
             Los planes pagos se activan por transferencia: subís el comprobante desde tu panel y un admin lo
-            revisa y te lo activa. Pago automático con Mercado Pago: <span className="text-white/70">próximamente</span>.
+            revisa y te lo activa. Pago automático con Mercado Pago: <span className="text-[var(--text)]/70">próximamente</span>.
           </p>
           {whatsapp && (
             <p className="mt-2">

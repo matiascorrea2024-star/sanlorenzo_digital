@@ -10,8 +10,8 @@ import { friendlyError } from "@/lib/friendly-error";
 import HowItWorks from "@/components/ui/how-it-works";
 import { hoyArgentina } from "@/lib/fecha-ar";
 
-const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
-const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
+const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-orange-400/60 focus:outline-none transition";
+const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-[var(--muted)]";
 
 export default function EditarOferta() {
   const { id } = useParams();
@@ -97,11 +97,11 @@ export default function EditarOferta() {
     setTimeout(() => router.push("/dashboard/ofertas"), 700);
   };
 
-  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white/60 text-sm">Cargando…</main>;
+  if (loading) return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--muted)] text-sm">Cargando…</main>;
 
   if (error && !title) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white text-center px-4">
+      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)] text-center px-4">
         <div>
           <p className="text-4xl mb-3">🔍</p>
           <p className="font-bold">{error}</p>
@@ -112,7 +112,7 @@ export default function EditarOferta() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-2xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
         <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
         <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Editar</p>
@@ -126,8 +126,8 @@ export default function EditarOferta() {
           ]} />
         </div>
 
-        <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-        <div className="space-y-5 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="space-y-5 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <div>
             <span className={lbl}>Título de la oferta *</span>
             <input className={inp} value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -135,12 +135,12 @@ export default function EditarOferta() {
           <div>
             <span className={lbl}>Nombre del producto o servicio (opcional)</span>
             <input className={inp} value={product} onChange={(e) => setProduct(e.target.value)} />
-            <p className="mt-1 text-[11px] text-white/40">Aparece como subtítulo debajo del título de la oferta.</p>
+            <p className="mt-1 text-[11px] text-[var(--muted2)]">Aparece como subtítulo debajo del título de la oferta.</p>
           </div>
           <div>
-            <span className={lbl}>Descripción * <span className="normal-case font-normal text-white/30">(mín. 30 caracteres)</span></span>
+            <span className={lbl}>Descripción * <span className="normal-case font-normal text-[var(--muted2)]">(mín. 30 caracteres)</span></span>
             <textarea className={inp} rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
-            <p className="mt-1 text-right text-[10px] text-white/30">{description.trim().length}/30</p>
+            <p className="mt-1 text-right text-[10px] text-[var(--muted2)]">{description.trim().length}/30</p>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -154,12 +154,12 @@ export default function EditarOferta() {
           </div>
           {desc > 0 && (
             <div className="rounded-2xl border border-orange-400/40 bg-orange-500/10 p-4 text-center">
-              <p className="text-xs text-white/60">Descuento calculado</p>
+              <p className="text-xs text-[var(--muted)]">Descuento calculado</p>
               <p className="text-3xl font-black text-orange-400">{desc}% OFF</p>
             </div>
           )}
           <div>
-            <span className={lbl}>Válida hasta * <span className="normal-case font-normal text-white/30">(máx. {OFERTA_DURACION_MAX_DIAS} días)</span></span>
+            <span className={lbl}>Válida hasta * <span className="normal-case font-normal text-[var(--muted2)]">(máx. {OFERTA_DURACION_MAX_DIAS} días)</span></span>
             <input className={inp} type="date" min={hoyStr} max={maxFechaStr} value={expires} onChange={(e) => setExpires(e.target.value)} />
           </div>
           <div>

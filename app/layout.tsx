@@ -47,7 +47,7 @@ import InstallApp from "@/components/ui/install-app";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" data-scroll-behavior="smooth" className={`${inter.variable} ${space.variable} ${ticket.variable}`}>
+    <html lang="es" data-scroll-behavior="smooth" suppressHydrationWarning className={`${inter.variable} ${space.variable} ${ticket.variable}`}>
       <head>
         {/* Setea el tema ANTES del primer paint -- si esto fuera un
             useEffect de React habría un flash del tema por defecto

@@ -61,13 +61,13 @@ export default function OffersTicker() {
   const loop = reduceMotion ? items : [...items, ...items, ...items];
 
   return (
-    <div className="ticker-wrap relative overflow-hidden border-y border-white/[.06] bg-white/[.01] py-6 sm:py-8">
+    <div className="ticker-wrap relative overflow-hidden border-y border-[var(--ov-06)] bg-[var(--ov-02)] py-6 sm:py-8">
       <div className="ticker flex gap-16 whitespace-nowrap px-4 sm:gap-20">
         {loop.map((p, i) => (
           <Link
             key={p.id + "-" + i}
             href={p.href}
-            className="flex items-center gap-4 text-sm font-black uppercase tracking-[0.3em] text-white/25 transition hover:text-orange-500"
+            className="flex items-center gap-4 text-sm font-black uppercase tracking-[0.3em] text-[var(--muted2)] transition hover:text-orange-500"
           >
             <span className="text-orange-500">{String((i % items.length) + 1).padStart(2, "0")}</span>
             <span>{p.label}</span>

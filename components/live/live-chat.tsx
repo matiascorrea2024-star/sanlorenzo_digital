@@ -54,15 +54,15 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
   };
 
   return (
-    <div className="flex h-[70vh] flex-col rounded-2xl border border-white/10 bg-white/5 lg:h-[70vh]">
-      <div className="border-b border-white/10 p-3">
-        <p className="text-sm font-black">💬 Chat en vivo</p>
+    <div className="flex h-[70vh] flex-col rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] lg:h-[70vh]">
+      <div className="border-b border-[var(--line)] p-3">
+        <p className="text-sm font-black text-[var(--text)]">💬 Chat en vivo</p>
       </div>
       <div className="flex-1 space-y-2 overflow-y-auto p-3">
-        {mensajes.length === 0 && <p className="text-center text-xs text-white/30">Todavía no hay mensajes. ¡Escribí el primero!</p>}
+        {mensajes.length === 0 && <p className="text-center text-xs text-[var(--muted2)]">Todavía no hay mensajes. ¡Escribí el primero!</p>}
         {mensajes.map((m) => (
           <div key={m.id} className="group flex items-start justify-between gap-2 text-sm">
-            <p><span className="font-bold text-orange-300">{m.sender_name}:</span> <span className="text-white/80">{m.body}</span></p>
+            <p><span className="font-bold text-orange-300">{m.sender_name}:</span> <span className="text-[var(--text)]/80">{m.body}</span></p>
             {puedeModerar && (
               <button onClick={() => ocultar(m.id)} title="Ocultar mensaje" className="shrink-0 opacity-0 group-hover:opacity-100">
                 <Trash2 className="h-3.5 w-3.5 text-red-400" />
@@ -73,16 +73,16 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
         <div ref={bottomRef} />
       </div>
       {user ? (
-        <div className="flex gap-2 border-t border-white/10 p-3">
+        <div className="flex gap-2 border-t border-[var(--line)] p-3">
           <input value={texto} onChange={(e) => setTexto(e.target.value)} onKeyDown={(e) => e.key === "Enter" && enviar()}
             placeholder="Escribí algo..." maxLength={300}
-            className="flex-1 rounded-full border border-white/15 bg-black/20 px-4 py-2 text-sm outline-none focus:border-orange-400" />
+            className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2 text-sm text-[var(--text)] outline-none focus:border-orange-400" />
           <button onClick={enviar} disabled={!texto.trim()} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 disabled:opacity-50">
-            <Send className="h-4 w-4" />
+            <Send className="h-4 w-4 text-white" />
           </button>
         </div>
       ) : (
-        <p className="border-t border-white/10 p-3 text-center text-xs text-white/40">Iniciá sesión para participar del chat.</p>
+        <p className="border-t border-[var(--line)] p-3 text-center text-xs text-[var(--muted2)]">Iniciá sesión para participar del chat.</p>
       )}
     </div>
   );

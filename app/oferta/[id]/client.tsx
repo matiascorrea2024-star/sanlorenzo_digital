@@ -95,7 +95,7 @@ export default function OfertaPage() {
 
   if (loading) {
     return (
-      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center">
+      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </main>
     );
@@ -103,7 +103,7 @@ export default function OfertaPage() {
 
   if (!oferta || !negocio) {
     return (
-      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
           <p className="text-5xl mb-4">🔍</p>
           <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Oferta no encontrada</h1>
@@ -122,23 +122,23 @@ export default function OfertaPage() {
   const ahorro = oferta.old_price && oferta.offer_price ? Number(oferta.old_price) - Number(oferta.offer_price) : null;
 
   return (
-    <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
+    <main className="bg-[var(--bg)] min-h-screen text-[var(--text)] pb-24">
       {/* Grilla editorial 7/5, calco del mockup aprobado: imagen +
           descripción a la izquierda, precio/acciones a la derecha. */}
       <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
         {vencido && (
-          <div className="mb-6 rounded-2xl border-2 border-white/20 bg-white/5 p-6 text-center">
+          <div className="mb-6 rounded-2xl border-2 border-[var(--line-strong)] bg-[var(--ov-05)] p-6 text-center">
             <p className="text-2xl">⏰</p>
             <p className="mt-1 text-lg font-black">Esta oferta ya finalizó</p>
-            <p className="mt-1 text-sm text-white/60">Mirá el negocio para ver sus ofertas activas.</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">Mirá el negocio para ver sus ofertas activas.</p>
           </div>
         )}
 
         <div className="grid gap-8 lg:grid-cols-12">
           {/* IZQUIERDA: imagen + título superpuesto + descripción */}
           <div className="lg:col-span-7">
-            <div className="rounded-[2.5rem] border border-white/[.06] bg-white/[.01] p-1.5 shadow-2xl shadow-black/80">
-              <div className="relative overflow-hidden rounded-[2.1rem] border border-white/[.05]">
+            <div className="rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 shadow-2xl shadow-black/80">
+              <div className="relative overflow-hidden rounded-[2.1rem] border border-[var(--ov-05)]">
                 <div className="absolute left-4 top-4 z-10 flex flex-wrap gap-2 sm:left-6 sm:top-6">
                   {viendo >= 2 && (
                     <span className="flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 backdrop-blur-md">
@@ -155,7 +155,7 @@ export default function OfertaPage() {
                 <div className="aspect-[4/3] w-full">
                   <Image src={img} alt={oferta.title} fill priority quality={92} sizes="(min-width: 1024px) 700px, 100vw" className="object-cover" />
                 </div>
-                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-black/85 to-transparent p-6 sm:p-8">
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-black/85 to-transparent p-6 text-white sm:p-8">
                   <div className="min-w-0">
                     {negocio.category && <p className="mb-2 text-[10px] font-black uppercase tracking-[.35em] text-white/60">{negocio.category}</p>}
                     <h1 className="text-3xl font-black leading-[0.95] sm:text-4xl md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{oferta.title}</h1>
@@ -181,9 +181,9 @@ export default function OfertaPage() {
               {oferta.hace_envios || negocio.hace_envios ? (
                 <div className="flex items-center gap-6">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5"><Truck className="h-5 w-5 text-orange-400" /></span>
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--ov-05)]"><Truck className="h-5 w-5 text-orange-400" /></span>
                     <div>
-                      <p className="text-xs font-bold text-white/50">Envíos</p>
+                      <p className="text-xs font-bold text-[var(--muted)]">Envíos</p>
                       <p className="text-sm font-black">{negocio.envio_gratis ? "Gratis en la zona" : "Hace envíos"}</p>
                     </div>
                   </div>
@@ -192,7 +192,7 @@ export default function OfertaPage() {
               {(oferta.product || oferta.description) && (
                 <div>
                   <h3 className="mb-3 text-xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Detalles</h3>
-                  <p className="leading-relaxed text-white/70">{oferta.product || oferta.description}</p>
+                  <p className="leading-relaxed text-[var(--muted)]">{oferta.product || oferta.description}</p>
                 </div>
               )}
               {canjeados > 0 && (
@@ -205,7 +205,7 @@ export default function OfertaPage() {
 
           {/* DERECHA: precio + acciones */}
           <div className="lg:col-span-5">
-            <div className="rounded-[2.5rem] border border-white/10 bg-gradient-to-b from-white/[.03] to-transparent p-6 shadow-xl sm:p-8">
+            <div className="rounded-[2.5rem] border border-[var(--line)] bg-gradient-to-b from-white/[.03] to-transparent p-6 shadow-xl sm:p-8">
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 {oferta.discount_percent ? (
                   <span className="rounded-lg border border-orange-500/20 bg-orange-500/10 px-3 py-1 text-xs font-black uppercase tracking-wider text-orange-400">-{oferta.discount_percent}% de ahorro</span>
@@ -215,7 +215,7 @@ export default function OfertaPage() {
                 {!vencido && dias !== null && dias <= 2 && oferta.valid_until && <CountdownTimer expiresAt={oferta.valid_until} compact />}
               </div>
 
-              {oferta.old_price && <p className="text-2xl tracking-tight text-white/40 line-through" style={{ fontFamily: "var(--font-ticket)" }}>{fmt(Number(oferta.old_price))}</p>}
+              {oferta.old_price && <p className="text-2xl tracking-tight text-[var(--muted2)] line-through" style={{ fontFamily: "var(--font-ticket)" }}>{fmt(Number(oferta.old_price))}</p>}
               <div className="flex items-baseline gap-3">
                 {oferta.offer_price && <p className="text-6xl font-black tracking-tighter sm:text-7xl" style={{ fontFamily: "var(--font-ticket)" }}>{fmt(Number(oferta.offer_price))}</p>}
                 {ahorro && ahorro > 0 && <span className="mb-2 shrink-0 text-sm font-black text-green-400">Ahorrás {fmt(ahorro)}</span>}
@@ -239,7 +239,7 @@ export default function OfertaPage() {
                     businessId: negocio.id, businessName: negocio.name, businessSlug: negocio.slug, businessWhatsapp: negocio.whatsapp,
                   })}
                   disabled={hasItem(`oferta-${oferta.id}`)}
-                  className="flex h-16 w-full items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-8 font-black text-white transition hover:bg-white/10 disabled:opacity-60"
+                  className="flex h-16 w-full items-center justify-between rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] px-8 font-black text-white transition hover:bg-[var(--ov-10)] disabled:opacity-60"
                 >
                   {hasItem(`oferta-${oferta.id}`) ? "En el changuito" : "Sumar al changuito"}
                   {hasItem(`oferta-${oferta.id}`) ? <Check className="h-6 w-6 text-sky-400" /> : <ShoppingBasket className="h-6 w-6 text-sky-400" />}
@@ -263,7 +263,7 @@ export default function OfertaPage() {
             )}
 
             <Link href={`/negocio/${negocio.slug}`}
-              className="mt-6 flex items-center gap-4 rounded-[2rem] border border-white/[.05] bg-white/[.02] p-6 transition hover:border-orange-400/30">
+              className="mt-6 flex items-center gap-4 rounded-[2rem] border border-[var(--ov-05)] bg-[var(--ov-02)] p-6 transition hover:border-orange-400/30">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-600/20 text-xl font-black">
                 {negocio.logo_url ? <Image src={negocio.logo_url} alt={negocio.name} width={64} height={64} className="h-full w-full object-cover" /> : negocio.name[0]}
               </div>
@@ -272,7 +272,7 @@ export default function OfertaPage() {
                   <h3 className="truncate text-lg font-black">{negocio.name}</h3>
                   {negocio.status === "verificado" && <Check className="h-4 w-4 shrink-0 text-sky-400" />}
                 </div>
-                {negocio.address && <p className="truncate text-xs text-white/40">{negocio.address}</p>}
+                {negocio.address && <p className="truncate text-xs text-[var(--muted2)]">{negocio.address}</p>}
                 <span className="mt-1 inline-block text-xs font-black uppercase tracking-widest text-orange-400">Ver negocio →</span>
               </div>
             </Link>

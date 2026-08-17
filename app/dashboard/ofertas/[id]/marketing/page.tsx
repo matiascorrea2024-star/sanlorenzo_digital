@@ -74,7 +74,7 @@ export default function MarketingPage() {
 
   if (loading) {
     return (
-      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center">
+      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </main>
     );
@@ -82,7 +82,7 @@ export default function MarketingPage() {
 
   if (!offer || !business) {
     return (
-      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center text-[var(--text)]">
         <p>Oferta no encontrada</p>
       </main>
     );
@@ -94,7 +94,7 @@ export default function MarketingPage() {
   const qrUrl = `${offerUrl}?source=qr`;
 
   return (
-    <main className="bg-[#0c0a0b] min-h-screen text-white">
+    <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-4xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300 mb-6 inline-block">
           ← Volver a mis ofertas
@@ -102,7 +102,7 @@ export default function MarketingPage() {
 
         <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Marketing</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Marketing de la oferta</h1>
-        <p className="mt-3 text-white/50">{offer.title}</p>
+        <p className="mt-3 text-[var(--muted)]">{offer.title}</p>
 
         <div className="mt-6">
           <HowItWorks steps={[
@@ -113,10 +113,10 @@ export default function MarketingPage() {
         </div>
 
         <div className="mt-6 space-y-6">
-        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <h2 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>Links trackeables</h2>
-          <p className="mt-1 text-sm text-white/50">
+          <p className="mt-1 text-sm text-[var(--muted)]">
             Usá estos links para saber desde dónde vienen tus clientes
           </p>
 
@@ -126,15 +126,15 @@ export default function MarketingPage() {
               { label: "WhatsApp", url: waUrl, icon: "💬" },
               { label: "QR / Otros", url: qrUrl, icon: "📱" },
             ].map((item) => (
-              <div key={item.label} className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3">
+              <div key={item.label} className="flex items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--ov-05)] p-3">
                 <span className="text-2xl">{item.icon}</span>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-bold">{item.label}</p>
-                  <p className="truncate text-xs text-white/50">{item.url}</p>
+                  <p className="truncate text-xs text-[var(--muted)]">{item.url}</p>
                 </div>
                 <button
                   onClick={() => copyToClipboard(item.url, item.label)}
-                  className="shrink-0 rounded-xl border border-white/20 px-4 py-2 text-sm hover:bg-white/5"
+                  className="shrink-0 rounded-xl border border-[var(--line-strong)] px-4 py-2 text-sm hover:bg-[var(--ov-05)]"
                 >
                   {copied === item.label ? "✅ Copiado" : "📋 Copiar"}
                 </button>
@@ -144,10 +144,10 @@ export default function MarketingPage() {
         </div>
         </div>
 
-        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <h2 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>Story para Instagram</h2>
-          <p className="mt-1 text-sm text-white/50">
+          <p className="mt-1 text-sm text-[var(--muted)]">
             Copiá este texto y pegalo en tu historia de Instagram
           </p>
           <div className="mt-4 whitespace-pre-wrap rounded-xl bg-black/30 p-4 font-mono text-sm">
@@ -155,17 +155,17 @@ export default function MarketingPage() {
           </div>
           <button
             onClick={() => copyToClipboard(generateStoryText(), "story")}
-            className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
+            className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-[var(--text)] hover:opacity-90"
           >
             {copied === "story" ? "✅ Copiado" : "📋 Copiar story"}
           </button>
         </div>
         </div>
 
-        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <h2 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>Compartir en WhatsApp</h2>
-          <p className="mt-1 text-sm text-white/50">
+          <p className="mt-1 text-sm text-[var(--muted)]">
             Texto listo para enviar a tus clientes
           </p>
           <div className="mt-4 whitespace-pre-wrap rounded-xl bg-black/30 p-4 font-mono text-sm">
@@ -174,7 +174,7 @@ export default function MarketingPage() {
           <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <button
               onClick={() => copyToClipboard(generateWhatsAppText(), "whatsapp")}
-              className="flex-1 rounded-full border border-white/20 px-6 py-3 font-bold hover:bg-white/5"
+              className="flex-1 rounded-full border border-[var(--line-strong)] px-6 py-3 font-bold hover:bg-[var(--ov-05)]"
             >
               {copied === "whatsapp" ? "✅ Copiado" : "📋 Copiar texto"}
             </button>
@@ -182,7 +182,7 @@ export default function MarketingPage() {
               href={`https://wa.me/?text=${encodeURIComponent(generateWhatsAppText() + "\n\n" + waUrl)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 rounded-full bg-green-500 px-6 py-3 text-center font-black text-white hover:bg-green-600"
+              className="flex-1 rounded-full bg-green-500 px-6 py-3 text-center font-black text-[var(--text)] hover:bg-green-600"
             >
               💬 Abrir WhatsApp
             </a>

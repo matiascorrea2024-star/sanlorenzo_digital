@@ -191,32 +191,32 @@ export default function NuevoNegocioPage() {
     }
   };
 
-  const inp = "w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400";
+  const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-[var(--text)] outline-none focus:border-orange-400";
   const lbl = "block text-sm font-semibold mb-2";
 
   return (
-    <main className="bg-[#0c0a0b] min-h-screen text-white">
+    <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <Link href="/dashboard" className="text-sm text-orange-400 hover:text-orange-300 mb-6 inline-block">
           ← Volver al dashboard
         </Link>
 
         <h1 className="text-3xl font-black mb-2" style={{ fontFamily: "var(--font-space)" }}>Subí tu negocio</h1>
-        <p className="text-white/60 mb-4">2 minutos: completá lo esencial y ya podés publicar tu primera oferta.</p>
+        <p className="text-[var(--muted)] mb-4">2 minutos: completá lo esencial y ya podés publicar tu primera oferta.</p>
 
         {misNegocios !== null && !puedeCrear ? (
           <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <p className="text-3xl">🔒</p>
               <h2 className="mt-3 text-lg font-black">Ya tenés un negocio en plan gratis</h2>
-              <p className="mx-auto mt-2 max-w-sm text-sm text-white/60">
+              <p className="mx-auto mt-2 max-w-sm text-sm text-[var(--muted)]">
                 Cada cuenta puede tener un negocio gratis. Para sumar otro, mejorá {misNegocios.length === 1 ? "tu negocio actual" : "alguno de tus negocios actuales"} a un plan pago.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-3">
                 <Link href="/dashboard/planes" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90">
                   Ver planes →
                 </Link>
-                <Link href="/dashboard" className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-bold hover:bg-white/5">
+                <Link href="/dashboard" className="rounded-full border border-[var(--line-strong)] px-6 py-2.5 text-sm font-bold hover:bg-[var(--ov-05)]">
                   Volver al panel
                 </Link>
               </div>
@@ -237,10 +237,10 @@ export default function NuevoNegocioPage() {
               {tiposVendedor.map((t) => (
                 <button key={t.id} type="button" onClick={() => setFormData({ ...formData, type: t.id })}
                   className={`rounded-xl border p-3 text-left transition ${
-                    formData.type === t.id ? "border-orange-400/60 bg-orange-500/10" : "border-white/15 bg-white/5 hover:border-white/30"
+                    formData.type === t.id ? "border-orange-400/60 bg-orange-500/10" : "border-[var(--line-strong)] bg-[var(--ov-05)] hover:border-[var(--ov-40)]"
                   }`}>
                   <p className="text-sm font-bold">{t.icon} {t.name}</p>
-                  <p className="mt-0.5 text-[11px] text-white/50">{t.desc}</p>
+                  <p className="mt-0.5 text-[11px] text-[var(--muted)]">{t.desc}</p>
                 </button>
               ))}
             </div>
@@ -296,7 +296,7 @@ export default function NuevoNegocioPage() {
             <input type="text" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })}
               required={!esParticular} className={inp}
               placeholder={esParticular ? "Ej: Zona centro (no hace falta la dirección exacta)" : "Ej: Belgrano 123, San Lorenzo"} />
-            {esParticular && <p className="mt-1.5 text-xs text-white/40">Como vendedor particular no necesitás local físico -- esto es opcional, solo para orientar a los compradores.</p>}
+            {esParticular && <p className="mt-1.5 text-xs text-[var(--muted2)]">Como vendedor particular no necesitás local físico -- esto es opcional, solo para orientar a los compradores.</p>}
           </div>
 
           <div>
@@ -310,7 +310,7 @@ export default function NuevoNegocioPage() {
               + Agregar foto, descripción, Instagram, horarios y ubicación en el mapa (opcional)
             </button>
           ) : (
-            <div className="space-y-4 rounded-2xl border border-white/10 bg-white/[.03] p-4">
+            <div className="space-y-4 rounded-2xl border border-[var(--line)] bg-[var(--ov-03)] p-4">
               <div>
                 <label className={lbl}>Foto de portada</label>
                 <ImageUploader value={formData.portadaUrl} onChange={(url) => setFormData({ ...formData, portadaUrl: url })} businessId="temp" itemId={imageId} previewClass="h-32 w-full rounded-xl" />
@@ -337,7 +337,7 @@ export default function NuevoNegocioPage() {
                   className={inp} placeholder="Ej: Lun a Vie 9-18, Sáb 9-13" />
               </div>
 
-              <div className="rounded-xl border border-white/10 bg-black/20 p-3">
+              <div className="rounded-xl border border-[var(--line)] bg-black/20 p-3">
                 <p className={lbl}>Envíos</p>
                 <div className="flex flex-wrap gap-4">
                   <label className="flex items-center gap-2 text-sm">
@@ -374,7 +374,7 @@ export default function NuevoNegocioPage() {
           )}
 
           <button type="submit" disabled={loading}
-            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black text-white hover:opacity-90 disabled:opacity-50">
+            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black text-[var(--text)] hover:opacity-90 disabled:opacity-50">
             {loading ? "Creando…" : "Crear negocio y seguir →"}
           </button>
         </form>

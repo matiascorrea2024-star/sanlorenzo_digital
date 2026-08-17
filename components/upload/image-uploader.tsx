@@ -30,7 +30,7 @@ export default function ImageUploader({ value, onChange, businessId, itemId, pre
     <div className="flex flex-col items-start gap-3">
       {value ? (
         <div className="relative w-full">
-          <img src={value} alt="" className={`${previewClass} border border-white/10 object-cover`} />
+          <img src={value} alt="" className={`${previewClass} border border-[var(--line)] object-cover`} />
           <button
             onClick={() => onChange("")}
             className="absolute right-2 top-2 rounded-full bg-black/70 px-3 py-1 text-xs font-bold text-white backdrop-blur hover:bg-red-500"
@@ -42,7 +42,7 @@ export default function ImageUploader({ value, onChange, businessId, itemId, pre
         <button
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
-          className="flex h-24 w-full items-center justify-center rounded-2xl border border-dashed border-white/20 bg-white/[.03] text-2xl text-white/40 transition hover:border-orange-400/60 hover:text-white disabled:opacity-50"
+          className="flex h-24 w-full items-center justify-center rounded-2xl border border-dashed border-[var(--line-strong)] bg-[var(--ov-03)] text-2xl text-[var(--muted2)] transition hover:border-orange-400/60 hover:text-[var(--text)] disabled:opacity-50"
         >
           {uploading ? "⏳ Subiendo…" : "📷 Subir foto"}
         </button>

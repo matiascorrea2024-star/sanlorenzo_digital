@@ -40,14 +40,14 @@ export default function PageHero({
               return m ? (
                 <>
                   <span className="mr-3">{m[1]}</span>
-                  <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">{m[2]}</span>
+                  <span className="bg-gradient-to-r from-[var(--text)] via-orange-200 to-orange-400 bg-clip-text text-transparent">{m[2]}</span>
                 </>
               ) : (
-                <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">{title}</span>
+                <span className="bg-gradient-to-r from-[var(--text)] via-orange-200 to-orange-400 bg-clip-text text-transparent">{title}</span>
               );
             })() : title}
           </h1>
-          {subtitle && <p className="mt-3 max-w-xl text-lg text-white/50">{subtitle}</p>}
+          {subtitle && <p className="mt-3 max-w-xl text-lg text-[var(--muted)]">{subtitle}</p>}
           {children}
         </div>
       </div>

@@ -39,9 +39,9 @@ export default function InstallApp() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-36 left-4 right-4 z-[90] mx-auto max-w-sm rounded-2xl border border-orange-400/40 bg-[#1c1819]/95 p-4 shadow-2xl backdrop-blur-xl md:bottom-24">
+    <div className="fixed bottom-36 left-4 right-4 z-[90] mx-auto max-w-sm rounded-2xl border border-orange-400/40 bg-[var(--surface2)]/95 p-4 shadow-2xl backdrop-blur-xl md:bottom-24">
       <button onClick={close} aria-label="Cerrar aviso de instalación"
-        className="absolute right-2 top-2 text-white/40 hover:text-white">
+        className="absolute right-2 top-2 text-[var(--muted2)] hover:text-[var(--text)]">
         <X className="h-4 w-4" />
       </button>
       <div className="flex items-center gap-3">
@@ -49,8 +49,8 @@ export default function InstallApp() {
           <Download className="h-6 w-6 text-white" />
         </div>
         <div className="flex-1">
-          <p className="font-black">Instalá La Gran Barata</p>
-          <p className="text-xs text-white/60">Accedé más rápido desde tu teléfono</p>
+          <p className="font-black text-[var(--text)]">Instalá La Gran Barata</p>
+          <p className="text-xs text-[var(--muted)]">Accedé más rápido desde tu teléfono</p>
         </div>
       </div>
       <button onClick={install}

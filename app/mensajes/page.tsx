@@ -55,10 +55,10 @@ export default function MensajesClientePage() {
 
   if (!user) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] px-4 text-center text-white/60">
+      <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4 text-center text-[var(--muted)]">
         <div>
           <p className="text-3xl">💬</p>
-          <h1 className="mt-3 text-xl font-bold text-white" style={{ fontFamily: "var(--font-space)" }}>Mis mensajes</h1>
+          <h1 className="mt-3 text-xl font-bold text-[var(--text)]" style={{ fontFamily: "var(--font-space)" }}>Mis mensajes</h1>
           <p className="mt-1 text-sm">Iniciá sesión para ver tus conversaciones.</p>
         </div>
       </main>
@@ -68,26 +68,26 @@ export default function MensajesClientePage() {
   const sel = selectedBiz ? bizMap[selectedBiz] : null;
 
   return (
-    <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
+    <main className="bg-[var(--bg)] min-h-screen text-[var(--text)] pb-24">
       <PageHero title="Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />
       <div className="mx-auto max-w-3xl px-4 py-8">
         {!selectedBiz && (
           <div className="space-y-2">
             {convoList.length === 0 ? (
-              <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-                <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">
+              <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+                <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center text-[var(--muted)]">
                   Aún no tenés conversaciones. Escribile a un negocio desde su página.
                 </div>
               </div>
             ) : (
               convoList.map(cv => (
                 <button key={cv.biz} onClick={() => setSelectedBiz(cv.biz)}
-                  className="group flex w-full items-center gap-1.5 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 text-left transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+                  className="group flex w-full items-center gap-1.5 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 text-left transition-all duration-300 hover:-translate-y-0.5">
+                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-orange-400/30">
                     <Avatar name={cv.name} size={48} />
                     <div className="min-w-0 flex-1">
-                      <div className="flex justify-between"><p className="font-bold">{cv.name}</p><span className="text-[10px] text-white/40">{timeShort(cv.last.created_at)}</span></div>
-                      <p className="truncate text-xs text-white/50">{cv.last.body}</p>
+                      <div className="flex justify-between"><p className="font-bold">{cv.name}</p><span className="text-[10px] text-[var(--muted2)]">{timeShort(cv.last.created_at)}</span></div>
+                      <p className="truncate text-xs text-[var(--muted)]">{cv.last.body}</p>
                     </div>
                     {cv.unread > 0 && <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-green-500 px-1 text-xs font-black text-black">{cv.unread}</span>}
                   </div>

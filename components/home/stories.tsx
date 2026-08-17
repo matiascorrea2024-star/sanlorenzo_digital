@@ -35,20 +35,20 @@ export default function Stories() {
             <button key={g[0].business_id} onClick={() => setSelected(g[0])}
               className="flex flex-col items-center gap-1 shrink-0">
               <span className="rounded-full bg-gradient-to-tr from-orange-500 to-red-600 p-[2px]">
-                <span className="block rounded-full bg-[#0c0a0b] p-[2px]">
+                <span className="block rounded-full bg-[var(--bg)] p-[2px]">
                   <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-orange-500/30 to-red-600/30 text-xl font-black">
                     {b?.name?.[0] || "🏪"}
                   </span>
                 </span>
               </span>
-              <span className="max-w-[64px] truncate text-[10px] text-white/70">{b?.name}</span>
+              <span className="max-w-[64px] truncate text-[10px] text-[var(--muted)]">{b?.name}</span>
             </button>
           );
         })}
       </div>
 
       {selected && (
-        <div className="fixed inset-0 z-[3000] flex items-center justify-center bg-black/90 p-4" onClick={() => setSelected(null)}>
+        <div className="fixed inset-0 z-[3000] flex items-center justify-center bg-[var(--scrim)] p-4" onClick={() => setSelected(null)}>
           <div className={`w-full max-w-sm rounded-3xl bg-gradient-to-br ${selected.background} p-8 text-center`} onClick={e => e.stopPropagation()}>
             <p className="text-xs font-bold uppercase text-white/80">{selected.businesses?.name}</p>
             <p className="mt-4 text-2xl font-black text-white whitespace-pre-wrap">{selected.text}</p>

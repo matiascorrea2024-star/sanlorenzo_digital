@@ -20,7 +20,7 @@ function Escenario() {
 
 export default function ViewerStage({ token, url }: { token: string; url: string }) {
   return (
-    <div className="aspect-video w-full overflow-hidden rounded-2xl border border-white/10 bg-black">
+    <div className="aspect-video w-full overflow-hidden rounded-2xl border border-[var(--line)] bg-black">
       <LiveKitRoom
         token={token}
         serverUrl={url}

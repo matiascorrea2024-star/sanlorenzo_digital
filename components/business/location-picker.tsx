@@ -247,10 +247,10 @@ export default function LocationPicker({
   }
 
   return (
-    <div className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+    <div className="space-y-3 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-4">
       <div>
         <p className="text-sm font-bold">📍 Ubicación del negocio</p>
-        <p className="mt-1 text-xs text-white/50">
+        <p className="mt-1 text-xs text-[var(--muted)]">
           Buscá la dirección o hacé clic directamente en el mapa para colocar el pin donde está tu negocio.
         </p>
       </div>
@@ -266,25 +266,25 @@ export default function LocationPicker({
 
       <div
         ref={mapRef}
-        className="h-80 w-full overflow-hidden rounded-xl border border-white/10"
+        className="h-80 w-full overflow-hidden rounded-xl border border-[var(--line)]"
         style={{ minHeight: "320px" }}
       />
 
       {latitude && longitude ? (
         <div className="rounded-xl bg-green-500/10 border border-green-400/30 p-3 text-xs">
           <p className="font-bold text-green-300">📌 Ubicación seleccionada</p>
-          <p className="mt-1 text-white/60">
+          <p className="mt-1 text-[var(--muted)]">
             Lat: {latitude} · Lng: {longitude}
           </p>
         </div>
       ) : (
-        <div className="rounded-xl bg-white/5 p-3 text-xs text-white/50">
+        <div className="rounded-xl bg-[var(--ov-05)] p-3 text-xs text-[var(--muted)]">
           Todavía no seleccionaste ubicación. Hacé clic en el mapa o buscá la dirección.
         </div>
       )}
 
       {message && (
-        <p className="text-xs text-white/70">{message}</p>
+        <p className="text-xs text-[var(--text)]/70">{message}</p>
       )}
     </div>
   );

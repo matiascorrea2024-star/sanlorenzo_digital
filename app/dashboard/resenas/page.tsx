@@ -41,28 +41,28 @@ export default function ResenasPage() {
   };
 
   return (
-    <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
+    <main className="bg-[var(--bg)] min-h-screen text-[var(--text)] pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="mb-2 flex items-center gap-3">
           <Star className="h-8 w-8 text-orange-400" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Reseñas de tus clientes</h1>
-            <p className="text-white/60">Respondé y demostrá que te importa tu comunidad</p>
+            <p className="text-[var(--muted)]">Respondé y demostrá que te importa tu comunidad</p>
           </div>
         </div>
 
         <div className="mt-6 space-y-4">
           {reviews.length === 0 ? (
-            <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">
+            <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-8 text-center text-[var(--muted)]">
                 Aún no tenés reseñas. Cuando un cliente te puntúe, aparece acá.
               </div>
             </div>
           ) : (
             reviews.map(r => (
-              <div key={r.id} className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div key={r.id} className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                 <div className="flex items-center gap-3">
                   <Avatar name={r.reviewer_name} size={40} />
                   <div className="flex-1">
@@ -70,27 +70,27 @@ export default function ResenasPage() {
                     <div className="flex items-center gap-2">
                       <span className="inline-flex gap-0.5">
                         {[1,2,3,4,5].map(i => (
-                          <Star key={i} className={`h-3.5 w-3.5 ${i <= r.rating ? "fill-yellow-400 text-yellow-400" : "text-white/20"}`} />
+                          <Star key={i} className={`h-3.5 w-3.5 ${i <= r.rating ? "fill-yellow-400 text-yellow-400" : "text-[var(--muted2)]"}`} />
                         ))}
                       </span>
-                      <span className="text-[11px] text-white/40">{bizNames[r.business_id]}</span>
+                      <span className="text-[11px] text-[var(--muted2)]">{bizNames[r.business_id]}</span>
                     </div>
                   </div>
                 </div>
-                {r.comment && <p className="mt-3 text-sm text-white/80">{r.comment}</p>}
+                {r.comment && <p className="mt-3 text-sm text-[var(--text)]/80">{r.comment}</p>}
 
                 <div className="mt-4">
                   {r.reply ? (
                     <div className="rounded-xl border-l-4 border-green-400 bg-green-500/10 p-3">
                       <p className="text-xs font-black text-green-300">↳ Tu respuesta</p>
-                      <p className="mt-1 text-sm text-white/80">{r.reply}</p>
+                      <p className="mt-1 text-sm text-[var(--text)]/80">{r.reply}</p>
                     </div>
                   ) : (
                     <>
                       <textarea value={replies[r.id] || ""}
                         onChange={(e) => setReplies(prev => ({ ...prev, [r.id]: e.target.value }))}
                         rows={2} placeholder="Respondé al cliente..."
-                        className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                        className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
                       <button onClick={() => saveReply(r.id)}
                         className="mt-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2 text-xs font-black hover:opacity-90">
                         {saved[r.id] ? "✅ Guardada" : "Responder"}

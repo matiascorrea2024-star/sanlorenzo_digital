@@ -66,28 +66,28 @@ export default function NotificationBell() {
   return (
     <>
       <div className="relative">
-        <button onClick={() => setOpen(!open)} aria-label="Notificaciones" className="relative rounded-full bg-white/10 p-2 hover:bg-white/20">
+        <button onClick={() => setOpen(!open)} aria-label="Notificaciones" className="relative rounded-full bg-[var(--ov-10)] p-2 hover:bg-[var(--ov-20)]">
           <Bell className="h-4 w-4" />
           {count > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-black">{count}</span>
+            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-black text-white">{count}</span>
           )}
         </button>
         {open && (
-          <div className="fixed left-4 right-4 top-20 z-[60] sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-96 w-80 rounded-[1.5rem] border border-white/[.06] bg-white/[.03] p-1.5 shadow-2xl backdrop-blur-xl">
-            <div className="rounded-[1.1rem] border border-white/[.05] bg-[#1c1819] p-4">
+          <div className="fixed left-4 right-4 top-20 z-[60] sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-96 w-80 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-03)] p-1.5 shadow-2xl backdrop-blur-xl">
+            <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--surface2)] p-4">
               <div className="mb-3 flex items-center justify-between">
-                <p className="font-black">Notificaciones</p>
+                <p className="font-black text-[var(--text)]">Notificaciones</p>
                 {count > 0 && <button onClick={marcarLeidas} className="text-xs font-bold text-orange-400 hover:text-orange-300">Marcar leídas</button>}
               </div>
               {items.length === 0 ? (
-                <p className="text-sm text-white/50">Sin notificaciones nuevas</p>
+                <p className="text-sm text-[var(--muted)]">Sin notificaciones nuevas</p>
               ) : (
                 <div className="max-h-80 space-y-2 overflow-y-auto">
                   {items.map(n => (
                     <button key={n.id} onClick={() => irA(n)}
-                      className="w-full rounded-[1rem] border border-white/[.05] bg-white/[.03] p-3 text-left transition hover:border-orange-400/30 hover:bg-white/[.06]">
-                      <p className="text-sm font-bold">{n.title}</p>
-                      {n.body && <p className="text-xs text-white/60">{n.body}</p>}
+                      className="w-full rounded-[1rem] border border-[var(--ov-05)] bg-[var(--ov-03)] p-3 text-left transition hover:border-orange-400/30 hover:bg-[var(--ov-06)]">
+                      <p className="text-sm font-bold text-[var(--text)]">{n.title}</p>
+                      {n.body && <p className="text-xs text-[var(--muted)]">{n.body}</p>}
                       <p className="mt-1 text-[10px] font-bold text-orange-400">Tocar para ir →</p>
                     </button>
                   ))}
@@ -101,13 +101,13 @@ export default function NotificationBell() {
       {/* TOAST FLOTANTE (aparece al instante) */}
       {toast && (
         <button onClick={() => { irA(toast); setToast(null); }}
-          className="fixed bottom-40 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-[1.375rem] border border-orange-400/40 bg-[#1c1819] p-4 shadow-2xl shadow-orange-500/10 animate-pulse md:bottom-24">
+          className="fixed bottom-40 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-[1.375rem] border border-orange-400/40 bg-[var(--surface2)] p-4 shadow-2xl shadow-orange-500/10 animate-pulse md:bottom-24">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500/25 to-red-600/15">
             <MessageCircle className="h-4 w-4 text-orange-300" />
           </span>
           <div className="text-left">
-            <p className="text-sm font-black">{toast.title}</p>
-            {toast.body && <p className="truncate text-xs text-white/60">{toast.body}</p>}
+            <p className="text-sm font-black text-[var(--text)]">{toast.title}</p>
+            {toast.body && <p className="truncate text-xs text-[var(--muted)]">{toast.body}</p>}
             <p className="text-[10px] font-bold text-orange-400">Tocar para abrir →</p>
           </div>
         </button>

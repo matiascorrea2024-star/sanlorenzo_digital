@@ -89,14 +89,14 @@ export default function MensajesPage() {
   const biz = businesses.find(b => b.id === selectedBiz);
 
   return (
-    <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
+    <main className="bg-[var(--bg)] min-h-screen text-[var(--text)] pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="mb-2 flex items-center gap-3">
           <MessageCircle className="h-8 w-8 text-orange-400" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Mensajes</h1>
-            <p className="text-white/60">Tus conversaciones con clientes, en un solo lugar</p>
+            <p className="text-[var(--muted)]">Tus conversaciones con clientes, en un solo lugar</p>
           </div>
         </div>
 
@@ -104,7 +104,7 @@ export default function MensajesPage() {
           <div className="mt-4 flex gap-2 overflow-x-auto">
             {businesses.map(b => (
               <button key={b.id} onClick={() => { setSelectedBiz(b.id); setSelectedCustomer(null); }}
-                className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-red-600" : "bg-white/5 border border-white/10"}`}>
+                className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-red-600" : "bg-[var(--ov-05)] border border-[var(--line)]"}`}>
                 {b.name}
               </button>
             ))}
@@ -114,23 +114,23 @@ export default function MensajesPage() {
         {!selectedCustomer && (
           <div className="mt-6 space-y-2">
             {convoList.length === 0 ? (
-              <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-                <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">
+              <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+                <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-8 text-center text-[var(--muted)]">
                   Aún no tenés conversaciones.
                 </div>
               </div>
             ) : (
               convoList.map(cv => (
                 <button key={cv.cust} onClick={() => setSelectedCustomer(cv.cust)}
-                  className="group flex w-full items-center gap-1.5 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 text-left transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+                  className="group flex w-full items-center gap-1.5 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 text-left transition-all duration-300 hover:-translate-y-0.5">
+                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
                     <Avatar name={cv.name} size={48} />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
                         <p className="font-bold">{cv.name}</p>
-                        <span className="text-[10px] text-white/40">{timeShort(cv.last.created_at)}</span>
+                        <span className="text-[10px] text-[var(--muted2)]">{timeShort(cv.last.created_at)}</span>
                       </div>
-                      <p className="truncate text-xs text-white/50">{cv.last.sender_role === "business" ? "✓✓ " : ""}{cv.last.body}</p>
+                      <p className="truncate text-xs text-[var(--muted)]">{cv.last.sender_role === "business" ? "✓✓ " : ""}{cv.last.body}</p>
                     </div>
                     {cv.unread > 0 && (
                       <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-green-500 px-1 text-xs font-black text-black">{cv.unread}</span>

@@ -58,14 +58,14 @@ export default function CiudadView() {
   }, [ciudadSlug]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
+    return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Cargando...</main>;
   }
 
   if (!ciudad) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">
+      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
-          <Search className="mx-auto mb-4 h-10 w-10 text-white/30" />
+          <Search className="mx-auto mb-4 h-10 w-10 text-[var(--muted2)]" />
           <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Ciudad no encontrada</h1>
           <Link href="/" className="mt-4 inline-block text-orange-400">← Volver al inicio</Link>
         </div>
@@ -75,20 +75,20 @@ export default function CiudadView() {
 
   if (ciudad.status !== "active") {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] text-white">
-        <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 py-16">
+      <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
+        <section className="border-b border-[var(--line)] bg-gradient-to-br from-orange-500/10 to-red-600/10 py-16">
           <div className="mx-auto max-w-2xl px-4 text-center">
             <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Próximamente</Badge>
             <h1 className="mt-3 text-4xl font-black md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Estamos llegando a {ciudad.name}</h1>
-            <p className="mx-auto mt-3 max-w-md text-white/70">
+            <p className="mx-auto mt-3 max-w-md text-[var(--text)]/70">
               Todavía no activamos {ciudad.name} en La Gran Barata Digital. Estamos sumando ciudades
               del cordón industrial de a poco -- pronto vas a poder encontrar negocios y ofertas acá.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white">
+              <Link href="/" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-[var(--text)]">
                 Ver ciudades activas
               </Link>
-              <Link href="/para-negocios" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-white/80 hover:bg-white/5">
+              <Link href="/para-negocios" className="rounded-full border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold text-[var(--text)]/80 hover:bg-[var(--ov-05)]">
                 Tengo un negocio acá
               </Link>
             </div>
@@ -101,13 +101,13 @@ export default function CiudadView() {
   const sinContenido = negocios.length === 0 && ofertas.length === 0;
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       {/* Hero de ciudad */}
-      <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 py-12">
+      <section className="border-b border-[var(--line)] bg-gradient-to-br from-orange-500/10 to-red-600/10 py-12">
         <div className="mx-auto max-w-6xl px-4">
           <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Ciudad</Badge>
           <h1 className="mt-3 text-4xl font-black md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{ciudad.name}</h1>
-          <p className="mt-2 text-white/70">
+          <p className="mt-2 text-[var(--text)]/70">
             Descubrí negocios, ofertas y servicios en {ciudad.name}
           </p>
         </div>
@@ -121,10 +121,10 @@ export default function CiudadView() {
             <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
               {barrios.map(b => (
                 <Link key={b.id} href={`/${ciudadSlug}/${b.slug}`}
-                  className="group rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+                  className="group rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
+                  <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-orange-400/30">
                     <p className="font-bold">{b.name}</p>
-                    <p className="text-xs text-white/50">Ver negocios →</p>
+                    <p className="text-xs text-[var(--muted)]">Ver negocios →</p>
                   </div>
                 </Link>
               ))}
@@ -178,16 +178,16 @@ export default function CiudadView() {
             el día 1, no un cascarón). */}
         {sinContenido && (
           <section className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 px-6 py-12 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] px-6 py-12 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Sparkles className="mx-auto mb-3 h-8 w-8 text-orange-400" />
               <h2 className="text-xl font-black">{ciudad.name} recién se está sumando a la plataforma</h2>
-              <p className="mx-auto mt-2 max-w-md text-sm text-white/60">
+              <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">
                 Todavía no hay negocios ni ofertas cargados acá. Si tenés un comercio en {ciudad.name},
                 podés ser el primero en aparecer.
               </p>
               <Link
                 href="/registro"
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-[var(--text)]"
               >
                 Sumar mi negocio <ArrowRight className="h-4 w-4" />
               </Link>

@@ -67,33 +67,33 @@ export default function MobileMenu() {
   return (
     <>
       <button onClick={() => setOpen(true)} aria-label="Abrir menú"
-        className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:hidden">
+        className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--ov-10)] text-[var(--text)] transition hover:bg-[var(--ov-20)] md:hidden">
         <Menu className="h-4 w-4" />
       </button>
 
       {open && mounted && createPortal(
-        <div className="fixed inset-0 z-[300] bg-[#0c0906]/98 backdrop-blur-xl md:hidden">
+        <div className="fixed inset-0 z-[300] bg-[var(--bg)]/98 backdrop-blur-xl md:hidden">
           <div className="flex h-full flex-col overflow-y-auto px-5 py-5">
             <div className="flex items-center justify-between">
-              <span className="text-lg font-black tracking-tight">LA GRAN BARATA</span>
+              <span className="text-lg font-black tracking-tight text-[var(--text)]">LA GRAN BARATA</span>
               <button onClick={() => setOpen(false)} aria-label="Cerrar menú"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20">
-                <X className="h-4 w-4 text-white" />
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--ov-10)] hover:bg-[var(--ov-20)]">
+                <X className="h-4 w-4 text-[var(--text)]" />
               </button>
             </div>
 
             {ciudades.length > 0 && (
               <div className="mt-6">
-                <p className="mb-2 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-white/35">
+                <p className="mb-2 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">
                   <MapPin className="h-3 w-3" /> Cordón industrial
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {ciudades.map((c) => (
                     <Link key={c.slug} href={`/${c.slug}`} onClick={() => setOpen(false)}
-                      className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-bold text-white/80 hover:border-orange-400/40 hover:text-white">
-                      <span className={c.status !== "active" ? "text-white/50" : ""}>{c.name}</span>
+                      className="flex items-center gap-1.5 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-1.5 text-xs font-bold text-[var(--text)]/80 hover:border-orange-400/40 hover:text-[var(--text)]">
+                      <span className={c.status !== "active" ? "text-[var(--muted)]" : ""}>{c.name}</span>
                       {c.status !== "active" && (
-                        <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-white/40">Próx.</span>
+                        <span className="rounded-full bg-[var(--ov-10)] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-[var(--muted2)]">Próx.</span>
                       )}
                     </Link>
                   ))}
@@ -103,13 +103,13 @@ export default function MobileMenu() {
 
             {SECCIONES.map((s) => (
               <div key={s.t} className="mt-7">
-                <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-white/35">{s.t}</p>
+                <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">{s.t}</p>
                 <div className="space-y-1">
                   {s.links.map((l) => (
                     <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
-                      className="flex items-center justify-between rounded-xl px-3 py-3 text-base font-bold text-white/85 transition hover:bg-white/5 hover:text-orange-300">
+                      className="flex items-center justify-between rounded-xl px-3 py-3 text-base font-bold text-[var(--text)]/85 transition hover:bg-[var(--ov-05)] hover:text-orange-300">
                       {l.l}
-                      <ArrowRight className="h-4 w-4 text-white/20" />
+                      <ArrowRight className="h-4 w-4 text-[var(--muted2)]" />
                     </Link>
                   ))}
                 </div>

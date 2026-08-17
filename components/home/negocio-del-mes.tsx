@@ -96,16 +96,16 @@ export default function NegocioDelMes() {
           </p>
 
           <div className="relative mt-6 max-w-sm">
-            <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2.5">
-              <Search className="h-4 w-4 shrink-0 text-white/40" />
+            <div className="flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5">
+              <Search className="h-4 w-4 shrink-0 text-[var(--muted2)]" />
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscá tu negocio favorito para votarlo..."
-                className="w-full bg-transparent text-sm outline-none placeholder:text-white/35" />
+                className="w-full bg-transparent text-sm text-[var(--text)] outline-none placeholder:text-[var(--muted2)]" />
             </div>
             {sugerencias.length > 0 && (
-              <div className="absolute left-0 right-0 top-full z-10 mt-1 rounded-xl border border-white/10 bg-[#1c1819] p-1.5 shadow-2xl">
+              <div className="absolute left-0 right-0 top-full z-10 mt-1 rounded-xl border border-[var(--line)] bg-[var(--surface2)] p-1.5 shadow-2xl">
                 {sugerencias.map((n) => (
                   <button key={n.id} onClick={() => votar(n.id)} disabled={votando}
-                    className="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-sm font-bold hover:bg-white/10 disabled:opacity-60">
+                    className="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-sm font-bold text-[var(--text)] hover:bg-[var(--ov-10)] disabled:opacity-60">
                     {n.name}
                     {miVoto === n.id && <span className="text-xs text-yellow-300">Tu voto ✅</span>}
                   </button>
@@ -113,24 +113,24 @@ export default function NegocioDelMes() {
               </div>
             )}
           </div>
-          {miVoto && <p className="mt-2 max-w-sm text-xs text-white/40">Votás una vez por mes -- podés cambiar tu voto cuando quieras.</p>}
+          {miVoto && <p className="mt-2 max-w-sm text-xs text-[var(--muted2)]">Votás una vez por mes -- podés cambiar tu voto cuando quieras.</p>}
         </div>
 
         <div className="lg:col-span-7">
-          <div className="rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[calc(2.5rem-0.375rem)] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
+          <div className="rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[calc(2.5rem-0.375rem)] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-8">
               <div className="mb-4 flex items-center gap-2">
                 <Crown className="h-5 w-5 text-yellow-400" />
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-yellow-300">{nombreMes}</p>
               </div>
               {top.length === 0 ? (
-                <p className="text-sm text-white/50">Todavía no hay votos este mes. ¡Sé el primero en votar a tu negocio favorito!</p>
+                <p className="text-sm text-[var(--muted)]">Todavía no hay votos este mes. ¡Sé el primero en votar a tu negocio favorito!</p>
               ) : (
                 <div className="space-y-2">
                   {top.map((f, i) => (
                     <Link key={f.business_id} href={`/negocio/${f.slug}`}
-                      className="group flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-white/[.02] p-3 transition hover:border-yellow-400/30">
-                      <span className={`w-6 shrink-0 text-center text-lg font-black ${i === 0 ? "text-yellow-400" : "text-white/40"}`} style={{ fontFamily: "var(--font-ticket)" }}>{i + 1}</span>
+                      className="group flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--ov-02)] p-3 transition hover:border-yellow-400/30">
+                      <span className={`w-6 shrink-0 text-center text-lg font-black ${i === 0 ? "text-yellow-400" : "text-[var(--muted2)]"}`} style={{ fontFamily: "var(--font-ticket)" }}>{i + 1}</span>
                       <RankedAvatar slug={f.slug} name={f.name} categoria={f.category} photoUrl={f.logo_url} size={40} />
                       <span className="min-w-0 flex-1 truncate text-sm font-bold">{f.name}</span>
                       <span className="shrink-0 text-xs font-black text-yellow-300">{f.votos} 🗳️</span>

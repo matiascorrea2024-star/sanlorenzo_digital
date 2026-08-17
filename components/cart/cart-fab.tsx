@@ -49,36 +49,36 @@ export default function CartFab() {
 
       {open && mounted && createPortal(
         <div className="fixed inset-0 z-[300] flex items-end bg-black/70 backdrop-blur-sm md:items-center md:justify-center">
-          <div className="max-h-[85vh] w-full overflow-y-auto rounded-t-[1.75rem] border border-white/10 bg-[#141112] p-5 md:max-w-lg md:rounded-[1.75rem]">
+          <div className="max-h-[85vh] w-full overflow-y-auto rounded-t-[1.75rem] border border-[var(--line)] bg-[var(--surface2)] p-5 md:max-w-lg md:rounded-[1.75rem]">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-lg font-black">
+              <h2 className="flex items-center gap-2 text-lg font-black text-[var(--text)]">
                 <ShoppingBasket className="h-5 w-5 text-sky-400" /> Mi Changuito
               </h2>
               <button onClick={() => setOpen(false)} aria-label="Cerrar"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20">
-                <X className="h-4 w-4" />
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--ov-10)] hover:bg-[var(--ov-20)]">
+                <X className="h-4 w-4 text-[var(--text)]" />
               </button>
             </div>
 
-            <p className="mb-5 text-xs text-white/50">
+            <p className="mb-5 text-xs text-[var(--muted)]">
               Juntá lo que te interesa de distintos negocios y mandale a cada uno su pedido armado por WhatsApp, en un toque. No se cobra nada acá -- cada compra se arregla directo con el comercio.
             </p>
 
             <div className="space-y-5">
               {Object.entries(porNegocio).map(([businessId, grupo]) => (
-                <div key={businessId} className="rounded-2xl border border-white/10 bg-white/[.03] p-4">
+                <div key={businessId} className="rounded-2xl border border-[var(--line)] bg-[var(--ov-03)] p-4">
                   <Link href={`/negocio/${grupo[0].businessSlug}`} onClick={() => setOpen(false)}
-                    className="mb-2 block text-sm font-black text-white hover:text-orange-300">
+                    className="mb-2 block text-sm font-black text-[var(--text)] hover:text-orange-300">
                     {grupo[0].businessName}
                   </Link>
                   <div className="space-y-1.5">
                     {grupo.map((it) => (
-                      <div key={it.id} className="flex items-center justify-between gap-2 text-sm text-white/75">
+                      <div key={it.id} className="flex items-center justify-between gap-2 text-sm text-[var(--text)]/75">
                         <span className="truncate">{it.title}</span>
                         <div className="flex shrink-0 items-center gap-2">
-                          {it.price ? <span className="font-bold text-white/90">{fmt(it.price)}</span> : null}
+                          {it.price ? <span className="font-bold text-[var(--text)]/90">{fmt(it.price)}</span> : null}
                           <button onClick={() => removeItem(it.id)} aria-label={`Quitar ${it.title}`}
-                            className="text-white/30 hover:text-red-400">
+                            className="text-[var(--muted2)] hover:text-red-400">
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
                         </div>
@@ -94,14 +94,14 @@ export default function CartFab() {
                       <MessageCircle className="h-4 w-4" /> Enviar pedido a {grupo[0].businessName}
                     </a>
                   ) : (
-                    <p className="mt-3 text-center text-xs text-white/40">Este negocio todavía no cargó WhatsApp -- entrá a su página para ver otras formas de contacto.</p>
+                    <p className="mt-3 text-center text-xs text-[var(--muted2)]">Este negocio todavía no cargó WhatsApp -- entrá a su página para ver otras formas de contacto.</p>
                   )}
                 </div>
               ))}
             </div>
 
             <button onClick={() => { clear(); setOpen(false); }}
-              className="mt-5 w-full rounded-full border border-white/10 py-2.5 text-xs font-bold text-white/50 hover:text-white/80">
+              className="mt-5 w-full rounded-full border border-[var(--line)] py-2.5 text-xs font-bold text-[var(--muted)] hover:text-[var(--text)]">
               Vaciar changuito
             </button>
           </div>

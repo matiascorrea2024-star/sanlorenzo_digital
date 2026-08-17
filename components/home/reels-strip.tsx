@@ -32,7 +32,7 @@ export default function ReelsStrip() {
         title="🎬 Reels"
         subtitle="Los negocios muestran lo que venden, en video"
         action={
-          <Link href="/reels" className="flex items-center gap-1 text-sm text-[var(--muted)] hover:text-white">
+          <Link href="/reels" className="flex items-center gap-1 text-sm text-[var(--muted)] hover:text-[var(--text)]">
             Ver todos
           </Link>
         }
@@ -41,8 +41,8 @@ export default function ReelsStrip() {
         className="sld-no-scrollbar -mx-4 flex gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
         {reels.map((r) => (
           <Link key={r.id} href={`/reels?id=${r.id}`}
-            className="group w-32 shrink-0 rounded-[1.25rem] border border-white/[.06] bg-white/[.02] p-1 transition-all duration-300 hover:-translate-y-0.5 sm:w-36">
-            <div className="relative aspect-[9/16] w-full overflow-hidden rounded-[.9rem] border border-white/[.05] shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            className="group w-32 shrink-0 rounded-[1.25rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1 transition-all duration-300 hover:-translate-y-0.5 sm:w-36">
+            <div className="relative aspect-[9/16] w-full overflow-hidden rounded-[.9rem] border border-[var(--ov-05)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <CategoryCover category={r.businesses?.category} seed={r.id} className="h-full w-full transition duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/30" />
               <span className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-black/50 backdrop-blur">

@@ -28,7 +28,7 @@ export default function ComunidadPage() {
   }, [locationId]);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       {/* Hero editorial, calco del mockup aprobado: headline gigante +
           selector de ciudad como panel de vidrio propio al costado. */}
       <div className="mx-auto max-w-4xl px-4 pb-10 pt-14 sm:px-6 md:pt-20">
@@ -40,18 +40,18 @@ export default function ComunidadPage() {
             <h1 className="text-5xl font-bold leading-[0.9] tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
               Pulso de la <span className="text-orange-500">Ciudad.</span>
             </h1>
-            <p className="mt-5 text-lg text-white/50">
+            <p className="mt-5 text-lg text-[var(--muted)]">
               Preguntas, avisos, un perro perdido o simplemente buena onda. Los negocios verificados participan con un sello distintivo.
             </p>
           </div>
 
           {!loading && ciudades.length > 1 && (
             <div className="flex min-w-[260px] flex-col gap-2">
-              <span className="ml-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-white/40"><MapPin className="h-3 w-3" /> Seleccionar localidad</span>
-              <div className="rounded-2xl border border-white/[.1] bg-white/[.02]">
+              <span className="ml-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[var(--muted2)]"><MapPin className="h-3 w-3" /> Seleccionar localidad</span>
+              <div className="rounded-2xl border border-[var(--line)] bg-[var(--ov-02)]">
                 <select value={locationId} onChange={(e) => setLocationId(e.target.value)}
                   className="w-full cursor-pointer appearance-none bg-transparent px-5 py-4 text-sm font-bold outline-none">
-                  {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[#1c1819]">{c.name}</option>)}
+                  {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[var(--surface2)]">{c.name}</option>)}
                 </select>
               </div>
             </div>

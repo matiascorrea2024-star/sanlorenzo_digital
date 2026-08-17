@@ -71,7 +71,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-[#0c0a0b]">
+    <section className="relative overflow-hidden bg-[var(--bg)]">
       {/* Decoración: overflow-hidden va en un layer propio, no en la
           section -- si no, recorta el dropdown del buscador inteligente
           que necesita desbordar la altura del hero. */}
@@ -103,9 +103,9 @@ export default function Hero({ onSearch, stats }: HeroProps) {
             className="flex flex-col font-black uppercase leading-[0.85] tracking-tighter"
             style={{ fontFamily: "var(--font-space)", fontSize: "clamp(3.2rem, 15vw, 10rem)" }}
           >
-            <span style={{ WebkitTextStroke: "1.5px rgba(255,247,237,.5)", color: "transparent" }}>LA GRAN</span>
+            <span style={{ WebkitTextStroke: "1.5px var(--text-stroke)", color: "transparent" }}>LA GRAN</span>
             <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">BARATA</span>
-            <span className="text-right" style={{ WebkitTextStroke: "1.5px rgba(255,247,237,.5)", color: "transparent" }}>DIGITAL</span>
+            <span className="text-right" style={{ WebkitTextStroke: "1.5px var(--text-stroke)", color: "transparent" }}>DIGITAL</span>
           </h1>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-[var(--muted)] md:absolute md:right-0 md:top-1/2 md:mt-0 md:-translate-y-1/2 md:text-right md:text-base">
             Las ofertas y promos de San Lorenzo, publicadas por los comercios en tiempo real.{" "}
@@ -117,7 +117,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
             de 2 tarjetas de estadística apiladas. */}
         <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
           <div className="group relative lg:col-span-8">
-            <div className="relative flex h-full min-h-[420px] flex-col justify-between overflow-hidden rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8 md:p-12">
+            <div className="relative flex h-full min-h-[420px] flex-col justify-between overflow-hidden rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-8 md:p-12">
               <div className="pointer-events-none absolute -right-[10%] -top-[10%] aspect-square w-[60%] rounded-full bg-gradient-to-br from-orange-500 to-red-600 opacity-10 blur-[100px]" />
               <div className="relative z-10">
                 <span className="mb-8 inline-block rounded-full border border-orange-500/30 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-orange-400">
@@ -138,7 +138,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
                     <button
                       key={sug}
                       onClick={() => onSearch && onSearch(sug)}
-                      className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-white/30 hover:bg-white/10"
+                      className="rounded-full border border-[var(--line)] bg-[var(--ov-05)] px-4 py-1.5 text-sm text-[var(--muted)] backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-[var(--line-strong)] hover:bg-[var(--ov-10)]"
                     >
                       {sug}
                     </button>
@@ -150,9 +150,9 @@ export default function Hero({ onSearch, stats }: HeroProps) {
 
           <div className="flex flex-col gap-6 lg:col-span-4">
             {STATS.map((s) => (
-              <div key={s.label} className="flex flex-1 flex-col items-center justify-center rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-10">
+              <div key={s.label} className="flex flex-1 flex-col items-center justify-center rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-10">
                 <span className="text-5xl font-black tabular-nums text-[var(--text)] sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>{s.value}</span>
-                <span className="mt-2 text-xs font-black uppercase tracking-widest text-white/40">{s.label}</span>
+                <span className="mt-2 text-xs font-black uppercase tracking-widest text-[var(--muted2)]">{s.label}</span>
                 {s.sub && <span className="mt-2 text-[11px] font-bold text-orange-400">{s.sub}</span>}
               </div>
             ))}
@@ -160,12 +160,12 @@ export default function Hero({ onSearch, stats }: HeroProps) {
         </div>
       </div>
 
-      <div className="relative z-10 border-t border-white/[.06] bg-black/20 backdrop-blur-sm">
+      <div className="relative z-10 border-t border-[var(--ov-06)] bg-[var(--card-inner)] backdrop-blur-sm">
         <div ref={trustRef} className="mx-auto grid max-w-7xl grid-cols-2 gap-2 px-4 py-4 sm:px-6 md:grid-cols-4">
           {TRUST.map(({ icon: Icon, label, color }) => {
             const s = TRUST_STYLE[color];
             return (
-              <div key={label} className="flex items-center justify-center gap-2 text-[12px] font-bold text-white/80">
+              <div key={label} className="flex items-center justify-center gap-2 text-[12px] font-bold text-[var(--text)]/80">
                 <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border shadow-lg ${s.ring} ${s.glow}`}>
                   <Icon className={`h-3.5 w-3.5 ${s.icon}`} />
                 </span>

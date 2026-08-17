@@ -81,14 +81,14 @@ export default function OfertasPage() {
 
   if (loading) {
     return (
-      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center">
+      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </main>
     );
   }
 
   return (
-    <main className="bg-[#0c0a0b] min-h-screen text-white">
+    <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -97,11 +97,11 @@ export default function OfertasPage() {
             </Link>
             <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Ofertas y promos</p>
             <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mis ofertas</h1>
-            <p className="mt-3 max-w-md text-white/50">Gestioná tus promociones de La Gran Barata Digital.</p>
+            <p className="mt-3 max-w-md text-[var(--muted)]">Gestioná tus promociones de La Gran Barata Digital.</p>
           </div>
           <Link
             href="/dashboard/ofertas/nueva"
-            className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
+            className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-[var(--text)] hover:opacity-90"
           >
             + Nueva oferta
           </Link>
@@ -119,7 +119,7 @@ export default function OfertasPage() {
           <div className="mb-6 rounded-2xl border border-green-400/40 bg-green-500/10 p-5 text-center">
             <p className="text-3xl">🎉</p>
             <p className="mt-2 font-black text-green-300">¡Listo! Negocio creado y primera oferta publicada.</p>
-            <p className="mt-1 text-sm text-white/70">Ya está viva en la home, el radar, el mapa y tu miniweb. Ahora podés cargar tu catálogo de productos cuando quieras.</p>
+            <p className="mt-1 text-sm text-[var(--text)]/70">Ya está viva en la home, el radar, el mapa y tu miniweb. Ahora podés cargar tu catálogo de productos cuando quieras.</p>
             <Link href="/dashboard/productos" className="mt-3 inline-block rounded-xl border border-green-400/30 px-4 py-2 text-xs font-bold text-green-200 hover:bg-green-500/10">
               Cargar mi catálogo →
             </Link>
@@ -127,16 +127,16 @@ export default function OfertasPage() {
         )}
 
         {offers.length === 0 ? (
-          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-12 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-12 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <div className="text-6xl mb-4">🔥</div>
               <h2 className="text-2xl font-black mb-2">Aún no tenés ofertas</h2>
-              <p className="text-white/60 mb-6">
+              <p className="text-[var(--muted)] mb-6">
                 Creá tu primera oferta para aparecer en La Gran Barata
               </p>
               <Link
                 href="/dashboard/ofertas/nueva"
-                className="inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 font-black text-white hover:opacity-90"
+                className="inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 font-black text-[var(--text)] hover:opacity-90"
               >
                 Crear mi primera oferta
               </Link>
@@ -149,9 +149,9 @@ export default function OfertasPage() {
               return (
                 <div
                   key={offer.id}
-                  className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5"
+                  className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5"
                 >
-                <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
@@ -165,10 +165,10 @@ export default function OfertasPage() {
                         </span>
                       </div>
                       {business && (
-                        <p className="text-sm text-white/60">{business.name}</p>
+                        <p className="text-sm text-[var(--muted)]">{business.name}</p>
                       )}
                       {offer.product && (
-                        <p className="text-sm text-white/70 mt-1">{offer.product}</p>
+                        <p className="text-sm text-[var(--text)]/70 mt-1">{offer.product}</p>
                       )}
                     </div>
                     <button
@@ -186,21 +186,21 @@ export default function OfertasPage() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                     {offer.discount_percent && (
                       <div>
-                        <p className="text-xs text-white/50">Descuento</p>
+                        <p className="text-xs text-[var(--muted)]">Descuento</p>
                         <p className="text-lg font-black text-orange-400">{offer.discount_percent}% OFF</p>
                       </div>
                     )}
                     {offer.old_price && (
                       <div>
-                        <p className="text-xs text-white/50">Precio anterior</p>
-                        <p className="text-lg font-bold line-through text-white/40">
+                        <p className="text-xs text-[var(--muted)]">Precio anterior</p>
+                        <p className="text-lg font-bold line-through text-[var(--muted2)]">
                           ${offer.old_price.toLocaleString()}
                         </p>
                       </div>
                     )}
                     {offer.offer_price && (
                       <div>
-                        <p className="text-xs text-white/50">Precio oferta</p>
+                        <p className="text-xs text-[var(--muted)]">Precio oferta</p>
                         <p className="text-lg font-black text-green-400">
                           ${offer.offer_price.toLocaleString()}
                         </p>
@@ -208,7 +208,7 @@ export default function OfertasPage() {
                     )}
                     {offer.valid_until && (
                       <div>
-                        <p className="text-xs text-white/50">Vence</p>
+                        <p className="text-xs text-[var(--muted)]">Vence</p>
                         <p className="text-lg font-bold">
                           {new Date(offer.valid_until).toLocaleDateString("es-AR")}
                         </p>
@@ -222,7 +222,7 @@ export default function OfertasPage() {
                     className={`mb-3 w-full rounded-xl px-4 py-2 text-sm font-bold transition ${
                       offer.es_bomba
                         ? "border border-red-400/40 bg-red-500/15 text-red-300"
-                        : "border border-white/15 bg-white/5 hover:border-red-400/40 hover:bg-red-500/10"
+                        : "border border-[var(--line-strong)] bg-[var(--ov-05)] hover:border-red-400/40 hover:bg-red-500/10"
                     }`}
                   >
                     {offer.es_bomba ? "💣 Es tu oferta bomba de hoy (18-20hs)" : "💣 Marcar como oferta bomba de hoy"}
@@ -234,22 +234,22 @@ export default function OfertasPage() {
                   <div className="flex gap-2">
                     <Link
                       href={`/dashboard/ofertas/${offer.id}/editar`}
-                      className="flex-1 rounded-xl border border-white/20 px-3 py-2 text-center text-xs font-bold hover:bg-white/5"
+                      className="flex-1 rounded-xl border border-[var(--line-strong)] px-3 py-2 text-center text-xs font-bold hover:bg-[var(--ov-05)]"
                     >
                       ✏️ Editar
                     </Link>
                     <details className="group relative">
-                      <summary className="flex h-full cursor-pointer list-none items-center rounded-xl border border-white/20 px-3 py-2 text-center text-xs font-bold marker:content-none hover:bg-white/5">
+                      <summary className="flex h-full cursor-pointer list-none items-center rounded-xl border border-[var(--line-strong)] px-3 py-2 text-center text-xs font-bold marker:content-none hover:bg-[var(--ov-05)]">
                         ⋯ Más
                       </summary>
-                      <div className="absolute right-0 z-10 mt-2 w-44 space-y-1 rounded-xl border border-white/10 bg-[#1c1819] p-2 shadow-2xl">
-                        <Link href={`/dashboard/ofertas/${offer.id}/cupones`} className="block rounded-lg px-3 py-2 text-xs font-bold hover:bg-white/10">
+                      <div className="absolute right-0 z-10 mt-2 w-44 space-y-1 rounded-xl border border-[var(--line)] bg-[var(--surface2)] p-2 shadow-2xl">
+                        <Link href={`/dashboard/ofertas/${offer.id}/cupones`} className="block rounded-lg px-3 py-2 text-xs font-bold hover:bg-[var(--ov-10)]">
                           🎟️ Cupones
                         </Link>
-                        <Link href={`/dashboard/ofertas/${offer.id}/marketing`} className="block rounded-lg px-3 py-2 text-xs font-bold hover:bg-white/10">
+                        <Link href={`/dashboard/ofertas/${offer.id}/marketing`} className="block rounded-lg px-3 py-2 text-xs font-bold hover:bg-[var(--ov-10)]">
                           📱 Marketing
                         </Link>
-                        <Link href={`/dashboard/ofertas/${offer.id}/campana`} className="block rounded-lg px-3 py-2 text-xs font-bold text-cyan-300 hover:bg-white/10">
+                        <Link href={`/dashboard/ofertas/${offer.id}/campana`} className="block rounded-lg px-3 py-2 text-xs font-bold text-cyan-300 hover:bg-[var(--ov-10)]">
                           📍 Promocionar
                         </Link>
                       </div>

@@ -67,33 +67,33 @@ export default function LoyaltyCard({ businessId, businessName }: { businessId: 
 
   return (
     <div className="mb-6 rounded-[1.75rem] border border-amber-400/20 bg-gradient-to-br from-amber-500/[.06] to-orange-500/[.03] p-1.5">
-      <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+      <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
         <h3 className="mb-1 flex items-center gap-2 font-black">
           <Stamp className="h-5 w-5 text-amber-400" /> Tarjeta de sellitos
         </h3>
-        <p className="mb-4 text-xs text-white/50 flex items-center gap-1.5">
+        <p className="mb-4 text-xs text-[var(--muted)] flex items-center gap-1.5">
           <Gift className="h-3.5 w-3.5" /> Al juntar {programa.meta} sellos: {programa.premio}
         </p>
 
         {!user ? (
-          <Link href="/login" className="block rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-center text-sm font-bold text-white/70 hover:bg-white/10">
+          <Link href="/login" className="block rounded-xl border border-[var(--line)] bg-[var(--ov-05)] px-4 py-2.5 text-center text-sm font-bold text-[var(--text)]/70 hover:bg-[var(--ov-10)]">
             Iniciá sesión para empezar tu tarjeta
           </Link>
         ) : (
           <>
-            <div className="mb-1 flex justify-between text-xs text-white/50">
+            <div className="mb-1 flex justify-between text-xs text-[var(--muted)]">
               <span>{progreso} de {programa.meta} sellos</span>
               <span>{pct}%</span>
             </div>
-            <div className="mb-4 h-2.5 w-full overflow-hidden rounded-full bg-white/10">
+            <div className="mb-4 h-2.5 w-full overflow-hidden rounded-full bg-[var(--ov-10)]">
               <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-500" style={{ width: `${pct}%` }} />
             </div>
 
             {codigo ? (
               <div className="rounded-xl border border-amber-400/40 bg-amber-500/10 p-4 text-center">
-                <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-white/50">Mostrale esto a {businessName}</p>
+                <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">Mostrale esto a {businessName}</p>
                 <p className="text-3xl font-black tracking-[0.3em]">{codigo}</p>
-                <p className="mt-1 text-xs text-white/40">{segundosRestantes > 0 ? `Vence en ${Math.floor(segundosRestantes / 60)}:${String(segundosRestantes % 60).padStart(2, "0")}` : "Vencido -- generá uno nuevo"}</p>
+                <p className="mt-1 text-xs text-[var(--muted2)]">{segundosRestantes > 0 ? `Vence en ${Math.floor(segundosRestantes / 60)}:${String(segundosRestantes % 60).padStart(2, "0")}` : "Vencido -- generá uno nuevo"}</p>
               </div>
             ) : (
               <button onClick={generarCodigo} disabled={generando}

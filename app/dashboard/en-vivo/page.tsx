@@ -13,8 +13,8 @@ import { useToast } from "@/components/ui/toast";
 const ESTADO_LABEL: Record<string, { t: string; c: string }> = {
   scheduled: { t: "Programado", c: "border-sky-400/30 bg-sky-500/10 text-sky-300" },
   live: { t: "🔴 En vivo", c: "border-red-400/40 bg-red-500/15 text-red-300" },
-  ended: { t: "Finalizado", c: "border-white/15 bg-white/5 text-white/50" },
-  cancelled: { t: "Cancelado", c: "border-white/10 bg-white/5 text-white/30" },
+  ended: { t: "Finalizado", c: "border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]" },
+  cancelled: { t: "Cancelado", c: "border-[var(--line)] bg-[var(--ov-05)] text-[var(--muted2)]" },
 };
 
 export default function EnVivoDashboard() {
@@ -67,21 +67,21 @@ export default function EnVivoDashboard() {
     }
   };
 
-  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
+  if (loading) return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Cargando...</main>;
 
   if (!negocio) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+      <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
         <div className="mx-auto max-w-2xl px-4 py-8">
           <DashboardNav />
-          <p className="text-white/50">Necesitás un negocio para transmitir en vivo.</p>
+          <p className="text-[var(--muted)]">Necesitás un negocio para transmitir en vivo.</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-3xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-8 flex items-start gap-3">
@@ -94,7 +94,7 @@ export default function EnVivoDashboard() {
                 El video se transmite con infraestructura externa gratuita (LiveKit Cloud), compartida entre todos los negocios de la plataforma. Mientras no se supere el uso gratuito, no tiene costo para vos. Si alguna vez se llegara a un límite, vas a ver un aviso claro acá antes de poder iniciar un nuevo vivo -- nunca se te va a cobrar nada de forma automática.
               </InfoTip>
             </h1>
-            <p className="mt-3 text-white/50">Transmití en vivo desde {negocio.name} y mostrá tus productos en tiempo real.</p>
+            <p className="mt-3 text-[var(--muted)]">Transmití en vivo desde {negocio.name} y mostrá tus productos en tiempo real.</p>
           </div>
         </div>
 
@@ -104,9 +104,9 @@ export default function EnVivoDashboard() {
           "La gente te ve, te escribe por el chat y puede reservar lo que mostrás, todo en la misma pantalla.",
         ]} />
 
-        <div className="mb-4 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="flex items-center justify-between rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-            <p className="text-sm text-white/60">
+        <div className="mb-4 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="flex items-center justify-between rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <p className="text-sm text-[var(--muted)]">
               {plan.maxVivosPorMes === -1 ? "Vivos ilimitados con tu plan" : `${vivosEsteMes}/${plan.maxVivosPorMes} vivos este mes (Plan ${plan.name})`}
             </p>
             {puedeCrear ? (
@@ -122,16 +122,16 @@ export default function EnVivoDashboard() {
         </div>
 
         {creando && (
-          <div className="mb-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="space-y-3 rounded-[1.375rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="space-y-3 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
-              placeholder="Título (ej: Liquidación de invierno 🔥)" className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              placeholder="Título (ej: Liquidación de invierno 🔥)" className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2}
-              placeholder="Descripción (opcional)" className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              placeholder="Descripción (opcional)" className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <div>
-              <label className="mb-1 block text-xs font-bold text-white/50">Programar para más tarde (opcional -- si lo dejás vacío, lo podés empezar cuando quieras)</label>
+              <label className="mb-1 block text-xs font-bold text-[var(--muted)]">Programar para más tarde (opcional -- si lo dejás vacío, lo podés empezar cuando quieras)</label>
               <input type="datetime-local" value={form.scheduled_at} onChange={(e) => setForm({ ...form, scheduled_at: e.target.value })}
-                className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
             <button onClick={crear} disabled={!form.title.trim()} className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
               Crear
@@ -142,15 +142,15 @@ export default function EnVivoDashboard() {
 
         <div className="space-y-2.5">
           {streams.length === 0 ? (
-            <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-              <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-8 text-center text-white/50">Todavía no creaste ninguna transmisión.</div>
+            <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-8 text-center text-[var(--muted)]">Todavía no creaste ninguna transmisión.</div>
             </div>
           ) : streams.map((s) => (
-            <Link key={s.id} href={`/dashboard/en-vivo/${s.id}`} className="group block rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
-              <div className="flex items-center gap-3 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+            <Link key={s.id} href={`/dashboard/en-vivo/${s.id}`} className="group block rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
+              <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-bold">{s.title}</p>
-                  <p className="flex items-center gap-2 text-xs text-white/40">
+                  <p className="flex items-center gap-2 text-xs text-[var(--muted2)]">
                     {s.scheduled_at && <><Calendar className="h-3 w-3" /> {new Date(s.scheduled_at).toLocaleString("es-AR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</>}
                     {s.status === "ended" && <><Clock className="h-3 w-3" /> {s.total_viewers} espectadores en total</>}
                   </p>

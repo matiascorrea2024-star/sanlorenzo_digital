@@ -47,35 +47,35 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0c0a0b] px-4">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] px-4">
       <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.16), transparent 55%), radial-gradient(circle at 90% 100%, rgba(34,211,238,.1), transparent 55%)" }} />
       <div className="relative w-full max-w-md">
-        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <div className="text-center mb-8">
             <Link href="/" className="inline-block mb-4">
               <span className="text-3xl">🛍️</span>
             </Link>
             <h1 className="text-2xl font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Iniciar sesión</h1>
-            <p className="mt-2 text-white/60">Entrá a tu cuenta de San Lorenzo Digital</p>
+            <p className="mt-2 text-[var(--muted)]">Entrá a tu cuenta de San Lorenzo Digital</p>
           </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-white/80 mb-2">Email</label>
+              <label className="block text-sm font-semibold text-[var(--text)]/80 mb-2">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-[var(--text)] outline-none focus:border-orange-400"
                 placeholder="tu@email.com"
               />
             </div>
 
             <div>
               <div className="mb-2 flex items-center justify-between">
-                <label className="block text-sm font-semibold text-white/80">Contraseña</label>
+                <label className="block text-sm font-semibold text-[var(--text)]/80">Contraseña</label>
                 <button type="button" onClick={() => { setForgotMode(true); setError(""); }} className="text-xs font-semibold text-orange-400 hover:text-orange-300">
                   ¿Olvidaste tu contraseña?
                 </button>
@@ -85,7 +85,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-[var(--text)] outline-none focus:border-orange-400"
                 placeholder="••••••••"
               />
             </div>
@@ -96,13 +96,13 @@ export default function LoginPage() {
                   <p className="text-sm text-orange-200">✅ Si ese email tiene una cuenta, te mandamos un link para restablecer la contraseña.</p>
                 ) : (
                   <>
-                    <p className="mb-2 text-sm text-white/80">Te mandamos un link a tu email para elegir una nueva contraseña.</p>
+                    <p className="mb-2 text-sm text-[var(--text)]/80">Te mandamos un link a tu email para elegir una nueva contraseña.</p>
                     <div className="flex gap-2">
                       <button type="button" onClick={handleForgot} disabled={forgotLoading}
-                        className="rounded-lg bg-orange-500 px-4 py-2 text-xs font-black text-white hover:opacity-90 disabled:opacity-50">
+                        className="rounded-lg bg-orange-500 px-4 py-2 text-xs font-black text-[var(--text)] hover:opacity-90 disabled:opacity-50">
                         {forgotLoading ? "Enviando…" : "Enviar link"}
                       </button>
-                      <button type="button" onClick={() => setForgotMode(false)} className="rounded-lg border border-white/20 px-4 py-2 text-xs font-bold text-white/70">
+                      <button type="button" onClick={() => setForgotMode(false)} className="rounded-lg border border-[var(--line-strong)] px-4 py-2 text-xs font-bold text-[var(--text)]/70">
                         Cancelar
                       </button>
                     </div>
@@ -120,7 +120,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
+              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black text-[var(--text)] hover:opacity-90 disabled:opacity-50"
             >
               {loading ? "Entrando..." : "Iniciar sesión"}
             </button>
@@ -130,7 +130,7 @@ export default function LoginPage() {
             <Link href="/registro" className="block text-sm text-orange-400 hover:text-orange-300">
               ¿No tenés cuenta? Registrate
             </Link>
-            <Link href="/" className="block text-sm text-white/50 hover:text-white/70">
+            <Link href="/" className="block text-sm text-[var(--muted)] hover:text-[var(--text)]/70">
               ← Volver al inicio
             </Link>
           </div>

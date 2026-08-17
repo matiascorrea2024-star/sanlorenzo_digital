@@ -10,8 +10,8 @@ import { friendlyError } from "@/lib/friendly-error";
 import HowItWorks from "@/components/ui/how-it-works";
 import { hoyArgentina, inicioDeHoyArgentinaISO } from "@/lib/fecha-ar";
 
-const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
-const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
+const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-orange-400/60 focus:outline-none transition";
+const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-[var(--muted)]";
 // Tope duro para que un negocio chico no se comprometa a una cantidad
 // de canjes que después no puede cumplir -- mismo error que hundió
 // muchos negocios chicos con Groupon.
@@ -141,29 +141,29 @@ export default function NuevaOferta() {
   const limiteHoy = limite ? PLANES[limite.plan]?.ofertasNuevasPorDia ?? 1 : null;
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-2xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
         <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
 
         {bienvenida && (
           <div className="mt-4 rounded-2xl border border-green-400/40 bg-green-500/10 p-4">
-            <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-bold text-white/60">
+            <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-bold text-[var(--muted)]">
               <span className="text-green-300">✓ Tu negocio</span>
-              <span className="text-white/30" aria-hidden>→</span>
-              <span className="text-white/45">Catálogo (opcional)</span>
-              <span className="text-white/30" aria-hidden>→</span>
+              <span className="text-[var(--muted2)]" aria-hidden>→</span>
+              <span className="text-[var(--muted)]">Catálogo (opcional)</span>
+              <span className="text-[var(--muted2)]" aria-hidden>→</span>
               <span className="text-orange-300">Tu primera oferta</span>
-              <span className="text-white/30" aria-hidden>→</span>
-              <span className="text-white/45">Publicá</span>
+              <span className="text-[var(--muted2)]" aria-hidden>→</span>
+              <span className="text-[var(--muted)]">Publicá</span>
             </div>
             <p className="mt-2 font-black text-green-300">🎉 ¡Tu negocio ya está creado!</p>
-            <p className="mt-1 text-sm text-white/70">Publicá tu primera oferta para que te empiecen a encontrar. El catálogo de productos podés cargarlo después, no hace falta ahora.</p>
+            <p className="mt-1 text-sm text-[var(--text)]/70">Publicá tu primera oferta para que te empiecen a encontrar. El catálogo de productos podés cargarlo después, no hace falta ahora.</p>
           </div>
         )}
 
         <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Publicar</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Nueva oferta</h1>
-        <p className="mt-3 text-white/50">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
+        <p className="mt-3 text-[var(--muted)]">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
 
         <div className="mt-4">
           <HowItWorks steps={[
@@ -174,16 +174,16 @@ export default function NuevaOferta() {
         </div>
 
         {limite && planActual && limiteActivas !== -1 && (
-          <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-xs text-white/60">
-            Plan <b className="text-white/80">{planActual.name}</b>: {limite.activas}/{limiteActivas} ofertas activas · {limite.hoy}/{limiteHoy} publicadas hoy.
+          <div className="mt-4 rounded-xl border border-[var(--line)] bg-[var(--ov-03)] p-3 text-xs text-[var(--muted)]">
+            Plan <b className="text-[var(--text)]/80">{planActual.name}</b>: {limite.activas}/{limiteActivas} ofertas activas · {limite.hoy}/{limiteHoy} publicadas hoy.
             {(limite.activas >= (limiteActivas || 0) || limite.hoy >= (limiteHoy || 0)) && (
               <> <Link href="/dashboard/planes" className="font-bold text-orange-400 hover:text-orange-300">Mejorar plan →</Link></>
             )}
           </div>
         )}
 
-        <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-        <div className="space-y-5 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="space-y-5 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           {negocios.length === 0 ? (
             <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/30 p-4">
               <p className="text-sm text-yellow-300">⚠️ No tenés negocios creados. <Link href="/dashboard/nuevo" className="underline font-bold">Crear uno ahora →</Link></p>
@@ -200,21 +200,21 @@ export default function NuevaOferta() {
           )}
 
           <div>
-            <span className={lbl}>Título de la oferta * <span className="normal-case font-normal text-white/30">(mín. 10 caracteres)</span></span>
+            <span className={lbl}>Título de la oferta * <span className="normal-case font-normal text-[var(--muted2)]">(mín. 10 caracteres)</span></span>
             <input className={inp} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Ej: 2×1 en zapatillas seleccionadas" />
           </div>
 
           <div>
             <span className={lbl}>Nombre del producto o servicio (opcional)</span>
             <input className={inp} value={product} onChange={(e) => setProduct(e.target.value)} placeholder="Ej: Zapatillas Nike Air" />
-            <p className="mt-1 text-[11px] text-white/40">Aparece como subtítulo debajo del título de la oferta. Si tu título ya es bien específico, podés dejarlo vacío.</p>
+            <p className="mt-1 text-[11px] text-[var(--muted2)]">Aparece como subtítulo debajo del título de la oferta. Si tu título ya es bien específico, podés dejarlo vacío.</p>
           </div>
 
           <div>
-            <span className={lbl}>Descripción * <span className="normal-case font-normal text-white/30">(mín. 30 caracteres)</span></span>
+            <span className={lbl}>Descripción * <span className="normal-case font-normal text-[var(--muted2)]">(mín. 30 caracteres)</span></span>
             <textarea className={inp} rows={3} value={description} onChange={(e) => setDescription(e.target.value)}
               placeholder="Contá los detalles: qué incluye, condiciones, hasta cuándo dura el stock..." />
-            <p className="mt-1 text-right text-[10px] text-white/30">{description.trim().length}/30</p>
+            <p className="mt-1 text-right text-[10px] text-[var(--muted2)]">{description.trim().length}/30</p>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -230,7 +230,7 @@ export default function NuevaOferta() {
 
           {desc > 0 && (
             <div className="rounded-2xl border border-orange-400/40 bg-orange-500/10 p-4 text-center">
-              <p className="text-xs text-white/60">Descuento calculado</p>
+              <p className="text-xs text-[var(--muted)]">Descuento calculado</p>
               <p className="text-3xl font-black text-orange-400">{desc}% OFF</p>
             </div>
           )}
@@ -239,21 +239,21 @@ export default function NuevaOferta() {
             <label className="flex items-center justify-between gap-3">
               <span>
                 <span className="flex items-center gap-1.5 font-bold text-cyan-200">🎯 Oferta grupal</span>
-                <span className="mt-0.5 block text-xs text-white/50">Se activa sola cuando se anota la cantidad de gente que definas -- genera urgencia real y la comparten solos.</span>
+                <span className="mt-0.5 block text-xs text-[var(--muted)]">Se activa sola cuando se anota la cantidad de gente que definas -- genera urgencia real y la comparten solos.</span>
               </span>
               <input type="checkbox" checked={esGrupal} onChange={(e) => setEsGrupal(e.target.checked)} className="h-5 w-5 shrink-0 accent-cyan-400" />
             </label>
             {esGrupal && (
               <div className="mt-3">
-                <span className={lbl}>Mínimo de personas para activarse * <span className="normal-case font-normal text-white/30">(máx. {META_PARTICIPANTES_MAX})</span></span>
+                <span className={lbl}>Mínimo de personas para activarse * <span className="normal-case font-normal text-[var(--muted2)]">(máx. {META_PARTICIPANTES_MAX})</span></span>
                 <input className={inp} type="number" min={2} max={META_PARTICIPANTES_MAX} value={metaParticipantes} onChange={(e) => setMetaParticipantes(e.target.value)} placeholder="10" />
                 {/* Lección de Groupon: negocios que no calcularon cuánto
                     perdían si TODOS los cupones se canjeaban. Mostramos el
                     peor caso con los números que el comercio ya cargó, para
                     que decida con esa cuenta hecha, no después de activarse. */}
                 {Number(metaParticipantes) >= 2 && Number(priceOffer) > 0 && (
-                  <p className="mt-2 rounded-lg bg-black/20 px-3 py-2 text-xs text-white/60">
-                    ⚠️ Peor caso: si se llena el cupo, vas a entregar <strong className="text-white">{metaParticipantes} unidades</strong> a ${Number(priceOffer).toLocaleString("es-AR")} c/u
+                  <p className="mt-2 rounded-lg bg-black/20 px-3 py-2 text-xs text-[var(--muted)]">
+                    ⚠️ Peor caso: si se llena el cupo, vas a entregar <strong className="text-[var(--text)]">{metaParticipantes} unidades</strong> a ${Number(priceOffer).toLocaleString("es-AR")} c/u
                     {Number(priceBefore) > Number(priceOffer) && (
                       <> -- resignás ${((Number(priceBefore) - Number(priceOffer)) * Number(metaParticipantes)).toLocaleString("es-AR")} respecto al precio de lista</>
                     )}. Asegurate de tener stock/capacidad real para eso antes de publicar.
@@ -264,7 +264,7 @@ export default function NuevaOferta() {
           </div>
 
           <div>
-            <span className={lbl}>Válida hasta * <span className="normal-case font-normal text-white/30">(máx. {OFERTA_DURACION_MAX_DIAS} días)</span></span>
+            <span className={lbl}>Válida hasta * <span className="normal-case font-normal text-[var(--muted2)]">(máx. {OFERTA_DURACION_MAX_DIAS} días)</span></span>
             <input className={inp} type="date" min={hoyStr} max={maxFechaStr} value={expires} onChange={(e) => setExpires(e.target.value)} />
           </div>
 

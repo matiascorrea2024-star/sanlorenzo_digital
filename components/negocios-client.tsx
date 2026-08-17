@@ -75,17 +75,17 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
         Directorio
       </p>
       <h1 className="text-4xl font-black tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Negocios de San Lorenzo</h1>
-      <p className="mt-2 text-sm text-white/50">
+      <p className="mt-2 text-sm text-[var(--muted)]">
         {total} {total === 1 ? "negocio activo" : "negocios activos"} ahora mismo
-        {buscando && <span className="ml-2 text-white/30">buscando...</span>}
+        {buscando && <span className="ml-2 text-[var(--muted2)]">buscando...</span>}
       </p>
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-        <div className="w-full rounded-[1.1rem] border border-white/[.06] bg-white/[.02] p-1">
+        <div className="w-full rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1">
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar negocio…"
-            className="w-full rounded-[.75rem] border border-white/[.05] bg-black/20 px-4 py-2.5 text-sm text-white outline-none placeholder:text-white/35 focus:border-orange-400/40" />
+            className="w-full rounded-[.75rem] border border-[var(--ov-05)] bg-[var(--card-inner)] px-4 py-2.5 text-sm text-[var(--text)] outline-none placeholder:text-[var(--muted2)] focus:border-orange-400/40" />
         </div>
-        <label className="flex shrink-0 items-center gap-2 rounded-[1.1rem] border border-white/[.06] bg-white/[.02] px-4 py-3 text-sm text-white/60">
+        <label className="flex shrink-0 items-center gap-2 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] px-4 py-3 text-sm text-[var(--muted)]">
           <input type="checkbox" checked={openNow} onChange={(e) => setOpenNow(e.target.checked)} className="accent-orange-500" />
           Abierto ahora
         </label>
@@ -93,7 +93,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
       <div className="mt-4 flex flex-wrap gap-2">
         {CATEGORIES.map((c: any) => (
           <button key={c.id} onClick={() => setCat(cat === c.id ? null : c.id)}
-            className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors duration-300 ${cat === c.id ? "border-transparent bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border-white/[.08] text-white/50 hover:border-white/20 hover:text-white"}`}>
+            className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors duration-300 ${cat === c.id ? "border-transparent bg-gradient-to-r from-orange-500 to-red-600 text-[var(--text)]" : "border-[var(--ov-08)] text-[var(--muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]"}`}>
             {c.icon} {c.name}
           </button>
         ))}
@@ -116,17 +116,17 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
         {list.map((b: any) => <BusinessCard key={b.id} b={b} />)}
       </div>
       {!buscando && list.length === 0 && (
-        <div className="mt-8 rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
-          <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-10 text-center">
-            <p className="font-black text-white">No encontramos exactamente eso.</p>
-            <p className="mt-1 text-sm text-white/50">Estamos incorporando negocios de esta categoría. ¿Tenés uno? Sumalo.</p>
+        <div className="mt-8 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+          <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-10 text-center">
+            <p className="font-black text-[var(--text)]">No encontramos exactamente eso.</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">Estamos incorporando negocios de esta categoría. ¿Tenés uno? Sumalo.</p>
           </div>
         </div>
       )}
       {hasMore && (
         <div className="mt-8 flex justify-center">
           <button onClick={cargarMas} disabled={loadingMore}
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-bold text-white/80 transition hover:border-orange-400/40 hover:text-white disabled:opacity-50">
+            className="inline-flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-6 py-3 text-sm font-bold text-[var(--text)]/80 transition hover:border-orange-400/40 hover:text-[var(--text)] disabled:opacity-50">
             {loadingMore && <Loader2 className="h-4 w-4 animate-spin" />}
             {loadingMore ? "Cargando..." : `Cargar más (${total - list.length} restantes)`}
           </button>

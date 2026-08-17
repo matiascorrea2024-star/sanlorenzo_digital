@@ -30,9 +30,9 @@ function CountdownBlock({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center">
       <div className="rounded-xl bg-black/60 border border-red-400/30 px-3 py-2 min-w-[60px] text-center">
-        <p className="text-2xl md:text-3xl font-black text-white tabular-nums">{String(value).padStart(2, "0")}</p>
+        <p className="text-2xl md:text-3xl font-black text-[var(--text)] tabular-nums">{String(value).padStart(2, "0")}</p>
       </div>
-      <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-white/50">{label}</p>
+      <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{label}</p>
     </div>
   );
 }
@@ -76,7 +76,7 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       {/* Hero del Radar */}
       <section className="relative overflow-hidden border-b border-red-400/20 bg-gradient-to-br from-red-900/30 via-[#0c0a0b] to-orange-900/30 py-12">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(239,68,68,0.15),_transparent_50%)]" />
@@ -90,16 +90,16 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
               ofertas urgentes
             </span>
           </h1>
-          <p className="mx-auto mt-3 max-w-xl text-white/70">
+          <p className="mx-auto mt-3 max-w-xl text-[var(--text)]/70">
             Solo ofertas que vencen hoy. Después de la medianoche desaparecen.
           </p>
 
           {/* Countdown */}
           <div className="mt-8 flex justify-center gap-3 md:gap-6">
             <CountdownBlock value={h} label="Horas" />
-            <span className="text-3xl font-black text-white/30 self-start mt-3">:</span>
+            <span className="text-3xl font-black text-[var(--muted2)] self-start mt-3">:</span>
             <CountdownBlock value={m} label="Minutos" />
-            <span className="text-3xl font-black text-white/30 self-start mt-3">:</span>
+            <span className="text-3xl font-black text-[var(--muted2)] self-start mt-3">:</span>
             <CountdownBlock value={s} label="Segundos" />
           </div>
         </div>
@@ -109,15 +109,15 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
         {loading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-80 animate-pulse rounded-2xl border border-white/10 bg-white/5" />
+              <div key={i} className="h-80 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--ov-05)]" />
             ))}
           </div>
         ) : ofertas.length === 0 ? (
-          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-12 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-              <Flame className="mx-auto h-12 w-12 text-white/30 mb-3" />
+          <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-12 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+              <Flame className="mx-auto h-12 w-12 text-[var(--muted2)] mb-3" />
               <p className="text-lg font-bold">No hay ofertas que terminen hoy</p>
-              <p className="mt-2 text-sm text-white/50">Volvé mañana o mirá todas las ofertas activas.</p>
+              <p className="mt-2 text-sm text-[var(--muted)]">Volvé mañana o mirá todas las ofertas activas.</p>
             </div>
           </div>
         ) : (

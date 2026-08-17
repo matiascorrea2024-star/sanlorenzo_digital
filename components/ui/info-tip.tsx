@@ -22,14 +22,14 @@ export default function InfoTip({ children, label = "Más información" }: { chi
         onClick={(e) => { e.preventDefault(); setOpen((v) => !v); }}
         aria-label={label}
         aria-expanded={open}
-        className="inline-flex h-4 w-4 items-center justify-center rounded-full text-white/35 hover:text-orange-400 align-middle"
+        className="inline-flex h-4 w-4 items-center justify-center rounded-full text-[var(--muted2)] hover:text-orange-400 align-middle"
       >
         <Info className="h-3.5 w-3.5" />
       </button>
       {open && (
         <span
           role="tooltip"
-          className="absolute left-1/2 top-full z-50 mt-2 w-56 -translate-x-1/2 rounded-xl border border-white/15 bg-[#1c1819] p-3 text-left text-xs font-normal normal-case leading-snug text-white/70 shadow-2xl"
+          className="absolute left-1/2 top-full z-50 mt-2 w-56 -translate-x-1/2 rounded-xl border border-[var(--line-strong)] bg-[var(--surface2)] p-3 text-left text-xs font-normal normal-case leading-snug text-[var(--muted)] shadow-2xl"
         >
           {children}
         </span>

@@ -452,10 +452,10 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">
+      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
           <div className="mx-auto h-10 w-10 animate-spin rounded-full border-b-2 border-red-400" />
-          <p className="mt-4 text-sm text-white/50">Cargando panel de administración…</p>
+          <p className="mt-4 text-sm text-[var(--muted)]">Cargando panel de administración…</p>
         </div>
       </main>
     );
@@ -471,8 +471,8 @@ export default function AdminPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
-      <div className="border-b border-white/5 bg-gradient-to-b from-red-950/20 to-transparent">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+      <div className="border-b border-[var(--ov-05)] bg-gradient-to-b from-red-950/20 to-transparent">
         <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
           <p className="mb-3 text-[10px] font-black uppercase tracking-[.4em] text-red-400">Control total</p>
           <div className="flex items-center gap-4">
@@ -481,7 +481,7 @@ export default function AdminPage() {
             </div>
             <div>
               <h1 className="text-3xl font-black leading-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Panel de administración</h1>
-              <p className="mt-1 text-sm text-white/50">San Lorenzo Digital · toda la plataforma en un solo lugar</p>
+              <p className="mt-1 text-sm text-[var(--muted)]">San Lorenzo Digital · toda la plataforma en un solo lugar</p>
             </div>
           </div>
         </div>
@@ -493,11 +493,11 @@ export default function AdminPage() {
           {TABS.map(t => (
             <button key={t.k} onClick={() => { setTab(t.k); router.replace(`/admin?tab=${t.k}`); }}
               className={`relative flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2.5 text-xs font-bold transition ${
-                tab === t.k ? "bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-lg shadow-red-500/20" : "border border-white/10 bg-white/[0.03] text-white/70 hover:border-white/25 hover:bg-white/5"
+                tab === t.k ? "bg-gradient-to-r from-red-500 to-orange-500 text-[var(--text)] shadow-lg shadow-red-500/20" : "border border-[var(--line)] bg-[var(--ov-03)] text-[var(--text)]/70 hover:border-[var(--line-strong)] hover:bg-[var(--ov-05)]"
               }`}>
               <t.icon className="h-3.5 w-3.5" /> {t.l}
               {t.count > 0 && (
-                <span className={`ml-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full px-1 text-[9px] font-black ${tab === t.k ? "bg-black/25 text-white" : "bg-red-500 text-white"}`}>
+                <span className={`ml-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full px-1 text-[9px] font-black ${tab === t.k ? "bg-black/25 text-[var(--text)]" : "bg-red-500 text-[var(--text)]"}`}>
                   {t.count}
                 </span>
               )}
@@ -510,11 +510,11 @@ export default function AdminPage() {
           <div className="mt-8 space-y-8">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
               {cards.map(c => (
-                <div key={c.label} className={`rounded-[1.5rem] border border-white/[.06] bg-gradient-to-b ${c.bg} to-transparent p-1 transition hover:border-white/15`}>
-                  <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <div key={c.label} className={`rounded-[1.5rem] border border-[var(--ov-06)] bg-gradient-to-b ${c.bg} to-transparent p-1 transition hover:border-[var(--line-strong)]`}>
+                  <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                     <c.icon className={`mx-auto h-6 w-6 ${c.color}`} />
                     <p className="mt-2 text-2xl font-black tabular-nums md:text-3xl">{c.value}</p>
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">{c.label}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{c.label}</p>
                   </div>
                 </div>
               ))}
@@ -525,34 +525,34 @@ export default function AdminPage() {
             <div>
               <div className="mb-3 flex items-center justify-between">
                 <h3 className="text-lg font-black">👥 Últimos usuarios registrados</h3>
-                <span className="text-xs text-white/40">{stats.usersRecent?.length || 0}</span>
+                <span className="text-xs text-[var(--muted2)]">{stats.usersRecent?.length || 0}</span>
               </div>
               {!stats.usersRecent?.length ? (
-                <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-8 text-center text-sm text-white/40">
+                <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-8 text-center text-sm text-[var(--muted2)]">
                   Todavía no hay usuarios registrados.
                 </div>
               ) : (
-                <div className="overflow-x-auto rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)]">
+                <div className="overflow-x-auto rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <table className="w-full text-sm">
-                    <thead className="border-b border-white/10 bg-white/[0.03]">
+                    <thead className="border-b border-[var(--line)] bg-[var(--ov-03)]">
                       <tr>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-white/40">Usuario</th>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-white/40">Rol</th>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-white/40">Alta</th>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-white/40">Estado</th>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-white/40">Acción</th>
+                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Usuario</th>
+                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Rol</th>
+                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Alta</th>
+                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Estado</th>
+                        <th className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Acción</th>
                       </tr>
                     </thead>
                     <tbody>
                       {stats.usersRecent.map((u: any) => (
-                        <tr key={u.user_id} className="border-b border-white/5 last:border-0 hover:bg-white/[0.03]">
+                        <tr key={u.user_id} className="border-b border-[var(--ov-05)] last:border-0 hover:bg-[var(--ov-03)]">
                           <td className="px-4 py-3 text-xs font-semibold">{u.display_name || u.user_id.slice(0, 8) + "…"}</td>
-                          <td className="px-4 py-3 text-xs capitalize text-white/60">{u.role}</td>
-                          <td className="px-4 py-3 text-xs text-white/50">{new Date(u.created_at).toLocaleDateString("es-AR")}</td>
+                          <td className="px-4 py-3 text-xs capitalize text-[var(--muted)]">{u.role}</td>
+                          <td className="px-4 py-3 text-xs text-[var(--muted)]">{new Date(u.created_at).toLocaleDateString("es-AR")}</td>
                           <td className="px-4 py-3"><OnlineBadge lastSeen={u.last_seen_at} /></td>
                           <td className="px-4 py-3">
                             <button onClick={() => cambiarRolUsuario(u.user_id, u.role)}
-                              className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">
+                              className="rounded-lg border border-[var(--line-strong)] px-2.5 py-1 text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--ov-10)]">
                               {u.role === "admin" ? "Quitar admin" : "Hacer admin"}
                             </button>
                           </td>
@@ -571,29 +571,29 @@ export default function AdminPage() {
           <div className="mt-8">
             <div className="mb-4 flex items-center justify-between gap-3">
               <h2 className="text-lg font-black">
-                {negociosBusqueda ? "Resultados" : "Todos los negocios"} <span className="text-white/40">({negociosMostrados.length}{negociosBusqueda && negociosMostrados.length >= 200 ? "+" : ""})</span>
-                {buscandoNegocios && <span className="ml-2 text-xs font-normal text-white/40">buscando...</span>}
+                {negociosBusqueda ? "Resultados" : "Todos los negocios"} <span className="text-[var(--muted2)]">({negociosMostrados.length}{negociosBusqueda && negociosMostrados.length >= 200 ? "+" : ""})</span>
+                {buscandoNegocios && <span className="ml-2 text-xs font-normal text-[var(--muted2)]">buscando...</span>}
               </h2>
               <div className="relative w-full max-w-xs">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted2)]" />
                 <input value={qNegocios} onChange={(e) => setQNegocios(e.target.value)} placeholder="Buscar por nombre (en toda la base)..."
-                  className="w-full rounded-xl border border-white/15 bg-black/20 py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400" />
+                  className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400" />
               </div>
             </div>
             {!negociosCargados ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center text-sm text-white/40">Cargando...</div>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center text-sm text-[var(--muted2)]">Cargando...</div>
             ) : negociosMostrados.length === 0 ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
-                <Store className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">{negociosBusqueda ? "Ningún negocio coincide con esa búsqueda." : "Todavía no hay negocios cargados."}</p>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                <Store className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+                <p className="mt-3 text-sm text-[var(--muted2)]">{negociosBusqueda ? "Ningún negocio coincide con esa búsqueda." : "Todavía no hay negocios cargados."}</p>
               </div>
             ) : (
               <div className="space-y-2">
                 {negociosMostrados.map((n) => (
-                  <div key={n.id} className="flex flex-col gap-2 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-3 sm:flex-row sm:items-center">
+                  <div key={n.id} className="flex flex-col gap-2 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-3 sm:flex-row sm:items-center">
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-bold">{n.name}</p>
-                      <p className="truncate text-xs capitalize text-white/50">
+                      <p className="truncate text-xs capitalize text-[var(--muted)]">
                         {n.category} · {n.status}{n.activo === false && " · oculto"} · plan {PLANES[n.plan || "gratis"]?.name || n.plan}
                         {n.plan_expira && new Date(n.plan_expira) > new Date() && ` (vence ${new Date(n.plan_expira).toLocaleDateString("es-AR")})`}
                       </p>
@@ -601,13 +601,13 @@ export default function AdminPage() {
                     <div className="flex flex-wrap items-center gap-1.5">
                       <select value={n.plan || "gratis"} onChange={(e) => cambiarPlan(n.id, e.target.value)}
                         title="Asignar plan manualmente (venta por fuera del comprobante, promo, etc.)"
-                        className="rounded-lg border border-white/15 bg-black/20 px-2 py-1 text-[11px] font-bold outline-none focus:border-orange-400">
+                        className="rounded-lg border border-[var(--line-strong)] bg-[var(--card-inner)] px-2 py-1 text-[11px] font-bold outline-none focus:border-orange-400">
                         {Object.entries(PLANES).map(([k, p]) => <option key={k} value={k}>{p.name}</option>)}
                       </select>
                       <a href={`/negocio/${n.slug}`} target="_blank" rel="noopener noreferrer"
-                        className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">Ver</a>
+                        className="rounded-lg border border-[var(--line-strong)] px-2.5 py-1 text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--ov-10)]">Ver</a>
                       <a href={`/dashboard/editar/${n.slug}`} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">
+                        className="flex items-center gap-1 rounded-lg border border-[var(--line-strong)] px-2.5 py-1 text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--ov-10)]">
                         <Pencil className="h-3 w-3" /> Editar
                       </a>
                       <a href={`/admin/soporte/${n.id}`}
@@ -615,11 +615,11 @@ export default function AdminPage() {
                         <MessageCircle className="h-3 w-3" /> Chat
                       </a>
                       <button onClick={() => toggleDestacado(n.id, n.destacado)}
-                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.destacado ? "bg-yellow-500/20 text-yellow-300" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
+                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.destacado ? "bg-yellow-500/20 text-yellow-300" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
                         {n.destacado ? "Quitar destacado" : "Destacar"}
                       </button>
                       <button onClick={() => toggleActivoNegocio(n.id, n.activo !== false)}
-                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.activo === false ? "bg-white/10 text-white/50" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
+                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.activo === false ? "bg-[var(--ov-10)] text-[var(--muted)]" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
                         {n.activo === false ? "Reactivar" : "Ocultar"}
                       </button>
                       <button onClick={() => borrarNegocio(n.id, n.name)}
@@ -639,29 +639,29 @@ export default function AdminPage() {
           <div className="mt-8">
             <div className="mb-4 flex items-center justify-between gap-3">
               <h2 className="text-lg font-black">
-                {ofertasBusqueda ? "Resultados" : "Todas las ofertas"} <span className="text-white/40">({ofertasMostradas.length}{ofertasBusqueda && ofertasMostradas.length >= 200 ? "+" : ""})</span>
-                {buscandoOfertas && <span className="ml-2 text-xs font-normal text-white/40">buscando...</span>}
+                {ofertasBusqueda ? "Resultados" : "Todas las ofertas"} <span className="text-[var(--muted2)]">({ofertasMostradas.length}{ofertasBusqueda && ofertasMostradas.length >= 200 ? "+" : ""})</span>
+                {buscandoOfertas && <span className="ml-2 text-xs font-normal text-[var(--muted2)]">buscando...</span>}
               </h2>
               <div className="relative w-full max-w-xs">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted2)]" />
                 <input value={qOfertas} onChange={(e) => setQOfertas(e.target.value)} placeholder="Buscar por título (en toda la base)..."
-                  className="w-full rounded-xl border border-white/15 bg-black/20 py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400" />
+                  className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400" />
               </div>
             </div>
             {!ofertasCargadas ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center text-sm text-white/40">Cargando...</div>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center text-sm text-[var(--muted2)]">Cargando...</div>
             ) : ofertasMostradas.length === 0 ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
-                <Flame className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">{ofertasBusqueda ? "Ninguna oferta coincide con esa búsqueda." : "Todavía no hay ofertas publicadas."}</p>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                <Flame className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+                <p className="mt-3 text-sm text-[var(--muted2)]">{ofertasBusqueda ? "Ninguna oferta coincide con esa búsqueda." : "Todavía no hay ofertas publicadas."}</p>
               </div>
             ) : (
               <div className="space-y-2">
                 {ofertasMostradas.map((o) => (
-                  <div key={o.id} className="flex flex-col gap-2 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-3 sm:flex-row sm:items-center">
+                  <div key={o.id} className="flex flex-col gap-2 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-3 sm:flex-row sm:items-center">
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-bold">{o.title}</p>
-                      <p className="truncate text-xs text-white/50">
+                      <p className="truncate text-xs text-[var(--muted)]">
                         {o.businesses?.name || "Negocio eliminado"}{o.valid_until && ` · vence ${new Date(o.valid_until + "T00:00:00").toLocaleDateString("es-AR")}`}{!o.active && " · inactiva"}
                         {o.impulsada_hasta && new Date(o.impulsada_hasta).getTime() > ahora && (
                           <span className="text-cyan-300"> · 🚀 impulsada hasta {new Date(o.impulsada_hasta).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
@@ -670,7 +670,7 @@ export default function AdminPage() {
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       <a href={`/oferta/${o.id}`} target="_blank" rel="noopener noreferrer"
-                        className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">Ver</a>
+                        className="rounded-lg border border-[var(--line-strong)] px-2.5 py-1 text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--ov-10)]">Ver</a>
                       <button onClick={() => impulsarOferta(o.id, 24)}
                         className="rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-cyan-300 hover:bg-cyan-500/20">
                         🚀 24h
@@ -680,7 +680,7 @@ export default function AdminPage() {
                         🚀 48h
                       </button>
                       <button onClick={() => toggleOfertaActiva(o.id, o.active)}
-                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${!o.active ? "bg-white/10 text-white/50" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
+                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${!o.active ? "bg-[var(--ov-10)] text-[var(--muted)]" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
                         {o.active ? "Desactivar" : "Reactivar"}
                       </button>
                       <button onClick={() => borrarOferta(o.id, o.title)}
@@ -698,22 +698,22 @@ export default function AdminPage() {
         {/* VERIFICACIÓN */}
         {tab === "verificacion" && (
           <div className="mt-8">
-            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Negocios pendientes de verificación <span className="text-white/40">({pendientes.length})</span></h2>
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Negocios pendientes de verificación <span className="text-[var(--muted2)]">({pendientes.length})</span></h2>
             {pendientes.length === 0 ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
                 <CheckCircle2 className="mx-auto h-10 w-10 text-green-400/60" />
-                <p className="mt-3 font-bold text-white/70">Todo verificado</p>
-                <p className="mt-1 text-sm text-white/40">No hay negocios pendientes ahora mismo.</p>
+                <p className="mt-3 font-bold text-[var(--text)]/70">Todo verificado</p>
+                <p className="mt-1 text-sm text-[var(--muted2)]">No hay negocios pendientes ahora mismo.</p>
               </div>
             ) : (
               <div className="space-y-2.5">
                 {pendientes.map(p => (
-                  <div key={p.id} className="flex flex-col gap-3 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-4 sm:flex-row sm:items-center">
+                  <div key={p.id} className="flex flex-col gap-3 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-4 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-3">
                       <Avatar name={p.name} size={44} />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-bold">{p.name}</p>
-                        <p className="truncate text-xs capitalize text-white/50">{p.category} · {p.address || "sin dirección"}</p>
+                        <p className="truncate text-xs capitalize text-[var(--muted)]">{p.category} · {p.address || "sin dirección"}</p>
                       </div>
                     </div>
                     <div className="flex gap-2 sm:ml-auto sm:shrink-0">
@@ -736,21 +736,21 @@ export default function AdminPage() {
         {/* MODERACIÓN */}
         {tab === "moderacion" && (
           <div className="mt-8">
-            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Últimas reseñas <span className="text-white/40">({resenas.length})</span></h2>
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Últimas reseñas <span className="text-[var(--muted2)]">({resenas.length})</span></h2>
             {resenas.length === 0 ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
-                <Star className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">Aún no hay reseñas para moderar.</p>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                <Star className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+                <p className="mt-3 text-sm text-[var(--muted2)]">Aún no hay reseñas para moderar.</p>
               </div>
             ) : (
               <div className="space-y-2.5">
                 {resenas.map(r => (
-                  <div key={r.id} className="flex flex-col gap-3 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-4 sm:flex-row sm:items-center">
+                  <div key={r.id} className="flex flex-col gap-3 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-4 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-3">
                       <Avatar name={r.reviewer_name} size={40} />
                       <div className="min-w-0 flex-1">
                         <p className="font-bold">{r.reviewer_name} <span className="text-yellow-400">{"★".repeat(r.rating)}</span></p>
-                        <p className="text-sm text-white/70">{r.comment}</p>
+                        <p className="text-sm text-[var(--text)]/70">{r.comment}</p>
                       </div>
                     </div>
                     <button onClick={() => borrarResena(r.id)}
@@ -769,12 +769,12 @@ export default function AdminPage() {
           <div className="mt-8 space-y-8">
             <div>
               <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>
-                Pagos pendientes de revisión <span className="text-white/40">({pendientesPago})</span>
+                Pagos pendientes de revisión <span className="text-[var(--muted2)]">({pendientesPago})</span>
               </h2>
               {pendientesPago === 0 ? (
-                <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
-                  <CreditCard className="mx-auto h-10 w-10 text-white/20" />
-                  <p className="mt-3 text-sm text-white/40">No hay comprobantes esperando revisión.</p>
+                <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                  <CreditCard className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+                  <p className="mt-3 text-sm text-[var(--muted2)]">No hay comprobantes esperando revisión.</p>
                 </div>
               ) : (
                 <div className="space-y-2.5">
@@ -783,11 +783,11 @@ export default function AdminPage() {
                       <CreditCard className="h-6 w-6 shrink-0 text-yellow-400" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-bold">{(s as any).businesses?.name || "Negocio"}</p>
-                        <p className="text-xs text-white/50">Pide plan <strong className="capitalize">{s.plan}</strong> · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
+                        <p className="text-xs text-[var(--muted)]">Pide plan <strong className="capitalize">{s.plan}</strong> · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
                       </div>
                       {s.comprobante_url && (
                         <a href={s.comprobante_url} target="_blank" rel="noopener noreferrer"
-                          className="rounded-lg border border-white/15 px-3 py-1.5 text-xs font-bold text-white/70 hover:bg-white/10">
+                          className="rounded-lg border border-[var(--line-strong)] px-3 py-1.5 text-xs font-bold text-[var(--text)]/70 hover:bg-[var(--ov-10)]">
                           Ver comprobante
                         </a>
                       )}
@@ -806,20 +806,20 @@ export default function AdminPage() {
             </div>
 
             <div>
-              <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Historial <span className="text-white/40">({subs.length})</span></h2>
+              <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Historial <span className="text-[var(--muted2)]">({subs.length})</span></h2>
               {subs.length === 0 ? (
-                <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
-                  <CreditCard className="mx-auto h-10 w-10 text-white/20" />
-                  <p className="mt-3 text-sm text-white/40">Aún no hay solicitudes de plan pago.</p>
+                <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                  <CreditCard className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+                  <p className="mt-3 text-sm text-[var(--muted2)]">Aún no hay solicitudes de plan pago.</p>
                 </div>
               ) : (
                 <div className="space-y-2.5">
                   {subs.map(s => (
-                    <div key={s.id} className="flex items-center gap-3 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-4">
+                    <div key={s.id} className="flex items-center gap-3 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-4">
                       <CreditCard className="h-6 w-6 shrink-0 text-orange-400" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-bold">{(s as any).businesses?.name || "Negocio"}</p>
-                        <p className="text-xs capitalize text-white/50">Plan {s.plan} · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
+                        <p className="text-xs capitalize text-[var(--muted)]">Plan {s.plan} · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
                       </div>
                       <Badge variant={s.status === "active" ? "success" : s.status === "pending" ? "warning" : "danger"} size="sm">{s.status}</Badge>
                     </div>
@@ -837,22 +837,22 @@ export default function AdminPage() {
             cupo -- no hay que dárselo a mano uno por uno. */}
         {tab === "campanas" && (
           <div className="mt-8">
-            <div className="mb-6 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-5">
+            <div className="mb-6 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-5">
               <h2 className="mb-1 text-lg font-black flex items-center gap-2"><Gift className="h-5 w-5 text-orange-400" /> Nueva campaña</h2>
-              <p className="mb-4 text-xs text-white/50">Ej: &quot;Fundadores&quot; -- 3 meses de PRO gratis para los primeros 20 negocios. La cancelás cuando quieras sin borrar el historial.</p>
+              <p className="mb-4 text-xs text-[var(--muted)]">Ej: &quot;Fundadores&quot; -- 3 meses de PRO gratis para los primeros 20 negocios. La cancelás cuando quieras sin borrar el historial.</p>
               <div className="grid gap-3 sm:grid-cols-2">
                 <input value={nuevaCampana.title} onChange={(e) => setNuevaCampana({ ...nuevaCampana, title: e.target.value })}
-                  placeholder="Título (ej: Fundadores San Lorenzo)" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
+                  placeholder="Título (ej: Fundadores San Lorenzo)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
                 <input value={nuevaCampana.description} onChange={(e) => setNuevaCampana({ ...nuevaCampana, description: e.target.value })}
-                  placeholder="Descripción corta para el negocio (opcional)" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
+                  placeholder="Descripción corta para el negocio (opcional)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
                 <select value={nuevaCampana.grants_plan} onChange={(e) => setNuevaCampana({ ...nuevaCampana, grants_plan: e.target.value })}
-                  className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400">
+                  className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400">
                   {Object.entries(PLANES).map(([k, p]) => <option key={k} value={k}>Otorga: {p.name}</option>)}
                 </select>
                 <input value={nuevaCampana.grants_dias} onChange={(e) => setNuevaCampana({ ...nuevaCampana, grants_dias: e.target.value })}
-                  type="number" placeholder="Días de duración" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400" />
+                  type="number" placeholder="Días de duración" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400" />
                 <input value={nuevaCampana.max_cupos} onChange={(e) => setNuevaCampana({ ...nuevaCampana, max_cupos: e.target.value })}
-                  type="number" placeholder="Cupo máximo (vacío = sin límite)" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
+                  type="number" placeholder="Cupo máximo (vacío = sin límite)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
               </div>
               <button onClick={crearCampana} disabled={creandoCampana || !nuevaCampana.title.trim()}
                 className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">
@@ -860,13 +860,13 @@ export default function AdminPage() {
               </button>
             </div>
 
-            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Campañas <span className="text-white/40">({campanas.length})</span></h2>
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Campañas <span className="text-[var(--muted2)]">({campanas.length})</span></h2>
             {!campanasCargadas ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center text-sm text-white/40">Cargando...</div>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center text-sm text-[var(--muted2)]">Cargando...</div>
             ) : campanas.length === 0 ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
-                <Gift className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">Todavía no creaste ninguna campaña.</p>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                <Gift className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+                <p className="mt-3 text-sm text-[var(--muted2)]">Todavía no creaste ninguna campaña.</p>
               </div>
             ) : (
               <div className="space-y-2.5">
@@ -874,17 +874,17 @@ export default function AdminPage() {
                   const usados = c.campaign_claims?.[0]?.count ?? 0;
                   const agotada = c.max_cupos != null && usados >= c.max_cupos;
                   return (
-                    <div key={c.id} className="flex flex-col gap-2 rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-4 sm:flex-row sm:items-center">
+                    <div key={c.id} className="flex flex-col gap-2 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-4 sm:flex-row sm:items-center">
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-bold">{c.title}</p>
-                        <p className="truncate text-xs text-white/50">
+                        <p className="truncate text-xs text-[var(--muted)]">
                           Otorga {PLANES[c.grants_plan]?.name} por {c.grants_dias} días · {usados}{c.max_cupos != null ? `/${c.max_cupos}` : ""} usados
                           {agotada && " · agotada"}
                         </p>
                       </div>
                       <Badge variant={c.active ? "success" : "default"} size="sm">{c.active ? "Activa" : "Cancelada"}</Badge>
                       <button onClick={() => toggleCampana(c.id, c.active)}
-                        className={`rounded-lg px-2.5 py-1.5 text-[11px] font-bold ${c.active ? "bg-red-500/15 text-red-300 hover:bg-red-500/25" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
+                        className={`rounded-lg px-2.5 py-1.5 text-[11px] font-bold ${c.active ? "bg-red-500/15 text-red-300 hover:bg-red-500/25" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
                         {c.active ? "Cancelar" : "Reactivar"}
                       </button>
                     </div>
@@ -898,11 +898,11 @@ export default function AdminPage() {
         {/* REPORTES */}
         {tab === "reportes" && (
           <div className="mt-8">
-            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Reportes de la comunidad <span className="text-white/40">({reportes.length})</span></h2>
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Reportes de la comunidad <span className="text-[var(--muted2)]">({reportes.length})</span></h2>
             {reportes.length === 0 ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
-                <Flag className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">No hay reportes pendientes. La comunidad confía en el directorio ✅</p>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                <Flag className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+                <p className="mt-3 text-sm text-[var(--muted2)]">No hay reportes pendientes. La comunidad confía en el directorio ✅</p>
               </div>
             ) : (
               <div className="space-y-2.5">
@@ -913,8 +913,8 @@ export default function AdminPage() {
                         <Flag className="mt-0.5 h-5 w-5 shrink-0 text-red-400" />
                         <div className="min-w-0 flex-1">
                           <p className="font-bold">{(r as any).businesses?.name || "Negocio"} <span className="ml-2 rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-black text-red-300">{r.reason}</span></p>
-                          {r.details && <p className="mt-1 text-sm text-white/70">&quot;{r.details}&quot;</p>}
-                          <p className="mt-1 text-xs text-white/40">{new Date(r.created_at).toLocaleDateString("es-AR")}</p>
+                          {r.details && <p className="mt-1 text-sm text-[var(--text)]/70">&quot;{r.details}&quot;</p>}
+                          <p className="mt-1 text-xs text-[var(--muted2)]">{new Date(r.created_at).toLocaleDateString("es-AR")}</p>
                         </div>
                       </div>
                       <button onClick={() => resolverReporte(r.id)}
@@ -932,13 +932,13 @@ export default function AdminPage() {
         {/* EN VIVO */}
         {tab === "en-vivo" && (
           <div className="mt-8">
-            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Transmisiones <span className="text-white/40">({vivos.length})</span></h2>
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Transmisiones <span className="text-[var(--muted2)]">({vivos.length})</span></h2>
             {!vivosCargados ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center text-sm text-white/40">Cargando...</div>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center text-sm text-[var(--muted2)]">Cargando...</div>
             ) : vivos.length === 0 ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
-                <Radio className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">Todavía no hubo transmisiones en la plataforma.</p>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                <Radio className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+                <p className="mt-3 text-sm text-[var(--muted2)]">Todavía no hubo transmisiones en la plataforma.</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -946,28 +946,28 @@ export default function AdminPage() {
                   const ESTADO: Record<string, { l: string; c: string }> = {
                     scheduled: { l: "Programado", c: "bg-sky-500/15 text-sky-300" },
                     live: { l: "🔴 En vivo", c: "bg-red-500/20 text-red-300" },
-                    ended: { l: "Finalizado", c: "bg-white/10 text-white/50" },
-                    cancelled: { l: "Cancelado", c: "bg-white/10 text-white/40" },
+                    ended: { l: "Finalizado", c: "bg-[var(--ov-10)] text-[var(--muted)]" },
+                    cancelled: { l: "Cancelado", c: "bg-[var(--ov-10)] text-[var(--muted2)]" },
                   };
                   const e = ESTADO[v.status] || ESTADO.ended;
                   const abierto = vivoSeleccionado === v.id;
                   return (
-                    <div key={v.id} className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)]">
+                    <div key={v.id} className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                       <div className="flex flex-col gap-2 p-3 sm:flex-row sm:items-center">
                         <div className="min-w-0 flex-1">
                           <p className="truncate font-bold">{v.title} {v.blocked && <span className="ml-1 text-[10px] font-black text-red-400">BLOQUEADO</span>}</p>
-                          <p className="truncate text-xs text-white/50">
+                          <p className="truncate text-xs text-[var(--muted)]">
                             {v.businesses?.name} · <span className={`rounded px-1.5 py-0.5 font-bold ${e.c}`}>{e.l}</span>
                             {v.status !== "scheduled" && ` · ${v.max_viewers} pico · ${v.total_viewers} totales`}
                           </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-1.5">
                           <a href={`/en-vivo/${v.id}`} target="_blank" rel="noopener noreferrer"
-                            className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">Ver</a>
+                            className="rounded-lg border border-[var(--line-strong)] px-2.5 py-1 text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--ov-10)]">Ver</a>
                           <a href={`/negocio/${v.businesses?.slug}`} target="_blank" rel="noopener noreferrer"
-                            className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">Negocio</a>
+                            className="rounded-lg border border-[var(--line-strong)] px-2.5 py-1 text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--ov-10)]">Negocio</a>
                           <button onClick={() => setVivoSeleccionado(abierto ? null : v.id)}
-                            className="flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">
+                            className="flex items-center gap-1 rounded-lg border border-[var(--line-strong)] px-2.5 py-1 text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--ov-10)]">
                             <MessageCircle className="h-3 w-3" /> {abierto ? "Cerrar chat" : "Moderar chat"}
                           </button>
                           {v.status === "live" && (
@@ -977,7 +977,7 @@ export default function AdminPage() {
                             </button>
                           )}
                           <button onClick={() => toggleBloqueoVivo(v.id, v.blocked)}
-                            className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-bold ${v.blocked ? "bg-white/10 text-white/50" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
+                            className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-bold ${v.blocked ? "bg-[var(--ov-10)] text-[var(--muted)]" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
                             <EyeOff className="h-3 w-3" /> {v.blocked ? "Desbloquear" : "Bloquear"}
                           </button>
                           <button onClick={() => borrarVivo(v.id, v.title)}
@@ -987,7 +987,7 @@ export default function AdminPage() {
                         </div>
                       </div>
                       {abierto && (
-                        <div className="border-t border-white/10 p-3">
+                        <div className="border-t border-[var(--line)] p-3">
                           <LiveChat liveStreamId={v.id} puedeModerar />
                         </div>
                       )}
@@ -1002,23 +1002,23 @@ export default function AdminPage() {
         {/* CHAT */}
         {tab === "chat" && (
           <div className="mt-8">
-            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Mensajes reportados del chat <span className="text-white/40">({chatMensajes.length})</span></h2>
-            <p className="mb-4 text-xs text-white/40">Solo se listan acá los que llegaron a 3+ reportes y se auto-ocultaron. El chat en general no necesita revisión manual.</p>
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Mensajes reportados del chat <span className="text-[var(--muted2)]">({chatMensajes.length})</span></h2>
+            <p className="mb-4 text-xs text-[var(--muted2)]">Solo se listan acá los que llegaron a 3+ reportes y se auto-ocultaron. El chat en general no necesita revisión manual.</p>
             {!chatCargados ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center text-sm text-white/40">Cargando...</div>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center text-sm text-[var(--muted2)]">Cargando...</div>
             ) : chatMensajes.length === 0 ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
-                <MessageCircle className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">No hay mensajes reportados pendientes de revisión.</p>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                <MessageCircle className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+                <p className="mt-3 text-sm text-[var(--muted2)]">No hay mensajes reportados pendientes de revisión.</p>
               </div>
             ) : (
               <div className="space-y-2.5">
                 {chatMensajes.map((m) => (
                   <div key={m.id} className="flex flex-col gap-3 rounded-2xl border border-red-400/20 bg-red-500/[0.03] p-4 sm:flex-row sm:items-center">
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs text-white/40">{m.locations?.name} · {m.reports_count} reporte{m.reports_count === 1 ? "" : "s"}</p>
+                      <p className="text-xs text-[var(--muted2)]">{m.locations?.name} · {m.reports_count} reporte{m.reports_count === 1 ? "" : "s"}</p>
                       <p className="font-bold">{m.sender_name}</p>
-                      <p className="text-sm text-white/70">{m.body}</p>
+                      <p className="text-sm text-[var(--text)]/70">{m.body}</p>
                     </div>
                     <div className="flex shrink-0 gap-1.5">
                       <button onClick={() => restaurarMensajeChat(m.id)}
@@ -1040,10 +1040,10 @@ export default function AdminPage() {
         {/* CARGAR BULK */}
         {tab === "cargar-bulk" && (
           <div className="mt-8 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Upload className="h-8 w-8 text-orange-400" />
               <p className="mt-3 text-lg font-black">Cargar masiva de negocios reales</p>
-              <p className="mt-1 text-sm text-white/70">
+              <p className="mt-1 text-sm text-[var(--text)]/70">
                 Subí negocios reales de San Lorenzo desde un CSV. Quedarán en estado &quot;pendiente&quot; para verificación.
               </p>
               <a href="/admin/cargar-bulk"
@@ -1057,10 +1057,10 @@ export default function AdminPage() {
         {/* BLOG */}
         {tab === "blog" && (
           <div className="mt-8 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Newspaper className="h-8 w-8 text-orange-400" />
               <p className="mt-3 text-lg font-black">Blog / Novedades</p>
-              <p className="mt-1 text-sm text-white/70">
+              <p className="mt-1 text-sm text-[var(--text)]/70">
                 Escribí artículos y novedades de la plataforma. Se publican en /blog cuando los marcás como publicados.
               </p>
               <a href="/admin/blog"
@@ -1074,34 +1074,34 @@ export default function AdminPage() {
         {/* CIUDADES */}
         {tab === "ciudades" && (
           <div className="mt-8">
-            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Ciudades de la plataforma <span className="text-white/40">({ciudades.length})</span></h2>
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Ciudades de la plataforma <span className="text-[var(--muted2)]">({ciudades.length})</span></h2>
 
             <div className="mb-5 rounded-2xl border border-orange-400/20 bg-orange-500/[0.04] p-4">
               <p className="mb-2 text-xs font-black uppercase tracking-wider text-orange-300">+ Agregar ciudad nueva</p>
               <div className="grid gap-2 sm:grid-cols-[1fr_auto_auto_auto]">
                 <input value={nuevaCiudad.nombre} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, nombre: e.target.value })}
-                  placeholder="Nombre de la ciudad" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400" />
+                  placeholder="Nombre de la ciudad" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400" />
                 <input value={nuevaCiudad.lat} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, lat: e.target.value })}
-                  placeholder="Latitud (opcional)" className="w-full rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:w-36" />
+                  placeholder="Latitud (opcional)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400 sm:w-36" />
                 <input value={nuevaCiudad.lon} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, lon: e.target.value })}
-                  placeholder="Longitud (opcional)" className="w-full rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:w-36" />
+                  placeholder="Longitud (opcional)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400 sm:w-36" />
                 <button onClick={crearCiudad} disabled={creandoCiudad || !nuevaCiudad.nombre.trim()}
                   className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black disabled:opacity-50">
                   {creandoCiudad ? "…" : "Crear"}
                 </button>
               </div>
-              <p className="mt-2 text-[11px] text-white/40">Se crea como borrador. Cargale coordenadas y algún negocio real antes de activarla -- sin coordenadas no se puede activar.</p>
+              <p className="mt-2 text-[11px] text-[var(--muted2)]">Se crea como borrador. Cargale coordenadas y algún negocio real antes de activarla -- sin coordenadas no se puede activar.</p>
             </div>
 
             {ciudades.length === 0 ? (
-              <div className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-10 text-center">
-                <MapPin className="mx-auto h-10 w-10 text-white/20" />
-                <p className="mt-3 text-sm text-white/40">Todavía no hay ciudades cargadas.</p>
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                <MapPin className="mx-auto h-10 w-10 text-[var(--muted2)]" />
+                <p className="mt-3 text-sm text-[var(--muted2)]">Todavía no hay ciudades cargadas.</p>
               </div>
             ) : (
               <div className="space-y-2.5">
                 {ciudades.map(c => (
-                  <div key={c.id} className="rounded-2xl border border-white/[.08] bg-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,.05)] p-4">
+                  <div key={c.id} className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-4">
                     <div className="flex items-center gap-3">
                       <MapPin className="h-6 w-6 shrink-0 text-sky-400" />
                       <div className="min-w-0 flex-1">
@@ -1109,20 +1109,20 @@ export default function AdminPage() {
                           <input value={nombreCiudadEdit} onChange={(e) => setNombreCiudadEdit(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && renombrarCiudad(c.id)}
                             autoFocus
-                            className="w-full rounded-lg border border-orange-400/40 bg-black/20 px-2 py-1 text-sm font-bold outline-none" />
+                            className="w-full rounded-lg border border-orange-400/40 bg-[var(--card-inner)] px-2 py-1 text-sm font-bold outline-none" />
                         ) : (
                           <p className="truncate font-bold">{c.name}</p>
                         )}
-                        <p className="text-xs text-white/50">
+                        <p className="text-xs text-[var(--muted)]">
                           /{c.slug} · {c._negocios ?? 0} negocio{c._negocios === 1 ? "" : "s"}
                           {(c.latitude == null || c.longitude == null) && <span className="ml-2 text-amber-400">sin coordenadas</span>}
                         </p>
                       </div>
                       <span className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${
                         c.status === "active" ? "bg-green-500/15 text-green-300"
-                        : c.status === "draft" ? "bg-white/10 text-white/50"
+                        : c.status === "draft" ? "bg-[var(--ov-10)] text-[var(--muted)]"
                         : c.status === "suspended" ? "bg-red-500/15 text-red-300"
-                        : c.status === "archived" ? "bg-white/5 text-white/30"
+                        : c.status === "archived" ? "bg-[var(--ov-05)] text-[var(--muted2)]"
                         : "bg-amber-500/15 text-amber-300"
                       }`}>
                         {c.status === "active" ? "Activa" : c.status === "draft" ? "Borrador" : c.status === "suspended" ? "Suspendida" : c.status === "archived" ? "Archivada" : "Inactiva"}
@@ -1135,7 +1135,7 @@ export default function AdminPage() {
                         className={`shrink-0 rounded-xl px-3 py-2 text-xs font-black transition ${
                           c.status === "active"
                             ? "border border-red-400/30 bg-red-500/10 text-red-300 hover:bg-red-500/20"
-                            : "bg-gradient-to-r from-orange-500 to-red-600 text-white hover:opacity-90"
+                            : "bg-gradient-to-r from-orange-500 to-red-600 text-[var(--text)] hover:opacity-90"
                         }`}
                       >
                         {c.status === "active" ? "Desactivar" : "Activar"}
@@ -1147,23 +1147,23 @@ export default function AdminPage() {
                             Guardar
                           </button>
                           <button onClick={() => setEditandoCiudad(null)}
-                            className="shrink-0 rounded-xl border border-white/15 px-3 py-2 text-xs font-bold text-white/60 hover:bg-white/5">
+                            className="shrink-0 rounded-xl border border-[var(--line-strong)] px-3 py-2 text-xs font-bold text-[var(--muted)] hover:bg-[var(--ov-05)]">
                             Cancelar
                           </button>
                         </>
                       ) : (
                         <button onClick={() => { setEditandoCiudad(c.id); setNombreCiudadEdit(c.name); }}
-                          className="flex shrink-0 items-center gap-1 rounded-xl border border-white/15 px-3 py-2 text-xs font-bold text-white/60 hover:bg-white/5">
+                          className="flex shrink-0 items-center gap-1 rounded-xl border border-[var(--line-strong)] px-3 py-2 text-xs font-bold text-[var(--muted)] hover:bg-[var(--ov-05)]">
                           <Pencil className="h-3 w-3" /> Renombrar
                         </button>
                       )}
                       <button onClick={() => setBarrioAbierto(barrioAbierto === c.id ? null : c.id)}
-                        className="shrink-0 rounded-xl border border-white/15 px-3 py-2 text-xs font-bold text-white/60 hover:bg-white/5">
+                        className="shrink-0 rounded-xl border border-[var(--line-strong)] px-3 py-2 text-xs font-bold text-[var(--muted)] hover:bg-[var(--ov-05)]">
                         + Barrio
                       </button>
                       <select value={c.status || "draft"} onChange={(e) => cambiarEstadoCiudad(c.id, e.target.value)}
                         title="Otros estados (borrador, suspendida, archivada)"
-                        className="shrink-0 rounded-xl border border-white/15 bg-black/20 px-2 py-2 text-xs font-bold outline-none focus:border-orange-400">
+                        className="shrink-0 rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-2 py-2 text-xs font-bold outline-none focus:border-orange-400">
                         <option value="draft">Borrador</option>
                         <option value="inactive">Inactiva</option>
                         <option value="active">Activa</option>
@@ -1176,13 +1176,13 @@ export default function AdminPage() {
                       </button>
                     </div>
                     {barrioAbierto === c.id && (
-                      <div className="mt-3 flex gap-2 border-t border-white/10 pt-3">
+                      <div className="mt-3 flex gap-2 border-t border-[var(--line)] pt-3">
                         <input value={nuevoBarrio} onChange={(e) => setNuevoBarrio(e.target.value)}
                           onKeyDown={(e) => e.key === "Enter" && agregarBarrio(c.id)}
                           placeholder="Nombre del barrio" autoFocus
-                          className="flex-1 rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400" />
+                          className="flex-1 rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400" />
                         <button onClick={() => agregarBarrio(c.id)} disabled={!nuevoBarrio.trim()}
-                          className="rounded-xl bg-white/10 px-4 py-2 text-xs font-bold hover:bg-white/20 disabled:opacity-50">
+                          className="rounded-xl bg-[var(--ov-10)] px-4 py-2 text-xs font-bold hover:bg-[var(--ov-20)] disabled:opacity-50">
                           Agregar
                         </button>
                       </div>
@@ -1191,7 +1191,7 @@ export default function AdminPage() {
                 ))}
               </div>
             )}
-            <p className="mt-4 text-xs text-white/40">
+            <p className="mt-4 text-xs text-[var(--muted2)]">
               Solo las ciudades en estado &quot;Activa&quot; aparecen públicamente. Podés cargar negocios en una ciudad en
               borrador antes de activarla -- desactivar/suspender/archivar nunca borra los datos, se puede
               reactivar en cualquier momento.

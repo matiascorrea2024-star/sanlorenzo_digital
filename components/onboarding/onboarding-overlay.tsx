@@ -65,36 +65,36 @@ export default function OnboardingOverlay() {
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(link)}`;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/70 backdrop-blur-sm sm:items-center">
-      <div className="relative w-full max-w-md rounded-t-3xl border border-white/10 bg-[#1c1819] p-6 sm:rounded-3xl">
-        <button onClick={finish} aria-label="Cerrar" className="absolute right-4 top-4 rounded-full p-1.5 text-white/50 hover:bg-white/10 hover:text-white">
+    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-[var(--scrim)] backdrop-blur-sm sm:items-center">
+      <div className="relative w-full max-w-md rounded-t-3xl border border-[var(--line)] bg-[var(--surface2)] p-6 sm:rounded-3xl">
+        <button onClick={finish} aria-label="Cerrar" className="absolute right-4 top-4 rounded-full p-1.5 text-[var(--muted)] hover:bg-[var(--ov-10)] hover:text-[var(--text)]">
           <X className="h-5 w-5" />
         </button>
 
         <div className="mb-5 flex items-center gap-1.5">
           {[1, 2, 3].map((s) => (
-            <div key={s} className={`h-1.5 flex-1 rounded-full ${s <= step ? "bg-gradient-to-r from-orange-500 to-red-600" : "bg-white/10"}`} />
+            <div key={s} className={`h-1.5 flex-1 rounded-full ${s <= step ? "bg-gradient-to-r from-orange-500 to-red-600" : "bg-[var(--ov-10)]"}`} />
           ))}
         </div>
 
         {step === 1 && (
           <>
             <Store className="h-8 w-8 text-orange-400" />
-            <h2 className="mt-3 text-xl font-black text-white">Seguí 5 negocios</h2>
-            <p className="mt-1 text-sm text-white/60">Así te avisamos cuando publiquen ofertas nuevas.</p>
+            <h2 className="mt-3 text-xl font-black text-[var(--text)]">Seguí 5 negocios</h2>
+            <p className="mt-1 text-sm text-[var(--muted)]">Así te avisamos cuando publiquen ofertas nuevas.</p>
             <div className="mt-4 grid max-h-64 grid-cols-2 gap-2 overflow-y-auto">
               {businesses.map((b) => {
                 const on = followed.has(b.id);
                 return (
                   <button key={b.id} onClick={() => toggleFollow(b.id)}
-                    className={`flex items-center gap-2 rounded-xl border p-2.5 text-left text-xs font-bold transition ${on ? "border-orange-400/60 bg-orange-500/15 text-orange-200" : "border-white/10 bg-white/5 text-white/80 hover:border-white/25"}`}>
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/10 text-[10px]">{b.name[0]}</span>
+                    className={`flex items-center gap-2 rounded-xl border p-2.5 text-left text-xs font-bold transition ${on ? "border-orange-400/60 bg-orange-500/15 text-orange-200" : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--text)]/80 hover:border-[var(--line-strong)]"}`}>
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[var(--ov-10)] text-[10px] text-[var(--text)]">{b.name[0]}</span>
                     <span className="min-w-0 flex-1 truncate">{b.name}</span>
                     {on && <Check className="h-3.5 w-3.5 shrink-0" />}
                   </button>
                 );
               })}
-              {businesses.length === 0 && <p className="col-span-2 py-6 text-center text-xs text-white/40">Todavía no hay negocios para sugerir.</p>}
+              {businesses.length === 0 && <p className="col-span-2 py-6 text-center text-xs text-[var(--muted2)]">Todavía no hay negocios para sugerir.</p>}
             </div>
             <button onClick={() => setStep(2)} className="mt-5 w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black text-white hover:opacity-90">
               Siguiente ({followed.size} seguidos)
@@ -105,8 +105,8 @@ export default function OnboardingOverlay() {
         {step === 2 && (
           <>
             <Bell className="h-8 w-8 text-orange-400" />
-            <h2 className="mt-3 text-xl font-black text-white">Activá notificaciones</h2>
-            <p className="mt-1 text-sm text-white/60">Te avisamos de ofertas cerca tuyo apenas se publiquen (nunca spam por mail).</p>
+            <h2 className="mt-3 text-xl font-black text-[var(--text)]">Activá notificaciones</h2>
+            <p className="mt-1 text-sm text-[var(--muted)]">Te avisamos de ofertas cerca tuyo apenas se publiquen (nunca spam por mail).</p>
             {notifStatus === "granted" ? (
               <p className="mt-4 rounded-xl border border-green-400/30 bg-green-500/10 p-3 text-sm text-green-300">✅ Notificaciones activadas</p>
             ) : (
@@ -123,15 +123,15 @@ export default function OnboardingOverlay() {
         {step === 3 && (
           <>
             <Share2 className="h-8 w-8 text-orange-400" />
-            <h2 className="mt-3 text-xl font-black text-white">Compartí tu perfil</h2>
-            <p className="mt-1 text-sm text-white/60">Invitá a tus vecinos a descubrir San Lorenzo.</p>
+            <h2 className="mt-3 text-xl font-black text-[var(--text)]">Compartí tu perfil</h2>
+            <p className="mt-1 text-sm text-[var(--muted)]">Invitá a tus vecinos a descubrir San Lorenzo.</p>
             <img src={qrUrl} alt="QR de invitación" className="mx-auto mt-4 h-36 w-36 rounded-xl bg-white p-2" />
             <button
               onClick={async () => {
                 if (navigator.share) { try { await navigator.share({ title: "La Gran Barata Digital", url: link }); } catch {} }
                 else { await navigator.clipboard.writeText(link); }
               }}
-              className="mt-4 w-full rounded-xl border border-white/20 py-3 text-sm font-bold text-white hover:bg-white/10"
+              className="mt-4 w-full rounded-xl border border-[var(--line-strong)] py-3 text-sm font-bold text-[var(--text)] hover:bg-[var(--ov-10)]"
             >
               Compartir mi link
             </button>

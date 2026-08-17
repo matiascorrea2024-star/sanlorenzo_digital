@@ -10,7 +10,7 @@ import { VideoPresets } from "livekit-client";
 // que el negocio tenga que preocuparse por eso.
 export default function BroadcasterRoom({ token, url }: { token: string; url: string }) {
   return (
-    <div className="h-[70vh] overflow-hidden rounded-2xl border border-white/10">
+    <div className="h-[70vh] overflow-hidden rounded-2xl border border-[var(--line)]">
       <LiveKitRoom
         token={token}
         serverUrl={url}

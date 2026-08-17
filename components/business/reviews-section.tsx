@@ -23,7 +23,7 @@ function Stars({ n, size = 16 }: { n: number; size?: number }) {
     <span className="inline-flex gap-0.5">
       {[1, 2, 3, 4, 5].map(i => (
         <Star key={i} style={{ width: size, height: size }}
-          className={i <= Math.round(n) ? "fill-yellow-400 text-yellow-400" : "text-white/20"} />
+          className={i <= Math.round(n) ? "fill-yellow-400 text-yellow-400" : "text-[var(--ov-20)]"} />
       ))}
     </span>
   );
@@ -121,35 +121,35 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
           un puntaje vacío. Con 0 reseñas alcanza con el mensaje de la lista
           de abajo (evita además duplicar el mismo estado vacío dos veces). */}
       {totalCount > 0 && (
-        <div className="mt-4 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
+        <div className="mt-4 flex items-center gap-4 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-5">
           <p className="text-5xl font-black">{avg.toFixed(1)}</p>
           <div>
             <Stars n={avg} size={20} />
-            <p className="mt-1 text-xs text-white/50">{totalCount} reseña{totalCount !== 1 ? "s" : ""}</p>
+            <p className="mt-1 text-xs text-[var(--muted)]">{totalCount} reseña{totalCount !== 1 ? "s" : ""}</p>
           </div>
         </div>
       )}
 
       {/* Formulario */}
-      <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-5">
+      <div className="mt-4 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-5">
         <p className="font-bold">¿Visitaste este negocio?</p>
         <div className="mt-3 flex items-center gap-1">
           {[1, 2, 3, 4, 5].map(i => (
             <button key={i} onClick={() => setRating(i)}
               onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(0)}
               className="p-1 transition hover:scale-125">
-              <Star className={`h-7 w-7 ${i <= (hover || rating) ? "fill-yellow-400 text-yellow-400" : "text-white/20"}`} />
+              <Star className={`h-7 w-7 ${i <= (hover || rating) ? "fill-yellow-400 text-yellow-400" : "text-[var(--ov-20)]"}`} />
             </button>
           ))}
-          <span className="ml-2 text-sm font-bold text-white/60">{rating}/5</span>
+          <span className="ml-2 text-sm font-bold text-[var(--muted)]">{rating}/5</span>
         </div>
         <textarea value={comment} onChange={(e) => setComment(e.target.value)} rows={3}
           placeholder="Contá tu experiencia..."
-          className="mt-3 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm outline-none focus:border-orange-400" />
+          className="mt-3 w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm outline-none focus:border-orange-400" />
 
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {fotos.map((f, i) => (
-            <div key={i} className="relative h-16 w-16 overflow-hidden rounded-xl border border-white/15">
+            <div key={i} className="relative h-16 w-16 overflow-hidden rounded-xl border border-[var(--line-strong)]">
               <img src={URL.createObjectURL(f)} alt="" className="h-full w-full object-cover" />
               <button onClick={() => setFotos(prev => prev.filter((_, j) => j !== i))}
                 aria-label="Quitar foto" title="Quitar foto"
@@ -159,7 +159,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
             </div>
           ))}
           {fotos.length < MAX_FOTOS && (
-            <label className="flex h-16 w-16 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-white/20 text-white/40 hover:border-orange-400/50 hover:text-orange-400">
+            <label className="flex h-16 w-16 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-[var(--line-strong)] text-[var(--muted2)] hover:border-orange-400/50 hover:text-orange-400">
               <Camera className="h-5 w-5" />
               <span className="text-[9px] font-bold">{fotos.length}/{MAX_FOTOS}</span>
               <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => agregarFotos(e.target.files)} />
@@ -172,7 +172,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
           {sent ? "✅ ¡Gracias por tu reseña!" : sending ? "Enviando..." : "Publicar reseña"}
         </button>
         {!sending && !sent && !comment.trim() && (
-          <p className="mt-2 text-xs text-white/40">Contá tu experiencia arriba para poder publicar.</p>
+          <p className="mt-2 text-xs text-[var(--muted2)]">Contá tu experiencia arriba para poder publicar.</p>
         )}
         {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
       </div>
@@ -180,10 +180,10 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
       {/* Lista */}
       <div className="mt-6 space-y-4">
         {reviews.length === 0 && (
-          <p className="text-sm text-white/40">Todavía no hay reseñas escritas. ¡Sé el primero!</p>
+          <p className="text-sm text-[var(--muted2)]">Todavía no hay reseñas escritas. ¡Sé el primero!</p>
         )}
         {reviews.slice(0, mostrar).map(r => (
-          <div key={r.id} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <div key={r.id} className="rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-5">
             <div className="flex items-center gap-3">
               <Avatar name={r.reviewer_name} size={40} />
               <div className="flex-1">
@@ -197,15 +197,15 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
                 </p>
                 <div className="flex items-center gap-2">
                   <Stars n={r.rating} size={13} />
-                  <span className="text-[11px] text-white/40">{timeAgo(r.created_at)}</span>
+                  <span className="text-[11px] text-[var(--muted2)]">{timeAgo(r.created_at)}</span>
                 </div>
               </div>
             </div>
-            {r.comment && <p className="mt-3 text-sm text-white/80">{r.comment}</p>}
+            {r.comment && <p className="mt-3 text-sm text-[var(--text)]/80">{r.comment}</p>}
             {r.photos?.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
                 {r.photos.map((url: string, i: number) => (
-                  <button key={i} onClick={() => setLightbox(url)} className="relative h-20 w-20 overflow-hidden rounded-xl border border-white/10">
+                  <button key={i} onClick={() => setLightbox(url)} className="relative h-20 w-20 overflow-hidden rounded-xl border border-[var(--line)]">
                     <Image src={url} alt="Foto de la reseña" fill sizes="80px" quality={85} className="object-cover" />
                   </button>
                 ))}
@@ -214,14 +214,14 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
             {r.reply && (
               <div className="mt-3 rounded-xl border-l-4 border-orange-400 bg-orange-500/10 p-3">
                 <p className="text-xs font-black text-orange-300">↳ Respuesta del negocio</p>
-                <p className="mt-1 text-sm text-white/80">{r.reply}</p>
+                <p className="mt-1 text-sm text-[var(--text)]/80">{r.reply}</p>
               </div>
             )}
           </div>
         ))}
         {reviews.length > mostrar && (
           <button onClick={() => setMostrar(m => m + 10)}
-            className="w-full rounded-xl border border-white/15 py-2.5 text-sm font-bold text-white/60 hover:bg-white/5">
+            className="w-full rounded-xl border border-[var(--line-strong)] py-2.5 text-sm font-bold text-[var(--muted)] hover:bg-[var(--ov-05)]">
             Ver más reseñas ({reviews.length - mostrar} más)
           </button>
         )}

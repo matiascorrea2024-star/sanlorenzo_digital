@@ -79,7 +79,7 @@ export default function GroupDealPanel({ offerId, metaParticipantes, initialActi
 
   return (
     <div className="mb-5 rounded-[1.75rem] border border-cyan-400/25 bg-gradient-to-br from-cyan-500/[.08] to-sky-500/[.04] p-1.5">
-      <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+      <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
         <div className="mb-3 flex items-center justify-between">
           <p className="flex items-center gap-1.5 font-black text-cyan-200">
             <Users className="h-4 w-4" /> Oferta grupal
@@ -89,15 +89,15 @@ export default function GroupDealPanel({ offerId, metaParticipantes, initialActi
               <PartyPopper className="h-3 w-3" /> Activada
             </span>
           ) : (
-            <span className="text-xs font-bold text-white/50">{count}/{metaParticipantes}</span>
+            <span className="text-xs font-bold text-[var(--muted)]">{count}/{metaParticipantes}</span>
           )}
         </div>
 
-        <div className="h-2.5 w-full overflow-hidden rounded-full bg-white/10">
+        <div className="h-2.5 w-full overflow-hidden rounded-full bg-[var(--ov-10)]">
           <div className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 transition-all duration-500" style={{ width: `${pct}%` }} />
         </div>
 
-        <p className="mt-2.5 text-sm text-white/70">
+        <p className="mt-2.5 text-sm text-[var(--text)]/70">
           {activada
             ? "¡Se juntó la gente! El descuento ya es real, no hace falta esperar más."
             : faltan === 0

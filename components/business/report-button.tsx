@@ -48,7 +48,7 @@ export default function ReportButton({ businessId, businessName }: {
   }
 
   return (
-    <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-left">
+    <div className="rounded-xl border border-[var(--line)] bg-[var(--ov-05)] p-4 text-left">
       <p className="mb-2 text-sm font-bold">Reportar {businessName || "negocio"}</p>
       <div className="mb-2 flex flex-wrap gap-2">
         {MOTIVOS.map(m => (
@@ -56,7 +56,7 @@ export default function ReportButton({ businessId, businessName }: {
             className={`rounded-full px-3 py-1 text-xs transition ${
               motivo === m
                 ? "border border-red-400/40 bg-red-500/20 text-red-300"
-                : "border border-white/15 text-white/60"
+                : "border border-[var(--line-strong)] text-[var(--muted)]"
             }`}>
             {m}
           </button>
@@ -64,14 +64,14 @@ export default function ReportButton({ businessId, businessName }: {
       </div>
       <textarea value={detalle} onChange={(e) => setDetalle(e.target.value)} rows={2}
         placeholder="Contanos qué está mal (opcional)"
-        className="w-full rounded-lg border border-white/15 bg-black/40 p-2 text-xs outline-none" />
+        className="w-full rounded-lg border border-[var(--line-strong)] bg-[var(--card-inner)] p-2 text-xs outline-none" />
       {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
       <div className="mt-2 flex gap-2">
         <button onClick={send}
           className="rounded-lg bg-red-500/20 px-4 py-2 text-xs font-bold text-red-300 hover:bg-red-500/30">
           Enviar reporte
         </button>
-        <button onClick={() => setOpen(false)} className="rounded-lg px-4 py-2 text-xs text-white/50">
+        <button onClick={() => setOpen(false)} className="rounded-lg px-4 py-2 text-xs text-[var(--muted)]">
           Cancelar
         </button>
       </div>

@@ -14,7 +14,7 @@ export default function Featured({ list, title, userCoords }: {
         title={title}
         action={
           list.length > 0 ? (
-            <Link href="/negocios" className="text-sm text-[var(--muted)] hover:text-white">Explorar todo →</Link>
+            <Link href="/negocios" className="text-sm text-[var(--muted)] hover:text-[var(--text)]">Explorar todo →</Link>
           ) : undefined
         }
       />
