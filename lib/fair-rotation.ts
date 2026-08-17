@@ -1,3 +1,5 @@
+import { hoyArgentina } from "./fecha-ar";
+
 // Orden pseudo-aleatorio pero determinístico por día: el mismo negocio
 // cae en el mismo lugar durante todo el día (estable para el ISR de la
 // home, revalidate=60), pero mañana el orden es otro. Sirve para que en
@@ -13,6 +15,6 @@ function hashDiario(id: string, seed: string): number {
 }
 
 export function ordenRotativoDiario<T extends { id: string }>(items: T[]): T[] {
-  const hoy = new Date().toISOString().slice(0, 10);
+  const hoy = hoyArgentina();
   return [...items].sort((a, b) => hashDiario(a.id, hoy) - hashDiario(b.id, hoy));
 }

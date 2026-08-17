@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import OfferCard from "@/components/ui/offer-card";
 import { supabase } from "@/lib/supabase";
+import { hoyArgentina } from "@/lib/fecha-ar";
 
 type Row = {
   id: string;
@@ -57,7 +58,7 @@ export default function PromocionesPage() {
     })();
   }, []);
 
-  const hoy = new Date().toISOString().slice(0, 10);
+  const [hoy] = useState(() => hoyArgentina());
   const activas = useMemo(
     () =>
       rows

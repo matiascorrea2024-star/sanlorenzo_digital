@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Trophy, ThumbsUp } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { hoyArgentina } from "@/lib/fecha-ar";
 
 export default function VotoDelDia() {
   const router = useRouter();
@@ -13,18 +14,16 @@ export default function VotoDelDia() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const hoy = () => new Date().toISOString().slice(0, 10);
-
   const cargar = async () => {
     const sb = supabase();
     const { data: { user } } = await sb.auth.getUser();
     setUser(user);
 
     const { data: offs } = await sb.from("offers_with_business")
-      .select("*").eq("active", true).eq("valid_until", hoy()).limit(20);
+      .select("*").eq("active", true).eq("valid_until", hoyArgentina()).limit(20);
     setOfertas(offs || []);
 
-    const { data: v } = await sb.from("daily_votes").select("offer_id, user_id").eq("vote_date", hoy());
+    const { data: v } = await sb.from("daily_votes").select("offer_id, user_id").eq("vote_date", hoyArgentina());
     const counts: Record<string, number> = {};
     (v || []).forEach((r: any) => { counts[r.offer_id] = (counts[r.offer_id] || 0) + 1; });
     setVotos(counts);
@@ -38,10 +37,10 @@ export default function VotoDelDia() {
     if (!user) { router.push("/login"); return; }
     const sb = supabase();
     if (miVoto) {
-      await sb.from("daily_votes").delete().eq("user_id", user.id).eq("vote_date", hoy());
+      await sb.from("daily_votes").delete().eq("user_id", user.id).eq("vote_date", hoyArgentina());
     }
     if (miVoto !== offerId) {
-      await sb.from("daily_votes").insert({ offer_id: offerId, user_id: user.id, vote_date: hoy() });
+      await sb.from("daily_votes").insert({ offer_id: offerId, user_id: user.id, vote_date: hoyArgentina() });
 
       // Si esta oferta pasa a liderar la votación, se avisa una sola vez
       // al negocio (no en cada voto, para no llenarlo de notificaciones).

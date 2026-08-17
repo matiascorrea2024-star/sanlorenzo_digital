@@ -8,6 +8,7 @@ import ImageUploader from "@/components/upload/image-uploader";
 import { PLANES, planDe, puedePublicarOferta, puedePublicarHoy, OFERTA_DURACION_MAX_DIAS } from "@/lib/plans";
 import { friendlyError } from "@/lib/friendly-error";
 import HowItWorks from "@/components/ui/how-it-works";
+import { hoyArgentina, inicioDeHoyArgentinaISO } from "@/lib/fecha-ar";
 
 const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
@@ -39,7 +40,7 @@ export default function NuevaOferta() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [limite, setLimite] = useState<{ plan: string; activas: number; hoy: number } | null>(null);
-  const [hoyStr] = useState(() => new Date().toISOString().slice(0, 10));
+  const [hoyStr] = useState(() => hoyArgentina());
   const [maxFechaStr] = useState(() => new Date(Date.now() + OFERTA_DURACION_MAX_DIAS * 86400000).toISOString().slice(0, 10));
 
   useEffect(() => {
@@ -70,10 +71,12 @@ export default function NuevaOferta() {
       const sb = supabase();
       const negocio = negocios.find((n) => n.id === biz);
       const plan = negocio?.plan || "gratis";
-      const hoyStr = new Date().toISOString().slice(0, 10);
       const [{ count: activas }, { count: hoy }] = await Promise.all([
         sb.from("offers").select("*", { count: "exact", head: true }).eq("business_id", biz).eq("active", true),
-        sb.from("offers").select("*", { count: "exact", head: true }).eq("business_id", biz).gte("created_at", hoyStr),
+        // created_at es timestamptz -- comparar contra un string "YYYY-MM-DD"
+        // lo interpreta Postgres como medianoche UTC, no medianoche
+        // Argentina (mismo bug de huso horario, versión timestamp).
+        sb.from("offers").select("*", { count: "exact", head: true }).eq("business_id", biz).gte("created_at", inicioDeHoyArgentinaISO()),
       ]);
       setLimite({ plan, activas: activas || 0, hoy: hoy || 0 });
     })();

@@ -8,6 +8,7 @@ import ImageUploader from "@/components/upload/image-uploader";
 import { OFERTA_DURACION_MAX_DIAS } from "@/lib/plans";
 import { friendlyError } from "@/lib/friendly-error";
 import HowItWorks from "@/components/ui/how-it-works";
+import { hoyArgentina } from "@/lib/fecha-ar";
 
 const inp = "w-full rounded-xl border border-white/15 bg-white/[.06] px-4 py-3 text-sm text-white focus:border-orange-400/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-white/60";
@@ -29,7 +30,7 @@ export default function EditarOferta() {
   const [image, setImage] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [precioPrometido, setPrecioPrometido] = useState(false);
-  const [hoyStr] = useState(() => new Date().toISOString().slice(0, 10));
+  const [hoyStr] = useState(() => hoyArgentina());
   const [maxFechaStr] = useState(() => new Date(Date.now() + OFERTA_DURACION_MAX_DIAS * 86400000).toISOString().slice(0, 10));
 
   useEffect(() => {

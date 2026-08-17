@@ -5,6 +5,7 @@ import PageHero from "@/components/ui/page-hero";
 import BusinessCard from "@/components/business/card";
 import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
+import { hoyArgentina } from "@/lib/fecha-ar";
 
 const COLUMNS = "id, name, slug, category, description, address, latitude, longitude, open, hace_envios, portada_url, logo_url, rating, reviews, status, type, promotions";
 const RESULT_LIMIT = 60;
@@ -72,7 +73,7 @@ function BuscarContent() {
     return () => clearTimeout(t);
   }, [q]);
 
-  const hoy = new Date().toISOString().slice(0, 10);
+  const [hoy] = useState(() => hoyArgentina());
   const tieneOfertas = (b: any) =>
     (b.promotions || []).some(
       (p: any) =>

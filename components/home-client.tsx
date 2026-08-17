@@ -16,6 +16,7 @@ import Featured from "@/components/home/featured";
 import OfferCard from "@/components/ui/offer-card";
 import SectionTitle from "@/components/ui/section-title";
 import { CATEGORIES } from "@/lib/data";
+import { hoyArgentina } from "@/lib/fecha-ar";
 
 type Oferta = {
   id: string;
@@ -61,9 +62,9 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
   const router = useRouter();
   const [cat, setCat] = useState<string | null>(null);
   const [coords] = useState<{ lat: number; lon: number } | null>(null);
+  const [hoy] = useState(() => hoyArgentina());
 
   const ofertas = useMemo<Oferta[]>(() => {
-    const hoy = new Date().toISOString().slice(0, 10);
     return (initialOfertas || [])
       .filter((o: any) => o.active && (!o.valid_until || o.valid_until >= hoy))
       .map((o: any) => ({
@@ -87,7 +88,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         rating: o.business_rating ? Number(o.business_rating) : undefined,
         verificado: o.business_status === "verificado",
       }));
-  }, [initialOfertas]);
+  }, [initialOfertas, hoy]);
 
   const categoryCounts = useMemo(() => {
     const m = new Map<string, number>();

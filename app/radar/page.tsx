@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { createClient } from "@/lib/supabase-server";
+import { hoyArgentina } from "@/lib/fecha-ar";
 import RadarClient from "./client";
 
 export const metadata: Metadata = {
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const sb = await createClient();
-  const hoy = new Date().toISOString().slice(0, 10);
+  const hoy = hoyArgentina();
     const { data } = await sb
       .from("offers_with_business")
       .select("*")

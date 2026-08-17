@@ -6,6 +6,7 @@ import PageHero from "@/components/ui/page-hero";
 import NotifyMeButton from "@/components/offers/notify-me-button";
 import { supabase } from "@/lib/supabase";
 import CategoryCover from "@/components/ui/category-cover";
+import { hoyArgentina } from "@/lib/fecha-ar";
 
 type Row = {
   id: string;
@@ -19,7 +20,7 @@ type Row = {
 export default function OfertasFinalizadasPage() {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
-  const hoy = new Date().toISOString().slice(0, 10);
+  const [hoy] = useState(() => hoyArgentina());
 
   useEffect(() => {
     (async () => {

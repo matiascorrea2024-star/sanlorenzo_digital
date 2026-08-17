@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Clock, Flame, Zap } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { hoyArgentina } from "@/lib/fecha-ar";
 import OfferCard from "@/components/ui/offer-card";
 import Badge from "@/components/ui/badge";
 import VotoDelDia from "@/components/home/voto-del-dia";
@@ -49,7 +50,7 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
 
   useEffect(() => {
     (async () => {
-      const hoy = new Date().toISOString().slice(0, 10);
+      const hoy = hoyArgentina();
       const { data } = await supabase().from("offers_with_business")
         .select("*").eq("active", true).eq("valid_until", hoy)
         .order("created_at", { ascending: false });

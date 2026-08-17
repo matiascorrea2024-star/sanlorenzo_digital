@@ -27,6 +27,7 @@ import BusinessLiveBadge from "@/components/business/live-badge";
 import { planDe } from "@/lib/plans";
 import { generarImagenNegocio } from "@/lib/share-image";
 import ResponseBadge from "@/components/business/response-badge";
+import { hoyArgentina } from "@/lib/fecha-ar";
 
 const CATEGORY_IMAGES: Record<string, string> = {
   calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=1200&q=85",
@@ -59,7 +60,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   const [negocio] = useState<any>(() => initialNegocio);
   const viendo = useLiveViewers(negocio?.id);
   const [ofertas] = useState<any[]>(() => {
-    const hoy = new Date().toISOString().slice(0, 10);
+    const hoy = hoyArgentina();
     return (initialOfertas || [])
       .filter((o: any) => !o.valid_until || o.valid_until >= hoy)
       .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())

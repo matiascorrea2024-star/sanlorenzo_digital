@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { hoyArgentina } from "@/lib/fecha-ar";
 
 type TickerItem = { id: string; label: string; sub: string; href: string; emoji: string };
 
@@ -33,7 +34,7 @@ export default function OffersTicker() {
           .select("*")
           .order("created_at", { ascending: false })
           .limit(12);
-        const hoy = new Date().toISOString().slice(0, 10);
+        const hoy = hoyArgentina();
         const reales: TickerItem[] = ((data as any[]) || [])
           .filter((o) => o.active && (!o.valid_until || o.valid_until >= hoy))
           .map((o) => ({

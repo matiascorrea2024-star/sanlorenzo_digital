@@ -13,6 +13,7 @@ import AdminFrame, { AdminBadge } from "@/components/ui/admin-frame";
 import StaffAvatar from "@/components/ui/staff-avatar";
 import DivisionFrame from "@/components/ui/division-frame";
 import { RANGOS, rangoDeUsuario, ESCALA_PUNTOS_USUARIO } from "@/lib/ranks";
+import { fechaArgentina, hoyArgentina, esHoyArgentina } from "@/lib/fecha-ar";
 
 // Mismos rangos que los negocios (lib/ranks.ts) -- un solo lenguaje visual
 // en toda la plataforma, en vez de una escalera de "vecino" separada.
@@ -75,8 +76,8 @@ export default function PerfilPage() {
         // y se le pasaron.
         const idsSeguidos = (fol || []).map((f: any) => f.business_id).filter(Boolean);
         if (idsSeguidos.length) {
-          const hace14 = new Date(Date.now() - 14 * 86400000).toISOString().slice(0, 10);
-          const hoyStr = new Date().toISOString().slice(0, 10);
+          const hace14 = fechaArgentina(new Date(Date.now() - 14 * 86400000));
+          const hoyStr = hoyArgentina();
           const { count: venc } = await sb.from("offers").select("*", { count: "exact", head: true })
             .in("business_id", idsSeguidos).gte("valid_until", hace14).lt("valid_until", hoyStr);
           setPerdidas(venc || 0);
@@ -99,24 +100,31 @@ export default function PerfilPage() {
         const was = new Set(acts.filter((a: any) => a.type === "whatsapp").map((a: any) => a.business_id));
         const shs = new Set(acts.filter((a: any) => a.type === "share").map((a: any) => a.business_id));
 
-        const hoyStr = new Date().toISOString().slice(0, 10);
-        const deHoy = acts.filter((a: any) => (a.created_at || "").slice(0, 10) === hoyStr);
+        // created_at es timestamptz -- comparar el string tal cual (huso
+        // UTC implícito) contra un "hoy" corría el mismo riesgo de
+        // desfasaje horario que el resto de esta sesión. esHoyArgentina
+        // convierte el timestamp real a fecha de Argentina antes de comparar.
+        const deHoy = acts.filter((a: any) => a.created_at && esHoyArgentina(a.created_at));
         setMisiones({
           vis: new Set(deHoy.filter((a: any) => a.type === "view").map((a: any) => a.business_id)).size,
           wa: new Set(deHoy.filter((a: any) => a.type === "whatsapp").map((a: any) => a.business_id)).size,
           sh: new Set(deHoy.filter((a: any) => a.type === "share").map((a: any) => a.business_id)).size,
         });
-        const dias = [...new Set(acts.map((a: any) => (a.created_at || "").slice(0, 10)))] as string[];
+        // Mismo bug de huso horario que el resto de la sesión, versión
+        // "racha": agrupar actividad por día en UTC podía partir en dos
+        // un mismo día argentino (o unir dos días distintos), rompiendo
+        // la racha real del usuario -- justo el número que más ve.
+        const dias = [...new Set(acts.filter((a: any) => a.created_at).map((a: any) => fechaArgentina(new Date(a.created_at))))] as string[];
         let r = 0;
         let cursor = new Date();
-        if (!dias.includes(cursor.toISOString().slice(0, 10))) cursor = new Date(Date.now() - 86400000);
-        while (dias.includes(cursor.toISOString().slice(0, 10))) { r++; cursor = new Date(cursor.getTime() - 86400000); }
+        if (!dias.includes(fechaArgentina(cursor))) cursor = new Date(Date.now() - 86400000);
+        while (dias.includes(fechaArgentina(cursor))) { r++; cursor = new Date(cursor.getTime() - 86400000); }
         setRacha(r);
-        const hace7 = new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10);
-        const semana = acts.filter((a: any) => (a.created_at || "").slice(0, 10) >= hace7);
+        const hace7 = fechaArgentina(new Date(Date.now() - 6 * 86400000));
+        const semana = acts.filter((a: any) => a.created_at && fechaArgentina(new Date(a.created_at)) >= hace7);
         const visWeek = new Set(semana.filter((a: any) => a.type === "view").map((a: any) => a.business_id)).size;
         const waWeek = new Set(semana.filter((a: any) => a.type === "whatsapp").map((a: any) => a.business_id)).size;
-        const resWeek = (revsData || []).filter((r2: any) => (r2.created_at || "").slice(0, 10) >= hace7).length;
+        const resWeek = (revsData || []).filter((r2: any) => r2.created_at && fechaArgentina(new Date(r2.created_at)) >= hace7).length;
         let maxRacha = 0, tmp = 0, prev = "";
         for (const d of [...dias].sort()) {
           tmp = prev && (new Date(d + "T00:00:00Z").getTime() - new Date(prev + "T00:00:00Z").getTime()) === 86400000 ? tmp + 1 : 1;

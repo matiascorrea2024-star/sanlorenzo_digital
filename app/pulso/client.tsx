@@ -5,6 +5,7 @@ import { Flame, Clock, TrendingUp, Sparkles, Search, PieChart } from "lucide-rea
 import { supabase } from "@/lib/supabase";
 import { CATEGORIES } from "@/lib/data";
 import PageHero from "@/components/ui/page-hero";
+import { hoyArgentina } from "@/lib/fecha-ar";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
@@ -21,7 +22,7 @@ export default function PulsoClient() {
   useEffect(() => {
     (async () => {
       const sb = supabase();
-      const hoy = new Date().toISOString().slice(0, 10);
+      const hoy = hoyArgentina();
       const desdeHoy00 = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
       const desde48h = new Date(Date.now() - 2 * 86400000).toISOString();
       const desde7 = new Date(Date.now() - 7 * 86400000).toISOString();
