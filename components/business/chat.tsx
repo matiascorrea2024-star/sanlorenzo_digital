@@ -132,7 +132,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
     return (
       <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
         <p className="text-lg font-black">💬 Chateá con este negocio</p>
-        <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black">Iniciar sesión</Link>
+        <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black">Iniciar sesión</Link>
       </div>
     );
   }
@@ -188,7 +188,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
               <div className="mb-1"><AdminBadge /></div>
             )}
             <div className={`rounded-2xl px-4 py-2 text-sm shadow ${
-              r.sender_id === user.id ? "rounded-br-none bg-gradient-to-r from-orange-500 to-pink-500 text-white"
+              r.sender_id === user.id ? "rounded-br-none bg-gradient-to-r from-orange-500 to-red-600 text-white"
               : otherIsStaff && r.sender_id === staffId ? "rounded-bl-none border border-yellow-400/30 bg-gradient-to-br from-yellow-500/15 to-orange-500/10 text-white/90"
               : "rounded-bl-none bg-white/10 text-white/90"
             }`}>
@@ -213,7 +213,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
           placeholder="Escribí un mensaje"
           className="flex-1 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm outline-none focus:border-orange-400" />
         <button onClick={send} disabled={!body.trim()}
-          className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">➤</button>
+          className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">➤</button>
       </div>
     </section>
   );

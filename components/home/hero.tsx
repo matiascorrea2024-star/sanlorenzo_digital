@@ -24,7 +24,7 @@ const TRUST_STYLE: Record<string, { icon: string; ring: string; glow: string }> 
   emerald: { icon: "text-emerald-300", ring: "border-emerald-400/30 bg-emerald-500/10", glow: "shadow-emerald-500/20" },
   orange: { icon: "text-orange-300", ring: "border-orange-400/30 bg-orange-500/10", glow: "shadow-orange-500/20" },
   sky: { icon: "text-sky-300", ring: "border-sky-400/30 bg-sky-500/10", glow: "shadow-sky-500/20" },
-  pink: { icon: "text-pink-300", ring: "border-pink-400/30 bg-pink-500/10", glow: "shadow-pink-500/20" },
+  pink: { icon: "text-red-300", ring: "border-red-400/30 bg-red-600/10", glow: "shadow-red-600/20" },
 };
 
 export default function Hero({ onSearch, stats }: HeroProps) {
@@ -70,7 +70,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
       <div className="absolute inset-0 overflow-hidden opacity-25">
         <div className="absolute top-0 left-1/4 h-80 w-80 rounded-full bg-red-600 mix-blend-screen filter blur-3xl animate-blob" />
         <div className="absolute top-1/3 right-1/4 h-80 w-80 rounded-full bg-orange-600 mix-blend-screen filter blur-3xl animate-blob animation-delay-2000" />
-        <div className="absolute bottom-1/4 left-1/3 h-80 w-80 rounded-full bg-pink-600 mix-blend-screen filter blur-3xl animate-blob animation-delay-4000" />
+        <div className="absolute bottom-1/4 left-1/3 h-80 w-80 rounded-full bg-red-700 mix-blend-screen filter blur-3xl animate-blob animation-delay-4000" />
       </div>
 
       <div
@@ -87,7 +87,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
 
           <h1 className="mb-4 text-6xl font-black leading-[0.95] tracking-tighter md:text-8xl lg:text-9xl" style={{ fontFamily: "var(--font-space)" }}>
             <span className="block bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">LA GRAN</span>
-            <span className="block bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent animate-gradient">BARATA DIGITAL</span>
+            <span className="block bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent animate-gradient">BARATA DIGITAL</span>
           </h1>
 
           <p className="fade-up-2 mx-auto mb-6 max-w-2xl text-lg text-white/75 md:text-xl">
@@ -97,7 +97,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
 
           <div className="fade-up-3 mx-auto max-w-2xl">
             <div className="group relative">
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 opacity-75 blur transition duration-1000 group-hover:opacity-100 animate-gradient" />
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-orange-500 to-red-600 opacity-75 blur transition duration-1000 group-hover:opacity-100 animate-gradient" />
               <div className="relative">
                 <SmartSearch
                   placeholder="Buscar ofertas, negocios, productos..."

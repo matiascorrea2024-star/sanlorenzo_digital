@@ -87,7 +87,7 @@ export default function ReelComments({ reelId, onClose, onCommentAdded }: {
               className="flex-1 rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white outline-none focus:border-orange-400"
             />
             <button onClick={enviar} disabled={sending || !text.trim()} aria-label="Enviar"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-pink-500 disabled:opacity-50">
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-red-600 disabled:opacity-50">
               <Send className="h-4 w-4 text-white" />
             </button>
           </div>

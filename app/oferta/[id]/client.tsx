@@ -66,7 +66,7 @@ export default function OfertaPage() {
 
   if (loading) {
     return (
-      <main className="bg-[#120d09] min-h-screen flex items-center justify-center">
+      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </main>
     );
@@ -74,7 +74,7 @@ export default function OfertaPage() {
 
   if (!oferta || !negocio) {
     return (
-      <main className="bg-[#120d09] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center text-white">
         <div className="text-center">
           <p className="text-5xl mb-4">🔍</p>
           <h1 className="text-2xl font-black">Oferta no encontrada</h1>
@@ -93,7 +93,7 @@ export default function OfertaPage() {
   const ahorro = oferta.old_price && oferta.offer_price ? Number(oferta.old_price) - Number(oferta.offer_price) : null;
 
   return (
-    <main className="bg-[#120d09] min-h-screen text-white pb-24">
+    <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
       {/* HERO: foto de PRODUCTO, no de ambiente -- tarjeta centrada con
           proporción fija (estilo ficha de producto de Mercado Libre), no
           un banner de punta a punta. Un banner ancho y bajo recortaba mal
@@ -103,7 +103,7 @@ export default function OfertaPage() {
       <div className="mx-auto max-w-[480px] px-4 pt-4">
         <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl">
           <Image src={img} alt={oferta.title} fill priority quality={92} sizes="480px" className="object-cover object-center" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#120d09]/40 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0c0a0b]/40 via-transparent to-transparent" />
           <button
             onClick={() => router.back()}
             aria-label="Volver"
@@ -158,7 +158,7 @@ export default function OfertaPage() {
         )}
 
         {/* Precio en medida normal */}
-        <div className="mb-5 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-5">
+        <div className="mb-5 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-5">
           <div className="flex items-end justify-between gap-3">
             <div>
               {oferta.old_price && <p className="text-base text-white/50 line-through">{fmt(Number(oferta.old_price))}</p>}
@@ -209,7 +209,7 @@ export default function OfertaPage() {
           </div>
         )}
 
-        <div className="mb-5 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-5 md:flex-row">
+        <div className="mb-5 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
           <div>
             <p className="font-black">⏰ ¿Te gusta esta oferta?</p>
             <p className="text-sm text-white/60">Te avisamos si el negocio publica una parecida.</p>

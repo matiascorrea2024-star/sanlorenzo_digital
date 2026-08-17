@@ -57,7 +57,7 @@ export default function EnVivoClient() {
   );
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <section className="relative overflow-hidden border-b border-white/5">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(239,68,68,.20), transparent 55%), radial-gradient(circle at 90% 40%, rgba(249,115,22,.12), transparent 55%)" }} />
         <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
@@ -131,7 +131,7 @@ export default function EnVivoClient() {
                 <Sparkles className="mx-auto mb-3 h-7 w-7 text-orange-400" />
                 <p className="font-bold">Todavía no hubo transmisiones en San Lorenzo.</p>
                 <p className="mx-auto mt-1 max-w-sm text-sm text-white/50">¿Tenés un negocio? Sé el primero en transmitir en vivo.</p>
-                <Link href="/dashboard/en-vivo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-bold text-white">Crear mi transmisión</Link>
+                <Link href="/dashboard/en-vivo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white">Crear mi transmisión</Link>
               </div>
             )}
           </>

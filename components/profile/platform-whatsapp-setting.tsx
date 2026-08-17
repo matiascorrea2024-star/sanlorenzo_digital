@@ -30,7 +30,7 @@ export default function PlatformWhatsappSetting() {
             className="flex-1 rounded-xl border border-white/15 bg-black/30 px-4 py-2.5 text-sm outline-none focus:border-orange-400"
           />
           <button onClick={save} disabled={saving}
-            className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black text-white hover:opacity-90 disabled:opacity-50">
+            className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black text-white hover:opacity-90 disabled:opacity-50">
             {saving ? "…" : saved ? "✅" : "Guardar"}
           </button>
         </div>

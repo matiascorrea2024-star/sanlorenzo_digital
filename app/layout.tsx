@@ -25,7 +25,7 @@ const ticket = Big_Shoulders({ subsets: ["latin"], weight: "variable", axes: ["o
 import type { Viewport } from "next";
 
 export const viewport: Viewport = {
-  themeColor: "#120d09",
+  themeColor: "#0c0a0b",
   colorScheme: "dark",
 };
 

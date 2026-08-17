@@ -74,7 +74,7 @@ export default function AsistenteComerciantePage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">
@@ -125,7 +125,7 @@ export default function AsistenteComerciantePage() {
                 className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
             <button onClick={generar} disabled={!form.producto}
-              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50">
+              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
               ✨ Generar publicación
             </button>
           </div>

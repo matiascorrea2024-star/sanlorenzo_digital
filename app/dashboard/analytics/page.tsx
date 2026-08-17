@@ -101,7 +101,7 @@ export default function AnalyticsPage() {
   }, [selectedBiz]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
+    return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
   }
 
   const negocioSel = negocios.find(b => b.id === selectedBiz);
@@ -119,7 +119,7 @@ export default function AnalyticsPage() {
   const maxViews = Math.max(...timeline.map(d => d.views), 1);
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <DashboardNav />
         
@@ -135,7 +135,7 @@ export default function AnalyticsPage() {
           <div className="sld-card rounded-2xl p-8 text-center">
             <p className="font-bold">Todavía no tenés un negocio creado.</p>
             <p className="mt-1 text-sm text-white/50">Cuando crees tu negocio, acá vas a ver visitas, contactos por WhatsApp y más.</p>
-            <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
+            <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
           </div>
         ) : (
         <>
@@ -144,7 +144,7 @@ export default function AnalyticsPage() {
             {negocios.map(b => (
               <button key={b.id} onClick={() => setSelectedBiz(b.id)}
                 className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold transition ${
-                  selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5"
+                  selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5"
                 }`}>
                 {b.name}
               </button>
@@ -153,7 +153,7 @@ export default function AnalyticsPage() {
         )}
 
         {!planActual.stats ? (
-          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
               <p className="font-black">Las estadísticas completas son de Plan PRO</p>
@@ -162,7 +162,7 @@ export default function AnalyticsPage() {
                 contactos por WhatsApp, favoritos, cupones y tasa de conversión.
               </p>
               <p className="mt-4 text-3xl font-black text-orange-400 tabular-nums">{stats.views} <span className="text-sm font-bold text-white/50">visitas (30 días)</span></p>
-              <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
+              <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
             </div>
           </div>
         ) : (
@@ -207,7 +207,7 @@ export default function AnalyticsPage() {
                 </span>
                 <div className="flex-1 flex items-center gap-2">
                   <div className="flex-1 h-6 bg-white/5 rounded overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-orange-500 to-pink-500 transition-all"
+                    <div className="h-full bg-gradient-to-r from-orange-500 to-red-600 transition-all"
                       style={{ width: `${(day.views / maxViews) * 100}%` }} />
                   </div>
                   <span className="text-xs font-bold w-12 text-right tabular-nums">{day.views}</span>
@@ -220,7 +220,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Conversión */}
-        <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+        <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
           <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <h2 className="text-lg font-black mb-3 flex items-center gap-1.5">
               Tasa de conversión

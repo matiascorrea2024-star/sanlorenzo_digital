@@ -125,7 +125,7 @@ export default function PlanesDashboard() {
 
   if (!negocio) {
     return (
-      <main className="min-h-screen bg-[#120d09] text-white pb-24">
+      <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
         <div className="mx-auto max-w-4xl px-4 py-8">
           <DashboardNav />
           <p className="text-white/50">Necesitás un negocio para gestionar tu plan.</p>
@@ -135,7 +135,7 @@ export default function PlanesDashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <DashboardNav />
         <h1 className="text-3xl font-black">Tu plan</h1>
@@ -156,7 +156,7 @@ export default function PlanesDashboard() {
         </div>
 
         {campanas.filter((c) => !misReclamos.includes(c.id)).map((c) => (
-          <div key={c.id} className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div key={c.id} className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="flex flex-col items-start justify-between gap-3 rounded-[1.375rem] border border-white/[.06] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:flex-row sm:items-center">
               <div className="flex items-start gap-3">
                 <Gift className="h-6 w-6 shrink-0 text-orange-400" />
@@ -168,7 +168,7 @@ export default function PlanesDashboard() {
                 </div>
               </div>
               <button onClick={() => reclamarCampana(c.id)} disabled={reclamando === c.id}
-                className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+                className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">
                 {reclamando === c.id ? "Reclamando..." : "Reclamar beneficio"}
               </button>
             </div>
@@ -195,10 +195,10 @@ export default function PlanesDashboard() {
             return (
               <div key={p.k}
                 className={`relative rounded-[1.75rem] p-1.5 ${
-                  actual ? "border border-orange-400/50 bg-gradient-to-b from-orange-500/[.1] to-pink-500/[.04]" : "border border-white/[.06] bg-white/[.02]"
+                  actual ? "border border-orange-400/50 bg-gradient-to-b from-orange-500/[.1] to-red-600/[.04]" : "border border-white/[.06] bg-white/[.02]"
                 }`}>
                 {actual && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-1 text-xs font-black">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-1 text-xs font-black">
                     PLAN ACTUAL
                   </span>
                 )}
@@ -223,7 +223,7 @@ export default function PlanesDashboard() {
                       <input type="file" accept="image/*" onChange={(e) => setArchivo(e.target.files?.[0] || null)}
                         className="w-full text-xs text-white/60 file:mr-2 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-white" />
                       <button onClick={() => solicitar(p.k)} disabled={enviando}
-                        className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-2 text-sm font-black hover:opacity-90 disabled:opacity-50">
+                        className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2 text-sm font-black hover:opacity-90 disabled:opacity-50">
                         {enviando ? "Enviando…" : "Enviar comprobante"}
                       </button>
                       <button onClick={() => { setPidiendo(null); setArchivo(null); setError(""); }} className="w-full text-xs text-white/40 hover:text-white/60">
@@ -233,7 +233,7 @@ export default function PlanesDashboard() {
                   ) : (
                     <div className="mt-5 space-y-2">
                       <button onClick={() => pagarConMP(p.k)} disabled={pagandoMP === p.k}
-                        className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
+                        className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
                         {pagandoMP === p.k ? "Redirigiendo…" : "Pagar con Mercado Pago"}
                       </button>
                       <button onClick={() => setPidiendo(p.k)}

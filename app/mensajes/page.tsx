@@ -55,7 +55,7 @@ export default function MensajesClientePage() {
 
   if (!user) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#120d09] px-4 text-center text-white/60">
+      <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] px-4 text-center text-white/60">
         <div>
           <p className="text-3xl">💬</p>
           <h1 className="mt-3 text-xl font-bold text-white">Mis mensajes</h1>
@@ -68,7 +68,7 @@ export default function MensajesClientePage() {
   const sel = selectedBiz ? bizMap[selectedBiz] : null;
 
   return (
-    <main className="bg-[#120d09] min-h-screen text-white pb-24">
+    <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
       <PageHero title="Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />
       <div className="mx-auto max-w-3xl px-4 py-8">
         {!selectedBiz && (

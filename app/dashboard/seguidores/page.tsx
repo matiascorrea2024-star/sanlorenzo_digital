@@ -69,12 +69,12 @@ export default function SeguidoresPage() {
   };
 
   if (loading) {
-    return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
+    return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
   }
 
   if (!negocio) {
     return (
-      <main className="min-h-screen bg-[#120d09] text-white pb-24">
+      <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
         <div className="mx-auto max-w-2xl px-4 py-8">
           <DashboardNav />
           <p className="text-white/50">Necesitás un negocio para ver tus seguidores.</p>
@@ -84,7 +84,7 @@ export default function SeguidoresPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <DashboardNav />
         <div className="mb-6 flex items-center gap-3">
@@ -132,19 +132,19 @@ export default function SeguidoresPage() {
             <button
               onClick={enviarNovedad}
               disabled={enviando || !mensaje.trim() || total === 0}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50"
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50"
             >
               <Send className="h-4 w-4" /> {enviando ? "Enviando..." : total === 0 ? "Todavía no tenés seguidores" : `Enviar a ${Math.min(total, MAX_DESTINATARIOS)} seguidor${total === 1 ? "" : "es"}`}
             </button>
           </div>
           </div>
         ) : (
-          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Lock className="mx-auto mb-2 h-7 w-7 text-orange-400" />
               <p className="font-black">Enviar novedades es una herramienta de Plan PRO</p>
               <p className="mt-1 text-sm text-white/60">Construí tu propia audiencia y avisale directo cuando tengas algo nuevo.</p>
-              <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90">Ver planes →</Link>
+              <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">Ver planes →</Link>
             </div>
           </div>
         )}

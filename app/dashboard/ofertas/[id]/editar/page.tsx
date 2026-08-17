@@ -96,11 +96,11 @@ export default function EditarOferta() {
     setTimeout(() => router.push("/dashboard/ofertas"), 700);
   };
 
-  if (loading) return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white/60 text-sm">Cargando…</main>;
+  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white/60 text-sm">Cargando…</main>;
 
   if (error && !title) {
     return (
-      <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white text-center px-4">
+      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white text-center px-4">
         <div>
           <p className="text-4xl mb-3">🔍</p>
           <p className="font-bold">{error}</p>
@@ -111,7 +111,7 @@ export default function EditarOferta() {
   }
 
   return (
-    <main className="min-h-screen bg-[#120d09] pb-24 text-white">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
       <div className="mx-auto max-w-2xl px-4 py-10">
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
         <h1 className="mt-3 text-3xl font-black">Editar oferta</h1>
@@ -178,7 +178,7 @@ export default function EditarOferta() {
           )}
 
           <button onClick={guardar} disabled={saving}
-            className="btn-shine w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50">
+            className="btn-shine w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50">
             {saving ? "⏳ Guardando…" : "💾 Guardar cambios"}
           </button>
         </div>

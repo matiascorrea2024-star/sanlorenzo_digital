@@ -9,7 +9,7 @@ export default function AdminFrame({ children, size = 44 }: { children: ReactNod
   return (
     <span className="relative inline-flex shrink-0 items-center justify-center" style={{ width: ring, height: ring }}>
       <span className="pointer-events-none absolute inset-0 rounded-full" style={{
-        background: "radial-gradient(circle, rgba(250,204,21,0.55) 0%, rgba(236,72,153,0.3) 45%, transparent 75%)",
+        background: "radial-gradient(circle, rgba(250,204,21,0.55) 0%, rgba(220,38,38,0.3) 45%, transparent 75%)",
         transform: "scale(1.7)", filter: "blur(5px)",
       }} />
       <span className="holo-spin pointer-events-none absolute rounded-full" style={{
@@ -21,7 +21,7 @@ export default function AdminFrame({ children, size = 44 }: { children: ReactNod
         background: "linear-gradient(135deg,#78350f 0%,#fde047 30%,#a16207 55%,#fef08a 80%,#78350f 100%)",
       }}>
         <span className="shine rounded-full" />
-        <span className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-[#120d09]">
+        <span className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-[#0c0a0b]">
           {children}
         </span>
       </span>

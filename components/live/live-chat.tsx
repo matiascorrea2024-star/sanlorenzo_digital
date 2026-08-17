@@ -77,7 +77,7 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
           <input value={texto} onChange={(e) => setTexto(e.target.value)} onKeyDown={(e) => e.key === "Enter" && enviar()}
             placeholder="Escribí algo..." maxLength={300}
             className="flex-1 rounded-full border border-white/15 bg-black/20 px-4 py-2 text-sm outline-none focus:border-orange-400" />
-          <button onClick={enviar} disabled={!texto.trim()} className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 disabled:opacity-50">
+          <button onClick={enviar} disabled={!texto.trim()} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 disabled:opacity-50">
             <Send className="h-4 w-4" />
           </button>
         </div>

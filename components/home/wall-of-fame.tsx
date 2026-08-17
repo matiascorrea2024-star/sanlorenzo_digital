@@ -38,7 +38,7 @@ export default function WallOfFame({ initialTop }: { initialTop: Top[] }) {
                   <span className="text-lg font-black" style={{ color: r.accent }}>{b.name[0]}</span>
                 )}
                 <svg width="14" height="14" viewBox="0 0 24 24" className="absolute -bottom-1 -right-1" style={{ filter: `drop-shadow(0 0 3px ${gema})` }}>
-                  <polygon points="12,2 20,8 17,21 7,21 4,8" fill={gema} stroke="#120d09" strokeWidth="1.5" />
+                  <polygon points="12,2 20,8 17,21 7,21 4,8" fill={gema} stroke="#0c0a0b" strokeWidth="1.5" />
                 </svg>
               </div>
               <p className="line-clamp-1 text-center text-xs font-bold">{b.name}</p>

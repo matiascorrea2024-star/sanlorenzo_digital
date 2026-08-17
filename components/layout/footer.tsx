@@ -45,7 +45,7 @@ const COLS = [
 export default function Footer() {
   const whatsapp = usePlatformSetting("whatsapp_contacto");
   return (
-    <footer className="border-t border-white/10 bg-[#120d09] pb-24 md:pb-8">
+    <footer className="border-t border-white/10 bg-[#0c0a0b] pb-24 md:pb-8">
       <div className="mx-auto max-w-6xl px-4 py-10">
         <div className="grid gap-8 md:grid-cols-4">
           <div>

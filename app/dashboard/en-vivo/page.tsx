@@ -67,11 +67,11 @@ export default function EnVivoDashboard() {
     }
   };
 
-  if (loading) return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
+  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
 
   if (!negocio) {
     return (
-      <main className="min-h-screen bg-[#120d09] text-white pb-24">
+      <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
         <div className="mx-auto max-w-2xl px-4 py-8">
           <DashboardNav />
           <p className="text-white/50">Necesitás un negocio para transmitir en vivo.</p>
@@ -81,7 +81,7 @@ export default function EnVivoDashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="mb-6 flex items-center gap-3">
@@ -109,7 +109,7 @@ export default function EnVivoDashboard() {
               {plan.maxVivosPorMes === -1 ? "Vivos ilimitados con tu plan" : `${vivosEsteMes}/${plan.maxVivosPorMes} vivos este mes (Plan ${plan.name})`}
             </p>
             {puedeCrear ? (
-              <button onClick={() => setCreando((v) => !v)} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black">
+              <button onClick={() => setCreando((v) => !v)} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black">
                 <Plus className="h-4 w-4" /> Crear En Vivo
               </button>
             ) : (
@@ -132,7 +132,7 @@ export default function EnVivoDashboard() {
               <input type="datetime-local" value={form.scheduled_at} onChange={(e) => setForm({ ...form, scheduled_at: e.target.value })}
                 className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
-            <button onClick={crear} disabled={!form.title.trim()} className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50">
+            <button onClick={crear} disabled={!form.title.trim()} className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
               Crear
             </button>
           </div>

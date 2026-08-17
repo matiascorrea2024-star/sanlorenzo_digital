@@ -60,7 +60,7 @@ export default function NuevoReelPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <DashboardNav />
         <div className="mb-6 flex items-center gap-3">
@@ -114,7 +114,7 @@ export default function NuevoReelPage() {
             )}
 
             <button onClick={publicar} disabled={uploading || !file || !businessId}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50">
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
               {uploading ? <><Loader2 className="h-4 w-4 animate-spin" /> Subiendo...</> : "🎬 Publicar Reel"}
             </button>
           </div>

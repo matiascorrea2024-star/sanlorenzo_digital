@@ -102,7 +102,7 @@ export default function NotificationBell() {
       {toast && (
         <button onClick={() => { irA(toast); setToast(null); }}
           className="fixed bottom-40 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-[1.375rem] border border-orange-400/40 bg-[#141018] p-4 shadow-2xl shadow-orange-500/10 animate-pulse md:bottom-24">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500/25 to-pink-500/15">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500/25 to-red-600/15">
             <MessageCircle className="h-4 w-4 text-orange-300" />
           </span>
           <div className="text-left">

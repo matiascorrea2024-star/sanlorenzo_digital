@@ -88,7 +88,7 @@ export default function MensajesPage() {
   const biz = businesses.find(b => b.id === selectedBiz);
 
   return (
-    <main className="bg-[#120d09] min-h-screen text-white pb-24">
+    <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <h1 className="text-3xl font-black">Mensajes</h1>
@@ -97,7 +97,7 @@ export default function MensajesPage() {
           <div className="mt-4 flex gap-2 overflow-x-auto">
             {businesses.map(b => (
               <button key={b.id} onClick={() => { setSelectedBiz(b.id); setSelectedCustomer(null); }}
-                className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-pink-500" : "bg-white/5 border border-white/10"}`}>
+                className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-red-600" : "bg-white/5 border border-white/10"}`}>
                 {b.name}
               </button>
             ))}

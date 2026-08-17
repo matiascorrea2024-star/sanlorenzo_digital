@@ -14,7 +14,7 @@ const SECTORES = [
 
 export default function B2bView() {
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <section className="relative overflow-hidden border-b border-white/10 py-16">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.18), transparent 55%), radial-gradient(circle at 90% 30%, rgba(34,211,238,.14), transparent 55%)" }} />
         <div className="relative mx-auto max-w-5xl px-4 text-center">
@@ -66,7 +66,7 @@ export default function B2bView() {
               </div>
               <div className="flex flex-col gap-3 md:items-end">
                 <Link href="/para-negocios"
-                  className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-8 py-4 text-base font-black hover:opacity-90 transition">
+                  className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 text-base font-black hover:opacity-90 transition">
                   Publicar mi empresa →
                 </Link>
                 <Link href="/planes"

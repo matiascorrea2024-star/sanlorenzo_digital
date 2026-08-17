@@ -73,7 +73,7 @@ export default function OnboardingOverlay() {
 
         <div className="mb-5 flex items-center gap-1.5">
           {[1, 2, 3].map((s) => (
-            <div key={s} className={`h-1.5 flex-1 rounded-full ${s <= step ? "bg-gradient-to-r from-orange-500 to-pink-500" : "bg-white/10"}`} />
+            <div key={s} className={`h-1.5 flex-1 rounded-full ${s <= step ? "bg-gradient-to-r from-orange-500 to-red-600" : "bg-white/10"}`} />
           ))}
         </div>
 
@@ -96,7 +96,7 @@ export default function OnboardingOverlay() {
               })}
               {businesses.length === 0 && <p className="col-span-2 py-6 text-center text-xs text-white/40">Todavía no hay negocios para sugerir.</p>}
             </div>
-            <button onClick={() => setStep(2)} className="mt-5 w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black text-white hover:opacity-90">
+            <button onClick={() => setStep(2)} className="mt-5 w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black text-white hover:opacity-90">
               Siguiente ({followed.size} seguidos)
             </button>
           </>
@@ -114,7 +114,7 @@ export default function OnboardingOverlay() {
                 🔔 Activar notificaciones
               </button>
             )}
-            <button onClick={() => setStep(3)} className="mt-3 w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black text-white hover:opacity-90">
+            <button onClick={() => setStep(3)} className="mt-3 w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black text-white hover:opacity-90">
               Siguiente
             </button>
           </>
@@ -135,7 +135,7 @@ export default function OnboardingOverlay() {
             >
               Compartir mi link
             </button>
-            <button onClick={finish} className="mt-3 w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black text-white hover:opacity-90">
+            <button onClick={finish} className="mt-3 w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black text-white hover:opacity-90">
               ¡Listo, empezar! 🎉
             </button>
           </>

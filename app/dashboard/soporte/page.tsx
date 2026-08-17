@@ -29,11 +29,11 @@ export default function SoportePage() {
   }, [user]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
+    return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
   }
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <DashboardNav />
         <div className="mb-6 flex items-center gap-3">
@@ -54,7 +54,7 @@ export default function SoportePage() {
           <div className="sld-card rounded-2xl p-8 text-center">
             <p className="font-bold">Todavía no tenés un negocio creado.</p>
             <p className="mt-1 text-sm text-white/50">Creá tu negocio primero para poder hablar con soporte.</p>
-            <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
+            <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
           </div>
         ) : !admin ? (
           <div className="sld-card rounded-2xl p-8 text-center text-white/50">

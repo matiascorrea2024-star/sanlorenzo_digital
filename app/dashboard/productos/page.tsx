@@ -168,7 +168,7 @@ export default function ProductosPage() {
   };
 
   if (loading) return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <div className="h-8 w-40 animate-pulse rounded bg-white/10" />
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -182,7 +182,7 @@ export default function ProductosPage() {
 
   if (!negocio) {
     return (
-      <main className="min-h-screen bg-[#120d09] text-white pb-24">
+      <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
         <div className="mx-auto max-w-3xl px-4 py-8">
           <DashboardNav />
           <p>No tenés negocios. Creá uno primero.</p>
@@ -192,7 +192,7 @@ export default function ProductosPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">
@@ -209,10 +209,10 @@ export default function ProductosPage() {
         </div>
 
         {!puedeSumar && (
-          <div className="mb-4 rounded-[1.5rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="mb-4 rounded-[1.5rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="flex flex-col items-start justify-between gap-3 rounded-[1.1rem] border border-white/[.06] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:flex-row sm:items-center">
               <p className="text-sm">Llegaste al límite de {planActual.maxProductos} productos del plan {planActual.name}.</p>
-              <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
+              <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
             </div>
           </div>
         )}
@@ -227,13 +227,13 @@ export default function ProductosPage() {
           <div className="mb-4 flex gap-2 rounded-2xl border border-white/10 bg-white/5 p-1.5">
             <button
               onClick={() => setModo("rapida")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "rapida" ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "text-white/60 hover:text-white"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "rapida" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-white/60 hover:text-white"}`}
             >
               <Images className="h-4 w-4" /> Carga rápida por fotos
             </button>
             <button
               onClick={() => setModo("uno")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "uno" ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "text-white/60 hover:text-white"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "uno" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-white/60 hover:text-white"}`}
             >
               <Package className="h-4 w-4" /> Agregar de a uno
             </button>
@@ -279,7 +279,7 @@ export default function ProductosPage() {
                 <button
                   onClick={guardarTodo}
                   disabled={guardandoTodo || listosParaGuardar.length === 0 || cupoRestante <= 0}
-                  className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50"
+                  className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50"
                 >
                   {guardandoTodo ? "Guardando..." : `Guardar todo (${Math.min(listosParaGuardar.length, cupoRestante)})`}
                 </button>
@@ -335,7 +335,7 @@ export default function ProductosPage() {
             )}
             <div className="flex gap-2">
               <button onClick={save} disabled={!form.name || !form.price || !puedeSumar}
-                className="flex-1 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black disabled:opacity-50">
+                className="flex-1 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black disabled:opacity-50">
                 {editing ? "Guardar cambios" : "Crear producto"}
               </button>
               {editing && (
@@ -362,7 +362,7 @@ export default function ProductosPage() {
                 {Array.isArray(p.images) && p.images[0] ? (
                   <img src={p.images[0]} alt={p.name} className="h-12 w-12 rounded-xl object-cover" />
                 ) : (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-500/20">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/20 to-red-600/20">
                     <Package className="h-6 w-6 text-orange-400" />
                   </div>
                 )}

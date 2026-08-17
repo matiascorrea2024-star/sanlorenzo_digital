@@ -49,7 +49,7 @@ export default function DashboardNav() {
         href={item.href}
         className={`rounded-full px-4 py-2 text-sm font-bold transition-colors duration-300 ${
           isActive
-            ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
+            ? "bg-gradient-to-r from-orange-500 to-red-600 text-white"
             : "text-white/70 hover:bg-white/10 hover:text-white"
         }`}
       >

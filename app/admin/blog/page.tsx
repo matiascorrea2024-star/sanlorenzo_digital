@@ -80,16 +80,16 @@ export default function AdminBlogPage() {
     await cargar();
   };
 
-  if (!ready) return <main className="min-h-screen bg-[#120d09]" />;
+  if (!ready) return <main className="min-h-screen bg-[#0c0a0b]" />;
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <Link href="/admin?tab=blog" className="text-sm text-orange-400 hover:text-orange-300">← Volver al panel</Link>
         <div className="mt-4 flex items-center justify-between">
           <h1 className="flex items-center gap-2 text-3xl font-black"><Newspaper className="h-7 w-7 text-orange-300" /> Blog</h1>
           {!editing && (
-            <button onClick={nuevo} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2.5 text-sm font-black hover:opacity-90">
+            <button onClick={nuevo} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2.5 text-sm font-black hover:opacity-90">
               <Plus className="h-4 w-4" /> Nuevo artículo
             </button>
           )}
@@ -118,7 +118,7 @@ export default function AdminBlogPage() {
             {error && <p className="text-sm text-red-300">❌ {error}</p>}
             <div className="flex gap-2">
               <button onClick={guardar} disabled={saving}
-                className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
+                className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
                 {saving ? "Guardando…" : "Guardar"}
               </button>
               <button onClick={() => setEditing(false)} className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-bold text-white/70 hover:bg-white/5">

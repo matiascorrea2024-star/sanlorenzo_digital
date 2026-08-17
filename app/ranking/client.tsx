@@ -122,7 +122,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
   }, [rows, tab]);
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <h1 className="text-3xl font-black">Ranking de San Lorenzo</h1>
         <p className="mt-1 text-white/60">Reputación basada en actividad real, no en publicidad</p>
@@ -169,7 +169,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
 <div className="mt-6 flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-3">
           {RANGOS.map(r => (
             <span key={r.nombre} title={`Desde ${r.min} puntos`} className="rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider"
-              style={{ color: r.accent, border: `1px solid ${r.accent}55`, background: "#120d09" }}>
+              style={{ color: r.accent, border: `1px solid ${r.accent}55`, background: "#0c0a0b" }}>
               {r.nombre}
             </span>
           ))}
@@ -181,7 +181,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
             <button key={t.k} onClick={() => setTab(t.k)}
               className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
                 tab === t.k
-                  ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
+                  ? "bg-gradient-to-r from-orange-500 to-red-600 text-white"
                   : "border border-white/15 bg-white/5 text-white/70 hover:border-orange-400/50"
               }`}>
               {t.l}
@@ -244,7 +244,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                       </span>
                     </p>
                     <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-orange-500 to-pink-500" style={{ width: `${rango.progreso}%` }} />
+                      <div className="h-full bg-gradient-to-r from-orange-500 to-red-600" style={{ width: `${rango.progreso}%` }} />
                     </div>
                   </div>
                   <div className="text-right">

@@ -48,14 +48,14 @@ export default function FavoritosPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-[#120d09] text-white pb-24">
+      <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <PageHero title="Mis favoritos" subtitle="Todos tus negocios y ofertas guardados en un solo lugar" />
         <div className="mx-auto max-w-2xl px-4 py-16 text-center">
           <Heart className="mx-auto h-16 w-16 text-white/20" />
           
           <p className="mt-2 text-white/60">Iniciá sesión para guardar y ver tus ofertas y negocios favoritos.</p>
           <Link href="/login"
-            className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-8 py-3 text-sm font-black">
+            className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-8 py-3 text-sm font-black">
             Iniciar sesión
           </Link>
         </div>
@@ -66,7 +66,7 @@ export default function FavoritosPage() {
   const vacio = !loading && ofertas.length === 0 && negocios.length === 0;
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <PageHero title="Mis favoritos" subtitle="Todos tus negocios y ofertas guardados en un solo lugar" />
       <div className="mx-auto max-w-5xl px-4 py-8">
         {loading ? (
@@ -85,7 +85,7 @@ export default function FavoritosPage() {
               </p>
               <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
                 <Link href="/promociones"
-                  className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+                  className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
                   🔥 Explorar ofertas
                 </Link>
                 <Link href="/negocios"

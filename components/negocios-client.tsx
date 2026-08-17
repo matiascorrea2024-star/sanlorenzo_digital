@@ -86,7 +86,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
       <div className="mt-4 flex flex-wrap gap-2">
         {CATEGORIES.map((c: any) => (
           <button key={c.id} onClick={() => setCat(cat === c.id ? null : c.id)}
-            className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors duration-300 ${cat === c.id ? "border-transparent bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "border-white/[.08] text-white/50 hover:border-white/20 hover:text-white"}`}>
+            className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors duration-300 ${cat === c.id ? "border-transparent bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border-white/[.08] text-white/50 hover:border-white/20 hover:text-white"}`}>
             {c.icon} {c.name}
           </button>
         ))}

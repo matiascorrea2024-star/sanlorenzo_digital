@@ -64,7 +64,7 @@ export default function MuroDashboard() {
   };
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">
@@ -89,7 +89,7 @@ export default function MuroDashboard() {
                 {TIPOS.map(t => (
                   <button key={t.k} onClick={() => setForm({ ...form, type: t.k })}
                     className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
-                      form.type === t.k ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5 text-white/70"
+                      form.type === t.k ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"
                     }`}>
                     {t.l}
                   </button>
@@ -105,7 +105,7 @@ export default function MuroDashboard() {
                 placeholder="URL de imagen (opcional)"
                 className="mt-3 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
               <button onClick={publish} disabled={sending || !form.title}
-                className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50">
+                className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
                 {sending ? "Publicando..." : "📢 Publicar en el muro"}
               </button>
             </div>

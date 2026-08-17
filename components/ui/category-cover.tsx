@@ -7,13 +7,13 @@ import { CATEGORIES } from "@/lib/data";
 // un degradé distinto (hash de su propio id/slug) + el ícono de su rubro,
 // sin depender de una URL externa que puede romperse.
 const GRADIENTS = [
-  "from-orange-600 via-red-600 to-pink-600",
-  "from-pink-600 via-fuchsia-600 to-purple-600",
+  "from-orange-600 via-red-600 to-red-700",
+  "from-red-700 via-fuchsia-600 to-purple-600",
   "from-cyan-600 via-sky-600 to-blue-600",
   "from-emerald-600 via-teal-600 to-cyan-600",
   "from-amber-500 via-orange-600 to-red-600",
   "from-violet-600 via-purple-600 to-fuchsia-600",
-  "from-rose-600 via-pink-600 to-orange-600",
+  "from-rose-600 via-red-700 to-orange-600",
   "from-blue-600 via-indigo-600 to-violet-600",
 ];
 

@@ -68,24 +68,24 @@ export default function CampanaPage() {
     setGuardando(false);
   };
 
-  if (loading) return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
-  if (!offer || !business) return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Oferta no encontrada.</main>;
+  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
+  if (!offer || !business) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Oferta no encontrada.</main>;
 
   const plan = planDe(business);
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-xl px-4 py-8">
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400">← Volver a mis ofertas</Link>
         <h1 className="mt-3 text-3xl font-black flex items-center gap-2"><MapPin className="h-7 w-7 text-cyan-400" /> Promocionar por barrio</h1>
         <p className="mt-1 text-white/60">&quot;{offer.title}&quot;</p>
 
         {!plan.campanas ? (
-          <div className="mt-6 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
+          <div className="mt-6 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-8 text-center">
             <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
             <p className="font-black">Promocionar por barrio es de Plan PRO</p>
             <p className="mt-1 text-sm text-white/60">Hacé que tu oferta se destaque en el barrio que más te importa.</p>
-            <Link href="/dashboard/planes" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black">Ver planes →</Link>
+            <Link href="/dashboard/planes" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">Ver planes →</Link>
           </div>
         ) : barrios.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
@@ -118,7 +118,7 @@ export default function CampanaPage() {
               )}
 
               <button onClick={guardar} disabled={guardando}
-                className="mt-4 w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-3 text-sm font-black disabled:opacity-50">
+                className="mt-4 w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
                 {guardando ? "Guardando..." : "Guardar"}
               </button>
             </div>

@@ -41,10 +41,10 @@ export default function DashboardReelsPage() {
     setReels((prev) => prev.filter((x) => x.id !== id));
   };
 
-  if (loading) return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
+  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="mb-6 flex items-center justify-between gap-3">
@@ -55,7 +55,7 @@ export default function DashboardReelsPage() {
               <p className="text-white/60">Videos cortos de tu negocio</p>
             </div>
           </div>
-          <Link href="/dashboard/reels/nueva" className="flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2.5 text-sm font-black hover:opacity-90">
+          <Link href="/dashboard/reels/nueva" className="flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2.5 text-sm font-black hover:opacity-90">
             <Plus className="h-4 w-4" /> Nuevo
           </Link>
         </div>
@@ -66,7 +66,7 @@ export default function DashboardReelsPage() {
               <Video className="mx-auto mb-3 h-10 w-10 text-white/20" />
               <p className="font-bold">Todavía no subiste ningún reel.</p>
               <p className="mt-1 text-sm text-white/50">Mostrá tus productos en video -- se comparten mucho más que una foto.</p>
-              <Link href="/dashboard/reels/nueva" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black hover:opacity-90">
+              <Link href="/dashboard/reels/nueva" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90">
                 Subir mi primer reel
               </Link>
             </div>

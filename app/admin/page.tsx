@@ -452,7 +452,7 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
+      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">
         <div className="text-center">
           <div className="mx-auto h-10 w-10 animate-spin rounded-full border-b-2 border-red-400" />
           <p className="mt-4 text-sm text-white/50">Cargando panel de administración…</p>
@@ -466,12 +466,12 @@ export default function AdminPage() {
     { icon: Store, label: "Negocios", value: stats.businesses, color: "text-green-400", bg: "from-green-500/10" },
     { icon: Flame, label: "Ofertas", value: stats.offers, color: "text-orange-400", bg: "from-orange-500/10" },
     { icon: Star, label: "Reseñas", value: stats.reviews, color: "text-yellow-400", bg: "from-yellow-500/10" },
-    { icon: Eye, label: "Visitas", value: stats.views, color: "text-pink-400", bg: "from-pink-500/10" },
+    { icon: Eye, label: "Visitas", value: stats.views, color: "text-red-400", bg: "from-red-600/10" },
     { icon: Heart, label: "Seguidores", value: stats.seguidores, color: "text-purple-400", bg: "from-purple-500/10" },
   ];
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="border-b border-white/5 bg-gradient-to-b from-red-950/20 to-transparent">
         <div className="mx-auto max-w-6xl px-4 py-8">
           <div className="flex items-center gap-3">
@@ -854,7 +854,7 @@ export default function AdminPage() {
                   type="number" placeholder="Cupo máximo (vacío = sin límite)" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
               </div>
               <button onClick={crearCampana} disabled={creandoCampana || !nuevaCampana.title.trim()}
-                className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+                className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">
                 {creandoCampana ? "Creando..." : "Crear campaña"}
               </button>
             </div>
@@ -1038,7 +1038,7 @@ export default function AdminPage() {
 
         {/* CARGAR BULK */}
         {tab === "cargar-bulk" && (
-          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Upload className="h-8 w-8 text-orange-400" />
               <p className="mt-3 text-lg font-black">Cargar masiva de negocios reales</p>
@@ -1046,7 +1046,7 @@ export default function AdminPage() {
                 Subí negocios reales de San Lorenzo desde un CSV. Quedarán en estado &quot;pendiente&quot; para verificación.
               </p>
               <a href="/admin/cargar-bulk"
-                className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+                className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
                 Ir a la herramienta de carga →
               </a>
             </div>
@@ -1055,7 +1055,7 @@ export default function AdminPage() {
 
         {/* BLOG */}
         {tab === "blog" && (
-          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Newspaper className="h-8 w-8 text-orange-400" />
               <p className="mt-3 text-lg font-black">Blog / Novedades</p>
@@ -1063,7 +1063,7 @@ export default function AdminPage() {
                 Escribí artículos y novedades de la plataforma. Se publican en /blog cuando los marcás como publicados.
               </p>
               <a href="/admin/blog"
-                className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+                className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
                 Ir al editor de artículos →
               </a>
             </div>
@@ -1085,7 +1085,7 @@ export default function AdminPage() {
                 <input value={nuevaCiudad.lon} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, lon: e.target.value })}
                   placeholder="Longitud (opcional)" className="w-full rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm outline-none focus:border-orange-400 sm:w-36" />
                 <button onClick={crearCiudad} disabled={creandoCiudad || !nuevaCiudad.nombre.trim()}
-                  className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black disabled:opacity-50">
+                  className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black disabled:opacity-50">
                   {creandoCiudad ? "…" : "Crear"}
                 </button>
               </div>
@@ -1134,7 +1134,7 @@ export default function AdminPage() {
                         className={`shrink-0 rounded-xl px-3 py-2 text-xs font-black transition ${
                           c.status === "active"
                             ? "border border-red-400/30 bg-red-500/10 text-red-300 hover:bg-red-500/20"
-                            : "bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:opacity-90"
+                            : "bg-gradient-to-r from-orange-500 to-red-600 text-white hover:opacity-90"
                         }`}
                       >
                         {c.status === "active" ? "Desactivar" : "Activar"}

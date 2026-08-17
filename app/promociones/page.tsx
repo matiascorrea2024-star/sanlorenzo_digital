@@ -101,11 +101,11 @@ export default function PromocionesPage() {
   }, { dependencies: [loading, activas.length] });
 
   return (
-    <main className="min-h-screen bg-[#120d09] pb-24 text-white">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
       {/* Header propio del evento "Gran Barata" -- no el PageHero genérico
           del resto del sitio: acá la energía/urgencia es el punto. */}
       <section ref={heroRef} className="relative overflow-hidden border-b border-white/5">
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 20% 0%, rgba(249,115,22,.22), transparent 60%), radial-gradient(circle at 85% 30%, rgba(236,72,153,.14), transparent 55%)" }} />
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 20% 0%, rgba(249,115,22,.22), transparent 60%), radial-gradient(circle at 85% 30%, rgba(220,38,38,.14), transparent 55%)" }} />
         <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
           <Link href="/" className="text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
           <div className="mt-3 flex flex-wrap items-end justify-between gap-6">
@@ -116,7 +116,7 @@ export default function PromocionesPage() {
               </div>
               <h1 className="text-5xl font-black leading-[0.95] tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
                 <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">La Gran</span>{" "}
-                <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent animate-gradient">Barata</span>
+                <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent animate-gradient">Barata</span>
               </h1>
             </div>
             <div className="shrink-0 rounded-[1.75rem] border border-orange-400/20 bg-gradient-to-br from-orange-500/10 to-transparent p-1.5">
@@ -136,7 +136,7 @@ export default function PromocionesPage() {
             <p className="mt-2 text-sm text-white/60">Los negocios publican ofertas nuevas todos los días. Volvé a pasar más tarde.</p>
             <Link
               href="/dashboard/ofertas/nueva"
-              className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-bold hover:opacity-90"
+              className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold hover:opacity-90"
             >
               Soy comercio: publicar oferta
             </Link>

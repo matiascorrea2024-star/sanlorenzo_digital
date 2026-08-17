@@ -81,14 +81,14 @@ export default function OfertasPage() {
 
   if (loading) {
     return (
-      <main className="bg-[#120d09] min-h-screen flex items-center justify-center">
+      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </main>
     );
   }
 
   return (
-    <main className="bg-[#120d09] min-h-screen text-white">
+    <main className="bg-[#0c0a0b] min-h-screen text-white">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
@@ -100,7 +100,7 @@ export default function OfertasPage() {
           </div>
           <Link
             href="/dashboard/ofertas/nueva"
-            className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 font-black text-white hover:opacity-90"
+            className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
           >
             + Nueva Oferta
           </Link>
@@ -135,7 +135,7 @@ export default function OfertasPage() {
               </p>
               <Link
                 href="/dashboard/ofertas/nueva"
-                className="inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-8 py-4 font-black text-white hover:opacity-90"
+                className="inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 font-black text-white hover:opacity-90"
               >
                 Crear mi primera oferta
               </Link>

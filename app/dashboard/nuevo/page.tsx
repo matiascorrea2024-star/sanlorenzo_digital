@@ -177,7 +177,7 @@ export default function NuevoNegocioPage() {
   const lbl = "block text-sm font-semibold mb-2";
 
   return (
-    <main className="bg-[#120d09] min-h-screen text-white">
+    <main className="bg-[#0c0a0b] min-h-screen text-white">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <Link href="/dashboard" className="text-sm text-orange-400 hover:text-orange-300 mb-6 inline-block">
           ← Volver al dashboard
@@ -187,7 +187,7 @@ export default function NuevoNegocioPage() {
         <p className="text-white/60 mb-4">2 minutos: completá lo esencial y ya podés publicar tu primera oferta.</p>
 
         {misNegocios !== null && !puedeCrear ? (
-          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <p className="text-3xl">🔒</p>
               <h2 className="mt-3 text-lg font-black">Ya tenés un negocio en plan gratis</h2>
@@ -195,7 +195,7 @@ export default function NuevoNegocioPage() {
                 Cada cuenta puede tener un negocio gratis. Para sumar otro, mejorá {misNegocios.length === 1 ? "tu negocio actual" : "alguno de tus negocios actuales"} a un plan pago.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-3">
-                <Link href="/dashboard/planes" className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black hover:opacity-90">
+                <Link href="/dashboard/planes" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90">
                   Ver planes →
                 </Link>
                 <Link href="/dashboard" className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-bold hover:bg-white/5">
@@ -350,7 +350,7 @@ export default function NuevoNegocioPage() {
           )}
 
           <button type="submit" disabled={loading}
-            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50">
+            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black text-white hover:opacity-90 disabled:opacity-50">
             {loading ? "Creando…" : "Crear negocio y seguir →"}
           </button>
         </form>

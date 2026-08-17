@@ -161,7 +161,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
             <X className="h-4 w-4" />
           </button>
         )}
-        <button className="group/btn m-1 flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 pl-5 pr-2 text-sm font-black transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.97]">
+        <button className="group/btn m-1 flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 pl-5 pr-2 text-sm font-black transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.97]">
           Buscar
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black/15 transition-transform duration-300 group-hover/btn:translate-x-0.5"><Search className="h-3 w-3" /></span>
         </button>

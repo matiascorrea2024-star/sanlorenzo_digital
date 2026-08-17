@@ -28,7 +28,7 @@ export default function ComunidadPage() {
   }, [locationId]);
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <section className="relative overflow-hidden border-b border-white/5">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.16), transparent 55%), radial-gradient(circle at 90% 30%, rgba(34,211,238,.12), transparent 55%)" }} />
         <div className="relative mx-auto max-w-3xl px-4 py-14 text-center md:py-16">

@@ -50,10 +50,10 @@ export default function VerEnVivo() {
     return () => clearInterval(t);
   }, [cargar]);
 
-  if (loading) return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
+  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
   if (!stream || !negocio) {
     return (
-      <main className="min-h-screen bg-[#120d09] flex flex-col items-center justify-center gap-3 text-white">
+      <main className="min-h-screen bg-[#0c0a0b] flex flex-col items-center justify-center gap-3 text-white">
         <p className="text-white/60">Esta transmisión no está disponible.</p>
         <Link href="/en-vivo" className="text-orange-400">← Ver otras transmisiones</Link>
       </main>
@@ -61,7 +61,7 @@ export default function VerEnVivo() {
   }
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-6xl px-4 py-6">
         <button onClick={() => router.back()} className="mb-4 text-sm text-orange-400"><ArrowLeft className="mr-1 inline h-4 w-4" />Volver</button>
 

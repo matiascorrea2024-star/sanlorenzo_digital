@@ -13,8 +13,8 @@ const SERVICIOS = [
 
 export default function PortuarioView() {
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
-      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-cyan-900/30 via-[#120d09] to-blue-900/30 py-16">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-cyan-900/30 via-[#0c0a0b] to-blue-900/30 py-16">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(34,211,238,0.15),_transparent_50%)]" />
         <div className="relative mx-auto max-w-5xl px-4 text-center">
           <Badge size="md" className="bg-cyan-500/20 border-cyan-400/40 text-cyan-200">

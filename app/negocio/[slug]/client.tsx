@@ -123,7 +123,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   if (loading) {
     return (
-      <main className="bg-[#120d09] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center text-white">
         <div className="text-center">
           <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-orange-500"></div>
           <p className="mt-4 text-white/60">Cargando negocio...</p>
@@ -134,7 +134,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   if (!negocio) {
     return (
-      <main className="bg-[#120d09] min-h-screen flex items-center justify-center text-white">
+      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center text-white">
         <div className="text-center">
           <p className="mb-4 text-5xl">🔍</p>
           <h1 className="text-2xl font-black">Negocio no encontrado</h1>
@@ -168,7 +168,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   };
 
   return (
-    <main className="bg-[#120d09] min-h-screen pb-24 text-white">
+    <main className="bg-[#0c0a0b] min-h-screen pb-24 text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
 
       {/* HERO: la foto es la protagonista (mucho más alta que antes -- esto
@@ -182,7 +182,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         ) : (
           <CategoryCover category={negocio.category} seed={negocio.id || negocio.slug} className="absolute inset-0 h-full w-full" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-[#120d09]/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a0b] via-[#0c0a0b]/10 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
         <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 hover:bg-black/70">
           <ArrowLeft className="h-5 w-5" />
@@ -196,11 +196,11 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         <div className="-mt-10 w-fit md:-mt-12">
           {negocio.logo_url ? (
             <DivisionFrame puntos={negocio.puntos || 0} size={72} categoria={negocio.category}>
-              <Image src={negocio.logo_url} alt={negocio.name} width={80} height={80} quality={92} className="h-20 w-20 rounded-2xl border-4 border-[#120d09] object-cover shadow-2xl" />
+              <Image src={negocio.logo_url} alt={negocio.name} width={80} height={80} quality={92} className="h-20 w-20 rounded-2xl border-4 border-[#0c0a0b] object-cover shadow-2xl" />
             </DivisionFrame>
           ) : (
             <DivisionFrame puntos={negocio.puntos || 0} size={80} categoria={negocio.category} showLabel>
-              <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#120d09] bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black shadow-2xl">
+              <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#0c0a0b] bg-gradient-to-br from-orange-500 to-red-600 text-3xl font-black shadow-2xl">
                 {negocio.name[0]}
               </div>
             </DivisionFrame>
@@ -248,7 +248,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
       <div className="mx-auto max-w-4xl px-4 py-8">
         {/* ALERTA: te avisamos de ofertas nuevas */}
-        <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-5 md:flex-row">
+        <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
           <div>
             <p className="font-black">🔔 No te pierdas nada de {negocio.name}</p>
             <p className="text-sm text-white/60">Te avisamos cuando publiquen ofertas nuevas.</p>
@@ -394,13 +394,13 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           <div className="mb-5 flex gap-2 rounded-2xl border border-white/10 bg-white/5 p-1.5">
             <button
               onClick={() => setSeccion("catalogo")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "catalogo" ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "text-white/60 hover:text-white"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "catalogo" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-white/60 hover:text-white"}`}
             >
               <Package className="h-4 w-4" /> Catálogo ({productos.length})
             </button>
             <button
               onClick={() => setSeccion("ofertas")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "ofertas" ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white" : "text-white/60 hover:text-white"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "ofertas" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-white/60 hover:text-white"}`}
             >
               <Flame className="h-4 w-4" /> Ofertas ({ofertas.length})
             </button>
@@ -478,12 +478,12 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             {catsProductos.length > 1 && (
               <div className="mb-4 flex flex-wrap gap-2">
                 <button onClick={() => setCatProd(null)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5 text-white/70"}`}>
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"}`}>
                   Todos
                 </button>
                 {catsProductos.map((c) => (
                   <button key={c} onClick={() => setCatProd(c)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5 text-white/70"}`}>
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"}`}>
                     {c}
                   </button>
                 ))}

@@ -138,7 +138,7 @@ export default function NuevaOferta() {
   const limiteHoy = limite ? PLANES[limite.plan]?.ofertasNuevasPorDia ?? 1 : null;
 
   return (
-    <main className="min-h-screen bg-[#120d09] pb-24 text-white">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
       <div className="mx-auto max-w-2xl px-4 py-10">
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
 
@@ -277,7 +277,7 @@ export default function NuevaOferta() {
           <button
             onClick={publicar}
             disabled={saving || negocios.length === 0}
-            className="btn-shine w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50"
+            className="btn-shine w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50"
           >
             {saving ? "⏳ Publicando…" : "🔥 Publicar Oferta"}
           </button>

@@ -97,7 +97,7 @@ export default function MobileMenu() {
             ))}
 
             <Link href="/dashboard/nuevo" onClick={() => setOpen(false)}
-              className="btn-shine mt-8 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3.5 text-sm font-black text-white">
+              className="btn-shine mt-8 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3.5 text-sm font-black text-white">
               Publicar mi negocio gratis
             </Link>
           </div>

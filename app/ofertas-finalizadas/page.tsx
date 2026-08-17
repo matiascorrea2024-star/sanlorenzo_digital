@@ -56,7 +56,7 @@ export default function OfertasFinalizadasPage() {
   );
 
   return (
-    <main className="bg-[#120d09] text-white min-h-screen pb-24">
+    <main className="bg-[#0c0a0b] text-white min-h-screen pb-24">
       <PageHero
         title="Ofertas que ya terminaron"
         subtitle="Mirá lo que te perdiste... y seguí a tus negocios favoritos para no perderte la próxima."
@@ -117,13 +117,13 @@ export default function OfertasFinalizadasPage() {
           </div>
         )}
 
-        <div className="mt-10 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+        <div className="mt-10 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
           <div className="overflow-hidden rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <div className="mx-auto max-w-xl">
             <h2 className="text-xl font-black">No te pierdas la próxima</h2>
             <p className="mt-2 text-sm text-white/70">Entrá a tus negocios favoritos y seguilos. Las ofertas nuevas aparecen todos los días.</p>
             <div className="mt-5 flex flex-wrap justify-center gap-3">
-              <Link href="/negocios" className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90 transition">
+              <Link href="/negocios" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90 transition">
                 Explorar negocios →
               </Link>
               <Link href="/ranking" className="rounded-full border border-white/20 px-5 py-2.5 text-sm font-bold hover:bg-white/5 transition">

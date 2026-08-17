@@ -13,15 +13,15 @@ export default async function Page() {
 
   const BENEFICIOS: { i: string; t: string; d: string; grad: string }[] = [
     { i: "🏪", t: "Miniweb propia", d: "Tu local digital con color, logo, dirección y horarios. URL única.", grad: "from-orange-500 to-amber-400" },
-    { i: "📸", t: "Productos con fotos", d: "Cargás desde el celu. Se publica al instante.", grad: "from-pink-500 to-rose-400" },
+    { i: "📸", t: "Productos con fotos", d: "Cargás desde el celu. Se publica al instante.", grad: "from-red-600 to-rose-400" },
     { i: "🔥", t: "Promociones inteligentes", d: "Con vencimiento: solas se apagan cuando terminan.", grad: "from-red-500 to-orange-400" },
     { i: "💬", t: "WhatsApp directo", d: "Cada visita a un toque de escribirte.", grad: "from-emerald-500 to-teal-400" },
     { i: "🔒", t: "Tu negocio, solo tuyo", d: "Protección de cuenta y datos.", grad: "from-sky-500 to-cyan-400" },
-    { i: "✅", t: "Sello verificado", d: "Cuando te verificamos, ganás confianza.", grad: "from-amber-500 to-pink-500" },
+    { i: "✅", t: "Sello verificado", d: "Cuando te verificamos, ganás confianza.", grad: "from-amber-500 to-red-600" },
   ];
 
   return (
-    <main className="bg-[#120d09] text-white">
+    <main className="bg-[#0c0a0b] text-white">
       {/* Hero editorial -- página de venta, no un listado más */}
       <section className="relative overflow-hidden border-b border-white/5">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.22), transparent 55%), radial-gradient(circle at 90% 30%, rgba(34,211,238,.12), transparent 55%)" }} />
@@ -31,12 +31,12 @@ export default async function Page() {
           </p>
           <h1 className="mx-auto max-w-3xl text-5xl font-black leading-[0.95] tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
             Tu negocio, en el{" "}
-            <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">mapa digital</span>{" "}
+            <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">mapa digital</span>{" "}
             de la ciudad.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-white/70">Miniweb propia, productos con fotos, promociones que se renuevan solas y contacto directo por WhatsApp. Sin saber programar.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="/dashboard/nuevo" className="group/cta flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 pl-6 pr-2 text-sm font-black text-white transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.98]">
+            <a href="/dashboard/nuevo" className="group/cta flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 pl-6 pr-2 text-sm font-black text-white transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.98]">
               Crear mi miniweb gratis
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black/15 transition-transform duration-300 group-hover/cta:translate-x-0.5">→</span>
             </a>
@@ -83,11 +83,11 @@ export default async function Page() {
       )}
 
       <section className="mx-auto max-w-4xl px-4 pb-20">
-        <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+        <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
           <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] md:p-12">
             <h2 className="text-2xl font-black tracking-tight md:text-3xl" style={{ fontFamily: "var(--font-space)" }}>Fundadores de la plataforma</h2>
             <p className="mx-auto mt-3 max-w-md text-sm text-white/60">Los primeros comercios entran con beneficios de fundador -- se reclama solo, sin esperar a nadie.</p>
-            <a href="/dashboard/nuevo" className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-95">Crear mi negocio y reclamar</a>
+            <a href="/dashboard/nuevo" className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-95">Crear mi negocio y reclamar</a>
           </div>
         </div>
       </section>

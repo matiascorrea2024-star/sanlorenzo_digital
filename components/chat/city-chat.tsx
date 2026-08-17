@@ -129,7 +129,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
               <p className="min-w-0">
                 <span className="font-bold text-orange-300">{m.sender_name}</span>
                 {m.business_id && (
-                  <span className="ml-1 inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-orange-500/20 to-pink-500/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-orange-300">
+                  <span className="ml-1 inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-orange-500/20 to-red-600/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-orange-300">
                     <Store className="h-2.5 w-2.5" /> Negocio
                   </span>
                 )}
@@ -163,7 +163,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
                 placeholder="Escribí algo... (@ para etiquetar un negocio)" maxLength={500}
                 className="flex-1 rounded-full border border-white/15 bg-black/20 px-4 py-2 text-sm outline-none focus:border-orange-400" />
               <button onClick={enviar} disabled={!texto.trim() || enviando} aria-label="Enviar"
-                className="rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 disabled:opacity-50">
+                className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 disabled:opacity-50">
                 <Send className="h-4 w-4" />
               </button>
             </div>

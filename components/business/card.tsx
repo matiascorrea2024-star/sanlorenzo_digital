@@ -49,7 +49,7 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
             🔥 Destacado
           </span>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#120d09] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a0b] via-transparent to-transparent" />
         
         {/* Badge abierto/cerrado */}
         <span className={`absolute left-2 top-2 md:left-3 md:top-3 inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 md:px-2.5 md:py-1 text-[9px] md:text-[10px] font-black backdrop-blur ${

@@ -47,7 +47,7 @@ export default function ReelsFeedClient({ initial }: { initial: Reel[] }) {
         <Video className="mb-3 h-12 w-12 text-white/30" />
         <p className="font-black">Todavía no hay reels</p>
         <p className="mt-1 max-w-xs text-sm text-white/50">Los negocios todavía no subieron videos. Volvé pronto.</p>
-        <Link href="/" className="mt-6 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black">← Volver al inicio</Link>
+        <Link href="/" className="mt-6 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black">← Volver al inicio</Link>
       </main>
     );
   }

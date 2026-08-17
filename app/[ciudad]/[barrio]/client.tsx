@@ -54,12 +54,12 @@ export default function BarrioView() {
   }, [ciudadSlug, barrioSlug]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
+    return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
   }
 
   if (!barrio || !ciudad) {
     return (
-      <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
+      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">
         <div className="text-center">
           <Search className="mx-auto mb-4 h-10 w-10 text-white/30" />
           <h1 className="text-2xl font-black">Barrio no encontrado</h1>
@@ -70,8 +70,8 @@ export default function BarrioView() {
   }
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
-      <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 py-12">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
+      <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 py-12">
         <div className="mx-auto max-w-6xl px-4">
           <Link href={`/${ciudadSlug}`} className="text-sm text-orange-400 flex items-center gap-1 mb-3">
             <ArrowLeft className="h-4 w-4" /> Volver a {ciudad.name}
@@ -99,7 +99,7 @@ export default function BarrioView() {
           Negocios en {barrio.name} ({negocios.length})
         </h2>
         {negocios.length === 0 ? (
-          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 px-6 py-10 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Sparkles className="mx-auto mb-3 h-7 w-7 text-orange-400" />
               <p className="font-bold">Todavía no hay negocios en {barrio.name}</p>
@@ -108,7 +108,7 @@ export default function BarrioView() {
               </p>
               <Link
                 href="/registro"
-                className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-bold text-white"
+                className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-bold text-white"
               >
                 Sumar mi negocio <ArrowRight className="h-4 w-4" />
               </Link>

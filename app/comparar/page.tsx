@@ -30,7 +30,7 @@ function CompararContent() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#120d09] text-white pb-24">
+      <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
         <PageHero title="Comparador" subtitle="Compará negocios y productos de un vistazo" />
         <div className="mx-auto max-w-5xl px-4 py-16 text-center text-white/50">Cargando...</div>
       </main>
@@ -39,14 +39,14 @@ function CompararContent() {
 
   if (productos.length === 0) {
     return (
-      <main className="min-h-screen bg-[#120d09] text-white pb-24">
+      <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
         <PageHero title="Comparador" subtitle="Compará negocios y productos de un vistazo" />
         <div className="mx-auto max-w-5xl px-4 py-12 text-center">
           <div className="mx-auto max-w-md rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
             <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-10 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Package className="mx-auto h-16 w-16 text-white/30 mb-4" />
               <p className="text-white/60">No hay productos seleccionados para comparar.</p>
-              <Link href="/negocios" className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+              <Link href="/negocios" className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
                 Explorar productos
               </Link>
             </div>
@@ -69,7 +69,7 @@ function CompararContent() {
   const mejorId = conScore.reduce((best, p) => p.sdlScore > best.sdlScore ? p : best, conScore[0]).id;
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <PageHero title="Comparador" subtitle={`Comparando ${productos.length} producto${productos.length !== 1 ? "s" : ""} lado a lado`} />
       <div className="mx-auto max-w-6xl px-4 py-8">
         <Link href="/negocios" className="flex items-center gap-1 text-sm text-orange-400 mb-4">
@@ -87,7 +87,7 @@ function CompararContent() {
                     {p.id === mejorId && (
                       <Badge variant="success" size="sm" className="mb-2">🏆 Mejor opción</Badge>
                     )}
-                    <div className="mx-auto h-24 w-24 rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-500/20 flex items-center justify-center mb-2">
+                    <div className="mx-auto h-24 w-24 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-600/20 flex items-center justify-center mb-2">
                       <Package className="h-10 w-10 text-orange-400" />
                     </div>
                     <p className="font-black text-sm">{p.name}</p>
@@ -149,7 +149,7 @@ function CompararContent() {
                     <Link href={`/negocio/${p.businesses.slug}`}
                       className={`inline-block rounded-xl px-4 py-2 text-xs font-black transition ${
                         p.id === mejorId
-                          ? "bg-gradient-to-r from-orange-500 to-pink-500 hover:opacity-90"
+                          ? "bg-gradient-to-r from-orange-500 to-red-600 hover:opacity-90"
                           : "border border-white/20 hover:bg-white/10"
                       }`}>
                       Ver negocio
@@ -173,7 +173,7 @@ function CompararContent() {
 export default function CompararPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">
+      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </main>
     }>

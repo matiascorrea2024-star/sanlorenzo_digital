@@ -95,7 +95,7 @@ export default function PulsoClient() {
   const hayAlgo = categoriaTop || vencenHoy.length > 0 || recienPublicado.length > 0 || negocioEnAlza || ofertasSemana > 0 || negociosSemana > 0;
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <PageHero title="¿Qué está pasando hoy en San Lorenzo?" subtitle="El pulso comercial de la ciudad, con datos reales de la plataforma" />
       <div className="mx-auto max-w-5xl px-4 py-8">
         {loading ? (
@@ -113,7 +113,7 @@ export default function PulsoClient() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {categoriaTop && (
-              <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+              <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
                 <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                   <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-orange-300"><Search className="h-3.5 w-3.5" /> Categoría más buscada hoy</p>
                   <p className="mt-2 text-2xl font-black">{categoriaTop.icon} {categoriaTop.nombre}</p>

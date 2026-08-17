@@ -95,7 +95,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
       const cluster = Lglobal.markerClusterGroup({
         maxClusterRadius: 60,
         iconCreateFunction: (c: any) => Lglobal.divIcon({
-          html: `<div style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ec4899);border:2px solid white;box-shadow:0 3px 10px rgba(0,0,0,.5);color:white;font-weight:900;font-size:13px">${c.getChildCount()}</div>`,
+          html: `<div style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f97316,#dc2626);border:2px solid white;box-shadow:0 3px 10px rgba(0,0,0,.5);color:white;font-weight:900;font-size:13px">${c.getChildCount()}</div>`,
           className: "", iconSize: [40, 40],
         }),
       });
@@ -139,7 +139,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
               </div>
               ${tieneOfertas ? `<div style="margin-top:4px;font-size:12px;font-weight:900;color:#f97316">🔥 ${b.promotions.length} oferta${b.promotions.length > 1 ? "s" : ""}</div>` : ""}
               ${dist}
-              <a href="/negocio/${b.slug}" style="display:inline-block;margin-top:10px;padding:6px 14px;border-radius:9999px;background:linear-gradient(90deg,#f97316,#ec4899);color:white;font-weight:900;font-size:12px;text-decoration:none">Ver negocio →</a>
+              <a href="/negocio/${b.slug}" style="display:inline-block;margin-top:10px;padding:6px 14px;border-radius:9999px;background:linear-gradient(90deg,#f97316,#dc2626);color:white;font-weight:900;font-size:12px;text-decoration:none">Ver negocio →</a>
             </div>
           `);
         markersRef.current.push(marker);
@@ -151,7 +151,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
   }, [negocios, radio, userCoords]);
 
   return (
-    <main className="bg-[#120d09] min-h-screen text-white pb-24">
+    <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="flex items-center gap-2">
           <MapPin className="h-7 w-7 text-orange-400" />
@@ -169,7 +169,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
             {[0.5, 1, 2, 3, 5, 10].map(r => (
               <button key={r} onClick={() => setRadio(radio === r ? null : r)}
                 className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all duration-300 ${
-                  radio === r ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-lg shadow-orange-500/20" : "text-white/60 hover:bg-white/5 hover:text-white"
+                  radio === r ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg shadow-orange-500/20" : "text-white/60 hover:bg-white/5 hover:text-white"
                 }`}>
                 {r < 1 ? "500 m" : `${r} km`}
               </button>
@@ -200,7 +200,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
               </div>
             )}
             {mapReady && stats.total === 0 && (
-              <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#120d09]/90 p-6 text-center backdrop-blur-sm">
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0c0a0b]/90 p-6 text-center backdrop-blur-sm">
                 <div>
                   <MapPin className="mx-auto h-8 w-8 text-white/30" />
                   <p className="mt-3 font-bold">Todavía no hay negocios con ubicación cargada</p>

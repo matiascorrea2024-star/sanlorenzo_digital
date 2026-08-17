@@ -47,13 +47,13 @@ const daysTo = (date: string) => {
 const chip = (active: boolean) =>
   `shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
     active
-      ? "border-orange-400/50 bg-gradient-to-r from-orange-500/20 to-pink-500/20 text-white"
+      ? "border-orange-400/50 bg-gradient-to-r from-orange-500/20 to-red-600/20 text-white"
       : "border-white/10 bg-white/5 text-white/60 hover:border-white/20 hover:text-white"
   }`;
 
 const PASOS = [
   { icon: Search, titulo: "Buscá", texto: "Escribí lo que necesitás y mirá qué hay cerca tuyo.", grad: "from-orange-500 to-amber-400", glow: "shadow-orange-500/40" },
-  { icon: Store, titulo: "Elegí", texto: "Mirá fotos, precios y datos reales de cada negocio.", grad: "from-pink-500 to-rose-400", glow: "shadow-pink-500/40" },
+  { icon: Store, titulo: "Elegí", texto: "Mirá fotos, precios y datos reales de cada negocio.", grad: "from-red-600 to-rose-400", glow: "shadow-red-600/40" },
   { icon: MessageCircle, titulo: "Contactá", texto: "Hablá directo por WhatsApp con el comercio.", grad: "from-cyan-500 to-sky-400", glow: "shadow-cyan-500/40" },
 ];
 
@@ -197,7 +197,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
             </div>
             <Link
               href="/dashboard/ofertas/nueva"
-              className="shrink-0 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-bold text-white transition hover:opacity-90"
+              className="shrink-0 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white transition hover:opacity-90"
             >
               Publicar la primera oferta
             </Link>
@@ -257,7 +257,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
 
       {/* ===== PARA COMERCIOS Y PARTICULARES ===== */}
       <section id="sumate" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-        <div className="rounded-[1.75rem] border border-orange-400/20 bg-gradient-to-br from-orange-500/[.06] to-pink-500/[.03] p-1.5">
+        <div className="rounded-[1.75rem] border border-orange-400/20 bg-gradient-to-br from-orange-500/[.06] to-red-600/[.03] p-1.5">
           <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-10">
             <p className="text-xs font-bold uppercase tracking-[.2em] text-[var(--accent2)]">Para comercios</p>
             <h2 className="mt-2 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl" style={{ fontFamily: "var(--font-space)" }}>
@@ -268,7 +268,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
             </p>
             <Link
               href="/dashboard/nuevo"
-              className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-bold text-white transition hover:opacity-90"
+              className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-bold text-white transition hover:opacity-90"
             >
               Crear mi negocio
             </Link>

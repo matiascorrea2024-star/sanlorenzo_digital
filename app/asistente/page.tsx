@@ -103,7 +103,7 @@ export default function AsistentePage() {
   }, [q, ofertas, intent, coords]);
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <section className="relative overflow-hidden border-b border-white/5">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.18), transparent 55%), radial-gradient(circle at 90% 30%, rgba(34,211,238,.12), transparent 55%)" }} />
         <div className="relative mx-auto max-w-5xl px-4 py-14 text-center md:py-20">
@@ -176,7 +176,7 @@ export default function AsistentePage() {
                   <p className="mt-2 text-sm text-white/50">
                     Probá con menos filtros, o mirá todas las ofertas en La Gran Barata.
                   </p>
-                  <Link href="/promociones" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+                  <Link href="/promociones" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
                     Ver todas las ofertas
                   </Link>
                 </div>

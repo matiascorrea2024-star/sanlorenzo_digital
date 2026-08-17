@@ -11,7 +11,7 @@ function fmt(n: number) {
 function armarHtml({ ofertas, negocios }: { ofertas: any[]; negocios: any[] }) {
   const filasOfertas = ofertas.slice(0, 6).map((o) => `
     <tr>
-      <td style="padding:10px 0;border-bottom:1px solid #2a2015;">
+      <td style="padding:10px 0;border-bottom:1px solid #242021;">
         <a href="${SITE}/oferta/${o.id}" style="color:#f97316;font-weight:700;text-decoration:none;">${o.title}</a>
         <div style="color:#a99b86;font-size:13px;">${o.businesses?.name || ""}${o.discount_percent ? ` · -${o.discount_percent}%` : ""}${o.offer_price ? ` · ${fmt(o.offer_price)}` : ""}</div>
       </td>
@@ -19,16 +19,16 @@ function armarHtml({ ofertas, negocios }: { ofertas: any[]; negocios: any[] }) {
 
   const filasNegocios = negocios.slice(0, 6).map((b) => `
     <tr>
-      <td style="padding:10px 0;border-bottom:1px solid #2a2015;">
+      <td style="padding:10px 0;border-bottom:1px solid #242021;">
         <a href="${SITE}/negocio/${b.slug}" style="color:#f97316;font-weight:700;text-decoration:none;">${b.name}</a>
         <div style="color:#a99b86;font-size:13px;text-transform:capitalize;">${b.category || ""}</div>
       </td>
     </tr>`).join("");
 
   return `
-  <div style="background:#120d09;padding:24px 0;font-family:system-ui,sans-serif;">
-    <div style="max-width:520px;margin:0 auto;background:#1c150e;border-radius:16px;overflow:hidden;">
-      <div style="padding:20px 24px;background:linear-gradient(135deg,#f97316,#ec4899);">
+  <div style="background:#0c0a0b;padding:24px 0;font-family:system-ui,sans-serif;">
+    <div style="max-width:520px;margin:0 auto;background:#161314;border-radius:16px;overflow:hidden;">
+      <div style="padding:20px 24px;background:linear-gradient(135deg,#f97316,#dc2626);">
         <p style="margin:0;color:#fff;font-weight:900;font-size:18px;">La Gran Barata Digital</p>
         <p style="margin:4px 0 0;color:#fff;opacity:.9;font-size:13px;">Esta semana en San Lorenzo</p>
       </div>
@@ -40,9 +40,9 @@ function armarHtml({ ofertas, negocios }: { ofertas: any[]; negocios: any[] }) {
         <p style="font-weight:900;font-size:15px;margin:0 0 8px;">🏪 Negocios nuevos (${negocios.length})</p>
         <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">${filasNegocios}</table>` : ""}
         ${ofertas.length === 0 && negocios.length === 0 ? `<p style="color:#a99b86;">Esta semana no hubo novedades para mostrar todavía.</p>` : ""}
-        <a href="${SITE}" style="display:inline-block;margin-top:8px;background:linear-gradient(135deg,#f97316,#ec4899);color:#fff;font-weight:900;padding:10px 20px;border-radius:10px;text-decoration:none;font-size:14px;">Ver todo →</a>
+        <a href="${SITE}" style="display:inline-block;margin-top:8px;background:linear-gradient(135deg,#f97316,#dc2626);color:#fff;font-weight:900;padding:10px 20px;border-radius:10px;text-decoration:none;font-size:14px;">Ver todo →</a>
       </div>
-      <div style="padding:16px 24px;border-top:1px solid #2a2015;color:#7d6f5c;font-size:11px;">
+      <div style="padding:16px 24px;border-top:1px solid #242021;color:#7d6f5c;font-size:11px;">
         Recibís esto porque activaste "Novedades por mail" en tu perfil.
         <a href="${SITE}/perfil#cuenta" style="color:#7d6f5c;">Desactivar</a>
       </div>

@@ -45,7 +45,7 @@ export default function InstallApp() {
         <X className="h-4 w-4" />
       </button>
       <div className="flex items-center gap-3">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-pink-500">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-red-600">
           <Download className="h-6 w-6 text-white" />
         </div>
         <div className="flex-1">
@@ -54,7 +54,7 @@ export default function InstallApp() {
         </div>
       </div>
       <button onClick={install}
-        className="mt-3 w-full rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 py-2.5 text-sm font-black hover:opacity-90">
+        className="mt-3 w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black hover:opacity-90">
         Instalar app
       </button>
     </div>

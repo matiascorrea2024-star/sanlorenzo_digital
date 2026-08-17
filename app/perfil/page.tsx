@@ -132,7 +132,7 @@ export default function PerfilPage() {
   }, []);
 
   if (cargando) return (
-    <main className="min-h-screen bg-[#120d09] text-white">
+    <main className="min-h-screen bg-[#0c0a0b] text-white">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <div className="flex items-center gap-4">
           <div className="h-16 w-16 animate-pulse rounded-full bg-white/10" />
@@ -153,12 +153,12 @@ export default function PerfilPage() {
 
   if (!user)
     return (
-      <main className="min-h-screen bg-[#120d09] text-white flex items-center justify-center px-4 text-center">
+      <main className="min-h-screen bg-[#0c0a0b] text-white flex items-center justify-center px-4 text-center">
         <div>
           <p className="text-5xl mb-4">🎖</p>
           <h1 className="text-2xl font-black">Tu perfil de vecino</h1>
           <p className="mt-2 text-sm text-white/60">Iniciá sesión para ver tus medallas y niveles.</p>
-          <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">Ingresar →</Link>
+          <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">Ingresar →</Link>
         </div>
       </main>
     );
@@ -175,14 +175,14 @@ export default function PerfilPage() {
   }));
 
   return (
-    <main className="bg-[#120d09] text-white min-h-screen pb-24">
+    <main className="bg-[#0c0a0b] text-white min-h-screen pb-24">
       <PageHero
         title={isAdmin ? "Panel del fundador" : "Tu perfil de vecino"}
         subtitle={isAdmin ? "Vos armaste esto -- acá no hay ranking que valga" : "Tus misiones, medallas, rachas y premios"}
       />
       <div className="mx-auto max-w-3xl px-4 py-10">
         {isAdmin ? (
-          <div className="mt-4 rounded-3xl border border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-pink-500/10 p-8 text-center">
+          <div className="mt-4 rounded-3xl border border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-red-600/10 p-8 text-center">
             <div className="mx-auto">
               <AdminFrame size={80}>
                 <StaffAvatar size={80} />
@@ -197,10 +197,10 @@ export default function PerfilPage() {
             <p className="mt-4 text-sm text-white/70">No hay nivel que te quede grande: sos quien mueve todo esto.</p>
           </div>
         ) : (
-        <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-500/10 to-pink-500/10 p-8 text-center">
+        <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-8 text-center">
           <div className="mx-auto">
             <DivisionFrame puntos={puntos} escala={ESCALA_PUNTOS_USUARIO} size={80} showLabel>
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-3xl font-black">
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-3xl font-black">
                 {(user.email || "?")[0].toUpperCase()}
               </div>
             </DivisionFrame>
@@ -211,7 +211,7 @@ export default function PerfilPage() {
           {nivel.proximo && (
             <div className="mt-4">
               <div className="h-2 rounded-full bg-white/10">
-                <div className="h-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500" style={{ width: `${nivel.progreso}%` }} />
+                <div className="h-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600" style={{ width: `${nivel.progreso}%` }} />
               </div>
               <p className="mt-1 text-xs text-white/50">Te faltan {faltanReal} pts para {nivel.proximo}</p>
             </div>
@@ -270,7 +270,7 @@ export default function PerfilPage() {
         <h2 className="mt-8 mb-3 text-xl font-black">Tu actividad</h2>
         <div className="grid grid-cols-3 gap-3 md:grid-cols-7 text-center">
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-orange-400">{stats.vis}</p><p className="text-[10px] text-white/50 uppercase">Visitas</p></div>
-          <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-pink-400">{stats.cats}</p><p className="text-[10px] text-white/50 uppercase">Rubros</p></div>
+          <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-red-400">{stats.cats}</p><p className="text-[10px] text-white/50 uppercase">Rubros</p></div>
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-red-400">{stats.seg}</p><p className="text-[10px] text-white/50 uppercase">Seguidos</p></div>
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-green-400">{stats.wa}</p><p className="text-[10px] text-white/50 uppercase">Contactos</p></div>
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-sky-400">{stats.sh}</p><p className="text-[10px] text-white/50 uppercase">Compartidos</p></div>

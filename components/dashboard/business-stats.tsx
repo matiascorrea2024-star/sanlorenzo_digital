@@ -47,7 +47,7 @@ export default function BusinessStats() {
     { icon: Users, label: "Seguidores", value: s.followers, color: "text-green-400" },
     { icon: Heart, label: "Favoritos", value: s.favs, color: "text-red-400" },
     { icon: Star, label: "Reseñas", value: s.revs, color: "text-yellow-400" },
-    { icon: Ticket, label: "Cupones", value: s.coupons, color: "text-pink-400" },
+    { icon: Ticket, label: "Cupones", value: s.coupons, color: "text-red-400" },
   ];
 
   return (

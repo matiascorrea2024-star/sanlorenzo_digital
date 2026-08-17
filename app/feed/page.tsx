@@ -93,7 +93,7 @@ export default function MuroPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <div className="flex items-center justify-between">
           <div>
@@ -101,7 +101,7 @@ export default function MuroPage() {
             <p className="text-white/60 mt-1">Lo que está pasando en el comercio de San Lorenzo</p>
           </div>
           <Link href="/dashboard/muro"
-            className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black hover:opacity-90">
+            className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black hover:opacity-90">
             + Publicar
           </Link>
         </div>
@@ -110,14 +110,14 @@ export default function MuroPage() {
         <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
           <button onClick={() => setFiltro("todos")}
             className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
-              filtro === "todos" ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5 text-white/70"
+              filtro === "todos" ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"
             }`}>
             Todo
           </button>
           {Object.entries(TIPOS).map(([k, t]) => (
             <button key={k} onClick={() => setFiltro(k)}
               className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
-                filtro === k ? "bg-gradient-to-r from-orange-500 to-pink-500" : "border border-white/15 bg-white/5 text-white/70"
+                filtro === k ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-white/15 bg-white/5 text-white/70"
               }`}>
               {t.label}
             </button>

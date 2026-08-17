@@ -9,7 +9,7 @@ import { planDe } from "@/lib/plans";
 import { Lock } from "lucide-react";
 
 const FONDOS = [
-  "from-orange-500 to-pink-500",
+  "from-orange-500 to-red-600",
   "from-green-500 to-teal-500",
   "from-blue-500 to-purple-500",
   "from-red-500 to-orange-500",
@@ -58,21 +58,21 @@ export default function HistoriasPage() {
   const sinPlan = businesses.length > 0 && !planActual.historias;
 
   return (
-    <main className="bg-[#120d09] min-h-screen text-white">
+    <main className="bg-[#0c0a0b] min-h-screen text-white">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <Link href="/dashboard" className="text-sm text-orange-400">← Volver</Link>
         <h1 className="text-3xl font-black mt-2">Publicar Historia (24h)</h1>
         <p className="text-white/60 mt-1">Desaparece automáticamente en 24 horas</p>
 
         {sinPlan ? (
-          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
               <p className="font-black">Las Historias 24h son de Plan PRO</p>
               <p className="mx-auto mt-1 max-w-sm text-sm text-white/60">
                 Con PRO Comerciante podés publicar historias que aparecen 24 horas en la plataforma, como Instagram.
               </p>
-              <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
+              <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
             </div>
           </div>
         ) : (
@@ -88,7 +88,7 @@ export default function HistoriasPage() {
             className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3" />
 
           <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)}
-            className="w-full text-sm text-white/70 file:mr-3 file:rounded-xl file:border-0 file:bg-gradient-to-r file:from-orange-500 file:to-pink-500 file:px-4 file:py-2 file:text-sm file:font-black file:text-white" />
+            className="w-full text-sm text-white/70 file:mr-3 file:rounded-xl file:border-0 file:bg-gradient-to-r file:from-orange-500 file:to-red-600 file:px-4 file:py-2 file:text-sm file:font-black file:text-white" />
 
           <div className="flex gap-2">
             {FONDOS.map(f => (
@@ -102,7 +102,7 @@ export default function HistoriasPage() {
           </div>
 
           <button onClick={publicar} disabled={loading || !text || !businessId}
-            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black disabled:opacity-50">
+            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black disabled:opacity-50">
             {loading ? "Publicando..." : "Publicar Historia"}
           </button>
         </div>

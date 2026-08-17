@@ -2,23 +2,28 @@
 
 /* ============================================================
    SAN LORENZO DIGITAL — DESIGN TOKENS
-   Single source of truth. Paleta de marca: naranja+rosa sobre oscuro
-   (no se cambia). Identidad de lugar propia en la silueta/tipografía
-   (puerto + cordón industrial), no en el color de marca. Cian "río"
-   como acento secundario de ubicación/confianza, nunca reemplaza al
-   par naranja/rosa. Base cálida tipo asfalto de noche, no negro-azulado
-   de plantilla de IA. No agregar colores sueltos por componente: si
-   hace falta un color nuevo, agregarlo acá con nombre semántico primero.
+   Single source of truth. Paleta de marca: naranja + rojo de feria
+   sobre base neutra. El naranja se mantiene (validado: es de los
+   mejores colores para CTA -- amigable, alta visibilidad, menos
+   agresivo que el rojo puro). El rosa se reemplazó por rojo: es el
+   color universal de "oferta/rebaja" en cualquier feria o local de
+   San Lorenzo, habla el mismo idioma que ya conoce la gente de acá.
+   El fondo dejó de ser un marrón oscuro (leía "sucio"/podrido a esa
+   luminosidad) y pasó a un negro casi neutro -- el calor lo ponen
+   los acentos (naranja/rojo/dorado), no la base. Cian "río" como
+   acento secundario de ubicación/confianza, nunca reemplaza a la
+   marca. No agregar colores sueltos por componente: si hace falta
+   un color nuevo, agregarlo acá con nombre semántico primero.
    ============================================================ */
 :root{
-  /* Fondo y superficies -- escala cálida (asfalto/galpón de noche),
-     una sola fuente de verdad. */
-  --bg:#120d09; --surface:#1c150e; --surface2:#201810; --surface3:#2a2015;
+  /* Fondo y superficies -- negro casi neutro (apenas un dejo cálido),
+     una sola fuente de verdad. El calor lo hacen los acentos, no la base. */
+  --bg:#0c0a0b; --surface:#161314; --surface2:#1c1819; --surface3:#242021;
   --line:rgba(255,247,237,.09); --line-strong:rgba(255,247,237,.16);
   --text:#f7f3ec; --muted:#a99b86; --muted2:#7d6f5c;
 
-  /* Marca: naranja + rosa sobre oscuro -- no se cambia. */
-  --accent:#f97316; --accent2:#ec4899;
+  /* Marca: naranja + rojo de feria sobre base neutra. */
+  --accent:#f97316; --accent2:#dc2626;
   /* "Lugar": el cian del río Paraná / puerto -- acento secundario para
      ubicación, mapa, exploración y confianza (no reemplaza a la marca). */
   --place:#22d3ee; --place2:#0891b2;
@@ -33,7 +38,7 @@
    gustó cómo se sentía. Vuelve el scroll nativo. */
 html{scroll-behavior:smooth; color-scheme: dark;}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-inter),system-ui,sans-serif}
-::selection{background:rgba(139,92,246,.35);color:white}
+::selection{background:rgba(220,38,38,.35);color:white}
 a{transition:color .2s ease,border-color .2s ease,background-color .2s ease,transform .2s ease,opacity .2s ease}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
@@ -63,10 +68,10 @@ button{cursor:pointer}
 
 .sld-home {
   min-height: 100vh;
-  /* Naranja + rosa de marca, arriba-izquierda y esquina opuesta. */
+  /* Naranja + rojo de marca, arriba-izquierda y esquina opuesta. */
   background:
     radial-gradient(circle at 15% -5%, rgba(249,115,22,.11), transparent 34rem),
-    radial-gradient(circle at 95% 15%, rgba(236,72,153,.06), transparent 30rem),
+    radial-gradient(circle at 95% 15%, rgba(220,38,38,.06), transparent 30rem),
     var(--sld-bg);
   color: var(--sld-text);
   overflow: hidden;
@@ -157,22 +162,22 @@ main img:not([class*="h-"]) {
    Leaflet -- un widget claro flotando sobre un sitio oscuro cálido, la
    definición misma de "esto se siente pegado, no integrado". */
 .leaflet-popup-content-wrapper {
-  background: #1c150e;
+  background: #161314;
   color: #f7f3ec;
   border: 1px solid rgba(255,247,237,.12);
   border-radius: 1.25rem;
   box-shadow: 0 20px 50px rgba(0,0,0,.5);
 }
 .leaflet-popup-content { margin: 14px 16px; font-family: var(--font-inter), system-ui, sans-serif; }
-.leaflet-popup-tip { background: #1c150e; border: 1px solid rgba(255,247,237,.12); }
+.leaflet-popup-tip { background: #161314; border: 1px solid rgba(255,247,237,.12); }
 .leaflet-container a.leaflet-popup-close-button { color: #a99b86; }
 .leaflet-container a.leaflet-popup-close-button:hover { color: #f7f3ec; }
 .leaflet-control-zoom a {
-  background: #1c150e !important;
+  background: #161314 !important;
   color: #f7f3ec !important;
   border-color: rgba(255,247,237,.12) !important;
 }
-.leaflet-control-zoom a:hover { background: #2a2015 !important; }
+.leaflet-control-zoom a:hover { background: #242021 !important; }
 .leaflet-control-attribution {
   background: rgba(18,13,9,.75) !important;
   color: #7d6f5c !important;
@@ -296,7 +301,7 @@ main img:not([class*="h-"]) {
 * { scrollbar-width: thin; scrollbar-color: rgba(249,115,22,.5) rgba(255,255,255,.05); }
 *::-webkit-scrollbar { width: 8px; height: 8px; }
 *::-webkit-scrollbar-track { background: rgba(255,255,255,.05); }
-*::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(249,115,22,.6), rgba(236,72,153,.6)); border-radius: 999px; }
+*::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(249,115,22,.6), rgba(220,38,38,.6)); border-radius: 999px; }
 
 a, button { transition: all .25s ease; }
 
@@ -340,12 +345,12 @@ input:focus, select:focus, textarea:focus {
 .glass-2 {
   padding: 1px;
   border-radius: 1.05rem;
-  background: linear-gradient(135deg, rgba(249,115,22,.5), rgba(236,72,153,.35), rgba(255,255,255,.08));
+  background: linear-gradient(135deg, rgba(249,115,22,.5), rgba(220,38,38,.35), rgba(255,255,255,.08));
   box-shadow: 0 30px 70px -30px rgba(0,0,0,.75);
   transition: background .5s ease;
 }
 .glass-2:hover, .glass-2:focus-within {
-  background: linear-gradient(135deg, rgba(249,115,22,.85), rgba(236,72,153,.65), rgba(249,115,22,.4));
+  background: linear-gradient(135deg, rgba(249,115,22,.85), rgba(220,38,38,.65), rgba(249,115,22,.4));
 }
 .glass-2 > * { border-radius: calc(1.05rem - 1px) !important; }
 .glass-2-inner {
@@ -392,7 +397,7 @@ input:focus, select:focus, textarea:focus {
   animation: breathe 9s ease-in-out infinite;
 }
 .aurora-bg > span:nth-child(1) { top: -6rem; left: 8%; width: 30rem; height: 30rem; background: rgba(249,115,22,.28); }
-.aurora-bg > span:nth-child(2) { top: 30%; right: 4%; width: 28rem; height: 28rem; background: rgba(236,72,153,.24); animation-delay: 3s; }
+.aurora-bg > span:nth-child(2) { top: 30%; right: 4%; width: 28rem; height: 28rem; background: rgba(220,38,38,.24); animation-delay: 3s; }
 .aurora-bg > span:nth-child(3) { bottom: -8rem; left: 35%; width: 26rem; height: 26rem; background: rgba(34,211,238,.16); animation-delay: 6s; }
 @keyframes breathe { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
 

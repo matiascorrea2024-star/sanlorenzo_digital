@@ -41,7 +41,7 @@ export default function ResenasPage() {
   };
 
   return (
-    <main className="bg-[#120d09] min-h-screen text-white pb-24">
+    <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <h1 className="text-3xl font-black">⭐ Reseñas de tus clientes</h1>
@@ -87,7 +87,7 @@ export default function ResenasPage() {
                         rows={2} placeholder="Respondé al cliente..."
                         className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
                       <button onClick={() => saveReply(r.id)}
-                        className="mt-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2 text-xs font-black hover:opacity-90">
+                        className="mt-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2 text-xs font-black hover:opacity-90">
                         {saved[r.id] ? "✅ Guardada" : "Responder"}
                       </button>
                     </>

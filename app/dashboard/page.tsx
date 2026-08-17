@@ -44,22 +44,22 @@ export default function DashboardPage() {
 
   if (!loading && !user) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-[#120d09] px-4 text-center text-white">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[#0c0a0b] px-4 text-center text-white">
         <p className="text-5xl">🔐</p>
         <h1 className="mt-4 text-2xl font-black">Iniciá sesión para gestionar tus negocios</h1>
-        <Link href="/login" className="mt-6 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">Ingresar →</Link>
+        <Link href="/login" className="mt-6 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">Ingresar →</Link>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#120d09] pb-24 text-white">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
       <PageHero
         title="Mis negocios"
         subtitle="Control rápido: abrí, cerrá y manejá tus ofertas sin vueltas"
       >
         <div className="mt-4 flex flex-wrap gap-2">
-          <Link href="/dashboard/nuevo" className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-2 text-sm font-black hover:opacity-90">+ Crear negocio</Link>
+          <Link href="/dashboard/nuevo" className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black hover:opacity-90">+ Crear negocio</Link>
           {role === "admin" && (
             <Link href="/admin" className="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-2 text-sm font-bold text-red-300 hover:bg-red-500/20">🛡️ Panel admin</Link>
           )}
@@ -72,7 +72,7 @@ export default function DashboardPage() {
           <p className="py-16 text-center text-white/50">Cargando tus negocios…</p>
         ) : negocios.length === 0 ? (
           <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[.07] to-white/[.03] p-10 text-center">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-orange-500/20 to-pink-500/20 text-5xl">🏪</div>
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-orange-500/20 to-red-600/20 text-5xl">🏪</div>
             <h2 className="mt-4 text-2xl font-black">Empezá acá</h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-white/60">3 pasos y tu negocio ya está funcionando en La Gran Barata Digital.</p>
             <ol className="mx-auto mt-6 max-w-sm space-y-3 text-left">
@@ -89,7 +89,7 @@ export default function DashboardPage() {
                 <div><p className="text-sm font-bold">Compartí tu página</p><p className="text-xs text-white/50">Mandala por WhatsApp a tus clientes.</p></div>
               </li>
             </ol>
-            <Link href="/dashboard/nuevo" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90 transition">
+            <Link href="/dashboard/nuevo" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90 transition">
               <span>✨</span>
               <span>Empezar: crear mi negocio →</span>
             </Link>

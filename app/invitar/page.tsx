@@ -31,16 +31,16 @@ export default function InvitarPage() {
     })();
   }, []);
 
-  if (loading) return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white/60 text-sm">Cargando…</main>;
+  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white/60 text-sm">Cargando…</main>;
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-[#120d09] text-white flex items-center justify-center px-4 text-center">
+      <main className="min-h-screen bg-[#0c0a0b] text-white flex items-center justify-center px-4 text-center">
         <div>
           <p className="mb-4 text-5xl">🔗</p>
           <h1 className="text-2xl font-black">Invitá a tus vecinos</h1>
           <p className="mt-2 text-sm text-white/60">Iniciá sesión para conseguir tu link de invitación.</p>
-          <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black">Ingresar →</Link>
+          <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">Ingresar →</Link>
         </div>
       </main>
     );
@@ -65,15 +65,15 @@ export default function InvitarPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <PageHero title="Invitá a tus vecinos" subtitle="Compartí tu link y sumá puntos cuando alguien se una" />
       <div className="mx-auto max-w-lg px-4 py-8 text-center">
-        <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-pink-500/[.04] p-1.5">
+        <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
           <div className="rounded-[1.375rem] border border-white/[.06] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
             <img src={qrUrl} alt="QR de invitación" className="mx-auto h-52 w-52 rounded-2xl bg-white p-3" />
             <p className="mt-5 break-all rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/70">{link}</p>
             <div className="mt-4 flex flex-wrap justify-center gap-3">
-              <button onClick={compartir} className="flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-5 py-2.5 text-sm font-black hover:opacity-90">
+              <button onClick={compartir} className="flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">
                 <Share2 className="h-4 w-4" /> Compartir
               </button>
               <button onClick={copiar} className="flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-sm font-bold hover:bg-white/10">

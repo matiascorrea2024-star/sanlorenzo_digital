@@ -5,7 +5,7 @@ export default function Error({ error, reset }: {
   reset: () => void;
 }) {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#120d09] p-6 text-white">
+    <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] p-6 text-white">
       <div className="max-w-md text-center">
         <p className="mb-4 text-5xl">😵</p>
         <h1 className="text-2xl font-black">Algo salió mal</h1>
@@ -14,7 +14,7 @@ export default function Error({ error, reset }: {
         </p>
         <div className="mt-6 flex justify-center gap-3">
           <button onClick={reset}
-            className="rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-black hover:opacity-90">
+            className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
             Reintentar
           </button>
           <a href="/"

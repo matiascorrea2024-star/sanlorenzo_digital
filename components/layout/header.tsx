@@ -65,10 +65,10 @@ export default function Header() {
       {/* Isla flotante, no una barra pegada al borde -- el blur/sombra crece
           apenas se scrollea para que se note que "levanta" sobre el contenido. */}
       <div className={`mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full border px-3 backdrop-blur-xl transition-all duration-500 md:h-16 md:px-5 ${
-        scrolled ? "border-white/15 bg-[#120d09]/90 shadow-2xl shadow-black/50" : "border-white/10 bg-[#120d09]/70 shadow-lg shadow-black/30"
+        scrolled ? "border-white/15 bg-[#0c0a0b]/90 shadow-2xl shadow-black/50" : "border-white/10 bg-[#0c0a0b]/70 shadow-lg shadow-black/30"
       }`}>
           <Link href="/" className="group flex shrink-0 items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 shadow-lg shadow-orange-500/25 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 group-hover:shadow-orange-500/45 group-hover:brightness-110">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-red-600 shadow-lg shadow-orange-500/25 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 group-hover:shadow-orange-500/45 group-hover:brightness-110">
               <ShoppingBag className="h-5 w-5 text-white" />
             </span>
             <span className="hidden leading-tight sm:block">
@@ -105,7 +105,7 @@ export default function Header() {
                 <button
                   onClick={() => setOpen(!open)}
                   aria-label="Menú de usuario"
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-pink-500 text-sm font-black text-white transition hover:scale-105 md:h-9 md:w-9"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-sm font-black text-white transition hover:scale-105 md:h-9 md:w-9"
                 >
                   {(user.email || "?")[0].toUpperCase()}
                 </button>
@@ -154,7 +154,7 @@ export default function Header() {
               <AuthButton />
             )}
 
-            <Link href="/para-negocios" className="group/cta btn-shine hidden items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-1.5 pl-4 pr-1.5 text-sm font-black text-white transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.98] md:inline-flex">
+            <Link href="/para-negocios" className="group/cta btn-shine hidden items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-1.5 pl-4 pr-1.5 text-sm font-black text-white transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.98] md:inline-flex">
               Publicar negocio
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black/15 transition-transform duration-300 group-hover/cta:translate-x-0.5">↗</span>
             </Link>

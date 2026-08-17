@@ -34,7 +34,7 @@ export const RANGOS: Rango[] = [
     glow: "radial-gradient(circle,rgba(239,68,68,0.6) 0%,transparent 72%)" },
   { nombre: "Gran Barata", min: 3000, nivel: 7, accent: "#67e8f9",
     metal: "conic-gradient(from 0deg,#164e63,#a5f3fc,#0e7490,#f0fdff,#155e75,#a5f3fc,#164e63)",
-    glow: "radial-gradient(circle,rgba(34,211,238,0.7) 0%,rgba(236,72,153,0.25) 45%,transparent 75%)" },
+    glow: "radial-gradient(circle,rgba(34,211,238,0.7) 0%,rgba(220,38,38,0.25) 45%,transparent 75%)" },
 ];
 
 // Gema central según la categoría del comercio
@@ -42,7 +42,7 @@ export const GEMAS: Record<string, string> = {
   calzado: "#3b82f6", gastronomia: "#f97316", belleza: "#a855f7",
   profesionales: "#94a3b8", servicios: "#94a3b8", hogar: "#2dd4bf",
   salud: "#22c55e", automotor: "#2563eb", ferreteria: "#f59e0b",
-  construccion: "#f59e0b", ropa: "#ec4899", mascotas: "#fb923c",
+  construccion: "#f59e0b", ropa: "#dc2626", mascotas: "#fb923c",
   deportes: "#84cc16", tecnologia: "#06b6d4", educacion: "#60a5fa",
   eventos: "#f472b6", transporte: "#eab308", industria: "#64748b",
   portuario: "#0ea5e9",

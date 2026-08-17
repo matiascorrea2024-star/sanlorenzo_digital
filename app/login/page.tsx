@@ -47,7 +47,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#120d09] px-4">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0c0a0b] px-4">
       <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.16), transparent 55%), radial-gradient(circle at 90% 100%, rgba(34,211,238,.1), transparent 55%)" }} />
       <div className="relative w-full max-w-md">
         <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
@@ -120,7 +120,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-pink-500 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
+              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
             >
               {loading ? "Entrando..." : "Iniciar sesión"}
             </button>

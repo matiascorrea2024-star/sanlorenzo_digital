@@ -86,13 +86,13 @@ export default function ControlEnVivo() {
     await cargar();
   };
 
-  if (loading) return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Cargando...</main>;
-  if (!stream || !negocio) return <main className="min-h-screen bg-[#120d09] flex items-center justify-center text-white">Transmisión no encontrada.</main>;
+  if (loading) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Cargando...</main>;
+  if (!stream || !negocio) return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">Transmisión no encontrada.</main>;
 
   const plan = planDe(negocio);
 
   return (
-    <main className="min-h-screen bg-[#120d09] text-white pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <Link href="/dashboard/en-vivo" className="text-sm text-orange-400"><ArrowLeft className="mr-1 inline h-4 w-4" />Volver</Link>
         <div className="mt-3 mb-6 flex flex-wrap items-center justify-between gap-3">
