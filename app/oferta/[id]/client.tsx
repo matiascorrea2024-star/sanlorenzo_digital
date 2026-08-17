@@ -15,6 +15,7 @@ import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { planDe } from "@/lib/plans";
 import { useToast } from "@/components/ui/toast";
 import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
+import GroupDealPanel from "@/components/offers/group-deal-panel";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
@@ -171,6 +172,10 @@ export default function OfertaPage() {
             )}
           </div>
         </div>
+
+        {oferta.es_grupal && oferta.meta_participantes && (
+          <GroupDealPanel offerId={oferta.id} metaParticipantes={oferta.meta_participantes} initialActivada={!!oferta.grupal_activada} offerTitle={oferta.title} />
+        )}
 
         {/* Acciones: 3 tarjetas parejas */}
         <div className="mb-4 grid grid-cols-3 gap-3">

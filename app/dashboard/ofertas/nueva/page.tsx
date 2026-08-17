@@ -30,6 +30,8 @@ export default function NuevaOferta() {
   const [expires, setExpires] = useState(() => new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10));
   const [image, setImage] = useState("");
   const [imageId] = useState(() => crypto.randomUUID());
+  const [esGrupal, setEsGrupal] = useState(false);
+  const [metaParticipantes, setMetaParticipantes] = useState("10");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [limite, setLimite] = useState<{ plan: string; activas: number; hoy: number } | null>(null);
@@ -89,6 +91,7 @@ export default function NuevaOferta() {
     if (expires < hoyStr) { setError("La fecha de vencimiento no puede ser en el pasado."); return; }
     if (expires > maxFechaStr) { setError(`La oferta puede durar hasta ${OFERTA_DURACION_MAX_DIAS} días. Elegí una fecha más cercana.`); return; }
     if (priceBefore && priceOffer && Number(priceOffer) >= Number(priceBefore)) { setError("El precio de oferta tiene que ser menor al precio anterior."); return; }
+    if (esGrupal && (!Number(metaParticipantes) || Number(metaParticipantes) < 2)) { setError("La oferta grupal necesita un mínimo de al menos 2 personas."); return; }
 
     if (limite) {
       if (!puedePublicarOferta(limite.plan, limite.activas)) {
@@ -115,6 +118,8 @@ export default function NuevaOferta() {
       valid_until: expires,
       image_url: image.trim() || null,
       active: true,
+      es_grupal: esGrupal,
+      meta_participantes: esGrupal ? Number(metaParticipantes) : null,
     });
 
     setSaving(false);
@@ -219,6 +224,22 @@ export default function NuevaOferta() {
               <p className="text-3xl font-black text-orange-400">{desc}% OFF</p>
             </div>
           )}
+
+          <div className="rounded-2xl border border-cyan-400/25 bg-cyan-500/[.05] p-4">
+            <label className="flex items-center justify-between gap-3">
+              <span>
+                <span className="flex items-center gap-1.5 font-bold text-cyan-200">🎯 Oferta grupal</span>
+                <span className="mt-0.5 block text-xs text-white/50">Se activa sola cuando se anota la cantidad de gente que definas -- genera urgencia real y la comparten solos.</span>
+              </span>
+              <input type="checkbox" checked={esGrupal} onChange={(e) => setEsGrupal(e.target.checked)} className="h-5 w-5 shrink-0 accent-cyan-400" />
+            </label>
+            {esGrupal && (
+              <div className="mt-3">
+                <span className={lbl}>Mínimo de personas para activarse *</span>
+                <input className={inp} type="number" min={2} value={metaParticipantes} onChange={(e) => setMetaParticipantes(e.target.value)} placeholder="10" />
+              </div>
+            )}
+          </div>
 
           <div>
             <span className={lbl}>Válida hasta * <span className="normal-case font-normal text-white/30">(máx. {OFERTA_DURACION_MAX_DIAS} días)</span></span>
