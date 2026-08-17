@@ -5,6 +5,8 @@ import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
 import AdminFrame, { AdminBadge } from "@/components/ui/admin-frame";
 import StaffAvatar from "@/components/ui/staff-avatar";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 type Props = { businessId: string; ownerId?: string; businessName?: string; businessSlug?: string; customerId?: string; staffId?: string };
 
@@ -17,6 +19,7 @@ function dayLabel(d: string) {
 }
 
 export default function Chat({ businessId, ownerId, businessName, businessSlug, customerId, staffId }: Props) {
+  const { show } = useToast();
   const [user, setUser] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [body, setBody] = useState("");
@@ -111,16 +114,15 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
       sender_name: myName || (user.email || "yo").split("@")[0],
       customer_id: cust, body: body.trim(),
     });
-    if (!error) {
-      const target = isOwner ? cust : ownerId;
-      if (target) {
-        await supabase().from("notifications").insert({
-          user_id: target, business_id: businessId, type: "new_message",
-          title: isOwner ? `💬 ${businessName || "El negocio"} te respondió` : `💬 Nuevo mensaje de ${myName || "un cliente"}`,
-          body: body.trim().slice(0, 80),
-          link: isOwner ? (businessSlug ? `/negocio/${businessSlug}` : "/") : `/dashboard/mensajes?biz=${businessId}&cust=${cust}`,
-        });
-      }
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo enviar el mensaje.")}`, "error"); return; }
+    const target = isOwner ? cust : ownerId;
+    if (target) {
+      await supabase().from("notifications").insert({
+        user_id: target, business_id: businessId, type: "new_message",
+        title: isOwner ? `💬 ${businessName || "El negocio"} te respondió` : `💬 Nuevo mensaje de ${myName || "un cliente"}`,
+        body: body.trim().slice(0, 80),
+        link: isOwner ? (businessSlug ? `/negocio/${businessSlug}` : "/") : `/dashboard/mensajes?biz=${businessId}&cust=${cust}`,
+      });
     }
     setBody("");
   };
