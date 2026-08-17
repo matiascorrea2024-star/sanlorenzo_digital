@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { postActivity } from "@/lib/activity";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function FollowButton({ businessId }: { businessId: string }) {
+  const { show } = useToast();
   const [user, setUser] = useState<any>(null);
   const [count, setCount] = useState(0);
   const [siguiendo, setSiguiendo] = useState(false);
@@ -31,10 +34,12 @@ export default function FollowButton({ businessId }: { businessId: string }) {
     if (!user) { window.location.href = "/login"; return; }
     setBusy(true);
     if (siguiendo) {
-      await supabase().from("followers").delete().eq("business_id", businessId).eq("user_id", user.id);
+      const { error } = await supabase().from("followers").delete().eq("business_id", businessId).eq("user_id", user.id);
+      if (error) { show(`❌ ${friendlyError(error, "No se pudo dejar de seguir.")}`, "error"); setBusy(false); return; }
       setCount(c => c - 1); setSiguiendo(false);
     } else {
-      await supabase().from("followers").insert({ business_id: businessId, user_id: user.id });
+      const { error } = await supabase().from("followers").insert({ business_id: businessId, user_id: user.id });
+      if (error) { show(`❌ ${friendlyError(error, "No se pudo seguir el negocio.")}`, "error"); setBusy(false); return; }
       setCount(c => c + 1); setSiguiendo(true);
       trackFollow(businessId);
       await postActivity({ type: "new_follower", businessId, title: "👥 Nuevo seguidor" });
