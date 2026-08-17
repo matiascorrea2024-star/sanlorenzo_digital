@@ -1,9 +1,10 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { useAllBusinesses } from "@/lib/use-businesses";
 import { calcDistanceKm, fmtDistance } from "@/lib/geo";
-import { MapPin, Flame, Store } from "lucide-react";
-import Badge from "@/components/ui/badge";
+import { MapPin, Flame, Search, Star } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
@@ -20,6 +21,21 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
   const [radio, setRadio] = useState<number | null>(null);
   const [stats, setStats] = useState({ total: 0, abiertos: 0, conOfertas: 0 });
   const [mapReady, setMapReady] = useState(false);
+  const [q, setQ] = useState("");
+
+  // Panel "Cerca de vos": mismos negocios reales del mapa, ordenados por
+  // distancia -- no es data nueva, es la misma lista con otra vista.
+  const cercaDeVos = useMemo(() => {
+    const centro = userCoords || { lat: -32.7475, lon: -60.7285 };
+    const t = q.trim().toLowerCase();
+    return negocios
+      .filter((b: any) => b.latitude && b.longitude)
+      .filter((b: any) => !t || `${b.name} ${b.category}`.toLowerCase().includes(t))
+      .map((b: any) => ({ ...b, _km: calcDistanceKm(centro.lat, centro.lon, Number(b.latitude), Number(b.longitude)) }))
+      .filter((b: any) => !radio || b._km <= radio)
+      .sort((a: any, b: any) => a._km - b._km)
+      .slice(0, 30);
+  }, [negocios, userCoords, radio, q]);
 
   // Geolocalización
   useEffect(() => {
@@ -152,62 +168,127 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
 
   return (
     <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="flex items-center gap-2">
-          <MapPin className="h-7 w-7 text-orange-400" />
-          <h1 className="text-3xl font-black tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mapa de San Lorenzo</h1>
-        </div>
-        <p className="mt-1 text-white/60">Tocá un marcador para ver el negocio</p>
+      <div className="mx-auto max-w-[1600px] px-4 py-8 sm:px-6">
+        <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
+          {/* IZQUIERDA: mapa protagonista */}
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Exploración geográfica</p>
+                <h1 className="mt-2 text-4xl font-bold tracking-tighter sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
+                  Mapa de la <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">Ciudad</span>
+                </h1>
+              </div>
+              <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[.03] p-1">
+                {[0.5, 1, 2, 3, 5, 10].map(r => (
+                  <button key={r} onClick={() => setRadio(radio === r ? null : r)}
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all duration-300 ${
+                      radio === r ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg shadow-orange-500/20" : "text-white/60 hover:bg-white/5 hover:text-white"
+                    }`}>
+                    {r < 1 ? "500 m" : `${r} km`}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-        {/* Stats + filtros */}
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <Badge variant="success" size="md"><Store className="h-3 w-3" /> {stats.total} negocios</Badge>
-          <Badge variant="success" size="md">🟢 {stats.abiertos} abiertos</Badge>
-          <Badge variant="warning" size="md"><Flame className="h-3 w-3" /> {stats.conOfertas} con ofertas</Badge>
+            {/* Mapa -- mismo doble marco que el resto de la plataforma. */}
+            <div className="relative flex-1 rounded-[2rem] border border-white/[.06] bg-white/[.02] p-1.5 shadow-2xl shadow-black/50">
+              <div className="relative min-h-[420px] overflow-hidden rounded-[calc(2rem-0.375rem)] border border-white/[.05] md:min-h-[560px]">
+                <div ref={mapRef} className="relative z-0 h-full min-h-[420px] w-full md:min-h-[560px]" />
+                {!mapReady && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/5">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-500 border-t-transparent" />
+                      <p className="text-sm text-white/50">Cargando el mapa...</p>
+                    </div>
+                  </div>
+                )}
+                {mapReady && stats.total === 0 && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0c0a0b]/90 p-6 text-center backdrop-blur-sm">
+                    <div>
+                      <MapPin className="mx-auto h-8 w-8 text-white/30" />
+                      <p className="mt-3 font-bold">Todavía no hay negocios con ubicación cargada</p>
+                      <p className="mt-1 text-sm text-white/50">Los comercios van a aparecer acá a medida que carguen su ubicación exacta.</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
 
-          <div className="ml-auto flex gap-1.5 rounded-full border border-white/10 bg-white/[.03] p-1">
-            {[0.5, 1, 2, 3, 5, 10].map(r => (
-              <button key={r} onClick={() => setRadio(radio === r ? null : r)}
-                className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all duration-300 ${
-                  radio === r ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg shadow-orange-500/20" : "text-white/60 hover:bg-white/5 hover:text-white"
-                }`}>
-                {r < 1 ? "500 m" : `${r} km`}
-              </button>
-            ))}
+            {/* Stats reales + leyenda */}
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+              <div className="rounded-2xl border border-white/[.06] bg-white/[.02] p-4">
+                <span className="mb-1 block text-[9px] font-black uppercase tracking-widest text-white/40">Negocios</span>
+                <span className="text-3xl font-black" style={{ fontFamily: "var(--font-ticket)" }}>{stats.total}</span>
+              </div>
+              <div className="rounded-2xl border border-white/[.06] bg-white/[.02] p-4">
+                <span className="mb-1 block text-[9px] font-black uppercase tracking-widest text-white/40">Abiertos ahora</span>
+                <span className="text-3xl font-black text-green-400" style={{ fontFamily: "var(--font-ticket)" }}>{stats.abiertos}</span>
+              </div>
+              <div className="rounded-2xl border border-white/[.06] bg-white/[.02] p-4">
+                <span className="mb-1 block text-[9px] font-black uppercase tracking-widest text-white/40">Con ofertas</span>
+                <span className="text-3xl font-black text-orange-400" style={{ fontFamily: "var(--font-ticket)" }}>{stats.conOfertas}</span>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-4 text-xs text-white/50">
+              <span>🟢 Abierto</span>
+              <span>🔴 Cerrado</span>
+              <span>🔥 Con ofertas</span>
+              <span>🏪 Sin ofertas</span>
+              {userCoords ? <span className="text-sky-400">● Tu ubicación</span> : <span className="text-white/40">Distancias desde el centro de San Lorenzo</span>}
+            </div>
           </div>
-        </div>
 
-        {/* Leyenda -- solo lo que realmente se dibuja en el mapa */}
-        <div className="mt-3 flex flex-wrap gap-4 text-xs text-white/60">
-          <span>🟢 Abierto</span>
-          <span>🔴 Cerrado</span>
-          <span>🔥 Con ofertas</span>
-          <span>🏪 Sin ofertas</span>
-          {userCoords ? <span className="text-sky-400">● Tu ubicación</span> : <span className="text-white/40">Distancias desde el centro de San Lorenzo</span>}
-        </div>
-
-        {/* Mapa -- mismo doble marco que el resto de la plataforma, no un
-            iframe pegado sin más. */}
-        <div className="relative mt-4 mb-6 rounded-[1.75rem] border border-white/[.08] bg-white/[.03] p-1.5 shadow-2xl shadow-black/30">
-          <div className="relative overflow-hidden rounded-[1.375rem] border border-white/[.06]">
-            <div ref={mapRef} className="relative z-0 h-[420px] md:h-[520px] w-full" />
-            {!mapReady && (
-              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/5">
-                <div className="flex flex-col items-center gap-3">
-                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-500 border-t-transparent" />
-                  <p className="text-sm text-white/50">Cargando el mapa...</p>
-                </div>
-              </div>
-            )}
-            {mapReady && stats.total === 0 && (
-              <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0c0a0b]/90 p-6 text-center backdrop-blur-sm">
-                <div>
-                  <MapPin className="mx-auto h-8 w-8 text-white/30" />
-                  <p className="mt-3 font-bold">Todavía no hay negocios con ubicación cargada</p>
-                  <p className="mt-1 text-sm text-white/50">Los comercios van a aparecer acá a medida que carguen su ubicación exacta.</p>
-                </div>
-              </div>
-            )}
+          {/* DERECHA: panel "cerca de vos" -- mismos negocios del mapa,
+              ordenados por distancia, calco del mockup aprobado. */}
+          <div className="flex flex-col gap-4">
+            <h3 className="text-xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Cerca de vos</h3>
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="¿Qué buscás hoy?"
+                className="w-full rounded-2xl border border-white/10 bg-white/5 py-3 pl-11 pr-4 text-sm outline-none transition focus:border-orange-500/50" />
+            </div>
+            <div className="sld-no-scrollbar flex max-h-[560px] flex-col gap-3 overflow-y-auto pr-1 lg:max-h-[760px]">
+              {cercaDeVos.length === 0 ? (
+                <p className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center text-sm text-white/50">
+                  {q ? "No encontramos negocios con esa búsqueda." : "No hay negocios con ubicación en este radio todavía."}
+                </p>
+              ) : cercaDeVos.map((b: any) => {
+                const tieneOfertas = (b.promotions?.length || 0) > 0;
+                return (
+                  <Link key={b.id} href={`/negocio/${b.slug}`}
+                    className="group rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition hover:-translate-y-0.5 hover:border-orange-400/30">
+                    <div className="flex gap-4 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-white/5">
+                        {b.logo_url ? (
+                          <Image src={b.logo_url} alt={b.name} fill sizes="64px" className="object-cover transition duration-500 group-hover:scale-110" />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-xl font-black text-white/30">{b.name[0]}</div>
+                        )}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <p className="truncate text-[9px] font-bold uppercase tracking-widest text-orange-400">{b.category}</p>
+                            <h4 className="truncate text-sm font-bold leading-tight">{b.name}</h4>
+                          </div>
+                          {tieneOfertas && (
+                            <span className="flex shrink-0 items-center gap-1 rounded-full bg-orange-500/20 px-1.5 py-0.5 text-orange-400">
+                              <Flame className="h-2.5 w-2.5" /><span className="text-[9px] font-black">HOT</span>
+                            </span>
+                          )}
+                        </div>
+                        <div className="mt-2 flex items-center gap-3 text-[11px] font-medium text-white/50">
+                          <span className="flex items-center gap-1"><MapPin className="h-3 w-3 text-sky-400" /> {fmtDistance(b._km)}</span>
+                          {Number(b.reviews) > 0 && <span className="flex items-center gap-1"><Star className="h-3 w-3 text-yellow-500" /> {Number(b.rating).toFixed(1)}</span>}
+                          <span className={b.open ? "text-green-400" : "text-red-400"}>{b.open ? "● Abierto" : "● Cerrado"}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
