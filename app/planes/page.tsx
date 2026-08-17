@@ -93,7 +93,7 @@ export default function PlanesPage() {
       <div className="mx-auto max-w-5xl px-4 py-12">
         <div className="text-center">
           <Badge variant="warning" size="sm">Planes para comercios</Badge>
-          <h1 className="mt-3 text-4xl font-black md:text-5xl">
+          <h1 className="mt-3 text-4xl font-black md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>
             Empezá gratis. Crecé con tu negocio en{" "}
             <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">San Lorenzo</span>
           </h1>

@@ -131,7 +131,7 @@ export default function Editar() {
   if (denied) return (
     <main className="mx-auto max-w-xl px-4 py-20 text-center">
       <p className="text-3xl">🔒</p>
-      <h1 className="mt-4 text-xl font-bold">Este negocio no te pertenece.</h1>
+      <h1 className="mt-4 text-xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Este negocio no te pertenece.</h1>
       <p className="mt-2 text-sm text-white/60">Solo el dueño puede editarlo.</p>
     </main>
   );

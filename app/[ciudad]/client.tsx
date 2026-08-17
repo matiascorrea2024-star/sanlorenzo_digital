@@ -66,7 +66,7 @@ export default function CiudadView() {
       <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-white">
         <div className="text-center">
           <Search className="mx-auto mb-4 h-10 w-10 text-white/30" />
-          <h1 className="text-2xl font-black">Ciudad no encontrada</h1>
+          <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Ciudad no encontrada</h1>
           <Link href="/" className="mt-4 inline-block text-orange-400">← Volver al inicio</Link>
         </div>
       </main>

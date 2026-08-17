@@ -170,7 +170,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
       <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center text-white">
         <div className="text-center">
           <p className="mb-4 text-5xl">🔍</p>
-          <h1 className="text-2xl font-black">Negocio no encontrado</h1>
+          <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Negocio no encontrado</h1>
           <Link href="/" className="mt-4 inline-block text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
         </div>
       </main>

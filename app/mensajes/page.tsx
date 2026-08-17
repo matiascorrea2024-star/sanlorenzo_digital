@@ -58,7 +58,7 @@ export default function MensajesClientePage() {
       <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] px-4 text-center text-white/60">
         <div>
           <p className="text-3xl">💬</p>
-          <h1 className="mt-3 text-xl font-bold text-white">Mis mensajes</h1>
+          <h1 className="mt-3 text-xl font-bold text-white" style={{ fontFamily: "var(--font-space)" }}>Mis mensajes</h1>
           <p className="mt-1 text-sm">Iniciá sesión para ver tus conversaciones.</p>
         </div>
       </main>

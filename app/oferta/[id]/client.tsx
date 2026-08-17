@@ -106,7 +106,7 @@ export default function OfertaPage() {
       <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center text-white">
         <div className="text-center">
           <p className="text-5xl mb-4">🔍</p>
-          <h1 className="text-2xl font-black">Oferta no encontrada</h1>
+          <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Oferta no encontrada</h1>
           <Link href="/" className="mt-4 inline-block text-orange-400">← Volver al inicio</Link>
         </div>
       </main>

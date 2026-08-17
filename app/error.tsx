@@ -8,7 +8,7 @@ export default function Error({ error, reset }: {
     <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] p-6 text-white">
       <div className="max-w-md text-center">
         <p className="mb-4 text-5xl">😵</p>
-        <h1 className="text-2xl font-black">Algo salió mal</h1>
+        <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Algo salió mal</h1>
         <p className="mt-2 text-sm text-white/60">
           Ocurrió un error inesperado en esta página. Probá reintentar o volver al inicio.
         </p>

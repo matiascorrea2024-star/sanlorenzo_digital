@@ -47,7 +47,7 @@ export default function DashboardPage() {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-[#0c0a0b] px-4 text-center text-white">
         <p className="text-5xl">🔐</p>
-        <h1 className="mt-4 text-2xl font-black">Iniciá sesión para gestionar tus negocios</h1>
+        <h1 className="mt-4 text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Iniciá sesión para gestionar tus negocios</h1>
         <Link href="/login" className="mt-6 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">Ingresar →</Link>
       </main>
     );

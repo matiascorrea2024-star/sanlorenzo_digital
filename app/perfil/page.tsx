@@ -163,7 +163,7 @@ export default function PerfilPage() {
       <main className="min-h-screen bg-[#0c0a0b] text-white flex items-center justify-center px-4 text-center">
         <div>
           <p className="text-5xl mb-4">🎖</p>
-          <h1 className="text-2xl font-black">Tu perfil de vecino</h1>
+          <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Tu perfil de vecino</h1>
           <p className="mt-2 text-sm text-white/60">Iniciá sesión para ver tus medallas y niveles.</p>
           <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">Ingresar →</Link>
         </div>
