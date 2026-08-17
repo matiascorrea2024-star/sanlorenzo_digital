@@ -22,6 +22,7 @@ const SECCIONES = [
       { href: "/ranking", l: "Ranking" },
       { href: "/mapa", l: "Mapa" },
       { href: "/comunidad", l: "Chat de la ciudad" },
+      { href: "/pedidos", l: "¿Quién tiene esto?" },
       { href: "/particulares", l: "Venta entre vecinos" },
     ],
   },

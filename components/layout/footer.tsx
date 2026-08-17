@@ -21,6 +21,7 @@ const COLS = [
     t: "👥 Comunidad",
     links: [
       { href: "/comunidad", l: "Chat de la ciudad" },
+      { href: "/pedidos", l: "¿Quién tiene esto?" },
       { href: "/reels", l: "Reels" },
       { href: "/feed", l: "Muro en vivo" },
       { href: "/ranking", l: "Ranking de negocios" },
