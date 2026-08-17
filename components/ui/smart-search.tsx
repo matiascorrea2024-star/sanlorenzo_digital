@@ -5,25 +5,22 @@ import { Search, X, Store, Tag, Grid3x3, MapPin, Flame, Package } from "lucide-r
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { CATEGORIES } from "@/lib/data";
-import { useAllBusinesses, type FullBusiness } from "@/lib/use-businesses";
 import { supabase } from "@/lib/supabase";
 
-export default function SmartSearch({ className = "", placeholder = "Buscá cualquier cosa en San Lorenzo...", onPlainSearch, shortcutSlash = false, seedNegocios }: {
+export default function SmartSearch({ className = "", placeholder = "Buscá cualquier cosa en San Lorenzo...", onPlainSearch, shortcutSlash = false }: {
   className?: string; placeholder?: string;
   /** Si se pasa, un submit de texto libre (sin ir a un ítem puntual) llama a esto en vez de navegar a /negocios. */
   onPlainSearch?: (q: string) => void;
   /** Foco con la tecla "/" cuando no hay otro input activo (para usar en la hero). */
   shortcutSlash?: boolean;
-  /** Negocios ya traídos por el caller (ej. la home los recibe del servidor) -- evita un fetch cliente redundante. */
-  seedNegocios?: FullBusiness[];
 }) {
   const router = useRouter();
-  const negocios = useAllBusinesses(seedNegocios);
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [recent, setRecent] = useState<string[]>([]);
   const [productos, setProductos] = useState<any[]>([]);
   const [ofertas, setOfertas] = useState<any[]>([]);
+  const [negocios, setNegocios] = useState<any[]>([]);
   const [ciudades, setCiudades] = useState<any[]>([]);
   const [buscando, setBuscando] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -54,12 +51,17 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
     });
   }, []);
 
-  // Buscar productos y ofertas cuando el query cambia
+  // Buscar productos, ofertas y negocios cuando el query cambia -- todo
+  // server-side. Antes los negocios se matcheaban filtrando en el
+  // celular un array con TODOS los negocios activos bajados de una,
+  // en cada tecleo, en cada página del sitio (este buscador está en
+  // el header, se monta en todos lados).
   useEffect(() => {
     const lower = q.toLowerCase().trim();
     if (lower.length < 2) {
       setProductos([]);
       setOfertas([]);
+      setNegocios([]);
       setBuscando(false);
       return;
     }
@@ -69,6 +71,10 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
       setProductos(prods || []);
       const { data: offs } = await supabase().from("offers_with_business").select("*").ilike("title", `%${lower}%`).eq("active", true).limit(3);
       setOfertas(offs || []);
+      const { data: biz } = await supabase().from("businesses").select("id, name, slug, category")
+        .in("status", ["verificado", "reclamado"]).eq("activo", true)
+        .or(`name.ilike.%${lower}%,category.ilike.%${lower}%`).limit(4);
+      setNegocios(biz || []);
       setBuscando(false);
     }, 300);
     return () => clearTimeout(timer);
@@ -105,9 +111,9 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
     return { query, location, city: cityMatch };
   })();
 
-  const matchedBiz = lower ? negocios
-    .filter(b => b.name.toLowerCase().includes(lower) || b.category.includes(lower) || (b.tags || []).some((t: string) => t.toLowerCase().includes(lower)))
-    .slice(0, 4) : [];
+  // negocios ya viene filtrado y limitado desde el servidor (ver el
+  // useEffect de arriba) -- acá solo queda decidir si mostrarlo.
+  const matchedBiz = lower ? negocios : [];
   const matchedCats = lower ? CATEGORIES.filter(c => c.name.toLowerCase().includes(lower)).slice(0, 3) : [];
 
   const go = (url: string, term?: string) => {

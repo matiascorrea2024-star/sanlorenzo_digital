@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Heart, Flame, Sparkles, PartyPopper, Store, Package, Megaphone, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { useAllBusinesses } from "@/lib/use-businesses";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 
 const TIPOS: Record<string, { icon: any; label: string; color: string }> = {
@@ -26,8 +25,11 @@ function timeAgo(d: string) {
 
 export default function MuroPage() {
   const router = useRouter();
-  const negocios = useAllBusinesses();
   const [posts, setPosts] = useState<any[]>([]);
+  // Solo los negocios de los posts ya cargados, no la tabla entera --
+  // antes esta página bajaba TODOS los negocios activos únicamente
+  // para resolver nombre/slug de un puñado de posts.
+  const [negociosMap, setNegociosMap] = useState<Record<string, { name: string; slug: string }>>({});
   const [filtro, setFiltro] = useState<string>("todos");
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [user, setUser] = useState<any>(null);
@@ -40,6 +42,16 @@ export default function MuroPage() {
       const { data } = await supabase().from("muro_posts")
         .select("*").order("created_at", { ascending: false }).limit(50);
       setPosts(data || []);
+
+      if (data && data.length) {
+        const ids = [...new Set(data.map((p: any) => p.business_id).filter(Boolean))];
+        if (ids.length) {
+          const { data: biz } = await supabase().from("businesses").select("id, name, slug").in("id", ids);
+          const m: Record<string, { name: string; slug: string }> = {};
+          (biz || []).forEach((b: any) => { m[b.id] = { name: b.name, slug: b.slug }; });
+          setNegociosMap(m);
+        }
+      }
 
       if (user && data && data.length) {
         const { data: misLikes } = await supabase().from("muro_post_likes")
@@ -54,8 +66,8 @@ export default function MuroPage() {
   // Posts reales, con nombre del negocio
   const todos = posts.map(p => ({
     ...p,
-    business_name: (negocios.find((b: any) => b.id === p.business_id) as any)?.name || "Negocio",
-    business_slug: (negocios.find((b: any) => b.id === p.business_id) as any)?.slug || "",
+    business_name: negociosMap[p.business_id]?.name || "Negocio",
+    business_slug: negociosMap[p.business_id]?.slug || "",
   }))
     .filter(p => filtro === "todos" || p.type === filtro)
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())

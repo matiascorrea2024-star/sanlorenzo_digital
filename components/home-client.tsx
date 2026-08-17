@@ -120,7 +120,6 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
       <Hero
         onSearch={irABuscar}
         stats={{ promos: ofertas.length, negocios: initial.length, pronto: porVencer }}
-        seedNegocios={initial}
       />
       <OffersTicker />
       <Stories />

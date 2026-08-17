@@ -3,8 +3,11 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PageHero from "@/components/ui/page-hero";
 import BusinessCard from "@/components/business/card";
-import { useAllBusinesses } from "@/lib/use-businesses";
+import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
+
+const COLUMNS = "id, name, slug, category, description, address, latitude, longitude, open, hace_envios, portada_url, logo_url, rating, reviews, status, type, promotions";
+const RESULT_LIMIT = 60;
 
 function dist(aLat: number, aLng: number, bLat: number, bLng: number) {
   const R = 6371000;
@@ -23,7 +26,6 @@ export default function BuscarPage() {
 }
 
 function BuscarContent() {
-  const todos = useAllBusinesses();
   const searchParams = useSearchParams();
   // El buscador del hero navega acá con "?q=..." -- lo tomamos como
   // valor inicial una sola vez (lazy initializer), no se vuelve a leer
@@ -34,7 +36,31 @@ function BuscarContent() {
   const [conEnvios, setConEnvios] = useState(false);
   const [cerca, setCerca] = useState<{ lat: number; lng: number } | null>(null);
   const [distancias, setDistancias] = useState<Record<string, number>>({});
+  const [todos, setTodos] = useState<any[]>([]);
+  const [buscando, setBuscando] = useState(true);
   const { trackSearch } = useAnalytics();
+
+  // Antes: bajaba TODOS los negocios activos al navegador y filtraba en
+  // el celular del usuario -- con muchos negocios eso tarda y consume
+  // datos en cada búsqueda. Ahora consulta la base directamente (con o
+  // sin término -- sin término trae los destacados/mejor rankeados como
+  // punto de partida, no la tabla entera).
+  useEffect(() => {
+    setBuscando(true);
+    const t = setTimeout(async () => {
+      let query = supabase().from("businesses").select(COLUMNS)
+        .in("status", ["verificado", "reclamado"]).eq("activo", true);
+      const term = q.trim();
+      if (term) query = query.or(`name.ilike.%${term}%,description.ilike.%${term}%,category.ilike.%${term}%`);
+      if (abiertos) query = query.eq("open", true);
+      if (conEnvios) query = query.eq("hace_envios", true);
+      const { data } = await query.order("destacado", { ascending: false }).order("rating", { ascending: false }).limit(RESULT_LIMIT);
+      setTodos(data || []);
+      setBuscando(false);
+    }, 300);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q, abiertos, conEnvios]);
 
   // Búsquedas reales, con debounce -- alimenta "oportunidades de hoy" y el
   // futuro "pulso comercial" (categoría más buscada). Antes de esto no se
@@ -75,23 +101,13 @@ function BuscarContent() {
     );
   };
 
+  // q/abiertos/conEnvios ya se aplicaron en la consulta a Supabase --
+  // acá solo quedan los filtros que necesitan datos calculados en el
+  // cliente (distancia real al usuario) o que no viven en una columna
+  // simple (ofertas activas, adentro de promotions).
   const resultados = todos
     .filter((b: any) => {
-      if (q) {
-        const t = q.toLowerCase();
-        const enItems = (b.items || []).some((i: any) => (i.name || "").toLowerCase().includes(t));
-        const enTags = (b.tags || []).some((x: string) => x.toLowerCase().includes(t));
-        if (
-          !b.name.toLowerCase().includes(t) &&
-          !enItems &&
-          !enTags &&
-          !(b.description || "").toLowerCase().includes(t)
-        )
-          return false;
-      }
       if (conOfertas && !tieneOfertas(b)) return false;
-      if (abiertos && !b.open) return false;
-      if (conEnvios && !b.hace_envios) return false;
       if (cerca && distancias[b.id] == null) return false;
       return true;
     })
@@ -124,7 +140,9 @@ function BuscarContent() {
           </button>
         </div>
 
-        <p className="mt-6 text-sm text-white/50">{resultados.length} resultados</p>
+        <p className="mt-6 text-sm text-white/50">
+          {resultados.length} resultados{buscando && <span className="ml-2 text-white/30">buscando...</span>}
+        </p>
 
         {/* Misma card que Home/Negocios (marco de rango, badges, hover) --
             antes el buscador tenía su propia versión más pobre, sin logo
@@ -133,7 +151,7 @@ function BuscarContent() {
           {resultados.map((b: any) => (
             <BusinessCard key={b.id} b={b} userCoords={cerca ? { lat: cerca.lat, lon: cerca.lng } : null} />
           ))}
-          {resultados.length === 0 && (
+          {!buscando && resultados.length === 0 && (
             <p className="col-span-full text-center text-white/50 py-16">No encontramos nada con esos filtros. Probá con menos filtros o otra palabra.</p>
           )}
         </div>

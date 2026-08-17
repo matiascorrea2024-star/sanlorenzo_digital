@@ -27,9 +27,18 @@ export function useAllBusinesses(seed?: FullBusiness[]): FullBusiness[] {
         // (activo=true + status verificado/reclamado) -- aplicado en la
         // query, no después: antes esto bajaba TODOS los negocios
         // (incluidos ocultos/rechazados por un admin) al navegador y
-        // recién los filtraba en JS.
-        const { data } = await supabase().from("businesses").select("*")
-          .eq("activo", true).in("status", ["verificado", "reclamado"]);
+        // recién los filtraba en JS. Con muchos negocios, "select *"
+        // sin límite baja también columnas pesadas (items, promotions
+        // completos) que no todos los consumidores de este hook usan.
+        // Los consumidores que necesitan búsqueda/listado grande real
+        // (/negocios, /buscar, buscador global) ya no pasan por acá --
+        // este hook queda para pantallas que sí necesitan "todos los
+        // negocios con coordenadas" (mapa, asistente), con un tope
+        // razonable como red de seguridad.
+        const { data } = await supabase().from("businesses")
+          .select("id, slug, name, category, type, description, tags, latitude, longitude, location_source, location_verified, portada_url, logo_url, rating, reviews, status, open, whatsapp, instagram, accent, schedule, updated_at, promotions, destacado, plan, hace_envios, retiro_en_local, envio_gratis, costo_envio, zona_cobertura, views, favorites_count, phone, email, website, cover_url")
+          .eq("activo", true).in("status", ["verificado", "reclamado"])
+          .limit(2000);
         if (!data) return;
         const reales: FullBusiness[] = (data as Array<Record<string, unknown>>).map((b) => ({
           id: String(b.id),

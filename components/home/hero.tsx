@@ -5,12 +5,10 @@ import type { LucideIcon } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import SmartSearch from "@/components/ui/smart-search";
-import type { FullBusiness } from "@/lib/use-businesses";
 
 interface HeroProps {
   onSearch?: (query: string) => void;
   stats?: { promos: number; negocios: number; pronto: number };
-  seedNegocios?: FullBusiness[];
 }
 
 const plural = (n: number, sing: string, plur: string) => (n === 1 ? sing : plur);
@@ -29,7 +27,7 @@ const TRUST_STYLE: Record<string, { icon: string; ring: string; glow: string }> 
   pink: { icon: "text-pink-300", ring: "border-pink-400/30 bg-pink-500/10", glow: "shadow-pink-500/20" },
 };
 
-export default function Hero({ onSearch, stats, seedNegocios }: HeroProps) {
+export default function Hero({ onSearch, stats }: HeroProps) {
   const [display, setDisplay] = useState({ promos: 0, negocios: 0, pronto: 0 });
   const trustRef = useRef<HTMLDivElement>(null);
 
@@ -105,7 +103,6 @@ export default function Hero({ onSearch, stats, seedNegocios }: HeroProps) {
                   placeholder="Buscar ofertas, negocios, productos..."
                   onPlainSearch={(term) => onSearch && onSearch(term)}
                   shortcutSlash
-                  seedNegocios={seedNegocios}
                 />
               </div>
             </div>
