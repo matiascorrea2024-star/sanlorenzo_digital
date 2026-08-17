@@ -43,6 +43,7 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
 }) {
   const [user, setUser] = useState<any>(null);
   const [, forceUpdate] = useState(0);
+  const [busy, setBusy] = useState(false);
   const { trackFavorite } = useAnalytics();
 
   useEffect(() => {
@@ -65,36 +66,41 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
   const toggle = useCallback(async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) {
-      window.location.href = "/login";
+    if (!user || busy) {
+      if (!user) window.location.href = "/login";
       return;
     }
+    setBusy(true);
     // Optimistic update
-    if (isFav) favCache.data.delete(key);
+    const eraFav = isFav;
+    if (eraFav) favCache.data.delete(key);
     else favCache.data.add(key);
     favCache.listeners.forEach(fn => fn());
 
     try {
-      if (isFav) {
-        await supabase().from("favorites").delete().eq("user_id", user.id).eq("item_id", itemId).eq("item_type", itemType);
-      } else {
-        await supabase().from("favorites").insert({ user_id: user.id, item_id: itemId, item_type: itemType });
-        if (itemType === "business") trackFavorite(itemId);
-      }
+      const { error } = eraFav
+        ? await supabase().from("favorites").delete().eq("user_id", user.id).eq("item_id", itemId).eq("item_type", itemType)
+        : await supabase().from("favorites").insert({ user_id: user.id, item_id: itemId, item_type: itemType });
+      if (error) throw error;
+      if (!eraFav && itemType === "business") trackFavorite(itemId);
     } catch {
-      // Revertir si falla (sin loguear para no spamear consola)
-      if (isFav) favCache.data.add(key);
+      // Revertir si falla -- antes esto solo pasaba con una excepción de
+      // red (throw), pero Supabase devuelve {error} sin lanzar excepción,
+      // así que un error real de la base nunca revertía el optimistic UI.
+      if (eraFav) favCache.data.add(key);
       else favCache.data.delete(key);
       favCache.listeners.forEach(fn => fn());
     }
-  }, [user, isFav, itemId, itemType, key]);
+    setBusy(false);
+  }, [user, isFav, itemId, itemType, key, busy, trackFavorite]);
 
   if (variant === "card") {
     return (
       <button
         onClick={toggle}
+        disabled={busy}
         aria-label={isFav ? "Quitar de favoritos" : "Guardar en favoritos"}
-        className={`flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 ${className}`}
+        className={`flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 disabled:opacity-60 ${className}`}
       >
         <Heart className={isFav ? "fill-red-500 text-red-500" : "text-red-400"} style={{ width: size, height: size }} />
         <span className="text-sm font-bold">{isFav ? "Guardado" : "Favorito"}</span>
@@ -105,8 +111,9 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
   return (
     <button
       onClick={toggle}
+      disabled={busy}
       aria-label={isFav ? "Quitar de favoritos" : "Guardar en favoritos"}
-      className={`rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 ${className}`}
+      className={`rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 disabled:opacity-60 ${className}`}
     >
       <Heart className={`${isFav ? "fill-red-500 text-red-500" : "text-white"}`} style={{ width: size, height: size }} />
     </button>

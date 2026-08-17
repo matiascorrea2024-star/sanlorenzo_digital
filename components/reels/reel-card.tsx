@@ -22,6 +22,7 @@ export default function ReelCard({ reel, active }: { reel: Reel; active: boolean
   const [likes, setLikes] = useState(reel.likes_count);
   const [comments, setComments] = useState(reel.comments_count);
   const [showComments, setShowComments] = useState(false);
+  const [liking, setLiking] = useState(false);
   const countedView = useRef(false);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -53,20 +54,22 @@ export default function ReelCard({ reel, active }: { reel: Reel; active: boolean
   }, [active, reel.id]);
 
   const toggleLike = async () => {
-    if (!userId) { window.location.href = "/login"; return; }
+    if (!userId || liking) { if (!userId) window.location.href = "/login"; return; }
+    setLiking(true);
     const nextLiked = !liked;
     setLiked(nextLiked);
     setLikes((n) => n + (nextLiked ? 1 : -1));
-    try {
-      if (nextLiked) {
-        await supabase().from("reel_likes").insert({ reel_id: reel.id, user_id: userId });
-      } else {
-        await supabase().from("reel_likes").delete().eq("reel_id", reel.id).eq("user_id", userId);
-      }
-    } catch {
+    // Antes esto solo revertía con una excepción de red (throw) -- un
+    // error real de Supabase (RLS, etc.) viene en {error}, no lanza, y
+    // el optimistic UI se quedaba mal para siempre.
+    const { error } = nextLiked
+      ? await supabase().from("reel_likes").insert({ reel_id: reel.id, user_id: userId })
+      : await supabase().from("reel_likes").delete().eq("reel_id", reel.id).eq("user_id", userId);
+    if (error) {
       setLiked(!nextLiked);
       setLikes((n) => n - (nextLiked ? 1 : -1));
     }
+    setLiking(false);
   };
 
   const share = async () => {
@@ -112,7 +115,7 @@ export default function ReelCard({ reel, active }: { reel: Reel; active: boolean
       </div>
 
       <div className="absolute bottom-5 right-3 flex flex-col items-center gap-4">
-        <button onClick={toggleLike} aria-label={liked ? "Quitar me gusta" : "Me gusta"} className="flex flex-col items-center gap-1">
+        <button onClick={toggleLike} disabled={liking} aria-label={liked ? "Quitar me gusta" : "Me gusta"} className="flex flex-col items-center gap-1 disabled:opacity-60">
           <span className="flex h-11 w-11 items-center justify-center rounded-full bg-black/40 backdrop-blur transition active:scale-90">
             <Heart className={`h-5 w-5 ${liked ? "fill-red-500 text-red-500" : "text-white"}`} />
           </span>

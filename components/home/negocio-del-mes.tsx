@@ -22,6 +22,7 @@ export default function NegocioDelMes() {
   const [userId, setUserId] = useState<string | null>(null);
   const [miVoto, setMiVoto] = useState<string | null>(null);
   const [q, setQ] = useState("");
+  const [votando, setVotando] = useState(false);
   const [sugerencias, setSugerencias] = useState<{ id: string; name: string; slug: string }[]>([]);
   const mes = useMemo(() => mesActual(), []);
 
@@ -69,7 +70,10 @@ export default function NegocioDelMes() {
 
   const votar = async (businessId: string) => {
     if (!userId) { router.push("/login"); return; }
+    if (votando) return;
+    setVotando(true);
     const { error } = await supabase().from("business_month_votes").upsert({ user_id: userId, business_id: businessId, month: mes }, { onConflict: "user_id,month" });
+    setVotando(false);
     if (error) { show(`❌ ${friendlyError(error, "No se pudo registrar tu voto.")}`, "error"); return; }
     setMiVoto(businessId);
     setQ("");
@@ -112,8 +116,8 @@ export default function NegocioDelMes() {
             {sugerencias.length > 0 && (
               <div className="absolute left-0 right-0 top-full z-10 mt-1 rounded-xl border border-white/10 bg-[#1c1819] p-1.5 shadow-2xl">
                 {sugerencias.map((n) => (
-                  <button key={n.id} onClick={() => votar(n.id)}
-                    className="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-sm font-bold hover:bg-white/10">
+                  <button key={n.id} onClick={() => votar(n.id)} disabled={votando}
+                    className="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-sm font-bold hover:bg-white/10 disabled:opacity-60">
                     {n.name}
                     {miVoto === n.id && <span className="text-xs text-yellow-300">Tu voto ✅</span>}
                   </button>

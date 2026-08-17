@@ -32,6 +32,7 @@ export default function MuroPage() {
   const [negociosMap, setNegociosMap] = useState<Record<string, { name: string; slug: string }>>({});
   const [filtro, setFiltro] = useState<string>("todos");
   const [liked, setLiked] = useState<Record<string, boolean>>({});
+  const [likingIds, setLikingIds] = useState<Set<string>>(new Set());
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
@@ -75,6 +76,8 @@ export default function MuroPage() {
 
   const like = async (id: string) => {
     if (!user) { router.push("/login"); return; }
+    if (likingIds.has(id)) return;
+    setLikingIds((prev) => new Set(prev).add(id));
     const isLiked = !!liked[id];
     // Update optimista
     setLiked((prev) => ({ ...prev, [id]: !isLiked }));
@@ -90,6 +93,7 @@ export default function MuroPage() {
       setLiked((prev) => ({ ...prev, [id]: isLiked }));
       setPosts(prev => prev.map(p => p.id === id ? { ...p, likes: Math.max(0, (p.likes || 0) + (isLiked ? 1 : -1)) } : p));
     }
+    setLikingIds((prev) => { const n = new Set(prev); n.delete(id); return n; });
   };
 
   return (
@@ -162,8 +166,8 @@ export default function MuroPage() {
 
                 {/* Acciones */}
                 <div className="mt-4 flex items-center gap-4 border-t border-white/10 pt-3">
-                  <button onClick={() => like(p.id)}
-                    className={`flex items-center gap-1.5 text-sm font-bold transition ${isLiked ? "text-red-400" : "text-white/60 hover:text-red-400"}`}>
+                  <button onClick={() => like(p.id)} disabled={likingIds.has(p.id)}
+                    className={`flex items-center gap-1.5 text-sm font-bold transition disabled:opacity-60 ${isLiked ? "text-red-400" : "text-white/60 hover:text-red-400"}`}>
                     <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
                     {p.likes || 0}
                   </button>
