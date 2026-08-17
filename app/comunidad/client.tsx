@@ -29,30 +29,37 @@ export default function ComunidadPage() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
-      <section className="relative overflow-hidden border-b border-white/5">
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.16), transparent 55%), radial-gradient(circle at 90% 30%, rgba(34,211,238,.12), transparent 55%)" }} />
-        <div className="relative mx-auto max-w-3xl px-4 py-14 text-center md:py-16">
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[.2em] text-orange-300">
-            <MessageCircle className="h-3 w-3" /> Comunidad
-          </p>
-          <h1 className="text-4xl font-black tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Chat de tu ciudad</h1>
-          <p className="mx-auto mt-2 max-w-lg text-white/60">
-            Preguntas, avisos, un perro perdido, lo que necesites -- con buena onda. Los negocios de la zona
-            quedan destacados cuando participan.
-          </p>
-        </div>
-      </section>
-
-      <div className="mx-auto max-w-3xl px-4 py-6">
-        {!loading && ciudades.length > 1 && (
-          <div className="mb-4 flex items-center gap-2">
-            <MapPin className="h-4 w-4 shrink-0 text-orange-400" />
-            <select value={locationId} onChange={(e) => setLocationId(e.target.value)}
-              className="w-full rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-bold outline-none focus:border-orange-400 sm:w-auto">
-              {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[#1c1819]">{c.name}</option>)}
-            </select>
+      {/* Hero editorial, calco del mockup aprobado: headline gigante +
+          selector de ciudad como panel de vidrio propio al costado. */}
+      <div className="mx-auto max-w-4xl px-4 pb-10 pt-14 sm:px-6 md:pt-20">
+        <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+          <div className="max-w-xl">
+            <p className="mb-4 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.4em] text-orange-500">
+              <MessageCircle className="h-3.5 w-3.5" /> Espacio de vecinos
+            </p>
+            <h1 className="text-5xl font-bold leading-[0.9] tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
+              Pulso de la <span className="text-orange-500">Ciudad.</span>
+            </h1>
+            <p className="mt-5 text-lg text-white/50">
+              Preguntas, avisos, un perro perdido o simplemente buena onda. Los negocios verificados participan con un sello distintivo.
+            </p>
           </div>
-        )}
+
+          {!loading && ciudades.length > 1 && (
+            <div className="flex min-w-[260px] flex-col gap-2">
+              <span className="ml-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-white/40"><MapPin className="h-3 w-3" /> Seleccionar localidad</span>
+              <div className="rounded-2xl border border-white/[.1] bg-white/[.02]">
+                <select value={locationId} onChange={(e) => setLocationId(e.target.value)}
+                  className="w-full cursor-pointer appearance-none bg-transparent px-5 py-4 text-sm font-bold outline-none">
+                  {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[#1c1819]">{c.name}</option>)}
+                </select>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-4xl px-4 pb-6 sm:px-6">
         {locationId && <CityChat locationId={locationId} />}
       </div>
     </main>

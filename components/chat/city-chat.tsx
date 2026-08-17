@@ -116,13 +116,13 @@ export default function CityChat({ locationId }: { locationId: string }) {
   };
 
   return (
-    <div className="flex h-[70vh] flex-col rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
-      <div className="flex h-full flex-col rounded-[1.375rem] border border-white/[.05] bg-black/20 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-        <div className="border-b border-white/10 p-3">
-          <p className="text-sm font-black">💬 Chat de la ciudad</p>
-          <p className="text-[11px] text-white/40">Preguntas, avisos, lo que sea -- con buena onda. Podés etiquetar un negocio con @nombre.</p>
+    <div className="flex h-[75vh] flex-col rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-1.5 shadow-2xl shadow-black/50">
+      <div className="flex h-full flex-col rounded-[calc(2.5rem-0.375rem)] border border-white/[.05] bg-black/20 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="flex items-center gap-3 border-b border-white/5 px-6 py-5 sm:px-8">
+          <span className="h-2.5 w-2.5 shrink-0 animate-pulse rounded-full bg-emerald-500" />
+          <p className="text-xs font-bold text-white/40">Chat en vivo de la ciudad -- podés etiquetar un negocio con @nombre</p>
         </div>
-        <div className="flex-1 space-y-3 overflow-y-auto p-3">
+        <div className="flex-1 space-y-5 overflow-y-auto p-6 sm:p-8">
           {mensajes.length === 0 && <p className="text-center text-xs text-white/30">Todavía no hay mensajes. ¡Escribí el primero!</p>}
           {mensajes.map((m) => (
             <div key={m.id} className="group flex items-start justify-between gap-2 text-sm">
@@ -147,7 +147,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
           <div ref={bottomRef} />
         </div>
         {user ? (
-          <div className="relative border-t border-white/10 p-3">
+          <div className="relative border-t border-white/5 bg-white/[.01] p-5 sm:p-6">
             {sugerencias.length > 0 && (
               <div className="absolute bottom-full left-3 right-3 mb-1 rounded-xl border border-white/10 bg-[#1c1819] p-1.5 shadow-2xl">
                 {sugerencias.map((n) => (
@@ -169,7 +169,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
             </div>
           </div>
         ) : (
-          <p className="border-t border-white/10 p-3 text-center text-xs text-white/40">
+          <p className="border-t border-white/5 p-5 text-center text-xs text-white/40 sm:p-6">
             <Link href="/login" className="font-bold text-orange-400 hover:text-orange-300">Iniciá sesión</Link> para participar del chat.
           </p>
         )}
