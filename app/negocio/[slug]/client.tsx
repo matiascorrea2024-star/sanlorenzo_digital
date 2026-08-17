@@ -204,83 +204,80 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
     <main className="bg-[#0c0a0b] min-h-screen pb-24 text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
 
-      {/* HERO: la foto es la protagonista (mucho más alta que antes -- esto
-          es la "miniweb" del negocio, no una ficha de directorio), el
-          logo/nombre/badges van debajo -- mismo patrón que ya usa
-          BusinessCard (portada + logo montado + info en flujo normal). */}
-      <section className="relative h-64 md:h-[26rem]">
-        {negocio.portada_url ? (
-          <Image src={negocio.portada_url} alt={negocio.name} fill priority quality={92}
-            sizes="100vw" className="object-cover" />
-        ) : (
-          <CategoryCover category={negocio.category} seed={negocio.id || negocio.slug} className="absolute inset-0 h-full w-full" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a0b] via-[#0c0a0b]/10 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
-        <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 hover:bg-black/70">
-          <ArrowLeft className="h-5 w-5" />
-        </button>
-      </section>
+      {/* HERO editorial: foto grande con esquinas muy redondeadas y las
+          badges reales flotando sobre ella (tal cual el mockup aprobado),
+          la ficha de perfil (logo/nombre/acciones) se monta encima con
+          margen negativo, no debajo en flujo normal. */}
+      <div className="mx-auto max-w-5xl px-4 pt-6 sm:px-6">
+        <section className="relative aspect-[21/9] min-h-[220px] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-2xl shadow-black/50 sm:min-h-[280px] md:aspect-[21/8]">
+          {negocio.portada_url ? (
+            <Image src={negocio.portada_url} alt={negocio.name} fill priority quality={92}
+              sizes="100vw" className="object-cover" />
+          ) : (
+            <CategoryCover category={negocio.category} seed={negocio.id || negocio.slug} className="absolute inset-0 h-full w-full" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a0b] via-[#0c0a0b]/10 to-transparent" />
+          <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 hover:bg-black/70">
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <div className="absolute left-4 top-4 ml-14 flex flex-wrap gap-2 sm:left-6 sm:ml-16">
+            <BusinessLiveBadge businessId={negocio.id} />
+            {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
+            {negocio.open !== undefined && (
+              <Badge variant={negocio.open ? "success" : "danger"} size="sm">
+                {negocio.open ? "● Abierto ahora" : "● Cerrado"}
+              </Badge>
+            )}
+            {negocio.type && negocio.type !== "comercio" && (
+              <Badge variant="info" size="sm">
+                {negocio.type === "particular" ? "🙋 Vendedor particular" : negocio.type === "servicio" ? "🔧 Servicio" : "💼 Profesional"}
+              </Badge>
+            )}
+            {negocio.hace_envios && <Badge variant="info" size="sm">🚚 Hace envíos</Badge>}
+            <ResponseBadge businessId={negocio.id} />
+          </div>
+        </section>
 
-      <div className="mx-auto max-w-4xl px-4">
-        {/* Logo montado sobre el borde de la foto -- solo el logo, no toda
-            la info al lado (el marco de rango tiene alto variable y
-            colisionaba con el nombre cuando iban lado a lado). */}
-        <div className="-mt-10 w-fit md:-mt-12">
+        <div className="relative z-10 -mt-10 flex flex-col items-start gap-4 px-2 sm:-mt-14 sm:flex-row sm:items-end sm:px-4">
           {negocio.logo_url ? (
-            <DivisionFrame puntos={negocio.puntos || 0} size={72} categoria={negocio.category}>
-              <Image src={negocio.logo_url} alt={negocio.name} width={80} height={80} quality={92} className="h-20 w-20 rounded-2xl border-4 border-[#0c0a0b] object-cover shadow-2xl" />
+            <DivisionFrame puntos={negocio.puntos || 0} size={104} categoria={negocio.category}>
+              <Image src={negocio.logo_url} alt={negocio.name} width={112} height={112} quality={92} className="h-28 w-28 rounded-3xl border-[6px] border-[#0c0a0b] object-cover shadow-2xl" />
             </DivisionFrame>
           ) : (
-            <DivisionFrame puntos={negocio.puntos || 0} size={80} categoria={negocio.category} showLabel>
-              <div className="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-[#0c0a0b] bg-gradient-to-br from-orange-500 to-red-600 text-3xl font-black shadow-2xl">
+            <DivisionFrame puntos={negocio.puntos || 0} size={112} categoria={negocio.category} showLabel>
+              <div className="flex h-28 w-28 items-center justify-center rounded-3xl border-[6px] border-[#0c0a0b] bg-gradient-to-br from-orange-500 to-red-600 text-4xl font-black shadow-2xl">
                 {negocio.name[0]}
               </div>
             </DivisionFrame>
           )}
-        </div>
-        <div className="mt-3">
-            <div className="mb-1 flex flex-wrap items-center gap-2">
-              <BusinessLiveBadge businessId={negocio.id} />
-              {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
-              {negocio.open !== undefined && (
-                <Badge variant={negocio.open ? "success" : "danger"} size="sm">
-                  {negocio.open ? "● Abierto ahora" : "● Cerrado"}
-                </Badge>
-              )}
-              {negocio.type && negocio.type !== "comercio" && (
-                <Badge variant="info" size="sm">
-                  {negocio.type === "particular" ? "🙋 Vendedor particular" : negocio.type === "servicio" ? "🔧 Servicio" : "💼 Profesional"}
-                </Badge>
-              )}
-              {negocio.hace_envios && <Badge variant="info" size="sm">🚚 Hace envíos</Badge>}
-              <ResponseBadge businessId={negocio.id} />
-            </div>
-            <h1 className="truncate text-2xl font-black md:text-4xl" style={{ fontFamily: "var(--font-space)" }}>{negocio.name}</h1>
-            <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-              <p className="truncate text-sm capitalize text-white/70">{negocio.category}</p>
+          <div className="min-w-0 flex-1 pb-1">
+            <p className="text-[10px] font-black uppercase tracking-[.35em] text-white/40">{negocio.category}</p>
+            <h1 className="truncate text-3xl font-bold leading-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{negocio.name}</h1>
+            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5">
               {Number(negocio.reviews) > 0 && (
-                <span className="flex items-center gap-1 text-sm font-bold text-amber-300">
-                  <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
-                  {Number(negocio.rating).toFixed(1)}
-                  <span className="font-normal text-white/50">({negocio.reviews})</span>
+                <span className="flex items-center gap-1.5 text-amber-400">
+                  <Star className="h-4 w-4 fill-current" />
+                  <span className="font-black leading-none" style={{ fontFamily: "var(--font-ticket)" }}>{Number(negocio.rating).toFixed(1)}</span>
+                  <span className="text-xs font-normal text-white/40">({negocio.reviews} reseñas)</span>
                 </span>
               )}
               {viendo >= 2 && (
-                <span className="flex items-center gap-1.5 text-sm font-bold text-orange-300">
+                <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-orange-300">
                   <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-orange-500" /></span>
                   {viendo} viendo esto ahora
                 </span>
               )}
-            </div>
-            <div className="mt-2 flex flex-wrap items-center gap-3">
-              <FollowButton businessId={negocio.id} />
               <LevelBadge slug={negocio.slug} />
             </div>
+          </div>
+          <div className="flex shrink-0 items-center gap-2 pb-1">
+            <FollowButton businessId={negocio.id} />
+            <FavoriteButton itemType="business" itemId={negocio.id} variant="card" size={24} />
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-4xl px-4 py-8">
+      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
         {/* ALERTA: te avisamos de ofertas nuevas */}
         <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
           <div>
@@ -314,18 +311,21 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </a>
         )}
 
-        {/* ACCIONES RÁPIDAS: 4 tarjetas limpias */}
-        <div className="mb-8 grid grid-cols-2 md:grid-cols-4 gap-3">
+        {/* ACCIONES RÁPIDAS: tarjetas de doble borde, tal cual el mockup
+            (Favoritos ya se movió al header de la ficha, junto a Seguir). */}
+        <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
           {negocio.whatsapp && !waDestacado && (
             <a
               onClick={() => trackClickWhatsApp(negocio.id)}
               href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${negocio.name} en La Gran Barata Digital`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center gap-2 rounded-2xl border border-green-400/30 bg-green-500/10 p-4 transition hover:bg-green-500/20"
+              className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition hover:-translate-y-1"
             >
-              <MessageCircle className="h-6 w-6 text-green-400" />
-              <span className="text-sm font-bold">WhatsApp</span>
+              <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <MessageCircle className="h-6 w-6 text-emerald-400" />
+                <span className="text-xs font-bold uppercase tracking-widest text-white/80">WhatsApp</span>
+              </div>
             </a>
           )}
           {negocio.address && (
@@ -334,17 +334,21 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(negocio.address)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10"
+              className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition hover:-translate-y-1"
             >
-              <MapPin className="h-6 w-6 text-orange-400" />
-              <span className="text-sm font-bold">Cómo llegar</span>
+              <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <MapPin className="h-6 w-6 text-orange-400" />
+                <span className="text-xs font-bold uppercase tracking-widest text-white/80">Mapa</span>
+              </div>
             </a>
           )}
-          <button onClick={share} disabled={compartiendo} className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 disabled:opacity-60">
-            <Share2 className={`h-6 w-6 text-sky-400 ${compartiendo ? "animate-pulse" : ""}`} />
-            <span className="text-sm font-bold">{compartiendo ? "Generando..." : "Compartir"}</span>
+          <button onClick={share} disabled={compartiendo}
+            className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition hover:-translate-y-1 disabled:opacity-60">
+            <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Share2 className={`h-6 w-6 text-sky-400 ${compartiendo ? "animate-pulse" : ""}`} />
+              <span className="text-xs font-bold uppercase tracking-widest text-white/80">{compartiendo ? "Generando..." : "Compartir"}</span>
+            </div>
           </button>
-          <FavoriteButton itemType="business" itemId={negocio.id} variant="card" size={24} />
         </div>
 
         {/* INFO + MAPA */}
