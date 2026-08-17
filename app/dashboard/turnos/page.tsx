@@ -93,7 +93,7 @@ export default function TurnosPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-10">
       <DashboardNav />
-      <h1 className="mb-1 flex items-center gap-2 text-2xl font-black">
+      <h1 className="mb-1 flex items-center gap-2 text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>
         <Calendar className="h-6 w-6 text-orange-400" /> Turnos
       </h1>
       <p className="mb-8 text-sm text-white/50">

@@ -98,14 +98,15 @@ export default function MuroPage() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
-      <div className="mx-auto max-w-2xl px-4 py-8">
-        <div className="flex items-center justify-between">
+      <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
+        <div className="flex items-end justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-black">Muro local</h1>
-            <p className="text-white/60 mt-1">Lo que está pasando en el comercio de San Lorenzo</p>
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-500">En vivo</p>
+            <h1 className="mt-2 text-5xl font-black leading-[0.9] tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Muro <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">local</span></h1>
+            <p className="mt-2 text-white/50">Lo que está pasando en el comercio de San Lorenzo</p>
           </div>
           <Link href="/dashboard/muro"
-            className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black hover:opacity-90">
+            className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">
             + Publicar
           </Link>
         </div>

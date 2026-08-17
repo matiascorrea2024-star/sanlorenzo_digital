@@ -90,7 +90,7 @@ export default function SeguidoresPage() {
         <div className="mb-6 flex items-center gap-3">
           <Heart className="h-8 w-8 text-orange-400" />
           <div>
-            <h1 className="text-3xl font-black">Tus seguidores</h1>
+            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Tus seguidores</h1>
             <p className="text-white/60">La audiencia propia de {negocio.name} dentro de la plataforma</p>
           </div>
         </div>

@@ -84,7 +84,7 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
           <Badge variant="danger" size="md" pulse>
             <Zap className="h-3 w-3" /> Terminan HOY
           </Badge>
-          <h1 className="mt-4 text-4xl font-black md:text-6xl">
+          <h1 className="mt-4 text-4xl font-black md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
             Radar de{" "}
             <span className="bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
               ofertas urgentes

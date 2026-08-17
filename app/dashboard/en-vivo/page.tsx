@@ -87,7 +87,7 @@ export default function EnVivoDashboard() {
         <div className="mb-6 flex items-center gap-3">
           <Radio className="h-8 w-8 text-red-400" />
           <div>
-            <h1 className="flex items-center gap-1.5 text-3xl font-black">
+            <h1 className="flex items-center gap-1.5 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>
               En Vivo
               <InfoTip label="Sobre el video en vivo">
                 El video se transmite con infraestructura externa gratuita (LiveKit Cloud), compartida entre todos los negocios de la plataforma. Mientras no se supere el uso gratuito, no tiene costo para vos. Si alguna vez se llegara a un límite, vas a ver un aviso claro acá antes de poder iniciar un nuevo vivo -- nunca se te va a cobrar nada de forma automática.

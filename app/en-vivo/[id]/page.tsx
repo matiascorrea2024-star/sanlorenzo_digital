@@ -80,7 +80,7 @@ export default function VerEnVivo() {
 
             <div className="mt-4 flex flex-wrap items-start justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
               <div className="min-w-0 flex-1">
-                <h1 className="text-xl font-black">{stream.title}</h1>
+                <h1 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>{stream.title}</h1>
                 <Link href={`/negocio/${negocio.slug}`} className="mt-1 flex items-center gap-1.5 text-sm text-white/60 hover:text-orange-300">
                   <Store className="h-3.5 w-3.5" /> {negocio.name}
                 </Link>

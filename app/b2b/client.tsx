@@ -19,7 +19,7 @@ export default function B2bView() {
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.18), transparent 55%), radial-gradient(circle at 90% 30%, rgba(34,211,238,.14), transparent 55%)" }} />
         <div className="relative mx-auto max-w-5xl px-4 text-center">
           <Badge variant="info" size="md">🏭 Para empresas</Badge>
-          <h1 className="mt-4 text-4xl font-black md:text-6xl">
+          <h1 className="mt-4 text-4xl font-black md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
             Industria y B2B en{" "}
             <span className="bg-gradient-to-r from-orange-400 to-cyan-400 bg-clip-text text-transparent">
               San Lorenzo

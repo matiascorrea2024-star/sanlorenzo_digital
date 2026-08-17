@@ -39,7 +39,7 @@ export default function SoportePage() {
         <div className="mb-6 flex items-center gap-3">
           <LifeBuoy className="h-8 w-8 text-orange-400" />
           <div>
-            <h1 className="text-3xl font-black">Soporte</h1>
+            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Soporte</h1>
             <p className="text-white/60">Consultas, dudas o bugs -- hablás directo con nosotros.</p>
           </div>
         </div>

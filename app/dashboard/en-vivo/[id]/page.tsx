@@ -96,7 +96,7 @@ export default function ControlEnVivo() {
       <div className="mx-auto max-w-6xl px-4 py-8">
         <Link href="/dashboard/en-vivo" className="text-sm text-orange-400"><ArrowLeft className="mr-1 inline h-4 w-4" />Volver</Link>
         <div className="mt-3 mb-6 flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-2xl font-black">{stream.title}</h1>
+          <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>{stream.title}</h1>
           <div className="flex gap-2">
             {stream.status === "scheduled" && (
               <>

@@ -91,7 +91,7 @@ export default function MensajesPage() {
     <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
-        <h1 className="text-3xl font-black">Mensajes</h1>
+        <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Mensajes</h1>
 
         {businesses.length > 1 && (
           <div className="mt-4 flex gap-2 overflow-x-auto">

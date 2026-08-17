@@ -100,7 +100,7 @@ export default function MarketingPage() {
           ← Volver a mis ofertas
         </Link>
 
-        <h1 className="text-3xl font-black mb-2">Marketing de la Oferta</h1>
+        <h1 className="text-3xl font-black mb-2" style={{ fontFamily: "var(--font-space)" }}>Marketing de la Oferta</h1>
         <p className="text-white/60 mb-4">{offer.title}</p>
 
         <HowItWorks steps={[

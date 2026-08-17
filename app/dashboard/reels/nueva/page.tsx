@@ -66,7 +66,7 @@ export default function NuevoReelPage() {
         <div className="mb-6 flex items-center gap-3">
           <Video className="h-8 w-8 text-orange-400" />
           <div>
-            <h1 className="text-3xl font-black">Nuevo Reel</h1>
+            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Nuevo Reel</h1>
             <p className="text-white/60">Un video corto de tu negocio, hasta {REEL_MAX_SECONDS} segundos</p>
           </div>
         </div>

@@ -198,7 +198,7 @@ export default function ProductosPage() {
         <div className="flex items-center gap-3 mb-6">
           <Package className="h-8 w-8 text-orange-400" />
           <div>
-            <h1 className="text-3xl font-black">Mis Productos</h1>
+            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Mis Productos</h1>
             <p className="text-white/60">
               Gestioná el catálogo de {negocio.name}
               {planActual.maxProductos !== -1 && (

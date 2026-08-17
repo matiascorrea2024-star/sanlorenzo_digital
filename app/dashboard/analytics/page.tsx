@@ -126,7 +126,7 @@ export default function AnalyticsPage() {
         <div className="flex items-center gap-3 mb-6">
           <TrendingUp className="h-8 w-8 text-orange-400" />
           <div>
-            <h1 className="text-3xl font-black">Analytics</h1>
+            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Analytics</h1>
             <p className="text-white/60">Estadísticas de los últimos 30 días</p>
           </div>
         </div>

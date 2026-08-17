@@ -51,7 +51,7 @@ export default function DashboardReelsPage() {
           <div className="flex items-center gap-3">
             <Video className="h-8 w-8 text-orange-400" />
             <div>
-              <h1 className="text-3xl font-black">Mis Reels</h1>
+              <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Mis Reels</h1>
               <p className="text-white/60">Videos cortos de tu negocio</p>
             </div>
           </div>

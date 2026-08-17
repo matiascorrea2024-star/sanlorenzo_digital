@@ -115,7 +115,7 @@ export default function EditarOferta() {
     <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
       <div className="mx-auto max-w-2xl px-4 py-10">
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
-        <h1 className="mt-3 text-3xl font-black">Editar oferta</h1>
+        <h1 className="mt-3 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Editar oferta</h1>
 
         <div className="mt-4">
           <HowItWorks steps={[

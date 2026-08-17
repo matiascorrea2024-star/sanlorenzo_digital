@@ -70,7 +70,7 @@ export default function MuroDashboard() {
         <div className="flex items-center gap-3 mb-6">
           <Megaphone className="h-8 w-8 text-orange-400" />
           <div>
-            <h1 className="text-3xl font-black">Publicar en el Muro</h1>
+            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Publicar en el Muro</h1>
             <p className="text-white/60">Compartí novedades con toda la comunidad</p>
           </div>
         </div>

@@ -77,7 +77,7 @@ export default function CampanaPage() {
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-xl px-4 py-8">
         <Link href="/dashboard/ofertas" className="text-sm text-orange-400">← Volver a mis ofertas</Link>
-        <h1 className="mt-3 text-3xl font-black flex items-center gap-2"><MapPin className="h-7 w-7 text-cyan-400" /> Promocionar por barrio</h1>
+        <h1 className="mt-3 text-3xl font-black flex items-center gap-2" style={{ fontFamily: "var(--font-space)" }}><MapPin className="h-7 w-7 text-cyan-400" /> Promocionar por barrio</h1>
         <p className="mt-1 text-white/60">&quot;{offer.title}&quot;</p>
 
         {!plan.campanas ? (

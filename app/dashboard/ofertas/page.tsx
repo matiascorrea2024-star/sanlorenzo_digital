@@ -95,7 +95,7 @@ export default function OfertasPage() {
             <Link href="/dashboard" className="text-sm text-orange-400 hover:text-orange-300">
               ← Volver al dashboard
             </Link>
-            <h1 className="text-3xl font-black mt-2">Mis Ofertas</h1>
+            <h1 className="text-3xl font-black mt-2" style={{ fontFamily: "var(--font-space)" }}>Mis Ofertas</h1>
             <p className="text-white/60 mt-1">Gestioná tus promociones de La Gran Barata</p>
           </div>
           <Link

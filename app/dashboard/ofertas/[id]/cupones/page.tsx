@@ -89,7 +89,7 @@ export default function CuponesPage() {
           ← Volver a mis ofertas
         </Link>
 
-        <h1 className="text-3xl font-black mb-2">Cupones de la Oferta</h1>
+        <h1 className="text-3xl font-black mb-2" style={{ fontFamily: "var(--font-space)" }}>Cupones de la Oferta</h1>
         {offer && <p className="text-white/60 mb-4">{offer.title}</p>}
 
         <HowItWorks steps={[

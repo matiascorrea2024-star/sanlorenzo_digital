@@ -20,7 +20,7 @@ export default function PortuarioView() {
           <Badge size="md" className="bg-cyan-500/20 border-cyan-400/40 text-cyan-200">
             <Anchor className="h-3 w-3 mr-1" /> Sector portuario
           </Badge>
-          <h1 className="mt-4 text-4xl font-black md:text-6xl">
+          <h1 className="mt-4 text-4xl font-black md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
             Puerto de{" "}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-400 bg-clip-text text-transparent">
               San Lorenzo
