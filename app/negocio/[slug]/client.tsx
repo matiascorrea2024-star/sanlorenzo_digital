@@ -351,69 +351,74 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </button>
         </div>
 
-        {/* INFO + MAPA */}
-        <div className="mb-8 grid md:grid-cols-2 gap-6">
-          <div className="sld-card rounded-2xl p-6" style={{ borderLeft: "2px solid rgba(249,115,22,.5)" }}>
-            <h2 className="mb-4 text-xl font-black">Información</h2>
-            <div className="space-y-3">
-              {negocio.address && (
-                <div className="flex items-start gap-3">
-                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-orange-400" />
-                  <div>
-                    <p className="text-sm font-bold">Dirección</p>
-                    <p className="text-sm text-white/70">{negocio.address}</p>
+        {/* INFO + MAPA -- tarjetas de doble borde con ícono en caja de
+            color, tal cual el panel de información del mockup. */}
+        <div className="mb-8 grid gap-6 md:grid-cols-2">
+          <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
+              <p className="mb-5 text-[10px] font-black uppercase tracking-[.35em] text-white/40">Información</p>
+              <div className="space-y-5">
+                {negocio.address && (
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><MapPin className="h-4 w-4 text-orange-400" /></span>
+                    <div className="min-w-0">
+                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Dirección</p>
+                      <p className="text-sm text-white/90">{negocio.address}</p>
+                    </div>
                   </div>
-                </div>
-              )}
-              {negocio.schedule && (
-                <div className="flex items-start gap-3">
-                  <Clock className="mt-0.5 h-5 w-5 shrink-0 text-orange-400" />
-                  <div>
-                    <p className="text-sm font-bold">Horarios</p>
-                    <p className="text-sm text-white/70">{negocio.schedule}</p>
+                )}
+                {negocio.schedule && (
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><Clock className="h-4 w-4 text-orange-400" /></span>
+                    <div className="min-w-0">
+                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Horarios</p>
+                      <p className="text-sm text-white/90">{negocio.schedule}</p>
+                    </div>
                   </div>
-                </div>
-              )}
-              {negocio.whatsapp && (
-                <div className="flex items-start gap-3">
-                  <Phone className="mt-0.5 h-5 w-5 shrink-0 text-orange-400" />
-                  <div>
-                    <p className="text-sm font-bold">WhatsApp</p>
-                    <p className="text-sm text-white/70">{negocio.whatsapp}</p>
+                )}
+                {negocio.whatsapp && (
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><Phone className="h-4 w-4 text-orange-400" /></span>
+                    <div className="min-w-0">
+                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">WhatsApp</p>
+                      <p className="text-sm font-bold text-white/90">{negocio.whatsapp}</p>
+                    </div>
                   </div>
-                </div>
-              )}
-              {negocio.instagram && (
-                <div className="flex items-start gap-3">
-                  <ExternalLink className="mt-0.5 h-5 w-5 shrink-0 text-orange-400" />
-                  <div>
-                    <p className="text-sm font-bold">Instagram</p>
-                    <a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-orange-400 hover:text-orange-300">@{negocio.instagram}</a>
+                )}
+                {negocio.instagram && (
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><ExternalLink className="h-4 w-4 text-orange-400" /></span>
+                    <div className="min-w-0">
+                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-white/40">Instagram</p>
+                      <a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-orange-400 hover:text-orange-300">@{negocio.instagram}</a>
+                    </div>
                   </div>
-                </div>
-              )}
-              {negocio.hace_envios && (
-                <div className="flex items-start gap-3">
-                  <Truck className="mt-0.5 h-5 w-5 shrink-0 text-sky-400" />
-                  <div>
-                    <p className="text-sm font-bold">Envíos</p>
-                    <p className="text-sm text-white/70">
-                      {negocio.envio_gratis ? "Envío gratis" : negocio.costo_envio ? `Envío: $${Number(negocio.costo_envio).toLocaleString("es-AR")}` : "Hace envíos"}
-                      {negocio.zona_cobertura && ` · ${negocio.zona_cobertura}`}
-                    </p>
-                    {negocio.retiro_en_local && <p className="text-xs text-white/50">También hay retiro {negocio.type === "comercio" ? "en el local" : "acordado"}.</p>}
+                )}
+                {negocio.hace_envios && (
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10"><Truck className="h-4 w-4 text-sky-400" /></span>
+                    <div className="min-w-0">
+                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-400/70">Envíos</p>
+                      <p className="text-sm text-white/90">
+                        {negocio.envio_gratis ? "Envío gratis" : negocio.costo_envio ? `Envío: $${Number(negocio.costo_envio).toLocaleString("es-AR")}` : "Hace envíos"}
+                        {negocio.zona_cobertura && ` · ${negocio.zona_cobertura}`}
+                      </p>
+                      {negocio.retiro_en_local && <p className="text-xs text-white/50">También hay retiro {negocio.type === "comercio" ? "en el local" : "acordado"}.</p>}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
 
           {negocio.latitude && negocio.longitude && (
-            <div className="sld-card rounded-2xl p-6" style={{ borderLeft: "2px solid rgba(34,211,238,.5)" }}>
-              <h2 className="mb-4 flex items-center gap-2 text-xl font-black">
-                <Navigation className="h-4 w-4 text-cyan-300" /> Ubicación
-              </h2>
-              <BusinessMap latitude={negocio.latitude} longitude={negocio.longitude} address={negocio.address} />
+            <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8">
+                <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.35em] text-white/40">
+                  <Navigation className="h-3.5 w-3.5 text-cyan-300" /> Ubicación
+                </p>
+                <BusinessMap latitude={negocio.latitude} longitude={negocio.longitude} address={negocio.address} />
+              </div>
             </div>
           )}
         </div>
