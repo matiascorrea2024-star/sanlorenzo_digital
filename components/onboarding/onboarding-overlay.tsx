@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Bell, Share2, Store, Check, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { subscribeToPush } from "@/lib/push";
 
 type Biz = { id: string; name: string; category: string; portada_url?: string; logo_url?: string };
 
@@ -47,6 +48,7 @@ export default function OnboardingOverlay() {
     const perm = await Notification.requestPermission();
     setNotifStatus(perm);
     await supabase().from("user_profiles").update({ notifications_opt_in: perm === "granted" }).eq("user_id", user.id);
+    if (perm === "granted") await subscribeToPush(user.id);
   };
 
   const finish = async () => {
