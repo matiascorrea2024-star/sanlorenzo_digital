@@ -35,36 +35,40 @@ export default async function Page({ params }: Props) {
   const { data: offer } = await sb.from("offers").select("*, businesses(name, slug, category, portada_url, address, whatsapp, instagram)").eq("id", id).maybeSingle();
   if (!offer) notFound();
 
+  // Google espera Product > offers > Offer (Product como raíz) para
+  // mostrar precio/disponibilidad en resultados de búsqueda -- antes
+  // esto tenía Offer como raíz con el producto adentro (itemOffered),
+  // al revés de lo que documenta Google Rich Results, así que aunque
+  // el JSON-LD fuera válido, probablemente nunca se mostraba el precio.
   let jsonLd = null;
   if (offer) {
     const o = offer as any;
     const biz = o.businesses || {};
     jsonLd = {
       "@context": "https://schema.org",
-      "@type": "Offer",
+      "@type": "Product",
       name: o.title,
       description: o.description || o.title,
-      url: `https://sanlorenzodigital.vercel.app/oferta/${o.id}`,
       image: o.image_url || biz.portada_url,
-      ...(o.old_price && o.offer_price && {
-        price: o.offer_price,
-        priceCurrency: "ARS",
-        priceSpecification: {
-          "@type": "PriceSpecification",
+      brand: { "@type": "Brand", name: biz.name },
+      // offers requiere price+priceCurrency -- si la oferta no tiene un
+      // precio final cargado, no se emite (mejor omitirlo que mandar un
+      // Offer incompleto que Google va a rechazar igual).
+      ...(o.offer_price && {
+        offers: {
+          "@type": "Offer",
+          url: `https://sanlorenzodigital.vercel.app/oferta/${o.id}`,
           price: o.offer_price,
           priceCurrency: "ARS",
+          availability: "https://schema.org/InStock",
+          ...(o.valid_until && { priceValidUntil: o.valid_until }),
+          seller: {
+            "@type": "LocalBusiness",
+            name: biz.name,
+            url: `https://sanlorenzodigital.vercel.app/negocio/${biz.slug}`,
+          },
         },
       }),
-      ...(o.valid_until && { validThrough: o.valid_until }),
-      itemOffered: {
-        "@type": "Product",
-        name: o.title,
-      },
-      offeredBy: {
-        "@type": "LocalBusiness",
-        name: biz.name,
-        url: `https://sanlorenzodigital.vercel.app/negocio/${biz.slug}`,
-      },
     };
   }
 
