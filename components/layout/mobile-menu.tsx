@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Menu, X, MapPin, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -38,11 +39,26 @@ const SECCIONES = [
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
   const [ciudades, setCiudades] = useState<any[]>([]);
+  // El header envuelve todo en un div con backdrop-blur-xl -- eso crea
+  // un "containing block" nuevo en CSS para cualquier position:fixed
+  // adentro, así que sin portal este overlay quedaba encerrado en el
+  // tamaño de la píldora del header (~372x54px) en vez de cubrir la
+  // pantalla entera. Confirmado midiendo el rect real: el menú "se
+  // abría" pero quedaba invisible/inusable, se sentía como que no
+  // pasaba nada al tocar el botón. El portal lo saca de ese contenedor,
+  // renderizándolo directo en <body>.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
-    supabase().from("locations").select("name, slug").eq("type", "city").eq("status", "active").order("name")
+    // Mismo criterio que CitySwitcher (desktop): mostrar TODAS las
+    // ciudades, activas o no -- antes esto filtraba solo "active" y con
+    // una sola ciudad activa (San Lorenzo, hoy) la sección entera
+    // desaparecía. Sin esto, en mobile no había forma de ver ni
+    // enterarse de qué otras ciudades vienen ("Próximamente").
+    supabase().from("locations").select("name, slug, status").eq("type", "city").order("name")
       .then(({ data }) => setCiudades(data || []));
     return () => { document.body.style.overflow = ""; };
   }, [open]);
@@ -54,7 +70,7 @@ export default function MobileMenu() {
         <Menu className="h-4 w-4" />
       </button>
 
-      {open && (
+      {open && mounted && createPortal(
         <div className="fixed inset-0 z-[300] bg-[#0c0906]/98 backdrop-blur-xl md:hidden">
           <div className="flex h-full flex-col overflow-y-auto px-5 py-5">
             <div className="flex items-center justify-between">
@@ -65,7 +81,7 @@ export default function MobileMenu() {
               </button>
             </div>
 
-            {ciudades.length > 1 && (
+            {ciudades.length > 0 && (
               <div className="mt-6">
                 <p className="mb-2 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-white/35">
                   <MapPin className="h-3 w-3" /> Cordón industrial
@@ -73,8 +89,11 @@ export default function MobileMenu() {
                 <div className="flex flex-wrap gap-2">
                   {ciudades.map((c) => (
                     <Link key={c.slug} href={`/${c.slug}`} onClick={() => setOpen(false)}
-                      className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-bold text-white/80 hover:border-orange-400/40 hover:text-white">
-                      {c.name}
+                      className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-bold text-white/80 hover:border-orange-400/40 hover:text-white">
+                      <span className={c.status !== "active" ? "text-white/50" : ""}>{c.name}</span>
+                      {c.status !== "active" && (
+                        <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-white/40">Próx.</span>
+                      )}
                     </Link>
                   ))}
                 </div>
@@ -101,7 +120,8 @@ export default function MobileMenu() {
               Publicar mi negocio gratis
             </Link>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
