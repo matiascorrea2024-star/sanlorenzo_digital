@@ -26,6 +26,7 @@ type Row = {
   business_destacado?: boolean;
   business_rating?: number;
   business_status?: string;
+  impulsada_hasta?: string;
 };
 
 function diasA(vence?: string) {
@@ -40,6 +41,9 @@ export default function PromocionesPage() {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
+  // Snapshot de "ahora" tomado una sola vez (no en cada render) para
+  // no llamar Date.now() de forma impura durante el cálculo de impulsada.
+  const [ahora] = useState(() => Date.now());
 
   useEffect(() => {
     (async () => {
@@ -75,8 +79,11 @@ export default function PromocionesPage() {
           longitude: o.business_longitude ? Number(o.business_longitude) : undefined,
           rating: o.business_rating ? Number(o.business_rating) : undefined,
           verificado: o.business_status === "verificado",
-        })),
-    [rows, hoy]
+          impulsada: !!(o.impulsada_hasta && new Date(o.impulsada_hasta).getTime() > ahora),
+        }))
+        // Impulsadas primero -- lo que el negocio pagó por destacar hoy.
+        .sort((a, b) => (b.impulsada ? 1 : 0) - (a.impulsada ? 1 : 0)),
+    [rows, hoy, ahora]
   );
 
   const urgentes = useMemo(() => activas.filter((o) => { const d = diasA(o.vence); return d !== null && d <= 1; }), [activas]);

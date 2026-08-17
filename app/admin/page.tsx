@@ -17,6 +17,9 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState("user");
   const [tab, setTab] = useState(searchParams.get("tab") || "overview");
+  // Snapshot de "ahora" (no Date.now() de forma impura en cada render)
+  // para el chequeo de "sigue impulsada" en la lista de ofertas.
+  const [ahora] = useState(() => Date.now());
   const [stats, setStats] = useState<any>({});
   const [pendientes, setPendientes] = useState<any[]>([]);
   const [resenas, setResenas] = useState<any[]>([]);
@@ -112,7 +115,7 @@ export default function AdminPage() {
         // muestra active=true) -- el admin necesita ver también las
         // desactivadas para poder reactivarlas.
         const { data } = await supabase().from("offers")
-          .select("id, title, active, valid_until, discount_percent, businesses(name, slug)")
+          .select("id, title, active, valid_until, discount_percent, impulsada_hasta, businesses(name, slug)")
           .order("created_at", { ascending: false }).limit(300);
         setOfertasAdmin(data || []);
         setOfertasCargadas(true);
@@ -341,6 +344,13 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/offers", "PATCH", { id, active: !active });
       setOfertasAdmin(prev => prev.map(o => o.id === id ? { ...o, active: !active } : o));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const impulsarOferta = async (id: string, horas: number) => {
+    try {
+      const r: any = await authedFetch("/api/admin/offers", "PATCH", { id, impulsar_horas: horas });
+      setOfertasAdmin(prev => prev.map(o => o.id === id ? { ...o, impulsada_hasta: r.impulsada_hasta } : o));
     } catch (e: any) { alert(e.message); }
   };
 
@@ -606,11 +616,22 @@ export default function AdminPage() {
                       <p className="truncate font-bold">{o.title}</p>
                       <p className="truncate text-xs text-white/50">
                         {o.businesses?.name || "Negocio eliminado"}{o.valid_until && ` · vence ${new Date(o.valid_until + "T00:00:00").toLocaleDateString("es-AR")}`}{!o.active && " · inactiva"}
+                        {o.impulsada_hasta && new Date(o.impulsada_hasta).getTime() > ahora && (
+                          <span className="text-cyan-300"> · 🚀 impulsada hasta {new Date(o.impulsada_hasta).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
+                        )}
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       <a href={`/oferta/${o.id}`} target="_blank" rel="noopener noreferrer"
                         className="rounded-lg border border-white/15 px-2.5 py-1 text-[11px] font-bold text-white/60 hover:bg-white/10">Ver</a>
+                      <button onClick={() => impulsarOferta(o.id, 24)}
+                        className="rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-cyan-300 hover:bg-cyan-500/20">
+                        🚀 24h
+                      </button>
+                      <button onClick={() => impulsarOferta(o.id, 48)}
+                        className="rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-cyan-300 hover:bg-cyan-500/20">
+                        🚀 48h
+                      </button>
                       <button onClick={() => toggleOfertaActiva(o.id, o.active)}
                         className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${!o.active ? "bg-white/10 text-white/50" : "border border-white/15 text-white/60 hover:bg-white/10"}`}>
                         {o.active ? "Desactivar" : "Reactivar"}

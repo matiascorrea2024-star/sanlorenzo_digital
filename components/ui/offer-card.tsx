@@ -19,6 +19,7 @@ type Offer = {
   precio_prometido?: boolean;
   rating?: number;
   verificado?: boolean;
+  impulsada?: boolean;
 };
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
@@ -83,6 +84,11 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
+          {o.impulsada && (
+            <span className="rounded-lg bg-gradient-to-r from-cyan-500 to-sky-500 px-2 py-0.5 text-[10px] font-black text-white shadow">
+              🚀 Impulsada
+            </span>
+          )}
           {esEscaso && (
             <span className="rounded-lg bg-yellow-500/90 px-2 py-0.5 text-[10px] font-black text-black shadow">
               🔥 Últimas unidades

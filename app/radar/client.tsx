@@ -54,6 +54,7 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
         .select("*").eq("active", true).eq("valid_until", hoy)
         .order("created_at", { ascending: false });
 
+      const ahora = Date.now();
       const reales = (data || []).map((o: any) => ({
         id: o.id, negocio: o.business_name, slug: o.business_slug,
         producto: o.title, cat: o.business_category || "",
@@ -63,7 +64,10 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
         portada_url: o.business_portada,
         rating: o.business_rating ? Number(o.business_rating) : undefined,
         verificado: o.business_status === "verificado",
-      }));
+        impulsada: !!(o.impulsada_hasta && new Date(o.impulsada_hasta).getTime() > ahora),
+      }))
+        // Impulsadas primero -- lo que el negocio pagó por destacar hoy.
+        .sort((a: any, b: any) => (b.impulsada ? 1 : 0) - (a.impulsada ? 1 : 0));
 
       setOfertas(reales);
       setLoading(false);
