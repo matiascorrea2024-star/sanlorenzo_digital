@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Send, CheckCircle2, MessageCircle, Store } from "lucide-react";
+import { Send, CheckCircle2, MessageCircle, Store, PenTool, Share2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useToast } from "@/components/ui/toast";
@@ -127,82 +127,149 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
   };
 
   const visibles = pedidos.filter((p) => verResueltos || !p.resuelto);
+  // Stats reales -- ambos surgen de la misma data ya cargada, nada
+  // inventado: activos = no resueltos, tasa de respuesta = % de pedidos
+  // (de todos los tiempos, no solo los visibles) que tuvieron al menos
+  // una respuesta.
+  const activos = pedidos.filter((p) => !p.resuelto).length;
+  const tasaRespuesta = pedidos.length > 0
+    ? Math.round((pedidos.filter((p) => (respuestas[p.id] || []).length > 0).length / pedidos.length) * 100)
+    : null;
 
   return (
-    <div>
-      <div className="mb-6 rounded-2xl border border-white/10 bg-white/[.03] p-4">
-        <textarea value={texto} onChange={(e) => setTexto(e.target.value)} rows={2} maxLength={280}
-          placeholder="¿Qué estás buscando? Ej: alguien que tenga un repuesto de..."
-          className="w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm outline-none focus:border-orange-400" />
-        <div className="mt-2 flex justify-end">
-          <button onClick={publicar} disabled={publicando || texto.trim().length < 5}
-            className="flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2 text-sm font-black disabled:opacity-50">
-            <Send className="h-4 w-4" /> {publicando ? "Publicando..." : "Publicar"}
-          </button>
+    <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
+      {/* IZQUIERDA: intro editorial + compositor + stats reales */}
+      <div className="lg:col-span-5">
+        <div className="rounded-[2rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="rounded-[1.625rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10"><PenTool className="h-3.5 w-3.5 text-orange-400" /></span>
+              <span className="text-xs font-bold uppercase tracking-widest text-white/70">Nueva solicitud</span>
+            </div>
+            <textarea value={texto} onChange={(e) => setTexto(e.target.value)} rows={3} maxLength={280}
+              placeholder="¿Qué estás buscando? Ej: alguien que tenga un repuesto de..."
+              className="w-full resize-none border-none bg-transparent text-lg font-medium text-white outline-none placeholder:text-white/20" />
+            <div className="flex items-center justify-end border-t border-white/5 pt-4">
+              <button onClick={publicar} disabled={publicando || texto.trim().length < 5}
+                className="flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-xs font-black uppercase tracking-widest disabled:opacity-50">
+                <Send className="h-3.5 w-3.5" /> {publicando ? "Publicando..." : "Publicar pedido"}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-10 flex gap-10">
+          <div>
+            <span className="block text-4xl font-black" style={{ fontFamily: "var(--font-ticket)" }}>{activos}</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Pedidos activos</span>
+          </div>
+          {tasaRespuesta !== null && (
+            <div>
+              <span className="block text-4xl font-black text-orange-400" style={{ fontFamily: "var(--font-ticket)" }}>{tasaRespuesta}%</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Tasa de respuesta</span>
+            </div>
+          )}
         </div>
       </div>
 
-      {pedidos.some((p) => p.resuelto) && (
-        <button onClick={() => setVerResueltos((v) => !v)} className="mb-3 text-xs text-white/40 hover:text-white/60">
-          {verResueltos ? "Ocultar resueltos" : "Ver resueltos también"}
-        </button>
-      )}
+      {/* DERECHA: feed */}
+      <div className="lg:col-span-7">
+        {pedidos.some((p) => p.resuelto) && (
+          <div className="mb-6 flex items-center justify-between border-b border-white/5 pb-4">
+            <span className="text-xs font-black uppercase tracking-widest text-white">Pedidos</span>
+            <button onClick={() => setVerResueltos((v) => !v)} className="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white">
+              {verResueltos ? "Ocultar resueltos" : "Ver resueltos también"}
+            </button>
+          </div>
+        )}
 
-      {visibles.length === 0 ? (
-        <p className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-sm text-white/50">
-          Todavía nadie pidió nada por acá. ¡Arrancá vos!
-        </p>
-      ) : (
-        <div className="space-y-3">
-          {visibles.map((p) => (
-            <div key={p.id} className={`rounded-2xl border p-4 ${p.resuelto ? "border-white/5 bg-white/[.015] opacity-60" : "border-white/10 bg-white/[.03]"}`}>
-              <div className="mb-1 flex items-center justify-between gap-2">
-                <p className="text-xs font-bold text-white/50">{p.autor} · {tiempoDesde(p.created_at)}</p>
-                {p.resuelto && <span className="flex items-center gap-1 text-[10px] font-black uppercase text-green-400"><CheckCircle2 className="h-3 w-3" /> Resuelto</span>}
-              </div>
-              <p className="mb-3 text-sm text-white/90">{p.texto}</p>
-
-              {(respuestas[p.id] || []).length > 0 && (
-                <div className="mb-3 space-y-2 border-l-2 border-white/10 pl-3">
-                  {respuestas[p.id].map((r) => (
-                    <div key={r.id} className="text-xs text-white/70">
-                      <span className="font-bold">
-                        {r.negocio ? <Link href={`/negocio/${r.negocio.slug}`} className="text-orange-300 hover:text-orange-200"><Store className="mr-1 inline h-3 w-3" />{r.negocio.name}</Link> : r.autor}
-                      </span>: {r.mensaje}
+        {visibles.length === 0 ? (
+          <p className="rounded-[2rem] border border-white/10 bg-white/[.02] p-8 text-center text-sm text-white/50">
+            Todavía nadie pidió nada por acá. ¡Arrancá vos!
+          </p>
+        ) : (
+          <div className="space-y-6">
+            {visibles.map((p) => (
+              <article key={p.id} className={`rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-6 transition-all duration-500 hover:-translate-y-1 sm:p-8 ${p.resuelto ? "opacity-60" : ""}`}>
+                <div className="mb-6 flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-4">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/5 bg-gradient-to-br from-white/10 to-transparent text-sm font-bold" style={{ fontFamily: "var(--font-space)" }}>
+                      {p.autor.split(" ").map((s: string) => s[0]).slice(0, 2).join("").toUpperCase()}
+                    </span>
+                    <div>
+                      <h3 className="font-bold">{p.autor}</h3>
+                      <span className="text-xs text-white/40">{tiempoDesde(p.created_at)}</span>
                     </div>
-                  ))}
-                </div>
-              )}
-
-              {!p.resuelto && (
-                <div className="flex flex-wrap items-center gap-3">
-                  {abierto === p.id ? (
-                    <div className="flex w-full gap-2">
-                      <input type="text" value={respTexto} onChange={(e) => setRespTexto(e.target.value)} maxLength={200}
-                        placeholder="Yo tengo / conozco un lugar..." autoFocus
-                        className="flex-1 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs outline-none focus:border-orange-400" />
-                      <button onClick={() => responder(p.id)} disabled={respondiendo || respTexto.trim().length < 2}
-                        className="rounded-lg bg-orange-500/20 border border-orange-400/40 px-3 py-1.5 text-xs font-bold text-orange-300 disabled:opacity-50">
-                        Enviar
-                      </button>
-                    </div>
+                  </div>
+                  {p.resuelto ? (
+                    <span className="flex shrink-0 items-center gap-1 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-400">
+                      <CheckCircle2 className="h-3 w-3" /> Resuelto
+                    </span>
                   ) : (
-                    <button onClick={() => { setAbierto(p.id); setRespTexto(""); }}
-                      className="flex items-center gap-1.5 text-xs font-bold text-white/50 hover:text-white/80">
-                      <MessageCircle className="h-3.5 w-3.5" /> Responder
-                    </button>
-                  )}
-                  {user?.id === p.user_id && (
-                    <button onClick={() => marcarResuelto(p.id)} className="text-xs font-bold text-white/40 hover:text-green-400">
-                      Marcar resuelto
-                    </button>
+                    <span className="shrink-0 rounded-full border border-orange-400/20 bg-orange-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-orange-400">Buscando</span>
                   )}
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+
+                <p className={`mb-6 text-lg font-medium leading-snug ${p.resuelto ? "text-white/50" : "text-white/90"}`}>{p.texto}</p>
+
+                {(respuestas[p.id] || []).length > 0 && (
+                  <div className="mb-6 space-y-3">
+                    {respuestas[p.id].map((r) => (
+                      <div key={r.id} className="flex items-start gap-3 rounded-3xl border border-white/5 bg-white/5 p-4">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/20"><Store className="h-3.5 w-3.5 text-emerald-400" /></span>
+                        <div className="min-w-0">
+                          {r.negocio ? (
+                            <div className="mb-1 flex items-center gap-2">
+                              <Link href={`/negocio/${r.negocio.slug}`} className="text-xs font-bold text-orange-400 hover:underline">{r.negocio.name}</Link>
+                              <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] font-black uppercase text-white/40">Negocio</span>
+                            </div>
+                          ) : (
+                            <p className="mb-1 text-xs font-bold text-white/70">{r.autor}</p>
+                          )}
+                          <p className="text-sm text-white/70">{r.mensaje}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {!p.resuelto && (
+                  <div className="flex items-center gap-4 border-t border-white/5 pt-4">
+                    {abierto === p.id ? (
+                      <div className="flex w-full gap-2">
+                        <input type="text" value={respTexto} onChange={(e) => setRespTexto(e.target.value)} maxLength={200}
+                          placeholder="Yo tengo / conozco un lugar..." autoFocus
+                          className="flex-1 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs outline-none focus:border-orange-400" />
+                        <button onClick={() => responder(p.id)} disabled={respondiendo || respTexto.trim().length < 2}
+                          className="rounded-full border border-orange-400/40 bg-orange-500/20 px-4 py-2 text-xs font-bold text-orange-300 disabled:opacity-50">
+                          Enviar
+                        </button>
+                      </div>
+                    ) : (
+                      <button onClick={() => { setAbierto(p.id); setRespTexto(""); }}
+                        className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/40 hover:text-orange-400">
+                        <MessageCircle className="h-4 w-4" /> Responder
+                      </button>
+                    )}
+                    <button onClick={() => {
+                      const url = typeof window !== "undefined" ? `${window.location.origin}/pedidos` : "/pedidos";
+                      if (navigator.share) navigator.share({ title: "¿Quién tiene esto?", text: p.texto, url }).catch(() => {});
+                      else navigator.clipboard?.writeText(url);
+                    }} className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/40 hover:text-white">
+                      <Share2 className="h-4 w-4" /> Compartir
+                    </button>
+                    {user?.id === p.user_id && (
+                      <button onClick={() => marcarResuelto(p.id)} className="ml-auto text-xs font-black uppercase tracking-widest text-emerald-400 hover:underline">
+                        Marcar resuelto
+                      </button>
+                    )}
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

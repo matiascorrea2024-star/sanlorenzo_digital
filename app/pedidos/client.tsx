@@ -29,29 +29,38 @@ export default function PedidosPage() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
-      <section className="relative overflow-hidden border-b border-white/5">
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.16), transparent 55%), radial-gradient(circle at 90% 30%, rgba(34,211,238,.12), transparent 55%)" }} />
-        <div className="relative mx-auto max-w-3xl px-4 py-14 text-center md:py-16">
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[.2em] text-orange-300">
-            <HelpCircle className="h-3 w-3" /> Quién tiene esto
-          </p>
-          <h1 className="text-4xl font-black tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>¿Quién tiene esto?</h1>
-          <p className="mx-auto mt-2 max-w-lg text-white/60">
-            Publicá qué estás buscando y que te respondan los vecinos y negocios que lo tengan. Ideal para eso que no encontrás en ninguna oferta armada.
-          </p>
-        </div>
-      </section>
-
-      <div className="mx-auto max-w-3xl px-4 py-6">
-        {!loading && ciudades.length > 1 && (
-          <div className="mb-4 flex items-center gap-2">
-            <MapPin className="h-4 w-4 shrink-0 text-orange-400" />
-            <select value={locationId} onChange={(e) => setLocationId(e.target.value)}
-              className="w-full rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-bold outline-none focus:border-orange-400 sm:w-auto">
-              {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[#1c1819]">{c.name}</option>)}
-            </select>
+      {/* Hero editorial: calco del mockup aprobado -- headline gigante de
+          2 líneas con degradé en la segunda, sin centrar. */}
+      <div className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.12), transparent 45%), radial-gradient(circle at 85% 30%, rgba(220,38,38,.08), transparent 45%)" }} />
+        <div className="relative mx-auto max-w-6xl px-4 pb-6 pt-14 sm:px-6 md:pt-20">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">
+                <HelpCircle className="h-3.5 w-3.5" /> Tablón comunitario
+              </p>
+              <h1 className="text-6xl font-bold leading-[0.9]" style={{ fontFamily: "var(--font-space)" }}>
+                ¿Quién<br />
+                <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">tiene esto?</span>
+              </h1>
+              <p className="mt-5 max-w-md text-lg font-medium leading-relaxed text-white/50">
+                Publicá lo que buscás y recibí respuestas directas de vecinos y comercios locales. El mercado colaborativo de San Lorenzo.
+              </p>
+            </div>
+            {!loading && ciudades.length > 1 && (
+              <div className="flex min-w-[220px] items-center gap-2 rounded-2xl border border-white/10 bg-white/[.02] px-4 py-3">
+                <MapPin className="h-4 w-4 shrink-0 text-orange-400" />
+                <select value={locationId} onChange={(e) => setLocationId(e.target.value)}
+                  className="w-full cursor-pointer appearance-none bg-transparent text-sm font-bold outline-none">
+                  {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[#1c1819]">{c.name}</option>)}
+                </select>
+              </div>
+            )}
           </div>
-        )}
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
         {locationId && <PedidosBoard locationId={locationId} />}
       </div>
     </main>
