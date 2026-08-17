@@ -4,6 +4,8 @@ import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 import { Megaphone, Trash2 } from "lucide-react";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 const TIPOS = [
   { k: "oferta", l: "🔥 Oferta" },
@@ -16,6 +18,7 @@ const TIPOS = [
 
 export default function MuroDashboard() {
   const { user } = useAuth();
+  const { show } = useToast();
   const [negocio, setNegocio] = useState<any>(null);
   const [posts, setPosts] = useState<any[]>([]);
   const [form, setForm] = useState({ type: "oferta", title: "", body: "", image_url: "" });
@@ -55,7 +58,8 @@ export default function MuroDashboard() {
 
   const del = async (id: string) => {
     if (!confirm("¿Eliminar esta publicación?")) return;
-    await supabase().from("muro_posts").delete().eq("id", id);
+    const { error } = await supabase().from("muro_posts").delete().eq("id", id);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo eliminar la publicación.")}`, "error"); return; }
     setPosts(prev => prev.filter(p => p.id !== id));
   };
 

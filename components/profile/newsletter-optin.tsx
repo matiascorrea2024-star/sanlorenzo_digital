@@ -2,8 +2,11 @@
 import { useEffect, useState } from "react";
 import { Mail } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function NewsletterOptIn({ userId, initial }: { userId: string; initial: boolean }) {
+  const { show } = useToast();
   const [on, setOn] = useState(initial);
   const [saving, setSaving] = useState(false);
 
@@ -13,8 +16,12 @@ export default function NewsletterOptIn({ userId, initial }: { userId: string; i
     const next = !on;
     setOn(next);
     setSaving(true);
-    await supabase().from("user_profiles").update({ newsletter_opt_in: next }).eq("user_id", userId);
+    const { error } = await supabase().from("user_profiles").update({ newsletter_opt_in: next }).eq("user_id", userId);
     setSaving(false);
+    if (error) {
+      setOn(!next);
+      show(`❌ ${friendlyError(error, "No se pudo guardar el cambio.")}`, "error");
+    }
   };
 
   return (

@@ -5,9 +5,12 @@ import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 import Avatar from "@/components/ui/avatar";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function ResenasPage() {
   const { user } = useAuth();
+  const { show } = useToast();
   const [reviews, setReviews] = useState<any[]>([]);
   const [bizNames, setBizNames] = useState<Record<string, string>>({});
   const [replies, setReplies] = useState<Record<string, string>>({});
@@ -30,7 +33,8 @@ export default function ResenasPage() {
   const saveReply = async (id: string) => {
     const text = (replies[id] || "").trim();
     if (!text) return;
-    await supabase().from("business_reviews").update({ reply: text, replied_at: new Date().toISOString() }).eq("id", id);
+    const { error } = await supabase().from("business_reviews").update({ reply: text, replied_at: new Date().toISOString() }).eq("id", id);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo guardar la respuesta.")}`, "error"); return; }
     setReviews(prev => prev.map(r => r.id === id ? { ...r, reply: text } : r));
     setSaved(prev => ({ ...prev, [id]: true }));
     setTimeout(() => setSaved(prev => ({ ...prev, [id]: false })), 2000);

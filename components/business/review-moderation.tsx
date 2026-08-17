@@ -4,8 +4,11 @@ import Link from "next/link";
 import { Lock } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { planDe } from "@/lib/plans";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function ReviewModeration({ businessId, plan }: { businessId: string; plan?: string }) {
+  const { show } = useToast();
   const puedeResponder = planDe({ plan }).responderResenas;
   const [list, setList] = useState<any[] | null>(null);
   const [replyDraft, setReplyDraft] = useState<Record<string, string>>({});
@@ -17,14 +20,16 @@ export default function ReviewModeration({ businessId, plan }: { businessId: str
   useEffect(() => { load(); }, [businessId]);
 
   const toggleHidden = async (id: string, hidden: boolean) => {
-    await supabase().from("business_reviews").update({ hidden: !hidden }).eq("id", id);
+    const { error } = await supabase().from("business_reviews").update({ hidden: !hidden }).eq("id", id);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo actualizar la reseña.")}`, "error"); return; }
     load();
   };
 
   const sendReply = async (id: string) => {
     const reply = (replyDraft[id] || "").trim();
     if (!reply) return;
-    await supabase().from("business_reviews").update({ reply, replied_at: new Date().toISOString() }).eq("id", id);
+    const { error } = await supabase().from("business_reviews").update({ reply, replied_at: new Date().toISOString() }).eq("id", id);
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo guardar la respuesta.")}`, "error"); return; }
     setReplyDraft((d) => ({ ...d, [id]: "" }));
     load();
   };
