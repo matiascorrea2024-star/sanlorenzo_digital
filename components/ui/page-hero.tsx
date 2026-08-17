@@ -31,10 +31,10 @@ export default function PageHero({
       <div className="absolute top-10 right-10 w-16 h-16 border border-orange-500/20 rounded-full animate-float pointer-events-none"></div>
       <div className="absolute bottom-6 left-8 w-12 h-12 border border-cyan-400/20 rounded-lg rotate-45 animate-float-delayed pointer-events-none"></div>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 py-10 md:py-14">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-8 pt-12 sm:px-6 md:pb-10 md:pt-16">
         <div className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <Link href="/" className="text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
-          <h1 className="mt-2 text-3xl font-black tracking-tight md:text-5xl">
+          <h1 className="mt-3 text-4xl font-bold leading-[0.95] tracking-tight md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
             {typeof title === "string" ? (() => {
               const m = title.match(/^(\p{Extended_Pictographic}\uFE0F?)\s*(.*)$/u);
               return m ? (
@@ -47,7 +47,7 @@ export default function PageHero({
               );
             })() : title}
           </h1>
-          {subtitle && <p className="mt-2 text-white/60 md:text-lg">{subtitle}</p>}
+          {subtitle && <p className="mt-3 max-w-xl text-lg text-white/50">{subtitle}</p>}
           {children}
         </div>
       </div>
