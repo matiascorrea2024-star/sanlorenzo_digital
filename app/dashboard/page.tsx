@@ -8,6 +8,8 @@ import { friendlyError } from "@/lib/friendly-error";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 import BusinessPulse from "@/components/dashboard/business-pulse";
+import BusinessStats from "@/components/dashboard/business-stats";
+import PlanLimitBanner from "@/components/dashboard/plan-limit-banner";
 
 export default function DashboardPage() {
   const { show } = useToast();
@@ -94,6 +96,8 @@ export default function DashboardPage() {
           </div>
         ) : (
           <>
+          <PlanLimitBanner />
+          <BusinessStats />
           <BusinessPulse negocio={negocios[0]} />
           <div className="grid gap-4 md:grid-cols-2">
             {negocios.map((b) => (

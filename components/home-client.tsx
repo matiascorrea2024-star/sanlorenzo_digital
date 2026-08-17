@@ -9,6 +9,8 @@ import LiveNow from "@/components/home/live-now";
 import Stories from "@/components/home/stories";
 import ReelsStrip from "@/components/home/reels-strip";
 import NewThisWeek from "@/components/home/new-this-week";
+import OfertaBomba from "@/components/home/oferta-bomba";
+import TipRotativo from "@/components/home/tip-rotativo";
 import Featured from "@/components/home/featured";
 import OfferCard from "@/components/ui/offer-card";
 import SectionTitle from "@/components/ui/section-title";
@@ -129,6 +131,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
           <span /><span /><span />
         </div>
         <div className="relative z-10">
+      <OfertaBomba />
       <LiveNow />
       <ReelsStrip />
       <NewThisWeek />
@@ -229,6 +232,8 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
           <Featured list={filteredBusinesses} title="Negocios destacados" userCoords={coords} />
         </>
       )}
+
+      <TipRotativo />
 
       {/* ===== CÓMO FUNCIONA ===== */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
