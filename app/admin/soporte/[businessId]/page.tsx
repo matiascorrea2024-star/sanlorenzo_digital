@@ -47,7 +47,7 @@ export default function AdminSoportePage() {
         <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-orange-400 hover:text-orange-300">
           <ArrowLeft className="h-4 w-4" /> Volver al panel
         </Link>
-        <h1 className="mt-3 mb-6 text-3xl font-black">Soporte con {negocio.name}</h1>
+        <h1 className="mt-3 mb-6 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Soporte con {negocio.name}</h1>
         {adminId && <Chat businessId={negocio.id} ownerId={negocio.owner_id} businessName={negocio.name} businessSlug={negocio.slug} customerId={adminId} staffId={adminId} />}
       </div>
     </main>

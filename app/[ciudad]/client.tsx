@@ -79,7 +79,7 @@ export default function CiudadView() {
         <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 py-16">
           <div className="mx-auto max-w-2xl px-4 text-center">
             <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Próximamente</Badge>
-            <h1 className="mt-3 text-4xl font-black md:text-5xl">Estamos llegando a {ciudad.name}</h1>
+            <h1 className="mt-3 text-4xl font-black md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Estamos llegando a {ciudad.name}</h1>
             <p className="mx-auto mt-3 max-w-md text-white/70">
               Todavía no activamos {ciudad.name} en La Gran Barata Digital. Estamos sumando ciudades
               del cordón industrial de a poco -- pronto vas a poder encontrar negocios y ofertas acá.
@@ -106,7 +106,7 @@ export default function CiudadView() {
       <section className="border-b border-white/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 py-12">
         <div className="mx-auto max-w-6xl px-4">
           <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Ciudad</Badge>
-          <h1 className="mt-3 text-4xl font-black md:text-5xl">{ciudad.name}</h1>
+          <h1 className="mt-3 text-4xl font-black md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{ciudad.name}</h1>
           <p className="mt-2 text-white/70">
             Descubrí negocios, ofertas y servicios en {ciudad.name}
           </p>

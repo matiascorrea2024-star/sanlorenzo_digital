@@ -479,7 +479,7 @@ export default function AdminPage() {
               <Shield className="h-6 w-6 text-red-400" />
             </div>
             <div>
-              <h1 className="text-2xl font-black md:text-3xl">Panel de administración</h1>
+              <h1 className="text-2xl font-black md:text-3xl" style={{ fontFamily: "var(--font-space)" }}>Panel de administración</h1>
               <p className="text-sm text-white/50">San Lorenzo Digital · control total de la plataforma</p>
             </div>
           </div>

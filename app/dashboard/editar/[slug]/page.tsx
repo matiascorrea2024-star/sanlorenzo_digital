@@ -144,7 +144,7 @@ export default function Editar() {
     <main className="bg-[#0c0a0b] text-white min-h-screen">
       <div className="mx-auto max-w-3xl px-4 py-10">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-black">Editar {b.name}</h1>
+          <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Editar {b.name}</h1>
           <a href={`/negocio/${b.slug}`} target="_blank" className="rounded-xl border border-orange-400/30 bg-orange-500/10 px-4 py-2.5 text-sm font-bold text-orange-300 hover:bg-orange-500/20">👁️ Ver en vivo</a>
         </div>
 

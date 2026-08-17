@@ -77,7 +77,7 @@ export default function BarrioView() {
             <ArrowLeft className="h-4 w-4" /> Volver a {ciudad.name}
           </Link>
           <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Barrio</Badge>
-          <h1 className="mt-3 text-4xl font-black md:text-5xl">{barrio.name}</h1>
+          <h1 className="mt-3 text-4xl font-black md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{barrio.name}</h1>
           <p className="mt-2 text-white/70">{barrio.name}, {ciudad.name}</p>
         </div>
       </section>
