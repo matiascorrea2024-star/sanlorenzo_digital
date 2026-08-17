@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Ticket, Copy, Check, QrCode } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 import Badge from "@/components/ui/badge";
 
 function generateCode(): string {
@@ -21,8 +23,25 @@ export default function CouponButton({ offerId, businessId, offerTitle }: {
 }) {
   const [coupon, setCoupon] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [copied, setCopied] = useState(false);
   const { trackCouponGenerated } = useAnalytics();
+  const { show } = useToast();
+
+  // Antes esto arrancaba siempre en coupon=null sin chequear si el
+  // usuario ya tenía uno -- recargando la página se podía generar un
+  // cupón nuevo cada vez. Ahora se busca el existente al montar.
+  useEffect(() => {
+    (async () => {
+      const { data: { user } } = await supabase().auth.getUser();
+      if (user) {
+        const { data } = await supabase().from("coupons")
+          .select("*").eq("offer_id", offerId).eq("user_id", user.id).maybeSingle();
+        if (data) setCoupon(data);
+      }
+      setChecking(false);
+    })();
+  }, [offerId]);
 
   const generate = async () => {
     setLoading(true);
@@ -48,6 +67,14 @@ export default function CouponButton({ offerId, businessId, offerTitle }: {
     if (data && !error) {
       setCoupon(data);
       await trackCouponGenerated(offerId, businessId);
+    } else if (error?.code === "23505") {
+      // Ya tenía uno (constraint), recuperamos el existente en vez de
+      // mostrar un error -- puede pasar si abrió dos pestañas a la vez.
+      const { data: existente } = await supabase().from("coupons")
+        .select("*").eq("offer_id", offerId).eq("user_id", user.id).maybeSingle();
+      if (existente) setCoupon(existente);
+    } else if (error) {
+      show(`❌ ${friendlyError(error, "No se pudo generar el cupón.")}`, "error");
     }
     setLoading(false);
   };
@@ -58,6 +85,8 @@ export default function CouponButton({ offerId, businessId, offerTitle }: {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  if (checking) return null;
 
   if (!coupon) {
     return (
