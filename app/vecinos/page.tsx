@@ -43,15 +43,15 @@ export default function VecinosPage() {
         (profs || []).forEach((p: any) => { if (p.display_name) nombres[p.user_id] = p.display_name; });
       }
 
-      const lista: any[] = [];
-      for (const id of ids.slice(0, 30)) {
-        const { data: pts } = await sb.rpc("nivel_usuario", { uid: id });
-        lista.push({
-          id,
-          nombre: nombres[id] || "Vecino #" + id.slice(0, 4),
-          puntos: pts || 0,
-        });
-      }
+      const idsTop = ids.slice(0, 30);
+      const puntosPorId = await Promise.all(
+        idsTop.map((id) => sb.rpc("nivel_usuario", { uid: id }).then(({ data }) => data || 0))
+      );
+      const lista: any[] = idsTop.map((id, i) => ({
+        id,
+        nombre: nombres[id] || "Vecino #" + id.slice(0, 4),
+        puntos: puntosPorId[i],
+      }));
       lista.sort((x, y) => y.puntos - x.puntos);
       setVecinos(lista.slice(0, 10));
       const { data: { user } } = await sb.auth.getUser();

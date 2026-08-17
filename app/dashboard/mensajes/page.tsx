@@ -42,7 +42,7 @@ export default function MensajesPage() {
 
   useEffect(() => {
     if (selectedBiz) {
-      supabase().from("messages").select("*").eq("business_id", selectedBiz).order("created_at").then(({ data }) => {
+      supabase().from("messages").select("*").eq("business_id", selectedBiz).order("created_at").limit(300).then(({ data }) => {
         if (data) {
           setMessages(data);
           // Cargar nombres de contactos (agenda > perfil)

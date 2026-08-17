@@ -50,7 +50,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
       if (user) {
         const cust = customerId || user.id;
         const { data } = await supabase().from("messages").select("*")
-          .eq("business_id", businessId).eq("customer_id", cust).order("created_at", { ascending: true });
+          .eq("business_id", businessId).eq("customer_id", cust).order("created_at", { ascending: true }).limit(300);
         if (data) setMessages(data);
         await markRead(cust, !!ownerId && user.id === ownerId);
 

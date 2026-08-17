@@ -20,7 +20,7 @@ export default function MensajesClientePage() {
 
   useEffect(() => {
     if (user) {
-      supabase().from("messages").select("*").eq("customer_id", user.id).order("created_at").then(async ({ data }) => {
+      supabase().from("messages").select("*").eq("customer_id", user.id).order("created_at").limit(300).then(async ({ data }) => {
         if (data) {
           setMessages(data);
           const ids = [...new Set(data.map(m => m.business_id))] as string[];
