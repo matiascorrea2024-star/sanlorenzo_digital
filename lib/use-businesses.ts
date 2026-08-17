@@ -35,10 +35,14 @@ export function useAllBusinesses(seed?: FullBusiness[]): FullBusiness[] {
         // este hook queda para pantallas que sí necesitan "todos los
         // negocios con coordenadas" (mapa, asistente), con un tope
         // razonable como red de seguridad.
-        const { data } = await supabase().from("businesses")
-          .select("id, slug, name, category, type, description, tags, latitude, longitude, location_source, location_verified, portada_url, logo_url, rating, reviews, status, open, whatsapp, instagram, accent, schedule, updated_at, promotions, destacado, plan, hace_envios, retiro_en_local, envio_gratis, costo_envio, zona_cobertura, views, favorites_count, phone, email, website, cover_url")
+        const { data, error } = await supabase().from("businesses")
+          .select("id, slug, name, category, type, description, tags, latitude, longitude, location_verified, portada_url, logo_url, rating, reviews, status, open, whatsapp, instagram, accent, schedule, updated_at, promotions, destacado, plan, hace_envios, retiro_en_local, envio_gratis, costo_envio, zona_cobertura, views, favorites_count, phone, email, website, cover_url")
           .eq("activo", true).in("status", ["verificado", "reclamado"])
           .limit(2000);
+        // Un error de Postgrest (ej. columna inexistente) no lanza excepción,
+        // solo devuelve data=null -- sin este chequeo quedaba en silencio
+        // como "todavía no hay negocios" en vez de mostrar el error real.
+        if (error) { console.error("useAllBusinesses:", error.message); return; }
         if (!data) return;
         const reales: FullBusiness[] = (data as Array<Record<string, unknown>>).map((b) => ({
           id: String(b.id),
