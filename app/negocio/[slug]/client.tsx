@@ -25,6 +25,7 @@ import FavoriteButton from "@/components/ui/favorite-button";
 import LevelBadge from "@/components/business/level-badge";
 import BusinessLiveBadge from "@/components/business/live-badge";
 import { planDe } from "@/lib/plans";
+import { generarImagenNegocio } from "@/lib/share-image";
 
 const CATEGORY_IMAGES: Record<string, string> = {
   calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=1200&q=85",
@@ -89,6 +90,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   const catsProductos = Array.from(new Set(productos.map((p) => p.category).filter(Boolean))) as string[];
   const [loading] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [compartiendo, setCompartiendo] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -112,6 +114,31 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   const share = async () => {
     const url = window.location.href;
     const text = `🔥 ${negocio.name} en La Gran Barata Digital\n📍 ${negocio.address || "San Lorenzo"}\n⭐ ${negocio.rating || 0} (${negocio.reviews || 0} reseñas)\n\n#LaGranBarataSanLorenzo`;
+
+    // Igual que en la ficha de oferta: preferimos compartir una imagen
+    // lista para Instagram Story / WhatsApp Status cuando el navegador
+    // lo permite -- publicidad gratis del negocio completo, no solo texto.
+    setCompartiendo(true);
+    let file: File | null = null;
+    try {
+      const blob = await generarImagenNegocio(negocio);
+      file = new File([blob], "negocio.png", { type: "image/png" });
+    } catch {
+      file = null;
+    }
+    setCompartiendo(false);
+
+    if (file && navigator.canShare?.({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: negocio.name, text });
+        track(negocio.id, "share");
+        show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
+      } catch {
+        // Usuario canceló -- no reintentamos con un segundo cartel de texto.
+      }
+      return;
+    }
+
     if (navigator.share) {
       try { await navigator.share({ title: negocio.name, text, url }); } catch { return; }
     } else {
@@ -306,9 +333,9 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               <span className="text-sm font-bold">Cómo llegar</span>
             </a>
           )}
-          <button onClick={share} className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10">
-            <Share2 className="h-6 w-6 text-sky-400" />
-            <span className="text-sm font-bold">Compartir</span>
+          <button onClick={share} disabled={compartiendo} className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 disabled:opacity-60">
+            <Share2 className={`h-6 w-6 text-sky-400 ${compartiendo ? "animate-pulse" : ""}`} />
+            <span className="text-sm font-bold">{compartiendo ? "Generando..." : "Compartir"}</span>
           </button>
           <FavoriteButton itemType="business" itemId={negocio.id} variant="card" size={24} />
         </div>
