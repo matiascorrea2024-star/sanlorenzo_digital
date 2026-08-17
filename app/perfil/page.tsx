@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Shield, Store, Flag, MapPin } from "lucide-react";
-import PageHero from "@/components/ui/page-hero";
 import { supabase } from "@/lib/supabase";
 import ChangePassword from "@/components/profile/change-password";
 import PlatformWhatsappSetting from "@/components/profile/platform-whatsapp-setting";
@@ -184,51 +183,87 @@ export default function PerfilPage() {
 
   return (
     <main className="bg-[#0c0a0b] text-white min-h-screen pb-24">
-      <PageHero
-        title={isAdmin ? "Panel del fundador" : "Tu perfil de vecino"}
-        subtitle={isAdmin ? "Vos armaste esto -- acá no hay ranking que valga" : "Tus misiones, medallas, rachas y premios"}
-      />
-      <div className="mx-auto max-w-3xl px-4 py-10">
-        {isAdmin ? (
-          <div className="mt-4 rounded-3xl border border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-red-600/10 p-8 text-center">
-            <div className="mx-auto">
-              <AdminFrame size={80}>
-                <StaffAvatar size={80} />
-              </AdminFrame>
-            </div>
-            <div className="mt-3 flex items-center justify-center gap-2">
-              <Shield className="h-5 w-5 text-yellow-300" />
-              <span className="text-lg font-black text-yellow-200">Fundador · San Lorenzo Digital</span>
-            </div>
-            <div className="mt-2 flex justify-center"><AdminBadge text="Staff" /></div>
-            <p className="mt-3 text-sm text-white/50">{user.email}</p>
-            <p className="mt-4 text-sm text-white/70">No hay nivel que te quede grande: sos quien mueve todo esto.</p>
-          </div>
-        ) : (
-        <div className="mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-8 text-center">
-          <div className="mx-auto">
-            <DivisionFrame puntos={puntos} escala={ESCALA_PUNTOS_USUARIO} size={80} showLabel>
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-3xl font-black">
+      {/* Hero editorial: avatar/marco real + nombre gigante + racha/rol
+          como pills al costado -- calco del mockup aprobado. El marco de
+          rango (DivisionFrame/AdminFrame) NO se toca, es el sistema
+          visual ya validado. */}
+      <div className="mx-auto max-w-5xl px-4 pb-8 pt-14 sm:px-6 md:pt-20">
+        <div className="flex flex-col items-center gap-8 text-center md:flex-row md:items-end md:text-left">
+          {isAdmin ? (
+            <AdminFrame size={128}><StaffAvatar size={128} /></AdminFrame>
+          ) : (
+            <DivisionFrame puntos={puntos} escala={ESCALA_PUNTOS_USUARIO} size={128} showLabel>
+              <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-4xl font-black">
                 {(user.email || "?")[0].toUpperCase()}
               </div>
             </DivisionFrame>
-          </div>
-          <p className="mt-3 text-sm text-white/50">{user.email}</p>
-          <p className="mt-3 text-3xl font-black text-orange-400">{puntos} <span className="text-sm text-white/50">puntos</span></p>
-          {racha > 0 && <p className="mt-1 text-sm font-black text-orange-300">🔥 Racha de {racha} día{racha > 1 ? "s" : ""} seguidos</p>}
-          {nivel.proximo && (
-            <div className="mt-4">
-              <div className="h-2 rounded-full bg-white/10">
-                <div className="h-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600" style={{ width: `${nivel.progreso}%` }} />
-              </div>
-              <p className="mt-1 text-xs text-white/50">Te faltan {faltanReal} pts para {nivel.proximo}</p>
-            </div>
           )}
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-white/40">{isAdmin ? "Fundador" : "Vecino de San Lorenzo"}</p>
+            <h1 className="mt-2 truncate text-4xl font-bold sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>{user.email}</h1>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+              {isAdmin ? (
+                <span className="flex items-center gap-2 rounded-full border border-yellow-400/30 bg-yellow-500/10 px-4 py-2 text-sm font-bold text-yellow-200">
+                  <Shield className="h-4 w-4" /> Staff · San Lorenzo Digital
+                </span>
+              ) : (
+                <>
+                  {racha > 0 && (
+                    <span className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-bold">
+                      🔥 Racha de {racha} día{racha > 1 ? "s" : ""}
+                    </span>
+                  )}
+                  <span className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-bold" style={{ color: nivel.accent }}>
+                    {nivel.rango}
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
         </div>
+
+        {!isAdmin && (
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            <div className="rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="flex h-full flex-col justify-between rounded-[calc(2.5rem-0.375rem)] border border-white/[.05] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <div>
+                  <p className="mb-4 text-[10px] font-black uppercase tracking-[.35em] text-white/40">Progreso de nivel</p>
+                  <p className="text-6xl font-black leading-none sm:text-7xl" style={{ fontFamily: "var(--font-ticket)" }}>
+                    {puntos} <span className="text-lg font-bold tracking-normal text-white/40">pts</span>
+                  </p>
+                </div>
+                {nivel.proximo && (
+                  <div className="mt-8">
+                    <div className="mb-2 flex items-end justify-between text-xs font-bold text-white/40">
+                      <span>PRÓXIMO RANGO: {nivel.proximo.toUpperCase()}</span>
+                      <span className="text-orange-400">{faltanReal} pts restantes</span>
+                    </div>
+                    <div className="h-2.5 w-full overflow-hidden rounded-full bg-white/5">
+                      <div className="h-full rounded-full bg-gradient-to-r from-orange-500 to-red-600" style={{ width: `${nivel.progreso}%` }} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[calc(2.5rem-0.375rem)] border border-white/[.05] bg-black/20 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <p className="mb-5 text-[10px] font-black uppercase tracking-[.35em] text-white/40">Medallas y logros</p>
+                <div className="grid grid-cols-4 gap-3">
+                  {medallas.slice(0, 8).map((m, i) => (
+                    <div key={i} title={`${m.nombre} -- ${m.desc}`}
+                      className={`group flex aspect-square cursor-help items-center justify-center rounded-2xl border transition-all ${m.ganada ? "border-yellow-500/20 bg-yellow-500/10 hover:bg-yellow-500/20" : "border-white/10 bg-white/5 opacity-30 grayscale"}`}>
+                      <span className="text-2xl transition-transform group-hover:scale-110">{m.ganada ? m.icon : "🔒"}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {!isAdmin && perdidas > 0 && (
-          <div className="mt-4 flex items-center gap-3 rounded-2xl border border-red-400/30 bg-red-500/10 p-4">
+          <div className="mt-6 flex items-center gap-3 rounded-2xl border border-red-400/30 bg-red-500/10 p-4">
             <span className="text-2xl">⏰</span>
             <div>
               <p className="text-sm font-black text-red-300">
@@ -239,27 +274,33 @@ export default function PerfilPage() {
           </div>
         )}
 
+        {isAdmin && (
+          <div className="mt-6 rounded-2xl border border-yellow-400/30 bg-yellow-500/10 p-6 text-center">
+            <div className="mt-2 flex justify-center"><AdminBadge text="Staff" /></div>
+            <p className="mt-3 text-sm text-white/70">No hay nivel que te quede grande: sos quien mueve todo esto.</p>
+          </div>
+        )}
 
-        <div className="mt-6 grid grid-cols-2 gap-2 md:grid-cols-4">
-          <Link href="/favoritos" className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center hover:border-orange-400/50 hover:bg-white/10 transition">
-            <p className="text-2xl">❤️</p>
-            <p className="mt-1 text-xs font-bold">Favoritos</p>
-          </Link>
-          <Link href="/mensajes" className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center hover:border-orange-400/50 hover:bg-white/10 transition">
-            <p className="text-2xl">💬</p>
-            <p className="mt-1 text-xs font-bold">Mensajes</p>
-          </Link>
-          <Link href="/vecinos" className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center hover:border-orange-400/50 hover:bg-white/10 transition">
-            <p className="text-2xl">👥</p>
-            <p className="mt-1 text-xs font-bold">Ranking vecinos</p>
-          </Link>
-          <Link href="/panel" className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center hover:border-orange-400/50 hover:bg-white/10 transition">
-            <p className="text-2xl">🏪</p>
-            <p className="mt-1 text-xs font-bold">Mis negocios</p>
-          </Link>
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            { href: "/favoritos", icon: "❤️", txt: "Favoritos" },
+            { href: "/mensajes", icon: "💬", txt: "Mensajes" },
+            { href: "/vecinos", icon: "👥", txt: "Ranking vecinos" },
+            { href: "/panel", icon: "🏪", txt: "Mis negocios" },
+          ].map((a) => (
+            <Link key={a.href} href={a.href} className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition hover:-translate-y-1">
+              <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <p className="text-2xl">{a.icon}</p>
+                <p className="text-xs font-bold">{a.txt}</p>
+              </div>
+            </Link>
+          ))}
         </div>
+      </div>
 
-        <h2 id="cuenta" className="mt-8 mb-3 scroll-mt-24 text-xl font-black">Cuenta</h2>
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
+
+        <h2 id="cuenta" className="mt-10 mb-4 scroll-mt-24 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Cuenta</h2>
         <div className="space-y-3">
           <Link href="/planes" className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-orange-400/50 hover:bg-white/10 transition">
             <div>
@@ -275,7 +316,7 @@ export default function PerfilPage() {
           {isAdmin && <PlatformPaymentSetting />}
         </div>
 
-        <h2 className="mt-8 mb-3 text-xl font-black">Tu actividad</h2>
+        <h2 className="mt-10 mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Tu actividad</h2>
         <div className="grid grid-cols-3 gap-3 md:grid-cols-7 text-center">
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-orange-400">{stats.vis}</p><p className="text-[10px] text-white/50 uppercase">Visitas</p></div>
           <div className="rounded-xl bg-white/5 p-3"><p className="text-xl font-black text-red-400">{stats.cats}</p><p className="text-[10px] text-white/50 uppercase">Rubros</p></div>
@@ -288,7 +329,7 @@ export default function PerfilPage() {
 
         {isAdmin ? (
           <>
-            <h2 id="misiones" className="mt-8 mb-3 scroll-mt-24 text-xl font-black">Accesos rápidos</h2>
+            <h2 id="misiones" className="mt-10 mb-4 scroll-mt-24 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Accesos rápidos</h2>
             <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
               {[
                 { href: "/admin", icon: Shield, txt: "Overview" },
@@ -306,7 +347,7 @@ export default function PerfilPage() {
           </>
         ) : (
         <>
-        <h2 id="misiones" className="mt-8 mb-3 scroll-mt-24 text-xl font-black">Misiones de hoy</h2>
+        <h2 id="misiones" className="mt-10 mb-4 scroll-mt-24 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Misiones de hoy</h2>
         <div className="grid gap-2 md:grid-cols-3">
           {[
             { icon: "👁", txt: "Visitá 3 negocios distintos", act: misiones?.vis || 0, meta: 3 },
@@ -326,7 +367,7 @@ export default function PerfilPage() {
         </div>
 
 
-        <h2 className="mt-8 mb-3 text-xl font-black">Misiones de la semana</h2>
+        <h2 className="mt-10 mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Misiones de la semana</h2>
         <div className="grid gap-2 md:grid-cols-3">
           {[
             { icon: "👁", txt: "Visitá 10 negocios distintos", act: extra?.visWeek || 0, meta: 10 },
@@ -348,7 +389,7 @@ export default function PerfilPage() {
           🎁 Premios reales: racha de 7 días = <strong className="text-yellow-300">+50 pts</strong> · completar las 3 semanales = <strong className="text-yellow-300">+40 pts</strong>
         </div>
 
-        <h2 className="mt-8 mb-3 text-xl font-black">Rangos — ¿hasta dónde llegás?</h2>
+        <h2 className="mt-10 mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Rangos — ¿hasta dónde llegás?</h2>
         <div className="grid gap-2">
           {RANGOS.map((n) => {
             const minReal = Math.round(n.min / ESCALA_PUNTOS_USUARIO);
@@ -374,7 +415,7 @@ export default function PerfilPage() {
         </>
         )}
 
-        <h2 className="mt-8 mb-3 text-xl font-black">Tus medallas</h2>
+        <h2 className="mt-10 mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Tus medallas</h2>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
           {medallas.map((m, i) => (
             <div key={i} className={`rounded-2xl border p-4 text-center ${m.ganada ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-white/5 opacity-40"}`}>
@@ -385,7 +426,7 @@ export default function PerfilPage() {
           ))}
         </div>
 
-        <h2 className="mt-8 mb-3 text-xl font-black">Negocios que seguís</h2>
+        <h2 className="mt-10 mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Negocios que seguís</h2>
         <div className="grid gap-2">
           {seguidos.map((f: any) => (
             <Link key={f.business_id} href={"/negocio/" + (f.businesses?.slug || "")} className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-bold hover:border-orange-400/60">
