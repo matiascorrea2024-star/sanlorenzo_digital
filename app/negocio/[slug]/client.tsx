@@ -28,6 +28,7 @@ import BusinessLiveBadge from "@/components/business/live-badge";
 import { planDe } from "@/lib/plans";
 import { generarImagenNegocio } from "@/lib/share-image";
 import ResponseBadge from "@/components/business/response-badge";
+import LoyaltyCard from "@/components/business/loyalty-card";
 import { hoyArgentina } from "@/lib/fecha-ar";
 
 const CATEGORY_IMAGES: Record<string, string> = {
@@ -418,6 +419,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             <p className="leading-relaxed text-white/80">{negocio.description}</p>
           </div>
         )}
+
+        <LoyaltyCard businessId={negocio.id} businessName={negocio.name} />
 
         {/* Catálogo y ofertas activas: si el negocio tiene las dos cosas,
             se muestran como pestañas (catálogo primero por default). Si

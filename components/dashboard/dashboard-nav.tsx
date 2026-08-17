@@ -27,6 +27,7 @@ const GROUPS: { title: string; items: { href: string; label: string }[] }[] = [
       { href: "/dashboard/mensajes", label: "💬 Mensajes" },
       { href: "/dashboard/resenas", label: "⭐ Reseñas" },
       { href: "/dashboard/seguidores", label: "❤️ Seguidores" },
+      { href: "/dashboard/sellos", label: "🎟️ Sellitos" },
       { href: "/dashboard/soporte", label: "🛟 Soporte" },
     ],
   },
