@@ -21,6 +21,12 @@ export default function RegistroPage() {
     e.preventDefault();
     setError("");
     setSuccess(false);
+
+    if (name.trim().split(/\s+/).filter(Boolean).length < 2) {
+      setError("Escribí nombre y apellido, así te distinguimos de otros vecinos con el mismo nombre.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -80,15 +86,21 @@ export default function RegistroPage() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-white/80 mb-2">¿Cómo te llamas?</label>
+              <label className="block text-sm font-semibold text-white/80 mb-2">Nombre y apellido</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
                 className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white outline-none focus:border-orange-400"
-                placeholder="Tu nombre"
+                placeholder="Ej: Juan Pérez"
               />
+              {/* Con nombres muy comunes (Matías, Juan, etc.) pedir nombre
+                  Y apellido reduce mucho la chance de que dos vecinos se
+                  vean idénticos en reseñas/ranking, sin bloquear a nadie
+                  por algo que no es realmente un problema de seguridad
+                  (los nombres de las personas se repiten en la vida real). */}
+              <p className="mt-1.5 text-xs text-white/40">Así te distinguimos de otros vecinos con el mismo nombre.</p>
             </div>
 
             <div>

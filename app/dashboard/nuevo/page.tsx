@@ -74,6 +74,24 @@ export default function NuevoNegocioPage() {
     portadaUrl: "",
   });
   const [imageId] = useState(() => crypto.randomUUID());
+  // Aviso, no bloqueo: puede haber más de un negocio real con el mismo
+  // nombre (pasa en la vida real, "Kiosco Central" no es de nadie en
+  // particular) -- y como el link/@mención de cada negocio usa su slug
+  // único (nombre+timestamp), un nombre repetido no rompe nada técnico.
+  // Esto solo ayuda a que la persona se dé cuenta antes de publicar.
+  const [nombreParecido, setNombreParecido] = useState<string | null>(null);
+
+  useEffect(() => {
+    const nombre = formData.name.trim();
+    if (nombre.length < 3 || !locationId) { setNombreParecido(null); return; }
+    const t = setTimeout(async () => {
+      const { data } = await supabase().from("businesses")
+        .select("id").eq("location_id", locationId).eq("activo", true)
+        .ilike("name", nombre).limit(1);
+      setNombreParecido(data && data.length > 0 ? nombre : null);
+    }, 500);
+    return () => clearTimeout(t);
+  }, [formData.name, locationId]);
 
   const categories = [
     { id: "calzado", name: "Calzado", icon: "👟" },
@@ -232,6 +250,12 @@ export default function NuevoNegocioPage() {
             <label className={lbl}>{esParticular ? "Cómo querés que te encuentren *" : "Nombre del negocio *"}</label>
             <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required className={inp} placeholder={esParticular ? "Ej: Lu Vende Ropa" : "Ej: Café La Esquina"} />
+            {nombreParecido && (
+              <p className="mt-1.5 flex items-start gap-1.5 text-xs text-amber-400/90">
+                <span>⚠️</span>
+                <span>Ya hay {esParticular ? "alguien" : "un negocio"} registrado en esta ciudad como &quot;{nombreParecido}&quot;. Podés seguir igual si sos vos o si es otro real -- solo te lo avisamos para que no se confundan entre ustedes.</span>
+              </p>
+            )}
           </div>
 
           <div>
