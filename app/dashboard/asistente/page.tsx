@@ -1,8 +1,19 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Wand2, Copy, Check, MessageCircle } from "lucide-react";
+import { Wand2, Copy, Check, Lightbulb } from "lucide-react";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
+
+const TIPS = [
+  { i: "📸", t: "Fotos con luz natural", d: "Una foto de día, sin flash, contra un fondo simple vende más que cualquier texto. Es lo primero que se ve." },
+  { i: "⏰", t: "Ponele vencimiento a tus ofertas", d: "\"Termina hoy\" convierte mejor que \"oferta permanente\" -- la urgencia real funciona, la falsa se nota y espanta." },
+  { i: "🎬", t: "Grabá un Reel del producto en uso", d: "15 segundos mostrando cómo se usa o se ve generan mucha más confianza que una sola foto estática." },
+  { i: "💬", t: "Respondé rápido por el chat", d: "Los primeros minutos definen si el cliente te compra a vos o sigue buscando en otro lado." },
+  { i: "🔁", t: "Publicá seguido, no todo junto", d: "Los negocios activos aparecen más en el Ranking y en Pulso -- mejor 3 publicaciones en la semana que 10 en un día." },
+  { i: "⭐", t: "Pedí una reseña después de cada venta", d: "Las reseñas con foto son las que más convierten a otros compradores. Solo hace falta pedirla." },
+  { i: "📣", t: "Etiquetate en el Chat de tu ciudad", d: "Cuando alguien pregunte por tu rubro, respondé y usá @tu-negocio -- te destaca frente a todos los que están mirando." },
+  { i: "📆", t: "Usá Historia 24h para avisos del día", d: "\"Llegó stock nuevo\", \"hoy cerramos antes\" -- desaparece sola en 24hs, no ensucia tu perfil permanente." },
+];
 
 function generarCopy(datos: { producto: string; precio: string; precioAntes: string; descuento: string; negocio: string }) {
   const { producto, precio, precioAntes, descuento, negocio } = datos;
@@ -71,6 +82,25 @@ export default function AsistenteComerciantePage() {
           <div>
             <h1 className="text-3xl font-black">Asistente de publicaciones</h1>
             <p className="text-white/60">Generá títulos, descripciones y copy para WhatsApp en segundos</p>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <p className="mb-3 flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-white/40">
+            <Lightbulb className="h-3.5 w-3.5 text-orange-400" /> Tips que realmente ayudan a vender
+          </p>
+          <div className="grid gap-2.5 sm:grid-cols-2">
+            {TIPS.map((tip) => (
+              <div key={tip.t} className="rounded-[1.25rem] border border-white/[.06] bg-white/[.02] p-1">
+                <div className="flex items-start gap-2.5 rounded-[.9rem] border border-white/[.05] bg-black/10 p-3.5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <span className="text-lg leading-none">{tip.i}</span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold">{tip.t}</p>
+                    <p className="mt-0.5 text-xs leading-snug text-white/50">{tip.d}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
