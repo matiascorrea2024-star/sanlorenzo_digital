@@ -105,39 +105,41 @@ export default function PlanesPage() {
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {PLANES.map(p => (
             <div key={p.nombre}
-              className={`relative flex flex-col rounded-3xl border-2 bg-white/[0.03] p-6 ${p.color} ${
-                p.destacado ? "shadow-[0_0_40px_-10px_rgba(249,115,22,0.4)] md:-translate-y-3" : ""
+              className={`relative rounded-[1.75rem] border p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${p.color} ${
+                p.destacado ? "shadow-[0_0_40px_-10px_rgba(249,115,22,0.4)] md:-translate-y-3" : "hover:-translate-y-1"
               }`}>
               {p.destacado && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-1 text-xs font-black">
+                <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-1 text-xs font-black">
                   ⭐ MÁS ELEGIDO
                 </span>
               )}
-              <p.icon className={`h-8 w-8 ${p.destacado ? "text-orange-400" : "text-white/60"}`} />
-              <h2 className="mt-3 text-xl font-black">{p.nombre}</h2>
-              <p className="text-sm text-white/50">{p.desc}</p>
-              <p className="mt-4">
-                <span className="text-4xl font-black">{p.precio}</span>
-                <span className="ml-1 text-sm text-white/50">/{p.periodo}</span>
-              </p>
+              <div className="flex h-full flex-col rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <p.icon className={`h-8 w-8 ${p.destacado ? "text-orange-400" : "text-white/60"}`} />
+                <h2 className="mt-3 text-xl font-black">{p.nombre}</h2>
+                <p className="text-sm text-white/50">{p.desc}</p>
+                <p className="mt-4">
+                  <span className="text-4xl font-black" style={{ fontFamily: "var(--font-ticket)" }}>{p.precio}</span>
+                  <span className="ml-1 text-sm text-white/50">/{p.periodo}</span>
+                </p>
 
-              <ul className="mt-6 flex-1 space-y-2.5">
-                {p.features.map(f => (
-                  <li key={f.t} className={`flex items-center gap-2 text-sm ${f.ok ? "text-white/80" : "text-white/30 line-through"}`}>
-                    {f.ok ? <Check className="h-4 w-4 shrink-0 text-green-400" /> : <X className="h-4 w-4 shrink-0 text-white/20" />}
-                    {f.t}
-                  </li>
-                ))}
-              </ul>
+                <ul className="mt-6 flex-1 space-y-2.5">
+                  {p.features.map(f => (
+                    <li key={f.t} className={`flex items-center gap-2 text-sm ${f.ok ? "text-white/80" : "text-white/30 line-through"}`}>
+                      {f.ok ? <Check className="h-4 w-4 shrink-0 text-green-400" /> : <X className="h-4 w-4 shrink-0 text-white/20" />}
+                      {f.t}
+                    </li>
+                  ))}
+                </ul>
 
-              <Link href={p.href}
-                className={`mt-6 rounded-xl py-3 text-center text-sm font-black transition ${
-                  p.destacado
-                    ? "bg-gradient-to-r from-orange-500 to-red-600 hover:opacity-90"
-                    : "border border-white/20 hover:bg-white/10"
-                }`}>
-                {p.cta}
-              </Link>
+                <Link href={p.href}
+                  className={`mt-6 rounded-full py-3 text-center text-sm font-black transition ${
+                    p.destacado
+                      ? "bg-gradient-to-r from-orange-500 to-red-600 hover:opacity-90"
+                      : "border border-white/20 hover:bg-white/10"
+                  }`}>
+                  {p.cta}
+                </Link>
+              </div>
             </div>
           ))}
         </div>

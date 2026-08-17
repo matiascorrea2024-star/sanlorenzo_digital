@@ -126,26 +126,30 @@ function BuscarContent() {
       <div className="mx-auto max-w-6xl px-4 py-8">
         <PageHero title="Buscador inteligente" subtitle="Buscá por nombre, producto o rubro, y filtrá como quieras" />
 
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Probá: zapatillas, pizza, peluquería…"
-          className="mt-5 w-full rounded-2xl border border-white/15 bg-white/5 px-5 py-4 text-base outline-none focus:border-orange-400"
-        />
+        <div className="mt-5 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-5">
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Probá: zapatillas, pizza, peluquería…"
+              className="w-full rounded-2xl border border-white/15 bg-white/5 px-5 py-4 text-base outline-none focus:border-orange-400"
+            />
 
-        <div className="mt-4 flex flex-wrap gap-2">
-          <button onClick={() => setConOfertas(!conOfertas)} className={`rounded-full px-4 py-2 text-xs font-black transition ${conOfertas ? "bg-orange-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
-            🔥 Con ofertas ahora
-          </button>
-          <button onClick={() => setAbiertos(!abiertos)} className={`rounded-full px-4 py-2 text-xs font-black transition ${abiertos ? "bg-green-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
-            🟢 Abierto ahora
-          </button>
-          <button onClick={pedirUbicacion} className={`rounded-full px-4 py-2 text-xs font-black transition ${cerca ? "bg-sky-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
-            📍 {cerca ? "Ordenando por cercanía ✓" : "Cerca mío"}
-          </button>
-          <button onClick={() => setConEnvios(!conEnvios)} className={`rounded-full px-4 py-2 text-xs font-black transition ${conEnvios ? "bg-sky-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
-            🚚 Hace envíos
-          </button>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button onClick={() => setConOfertas(!conOfertas)} className={`rounded-full px-4 py-2 text-xs font-black transition ${conOfertas ? "bg-orange-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
+                🔥 Con ofertas ahora
+              </button>
+              <button onClick={() => setAbiertos(!abiertos)} className={`rounded-full px-4 py-2 text-xs font-black transition ${abiertos ? "bg-green-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
+                🟢 Abierto ahora
+              </button>
+              <button onClick={pedirUbicacion} className={`rounded-full px-4 py-2 text-xs font-black transition ${cerca ? "bg-sky-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
+                📍 {cerca ? "Ordenando por cercanía ✓" : "Cerca mío"}
+              </button>
+              <button onClick={() => setConEnvios(!conEnvios)} className={`rounded-full px-4 py-2 text-xs font-black transition ${conEnvios ? "bg-sky-500 text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}>
+                🚚 Hace envíos
+              </button>
+            </div>
+          </div>
         </div>
 
         <p className="mt-6 text-sm text-white/50">

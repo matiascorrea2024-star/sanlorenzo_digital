@@ -152,9 +152,12 @@ export default function PromocionesPage() {
           <>
             {urgentes.length > 0 && (
               <div className="mb-10">
-                <h2 className="mb-4 flex items-center gap-2 text-lg font-black text-red-300">
-                  ⏰ Vencen hoy o mañana -- corré
-                </h2>
+                <div className="mb-4 flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-red-300">
+                    ⏰ Vencen hoy o mañana
+                  </span>
+                  <span className="text-sm font-bold text-white/40">corré antes de que se acaben</span>
+                </div>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {urgentes.map((o) => <OfferCard key={o.id} o={o} />)}
                 </div>
@@ -162,7 +165,9 @@ export default function PromocionesPage() {
             )}
             {resto.length > 0 && (
               <div>
-                {urgentes.length > 0 && <h2 className="mb-4 text-lg font-black text-white/70">El resto de las ofertas</h2>}
+                {urgentes.length > 0 && (
+                  <p className="mb-4 text-[11px] font-black uppercase tracking-widest text-white/40">El resto de las ofertas</p>
+                )}
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {resto.map((o) => <OfferCard key={o.id} o={o} />)}
                 </div>
