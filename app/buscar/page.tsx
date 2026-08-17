@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PageHero from "@/components/ui/page-hero";
 import BusinessCard from "@/components/business/card";
@@ -40,6 +40,11 @@ function BuscarContent() {
   const [todos, setTodos] = useState<any[]>([]);
   const [buscando, setBuscando] = useState(true);
   const { trackSearch } = useAnalytics();
+  // Si el usuario tipea rápido, una respuesta vieja puede llegar
+  // DESPUÉS de una más nueva y pisar el resultado correcto con uno de
+  // una búsqueda ya descartada -- este contador descarta cualquier
+  // respuesta que no sea la de la última búsqueda pedida.
+  const secuencia = useRef(0);
 
   // Antes: bajaba TODOS los negocios activos al navegador y filtraba en
   // el celular del usuario -- con muchos negocios eso tarda y consume
@@ -48,6 +53,7 @@ function BuscarContent() {
   // punto de partida, no la tabla entera).
   useEffect(() => {
     setBuscando(true);
+    const miSecuencia = ++secuencia.current;
     const t = setTimeout(async () => {
       let query = supabase().from("businesses").select(COLUMNS)
         .in("status", ["verificado", "reclamado"]).eq("activo", true);
@@ -56,6 +62,7 @@ function BuscarContent() {
       if (abiertos) query = query.eq("open", true);
       if (conEnvios) query = query.eq("hace_envios", true);
       const { data } = await query.order("destacado", { ascending: false }).order("rating", { ascending: false }).limit(RESULT_LIMIT);
+      if (miSecuencia !== secuencia.current) return;
       setTodos(data || []);
       setBuscando(false);
     }, 300);

@@ -26,6 +26,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
   const boxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropRef = useRef<HTMLDivElement>(null);
+  const secuencia = useRef(0);
 
   useEffect(() => {
     if (!shortcutSlash) return;
@@ -66,14 +67,21 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
       return;
     }
     setBuscando(true);
+    // Si el usuario tipea rápido, una respuesta vieja puede llegar
+    // después de una más nueva y pisar el resultado correcto -- este
+    // contador descarta cualquier respuesta que no sea la última pedida.
+    const miSecuencia = ++secuencia.current;
     const timer = setTimeout(async () => {
-      const { data: prods } = await supabase().from("products").select("*, businesses(name, slug)").ilike("name", `%${lower}%`).eq("active", true).limit(4);
+      const [{ data: prods }, { data: offs }, { data: biz }] = await Promise.all([
+        supabase().from("products").select("*, businesses(name, slug)").ilike("name", `%${lower}%`).eq("active", true).limit(4),
+        supabase().from("offers_with_business").select("*").ilike("title", `%${lower}%`).eq("active", true).limit(3),
+        supabase().from("businesses").select("id, name, slug, category")
+          .in("status", ["verificado", "reclamado"]).eq("activo", true)
+          .or(`name.ilike.%${lower}%,category.ilike.%${lower}%`).limit(4),
+      ]);
+      if (miSecuencia !== secuencia.current) return;
       setProductos(prods || []);
-      const { data: offs } = await supabase().from("offers_with_business").select("*").ilike("title", `%${lower}%`).eq("active", true).limit(3);
       setOfertas(offs || []);
-      const { data: biz } = await supabase().from("businesses").select("id, name, slug, category")
-        .in("status", ["verificado", "reclamado"]).eq("activo", true)
-        .or(`name.ilike.%${lower}%,category.ilike.%${lower}%`).limit(4);
       setNegocios(biz || []);
       setBuscando(false);
     }, 300);

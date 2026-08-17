@@ -40,12 +40,19 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
   // No refetch en el primerísimo render -- initial ya viene de la
   // página servidor con estos mismos filtros base.
   const primerRender = useRef(true);
+  // Si el usuario tipea rápido, una respuesta vieja puede tardar más y
+  // llegar DESPUÉS de una más nueva, pisando el resultado correcto con
+  // uno de una búsqueda ya descartada. Este contador de secuencia
+  // descarta cualquier respuesta que no sea la última pedida.
+  const secuencia = useRef(0);
 
   useEffect(() => {
     if (primerRender.current) { primerRender.current = false; return; }
     setBuscando(true);
+    const miSecuencia = ++secuencia.current;
     const t = setTimeout(async () => {
       const { data, count } = await fetchPage({ cat, q, openNow, from: 0, to: NEGOCIOS_PAGE_SIZE - 1 });
+      if (miSecuencia !== secuencia.current) return;
       setList(data);
       setTotal(count);
       setBuscando(false);
