@@ -123,50 +123,54 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
-      <div className="mx-auto max-w-3xl px-4 py-8">
-        <h1 className="text-3xl font-black">Ranking de San Lorenzo</h1>
-        <p className="mt-1 text-white/60">Reputación basada en actividad real, no en publicidad</p>
-
-        {/* NEGOCIO DEL DÍA */}
-        {negocioDelDia && tab === "dia" && (
-          <div className="mt-6 rounded-3xl border-2 border-yellow-400/50 bg-gradient-to-br from-yellow-500/15 via-orange-500/10 to-red-500/10 p-6 shadow-[0_0_40px_-10px_rgba(250,204,21,0.3)]">
-            <div className="flex items-center gap-2 mb-4">
-              <Zap className="h-5 w-5 text-yellow-400" />
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-yellow-300">Negocio del día</p>
-            </div>
-            <Link href={`/negocio/${negocioDelDia.slug}`} className="flex items-center gap-4">
-              <DivisionFrame puntos={negocioDelDia.puntos} categoria={negocioDelDia.category} size={64}>
-                <RankedAvatar slug={negocioDelDia.slug} name={negocioDelDia.name} categoria={negocioDelDia.category} size={60} />
-              </DivisionFrame>
-              <div className="flex-1">
-                <p className="text-2xl font-black">{negocioDelDia.name}</p>
-                <p className="text-sm text-white/60 capitalize">{negocioDelDia.category} · ⭐ {negocioDelDia.rating.toFixed(1)}</p>
-                <p className="mt-1 text-sm font-bold text-yellow-300">
-                  👑 {negocioDelDia.reputacion}/100 · {reputationLabel(negocioDelDia.reputacion).text}
-                </p>
-              </div>
-              <span className="text-4xl"></span>
-            </Link>
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+        {/* Hero editorial: headline gigante + panel de "negocio del día /
+            de la semana" al costado -- calco del mockup aprobado. Los
+            marcos de rango (DivisionFrame/RankedAvatar) NO se tocan --
+            ese sistema visual ya está validado y se mantiene tal cual. */}
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-8">
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-500">Competencia local</p>
+            <h1 className="mt-3 text-6xl font-black uppercase leading-[0.9] tracking-tighter sm:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
+              LIGAS DE{" "}
+              <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">MERCADO</span>
+            </h1>
+            <p className="mt-5 max-w-xl text-lg text-white/50">
+              La jerarquía comercial de San Lorenzo. Reputación basada en actividad real, votos de vecinos y consistencia -- pagar un plan no altera el ranking orgánico.
+            </p>
           </div>
-        )}
-
-        {/* NEGOCIO DE LA SEMANA */}
-        {negocioSemana && negocioSemana.crecimiento > 0 && tab === "dia" && (
-          <div className="mt-4 rounded-2xl border border-green-400/40 bg-green-500/10 p-5">
-            <div className="flex items-center gap-3">
-              <Rocket className="h-6 w-6 text-green-400" />
-              <div className="flex-1">
-                <p className="text-xs font-black uppercase tracking-wider text-green-300">Negocio de la semana</p>
-                <Link href={`/negocio/${negocioSemana.slug}`} className="font-black hover:text-green-300">
-                  {negocioSemana.name}
-                </Link>
-              </div>
-              <span className="text-lg font-black text-green-400">+{negocioSemana.crecimiento} visitas</span>
-            </div>
+          <div className="flex flex-col gap-4 lg:col-span-4">
+            {negocioDelDia && (
+              <Link href={`/negocio/${negocioDelDia.slug}`} className="rounded-[2rem] border border-white/[.06] bg-white/[.02] p-1.5 transition hover:-translate-y-1">
+                <div className="rounded-[calc(2rem-0.375rem)] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-yellow-300"><Zap className="h-3.5 w-3.5" /> Negocio del día</p>
+                  <div className="flex items-center gap-3">
+                    <DivisionFrame puntos={negocioDelDia.puntos} categoria={negocioDelDia.category} size={48}>
+                      <RankedAvatar slug={negocioDelDia.slug} name={negocioDelDia.name} categoria={negocioDelDia.category} size={44} />
+                    </DivisionFrame>
+                    <div className="min-w-0">
+                      <p className="truncate font-bold">{negocioDelDia.name}</p>
+                      <p className="text-xs font-bold text-yellow-300">👑 {negocioDelDia.reputacion}/100 · {reputationLabel(negocioDelDia.reputacion).text}</p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            )}
+            {negocioSemana && negocioSemana.crecimiento > 0 && (
+              <Link href={`/negocio/${negocioSemana.slug}`} className="rounded-[2rem] border border-white/[.06] bg-white/[.02] p-1.5 transition hover:-translate-y-1">
+                <div className="rounded-[calc(2rem-0.375rem)] border border-white/[.05] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="mb-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-green-300"><Rocket className="h-3.5 w-3.5" /> Negocio de la semana</p>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="truncate font-bold">{negocioSemana.name}</span>
+                    <span className="shrink-0 text-lg font-black text-green-400">+{negocioSemana.crecimiento}</span>
+                  </div>
+                </div>
+              </Link>
+            )}
           </div>
-        )}
+        </div>
 
-<div className="mt-6 flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-3">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-3">
           {RANGOS.map(r => (
             <span key={r.nombre} title={`Desde ${r.min} puntos`} className="rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider"
               style={{ color: r.accent, border: `1px solid ${r.accent}55`, background: "#0c0a0b" }}>
@@ -209,23 +213,23 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
             const esTop10 = i >= 3 && i < 10;
             return (
               <Link key={r.id} href={`/negocio/${r.slug}`}
-                className={`block rounded-[1.5rem] border p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 ${
+                className={`block rounded-[1.5rem] border transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 ${i === 0 ? "p-2" : "p-1.5"} ${
                   i === 0 ? "border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 to-transparent hover:border-yellow-400/60" : "border-white/[.06] bg-white/[.02] hover:border-orange-400/30"
                 }`}>
-                <div className="flex items-center gap-4 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-3.5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-                  <div className="flex w-10 shrink-0 flex-col items-center">
-                    <span className="text-center text-2xl font-black">{medal}</span>
+                <div className={`flex items-center gap-4 rounded-[1.1rem] border border-white/[.05] bg-black/10 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] ${i === 0 ? "p-5 sm:p-6" : "p-3.5"}`}>
+                  <div className={`flex shrink-0 flex-col items-center ${i === 0 ? "w-14" : "w-10"}`}>
+                    <span className={`text-center font-black ${i === 0 ? "text-4xl" : "text-2xl"}`}>{medal}</span>
                     {esTop10 && <span className="mt-0.5 text-[8px] font-black text-orange-300">TOP 10</span>}
                   </div>
                   {i < 3 ? (
-              <DivisionFrame categoria={r.category} puntos={r.puntos} size={44} enFuego={tab === "crecimiento" && i === 0 && r.crecimiento > 0}>
-                <RankedAvatar slug={r.slug} name={r.name} size={40} categoria={r.category} />
+              <DivisionFrame categoria={r.category} puntos={r.puntos} size={i === 0 ? 72 : 44} enFuego={tab === "crecimiento" && i === 0 && r.crecimiento > 0}>
+                <RankedAvatar slug={r.slug} name={r.name} size={i === 0 ? 66 : 40} categoria={r.category} />
               </DivisionFrame>
             ) : (
               <RankedAvatar slug={r.slug} name={r.name} size={44} categoria={r.category} />
             )}
                   <div className="min-w-0 flex-1">
-                    <p className="flex items-center gap-2 font-bold">
+                    <p className={`flex items-center gap-2 font-bold ${i === 0 ? "text-xl sm:text-2xl" : ""}`} style={i === 0 ? { fontFamily: "var(--font-space)" } : undefined}>
                       {r.name} <RankBadge puntos={r.puntos} categoria={r.category} />
                       {r.status === "verificado" && <span className="text-[10px] text-green-400">✓</span>}
                     </p>
