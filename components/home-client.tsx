@@ -9,6 +9,7 @@ import LiveNow from "@/components/home/live-now";
 import Stories from "@/components/home/stories";
 import ReelsStrip from "@/components/home/reels-strip";
 import NewThisWeek from "@/components/home/new-this-week";
+import NegocioDelMes from "@/components/home/negocio-del-mes";
 import OfertaBomba from "@/components/home/oferta-bomba";
 import TipRotativo from "@/components/home/tip-rotativo";
 import Featured from "@/components/home/featured";
@@ -149,6 +150,9 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
           <ArrowRight className="h-4 w-4 shrink-0 text-cyan-300 transition group-hover:translate-x-0.5" />
         </Link>
       </div>
+
+      <NegocioDelMes />
+
       {/* ===== HOY EN SAN LORENZO ===== */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
         <SectionTitle
