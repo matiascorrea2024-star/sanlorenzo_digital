@@ -29,6 +29,7 @@ import { planDe } from "@/lib/plans";
 import { generarImagenNegocio } from "@/lib/share-image";
 import ResponseBadge from "@/components/business/response-badge";
 import LoyaltyCard from "@/components/business/loyalty-card";
+import BookingWidget from "@/components/business/booking-widget";
 import { hoyArgentina } from "@/lib/fecha-ar";
 
 const CATEGORY_IMAGES: Record<string, string> = {
@@ -420,6 +421,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </div>
         )}
 
+        <BookingWidget businessId={negocio.id} businessName={negocio.name} />
         <LoyaltyCard businessId={negocio.id} businessName={negocio.name} />
 
         {/* Catálogo y ofertas activas: si el negocio tiene las dos cosas,
