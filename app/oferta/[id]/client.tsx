@@ -16,6 +16,7 @@ import { planDe } from "@/lib/plans";
 import { useToast } from "@/components/ui/toast";
 import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
 import GroupDealPanel from "@/components/offers/group-deal-panel";
+import { generarImagenOferta } from "@/lib/share-image";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
@@ -28,6 +29,7 @@ export default function OfertaPage() {
   const [negocio, setNegocio] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [canjeados, setCanjeados] = useState(0);
+  const [compartiendo, setCompartiendo] = useState(false);
   const { trackViewOffer } = useAnalytics();
   const viendo = useLiveViewers(offerId);
 
@@ -55,6 +57,32 @@ export default function OfertaPage() {
   const share = async () => {
     const url = window.location.href;
     const text = `🔥 ${oferta.title}\n💰 ${oferta.offer_price ? fmt(Number(oferta.offer_price)) : "OFERTA"}\n📍 ${negocio?.name || "San Lorenzo"}\n\n#LaGranBarataSanLorenzo`;
+
+    // Preferimos compartir la imagen generada (lista para Instagram Story /
+    // WhatsApp Status) cuando el navegador lo permite -- publicidad gratis
+    // para el negocio, en un toque. Si no, cae al share de texto de siempre.
+    setCompartiendo(true);
+    let file: File | null = null;
+    try {
+      const blob = await generarImagenOferta(oferta, negocio);
+      file = new File([blob], "oferta.png", { type: "image/png" });
+    } catch {
+      file = null; // no se pudo generar la imagen -- seguimos con el texto
+    }
+    setCompartiendo(false);
+
+    if (file && navigator.canShare?.({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: oferta.title, text });
+        if (negocio?.id) track(negocio.id, "share");
+        show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
+      } catch {
+        // Usuario canceló el share de la imagen -- no reintentamos con
+        // texto, sería un segundo cartel molesto justo después de cerrar.
+      }
+      return;
+    }
+
     if (navigator.share) {
       try { await navigator.share({ title: oferta.title, text, url }); } catch { return; }
     } else {
@@ -190,9 +218,9 @@ export default function OfertaPage() {
               <span className="text-sm font-bold">Consultar</span>
             </a>
           )}
-          <button onClick={share} className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10">
-            <Share2 className="h-6 w-6 text-sky-400" />
-            <span className="text-sm font-bold">Compartir</span>
+          <button onClick={share} disabled={compartiendo} className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 disabled:opacity-60">
+            <Share2 className={`h-6 w-6 text-sky-400 ${compartiendo ? "animate-pulse" : ""}`} />
+            <span className="text-sm font-bold">{compartiendo ? "Generando..." : "Compartir"}</span>
           </button>
           <Link href={`/negocio/${negocio.slug}`} className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10">
             <Store className="h-6 w-6 text-orange-400" />
