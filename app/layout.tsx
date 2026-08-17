@@ -13,6 +13,8 @@ import HeartbeatActivator from "@/components/heartbeat-activator";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import OnboardingOverlay from "@/components/onboarding/onboarding-overlay";
 import ReferralTracker from "@/components/referral-tracker";
+import { CartProvider } from "@/lib/cart-context";
+import CartFab from "@/components/cart/cart-fab";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
@@ -49,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <a href="#contenido" className="skip-link">Saltar al contenido</a>
         <ToastProvider>
         <AuthProvider>
+        <CartProvider>
         <HeartbeatActivator />
           <Header />
           <div id="contenido">{children}</div>
@@ -56,10 +59,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <BottomNav />
           <OnlineNow />
       <FloatingAssistant />
+      <CartFab />
       <Spotlight />
       <ScrollReveal />
       <OnboardingOverlay />
       <ReferralTracker />
+        </CartProvider>
         </AuthProvider>
       </ToastProvider>
       <InstallApp />

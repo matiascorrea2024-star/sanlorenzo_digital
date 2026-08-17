@@ -14,7 +14,8 @@ import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
 import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
 import { safeJsonLd } from "@/lib/json-ld";
-import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search, Truck, Navigation, Package } from "lucide-react";
+import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search, Truck, Navigation, Package, ShoppingBasket, Check } from "lucide-react";
+import { useCart } from "@/lib/cart-context";
 import Badge from "@/components/ui/badge";
 import BusinessMap from "@/components/business/map";
 import ReviewsSection from "@/components/business/reviews-section";
@@ -50,6 +51,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 }) {
   const { trackViewBusiness, trackClickWhatsApp, trackClickMap } = useAnalytics();
   const { show } = useToast();
+  const { addItem, hasItem } = useCart();
   const params = useParams();
   const router = useRouter();
   const slug = params.slug as string;
@@ -567,17 +569,31 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                       </div>
                       {p.stock && <span className="text-[10px] text-white/50">Stock: {p.stock}</span>}
                     </div>
-                    {negocio.whatsapp && (
-                      <a
-                        onClick={() => track(negocio.id, "whatsapp")}
-                        href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, te consulto por "${p.name}" que vi en La Gran Barata Digital`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 flex items-center justify-center gap-1.5 rounded-lg border border-green-400/30 bg-green-500/10 py-2 text-xs font-bold text-green-300 hover:bg-green-500/20"
+                    <div className="mt-3 flex gap-1.5">
+                      {negocio.whatsapp && (
+                        <a
+                          onClick={() => track(negocio.id, "whatsapp")}
+                          href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, te consulto por "${p.name}" que vi en La Gran Barata Digital`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-green-400/30 bg-green-500/10 py-2 text-xs font-bold text-green-300 hover:bg-green-500/20"
+                        >
+                          <MessageCircle className="h-3.5 w-3.5" /> Consultar
+                        </a>
+                      )}
+                      <button
+                        onClick={() => addItem({
+                          id: `producto-${p.id}`, tipo: "producto", refId: p.id, title: p.name,
+                          price: p.price ? Number(p.price) : undefined, image: Array.isArray(p.images) ? p.images[0] : undefined,
+                          businessId: negocio.id, businessName: negocio.name, businessSlug: negocio.slug, businessWhatsapp: negocio.whatsapp,
+                        })}
+                        disabled={hasItem(`producto-${p.id}`)}
+                        aria-label={hasItem(`producto-${p.id}`) ? "Ya está en el changuito" : "Agregar al changuito"}
+                        className="flex shrink-0 items-center justify-center rounded-lg border border-sky-400/30 bg-sky-500/10 px-3 py-2 text-xs font-bold text-sky-300 hover:bg-sky-500/20 disabled:opacity-60"
                       >
-                        <MessageCircle className="h-3.5 w-3.5" /> Consultar por WhatsApp
-                      </a>
-                    )}
+                        {hasItem(`producto-${p.id}`) ? <Check className="h-3.5 w-3.5" /> : <ShoppingBasket className="h-3.5 w-3.5" />}
+                      </button>
+                    </div>
                   </div>
                 </div>
                 </div>

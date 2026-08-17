@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
-import { ArrowLeft, Clock, MapPin, Share2, MessageCircle, Store, Truck } from "lucide-react";
+import { ArrowLeft, Clock, MapPin, Share2, MessageCircle, Store, Truck, ShoppingBasket, Check } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import CountdownTimer from "@/components/ui/countdown-timer";
 import CouponButton from "@/components/offers/coupon-button";
@@ -17,6 +17,7 @@ import { useToast } from "@/components/ui/toast";
 import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
 import GroupDealPanel from "@/components/offers/group-deal-panel";
 import { generarImagenOferta } from "@/lib/share-image";
+import { useCart } from "@/lib/cart-context";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
@@ -32,6 +33,7 @@ export default function OfertaPage() {
   const [compartiendo, setCompartiendo] = useState(false);
   const { trackViewOffer } = useAnalytics();
   const viendo = useLiveViewers(offerId);
+  const { addItem, hasItem } = useCart();
 
   useEffect(() => {
     (async () => {
@@ -205,8 +207,8 @@ export default function OfertaPage() {
           <GroupDealPanel offerId={oferta.id} metaParticipantes={oferta.meta_participantes} initialActivada={!!oferta.grupal_activada} offerTitle={oferta.title} />
         )}
 
-        {/* Acciones: 3 tarjetas parejas */}
-        <div className="mb-4 grid grid-cols-3 gap-3">
+        {/* Acciones: tarjetas parejas */}
+        <div className="mb-4 grid grid-cols-4 gap-3">
           {negocio.whatsapp && (
             <a
               href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi la oferta "${oferta.title}" en La Gran Barata Digital`)}`}
@@ -221,6 +223,18 @@ export default function OfertaPage() {
           <button onClick={share} disabled={compartiendo} className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 disabled:opacity-60">
             <Share2 className={`h-6 w-6 text-sky-400 ${compartiendo ? "animate-pulse" : ""}`} />
             <span className="text-sm font-bold">{compartiendo ? "Generando..." : "Compartir"}</span>
+          </button>
+          <button
+            onClick={() => addItem({
+              id: `oferta-${oferta.id}`, tipo: "oferta", refId: oferta.id, title: oferta.title,
+              price: oferta.offer_price ? Number(oferta.offer_price) : undefined, image: img,
+              businessId: negocio.id, businessName: negocio.name, businessSlug: negocio.slug, businessWhatsapp: negocio.whatsapp,
+            })}
+            disabled={hasItem(`oferta-${oferta.id}`)}
+            className="flex flex-col items-center gap-2 rounded-2xl border border-sky-400/30 bg-sky-500/10 p-4 hover:bg-sky-500/20 disabled:opacity-60"
+          >
+            {hasItem(`oferta-${oferta.id}`) ? <Check className="h-6 w-6 text-sky-400" /> : <ShoppingBasket className="h-6 w-6 text-sky-400" />}
+            <span className="text-sm font-bold">{hasItem(`oferta-${oferta.id}`) ? "En el changuito" : "Al changuito"}</span>
           </button>
           <Link href={`/negocio/${negocio.slug}`} className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10">
             <Store className="h-6 w-6 text-orange-400" />
