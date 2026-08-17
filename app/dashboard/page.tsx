@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import PageHero from "@/components/ui/page-hero";
 import { useToast } from "@/components/ui/toast";
 import { friendlyError } from "@/lib/friendly-error";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -17,6 +16,7 @@ export default function DashboardPage() {
   const [negocios, setNegocios] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState("user");
+  const [nombre, setNombre] = useState("");
 
   useEffect(() => {
     if (authLoading) return;
@@ -24,9 +24,10 @@ export default function DashboardPage() {
     (async () => {
       const sb = supabase();
       const { data: prof } = await sb.from("user_profiles")
-        .select("role").eq("user_id", user.id).maybeSingle();
+        .select("role, display_name").eq("user_id", user.id).maybeSingle();
       const r = prof?.role || "user";
       setRole(r);
+      setNombre(prof?.display_name || (user.email || "").split("@")[0] || "");
       const q = sb.from("businesses").select("*").order("name");
       if (r !== "admin") q.eq("owner_id", user.id);
       const { data } = await q;
@@ -54,19 +55,25 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
-      <PageHero
-        title="Mis negocios"
-        subtitle="Control rápido: abrí, cerrá y manejá tus ofertas sin vueltas"
-      >
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Link href="/dashboard/nuevo" className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black hover:opacity-90">+ Crear negocio</Link>
+      {/* Hero editorial personalizado -- reemplaza al PageHero genérico
+          solo en esta página, calco del mockup aprobado ("Hola, [nombre].
+          Tu pulso hoy."), sin inventar métricas que no existen. */}
+      <div className="mx-auto max-w-5xl px-4 pb-8 pt-12 sm:px-6">
+        <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Panel de comerciante</p>
+        <h1 className="mt-3 text-4xl font-bold leading-[0.95] tracking-tight sm:text-5xl md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
+          {nombre ? `Hola, ${nombre}.` : "Tu panel."}<br />
+          <span className="text-orange-500">Tu negocio, sin vueltas.</span>
+        </h1>
+        <p className="mt-4 max-w-xl text-lg text-white/50">Control rápido: abrí, cerrá y manejá tus ofertas desde acá.</p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/dashboard/nuevo" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">+ Crear negocio</Link>
           {role === "admin" && (
-            <Link href="/admin" className="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-2 text-sm font-bold text-red-300 hover:bg-red-500/20">🛡️ Panel admin</Link>
+            <Link href="/admin" className="rounded-full border border-red-400/40 bg-red-500/10 px-6 py-3 text-sm font-bold text-red-300 hover:bg-red-500/20">🛡️ Panel admin</Link>
           )}
         </div>
-      </PageHero>
+      </div>
 
-      <div className="mx-auto max-w-5xl px-4">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <DashboardNav />
         {loading ? (
           <p className="py-16 text-center text-white/50">Cargando tus negocios…</p>
