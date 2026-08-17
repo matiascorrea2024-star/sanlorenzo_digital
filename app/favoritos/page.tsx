@@ -111,7 +111,7 @@ export default function FavoritosPage() {
             {negocios.length > 0 && (
               <section className="mt-10">
                 <h2 className="mb-4 flex items-center gap-2 text-xl font-black">
-                  <Store className="h-5 w-5 text-sky-400" /> Negocios guardados ({negocios.length})
+                  <Store className="h-5 w-5 text-[var(--place)]" /> Negocios guardados ({negocios.length})
                 </h2>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {negocios.map(b => (

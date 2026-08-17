@@ -11,8 +11,8 @@ import { planDe, puedeCrearVivo } from "@/lib/plans";
 import { useToast } from "@/components/ui/toast";
 
 const ESTADO_LABEL: Record<string, { t: string; c: string }> = {
-  scheduled: { t: "Programado", c: "border-sky-400/30 bg-sky-500/10 text-sky-300" },
-  live: { t: "🔴 En vivo", c: "border-red-400/40 bg-red-500/15 text-red-300" },
+  scheduled: { t: "Programado", c: "border-sky-400/30 bg-sky-500/10 text-[var(--place)]" },
+  live: { t: "🔴 En vivo", c: "border-red-400/40 bg-red-500/15 text-[var(--bad)]" },
   ended: { t: "Finalizado", c: "border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]" },
   cancelled: { t: "Cancelado", c: "border-[var(--line)] bg-[var(--ov-05)] text-[var(--muted2)]" },
 };
@@ -85,7 +85,7 @@ export default function EnVivoDashboard() {
       <div className="mx-auto max-w-3xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-8 flex items-start gap-3">
-          <Radio className="mt-1 h-8 w-8 shrink-0 text-red-400" />
+          <Radio className="mt-1 h-8 w-8 shrink-0 text-[var(--bad)]" />
           <div>
             <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Video en vivo</p>
             <h1 className="mt-2 flex items-center gap-1.5 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>

@@ -51,7 +51,7 @@ export default function ResetPasswordPage() {
               <Link href="/login" className="mt-4 inline-block text-orange-400 hover:text-orange-300">← Volver a iniciar sesión</Link>
             </div>
           ) : done ? (
-            <p className="text-center text-sm text-green-400">✅ Contraseña actualizada. Redirigiendo…</p>
+            <p className="text-center text-sm text-[var(--ok)]">✅ Contraseña actualizada. Redirigiendo…</p>
           ) : (
             <div className="space-y-4">
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
@@ -62,7 +62,7 @@ export default function ResetPasswordPage() {
                 className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-[var(--text)] outline-none focus:border-orange-400" />
               {error && (
                 <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-3">
-                  <p className="text-sm text-red-300">{error}</p>
+                  <p className="text-sm text-[var(--bad)]">{error}</p>
                 </div>
               )}
               <button onClick={submit} disabled={saving}

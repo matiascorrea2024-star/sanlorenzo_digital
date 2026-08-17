@@ -30,7 +30,7 @@ function renderBody(body: string, negociosPorSlug: Map<string, string>) {
       const nombre = negociosPorSlug.get(slug);
       if (nombre) {
         return (
-          <Link key={i} href={`/negocio/${slug}`} className="font-bold text-cyan-300 hover:text-cyan-200">
+          <Link key={i} href={`/negocio/${slug}`} className="font-bold text-[var(--place)] hover:text-cyan-200">
             @{nombre}
           </Link>
         );
@@ -138,7 +138,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
               </p>
               {user && user.id !== m.user_id && (
                 <button onClick={() => reportar(m.id)} title="Reportar mensaje" aria-label="Reportar mensaje"
-                  className="shrink-0 text-[var(--muted2)] opacity-0 transition group-hover:opacity-100 hover:text-red-400">
+                  className="shrink-0 text-[var(--muted2)] opacity-0 transition group-hover:opacity-100 hover:text-[var(--bad)]">
                   <Flag className="h-3.5 w-3.5" />
                 </button>
               )}

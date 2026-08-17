@@ -42,12 +42,12 @@ export default function BusinessStats() {
   if (loading) return null;
 
   const cards = [
-    { icon: Eye, label: "Visitas (7 días)", value: s.views7, color: "text-sky-400" },
+    { icon: Eye, label: "Visitas (7 días)", value: s.views7, color: "text-[var(--place)]" },
     { icon: TrendingUp, label: "Visitas totales", value: s.viewsTotal, color: "text-orange-400" },
-    { icon: Users, label: "Seguidores", value: s.followers, color: "text-green-400" },
-    { icon: Heart, label: "Favoritos", value: s.favs, color: "text-red-400" },
-    { icon: Star, label: "Reseñas", value: s.revs, color: "text-yellow-400" },
-    { icon: Ticket, label: "Cupones", value: s.coupons, color: "text-red-400" },
+    { icon: Users, label: "Seguidores", value: s.followers, color: "text-[var(--ok)]" },
+    { icon: Heart, label: "Favoritos", value: s.favs, color: "text-[var(--bad)]" },
+    { icon: Star, label: "Reseñas", value: s.revs, color: "text-[var(--warn)]" },
+    { icon: Ticket, label: "Cupones", value: s.coupons, color: "text-[var(--bad)]" },
   ];
 
   return (

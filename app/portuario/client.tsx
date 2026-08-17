@@ -42,13 +42,13 @@ export default function PortuarioView() {
               className="group rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5">
               <div className="flex items-start gap-4 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-cyan-400/30">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cyan-500/15">
-                  <s.icon className="h-6 w-6 text-cyan-300" />
+                  <s.icon className="h-6 w-6 text-[var(--place)]" />
                 </div>
                 <div className="flex-1">
                   <p className="font-bold">{s.titulo}</p>
                   <p className="text-sm text-[var(--muted)] mt-1">{s.desc}</p>
                 </div>
-                <ArrowRight className="h-4 w-4 text-cyan-400 shrink-0 mt-1 transition duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="h-4 w-4 text-[var(--place)] shrink-0 mt-1 transition duration-300 group-hover:translate-x-1" />
               </div>
             </Link>
           ))}
@@ -63,7 +63,7 @@ export default function PortuarioView() {
           ].map(s => (
             <div key={s.l} className="rounded-[1.5rem] border border-cyan-400/25 bg-cyan-500/[.04] p-1.5">
               <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                <p className="text-3xl font-black text-cyan-300">{s.v}</p>
+                <p className="text-3xl font-black text-[var(--place)]">{s.v}</p>
                 <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{s.l}</p>
               </div>
             </div>

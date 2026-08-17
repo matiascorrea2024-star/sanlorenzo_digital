@@ -126,7 +126,7 @@ export default function CuponesPage() {
                 ? "bg-red-500/10 border border-red-500/30"
                 : "bg-green-500/10 border border-green-500/30"
             }`}>
-              <p className={`text-sm ${validationResult.error ? "text-red-300" : "text-green-300"}`}>
+              <p className={`text-sm ${validationResult.error ? "text-[var(--bad)]" : "text-[var(--ok)]"}`}>
                 {validationResult.error || validationResult.message}
               </p>
             </div>
@@ -143,19 +143,19 @@ export default function CuponesPage() {
           </div>
           <div className="rounded-[1.5rem] border border-green-500/20 bg-green-500/[.04] p-1.5">
             <div className="rounded-[1.125rem] border border-green-500/10 bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-              <p className="text-3xl font-black text-green-400" style={{ fontFamily: "var(--font-ticket)" }}>{stats.generated}</p>
+              <p className="text-3xl font-black text-[var(--ok)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.generated}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Generados</p>
             </div>
           </div>
           <div className="rounded-[1.5rem] border border-sky-500/20 bg-sky-500/[.04] p-1.5">
             <div className="rounded-[1.125rem] border border-sky-500/10 bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-              <p className="text-3xl font-black text-sky-400" style={{ fontFamily: "var(--font-ticket)" }}>{stats.redeemed}</p>
+              <p className="text-3xl font-black text-[var(--place)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.redeemed}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Canjeados</p>
             </div>
           </div>
           <div className="rounded-[1.5rem] border border-red-500/20 bg-red-500/[.04] p-1.5">
             <div className="rounded-[1.125rem] border border-red-500/10 bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-              <p className="text-3xl font-black text-red-400" style={{ fontFamily: "var(--font-ticket)" }}>{stats.expired}</p>
+              <p className="text-3xl font-black text-[var(--bad)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.expired}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Vencidos</p>
             </div>
           </div>
@@ -181,18 +181,18 @@ export default function CuponesPage() {
                         Generado: {new Date(coupon.generated_at).toLocaleString("es-AR")}
                       </p>
                       {coupon.redeemed_at && (
-                        <p className="text-xs text-green-400 mt-1">
+                        <p className="text-xs text-[var(--ok)] mt-1">
                           Canjeado: {new Date(coupon.redeemed_at).toLocaleString("es-AR")}
                         </p>
                       )}
                     </div>
                     <span className={`shrink-0 rounded-lg px-3 py-1 text-xs font-bold ${
                       coupon.status === "generated"
-                        ? "bg-green-500/20 text-green-300"
+                        ? "bg-green-500/20 text-[var(--ok)]"
                         : coupon.status === "redeemed"
                         ? "bg-blue-500/20 text-blue-300"
                         : coupon.status === "expired"
-                        ? "bg-red-500/20 text-red-300"
+                        ? "bg-red-500/20 text-[var(--bad)]"
                         : "bg-gray-500/20 text-gray-300"
                     }`}>
                       {coupon.status.toUpperCase()}

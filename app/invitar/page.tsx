@@ -107,7 +107,7 @@ export default function InvitarPage() {
                 <Share2 className="h-4 w-4" /> Compartir
               </button>
               <button onClick={copiar} className="flex items-center gap-2 rounded-full border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold hover:bg-[var(--ov-10)]">
-                {copied ? <Check className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />}
+                {copied ? <Check className="h-4 w-4 text-[var(--ok)]" /> : <Copy className="h-4 w-4" />}
                 {copied ? "¡Copiado!" : "Copiar link"}
               </button>
             </div>

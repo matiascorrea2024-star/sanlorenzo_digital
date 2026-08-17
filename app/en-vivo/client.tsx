@@ -64,7 +64,7 @@ export default function EnVivoClient() {
           {!loading && enVivo.length > 0 && (
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1">
               <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" /></span>
-              <span className="text-[11px] font-black uppercase tracking-widest text-red-300">{enVivo.length} transmitiendo ahora</span>
+              <span className="text-[11px] font-black uppercase tracking-widest text-[var(--bad)]">{enVivo.length} transmitiendo ahora</span>
             </div>
           )}
           <h1 className="text-5xl font-black leading-[0.95] tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
@@ -101,14 +101,14 @@ export default function EnVivoClient() {
 
             {proximos.length > 0 && (
               <section className="mb-10">
-                <h2 className="mb-4 flex items-center gap-2 text-xl font-black"><Clock className="h-5 w-5 text-sky-400" /> Próximamente</h2>
+                <h2 className="mb-4 flex items-center gap-2 text-xl font-black"><Clock className="h-5 w-5 text-[var(--place)]" /> Próximamente</h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {proximos.map((s) => (
                     <div key={s.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
                       <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                         <p className="truncate font-bold">{s.title}</p>
                         <p className="truncate text-xs text-[var(--muted)]">{s.businesses?.name}</p>
-                        <p className="mt-2 text-xs font-bold text-sky-300">{s.scheduled_at && new Date(s.scheduled_at).toLocaleString("es-AR", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>
+                        <p className="mt-2 text-xs font-bold text-[var(--place)]">{s.scheduled_at && new Date(s.scheduled_at).toLocaleString("es-AR", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>
                       </div>
                     </div>
                   ))}

@@ -8,12 +8,12 @@ import { supabase } from "@/lib/supabase";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 
 const TIPOS: Record<string, { icon: any; label: string; color: string }> = {
-  oferta: { icon: Flame, label: "Oferta", color: "text-red-400 bg-red-500/15 border-red-400/40" },
-  novedad: { icon: Sparkles, label: "Novedad", color: "text-sky-400 bg-sky-500/15 border-sky-400/40" },
+  oferta: { icon: Flame, label: "Oferta", color: "text-[var(--bad)] bg-red-500/15 border-red-400/40" },
+  novedad: { icon: Sparkles, label: "Novedad", color: "text-[var(--place)] bg-sky-500/15 border-sky-400/40" },
   evento: { icon: PartyPopper, label: "Evento", color: "text-purple-400 bg-purple-500/15 border-purple-400/40" },
-  apertura: { icon: Store, label: "Apertura", color: "text-green-400 bg-green-500/15 border-green-400/40" },
+  apertura: { icon: Store, label: "Apertura", color: "text-[var(--ok)] bg-green-500/15 border-green-400/40" },
   producto: { icon: Package, label: "Nuevo producto", color: "text-orange-400 bg-orange-500/15 border-orange-400/40" },
-  anuncio: { icon: Megaphone, label: "Anuncio", color: "text-yellow-400 bg-yellow-500/15 border-yellow-400/40" },
+  anuncio: { icon: Megaphone, label: "Anuncio", color: "text-[var(--warn)] bg-yellow-500/15 border-yellow-400/40" },
 };
 
 function timeAgo(d: string) {
@@ -170,7 +170,7 @@ export default function MuroPage() {
                 {/* Acciones */}
                 <div className="mt-4 flex items-center gap-4 border-t border-[var(--line)] pt-3">
                   <button onClick={() => like(p.id)} disabled={likingIds.has(p.id)}
-                    className={`flex items-center gap-1.5 text-sm font-bold transition disabled:opacity-60 ${isLiked ? "text-red-400" : "text-[var(--muted)] hover:text-red-400"}`}>
+                    className={`flex items-center gap-1.5 text-sm font-bold transition disabled:opacity-60 ${isLiked ? "text-[var(--bad)]" : "text-[var(--muted)] hover:text-[var(--bad)]"}`}>
                     <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
                     {p.likes || 0}
                   </button>

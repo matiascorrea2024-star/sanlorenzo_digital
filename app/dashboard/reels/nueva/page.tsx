@@ -110,7 +110,7 @@ export default function NuevoReelPage() {
 
             {error && (
               <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-3">
-                <p className="text-sm font-bold text-red-300">❌ {error}</p>
+                <p className="text-sm font-bold text-[var(--bad)]">❌ {error}</p>
               </div>
             )}
 

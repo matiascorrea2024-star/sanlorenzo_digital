@@ -108,12 +108,12 @@ export default function AnalyticsPage() {
   const planActual = planDe(negocioSel);
 
   const cards = [
-    { icon: Eye, label: "Visitas", value: stats.views, color: "text-sky-400", info: "Cuántas veces entraron a la ficha de tu negocio en los últimos 30 días." },
-    { icon: MessageCircle, label: "WhatsApp", value: stats.whatsapp, color: "text-green-400", info: "Cuántas personas tocaron el botón de WhatsApp para escribirte." },
+    { icon: Eye, label: "Visitas", value: stats.views, color: "text-[var(--place)]", info: "Cuántas veces entraron a la ficha de tu negocio en los últimos 30 días." },
+    { icon: MessageCircle, label: "WhatsApp", value: stats.whatsapp, color: "text-[var(--ok)]", info: "Cuántas personas tocaron el botón de WhatsApp para escribirte." },
     { icon: MapPin, label: "Cómo llegar", value: stats.map, color: "text-orange-400", info: "Cuántas personas tocaron \"Cómo llegar\" para ver tu ubicación en el mapa." },
-    { icon: Heart, label: "Favoritos", value: stats.favorites, color: "text-red-400", info: "Cuántas personas guardaron tu negocio en sus favoritos." },
+    { icon: Heart, label: "Favoritos", value: stats.favorites, color: "text-[var(--bad)]", info: "Cuántas personas guardaron tu negocio en sus favoritos." },
     { icon: Users, label: "Seguidores", value: stats.follows, color: "text-purple-400", info: "Cuántas personas te siguen para enterarse de tus novedades y ofertas." },
-    { icon: Ticket, label: "Cupones", value: stats.coupons, color: "text-emerald-400", info: "Cuántos cupones de tus ofertas generaron los clientes para usar en el local." },
+    { icon: Ticket, label: "Cupones", value: stats.coupons, color: "text-[var(--ok)]", info: "Cuántos cupones de tus ofertas generaron los clientes para usar en el local." },
   ];
 
   const maxViews = Math.max(...timeline.map(d => d.views), 1);
@@ -190,8 +190,8 @@ export default function AnalyticsPage() {
                 <InfoTip label="Cómo se calcula">Se compara con los demás negocios de tu mismo rubro usando los mismos puntos reales del ranking (seguidores, reseñas, ofertas, cupones canjeados) -- sin mostrar datos privados de nadie.</InfoTip>
               </p>
               <p className="mt-2 text-sm text-[var(--text)]/70">
-                Estás en el <strong className="text-sky-300">puesto {posicion.puesto} de {posicion.total}</strong> -- eso te ubica en el{" "}
-                <strong className="text-sky-300">top {posicion.percentil}%</strong> de tu rubro.
+                Estás en el <strong className="text-[var(--place)]">puesto {posicion.puesto} de {posicion.total}</strong> -- eso te ubica en el{" "}
+                <strong className="text-[var(--place)]">top {posicion.percentil}%</strong> de tu rubro.
               </p>
             </div>
           </div>
@@ -231,13 +231,13 @@ export default function AnalyticsPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-xs text-[var(--muted)]">Visitas → WhatsApp</p>
-                <p className="text-2xl font-black text-green-400 tabular-nums">
+                <p className="text-2xl font-black text-[var(--ok)] tabular-nums">
                   {stats.views > 0 ? ((stats.whatsapp / stats.views) * 100).toFixed(1) : 0}%
                 </p>
               </div>
               <div>
                 <p className="text-xs text-[var(--muted)]">Visitas → Cupones</p>
-                <p className="text-2xl font-black text-emerald-400 tabular-nums">
+                <p className="text-2xl font-black text-[var(--ok)] tabular-nums">
                   {stats.views > 0 ? ((stats.coupons / stats.views) * 100).toFixed(1) : 0}%
                 </p>
               </div>

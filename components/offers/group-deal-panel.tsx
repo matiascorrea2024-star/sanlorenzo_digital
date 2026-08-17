@@ -85,7 +85,7 @@ export default function GroupDealPanel({ offerId, metaParticipantes, initialActi
             <Users className="h-4 w-4" /> Oferta grupal
           </p>
           {activada ? (
-            <span className="flex items-center gap-1 rounded-full bg-green-500/20 px-2.5 py-1 text-[10px] font-black uppercase text-green-300">
+            <span className="flex items-center gap-1 rounded-full bg-green-500/20 px-2.5 py-1 text-[10px] font-black uppercase text-[var(--ok)]">
               <PartyPopper className="h-3 w-3" /> Activada
             </span>
           ) : (

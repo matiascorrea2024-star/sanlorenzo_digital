@@ -17,7 +17,7 @@ export default function WallOfFame({ initialTop }: { initialTop: Top[] }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
       <div className="mb-5 flex items-center gap-2">
-        <Trophy className="h-5 w-5 text-yellow-400" />
+        <Trophy className="h-5 w-5 text-[var(--warn)]" />
         <h2 className="text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Salón de la fama</h2>
         <span className="text-xs text-[var(--muted2)]">· los negocios mejor rankeados de San Lorenzo</span>
       </div>

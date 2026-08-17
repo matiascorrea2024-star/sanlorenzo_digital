@@ -462,11 +462,11 @@ export default function AdminPage() {
   }
 
   const cards = [
-    { icon: Users, label: "Usuarios", value: stats.users, color: "text-sky-400", bg: "from-sky-500/10" },
-    { icon: Store, label: "Negocios", value: stats.businesses, color: "text-green-400", bg: "from-green-500/10" },
+    { icon: Users, label: "Usuarios", value: stats.users, color: "text-[var(--place)]", bg: "from-sky-500/10" },
+    { icon: Store, label: "Negocios", value: stats.businesses, color: "text-[var(--ok)]", bg: "from-green-500/10" },
     { icon: Flame, label: "Ofertas", value: stats.offers, color: "text-orange-400", bg: "from-orange-500/10" },
-    { icon: Star, label: "Reseñas", value: stats.reviews, color: "text-yellow-400", bg: "from-yellow-500/10" },
-    { icon: Eye, label: "Visitas", value: stats.views, color: "text-red-400", bg: "from-red-600/10" },
+    { icon: Star, label: "Reseñas", value: stats.reviews, color: "text-[var(--warn)]", bg: "from-yellow-500/10" },
+    { icon: Eye, label: "Visitas", value: stats.views, color: "text-[var(--bad)]", bg: "from-red-600/10" },
     { icon: Heart, label: "Seguidores", value: stats.seguidores, color: "text-purple-400", bg: "from-purple-500/10" },
   ];
 
@@ -474,10 +474,10 @@ export default function AdminPage() {
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="border-b border-[var(--ov-05)] bg-gradient-to-b from-red-950/20 to-transparent">
         <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
-          <p className="mb-3 text-[10px] font-black uppercase tracking-[.4em] text-red-400">Control total</p>
+          <p className="mb-3 text-[10px] font-black uppercase tracking-[.4em] text-[var(--bad)]">Control total</p>
           <div className="flex items-center gap-4">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20">
-              <Shield className="h-7 w-7 text-red-400" />
+              <Shield className="h-7 w-7 text-[var(--bad)]" />
             </div>
             <div>
               <h1 className="text-3xl font-black leading-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Panel de administración</h1>
@@ -611,11 +611,11 @@ export default function AdminPage() {
                         <Pencil className="h-3 w-3" /> Editar
                       </a>
                       <a href={`/admin/soporte/${n.id}`}
-                        className="flex items-center gap-1 rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-cyan-300 hover:bg-cyan-500/20">
+                        className="flex items-center gap-1 rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-[var(--place)] hover:bg-cyan-500/20">
                         <MessageCircle className="h-3 w-3" /> Chat
                       </a>
                       <button onClick={() => toggleDestacado(n.id, n.destacado)}
-                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.destacado ? "bg-yellow-500/20 text-yellow-300" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
+                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.destacado ? "bg-yellow-500/20 text-[var(--warn)]" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
                         {n.destacado ? "Quitar destacado" : "Destacar"}
                       </button>
                       <button onClick={() => toggleActivoNegocio(n.id, n.activo !== false)}
@@ -623,7 +623,7 @@ export default function AdminPage() {
                         {n.activo === false ? "Reactivar" : "Ocultar"}
                       </button>
                       <button onClick={() => borrarNegocio(n.id, n.name)}
-                        className="flex items-center gap-1 rounded-lg bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-red-300 hover:bg-red-500/25">
+                        className="flex items-center gap-1 rounded-lg bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-[var(--bad)] hover:bg-red-500/25">
                         <Trash2 className="h-3 w-3" /> Borrar
                       </button>
                     </div>
@@ -664,7 +664,7 @@ export default function AdminPage() {
                       <p className="truncate text-xs text-[var(--muted)]">
                         {o.businesses?.name || "Negocio eliminado"}{o.valid_until && ` · vence ${new Date(o.valid_until + "T00:00:00").toLocaleDateString("es-AR")}`}{!o.active && " · inactiva"}
                         {o.impulsada_hasta && new Date(o.impulsada_hasta).getTime() > ahora && (
-                          <span className="text-cyan-300"> · 🚀 impulsada hasta {new Date(o.impulsada_hasta).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
+                          <span className="text-[var(--place)]"> · 🚀 impulsada hasta {new Date(o.impulsada_hasta).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
                         )}
                       </p>
                     </div>
@@ -672,11 +672,11 @@ export default function AdminPage() {
                       <a href={`/oferta/${o.id}`} target="_blank" rel="noopener noreferrer"
                         className="rounded-lg border border-[var(--line-strong)] px-2.5 py-1 text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--ov-10)]">Ver</a>
                       <button onClick={() => impulsarOferta(o.id, 24)}
-                        className="rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-cyan-300 hover:bg-cyan-500/20">
+                        className="rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-[var(--place)] hover:bg-cyan-500/20">
                         🚀 24h
                       </button>
                       <button onClick={() => impulsarOferta(o.id, 48)}
-                        className="rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-cyan-300 hover:bg-cyan-500/20">
+                        className="rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-[var(--place)] hover:bg-cyan-500/20">
                         🚀 48h
                       </button>
                       <button onClick={() => toggleOfertaActiva(o.id, o.active)}
@@ -684,7 +684,7 @@ export default function AdminPage() {
                         {o.active ? "Desactivar" : "Reactivar"}
                       </button>
                       <button onClick={() => borrarOferta(o.id, o.title)}
-                        className="flex items-center gap-1 rounded-lg bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-red-300 hover:bg-red-500/25">
+                        className="flex items-center gap-1 rounded-lg bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-[var(--bad)] hover:bg-red-500/25">
                         <Trash2 className="h-3 w-3" /> Borrar
                       </button>
                     </div>
@@ -701,7 +701,7 @@ export default function AdminPage() {
             <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Negocios pendientes de verificación <span className="text-[var(--muted2)]">({pendientes.length})</span></h2>
             {pendientes.length === 0 ? (
               <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
-                <CheckCircle2 className="mx-auto h-10 w-10 text-green-400/60" />
+                <CheckCircle2 className="mx-auto h-10 w-10 text-[var(--ok)]/60" />
                 <p className="mt-3 font-bold text-[var(--text)]/70">Todo verificado</p>
                 <p className="mt-1 text-sm text-[var(--muted2)]">No hay negocios pendientes ahora mismo.</p>
               </div>
@@ -718,11 +718,11 @@ export default function AdminPage() {
                     </div>
                     <div className="flex gap-2 sm:ml-auto sm:shrink-0">
                       <button onClick={() => verificar(p.id)}
-                        className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-green-500/15 px-4 py-2 text-xs font-black text-green-300 hover:bg-green-500/25 sm:flex-none">
+                        className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-green-500/15 px-4 py-2 text-xs font-black text-[var(--ok)] hover:bg-green-500/25 sm:flex-none">
                         <CheckCircle2 className="h-4 w-4" /> Verificar
                       </button>
                       <button onClick={() => rechazar(p.id)}
-                        className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-red-500/15 px-4 py-2 text-xs font-black text-red-300 hover:bg-red-500/25 sm:flex-none">
+                        className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-red-500/15 px-4 py-2 text-xs font-black text-[var(--bad)] hover:bg-red-500/25 sm:flex-none">
                         <XCircle className="h-4 w-4" /> Rechazar
                       </button>
                     </div>
@@ -749,12 +749,12 @@ export default function AdminPage() {
                     <div className="flex items-center gap-3">
                       <Avatar name={r.reviewer_name} size={40} />
                       <div className="min-w-0 flex-1">
-                        <p className="font-bold">{r.reviewer_name} <span className="text-yellow-400">{"★".repeat(r.rating)}</span></p>
+                        <p className="font-bold">{r.reviewer_name} <span className="text-[var(--warn)]">{"★".repeat(r.rating)}</span></p>
                         <p className="text-sm text-[var(--text)]/70">{r.comment}</p>
                       </div>
                     </div>
                     <button onClick={() => borrarResena(r.id)}
-                      className="rounded-xl bg-red-500/15 px-4 py-2 text-xs font-black text-red-300 hover:bg-red-500/25 sm:ml-auto sm:shrink-0">
+                      className="rounded-xl bg-red-500/15 px-4 py-2 text-xs font-black text-[var(--bad)] hover:bg-red-500/25 sm:ml-auto sm:shrink-0">
                       Eliminar
                     </button>
                   </div>
@@ -780,7 +780,7 @@ export default function AdminPage() {
                 <div className="space-y-2.5">
                   {subs.filter(s => s.status === "pending").map(s => (
                     <div key={s.id} className="flex flex-wrap items-center gap-3 rounded-2xl border border-yellow-400/30 bg-yellow-500/5 p-4">
-                      <CreditCard className="h-6 w-6 shrink-0 text-yellow-400" />
+                      <CreditCard className="h-6 w-6 shrink-0 text-[var(--warn)]" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-bold">{(s as any).businesses?.name || "Negocio"}</p>
                         <p className="text-xs text-[var(--muted)]">Pide plan <strong className="capitalize">{s.plan}</strong> · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
@@ -792,11 +792,11 @@ export default function AdminPage() {
                         </a>
                       )}
                       <button onClick={() => revisarSuscripcion(s.id, "aprobar")}
-                        className="rounded-lg bg-green-500/20 px-3 py-1.5 text-xs font-bold text-green-300 hover:bg-green-500/30">
+                        className="rounded-lg bg-green-500/20 px-3 py-1.5 text-xs font-bold text-[var(--ok)] hover:bg-green-500/30">
                         Aprobar
                       </button>
                       <button onClick={() => revisarSuscripcion(s.id, "rechazar")}
-                        className="rounded-lg bg-red-500/20 px-3 py-1.5 text-xs font-bold text-red-300 hover:bg-red-500/30">
+                        className="rounded-lg bg-red-500/20 px-3 py-1.5 text-xs font-bold text-[var(--bad)] hover:bg-red-500/30">
                         Rechazar
                       </button>
                     </div>
@@ -884,7 +884,7 @@ export default function AdminPage() {
                       </div>
                       <Badge variant={c.active ? "success" : "default"} size="sm">{c.active ? "Activa" : "Cancelada"}</Badge>
                       <button onClick={() => toggleCampana(c.id, c.active)}
-                        className={`rounded-lg px-2.5 py-1.5 text-[11px] font-bold ${c.active ? "bg-red-500/15 text-red-300 hover:bg-red-500/25" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
+                        className={`rounded-lg px-2.5 py-1.5 text-[11px] font-bold ${c.active ? "bg-red-500/15 text-[var(--bad)] hover:bg-red-500/25" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
                         {c.active ? "Cancelar" : "Reactivar"}
                       </button>
                     </div>
@@ -910,15 +910,15 @@ export default function AdminPage() {
                   <div key={r.id} className="rounded-2xl border border-red-400/20 bg-red-500/[0.04] p-4">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                       <div className="flex items-start gap-3">
-                        <Flag className="mt-0.5 h-5 w-5 shrink-0 text-red-400" />
+                        <Flag className="mt-0.5 h-5 w-5 shrink-0 text-[var(--bad)]" />
                         <div className="min-w-0 flex-1">
-                          <p className="font-bold">{(r as any).businesses?.name || "Negocio"} <span className="ml-2 rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-black text-red-300">{r.reason}</span></p>
+                          <p className="font-bold">{(r as any).businesses?.name || "Negocio"} <span className="ml-2 rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-black text-[var(--bad)]">{r.reason}</span></p>
                           {r.details && <p className="mt-1 text-sm text-[var(--text)]/70">&quot;{r.details}&quot;</p>}
                           <p className="mt-1 text-xs text-[var(--muted2)]">{new Date(r.created_at).toLocaleDateString("es-AR")}</p>
                         </div>
                       </div>
                       <button onClick={() => resolverReporte(r.id)}
-                        className="rounded-xl bg-green-500/15 px-4 py-2 text-xs font-black text-green-300 hover:bg-green-500/25 sm:ml-auto sm:shrink-0">
+                        className="rounded-xl bg-green-500/15 px-4 py-2 text-xs font-black text-[var(--ok)] hover:bg-green-500/25 sm:ml-auto sm:shrink-0">
                         Resolver
                       </button>
                     </div>
@@ -944,8 +944,8 @@ export default function AdminPage() {
               <div className="space-y-2">
                 {vivos.map((v) => {
                   const ESTADO: Record<string, { l: string; c: string }> = {
-                    scheduled: { l: "Programado", c: "bg-sky-500/15 text-sky-300" },
-                    live: { l: "🔴 En vivo", c: "bg-red-500/20 text-red-300" },
+                    scheduled: { l: "Programado", c: "bg-sky-500/15 text-[var(--place)]" },
+                    live: { l: "🔴 En vivo", c: "bg-red-500/20 text-[var(--bad)]" },
                     ended: { l: "Finalizado", c: "bg-[var(--ov-10)] text-[var(--muted)]" },
                     cancelled: { l: "Cancelado", c: "bg-[var(--ov-10)] text-[var(--muted2)]" },
                   };
@@ -955,7 +955,7 @@ export default function AdminPage() {
                     <div key={v.id} className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                       <div className="flex flex-col gap-2 p-3 sm:flex-row sm:items-center">
                         <div className="min-w-0 flex-1">
-                          <p className="truncate font-bold">{v.title} {v.blocked && <span className="ml-1 text-[10px] font-black text-red-400">BLOQUEADO</span>}</p>
+                          <p className="truncate font-bold">{v.title} {v.blocked && <span className="ml-1 text-[10px] font-black text-[var(--bad)]">BLOQUEADO</span>}</p>
                           <p className="truncate text-xs text-[var(--muted)]">
                             {v.businesses?.name} · <span className={`rounded px-1.5 py-0.5 font-bold ${e.c}`}>{e.l}</span>
                             {v.status !== "scheduled" && ` · ${v.max_viewers} pico · ${v.total_viewers} totales`}
@@ -981,7 +981,7 @@ export default function AdminPage() {
                             <EyeOff className="h-3 w-3" /> {v.blocked ? "Desbloquear" : "Bloquear"}
                           </button>
                           <button onClick={() => borrarVivo(v.id, v.title)}
-                            className="flex items-center gap-1 rounded-lg bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-red-300 hover:bg-red-500/25">
+                            className="flex items-center gap-1 rounded-lg bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-[var(--bad)] hover:bg-red-500/25">
                             <Trash2 className="h-3 w-3" /> Borrar
                           </button>
                         </div>
@@ -1022,11 +1022,11 @@ export default function AdminPage() {
                     </div>
                     <div className="flex shrink-0 gap-1.5">
                       <button onClick={() => restaurarMensajeChat(m.id)}
-                        className="rounded-lg bg-green-500/15 px-3 py-1.5 text-xs font-black text-green-300 hover:bg-green-500/25">
+                        className="rounded-lg bg-green-500/15 px-3 py-1.5 text-xs font-black text-[var(--ok)] hover:bg-green-500/25">
                         Restaurar
                       </button>
                       <button onClick={() => borrarMensajeChat(m.id)}
-                        className="rounded-lg bg-red-500/15 px-3 py-1.5 text-xs font-black text-red-300 hover:bg-red-500/25">
+                        className="rounded-lg bg-red-500/15 px-3 py-1.5 text-xs font-black text-[var(--bad)] hover:bg-red-500/25">
                         Eliminar
                       </button>
                     </div>
@@ -1103,7 +1103,7 @@ export default function AdminPage() {
                 {ciudades.map(c => (
                   <div key={c.id} className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-4">
                     <div className="flex items-center gap-3">
-                      <MapPin className="h-6 w-6 shrink-0 text-sky-400" />
+                      <MapPin className="h-6 w-6 shrink-0 text-[var(--place)]" />
                       <div className="min-w-0 flex-1">
                         {editandoCiudad === c.id ? (
                           <input value={nombreCiudadEdit} onChange={(e) => setNombreCiudadEdit(e.target.value)}
@@ -1115,15 +1115,15 @@ export default function AdminPage() {
                         )}
                         <p className="text-xs text-[var(--muted)]">
                           /{c.slug} · {c._negocios ?? 0} negocio{c._negocios === 1 ? "" : "s"}
-                          {(c.latitude == null || c.longitude == null) && <span className="ml-2 text-amber-400">sin coordenadas</span>}
+                          {(c.latitude == null || c.longitude == null) && <span className="ml-2 text-[var(--warn)]">sin coordenadas</span>}
                         </p>
                       </div>
                       <span className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${
-                        c.status === "active" ? "bg-green-500/15 text-green-300"
+                        c.status === "active" ? "bg-green-500/15 text-[var(--ok)]"
                         : c.status === "draft" ? "bg-[var(--ov-10)] text-[var(--muted)]"
-                        : c.status === "suspended" ? "bg-red-500/15 text-red-300"
+                        : c.status === "suspended" ? "bg-red-500/15 text-[var(--bad)]"
                         : c.status === "archived" ? "bg-[var(--ov-05)] text-[var(--muted2)]"
-                        : "bg-amber-500/15 text-amber-300"
+                        : "bg-amber-500/15 text-[var(--warn)]"
                       }`}>
                         {c.status === "active" ? "Activa" : c.status === "draft" ? "Borrador" : c.status === "suspended" ? "Suspendida" : c.status === "archived" ? "Archivada" : "Inactiva"}
                       </span>
@@ -1134,7 +1134,7 @@ export default function AdminPage() {
                         onClick={() => cambiarEstadoCiudad(c.id, c.status === "active" ? "inactive" : "active")}
                         className={`shrink-0 rounded-xl px-3 py-2 text-xs font-black transition ${
                           c.status === "active"
-                            ? "border border-red-400/30 bg-red-500/10 text-red-300 hover:bg-red-500/20"
+                            ? "border border-red-400/30 bg-red-500/10 text-[var(--bad)] hover:bg-red-500/20"
                             : "bg-gradient-to-r from-orange-500 to-red-600 text-[var(--text)] hover:opacity-90"
                         }`}
                       >
@@ -1171,7 +1171,7 @@ export default function AdminPage() {
                         <option value="archived">Archivar</option>
                       </select>
                       <button onClick={() => borrarCiudad(c.id, c.name)}
-                        className="flex shrink-0 items-center gap-1 rounded-xl bg-red-500/15 px-3 py-2 text-xs font-bold text-red-300 hover:bg-red-500/25">
+                        className="flex shrink-0 items-center gap-1 rounded-xl bg-red-500/15 px-3 py-2 text-xs font-bold text-[var(--bad)] hover:bg-red-500/25">
                         <Trash2 className="h-3 w-3" />
                       </button>
                     </div>

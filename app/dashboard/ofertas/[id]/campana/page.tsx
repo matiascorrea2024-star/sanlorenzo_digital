@@ -77,8 +77,8 @@ export default function CampanaPage() {
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
-        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-cyan-400">Alcance segmentado</p>
-        <h1 className="mt-2 flex items-center gap-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}><MapPin className="h-9 w-9 text-cyan-400" /> Promocionar por barrio</h1>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--place)]">Alcance segmentado</p>
+        <h1 className="mt-2 flex items-center gap-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}><MapPin className="h-9 w-9 text-[var(--place)]" /> Promocionar por barrio</h1>
         <p className="mt-3 text-[var(--muted)]">&quot;{offer.title}&quot;</p>
 
         {!plan.campanas ? (
@@ -117,7 +117,7 @@ export default function CampanaPage() {
 
               {alcance && (
                 <div className="mt-4 rounded-xl border border-cyan-400/20 bg-cyan-500/5 p-4">
-                  <p className="mb-2 text-xs font-bold text-cyan-300">Alcance estimado (no es una promesa, es un cálculo real de hoy)</p>
+                  <p className="mb-2 text-xs font-bold text-[var(--place)]">Alcance estimado (no es una promesa, es un cálculo real de hoy)</p>
                   <div className="flex gap-4 text-sm">
                     <span className="flex items-center gap-1.5"><Store className="h-4 w-4 text-[var(--muted2)]" /> {alcance.negocios} negocio{alcance.negocios === 1 ? "" : "s"} en el barrio</span>
                     <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-[var(--muted2)]" /> {alcance.seguidores} seguidor{alcance.seguidores === 1 ? "" : "es"} en total</span>

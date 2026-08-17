@@ -48,7 +48,7 @@ export default function ReviewModeration({ businessId, plan }: { businessId: str
             <div key={r.id} className="rounded-xl border border-[var(--line)] bg-[var(--card-inner)] p-4">
               <div className="flex items-center justify-between">
                 <p className="text-sm font-bold">{r.reviewer_name}</p>
-                <span className="text-sm text-yellow-400">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
+                <span className="text-sm text-[var(--warn)]">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
               </div>
               {r.comment && <p className="mt-1 text-sm text-[var(--text)]/70">{r.comment}</p>}
               {r.reply ? (
@@ -71,7 +71,7 @@ export default function ReviewModeration({ businessId, plan }: { businessId: str
                   <Lock className="h-3 w-3" /> Responder reseñas es de Plan PRO -- mejorar plan →
                 </Link>
               )}
-              <button onClick={() => toggleHidden(r.id, r.hidden)} className="mt-2 text-xs text-[var(--muted2)] hover:text-red-400">Ocultar de mi miniweb</button>
+              <button onClick={() => toggleHidden(r.id, r.hidden)} className="mt-2 text-xs text-[var(--muted2)] hover:text-[var(--bad)]">Ocultar de mi miniweb</button>
             </div>
           ))}
         </div>
@@ -82,7 +82,7 @@ export default function ReviewModeration({ businessId, plan }: { businessId: str
           <div className="grid gap-2">
             {ocultas.map((r) => (
               <div key={r.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--ov-10)] p-3 opacity-60">
-                <p className="text-sm">{r.reviewer_name} · <span className="text-yellow-400">{"★".repeat(r.rating)}</span></p>
+                <p className="text-sm">{r.reviewer_name} · <span className="text-[var(--warn)]">{"★".repeat(r.rating)}</span></p>
                 <button onClick={() => toggleHidden(r.id, r.hidden)} className="text-xs text-[var(--muted)] hover:text-[var(--text)]">Volver a mostrar</button>
               </div>
             ))}

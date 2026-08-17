@@ -65,7 +65,7 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
             <p><span className="font-bold text-orange-300">{m.sender_name}:</span> <span className="text-[var(--text)]/80">{m.body}</span></p>
             {puedeModerar && (
               <button onClick={() => ocultar(m.id)} title="Ocultar mensaje" className="shrink-0 opacity-0 group-hover:opacity-100">
-                <Trash2 className="h-3.5 w-3.5 text-red-400" />
+                <Trash2 className="h-3.5 w-3.5 text-[var(--bad)]" />
               </button>
             )}
           </div>

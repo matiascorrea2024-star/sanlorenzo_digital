@@ -119,7 +119,7 @@ export default function VerEnVivo() {
                           </div>
                           {negocio.whatsapp && (
                             <a href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola! Te escribo por "${p?.name || o?.title}" que vi en tu vivo`)}`}
-                              target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-lg bg-green-500/15 px-3 py-1.5 text-xs font-bold text-green-300">Consultar</a>
+                              target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-lg bg-green-500/15 px-3 py-1.5 text-xs font-bold text-[var(--ok)]">Consultar</a>
                           )}
                         </div>
                       </div>

@@ -48,7 +48,7 @@ export default function ImageUploader({ value, onChange, businessId, itemId, pre
         </button>
       )}
       <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={onPick} />
-      {err && <span className="text-xs text-red-400">{err}</span>}
+      {err && <span className="text-xs text-[var(--bad)]">{err}</span>}
     </div>
   );
 }

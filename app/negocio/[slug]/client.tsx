@@ -264,7 +264,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             <h1 className="truncate text-3xl font-bold leading-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{negocio.name}</h1>
             <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5">
               {Number(negocio.reviews) > 0 && (
-                <span className="flex items-center gap-1.5 text-amber-400">
+                <span className="flex items-center gap-1.5 text-[var(--warn)]">
                   <Star className="h-4 w-4 fill-current" />
                   <span className="font-black leading-none" style={{ fontFamily: "var(--font-ticket)" }}>{Number(negocio.rating).toFixed(1)}</span>
                   <span className="text-xs font-normal text-[var(--muted2)]">({negocio.reviews} reseñas)</span>
@@ -298,7 +298,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
         {negocio.open === false && (
           <div className="mb-6 rounded-2xl border border-red-400/40 bg-red-500/10 p-4 text-center">
-            <p className="font-black text-red-300">🔴 Cerrado ahora</p>
+            <p className="font-black text-[var(--bad)]">🔴 Cerrado ahora</p>
             <p className="mt-1 text-sm text-[var(--muted)]">
               {negocio.schedule ? `Horario: ${negocio.schedule}` : "Consultá el horario antes de ir."}
             </p>
@@ -332,7 +332,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1"
             >
               <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                <MessageCircle className="h-6 w-6 text-emerald-400" />
+                <MessageCircle className="h-6 w-6 text-[var(--ok)]" />
                 <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">WhatsApp</span>
               </div>
             </a>
@@ -354,7 +354,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           <button onClick={share} disabled={compartiendo}
             className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1 disabled:opacity-60">
             <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Share2 className={`h-6 w-6 text-sky-400 ${compartiendo ? "animate-pulse" : ""}`} />
+              <Share2 className={`h-6 w-6 text-[var(--place)] ${compartiendo ? "animate-pulse" : ""}`} />
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">{compartiendo ? "Generando..." : "Compartir"}</span>
             </div>
           </button>
@@ -423,8 +423,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     </div>
                     <div className="flex min-w-0 flex-1 flex-col">
                       <div className="mb-1 flex flex-wrap items-center gap-1.5">
-                        {dias === 0 && <span className="rounded bg-red-500/20 px-1.5 py-0.5 text-[10px] font-black text-red-300">VENCE HOY</span>}
-                        {dias !== null && dias > 0 && dias <= 3 && <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-black text-amber-300">En {dias} días</span>}
+                        {dias === 0 && <span className="rounded bg-red-500/20 px-1.5 py-0.5 text-[10px] font-black text-[var(--bad)]">VENCE HOY</span>}
+                        {dias !== null && dias > 0 && dias <= 3 && <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-black text-[var(--warn)]">En {dias} días</span>}
                       </div>
                       <h3 className="line-clamp-2 text-sm font-black leading-snug sm:text-base">{o.title}</h3>
                       <div className="mt-auto flex items-end justify-between gap-2 pt-1">
@@ -433,7 +433,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                           {o.offer_price && <p className="text-lg font-black text-orange-400">{fmt(Number(o.offer_price))}</p>}
                         </div>
                         {ahorro && ahorro > 0 && (
-                          <span className="rounded bg-green-500/15 px-2 py-1 text-[11px] font-black text-green-300">
+                          <span className="rounded bg-green-500/15 px-2 py-1 text-[11px] font-black text-[var(--ok)]">
                             -{fmt(ahorro)}
                           </span>
                         )}
@@ -527,7 +527,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                           href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, te consulto por "${p.name}" que vi en La Gran Barata Digital`)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-green-400/30 bg-green-500/10 py-2 text-xs font-bold text-green-300 hover:bg-green-500/20"
+                          className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-green-400/30 bg-green-500/10 py-2 text-xs font-bold text-[var(--ok)] hover:bg-green-500/20"
                         >
                           <MessageCircle className="h-3.5 w-3.5" /> Consultar
                         </a>
@@ -540,7 +540,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                         })}
                         disabled={hasItem(`producto-${p.id}`)}
                         aria-label={hasItem(`producto-${p.id}`) ? "Ya está en el changuito" : "Agregar al changuito"}
-                        className="flex shrink-0 items-center justify-center rounded-lg border border-sky-400/30 bg-sky-500/10 px-3 py-2 text-xs font-bold text-sky-300 hover:bg-sky-500/20 disabled:opacity-60"
+                        className="flex shrink-0 items-center justify-center rounded-lg border border-sky-400/30 bg-sky-500/10 px-3 py-2 text-xs font-bold text-[var(--place)] hover:bg-sky-500/20 disabled:opacity-60"
                       >
                         {hasItem(`producto-${p.id}`) ? <Check className="h-3.5 w-3.5" /> : <ShoppingBasket className="h-3.5 w-3.5" />}
                       </button>
@@ -618,9 +618,9 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   )}
                   {negocio.hace_envios && (
                     <div className="flex items-start gap-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10"><Truck className="h-4 w-4 text-sky-400" /></span>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10"><Truck className="h-4 w-4 text-[var(--place)]" /></span>
                       <div className="min-w-0">
-                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-400/70">Envíos</p>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--place)]/70">Envíos</p>
                         <p className="text-sm text-[var(--text)]/90">
                           {negocio.envio_gratis ? "Envío gratis" : negocio.costo_envio ? `Envío: $${Number(negocio.costo_envio).toLocaleString("es-AR")}` : "Hace envíos"}
                           {negocio.zona_cobertura && ` · ${negocio.zona_cobertura}`}
@@ -637,7 +637,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
                 <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-8">
                   <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.35em] text-[var(--muted2)]">
-                    <Navigation className="h-3.5 w-3.5 text-cyan-300" /> Ubicación
+                    <Navigation className="h-3.5 w-3.5 text-[var(--place)]" /> Ubicación
                   </p>
                   <BusinessMap latitude={negocio.latitude} longitude={negocio.longitude} address={negocio.address} />
                 </div>

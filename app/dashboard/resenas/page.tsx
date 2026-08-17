@@ -70,7 +70,7 @@ export default function ResenasPage() {
                     <div className="flex items-center gap-2">
                       <span className="inline-flex gap-0.5">
                         {[1,2,3,4,5].map(i => (
-                          <Star key={i} className={`h-3.5 w-3.5 ${i <= r.rating ? "fill-yellow-400 text-yellow-400" : "text-[var(--muted2)]"}`} />
+                          <Star key={i} className={`h-3.5 w-3.5 ${i <= r.rating ? "fill-yellow-400 text-[var(--warn)]" : "text-[var(--muted2)]"}`} />
                         ))}
                       </span>
                       <span className="text-[11px] text-[var(--muted2)]">{bizNames[r.business_id]}</span>
@@ -82,7 +82,7 @@ export default function ResenasPage() {
                 <div className="mt-4">
                   {r.reply ? (
                     <div className="rounded-xl border-l-4 border-green-400 bg-green-500/10 p-3">
-                      <p className="text-xs font-black text-green-300">↳ Tu respuesta</p>
+                      <p className="text-xs font-black text-[var(--ok)]">↳ Tu respuesta</p>
                       <p className="mt-1 text-sm text-[var(--text)]/80">{r.reply}</p>
                     </div>
                   ) : (

@@ -125,7 +125,7 @@ export default function PlanesPage() {
                 <ul className="mt-6 flex-1 space-y-2.5">
                   {p.features.map(f => (
                     <li key={f.t} className={`flex items-center gap-2 text-sm ${f.ok ? "text-[var(--text)]/80" : "text-[var(--muted2)] line-through"}`}>
-                      {f.ok ? <Check className="h-4 w-4 shrink-0 text-green-400" /> : <X className="h-4 w-4 shrink-0 text-[var(--muted2)]" />}
+                      {f.ok ? <Check className="h-4 w-4 shrink-0 text-[var(--ok)]" /> : <X className="h-4 w-4 shrink-0 text-[var(--muted2)]" />}
                       {f.t}
                     </li>
                   ))}

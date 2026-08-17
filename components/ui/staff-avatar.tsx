@@ -9,7 +9,7 @@ export default function StaffAvatar({ size = 44, online }: { size?: number; onli
     <div className="relative shrink-0" style={{ width: size, height: size }}>
       <div className="flex h-full w-full items-center justify-center rounded-full"
         style={{ background: "radial-gradient(circle at 35% 28%, #4a2e05 0%, #0c0a0b 75%)" }}>
-        <Shield className="text-yellow-300" style={{ width: size * 0.52, height: size * 0.52 }} strokeWidth={2.2} />
+        <Shield className="text-[var(--warn)]" style={{ width: size * 0.52, height: size * 0.52 }} strokeWidth={2.2} />
       </div>
       {online && (
         <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#0c0a0b] bg-green-500" />

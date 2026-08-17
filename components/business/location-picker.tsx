@@ -272,7 +272,7 @@ export default function LocationPicker({
 
       {latitude && longitude ? (
         <div className="rounded-xl bg-green-500/10 border border-green-400/30 p-3 text-xs">
-          <p className="font-bold text-green-300">📌 Ubicación seleccionada</p>
+          <p className="font-bold text-[var(--ok)]">📌 Ubicación seleccionada</p>
           <p className="mt-1 text-[var(--muted)]">
             Lat: {latitude} · Lng: {longitude}
           </p>

@@ -119,7 +119,7 @@ function CompararContent() {
                 {conScore.map(p => (
                   <td key={p.id} className="p-3 text-center">
                     <span className="inline-flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-4 w-4 fill-yellow-400 text-[var(--warn)]" />
                       <span className="font-bold">{Number(p.businesses?.rating || 0).toFixed(1)}</span>
                     </span>
                   </td>
@@ -135,7 +135,7 @@ function CompararContent() {
                 <td className="p-3 text-sm font-bold">🔥 SDL Score</td>
                 {conScore.map(p => (
                   <td key={p.id} className="p-3 text-center">
-                    <span className={`text-2xl font-black ${p.id === mejorId ? "text-green-400" : "text-[var(--text)]"}`}>
+                    <span className={`text-2xl font-black ${p.id === mejorId ? "text-[var(--ok)]" : "text-[var(--text)]"}`}>
                       {p.sdlScore}
                     </span>
                     <p className="text-[10px] text-[var(--muted)]">/100</p>

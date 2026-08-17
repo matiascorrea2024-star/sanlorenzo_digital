@@ -92,12 +92,12 @@ export default function BookingWidget({ businessId, businessName }: { businessId
     <div className="mb-6 rounded-[1.75rem] border border-sky-400/20 bg-gradient-to-br from-sky-500/[.06] to-blue-500/[.03] p-1.5">
       <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
         <h3 className="mb-4 flex items-center gap-2 font-black">
-          <Calendar className="h-5 w-5 text-sky-400" /> Reservá tu turno
+          <Calendar className="h-5 w-5 text-[var(--place)]" /> Reservá tu turno
         </h3>
 
         {confirmado ? (
           <div className="flex items-center gap-3 rounded-xl border border-green-400/30 bg-green-500/10 p-4">
-            <Check className="h-6 w-6 shrink-0 text-green-400" />
+            <Check className="h-6 w-6 shrink-0 text-[var(--ok)]" />
             <p className="text-sm text-green-200">
               Turno confirmado para el {new Date(confirmado.fecha + "T00:00:00").toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" })} a las {confirmado.hora}hs en {businessName}.
             </p>
@@ -129,7 +129,7 @@ export default function BookingWidget({ businessId, businessName }: { businessId
                 <div className="flex flex-wrap gap-2">
                   {slotsDelDia.map((h) => (
                     <button key={h} onClick={() => reservar(h)} disabled={reservando === h}
-                      className="flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-3 py-1.5 text-xs font-bold text-sky-300 hover:bg-sky-500/20 disabled:opacity-50">
+                      className="flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-3 py-1.5 text-xs font-bold text-[var(--place)] hover:bg-sky-500/20 disabled:opacity-50">
                       <Clock className="h-3 w-3" /> {reservando === h ? "..." : h}
                     </button>
                   ))}

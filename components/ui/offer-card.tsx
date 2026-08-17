@@ -139,7 +139,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
         <div className="flex items-center justify-between gap-2 mb-1">
           <div className="flex min-w-0 items-center gap-1 text-xs font-bold uppercase tracking-wider text-orange-400/80">
             <span className="truncate">{o.negocio}</span>
-            {o.verificado && <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-sky-400" aria-label="Comercio verificado" />}
+            {o.verificado && <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[var(--place)]" aria-label="Comercio verificado" />}
             <RankedAvatar slug={o.slug} name={o.negocio || ""} size={20} /> <RankBadge slug={o.slug} />
           </div>
           <span className={`text-[10px] font-black ${sdl.color}`}>
@@ -155,7 +155,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
                 <p className="text-3xl leading-none text-[var(--text)]" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>{fmt(o.ahora)}</p>
               </div>
               {o.descuento && (
-                <span className="rounded-lg bg-green-500/15 px-2 py-1 text-xs font-black text-green-300">
+                <span className="rounded-lg bg-green-500/15 px-2 py-1 text-xs font-black text-[var(--ok)]">
                   Ahorrás {fmt(o.antes - o.ahora)}
                 </span>
               )}

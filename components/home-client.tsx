@@ -143,11 +143,11 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         <Link href="/comunidad"
           className="group flex items-center justify-between gap-3 rounded-full border border-cyan-400/20 bg-cyan-500/[.05] px-5 py-3 text-sm transition hover:border-cyan-400/40 hover:bg-cyan-500/10">
           <span className="flex items-center gap-2">
-            <MessageCircle className="h-4 w-4 shrink-0 text-cyan-300" />
+            <MessageCircle className="h-4 w-4 shrink-0 text-[var(--place)]" />
             <span className="font-bold text-cyan-100">Chat de tu ciudad</span>
             <span className="hidden text-[var(--muted)] sm:inline">-- preguntas, avisos, conectá con tus vecinos</span>
           </span>
-          <ArrowRight className="h-4 w-4 shrink-0 text-cyan-300 transition group-hover:translate-x-0.5" />
+          <ArrowRight className="h-4 w-4 shrink-0 text-[var(--place)] transition group-hover:translate-x-0.5" />
         </Link>
       </div>
 
@@ -287,7 +287,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
                   También podés sumarte, gratis. Ropa, comida casera, changas, lo que sea -- sin necesidad de un
                   comercio físico.
                 </p>
-                <Link href="/dashboard/nuevo?type=particular" className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-cyan-300 hover:text-cyan-200">
+                <Link href="/dashboard/nuevo?type=particular" className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-[var(--place)] hover:text-cyan-200">
                   Sumarme como particular →
                 </Link>
               </div>

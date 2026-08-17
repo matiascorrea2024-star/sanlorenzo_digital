@@ -126,8 +126,8 @@ export default function PulsoClient() {
             {negocioEnAlza && (
               <div className="rounded-[1.75rem] border border-green-400/25 bg-gradient-to-br from-green-500/[.08] to-emerald-500/[.04] p-1.5">
                 <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-green-300"><TrendingUp className="h-3.5 w-3.5" /> Negocio en alza esta semana</p>
-                  <Link href={`/negocio/${negocioEnAlza.slug}`} className="mt-2 block text-2xl font-black hover:text-green-300">{negocioEnAlza.name}</Link>
+                  <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[var(--ok)]"><TrendingUp className="h-3.5 w-3.5" /> Negocio en alza esta semana</p>
+                  <Link href={`/negocio/${negocioEnAlza.slug}`} className="mt-2 block text-2xl font-black hover:text-[var(--ok)]">{negocioEnAlza.name}</Link>
                   <p className="mt-1 text-sm text-[var(--muted)]">+{negocioEnAlza.crecimiento} visitas vs la semana anterior</p>
                 </div>
               </div>
@@ -135,7 +135,7 @@ export default function PulsoClient() {
 
             <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
               <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-sky-300"><PieChart className="h-3.5 w-3.5" /> Tendencia de la semana</p>
+                <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[var(--place)]"><PieChart className="h-3.5 w-3.5" /> Tendencia de la semana</p>
                 <p className="mt-2 text-2xl font-black">{ofertasSemana} oferta{ofertasSemana === 1 ? "" : "s"} nueva{ofertasSemana === 1 ? "" : "s"}</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">{negociosSemana} negocio{negociosSemana === 1 ? "" : "s"} nuevo{negociosSemana === 1 ? "" : "s"} esta semana</p>
               </div>
@@ -160,7 +160,7 @@ export default function PulsoClient() {
             {vencenHoy.length > 0 && (
               <div className="rounded-[1.75rem] border border-red-400/25 bg-gradient-to-br from-red-500/[.08] to-orange-500/[.04] p-1.5 md:col-span-2">
                 <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-red-300"><Clock className="h-3.5 w-3.5" /> {vencenHoy.length} oferta{vencenHoy.length === 1 ? "" : "s"} vence{vencenHoy.length === 1 ? "" : "n"} hoy</p>
+                  <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[var(--bad)]"><Clock className="h-3.5 w-3.5" /> {vencenHoy.length} oferta{vencenHoy.length === 1 ? "" : "s"} vence{vencenHoy.length === 1 ? "" : "n"} hoy</p>
                   <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
                     {vencenHoy.map((o: any) => (
                       <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-[var(--line)] bg-[var(--card-inner)] p-3 hover:border-red-400/40">
@@ -177,7 +177,7 @@ export default function PulsoClient() {
             {recienPublicado.length > 0 && (
               <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 md:col-span-2">
                 <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-sky-300"><Flame className="h-3.5 w-3.5" /> Recién publicado</p>
+                  <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[var(--place)]"><Flame className="h-3.5 w-3.5" /> Recién publicado</p>
                   <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
                     {recienPublicado.map((o: any) => (
                       <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-[var(--line)] bg-[var(--card-inner)] p-3 hover:border-sky-400/40">

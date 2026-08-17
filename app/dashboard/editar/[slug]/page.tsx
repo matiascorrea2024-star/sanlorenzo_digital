@@ -272,7 +272,7 @@ export default function Editar() {
                 <ImageUploader value={it.photo} onChange={(url) => setItems(items.map((x, j) => j === i ? { ...x, photo: url } : x))} businessId={String(b.id)} itemId={String(i)} />
                 <input className={inp} placeholder="Nombre" value={it.name} onChange={(e) => setItems(items.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} />
                 <input className={inp} placeholder="Precio" value={it.price || ""} onChange={(e) => setItems(items.map((x, j) => j === i ? { ...x, price: e.target.value } : x))} />
-                <button onClick={() => setItems(items.filter((_, j) => j !== i))} className="rounded-lg border border-[var(--line-strong)] text-red-400 hover:border-red-400">🗑</button>
+                <button onClick={() => setItems(items.filter((_, j) => j !== i))} className="rounded-lg border border-[var(--line-strong)] text-[var(--bad)] hover:border-red-400">🗑</button>
               </div>
             ))}
           </div>
@@ -318,12 +318,12 @@ export default function Editar() {
                   ))}
                 </select>
                 {pr.expires_at && (
-                  <p className="mt-1 text-[10px] text-red-300">
+                  <p className="mt-1 text-[10px] text-[var(--bad)]">
                     ⏰ Termina {new Date(pr.expires_at).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })} hs
                   </p>
                 )}
               </div>
-                <button onClick={() => setPromos(promos.filter((_, j) => j !== i))} className="rounded-lg border border-[var(--line-strong)] text-red-400 hover:border-red-400">🗑</button>
+                <button onClick={() => setPromos(promos.filter((_, j) => j !== i))} className="rounded-lg border border-[var(--line-strong)] text-[var(--bad)] hover:border-red-400">🗑</button>
               </div>
             ))}
           </div>
@@ -336,10 +336,10 @@ export default function Editar() {
             lugar (/dashboard/planes), para no repetirlos acá desactualizados. */}
         <section className="mt-6 rounded-2xl border border-yellow-400/40 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 p-6">
           {b.destacado ? (
-            <p className="text-sm font-bold text-green-300">🎉 Tu negocio está en Destacado Semanal: aparece con prioridad en la home y el mapa.</p>
+            <p className="text-sm font-bold text-[var(--ok)]">🎉 Tu negocio está en Destacado Semanal: aparece con prioridad en la home y el mapa.</p>
           ) : (
             <>
-              <h2 className="mb-1 font-black text-yellow-300">¿Querés más visibilidad?</h2>
+              <h2 className="mb-1 font-black text-[var(--warn)]">¿Querés más visibilidad?</h2>
               <p className="mb-4 text-sm text-[var(--text)]/70">Mirá los planes pagos: más ofertas, estadísticas, catálogo destacado y posición fija en la home.</p>
               <a
                 href="/dashboard/planes"
@@ -365,7 +365,7 @@ export default function Editar() {
               </div>
               <div className="rounded-[1.25rem] border border-[var(--ov-05)] bg-black/20 p-1">
                 <div className="rounded-[.9rem] bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-                  <p className="text-3xl font-black text-green-400 tabular-nums">{stats.wa}</p>
+                  <p className="text-3xl font-black text-[var(--ok)] tabular-nums">{stats.wa}</p>
                   <p className="text-xs text-[var(--muted)] uppercase mt-1">💬 Clicks a WhatsApp</p>
                 </div>
               </div>

@@ -176,7 +176,7 @@ export default function EditarOferta() {
 
           {error && (
             <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-4">
-              <p className="text-sm font-bold text-red-300">❌ {error}</p>
+              <p className="text-sm font-bold text-[var(--bad)]">❌ {error}</p>
             </div>
           )}
 

@@ -223,7 +223,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
               </div>
               <div className="rounded-2xl border border-[var(--ov-06)] bg-[var(--ov-02)] p-4">
                 <span className="mb-1 block text-[9px] font-black uppercase tracking-widest text-[var(--muted2)]">Abiertos ahora</span>
-                <span className="text-3xl font-black text-green-400" style={{ fontFamily: "var(--font-ticket)" }}>{stats.abiertos}</span>
+                <span className="text-3xl font-black text-[var(--ok)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.abiertos}</span>
               </div>
               <div className="rounded-2xl border border-[var(--ov-06)] bg-[var(--ov-02)] p-4">
                 <span className="mb-1 block text-[9px] font-black uppercase tracking-widest text-[var(--muted2)]">Con ofertas</span>
@@ -235,7 +235,7 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
               <span>🔴 Cerrado</span>
               <span>🔥 Con ofertas</span>
               <span>🏪 Sin ofertas</span>
-              {userCoords ? <span className="text-sky-400">● Tu ubicación</span> : <span className="text-[var(--muted2)]">Distancias desde el centro de San Lorenzo</span>}
+              {userCoords ? <span className="text-[var(--place)]">● Tu ubicación</span> : <span className="text-[var(--muted2)]">Distancias desde el centro de San Lorenzo</span>}
             </div>
           </div>
 
@@ -279,9 +279,9 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
                           )}
                         </div>
                         <div className="mt-2 flex items-center gap-3 text-[11px] font-medium text-[var(--muted)]">
-                          <span className="flex items-center gap-1"><MapPin className="h-3 w-3 text-sky-400" /> {fmtDistance(b._km)}</span>
+                          <span className="flex items-center gap-1"><MapPin className="h-3 w-3 text-[var(--place)]" /> {fmtDistance(b._km)}</span>
                           {Number(b.reviews) > 0 && <span className="flex items-center gap-1"><Star className="h-3 w-3 text-yellow-500" /> {Number(b.rating).toFixed(1)}</span>}
-                          <span className={b.open ? "text-green-400" : "text-red-400"}>{b.open ? "● Abierto" : "● Cerrado"}</span>
+                          <span className={b.open ? "text-[var(--ok)]" : "text-[var(--bad)]"}>{b.open ? "● Abierto" : "● Cerrado"}</span>
                         </div>
                       </div>
                     </div>

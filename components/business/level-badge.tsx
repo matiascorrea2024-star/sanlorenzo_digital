@@ -23,7 +23,7 @@ export default function LevelBadge({ slug }: { slug?: string; verificado?: boole
           <p className="text-[10px] text-[var(--muted2)] mt-0.5">→ {r.proximo} (faltan {r.faltan})</p>
         </div>
       ) : (
-        <p className="text-[10px] text-yellow-300">👑 Rango máximo</p>
+        <p className="text-[10px] text-[var(--warn)]">👑 Rango máximo</p>
       )}
     </div>
   );

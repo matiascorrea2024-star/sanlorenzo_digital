@@ -113,7 +113,7 @@ export default function PromocionesPage() {
             <div>
               <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1">
                 <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" /></span>
-                <span className="text-[11px] font-black uppercase tracking-widest text-red-300">Corriendo ahora</span>
+                <span className="text-[11px] font-black uppercase tracking-widest text-[var(--bad)]">Corriendo ahora</span>
               </div>
               <h1 className="text-5xl font-black leading-[0.95] tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
                 <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">La Gran</span>{" "}
@@ -153,7 +153,7 @@ export default function PromocionesPage() {
             {urgentes.length > 0 && (
               <div className="mb-10">
                 <div className="mb-4 flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-red-300">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[var(--bad)]">
                     ⏰ Vencen hoy o mañana
                   </span>
                   <span className="text-sm font-bold text-[var(--muted2)]">corré antes de que se acaben</span>

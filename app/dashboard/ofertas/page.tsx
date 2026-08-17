@@ -118,7 +118,7 @@ export default function OfertasPage() {
         {bienvenida && (
           <div className="mb-6 rounded-2xl border border-green-400/40 bg-green-500/10 p-5 text-center">
             <p className="text-3xl">🎉</p>
-            <p className="mt-2 font-black text-green-300">¡Listo! Negocio creado y primera oferta publicada.</p>
+            <p className="mt-2 font-black text-[var(--ok)]">¡Listo! Negocio creado y primera oferta publicada.</p>
             <p className="mt-1 text-sm text-[var(--text)]/70">Ya está viva en la home, el radar, el mapa y tu miniweb. Ahora podés cargar tu catálogo de productos cuando quieras.</p>
             <Link href="/dashboard/productos" className="mt-3 inline-block rounded-xl border border-green-400/30 px-4 py-2 text-xs font-bold text-green-200 hover:bg-green-500/10">
               Cargar mi catálogo →
@@ -158,8 +158,8 @@ export default function OfertasPage() {
                         <h3 className="text-xl font-bold">{offer.title}</h3>
                         <span className={`rounded-lg px-3 py-1 text-xs font-bold ${
                           offer.active 
-                            ? "bg-green-500/20 text-green-300" 
-                            : "bg-red-500/20 text-red-300"
+                            ? "bg-green-500/20 text-[var(--ok)]" 
+                            : "bg-red-500/20 text-[var(--bad)]"
                         }`}>
                           {offer.active ? "ACTIVA" : "INACTIVA"}
                         </span>
@@ -175,8 +175,8 @@ export default function OfertasPage() {
                       onClick={() => toggleOffer(offer.id, offer.active)}
                       className={`rounded-xl px-4 py-2 text-sm font-bold transition ${
                         offer.active
-                          ? "bg-red-500/10 text-red-300 border border-red-500/30 hover:bg-red-500/20"
-                          : "bg-green-500/10 text-green-300 border border-green-500/30 hover:bg-green-500/20"
+                          ? "bg-red-500/10 text-[var(--bad)] border border-red-500/30 hover:bg-red-500/20"
+                          : "bg-green-500/10 text-[var(--ok)] border border-green-500/30 hover:bg-green-500/20"
                       }`}
                     >
                       {offer.active ? "Pausar" : "Activar"}
@@ -201,7 +201,7 @@ export default function OfertasPage() {
                     {offer.offer_price && (
                       <div>
                         <p className="text-xs text-[var(--muted)]">Precio oferta</p>
-                        <p className="text-lg font-black text-green-400">
+                        <p className="text-lg font-black text-[var(--ok)]">
                           ${offer.offer_price.toLocaleString()}
                         </p>
                       </div>
@@ -221,7 +221,7 @@ export default function OfertasPage() {
                     disabled={offer.es_bomba}
                     className={`mb-3 w-full rounded-xl px-4 py-2 text-sm font-bold transition ${
                       offer.es_bomba
-                        ? "border border-red-400/40 bg-red-500/15 text-red-300"
+                        ? "border border-red-400/40 bg-red-500/15 text-[var(--bad)]"
                         : "border border-[var(--line-strong)] bg-[var(--ov-05)] hover:border-red-400/40 hover:bg-red-500/10"
                     }`}
                   >
@@ -249,7 +249,7 @@ export default function OfertasPage() {
                         <Link href={`/dashboard/ofertas/${offer.id}/marketing`} className="block rounded-lg px-3 py-2 text-xs font-bold hover:bg-[var(--ov-10)]">
                           📱 Marketing
                         </Link>
-                        <Link href={`/dashboard/ofertas/${offer.id}/campana`} className="block rounded-lg px-3 py-2 text-xs font-bold text-cyan-300 hover:bg-[var(--ov-10)]">
+                        <Link href={`/dashboard/ofertas/${offer.id}/campana`} className="block rounded-lg px-3 py-2 text-xs font-bold text-[var(--place)] hover:bg-[var(--ov-10)]">
                           📍 Promocionar
                         </Link>
                       </div>

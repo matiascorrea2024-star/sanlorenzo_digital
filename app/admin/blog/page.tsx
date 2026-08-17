@@ -115,7 +115,7 @@ export default function AdminBlogPage() {
               <input type="checkbox" checked={draft.published} onChange={(e) => setDraft({ ...draft, published: e.target.checked })} />
               Publicado (visible en /blog)
             </label>
-            {error && <p className="text-sm text-red-300">❌ {error}</p>}
+            {error && <p className="text-sm text-[var(--bad)]">❌ {error}</p>}
             <div className="flex gap-2">
               <button onClick={guardar} disabled={saving}
                 className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
@@ -150,7 +150,7 @@ export default function AdminBlogPage() {
                 <button onClick={() => editar(p)} className="rounded-lg border border-[var(--line-strong)] p-2 text-[var(--muted)] hover:bg-[var(--ov-10)]">
                   <Pencil className="h-4 w-4" />
                 </button>
-                <button onClick={() => borrar(p.id)} className="rounded-lg border border-red-500/30 p-2 text-red-300 hover:bg-red-500/10">
+                <button onClick={() => borrar(p.id)} className="rounded-lg border border-red-500/30 p-2 text-[var(--bad)] hover:bg-red-500/10">
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>

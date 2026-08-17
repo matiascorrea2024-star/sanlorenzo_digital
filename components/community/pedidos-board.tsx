@@ -202,7 +202,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
                     </div>
                   </div>
                   {p.resuelto ? (
-                    <span className="flex shrink-0 items-center gap-1 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-400">
+                    <span className="flex shrink-0 items-center gap-1 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[var(--ok)]">
                       <CheckCircle2 className="h-3 w-3" /> Resuelto
                     </span>
                   ) : (
@@ -216,7 +216,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
                   <div className="mb-6 space-y-3">
                     {respuestas[p.id].map((r) => (
                       <div key={r.id} className="flex items-start gap-3 rounded-3xl border border-[var(--ov-05)] bg-[var(--ov-05)] p-4">
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/20"><Store className="h-3.5 w-3.5 text-emerald-400" /></span>
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/20"><Store className="h-3.5 w-3.5 text-[var(--ok)]" /></span>
                         <div className="min-w-0">
                           {r.negocio ? (
                             <div className="mb-1 flex items-center gap-2">
@@ -259,7 +259,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
                       <Share2 className="h-4 w-4" /> Compartir
                     </button>
                     {user?.id === p.user_id && (
-                      <button onClick={() => marcarResuelto(p.id)} className="ml-auto text-xs font-black uppercase tracking-widest text-emerald-400 hover:underline">
+                      <button onClick={() => marcarResuelto(p.id)} className="ml-auto text-xs font-black uppercase tracking-widest text-[var(--ok)] hover:underline">
                         Marcar resuelto
                       </button>
                     )}

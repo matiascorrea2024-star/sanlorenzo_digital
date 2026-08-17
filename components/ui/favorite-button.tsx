@@ -102,7 +102,7 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
         aria-label={isFav ? "Quitar de favoritos" : "Guardar en favoritos"}
         className={`flex flex-col items-center gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-4 transition hover:bg-[var(--ov-10)] disabled:opacity-60 ${className}`}
       >
-        <Heart className={isFav ? "fill-red-500 text-red-500" : "text-red-400"} style={{ width: size, height: size }} />
+        <Heart className={isFav ? "fill-red-500 text-red-500" : "text-[var(--bad)]"} style={{ width: size, height: size }} />
         <span className="text-sm font-bold">{isFav ? "Guardado" : "Favorito"}</span>
       </button>
     );

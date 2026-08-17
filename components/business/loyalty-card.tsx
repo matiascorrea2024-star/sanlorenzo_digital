@@ -69,7 +69,7 @@ export default function LoyaltyCard({ businessId, businessName }: { businessId: 
     <div className="mb-6 rounded-[1.75rem] border border-amber-400/20 bg-gradient-to-br from-amber-500/[.06] to-orange-500/[.03] p-1.5">
       <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
         <h3 className="mb-1 flex items-center gap-2 font-black">
-          <Stamp className="h-5 w-5 text-amber-400" /> Tarjeta de sellitos
+          <Stamp className="h-5 w-5 text-[var(--warn)]" /> Tarjeta de sellitos
         </h3>
         <p className="mb-4 text-xs text-[var(--muted)] flex items-center gap-1.5">
           <Gift className="h-3.5 w-3.5" /> Al juntar {programa.meta} sellos: {programa.premio}

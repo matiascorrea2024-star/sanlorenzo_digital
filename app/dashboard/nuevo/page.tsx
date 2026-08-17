@@ -251,7 +251,7 @@ export default function NuevoNegocioPage() {
             <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required className={inp} placeholder={esParticular ? "Ej: Lu Vende Ropa" : "Ej: Café La Esquina"} />
             {nombreParecido && (
-              <p className="mt-1.5 flex items-start gap-1.5 text-xs text-amber-400/90">
+              <p className="mt-1.5 flex items-start gap-1.5 text-xs text-[var(--warn)]/90">
                 <span>⚠️</span>
                 <span>Ya hay {esParticular ? "alguien" : "un negocio"} registrado en esta ciudad como &quot;{nombreParecido}&quot;. Podés seguir igual si sos vos o si es otro real -- solo te lo avisamos para que no se confundan entre ustedes.</span>
               </p>

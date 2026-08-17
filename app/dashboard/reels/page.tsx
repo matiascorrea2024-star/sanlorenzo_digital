@@ -91,7 +91,7 @@ export default function DashboardReelsPage() {
                         {r.active === false ? "Mostrar" : "Ocultar"}
                       </button>
                       <button onClick={() => eliminar(r.id)}
-                        className="rounded-full bg-red-500/15 p-1.5 text-red-300 hover:bg-red-500/25" aria-label="Eliminar">
+                        className="rounded-full bg-red-500/15 p-1.5 text-[var(--bad)] hover:bg-red-500/25" aria-label="Eliminar">
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>

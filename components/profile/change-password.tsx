@@ -56,8 +56,8 @@ export default function ChangePassword({ email }: { email: string }) {
             placeholder="Repetir nueva contraseña"
             className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm text-[var(--text)] outline-none focus:border-orange-400" />
         </div>
-        {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
-        {done && <p className="mt-2 text-xs text-green-400">✅ Contraseña actualizada.</p>}
+        {error && <p className="mt-2 text-xs text-[var(--bad)]">{error}</p>}
+        {done && <p className="mt-2 text-xs text-[var(--ok)]">✅ Contraseña actualizada.</p>}
         <div className="mt-3 flex gap-2">
           <button onClick={submit} disabled={saving || !current || !next || !confirm}
             className="flex-1 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black text-white disabled:opacity-50">

@@ -108,7 +108,7 @@ export default function OnboardingOverlay() {
             <h2 className="mt-3 text-xl font-black text-[var(--text)]">Activá notificaciones</h2>
             <p className="mt-1 text-sm text-[var(--muted)]">Te avisamos de ofertas cerca tuyo apenas se publiquen (nunca spam por mail).</p>
             {notifStatus === "granted" ? (
-              <p className="mt-4 rounded-xl border border-green-400/30 bg-green-500/10 p-3 text-sm text-green-300">✅ Notificaciones activadas</p>
+              <p className="mt-4 rounded-xl border border-green-400/30 bg-green-500/10 p-3 text-sm text-[var(--ok)]">✅ Notificaciones activadas</p>
             ) : (
               <button onClick={askNotifications} className="mt-4 w-full rounded-xl border border-orange-400/40 bg-orange-500/10 py-3 text-sm font-black text-orange-300 hover:bg-orange-500/20">
                 🔔 Activar notificaciones

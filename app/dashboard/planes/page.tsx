@@ -179,12 +179,12 @@ export default function PlanesDashboard() {
             </div>
           </div>
         ))}
-        {avisoCampana && <p className="mt-3 text-sm text-red-300">{avisoCampana}</p>}
+        {avisoCampana && <p className="mt-3 text-sm text-[var(--bad)]">{avisoCampana}</p>}
 
         {pendiente && (
           <div className="mt-6 rounded-[1.5rem] border border-yellow-400/25 bg-yellow-500/[.06] p-1.5">
             <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-              <Clock className="h-6 w-6 shrink-0 text-yellow-400" />
+              <Clock className="h-6 w-6 shrink-0 text-[var(--warn)]" />
               <div>
                 <p className="font-bold text-yellow-200">Solicitud de plan {PLANES[pendiente.plan]?.name} en revisión</p>
                 <p className="text-xs text-[var(--muted)]">Enviamos tu comprobante. Te activamos el plan en cuanto lo revisemos (normalmente en el día).</p>
@@ -214,7 +214,7 @@ export default function PlanesDashboard() {
                   <ul className="mt-4 flex-1 space-y-2">
                     {p.features.map(f => (
                       <li key={f} className="flex items-center gap-2 text-sm text-[var(--text)]/80">
-                        <Check className="h-4 w-4 shrink-0 text-green-400" /> {f}
+                        <Check className="h-4 w-4 shrink-0 text-[var(--ok)]" /> {f}
                       </li>
                     ))}
                   </ul>
@@ -253,7 +253,7 @@ export default function PlanesDashboard() {
           })}
         </div>
 
-        {error && <p className="mt-4 text-center text-sm text-red-300">❌ {error}</p>}
+        {error && <p className="mt-4 text-center text-sm text-[var(--bad)]">❌ {error}</p>}
         {avisoMP && <p className="mt-4 text-center text-sm text-[var(--text)]/70">{avisoMP}</p>}
 
         <div className="mx-auto mt-8 max-w-xl rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
@@ -261,7 +261,7 @@ export default function PlanesDashboard() {
             <p className="font-bold text-[var(--text)]/80">¿Cómo se activa un plan pago?</p>
             <p className="mt-1">Con &quot;Pagar con Mercado Pago&quot; se activa solo apenas se acredita. Si preferís transferir, usá &quot;O transferir y subir comprobante&quot; -- un admin lo revisa y te lo activa.</p>
             {datosPago ? (
-              <p className="mt-2 whitespace-pre-line rounded-xl bg-black/20 p-3 font-mono text-xs text-emerald-300">{datosPago}</p>
+              <p className="mt-2 whitespace-pre-line rounded-xl bg-black/20 p-3 font-mono text-xs text-[var(--ok)]">{datosPago}</p>
             ) : whatsapp ? (
               <p className="mt-2">
                 Escribinos por WhatsApp para coordinar el pago:{" "}

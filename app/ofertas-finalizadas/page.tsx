@@ -89,7 +89,7 @@ export default function OfertasFinalizadasPage() {
                     <CategoryCover category={p.cat} seed={p.id} className="h-full w-full transition-transform duration-500 group-hover:scale-110" />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute left-2 top-2 rounded-lg bg-black/70 px-2 py-1 text-[10px] font-black text-red-300 backdrop-blur">
+                  <div className="absolute left-2 top-2 rounded-lg bg-black/70 px-2 py-1 text-[10px] font-black text-[var(--bad)] backdrop-blur">
                     Terminó
                   </div>
                   {p.discount && (

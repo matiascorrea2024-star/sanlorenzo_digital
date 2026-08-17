@@ -66,7 +66,7 @@ export default function BusinessPulse({ negocio }: Props) {
   ];
   const score = Math.round((checklist.filter((c) => c.ok).length / checklist.length) * 100);
   const scoreLabel = score >= 80 ? "Perfil sólido" : score >= 50 ? "Vas por buen camino" : "Recién empezando";
-  const scoreColor = score >= 80 ? "text-green-400" : score >= 50 ? "text-orange-400" : "text-[var(--muted)]";
+  const scoreColor = score >= 80 ? "text-[var(--ok)]" : score >= 50 ? "text-orange-400" : "text-[var(--muted)]";
 
   const misiones = [
     { done: datos.ofertasSemana >= MISION_META.ofertas, label: `Publicá ${MISION_META.ofertas} ofertas esta semana`, prog: datos.ofertasSemana, meta: MISION_META.ofertas, pts: 20 },
@@ -93,7 +93,7 @@ export default function BusinessPulse({ negocio }: Props) {
         <div className="space-y-1.5">
           {checklist.map((c) => (
             <div key={c.label} className="flex items-center gap-2 text-sm">
-              {c.ok ? <CheckCircle2 className="h-4 w-4 shrink-0 text-green-400" /> : <Circle className="h-4 w-4 shrink-0 text-[var(--ov-20)]" />}
+              {c.ok ? <CheckCircle2 className="h-4 w-4 shrink-0 text-[var(--ok)]" /> : <Circle className="h-4 w-4 shrink-0 text-[var(--ov-20)]" />}
               <span className={c.ok ? "text-[var(--text)]/80" : "text-[var(--muted2)]"}>{c.label}</span>
               <span className="ml-auto text-[10px] text-[var(--muted2)]">{c.detalle}</span>
             </div>
@@ -111,7 +111,7 @@ export default function BusinessPulse({ negocio }: Props) {
             <div key={m.label} className={`rounded-xl border p-3 ${m.done ? "border-green-400/40 bg-green-500/10" : "border-[var(--line)] bg-[var(--card-inner)]"}`}>
               <div className="flex items-center justify-between gap-2">
                 <p className="text-xs font-bold text-[var(--text)]">{m.label}</p>
-                <span className={`shrink-0 text-[10px] font-black ${m.done ? "text-green-300" : "text-[var(--muted2)]"}`}>
+                <span className={`shrink-0 text-[10px] font-black ${m.done ? "text-[var(--ok)]" : "text-[var(--muted2)]"}`}>
                   {m.done ? "✅ +" + m.pts + "pts" : `${Math.min(m.prog, m.meta)}/${m.meta}`}
                 </span>
               </div>

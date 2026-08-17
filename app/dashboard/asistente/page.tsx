@@ -145,7 +145,7 @@ export default function AsistenteComerciantePage() {
                     <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">{item.label}</p>
                     <button onClick={() => copy(item.texto, item.key)}
                       className="flex items-center gap-1 rounded-full bg-[var(--ov-10)] px-3 py-1.5 text-xs font-bold hover:bg-[var(--ov-20)]">
-                      {copied === item.key ? <Check className="h-3 w-3 text-green-400" /> : <Copy className="h-3 w-3" />}
+                      {copied === item.key ? <Check className="h-3 w-3 text-[var(--ok)]" /> : <Copy className="h-3 w-3" />}
                       {copied === item.key ? "Copiado" : "Copiar"}
                     </button>
                   </div>

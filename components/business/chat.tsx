@@ -160,7 +160,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
             {headerName}
             {otherIsStaff && <AdminBadge />}
           </p>
-          <p className={`text-xs ${online ? "text-green-400" : "text-[var(--muted2)]"}`}>{online ? "🟢 En línea" : isOwner ? "Cliente" : "Negocio"}</p>
+          <p className={`text-xs ${online ? "text-[var(--ok)]" : "text-[var(--muted2)]"}`}>{online ? "🟢 En línea" : isOwner ? "Cliente" : "Negocio"}</p>
         </div>
         {isOwner && (
           <button onClick={saveContact} className="rounded-xl border border-[var(--line-strong)] px-3 py-1.5 text-xs font-bold hover:bg-[var(--ov-10)]">✎ Agendar</button>

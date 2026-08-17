@@ -21,10 +21,10 @@ const TRUST: { icon: LucideIcon; label: string; color: string }[] = [
 ];
 
 const TRUST_STYLE: Record<string, { icon: string; ring: string; glow: string }> = {
-  emerald: { icon: "text-emerald-300", ring: "border-emerald-400/30 bg-emerald-500/10", glow: "shadow-emerald-500/20" },
+  emerald: { icon: "text-[var(--ok)]", ring: "border-emerald-400/30 bg-emerald-500/10", glow: "shadow-emerald-500/20" },
   orange: { icon: "text-orange-300", ring: "border-orange-400/30 bg-orange-500/10", glow: "shadow-orange-500/20" },
-  sky: { icon: "text-sky-300", ring: "border-sky-400/30 bg-sky-500/10", glow: "shadow-sky-500/20" },
-  pink: { icon: "text-red-300", ring: "border-red-400/30 bg-red-600/10", glow: "shadow-red-600/20" },
+  sky: { icon: "text-[var(--place)]", ring: "border-sky-400/30 bg-sky-500/10", glow: "shadow-sky-500/20" },
+  pink: { icon: "text-[var(--bad)]", ring: "border-red-400/30 bg-red-600/10", glow: "shadow-red-600/20" },
 };
 
 export default function Hero({ onSearch, stats }: HeroProps) {

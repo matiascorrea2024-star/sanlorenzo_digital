@@ -107,10 +107,10 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
         className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-cyan-400/20 bg-cyan-500/[.06] px-4 py-3 text-sm transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
       >
         <span>
-          <span className="font-bold text-cyan-300">🙋 ¿Buscás algo de un particular?</span>
+          <span className="font-bold text-[var(--place)]">🙋 ¿Buscás algo de un particular?</span>
           <span className="ml-1.5 text-[var(--muted)]">Venta entre vecinos, sin local ni negocio.</span>
         </span>
-        <ArrowRight className="h-4 w-4 shrink-0 text-cyan-300" />
+        <ArrowRight className="h-4 w-4 shrink-0 text-[var(--place)]" />
       </Link>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {list.map((b: any) => <BusinessCard key={b.id} b={b} />)}

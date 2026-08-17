@@ -151,7 +151,7 @@ export default function CargarBulkPage() {
         {/* Plantilla */}
         <div className="mb-6 rounded-[1.5rem] border border-sky-400/25 bg-sky-500/[.06] p-1.5">
           <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-            <Download className="h-6 w-6 text-sky-400" />
+            <Download className="h-6 w-6 text-[var(--place)]" />
             <div className="flex-1">
               <p className="font-bold">1. Descargá la plantilla CSV</p>
               <p className="text-sm text-[var(--muted)]">Completala con los negocios reales de San Lorenzo</p>
@@ -197,7 +197,7 @@ export default function CargarBulkPage() {
               className="mt-4 w-full rounded-full bg-gradient-to-r from-green-500 to-emerald-500 py-3 text-sm font-black disabled:opacity-50">
               {loading ? "Cargando..." : `✅ Cargar ${preview.length} negocios`}
             </button>
-            {!ciudadId && <p className="mt-2 text-center text-xs text-red-300">Elegí una ciudad arriba antes de cargar.</p>}
+            {!ciudadId && <p className="mt-2 text-center text-xs text-[var(--bad)]">Elegí una ciudad arriba antes de cargar.</p>}
           </div>
           </div>
         )}
@@ -207,7 +207,7 @@ export default function CargarBulkPage() {
           <div className="rounded-[1.5rem] border border-green-400/30 bg-green-500/[.06] p-1.5">
             <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <div className="flex items-center gap-3">
-                <CheckCircle2 className="h-8 w-8 text-green-400" />
+                <CheckCircle2 className="h-8 w-8 text-[var(--ok)]" />
                 <div>
                   <p className="text-xl font-black">Carga completada</p>
                   <p className="text-sm text-[var(--text)]/70">
@@ -217,7 +217,7 @@ export default function CargarBulkPage() {
               </div>
               {result.errores.length > 0 && (
                 <div className="mt-4 rounded-xl bg-red-500/10 border border-red-400/30 p-3">
-                  <p className="text-xs font-bold text-red-300 mb-1">Errores:</p>
+                  <p className="text-xs font-bold text-[var(--bad)] mb-1">Errores:</p>
                   {result.errores.slice(0, 5).map((e, i) => (
                     <p key={i} className="text-xs text-[var(--muted)]">• {e}</p>
                   ))}

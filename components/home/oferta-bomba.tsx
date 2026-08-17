@@ -85,8 +85,8 @@ export default function OfertaBomba() {
         <div className="relative rounded-[calc(2.5rem-0.375rem)] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-8">
           <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-red-500/20 blur-3xl animate-pulse" />
           <div className="relative flex items-center gap-2">
-            <Zap className="h-5 w-5 text-red-400" />
-            <p className="text-[10px] font-black uppercase tracking-[.3em] text-red-300">Oferta bomba · termina 20hs</p>
+            <Zap className="h-5 w-5 text-[var(--bad)]" />
+            <p className="text-[10px] font-black uppercase tracking-[.3em] text-[var(--bad)]">Oferta bomba · termina 20hs</p>
           </div>
           <h2 className="relative mt-2 text-3xl font-bold sm:text-4xl" style={{ fontFamily: "var(--font-space)" }}>Solo por hoy, solo por 2 horas</h2>
 
@@ -94,12 +94,12 @@ export default function OfertaBomba() {
             {ofertas.map((o: any) => (
               <Link key={o.id} href={`/oferta/${o.id}`} className="group rounded-2xl border border-[var(--line)] bg-[var(--ov-10)] p-4 transition hover:border-red-400/50">
                 <p className="text-xs text-[var(--muted)]">{o.business_name}</p>
-                <p className="mt-1 font-black group-hover:text-red-300">{o.title}</p>
+                <p className="mt-1 font-black group-hover:text-[var(--bad)]">{o.title}</p>
                 <div className="mt-2 flex items-end justify-between">
                   {o.offer_price && (
-                    <p className="text-lg text-red-300" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>{fmt(Number(o.offer_price))}</p>
+                    <p className="text-lg text-[var(--bad)]" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>{fmt(Number(o.offer_price))}</p>
                   )}
-                  {o.discount_percent && <span className="rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-black text-red-300">-{o.discount_percent}%</span>}
+                  {o.discount_percent && <span className="rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-black text-[var(--bad)]">-{o.discount_percent}%</span>}
                 </div>
               </Link>
             ))}

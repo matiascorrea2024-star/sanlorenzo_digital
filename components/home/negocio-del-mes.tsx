@@ -86,7 +86,7 @@ export default function NegocioDelMes() {
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
       <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-5">
-          <p className="text-[10px] font-black uppercase tracking-[.35em] text-yellow-400">Reconocimiento del mes</p>
+          <p className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--warn)]">Reconocimiento del mes</p>
           <h2 className="mt-2 text-5xl font-black uppercase leading-[0.9] tracking-tighter sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
             NEGOCIO{" "}
             <span style={{ WebkitTextStroke: "1.5px rgba(255,247,237,.5)", color: "transparent" }}>DEL MES</span>
@@ -107,7 +107,7 @@ export default function NegocioDelMes() {
                   <button key={n.id} onClick={() => votar(n.id)} disabled={votando}
                     className="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-sm font-bold text-[var(--text)] hover:bg-[var(--ov-10)] disabled:opacity-60">
                     {n.name}
-                    {miVoto === n.id && <span className="text-xs text-yellow-300">Tu voto ✅</span>}
+                    {miVoto === n.id && <span className="text-xs text-[var(--warn)]">Tu voto ✅</span>}
                   </button>
                 ))}
               </div>
@@ -120,8 +120,8 @@ export default function NegocioDelMes() {
           <div className="rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
             <div className="rounded-[calc(2.5rem-0.375rem)] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-8">
               <div className="mb-4 flex items-center gap-2">
-                <Crown className="h-5 w-5 text-yellow-400" />
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-yellow-300">{nombreMes}</p>
+                <Crown className="h-5 w-5 text-[var(--warn)]" />
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[var(--warn)]">{nombreMes}</p>
               </div>
               {top.length === 0 ? (
                 <p className="text-sm text-[var(--muted)]">Todavía no hay votos este mes. ¡Sé el primero en votar a tu negocio favorito!</p>
@@ -130,10 +130,10 @@ export default function NegocioDelMes() {
                   {top.map((f, i) => (
                     <Link key={f.business_id} href={`/negocio/${f.slug}`}
                       className="group flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--ov-02)] p-3 transition hover:border-yellow-400/30">
-                      <span className={`w-6 shrink-0 text-center text-lg font-black ${i === 0 ? "text-yellow-400" : "text-[var(--muted2)]"}`} style={{ fontFamily: "var(--font-ticket)" }}>{i + 1}</span>
+                      <span className={`w-6 shrink-0 text-center text-lg font-black ${i === 0 ? "text-[var(--warn)]" : "text-[var(--muted2)]"}`} style={{ fontFamily: "var(--font-ticket)" }}>{i + 1}</span>
                       <RankedAvatar slug={f.slug} name={f.name} categoria={f.category} photoUrl={f.logo_url} size={40} />
                       <span className="min-w-0 flex-1 truncate text-sm font-bold">{f.name}</span>
-                      <span className="shrink-0 text-xs font-black text-yellow-300">{f.votos} 🗳️</span>
+                      <span className="shrink-0 text-xs font-black text-[var(--warn)]">{f.votos} 🗳️</span>
                     </Link>
                   ))}
                 </div>

@@ -114,7 +114,7 @@ export default function CouponButton({ offerId, businessId, offerTitle }: {
         </div>
         <button onClick={copyCode}
           className="rounded-xl bg-[var(--ov-10)] border border-[var(--line-strong)] p-3 hover:bg-[var(--ov-20)] transition">
-          {copied ? <Check className="h-5 w-5 text-green-400" /> : <Copy className="h-5 w-5 text-[var(--text)]" />}
+          {copied ? <Check className="h-5 w-5 text-[var(--ok)]" /> : <Copy className="h-5 w-5 text-[var(--text)]" />}
         </button>
       </div>
 

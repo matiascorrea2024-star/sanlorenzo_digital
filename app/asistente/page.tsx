@@ -157,8 +157,8 @@ export default function AsistentePage() {
                           <p className="font-bold">{b.name}</p>
                           <p className="text-xs capitalize text-[var(--muted)]">{b.category} · ⭐ {(b.rating || 0).toFixed(1)}</p>
                           <div className="mt-1 flex gap-2">
-                            {b.open && <span className="text-[10px] text-green-400 flex items-center gap-1"><Clock className="h-3 w-3" /> Abierto</span>}
-                            {b._dist !== undefined && <span className="text-[10px] text-sky-400 flex items-center gap-1"><MapPin className="h-3 w-3" /> {fmtDistance(b._dist)}</span>}
+                            {b.open && <span className="text-[10px] text-[var(--ok)] flex items-center gap-1"><Clock className="h-3 w-3" /> Abierto</span>}
+                            {b._dist !== undefined && <span className="text-[10px] text-[var(--place)] flex items-center gap-1"><MapPin className="h-3 w-3" /> {fmtDistance(b._dist)}</span>}
                           </div>
                         </div>
                         <ArrowRight className="h-4 w-4 shrink-0 text-orange-400 transition duration-300 group-hover:translate-x-1" />

@@ -27,7 +27,7 @@ export default function ResponseBadge({ businessId }: { businessId: string }) {
   const texto = minutos <= 15 ? "Responde al instante" : "Responde rápido";
 
   return (
-    <span className="flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-black text-emerald-300">
+    <span className="flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-black text-[var(--ok)]">
       <Zap className="h-3 w-3 fill-emerald-300" /> {texto}
     </span>
   );

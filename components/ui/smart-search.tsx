@@ -209,9 +209,9 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
               {ofertas.map(o => (
                 <button key={o.id} onClick={() => go(`/oferta/${o.id}`, o.title)}
                   className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm hover:bg-[var(--ov-05)]">
-                  <Flame className="h-4 w-4 text-red-400" />
+                  <Flame className="h-4 w-4 text-[var(--bad)]" />
                   <span className="flex-1 truncate">{o.title}</span>
-                  {o.discount_percent && <span className="text-xs text-red-400 font-bold">-{o.discount_percent}%</span>}
+                  {o.discount_percent && <span className="text-xs text-[var(--bad)] font-bold">-{o.discount_percent}%</span>}
                 </button>
               ))}
             </div>

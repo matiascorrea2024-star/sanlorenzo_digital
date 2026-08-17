@@ -161,7 +161,7 @@ export default function TurnosPage() {
             <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
               <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                 <h2 className="mb-4 flex items-center gap-2 font-black">
-                  <Clock className="h-5 w-5 text-sky-400" /> Próximos turnos ({turnos.length})
+                  <Clock className="h-5 w-5 text-[var(--place)]" /> Próximos turnos ({turnos.length})
                 </h2>
                 {turnos.length === 0 ? (
                   <p className="text-sm text-[var(--muted)]">Todavía no tenés turnos reservados.</p>
@@ -174,7 +174,7 @@ export default function TurnosPage() {
                           <p className="text-xs text-[var(--muted)]">{new Date(t.fecha + "T00:00:00").toLocaleDateString("es-AR", { weekday: "short", day: "numeric", month: "short" })} · {t.hora.slice(0, 5)}hs</p>
                         </div>
                         <button onClick={() => cancelar(t.id)} aria-label="Cancelar turno"
-                          className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/10 text-red-400 hover:bg-red-500/20">
+                          className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/10 text-[var(--bad)] hover:bg-red-500/20">
                           <X className="h-4 w-4" />
                         </button>
                       </div>

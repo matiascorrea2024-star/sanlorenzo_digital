@@ -122,7 +122,7 @@ export default function MuroDashboard() {
                     <p className="text-xs text-[var(--muted)] capitalize">{p.type} · ❤️ {p.likes || 0}</p>
                   </div>
                   <button onClick={() => del(p.id)} className="rounded-lg bg-red-500/20 p-2 hover:bg-red-500/30">
-                    <Trash2 className="h-4 w-4 text-red-400" />
+                    <Trash2 className="h-4 w-4 text-[var(--bad)]" />
                   </button>
                 </div>
                 </div>

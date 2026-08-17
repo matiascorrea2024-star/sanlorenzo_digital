@@ -266,7 +266,7 @@ export default function PerfilPage() {
           <div className="mt-6 flex items-center gap-3 rounded-2xl border border-red-400/30 bg-red-500/10 p-4">
             <span className="text-2xl">⏰</span>
             <div>
-              <p className="text-sm font-black text-red-300">
+              <p className="text-sm font-black text-[var(--bad)]">
                 Se te {perdidas === 1 ? "pasó" : "pasaron"} {perdidas} oferta{perdidas === 1 ? "" : "s"} de negocios que seguís
               </p>
               <p className="text-xs text-[var(--muted)]">Activá las notificaciones para no perderte la próxima.</p>
@@ -319,11 +319,11 @@ export default function PerfilPage() {
         <h2 className="mt-10 mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Tu actividad</h2>
         <div className="grid grid-cols-3 gap-3 md:grid-cols-7 text-center">
           <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-orange-400">{stats.vis}</p><p className="text-[10px] text-[var(--muted)] uppercase">Visitas</p></div>
-          <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-red-400">{stats.cats}</p><p className="text-[10px] text-[var(--muted)] uppercase">Rubros</p></div>
-          <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-red-400">{stats.seg}</p><p className="text-[10px] text-[var(--muted)] uppercase">Seguidos</p></div>
-          <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-green-400">{stats.wa}</p><p className="text-[10px] text-[var(--muted)] uppercase">Contactos</p></div>
-          <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-sky-400">{stats.sh}</p><p className="text-[10px] text-[var(--muted)] uppercase">Compartidos</p></div>
-          <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-yellow-400">{stats.res}</p><p className="text-[10px] text-[var(--muted)] uppercase">Reseñas</p></div>
+          <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-[var(--bad)]">{stats.cats}</p><p className="text-[10px] text-[var(--muted)] uppercase">Rubros</p></div>
+          <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-[var(--bad)]">{stats.seg}</p><p className="text-[10px] text-[var(--muted)] uppercase">Seguidos</p></div>
+          <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-[var(--ok)]">{stats.wa}</p><p className="text-[10px] text-[var(--muted)] uppercase">Contactos</p></div>
+          <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-[var(--place)]">{stats.sh}</p><p className="text-[10px] text-[var(--muted)] uppercase">Compartidos</p></div>
+          <div className="rounded-xl bg-[var(--ov-05)] p-3"><p className="text-xl font-black text-[var(--warn)]">{stats.res}</p><p className="text-[10px] text-[var(--muted)] uppercase">Reseñas</p></div>
           <Link href="/invitar" className="rounded-xl bg-[var(--ov-05)] p-3 hover:bg-[var(--ov-10)] transition"><p className="text-xl font-black text-purple-400">{stats.ref}</p><p className="text-[10px] text-[var(--muted)] uppercase">Referidos</p></Link>
         </div>
 
@@ -339,7 +339,7 @@ export default function PerfilPage() {
               ].map((a) => (
                 <Link key={a.href} href={a.href}
                   className="flex flex-col items-center gap-1.5 rounded-2xl border border-yellow-400/25 bg-yellow-500/5 p-4 text-center hover:border-yellow-400/50 hover:bg-yellow-500/10 transition">
-                  <a.icon className="h-5 w-5 text-yellow-300" />
+                  <a.icon className="h-5 w-5 text-[var(--warn)]" />
                   <p className="text-xs font-bold">{a.txt}</p>
                 </Link>
               ))}
@@ -358,7 +358,7 @@ export default function PerfilPage() {
             return (
               <div key={i} className={`rounded-2xl border p-4 ${done ? "border-green-400/50 bg-green-500/10" : "border-[var(--line)] bg-[var(--ov-05)]"}`}>
                 <p className="text-sm font-bold">{m.icon} {m.txt}</p>
-                <p className={`mt-2 text-xs font-black ${done ? "text-green-300" : "text-[var(--muted)]"}`}>
+                <p className={`mt-2 text-xs font-black ${done ? "text-[var(--ok)]" : "text-[var(--muted)]"}`}>
                   {done ? "✅ ¡Misión cumplida!" : `${Math.min(m.act, m.meta)}/${m.meta} · en progreso`}
                 </p>
               </div>
@@ -378,7 +378,7 @@ export default function PerfilPage() {
             return (
               <div key={i} className={`rounded-2xl border p-4 ${done ? "border-green-400/50 bg-green-500/10" : "border-[var(--line)] bg-[var(--ov-05)]"}`}>
                 <p className="text-sm font-bold">{m.icon} {m.txt}</p>
-                <p className={`mt-2 text-xs font-black ${done ? "text-green-300" : "text-[var(--muted)]"}`}>
+                <p className={`mt-2 text-xs font-black ${done ? "text-[var(--ok)]" : "text-[var(--muted)]"}`}>
                   {done ? "✅ ¡Hecha!" : `${m.act}/${m.meta} · en progreso`}
                 </p>
               </div>
@@ -386,7 +386,7 @@ export default function PerfilPage() {
           })}
         </div>
         <div className="mt-3 rounded-2xl border border-yellow-400/30 bg-yellow-500/10 p-4 text-xs text-[var(--muted)]">
-          🎁 Premios reales: racha de 7 días = <strong className="text-yellow-300">+50 pts</strong> · completar las 3 semanales = <strong className="text-yellow-300">+40 pts</strong>
+          🎁 Premios reales: racha de 7 días = <strong className="text-[var(--warn)]">+50 pts</strong> · completar las 3 semanales = <strong className="text-[var(--warn)]">+40 pts</strong>
         </div>
 
         <h2 className="mt-10 mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Rangos — ¿hasta dónde llegás?</h2>

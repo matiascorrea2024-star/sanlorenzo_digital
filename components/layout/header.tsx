@@ -139,14 +139,14 @@ export default function Header() {
                     <Link href="/perfil#cuenta" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Perfil y clave</Link>
                     <Link href="/vecinos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Ranking de vecinos</Link>
                     <Link href="/invitar" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Invitar amigos</Link>
-                    <button onClick={salir} className="w-full rounded-xl px-3 py-2 text-left text-sm text-red-300 hover:bg-[var(--ov-05)]">Salir</button>
+                    <button onClick={salir} className="w-full rounded-xl px-3 py-2 text-left text-sm text-[var(--bad)] hover:bg-[var(--ov-05)]">Salir</button>
 
                     {role === "admin" && (
                       <>
                         <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">⚙️ Admin</p>
-                        <Link href="/admin?tab=overview" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-red-500/10">Panel</Link>
-                        <Link href="/admin?tab=moderacion" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-red-500/10">Moderación</Link>
-                        <Link href="/admin?tab=verificacion" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-red-500/10">Verificación</Link>
+                        <Link href="/admin?tab=overview" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--bad)] hover:bg-red-500/10">Panel</Link>
+                        <Link href="/admin?tab=moderacion" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--bad)] hover:bg-red-500/10">Moderación</Link>
+                        <Link href="/admin?tab=verificacion" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--bad)] hover:bg-red-500/10">Verificación</Link>
                       </>
                     )}
                   </div>

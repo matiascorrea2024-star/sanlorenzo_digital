@@ -161,14 +161,14 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
             {negocioDelDia && (
               <Link href={`/negocio/${negocioDelDia.slug}`} className="rounded-[2rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1">
                 <div className="rounded-[calc(2rem-0.375rem)] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-yellow-300"><Zap className="h-3.5 w-3.5" /> Negocio del día</p>
+                  <p className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-[var(--warn)]"><Zap className="h-3.5 w-3.5" /> Negocio del día</p>
                   <div className="flex items-center gap-3">
                     <DivisionFrame puntos={negocioDelDia.puntos} categoria={negocioDelDia.category} size={48}>
                       <RankedAvatar slug={negocioDelDia.slug} name={negocioDelDia.name} categoria={negocioDelDia.category} size={44} />
                     </DivisionFrame>
                     <div className="min-w-0">
                       <p className="truncate font-bold">{negocioDelDia.name}</p>
-                      <p className="text-xs font-bold text-yellow-300">👑 {negocioDelDia.reputacion}/100 · {reputationLabel(negocioDelDia.reputacion).text}</p>
+                      <p className="text-xs font-bold text-[var(--warn)]">👑 {negocioDelDia.reputacion}/100 · {reputationLabel(negocioDelDia.reputacion).text}</p>
                     </div>
                   </div>
                 </div>
@@ -177,10 +177,10 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
             {negocioSemana && negocioSemana.crecimiento > 0 && (
               <Link href={`/negocio/${negocioSemana.slug}`} className="rounded-[2rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1">
                 <div className="rounded-[calc(2rem-0.375rem)] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="mb-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-green-300"><Rocket className="h-3.5 w-3.5" /> Negocio de la semana</p>
+                  <p className="mb-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-[var(--ok)]"><Rocket className="h-3.5 w-3.5" /> Negocio de la semana</p>
                   <div className="flex items-center justify-between gap-2">
                     <span className="truncate font-bold">{negocioSemana.name}</span>
-                    <span className="shrink-0 text-lg font-black text-green-400">+{negocioSemana.crecimiento}</span>
+                    <span className="shrink-0 text-lg font-black text-[var(--ok)]">+{negocioSemana.crecimiento}</span>
                   </div>
                 </div>
               </Link>
@@ -274,7 +274,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                   <div className="min-w-0 flex-1">
                     <p className={`flex flex-wrap items-center gap-x-2 gap-y-0.5 font-bold ${i === 0 ? "text-xl sm:text-2xl" : ""}`} style={i === 0 ? { fontFamily: "var(--font-space)" } : undefined}>
                       {r.name} <RankBadge puntos={r.puntos} categoria={r.category} />
-                      {r.status === "verificado" && <span className="text-[10px] text-green-400">✓</span>}
+                      {r.status === "verificado" && <span className="text-[10px] text-[var(--ok)]">✓</span>}
                     </p>
                     <p className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-[var(--muted)] capitalize">
                       <span>{r.category}</span>
@@ -285,7 +285,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                       <span title="Publicaciones en el Muro" className="hidden sm:inline">· 📰 {r.posts}</span>
                       <span title="Visitas de esta semana vs. la anterior"
                         aria-label={`Tendencia: ${r.crecimiento > 0 ? `subió ${r.crecimiento} visitas` : r.crecimiento < 0 ? `bajó ${Math.abs(r.crecimiento)} visitas` : "sin cambios"} esta semana`}
-                        className={`flex items-center gap-0.5 font-bold normal-case ${r.crecimiento > 0 ? "text-green-400" : r.crecimiento < 0 ? "text-red-400" : "text-[var(--muted2)]"}`}>
+                        className={`flex items-center gap-0.5 font-bold normal-case ${r.crecimiento > 0 ? "text-[var(--ok)]" : r.crecimiento < 0 ? "text-[var(--bad)]" : "text-[var(--muted2)]"}`}>
                         · {r.crecimiento > 0 ? <TrendingUp className="h-3 w-3" aria-hidden /> : r.crecimiento < 0 ? <TrendingDown className="h-3 w-3" aria-hidden /> : <Minus className="h-3 w-3" aria-hidden />}
                         {r.crecimiento !== 0 && (r.crecimiento > 0 ? `+${r.crecimiento}` : r.crecimiento)}
                       </span>
@@ -297,12 +297,12 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                   <div className="text-right">
                     {tab === "reputacion" || tab === "dia" ? (
                       <>
-                        <span className="text-2xl font-black text-yellow-300">{r.reputacion}</span>
+                        <span className="text-2xl font-black text-[var(--warn)]">{r.reputacion}</span>
                         <p className="text-[10px] text-[var(--muted)]">reputación</p>
                       </>
                     ) : tab === "crecimiento" ? (
                       <>
-                        <span className={`text-2xl font-black ${r.crecimiento >= 0 ? "text-green-400" : "text-red-400"}`}>
+                        <span className={`text-2xl font-black ${r.crecimiento >= 0 ? "text-[var(--ok)]" : "text-[var(--bad)]"}`}>
                           {r.crecimiento >= 0 ? "+" : ""}{r.crecimiento}
                         </span>
                         <p className="text-[10px] text-[var(--muted)]">vs sem. anterior</p>

@@ -166,7 +166,7 @@ export default function OfertaPage() {
                     </div>
                     <button onClick={share} disabled={compartiendo} aria-label="Compartir"
                       className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/10 backdrop-blur-md transition hover:bg-white/20 active:scale-90 disabled:opacity-60 sm:h-14 sm:w-14">
-                      <Share2 className={`h-5 w-5 text-sky-400 sm:h-6 sm:w-6 ${compartiendo ? "animate-pulse" : ""}`} />
+                      <Share2 className={`h-5 w-5 text-[var(--place)] sm:h-6 sm:w-6 ${compartiendo ? "animate-pulse" : ""}`} />
                     </button>
                   </div>
                 </div>
@@ -196,7 +196,7 @@ export default function OfertaPage() {
                 </div>
               )}
               {canjeados > 0 && (
-                <p className="flex items-center gap-1.5 text-sm font-bold text-green-300">
+                <p className="flex items-center gap-1.5 text-sm font-bold text-[var(--ok)]">
                   ✅ {canjeados} {canjeados === 1 ? "persona ya canjeó" : "personas ya canjearon"} esta oferta
                 </p>
               )}
@@ -210,7 +210,7 @@ export default function OfertaPage() {
                 {oferta.discount_percent ? (
                   <span className="rounded-lg border border-orange-500/20 bg-orange-500/10 px-3 py-1 text-xs font-black uppercase tracking-wider text-orange-400">-{oferta.discount_percent}% de ahorro</span>
                 ) : oferta.precio_prometido ? (
-                  <span className="rounded-lg border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-xs font-black uppercase tracking-wider text-sky-400">🔒 Precio prometido</span>
+                  <span className="rounded-lg border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-xs font-black uppercase tracking-wider text-[var(--place)]">🔒 Precio prometido</span>
                 ) : <span />}
                 {!vencido && dias !== null && dias <= 2 && oferta.valid_until && <CountdownTimer expiresAt={oferta.valid_until} compact />}
               </div>
@@ -218,7 +218,7 @@ export default function OfertaPage() {
               {oferta.old_price && <p className="text-2xl tracking-tight text-[var(--muted2)] line-through" style={{ fontFamily: "var(--font-ticket)" }}>{fmt(Number(oferta.old_price))}</p>}
               <div className="flex items-baseline gap-3">
                 {oferta.offer_price && <p className="text-6xl font-black tracking-tighter sm:text-7xl" style={{ fontFamily: "var(--font-ticket)" }}>{fmt(Number(oferta.offer_price))}</p>}
-                {ahorro && ahorro > 0 && <span className="mb-2 shrink-0 text-sm font-black text-green-400">Ahorrás {fmt(ahorro)}</span>}
+                {ahorro && ahorro > 0 && <span className="mb-2 shrink-0 text-sm font-black text-[var(--ok)]">Ahorrás {fmt(ahorro)}</span>}
               </div>
 
               <div className="mt-8 space-y-3">
@@ -242,7 +242,7 @@ export default function OfertaPage() {
                   className="flex h-16 w-full items-center justify-between rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] px-8 font-black text-white transition hover:bg-[var(--ov-10)] disabled:opacity-60"
                 >
                   {hasItem(`oferta-${oferta.id}`) ? "En el changuito" : "Sumar al changuito"}
-                  {hasItem(`oferta-${oferta.id}`) ? <Check className="h-6 w-6 text-sky-400" /> : <ShoppingBasket className="h-6 w-6 text-sky-400" />}
+                  {hasItem(`oferta-${oferta.id}`) ? <Check className="h-6 w-6 text-[var(--place)]" /> : <ShoppingBasket className="h-6 w-6 text-[var(--place)]" />}
                 </button>
               </div>
             </div>
@@ -270,7 +270,7 @@ export default function OfertaPage() {
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   <h3 className="truncate text-lg font-black">{negocio.name}</h3>
-                  {negocio.status === "verificado" && <Check className="h-4 w-4 shrink-0 text-sky-400" />}
+                  {negocio.status === "verificado" && <Check className="h-4 w-4 shrink-0 text-[var(--place)]" />}
                 </div>
                 {negocio.address && <p className="truncate text-xs text-[var(--muted2)]">{negocio.address}</p>}
                 <span className="mt-1 inline-block text-xs font-black uppercase tracking-widest text-orange-400">Ver negocio →</span>

@@ -70,7 +70,7 @@ export default function NotifyMeButton({
 
   if (state === "active") {
     return (
-      <button disabled className={`rounded-xl border-2 border-green-400/40 bg-green-500/10 px-4 py-2 text-sm font-black text-green-300 ${className}`}>
+      <button disabled className={`rounded-xl border-2 border-green-400/40 bg-green-500/10 px-4 py-2 text-sm font-black text-[var(--ok)] ${className}`}>
         🔔 Ya estás suscrito
       </button>
     );

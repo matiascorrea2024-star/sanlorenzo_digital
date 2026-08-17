@@ -132,7 +132,7 @@ export default function SellosPage() {
             <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
               <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
                 <h2 className="mb-4 flex items-center gap-2 font-black">
-                  <Stamp className="h-5 w-5 text-sky-400" /> Dar un sello
+                  <Stamp className="h-5 w-5 text-[var(--place)]" /> Dar un sello
                 </h2>
                 <p className="mb-4 text-xs text-[var(--muted)]">El cliente te muestra un código de 6 caracteres desde el celular. Cargalo acá para sumarle el sello.</p>
                 <div className="flex flex-wrap gap-3">
@@ -140,7 +140,7 @@ export default function SellosPage() {
                     placeholder="Ej: 7K3M9P" maxLength={6}
                     className="w-40 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-center font-black tracking-widest outline-none focus:border-orange-400" />
                   <button onClick={validar} disabled={validando || codigo.trim().length < 4}
-                    className="flex items-center gap-2 rounded-full bg-sky-500/20 border border-sky-400/40 px-5 py-2.5 text-sm font-black text-sky-300 hover:bg-sky-500/30 disabled:opacity-50">
+                    className="flex items-center gap-2 rounded-full bg-sky-500/20 border border-sky-400/40 px-5 py-2.5 text-sm font-black text-[var(--place)] hover:bg-sky-500/30 disabled:opacity-50">
                     <CheckCircle2 className="h-4 w-4" /> {validando ? "Validando..." : "Sumar sello"}
                   </button>
                 </div>

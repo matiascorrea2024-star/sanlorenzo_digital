@@ -54,8 +54,8 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
         {/* Badge abierto/cerrado */}
         <span className={`absolute left-2 top-2 md:left-3 md:top-3 inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 md:px-2.5 md:py-1 text-[9px] md:text-[10px] font-black backdrop-blur ${
           isOpen
-            ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-300"
-            : "border-rose-400/30 bg-rose-500/20 text-rose-300"
+            ? "border-emerald-400/30 bg-emerald-500/20 text-[var(--ok)]"
+            : "border-rose-400/30 bg-rose-500/20 text-[var(--bad)]"
         }`}>
           <span className={`h-1.5 w-1.5 rounded-full ${isOpen ? "animate-pulse bg-emerald-400" : "bg-rose-400"}`} />
           {isOpen ? "Abierto" : "Cerrado"}
@@ -63,12 +63,12 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
         
         {/* Badge verificado */}
         {isVerified && (
-          <span className="absolute right-2 top-2 md:right-3 md:top-3 rounded-full border border-sky-400/30 bg-black/60 px-2 py-0.5 md:py-1 text-[9px] md:text-[10px] font-black text-sky-300 backdrop-blur">
+          <span className="absolute right-2 top-2 md:right-3 md:top-3 rounded-full border border-sky-400/30 bg-black/60 px-2 py-0.5 md:py-1 text-[9px] md:text-[10px] font-black text-[var(--place)] backdrop-blur">
             ✓ Verificado
           </span>
         )}
         {dist && (
-          <span className="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-black/70 px-2 py-0.5 text-[9px] font-bold text-sky-300 backdrop-blur">
+          <span className="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-black/70 px-2 py-0.5 text-[9px] font-bold text-[var(--place)] backdrop-blur">
             📍 {dist}
           </span>
         )}
@@ -96,15 +96,15 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
           <p className={`mt-2 line-clamp-2 text-[var(--muted)] ${featured ? "text-sm" : "text-xs"}`}>{b.description}</p>
         )}
         {esParticular && (
-          <span className="mt-2 w-fit rounded-full border border-cyan-400/30 bg-cyan-500/15 px-2 py-0.5 text-[10px] font-black text-cyan-300">
+          <span className="mt-2 w-fit rounded-full border border-cyan-400/30 bg-cyan-500/15 px-2 py-0.5 text-[10px] font-black text-[var(--place)]">
             {TIPO_LABEL[b.type]}
           </span>
         )}
         <div className="mt-auto flex items-center justify-between pt-3">
-          <span className="flex items-center gap-2 text-xs font-bold text-yellow-300">
+          <span className="flex items-center gap-2 text-xs font-bold text-[var(--warn)]">
             ★ {rating}
             <span className="font-normal text-[var(--muted2)]">({b.reviews || 0})</span>
-            {b.hace_envios && <span className="rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[9px] font-black text-sky-300">🚚 Envíos</span>}
+            {b.hace_envios && <span className="rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[9px] font-black text-[var(--place)]">🚚 Envíos</span>}
           </span>
           <span className="text-xs font-bold text-orange-400 opacity-0 transition group-hover:opacity-100">
             Ver →

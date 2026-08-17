@@ -23,7 +23,7 @@ function Stars({ n, size = 16 }: { n: number; size?: number }) {
     <span className="inline-flex gap-0.5">
       {[1, 2, 3, 4, 5].map(i => (
         <Star key={i} style={{ width: size, height: size }}
-          className={i <= Math.round(n) ? "fill-yellow-400 text-yellow-400" : "text-[var(--ov-20)]"} />
+          className={i <= Math.round(n) ? "fill-yellow-400 text-[var(--warn)]" : "text-[var(--ov-20)]"} />
       ))}
     </span>
   );
@@ -138,7 +138,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
             <button key={i} onClick={() => setRating(i)}
               onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(0)}
               className="p-1 transition hover:scale-125">
-              <Star className={`h-7 w-7 ${i <= (hover || rating) ? "fill-yellow-400 text-yellow-400" : "text-[var(--ov-20)]"}`} />
+              <Star className={`h-7 w-7 ${i <= (hover || rating) ? "fill-yellow-400 text-[var(--warn)]" : "text-[var(--ov-20)]"}`} />
             </button>
           ))}
           <span className="ml-2 text-sm font-bold text-[var(--muted)]">{rating}/5</span>
@@ -174,7 +174,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
         {!sending && !sent && !comment.trim() && (
           <p className="mt-2 text-xs text-[var(--muted2)]">Contá tu experiencia arriba para poder publicar.</p>
         )}
-        {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+        {error && <p className="mt-2 text-xs text-[var(--bad)]">{error}</p>}
       </div>
 
       {/* Lista */}
@@ -190,7 +190,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
                 <p className="flex items-center gap-2 font-bold">
                   {r.reviewer_name}
                   {r.verified_visit && (
-                    <span className="flex items-center gap-1 rounded-full bg-green-500/15 px-2 py-0.5 text-[10px] font-bold text-green-300">
+                    <span className="flex items-center gap-1 rounded-full bg-green-500/15 px-2 py-0.5 text-[10px] font-bold text-[var(--ok)]">
                       <CheckCircle2 className="h-3 w-3" /> Visita verificada
                     </span>
                   )}

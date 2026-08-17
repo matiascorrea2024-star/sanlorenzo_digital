@@ -22,7 +22,7 @@ export default function Particulares({ initial }: { initial: any[] }) {
       <Link href="/negocios" className="inline-flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--text)]">
         <ArrowLeft className="h-4 w-4" /> Volver a negocios
       </Link>
-      <p className="mb-2 mt-4 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[.2em] text-cyan-300">
+      <p className="mb-2 mt-4 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[.2em] text-[var(--place)]">
         Entre vecinos
       </p>
       <h1 className="text-4xl font-black tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Venta entre vecinos</h1>
@@ -58,7 +58,7 @@ export default function Particulares({ initial }: { initial: any[] }) {
             <p className="font-black text-[var(--text)]">Todavía no hay publicaciones de particulares.</p>
             <p className="mt-1 text-sm text-[var(--muted)]">
               ¿Vendés algo por tu cuenta?{" "}
-              <Link href="/dashboard/nuevo" className="font-bold text-cyan-300">Publicalo acá →</Link>
+              <Link href="/dashboard/nuevo" className="font-bold text-[var(--place)]">Publicalo acá →</Link>
             </p>
           </div>
         </div>

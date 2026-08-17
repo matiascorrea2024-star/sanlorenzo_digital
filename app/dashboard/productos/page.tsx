@@ -269,7 +269,7 @@ export default function ProductosPage() {
                     {p.status === "subiendo" ? (
                       <Loader2 className="h-5 w-5 shrink-0 animate-spin text-orange-400" />
                     ) : p.status === "error" ? (
-                      <span title="No se pudo subir -- probá de nuevo" className="shrink-0 text-xs font-bold text-red-400">Error</span>
+                      <span title="No se pudo subir -- probá de nuevo" className="shrink-0 text-xs font-bold text-[var(--bad)]">Error</span>
                     ) : (
                       <button onClick={() => quitarPendiente(p.id)} aria-label="Quitar foto" className="shrink-0 rounded-lg bg-[var(--ov-10)] p-2 hover:bg-red-500/20">
                         <X className="h-4 w-4" />
@@ -327,7 +327,7 @@ export default function ProductosPage() {
             {planActual.destacarCatalogo ? (
               <label className="flex items-center gap-2 text-sm text-[var(--text)]/80">
                 <input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} />
-                <Star className="h-4 w-4 text-yellow-400" /> Destacar este producto (aparece primero en el catálogo)
+                <Star className="h-4 w-4 text-[var(--warn)]" /> Destacar este producto (aparece primero en el catálogo)
               </label>
             ) : (
               <Link href="/dashboard/planes" className="flex items-center gap-1.5 text-xs font-bold text-orange-400 hover:text-orange-300">
@@ -370,7 +370,7 @@ export default function ProductosPage() {
                 <div className="flex-1">
                   <p className="font-bold flex items-center gap-1.5">
                     {p.name}
-                    {p.featured && <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />}
+                    {p.featured && <Star className="h-3.5 w-3.5 fill-yellow-400 text-[var(--warn)]" />}
                     {p.active === false && <span className="rounded-full bg-[var(--ov-10)] px-2 py-0.5 text-[9px] font-black uppercase text-[var(--muted)]">Oculto</span>}
                   </p>
                   <p className="text-xs text-[var(--muted)]">{p.category || "Sin categoría"} · Stock: {p.stock ?? "—"}</p>
@@ -384,7 +384,7 @@ export default function ProductosPage() {
                   <Edit className="h-4 w-4" />
                 </button>
                 <button onClick={() => del(p.id)} className="rounded-lg bg-red-500/20 p-2 hover:bg-red-500/30">
-                  <Trash2 className="h-4 w-4 text-red-400" />
+                  <Trash2 className="h-4 w-4 text-[var(--bad)]" />
                 </button>
               </div>
               </div>

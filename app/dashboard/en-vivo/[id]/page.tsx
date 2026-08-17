@@ -109,7 +109,7 @@ export default function ControlEnVivo() {
               </>
             )}
             {stream.status === "live" && (
-              <button onClick={finalizar} disabled={busy} className="flex items-center gap-1.5 rounded-full border border-red-400/40 bg-red-500/15 px-4 py-2 text-sm font-black text-red-300 disabled:opacity-50">
+              <button onClick={finalizar} disabled={busy} className="flex items-center gap-1.5 rounded-full border border-red-400/40 bg-red-500/15 px-4 py-2 text-sm font-black text-[var(--bad)] disabled:opacity-50">
                 <Square className="h-4 w-4" /> Terminar
               </button>
             )}

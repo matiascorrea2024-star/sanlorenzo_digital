@@ -148,7 +148,7 @@ export default function NuevaOferta() {
         {bienvenida && (
           <div className="mt-4 rounded-2xl border border-green-400/40 bg-green-500/10 p-4">
             <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-bold text-[var(--muted)]">
-              <span className="text-green-300">✓ Tu negocio</span>
+              <span className="text-[var(--ok)]">✓ Tu negocio</span>
               <span className="text-[var(--muted2)]" aria-hidden>→</span>
               <span className="text-[var(--muted)]">Catálogo (opcional)</span>
               <span className="text-[var(--muted2)]" aria-hidden>→</span>
@@ -156,7 +156,7 @@ export default function NuevaOferta() {
               <span className="text-[var(--muted2)]" aria-hidden>→</span>
               <span className="text-[var(--muted)]">Publicá</span>
             </div>
-            <p className="mt-2 font-black text-green-300">🎉 ¡Tu negocio ya está creado!</p>
+            <p className="mt-2 font-black text-[var(--ok)]">🎉 ¡Tu negocio ya está creado!</p>
             <p className="mt-1 text-sm text-[var(--text)]/70">Publicá tu primera oferta para que te empiecen a encontrar. El catálogo de productos podés cargarlo después, no hace falta ahora.</p>
           </div>
         )}
@@ -186,7 +186,7 @@ export default function NuevaOferta() {
         <div className="space-y-5 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           {negocios.length === 0 ? (
             <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/30 p-4">
-              <p className="text-sm text-yellow-300">⚠️ No tenés negocios creados. <Link href="/dashboard/nuevo" className="underline font-bold">Crear uno ahora →</Link></p>
+              <p className="text-sm text-[var(--warn)]">⚠️ No tenés negocios creados. <Link href="/dashboard/nuevo" className="underline font-bold">Crear uno ahora →</Link></p>
             </div>
           ) : (
             <div>
@@ -275,7 +275,7 @@ export default function NuevaOferta() {
 
           {error && (
             <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-4">
-              <p className="text-sm font-bold text-red-300">❌ {error}</p>
+              <p className="text-sm font-bold text-[var(--bad)]">❌ {error}</p>
             </div>
           )}
 

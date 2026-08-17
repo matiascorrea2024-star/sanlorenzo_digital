@@ -104,7 +104,7 @@ export default function SeguidoresPage() {
           </div>
           <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
             <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-              <p className="text-3xl font-black text-green-400">+{nuevosMes}</p>
+              <p className="text-3xl font-black text-[var(--ok)]">+{nuevosMes}</p>
               <p className="text-xs text-[var(--muted)]">Nuevos este mes</p>
             </div>
           </div>

@@ -46,7 +46,7 @@ export default function LevelUpCard({ slug, showCtas = false }: { slug?: string;
           <div key={a.l} className="flex items-center gap-2 text-xs">
             <span>{a.icon}</span>
             <span className="flex-1 text-[var(--text)]/80">{a.l}</span>
-            <span className="font-black text-green-400">{a.pts}</span>
+            <span className="font-black text-[var(--ok)]">{a.pts}</span>
             {showCtas && a.href && (
               <Link href={a.href} className="rounded-lg bg-[var(--ov-10)] px-2 py-1 text-[10px] font-bold hover:bg-[var(--ov-20)]">
                 Ir →

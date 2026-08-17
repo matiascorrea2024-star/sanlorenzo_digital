@@ -32,7 +32,7 @@ export default function ReportButton({ businessId, businessName }: {
 
   if (sent) {
     return (
-      <p className="flex items-center justify-center gap-1 text-xs text-green-400">
+      <p className="flex items-center justify-center gap-1 text-xs text-[var(--ok)]">
         <CheckCircle2 className="h-3 w-3" /> Reporte enviado. Gracias por cuidar la plataforma.
       </p>
     );
@@ -41,7 +41,7 @@ export default function ReportButton({ businessId, businessName }: {
   if (!open) {
     return (
       <button onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1 rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-red-400 transition hover:bg-red-500/20 hover:text-red-300">
+        className="inline-flex items-center gap-1 rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-[var(--bad)] transition hover:bg-red-500/20 hover:text-[var(--bad)]">
         <Flag className="mr-1 inline h-3 w-3" /> Reportar negocio
       </button>
     );
@@ -55,7 +55,7 @@ export default function ReportButton({ businessId, businessName }: {
           <button key={m} onClick={() => setMotivo(m)}
             className={`rounded-full px-3 py-1 text-xs transition ${
               motivo === m
-                ? "border border-red-400/40 bg-red-500/20 text-red-300"
+                ? "border border-red-400/40 bg-red-500/20 text-[var(--bad)]"
                 : "border border-[var(--line-strong)] text-[var(--muted)]"
             }`}>
             {m}
@@ -65,10 +65,10 @@ export default function ReportButton({ businessId, businessName }: {
       <textarea value={detalle} onChange={(e) => setDetalle(e.target.value)} rows={2}
         placeholder="Contanos qué está mal (opcional)"
         className="w-full rounded-lg border border-[var(--line-strong)] bg-[var(--card-inner)] p-2 text-xs outline-none" />
-      {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+      {error && <p className="mt-2 text-xs text-[var(--bad)]">{error}</p>}
       <div className="mt-2 flex gap-2">
         <button onClick={send}
-          className="rounded-lg bg-red-500/20 px-4 py-2 text-xs font-bold text-red-300 hover:bg-red-500/30">
+          className="rounded-lg bg-red-500/20 px-4 py-2 text-xs font-bold text-[var(--bad)] hover:bg-red-500/30">
           Enviar reporte
         </button>
         <button onClick={() => setOpen(false)} className="rounded-lg px-4 py-2 text-xs text-[var(--muted)]">

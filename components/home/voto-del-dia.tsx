@@ -75,8 +75,8 @@ export default function VotoDelDia() {
     <section className="mx-auto max-w-6xl px-4 py-8">
       <div className="rounded-3xl border border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 via-transparent to-orange-500/5 p-6">
         <div className="flex items-center gap-2">
-          <Trophy className="h-5 w-5 text-yellow-400" />
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-yellow-300">Voto del día</p>
+          <Trophy className="h-5 w-5 text-[var(--warn)]" />
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[var(--warn)]">Voto del día</p>
         </div>
         <h2 className="mt-2 text-2xl font-black">¿Cuál es la mejor oferta de hoy?</h2>
         <p className="mt-1 text-sm text-[var(--muted)]">Votá y ayudá a elegir la oferta destacada de San Lorenzo. Un voto por día.</p>

@@ -68,7 +68,7 @@ export default function DashboardPage() {
         <div className="mt-6 flex flex-wrap gap-3">
           <Link href="/dashboard/nuevo" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">+ Crear negocio</Link>
           {role === "admin" && (
-            <Link href="/admin" className="rounded-full border border-red-400/40 bg-red-500/10 px-6 py-3 text-sm font-bold text-red-300 hover:bg-red-500/20">🛡️ Panel admin</Link>
+            <Link href="/admin" className="rounded-full border border-red-400/40 bg-red-500/10 px-6 py-3 text-sm font-bold text-[var(--bad)] hover:bg-red-500/20">🛡️ Panel admin</Link>
           )}
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function DashboardPage() {
                     <h3 className="text-lg font-black">{b.name}</h3>
                     <p className="text-xs capitalize text-[var(--muted)]">{b.category} · {b.address}</p>
                   </div>
-                  <span className={`rounded-full px-2 py-1 text-[10px] font-bold ${b.status === "verificado" ? "border border-emerald-400/20 bg-emerald-400/10 text-emerald-300" : "border border-amber-400/20 bg-amber-400/10 text-amber-300"}`}>
+                  <span className={`rounded-full px-2 py-1 text-[10px] font-bold ${b.status === "verificado" ? "border border-emerald-400/20 bg-emerald-400/10 text-[var(--ok)]" : "border border-amber-400/20 bg-amber-400/10 text-[var(--warn)]"}`}>
                     {b.status === "verificado" ? "✓ VERIFICADO" : (b.status || "pendiente")}
                   </span>
                 </div>
@@ -123,7 +123,7 @@ export default function DashboardPage() {
                 <div className="mt-4 grid grid-cols-2 gap-2">
                   <button
                     onClick={() => toggle(b.id, "open", !b.open)}
-                    className={`rounded-xl px-3 py-2.5 text-sm font-black transition ${b.open ? "bg-emerald-500/20 text-emerald-300 border border-emerald-400/30" : "bg-rose-500/20 text-rose-300 border border-rose-400/30"}`}
+                    className={`rounded-xl px-3 py-2.5 text-sm font-black transition ${b.open ? "bg-emerald-500/20 text-[var(--ok)] border border-emerald-400/30" : "bg-rose-500/20 text-[var(--bad)] border border-rose-400/30"}`}
                   >
                     {b.open ? "🟢 Abierto" : "🔴 Cerrado"}
                   </button>
@@ -153,7 +153,7 @@ export default function DashboardPage() {
                       const texto = `🏪 Estamos en La Gran Barata Digital\nMirá nuestro negocio, ofertas y productos:\n${url}`;
                       window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, "_blank");
                     }}
-                    className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-2 py-2 text-center text-xs font-bold text-emerald-300 hover:bg-emerald-500/20"
+                    className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-2 py-2 text-center text-xs font-bold text-[var(--ok)] hover:bg-emerald-500/20"
                   >
                     📲 Compartir
                   </button>
