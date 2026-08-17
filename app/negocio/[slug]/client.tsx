@@ -13,6 +13,7 @@ import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
 import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
+import { safeJsonLd } from "@/lib/json-ld";
 import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search, Truck, Navigation, Package } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import BusinessMap from "@/components/business/map";
@@ -168,7 +169,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   return (
     <main className="bg-[#120d09] min-h-screen pb-24 text-white">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
 
       {/* HERO: la foto es la protagonista (mucho más alta que antes -- esto
           es la "miniweb" del negocio, no una ficha de directorio), el

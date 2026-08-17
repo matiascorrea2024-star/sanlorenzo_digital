@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
+import { safeJsonLd } from "@/lib/json-ld";
 import OfertaPage from "./client";
 
 type Props = { params: Promise<{ id: string }> };
@@ -72,7 +73,7 @@ export default async function Page({ params }: Props) {
       {jsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       )}
       <OfertaPage />
