@@ -425,7 +425,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
         {negocio.description && (
           <div className="mb-8">
-            <h2 className="mb-3 text-xl font-black">Sobre el negocio</h2>
+            <h2 className="mb-3 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Sobre el negocio</h2>
             <p className="leading-relaxed text-white/80">{negocio.description}</p>
           </div>
         )}
@@ -456,7 +456,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {/* OFERTAS ACTIVAS: tarjetas compactas horizontales */}
         {ofertas.length > 0 && (productos.length === 0 || seccion === "ofertas") && (
           <div className="mb-8">
-            <h2 className="mb-4 text-xl font-black">Ofertas activas ({ofertas.length})</h2>
+            <h2 className="mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Ofertas activas ({ofertas.length})</h2>
             <div className="space-y-3">
               {ofertas.map((o) => {
                 const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
@@ -512,7 +512,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {/* PRODUCTOS / CATÁLOGO */}
         {productos.length > 0 && (ofertas.length === 0 || seccion === "catalogo") && (
           <div className="mb-8">
-            <h2 className="mb-4 text-xl font-black">Catálogo ({productos.length})</h2>
+            <h2 className="mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Catálogo ({productos.length})</h2>
             {productos.length > 6 && (
               <div className="relative mb-4">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
