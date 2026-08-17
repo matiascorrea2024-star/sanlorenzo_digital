@@ -107,7 +107,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
             <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">BARATA</span>
             <span className="text-right" style={{ WebkitTextStroke: "1.5px rgba(255,247,237,.5)", color: "transparent" }}>DIGITAL</span>
           </h1>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-[var(--muted)] md:absolute md:bottom-0 md:right-0 md:mt-0 md:text-right md:text-base">
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-[var(--muted)] md:absolute md:right-0 md:top-1/2 md:mt-0 md:-translate-y-1/2 md:text-right md:text-base">
             Las ofertas y promos de San Lorenzo, publicadas por los comercios en tiempo real.{" "}
             <span className="font-bold text-orange-300">Que no se te escape ninguna.</span>
           </p>
