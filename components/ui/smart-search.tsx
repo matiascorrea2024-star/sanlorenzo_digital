@@ -156,21 +156,21 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
     <div ref={boxRef} className={`relative w-full ${className}`}>
       <form onSubmit={onSubmit} className="rounded-[1.5rem] border border-white/15 bg-white/[.03] p-1 shadow-2xl backdrop-blur-xl">
       <div className="flex items-center gap-2 rounded-[1.25rem] border border-white/10 bg-black/70 pr-1 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
-        <div className="pl-3 text-orange-400"><Search className="h-5 w-5" /></div>
+        <div className="pl-2.5 text-orange-400 sm:pl-3"><Search className="h-4 w-4 sm:h-5 sm:w-5" /></div>
         <input ref={inputRef} value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }}
           onFocus={() => setOpen(true)}
           placeholder={placeholder}
-          className="w-full bg-transparent px-2 py-3 text-sm outline-none placeholder:text-white/50 md:text-base" />
+          className="w-full min-w-0 bg-transparent px-2 py-3 text-sm outline-none placeholder:text-white/50 md:text-base" />
         {shortcutSlash && !q && (
           <kbd className="mr-1 hidden h-6 w-6 shrink-0 items-center justify-center rounded-md border border-white/15 bg-white/5 text-[10px] font-bold text-white/40 md:flex">/</kbd>
         )}
         {q && (
-          <button type="button" onClick={() => setQ("")} className="text-white/50 hover:text-white">
+          <button type="button" onClick={() => setQ("")} className="shrink-0 text-white/50 hover:text-white">
             <X className="h-4 w-4" />
           </button>
         )}
-        <button className="group/btn m-1 flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 pl-5 pr-2 text-sm font-black transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.97]">
-          Buscar
+        <button aria-label="Buscar" className="group/btn m-1 flex shrink-0 items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 pl-3 pr-1 text-sm font-black transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.97] sm:pl-5 sm:pr-2">
+          <span className="hidden sm:inline">Buscar</span>
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black/15 transition-transform duration-300 group-hover/btn:translate-x-0.5"><Search className="h-3 w-3" /></span>
         </button>
       </div>

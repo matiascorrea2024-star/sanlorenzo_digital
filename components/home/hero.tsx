@@ -117,7 +117,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
             de 2 tarjetas de estadística apiladas. */}
         <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
           <div className="group relative lg:col-span-8">
-            <div className="relative flex h-full min-h-[420px] flex-col justify-between overflow-hidden rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] md:p-12">
+            <div className="relative flex h-full min-h-[420px] flex-col justify-between overflow-hidden rounded-[2.5rem] border border-white/[.06] bg-white/[.02] p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:p-8 md:p-12">
               <div className="pointer-events-none absolute -right-[10%] -top-[10%] aspect-square w-[60%] rounded-full bg-gradient-to-br from-orange-500 to-red-600 opacity-10 blur-[100px]" />
               <div className="relative z-10">
                 <span className="mb-8 inline-block rounded-full border border-orange-500/30 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-orange-400">

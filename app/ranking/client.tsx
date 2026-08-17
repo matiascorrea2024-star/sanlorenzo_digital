@@ -229,17 +229,17 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
               <RankedAvatar slug={r.slug} name={r.name} size={44} categoria={r.category} />
             )}
                   <div className="min-w-0 flex-1">
-                    <p className={`flex items-center gap-2 font-bold ${i === 0 ? "text-xl sm:text-2xl" : ""}`} style={i === 0 ? { fontFamily: "var(--font-space)" } : undefined}>
+                    <p className={`flex flex-wrap items-center gap-x-2 gap-y-0.5 font-bold ${i === 0 ? "text-xl sm:text-2xl" : ""}`} style={i === 0 ? { fontFamily: "var(--font-space)" } : undefined}>
                       {r.name} <RankBadge puntos={r.puntos} categoria={r.category} />
                       {r.status === "verificado" && <span className="text-[10px] text-green-400">✓</span>}
                     </p>
-                    <p className="flex flex-wrap items-center gap-x-1 text-xs text-white/50 capitalize">
+                    <p className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-white/50 capitalize">
                       <span>{r.category}</span>
                       <span title="Calificación promedio">· ⭐ {r.rating.toFixed(1)}</span>
                       <span title="Ofertas activas">· 🔥 {r.ofertas}</span>
-                      <span title="Visitas al perfil">· 👀 {r.vistas}</span>
-                      <span title="Veces guardado como favorito">· ❤️ {r.favs}</span>
-                      <span title="Publicaciones en el Muro">· 📰 {r.posts}</span>
+                      <span title="Visitas al perfil" className="hidden sm:inline">· 👀 {r.vistas}</span>
+                      <span title="Veces guardado como favorito" className="hidden sm:inline">· ❤️ {r.favs}</span>
+                      <span title="Publicaciones en el Muro" className="hidden sm:inline">· 📰 {r.posts}</span>
                       <span title="Visitas de esta semana vs. la anterior"
                         aria-label={`Tendencia: ${r.crecimiento > 0 ? `subió ${r.crecimiento} visitas` : r.crecimiento < 0 ? `bajó ${Math.abs(r.crecimiento)} visitas` : "sin cambios"} esta semana`}
                         className={`flex items-center gap-0.5 font-bold normal-case ${r.crecimiento > 0 ? "text-green-400" : r.crecimiento < 0 ? "text-red-400" : "text-white/40"}`}>

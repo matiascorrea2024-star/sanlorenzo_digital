@@ -209,7 +209,12 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           la ficha de perfil (logo/nombre/acciones) se monta encima con
           margen negativo, no debajo en flujo normal. */}
       <div className="mx-auto max-w-5xl px-4 pt-6 sm:px-6">
-        <section className="relative aspect-[21/9] min-h-[220px] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-2xl shadow-black/50 sm:min-h-[280px] md:aspect-[21/8]">
+        {/* La relación panorámica 21/9 recién funciona sin recortar
+            cuando hay ancho de sobra -- combinada con una altura mínima
+            en mobile, el aspect-ratio ganaba y forzaba el ancho del box
+            por ENCIMA del viewport (overflow horizontal real, no cosmético).
+            Por eso en mobile usa una relación más vertical y sin mínimo. */}
+        <section className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-2xl shadow-black/50 sm:aspect-[16/9] md:aspect-[21/8]">
           {negocio.portada_url ? (
             <Image src={negocio.portada_url} alt={negocio.name} fill priority quality={92}
               sizes="100vw" className="object-cover" />
@@ -220,7 +225,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 hover:bg-black/70">
             <ArrowLeft className="h-5 w-5" />
           </button>
-          <div className="absolute left-4 top-4 ml-14 flex flex-wrap gap-2 sm:left-6 sm:ml-16">
+          <div className="absolute left-4 right-4 top-4 ml-14 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:ml-16">
             <BusinessLiveBadge businessId={negocio.id} />
             {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
             {negocio.open !== undefined && (
