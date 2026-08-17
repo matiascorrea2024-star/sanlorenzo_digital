@@ -22,7 +22,8 @@
   --line:rgba(255,247,237,.09); --line-strong:rgba(255,247,237,.16);
   --text:#f7f3ec; --muted:#a99b86; --muted2:#7d6f5c;
 
-  /* Marca: naranja + rojo de feria sobre base neutra. */
+  /* Marca: naranja + rojo de feria sobre base neutra. Los mismos en los
+     dos temas -- el acento no cambia, solo lo que hay atrás. */
   --accent:#f97316; --accent2:#dc2626;
   /* "Lugar": el cian del río Paraná / puerto -- acento secundario para
      ubicación, mapa, exploración y confianza (no reemplaza a la marca). */
@@ -32,11 +33,43 @@
   /* Semánticos de producto (sección 28 del brief de diseño). */
   --offer:#fb923c;      /* precio/urgencia de oferta */
   --premium:#fbbf24;    /* Destacado Semanal / badges premium */
+
+  /* Overlays translúcidos -- el truco de "vidrio" (bg-white/5,
+     border-white/10, etc.) usado en TODO el sitio para cards/hairlines.
+     Son claros (blancos) sobre fondo oscuro; en tema claro se invierten
+     a oscuros (negros) sobre fondo claro, o el vidrio se ve al revés.
+     Nombrados por el nivel de opacidad que reemplazan. */
+  --ov-02:rgba(255,255,255,.02); --ov-03:rgba(255,255,255,.03);
+  --ov-05:rgba(255,255,255,.05); --ov-06:rgba(255,255,255,.06);
+  --ov-08:rgba(255,255,255,.08); --ov-10:rgba(255,255,255,.10);
+  --ov-15:rgba(255,255,255,.15); --ov-20:rgba(255,255,255,.20);
+  --ov-40:rgba(255,255,255,.40); --ov-60:rgba(255,255,255,.60);
+  /* Negro/blur para overlays "encima de todo" (modales, header scrolleado)
+     -- en dark ya es negro; en light pasa a blanco. */
+  --scrim:rgba(12,10,11,.8);
+}
+
+/* Tema claro -- mismo acento naranja/rojo, base clara cálida (no blanco
+   puro) para no perder el carácter "de feria" del sitio. Activado por
+   [data-theme="light"] en <html>, seteado por ThemeToggle antes del
+   primer paint (ver app/layout.tsx) para que no haya flash. */
+:root[data-theme="light"]{
+  --bg:#faf7f2; --surface:#ffffff; --surface2:#f3efe7; --surface3:#ece5d8;
+  --line:rgba(12,10,11,.08); --line-strong:rgba(12,10,11,.16);
+  --text:#1c1714; --muted:#6b5d4c; --muted2:#8a7b68;
+
+  --ov-02:rgba(12,10,11,.02); --ov-03:rgba(12,10,11,.03);
+  --ov-05:rgba(12,10,11,.05); --ov-06:rgba(12,10,11,.06);
+  --ov-08:rgba(12,10,11,.08); --ov-10:rgba(12,10,11,.10);
+  --ov-15:rgba(12,10,11,.15); --ov-20:rgba(12,10,11,.20);
+  --ov-40:rgba(12,10,11,.40); --ov-60:rgba(12,10,11,.60);
+  --scrim:rgba(255,255,255,.85);
 }
 *{box-sizing:border-box}
 /* Se probó Lenis (scroll con inercia) y se sacó -- feedback directo: no
    gustó cómo se sentía. Vuelve el scroll nativo. */
 html{scroll-behavior:smooth; color-scheme: dark;}
+html[data-theme="light"]{color-scheme:light;}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-inter),system-ui,sans-serif}
 ::selection{background:rgba(220,38,38,.35);color:white}
 a{transition:color .2s ease,border-color .2s ease,background-color .2s ease,transform .2s ease,opacity .2s ease}

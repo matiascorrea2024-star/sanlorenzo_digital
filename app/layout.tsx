@@ -15,6 +15,7 @@ import OnboardingOverlay from "@/components/onboarding/onboarding-overlay";
 import ReferralTracker from "@/components/referral-tracker";
 import { CartProvider } from "@/lib/cart-context";
 import CartFab from "@/components/cart/cart-fab";
+import { ThemeProvider } from "@/lib/theme-context";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
@@ -47,10 +48,21 @@ import InstallApp from "@/components/ui/install-app";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" data-scroll-behavior="smooth" className={`${inter.variable} ${space.variable} ${ticket.variable}`}>
+      <head>
+        {/* Setea el tema ANTES del primer paint -- si esto fuera un
+            useEffect de React habría un flash del tema por defecto
+            (oscuro) antes de aplicar la preferencia guardada. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("sld-theme");if(t==="light")document.documentElement.dataset.theme="light";}catch(e){}`,
+          }}
+        />
+      </head>
       <body>
       <a href="#contenido" className="skip-link">Saltar al contenido</a>
         <ToastProvider>
         <AuthProvider>
+        <ThemeProvider>
         <CartProvider>
         <HeartbeatActivator />
           <Header />
@@ -65,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <OnboardingOverlay />
       <ReferralTracker />
         </CartProvider>
+        </ThemeProvider>
         </AuthProvider>
       </ToastProvider>
       <InstallApp />

@@ -7,6 +7,7 @@ import NotificationBell from "@/components/layout/notification-bell";
 import CitySwitcher from "@/components/layout/city-switcher";
 import MobileMenu from "@/components/layout/mobile-menu";
 import AuthButton from "./auth-button";
+import ThemeToggle from "@/components/ui/theme-toggle";
 import { supabase } from "@/lib/supabase";
 import { useUnreadMessages } from "@/lib/hooks/use-unread-messages";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -65,14 +66,14 @@ export default function Header() {
       {/* Isla flotante, no una barra pegada al borde -- el blur/sombra crece
           apenas se scrollea para que se note que "levanta" sobre el contenido. */}
       <div className={`mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full border px-3 backdrop-blur-xl transition-all duration-500 md:h-16 md:px-5 ${
-        scrolled ? "border-white/15 bg-[#0c0a0b]/90 shadow-2xl shadow-black/50" : "border-white/10 bg-[#0c0a0b]/70 shadow-lg shadow-black/30"
+        scrolled ? "border-[var(--line-strong)] bg-[var(--bg)]/90 shadow-2xl shadow-black/50" : "border-[var(--line)] bg-[var(--bg)]/70 shadow-lg shadow-black/30"
       }`}>
           <Link href="/" className="group flex shrink-0 items-center gap-2.5">
             <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-red-600 shadow-lg shadow-orange-500/25 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 group-hover:shadow-orange-500/45 group-hover:brightness-110">
               <ShoppingBag className="h-5 w-5 text-white" />
             </span>
             <span className="hidden leading-tight sm:block">
-              <span className="block text-sm font-black tracking-tight text-white md:text-base">LA GRAN BARATA</span>
+              <span className="block text-sm font-black tracking-tight text-[var(--text)] md:text-base">LA GRAN BARATA</span>
               <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-orange-400">Digital · San Lorenzo</span>
             </span>
           </Link>
@@ -84,7 +85,7 @@ export default function Header() {
                 <Link
                   key={it.href}
                   href={it.href}
-                  className={`relative rounded-full px-3.5 py-2 text-sm font-semibold transition-all duration-300 ${active ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+                  className={`relative rounded-full px-3.5 py-2 text-sm font-semibold transition-all duration-300 ${active ? "bg-[var(--ov-10)] text-[var(--text)]" : "text-[var(--muted)] hover:bg-[var(--ov-05)] hover:text-[var(--text)]"}`}
                 >
                   {it.label}
                   {active && (
@@ -97,6 +98,7 @@ export default function Header() {
 
           <div className="flex items-center gap-2">
             <MobileMenu />
+            <ThemeToggle />
             <CitySwitcher />
             {user && <NotificationBell />}
 
@@ -110,38 +112,38 @@ export default function Header() {
                   {(user.email || "?")[0].toUpperCase()}
                 </button>
                 {open && (
-                  <div className="absolute right-0 top-12 z-50 w-72 rounded-[1.5rem] border border-white/[.06] bg-white/[.03] p-1.5 shadow-2xl backdrop-blur-xl">
-                  <div className="max-h-[80vh] overflow-y-auto rounded-[1.1rem] border border-white/[.05] bg-[#1c1819] p-2">
-                    <div className="mb-1 border-b border-white/10 px-3 py-2">
-                      <p className="text-xs text-white/50">Conectado como</p>
-                      <p className="truncate text-sm font-bold">{user.email}</p>
+                  <div className="absolute right-0 top-12 z-50 w-72 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-03)] p-1.5 shadow-2xl backdrop-blur-xl">
+                  <div className="max-h-[80vh] overflow-y-auto rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--surface2)] p-2">
+                    <div className="mb-1 border-b border-[var(--line)] px-3 py-2">
+                      <p className="text-xs text-[var(--muted)]">Conectado como</p>
+                      <p className="truncate text-sm font-bold text-[var(--text)]">{user.email}</p>
                     </div>
 
-                    <p className="px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">🏪 Mi comercio</p>
+                    <p className="px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">🏪 Mi comercio</p>
                     <Link href="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-orange-300 hover:bg-orange-500/10">Mis negocios</Link>
-                    <Link href="/dashboard/ofertas/nueva" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Nueva oferta</Link>
-                    <Link href="/dashboard/reels/nueva" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Nuevo reel</Link>
-                    <Link href="/dashboard/analytics" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Estadísticas</Link>
+                    <Link href="/dashboard/ofertas/nueva" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Nueva oferta</Link>
+                    <Link href="/dashboard/reels/nueva" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Nuevo reel</Link>
+                    <Link href="/dashboard/analytics" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Estadísticas</Link>
 
-                    <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">🎯 Mi actividad</p>
-                    <Link href="/comunidad" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Chat de la ciudad</Link>
-                    <Link href="/pedidos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">¿Quién tiene esto?</Link>
-                    <Link href="/favoritos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Favoritos</Link>
-                    <Link href="/mensajes" onClick={() => setOpen(false)} className="flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-white/5">
+                    <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">🎯 Mi actividad</p>
+                    <Link href="/comunidad" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Chat de la ciudad</Link>
+                    <Link href="/pedidos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">¿Quién tiene esto?</Link>
+                    <Link href="/favoritos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Favoritos</Link>
+                    <Link href="/mensajes" onClick={() => setOpen(false)} className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">
                       <span>Mensajes</span>
                       {unread > 0 && <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-black text-white">{unread > 9 ? "9+" : unread}</span>}
                     </Link>
-                    <Link href="/perfil#misiones" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Misiones y nivel</Link>
+                    <Link href="/perfil#misiones" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Misiones y nivel</Link>
 
-                    <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">👤 Cuenta</p>
-                    <Link href="/perfil#cuenta" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Perfil y clave</Link>
-                    <Link href="/vecinos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Ranking de vecinos</Link>
-                    <Link href="/invitar" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/5">Invitar amigos</Link>
-                    <button onClick={salir} className="w-full rounded-xl px-3 py-2 text-left text-sm text-red-300 hover:bg-white/5">Salir</button>
+                    <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">👤 Cuenta</p>
+                    <Link href="/perfil#cuenta" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Perfil y clave</Link>
+                    <Link href="/vecinos" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Ranking de vecinos</Link>
+                    <Link href="/invitar" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Invitar amigos</Link>
+                    <button onClick={salir} className="w-full rounded-xl px-3 py-2 text-left text-sm text-red-300 hover:bg-[var(--ov-05)]">Salir</button>
 
                     {role === "admin" && (
                       <>
-                        <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-white/35">⚙️ Admin</p>
+                        <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">⚙️ Admin</p>
                         <Link href="/admin?tab=overview" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-red-500/10">Panel</Link>
                         <Link href="/admin?tab=moderacion" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-red-500/10">Moderación</Link>
                         <Link href="/admin?tab=verificacion" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-300 hover:bg-red-500/10">Verificación</Link>
