@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase-server";
 import HomeClient from "@/components/home-client";
+import { ordenRotativoDiario } from "@/lib/fair-rotation";
 
 export const revalidate = 60;
 
@@ -17,5 +18,14 @@ export default async function Page() {
       .limit(200),
     sb.from("offers_with_business").select("*").order("created_at", { ascending: false }).limit(100),
   ]);
-  return <HomeClient initial={negocios || []} initialOfertas={ofertas || []} />;
+  // Destacado Semanal (plan pago) sigue primero -- eso es lo que paga esa
+  // posición. Pero entre el resto, antes quedaba fijo el orden arbitrario
+  // en que Postgres los devolvió la primera vez: con muchos negocios, la
+  // sección "Negocios destacados" de la home (que solo muestra los
+  // primeros 12) terminaba mostrando siempre a los mismos, para siempre.
+  // Ahora ese resto rota todos los días -- cada negocio tiene su turno.
+  const todos = negocios || [];
+  const destacados = todos.filter((b: any) => b.destacado);
+  const resto = ordenRotativoDiario(todos.filter((b: any) => !b.destacado));
+  return <HomeClient initial={[...destacados, ...resto]} initialOfertas={ofertas || []} />;
 }
