@@ -26,6 +26,7 @@ import LevelBadge from "@/components/business/level-badge";
 import BusinessLiveBadge from "@/components/business/live-badge";
 import { planDe } from "@/lib/plans";
 import { generarImagenNegocio } from "@/lib/share-image";
+import ResponseBadge from "@/components/business/response-badge";
 
 const CATEGORY_IMAGES: Record<string, string> = {
   calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=1200&q=85",
@@ -248,6 +249,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 </Badge>
               )}
               {negocio.hace_envios && <Badge variant="info" size="sm">🚚 Hace envíos</Badge>}
+              <ResponseBadge businessId={negocio.id} />
             </div>
             <h1 className="truncate text-2xl font-black md:text-4xl" style={{ fontFamily: "var(--font-space)" }}>{negocio.name}</h1>
             <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
