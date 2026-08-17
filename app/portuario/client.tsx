@@ -38,7 +38,7 @@ export default function PortuarioView() {
         <h2 className="text-2xl font-black mb-6">Servicios del sector</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {SERVICIOS.map(s => (
-            <Link key={s.titulo} href="/categoria/portuario"
+            <Link key={s.titulo} href="/negocios?categoria=portuario"
               className="group rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5">
               <div className="flex items-start gap-4 rounded-[1.1rem] border border-white/[.05] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-cyan-400/30">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cyan-500/15">

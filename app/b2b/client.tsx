@@ -35,7 +35,7 @@ export default function B2bView() {
       <div className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {SECTORES.map(s => (
-            <Link key={s.id} href={`/categoria/${s.id}`}
+            <Link key={s.id} href={`/negocios?categoria=${s.id}`}
               className="group rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1">
               <div className={`h-full rounded-[1.375rem] border border-white/[.05] bg-gradient-to-br ${s.color} p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.08)] transition-colors group-hover:border-orange-400/30`}>
                 <s.icon className="h-10 w-10 text-white/80 mb-3" />

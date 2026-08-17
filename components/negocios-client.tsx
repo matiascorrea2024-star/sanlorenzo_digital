@@ -1,14 +1,19 @@
 "use client";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 
 import { useMemo, useState } from "react";
 import { CATEGORIES } from "@/lib/data";
 import BusinessCard from "@/components/business/card";
 export default function Negocios({ initial }: { initial: any[] }) {
+  const searchParams = useSearchParams();
   const [q, setQ] = useState("");
-  const [cat, setCat] = useState<string | null>(null);
+  const [cat, setCat] = useState<string | null>(() => {
+    const c = searchParams.get("categoria");
+    return c && CATEGORIES.some((x: any) => x.id === c) ? c : null;
+  });
   const [openNow, setOpenNow] = useState(false);
   // El directorio por rubro es para negocios de verdad -- los vendedores
   // particulares (venta entre vecinos, sin local) tienen su propio
