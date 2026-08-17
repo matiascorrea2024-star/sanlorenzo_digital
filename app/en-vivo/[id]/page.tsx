@@ -70,28 +70,34 @@ export default function VerEnVivo() {
             {stream.status === "live" ? (
               token ? <ViewerStage token={token.token} url={token.url} /> : <div className="flex aspect-video items-center justify-center rounded-2xl border border-white/10 bg-black text-white/40">Conectando...</div>
             ) : stream.status === "scheduled" ? (
-              <div className="flex aspect-video flex-col items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 text-center">
-                <p className="font-bold">Todavía no empezó</p>
-                {stream.scheduled_at && <p className="text-sm text-white/50">Programado para {new Date(stream.scheduled_at).toLocaleString("es-AR", { weekday: "long", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>}
+              <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                <div className="flex aspect-video flex-col items-center justify-center gap-2 rounded-[1.375rem] border border-white/[.05] bg-black/20 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <p className="font-bold">Todavía no empezó</p>
+                  {stream.scheduled_at && <p className="text-sm text-white/50">Programado para {new Date(stream.scheduled_at).toLocaleString("es-AR", { weekday: "long", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>}
+                </div>
               </div>
             ) : (
-              <div className="flex aspect-video items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white/40">Esta transmisión ya terminó.</div>
+              <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                <div className="flex aspect-video items-center justify-center rounded-[1.375rem] border border-white/[.05] bg-black/20 text-white/40 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">Esta transmisión ya terminó.</div>
+              </div>
             )}
 
-            <div className="mt-4 flex flex-wrap items-start justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
-              <div className="min-w-0 flex-1">
-                <h1 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>{stream.title}</h1>
-                <Link href={`/negocio/${negocio.slug}`} className="mt-1 flex items-center gap-1.5 text-sm text-white/60 hover:text-orange-300">
-                  <Store className="h-3.5 w-3.5" /> {negocio.name}
-                </Link>
-                {stream.description && <p className="mt-2 text-sm text-white/70">{stream.description}</p>}
-              </div>
-              <div className="flex shrink-0 gap-2">
-                <FollowButton businessId={negocio.id} />
-                {negocio.address && (
-                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(negocio.address)}`} target="_blank" rel="noopener noreferrer"
-                    className="rounded-full border border-white/15 p-2 hover:bg-white/10"><MapPin className="h-4 w-4" /></a>
-                )}
+            <div className="mt-4 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="flex flex-wrap items-start justify-between gap-3 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>{stream.title}</h1>
+                  <Link href={`/negocio/${negocio.slug}`} className="mt-1 flex items-center gap-1.5 text-sm text-white/60 hover:text-orange-300">
+                    <Store className="h-3.5 w-3.5" /> {negocio.name}
+                  </Link>
+                  {stream.description && <p className="mt-2 text-sm text-white/70">{stream.description}</p>}
+                </div>
+                <div className="flex shrink-0 gap-2">
+                  <FollowButton businessId={negocio.id} />
+                  {negocio.address && (
+                    <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(negocio.address)}`} target="_blank" rel="noopener noreferrer"
+                      className="rounded-full border border-white/15 p-2 hover:bg-white/10"><MapPin className="h-4 w-4" /></a>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -104,16 +110,18 @@ export default function VerEnVivo() {
                     const o = it.offers;
                     if (!p && !o) return null;
                     return (
-                      <div key={it.id} className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3">
-                        {(p?.images?.[0]) && <img src={p.images[0]} alt="" className="h-14 w-14 rounded-lg object-cover" />}
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-bold">{p?.name || o?.title}</p>
-                          <p className="text-sm font-black text-orange-400">${Number(it.promo_price || p?.price || o?.offer_price || 0).toLocaleString("es-AR")}</p>
+                      <div key={it.id} className="rounded-[1.25rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                        <div className="flex items-center gap-3 rounded-[.9rem] border border-white/[.05] bg-black/10 p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                          {(p?.images?.[0]) && <img src={p.images[0]} alt="" className="h-14 w-14 rounded-lg object-cover" />}
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-bold">{p?.name || o?.title}</p>
+                            <p className="text-sm font-black text-orange-400">${Number(it.promo_price || p?.price || o?.offer_price || 0).toLocaleString("es-AR")}</p>
+                          </div>
+                          {negocio.whatsapp && (
+                            <a href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola! Te escribo por "${p?.name || o?.title}" que vi en tu vivo`)}`}
+                              target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-lg bg-green-500/15 px-3 py-1.5 text-xs font-bold text-green-300">Consultar</a>
+                          )}
                         </div>
-                        {negocio.whatsapp && (
-                          <a href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola! Te escribo por "${p?.name || o?.title}" que vi en tu vivo`)}`}
-                            target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-lg bg-green-500/15 px-3 py-1.5 text-xs font-bold text-green-300">Consultar</a>
-                        )}
                       </div>
                     );
                   })}

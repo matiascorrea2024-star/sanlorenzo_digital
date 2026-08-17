@@ -85,10 +85,12 @@ export default function EnVivoClient() {
                 Ahora ({enVivo.length})
               </h2>
               {enVivo.length === 0 ? (
-                <div className="sld-card rounded-2xl px-6 py-10 text-center">
-                  <Radio className="mx-auto mb-3 h-7 w-7 text-white/30" />
-                  <p className="font-bold">No hay comercios transmitiendo ahora.</p>
-                  <p className="mt-1 text-sm text-white/50">Revisá &quot;Próximamente&quot; o volvé más tarde.</p>
+                <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                  <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 px-6 py-10 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                    <Radio className="mx-auto mb-3 h-7 w-7 text-white/30" />
+                    <p className="font-bold">No hay comercios transmitiendo ahora.</p>
+                    <p className="mt-1 text-sm text-white/50">Revisá &quot;Próximamente&quot; o volvé más tarde.</p>
+                  </div>
                 </div>
               ) : (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -102,10 +104,12 @@ export default function EnVivoClient() {
                 <h2 className="mb-4 flex items-center gap-2 text-xl font-black"><Clock className="h-5 w-5 text-sky-400" /> Próximamente</h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {proximos.map((s) => (
-                    <div key={s.id} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                      <p className="truncate font-bold">{s.title}</p>
-                      <p className="truncate text-xs text-white/50">{s.businesses?.name}</p>
-                      <p className="mt-2 text-xs font-bold text-sky-300">{s.scheduled_at && new Date(s.scheduled_at).toLocaleString("es-AR", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>
+                    <div key={s.id} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                      <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                        <p className="truncate font-bold">{s.title}</p>
+                        <p className="truncate text-xs text-white/50">{s.businesses?.name}</p>
+                        <p className="mt-2 text-xs font-bold text-sky-300">{s.scheduled_at && new Date(s.scheduled_at).toLocaleString("es-AR", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -117,9 +121,11 @@ export default function EnVivoClient() {
                 <h2 className="mb-4 flex items-center gap-2 text-xl font-black text-white/50"><Users className="h-5 w-5" /> Finalizados recientemente</h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {finalizados.map((s) => (
-                    <div key={s.id} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 opacity-60">
-                      <p className="truncate font-bold">{s.title}</p>
-                      <p className="truncate text-xs text-white/50">{s.businesses?.name} · {s.total_viewers} espectadores</p>
+                    <div key={s.id} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5 opacity-60">
+                      <div className="rounded-[1.1rem] border border-white/[.05] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                        <p className="truncate font-bold">{s.title}</p>
+                        <p className="truncate text-xs text-white/50">{s.businesses?.name} · {s.total_viewers} espectadores</p>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -127,11 +133,13 @@ export default function EnVivoClient() {
             )}
 
             {enVivo.length === 0 && proximos.length === 0 && finalizados.length === 0 && (
-              <div className="sld-card mt-4 rounded-2xl px-6 py-10 text-center">
-                <Sparkles className="mx-auto mb-3 h-7 w-7 text-orange-400" />
-                <p className="font-bold">Todavía no hubo transmisiones en San Lorenzo.</p>
-                <p className="mx-auto mt-1 max-w-sm text-sm text-white/50">¿Tenés un negocio? Sé el primero en transmitir en vivo.</p>
-                <Link href="/dashboard/en-vivo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white">Crear mi transmisión</Link>
+              <div className="mt-4 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 px-6 py-10 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <Sparkles className="mx-auto mb-3 h-7 w-7 text-orange-400" />
+                  <p className="font-bold">Todavía no hubo transmisiones en San Lorenzo.</p>
+                  <p className="mx-auto mt-1 max-w-sm text-sm text-white/50">¿Tenés un negocio? Sé el primero en transmitir en vivo.</p>
+                  <Link href="/dashboard/en-vivo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white">Crear mi transmisión</Link>
+                </div>
               </div>
             )}
           </>

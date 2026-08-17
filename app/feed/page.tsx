@@ -132,8 +132,10 @@ export default function MuroPage() {
         {/* Posts */}
         <div className="mt-6 space-y-4">
           {todos.length === 0 && (
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-10 text-center text-white/50">
-              Todavía no hay publicaciones de este tipo.
+            <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/10 p-10 text-center text-white/50 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                Todavía no hay publicaciones de este tipo.
+              </div>
             </div>
           )}
           {todos.map(p => {
