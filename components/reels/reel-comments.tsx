@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { X, Send } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 type Comment = { id: string; sender_name: string; body: string; created_at: string };
 
@@ -16,6 +18,7 @@ export default function ReelComments({ reelId, onClose, onCommentAdded }: {
   const [sending, setSending] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [userName, setUserName] = useState("Vecino");
+  const { show } = useToast();
 
   useEffect(() => {
     (async () => {
@@ -41,11 +44,10 @@ export default function ReelComments({ reelId, onClose, onCommentAdded }: {
       reel_id: reelId, user_id: userId, sender_name: userName, body,
     });
     setSending(false);
-    if (!error) {
-      setComments((prev) => [{ id: crypto.randomUUID(), sender_name: userName, body, created_at: new Date().toISOString() }, ...prev]);
-      setText("");
-      onCommentAdded();
-    }
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo publicar el comentario.")}`, "error"); return; }
+    setComments((prev) => [{ id: crypto.randomUUID(), sender_name: userName, body, created_at: new Date().toISOString() }, ...prev]);
+    setText("");
+    onCommentAdded();
   };
 
   return (
