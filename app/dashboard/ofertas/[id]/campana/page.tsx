@@ -75,31 +75,39 @@ export default function CampanaPage() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
-      <div className="mx-auto max-w-xl px-4 py-8">
-        <Link href="/dashboard/ofertas" className="text-sm text-orange-400">← Volver a mis ofertas</Link>
-        <h1 className="mt-3 text-3xl font-black flex items-center gap-2" style={{ fontFamily: "var(--font-space)" }}><MapPin className="h-7 w-7 text-cyan-400" /> Promocionar por barrio</h1>
-        <p className="mt-1 text-white/60">&quot;{offer.title}&quot;</p>
+      <div className="mx-auto max-w-xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-cyan-400">Alcance segmentado</p>
+        <h1 className="mt-2 flex items-center gap-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}><MapPin className="h-9 w-9 text-cyan-400" /> Promocionar por barrio</h1>
+        <p className="mt-3 text-white/50">&quot;{offer.title}&quot;</p>
 
         {!plan.campanas ? (
-          <div className="mt-6 rounded-2xl border border-orange-400/30 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-8 text-center">
-            <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
-            <p className="font-black">Promocionar por barrio es de Plan PRO</p>
-            <p className="mt-1 text-sm text-white/60">Hacé que tu oferta se destaque en el barrio que más te importa.</p>
-            <Link href="/dashboard/planes" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">Ver planes →</Link>
+          <div className="mt-8 rounded-[1.75rem] border border-orange-400/20 bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-orange-400/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
+              <p className="font-black">Promocionar por barrio es de Plan PRO</p>
+              <p className="mt-1 text-sm text-white/60">Hacé que tu oferta se destaque en el barrio que más te importa.</p>
+              <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">Ver planes →</Link>
+            </div>
           </div>
         ) : barrios.length === 0 ? (
-          <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/50">
-            Tu ciudad todavía no tiene barrios cargados para poder segmentar.
+          <div className="mt-8 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-8 text-center text-white/50 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              Tu ciudad todavía no tiene barrios cargados para poder segmentar.
+            </div>
           </div>
         ) : (
           <>
-            <HowItWorks steps={[
-              "Elegí el barrio donde más te sirve destacarte -- lo ideal es el tuyo o uno cercano.",
-              "Tu oferta va a aparecer resaltada en la página pública de ese barrio.",
-              "Podés cambiarlo o quitarlo cuando quieras, no tiene costo extra ni límite de tiempo.",
-            ]} />
+            <div className="mt-6">
+              <HowItWorks steps={[
+                "Elegí el barrio donde más te sirve destacarte -- lo ideal es el tuyo o uno cercano.",
+                "Tu oferta va a aparecer resaltada en la página pública de ese barrio.",
+                "Podés cambiarlo o quitarlo cuando quieras, no tiene costo extra ni límite de tiempo.",
+              ]} />
+            </div>
 
-            <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
               <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-white/60">Barrio</label>
               <select value={seleccionado} onChange={(e) => setSeleccionado(e.target.value)}
                 className="w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-sm outline-none focus:border-orange-400">
@@ -118,9 +126,10 @@ export default function CampanaPage() {
               )}
 
               <button onClick={guardar} disabled={guardando}
-                className="mt-4 w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
+                className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
                 {guardando ? "Guardando..." : "Guardar"}
               </button>
+            </div>
             </div>
           </>
         )}

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import { MessageCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import Chat from "@/components/business/chat";
@@ -91,7 +92,13 @@ export default function MensajesPage() {
     <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
-        <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Mensajes</h1>
+        <div className="mb-2 flex items-center gap-3">
+          <MessageCircle className="h-8 w-8 text-orange-400" />
+          <div>
+            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Mensajes</h1>
+            <p className="text-white/60">Tus conversaciones con clientes, en un solo lugar</p>
+          </div>
+        </div>
 
         {businesses.length > 1 && (
           <div className="mt-4 flex gap-2 overflow-x-auto">

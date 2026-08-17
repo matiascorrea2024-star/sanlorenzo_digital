@@ -93,15 +93,22 @@ export default function TurnosPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-10">
       <DashboardNav />
-      <h1 className="mb-1 flex items-center gap-2 text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>
-        <Calendar className="h-6 w-6 text-orange-400" /> Turnos
-      </h1>
-      <p className="mb-8 text-sm text-white/50">
-        Definí tu horario de atención y los vecinos reservan directo desde tu ficha, sin ida y vuelta por WhatsApp.
-      </p>
+      <div className="mb-8 flex items-center gap-3">
+        <Calendar className="h-8 w-8 text-orange-400" />
+        <div>
+          <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Turnos</h1>
+          <p className="text-sm text-white/50">
+            Definí tu horario de atención y los vecinos reservan directo desde tu ficha, sin ida y vuelta por WhatsApp.
+          </p>
+        </div>
+      </div>
 
       {!negocio ? (
-        <p className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center text-white/60">Primero necesitás tener un negocio creado.</p>
+        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-8 text-center text-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            Primero necesitás tener un negocio creado.
+          </div>
+        </div>
       ) : (
         <div className="space-y-8">
           <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">

@@ -113,11 +113,12 @@ export default function EditarOferta() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
-      <div className="mx-auto max-w-2xl px-4 py-10">
-        <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
-        <h1 className="mt-3 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Editar oferta</h1>
+      <div className="mx-auto max-w-2xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Editar</p>
+        <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Editar oferta</h1>
 
-        <div className="mt-4">
+        <div className="mt-6">
           <HowItWorks steps={[
             "Cambiá lo que necesites y tocá \"Guardar cambios\" al final.",
             "Los cambios se ven al instante en la home, el radar y el mapa.",
@@ -125,7 +126,8 @@ export default function EditarOferta() {
           ]} />
         </div>
 
-        <div className="mt-4 space-y-5 rounded-3xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+        <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="space-y-5 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           <div>
             <span className={lbl}>Título de la oferta *</span>
             <input className={inp} value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -182,6 +184,7 @@ export default function EditarOferta() {
             className="btn-shine w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50">
             {saving ? "⏳ Guardando…" : "💾 Guardar cambios"}
           </button>
+        </div>
         </div>
       </div>
     </main>

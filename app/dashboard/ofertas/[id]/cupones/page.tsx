@@ -84,23 +84,27 @@ export default function CuponesPage() {
 
   return (
     <main className="bg-[#0c0a0b] min-h-screen text-white">
-      <div className="mx-auto max-w-4xl px-4 py-8">
-        <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300 mb-6 inline-block">
+      <div className="mx-auto max-w-4xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300 mb-6 inline-block">
           ← Volver a mis ofertas
         </Link>
 
-        <h1 className="text-3xl font-black mb-2" style={{ fontFamily: "var(--font-space)" }}>Cupones de la Oferta</h1>
-        {offer && <p className="text-white/60 mb-4">{offer.title}</p>}
+        <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Cupones</p>
+        <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Cupones de la oferta</h1>
+        {offer && <p className="mt-3 text-white/50">{offer.title}</p>}
 
-        <HowItWorks steps={[
-          "Cuando un cliente genera un cupón desde tu oferta, aparece acá como \"Generado\".",
-          "Cuando venga al local, pedile el código y validalo arriba para marcarlo \"Canjeado\".",
-          "Los que nadie usó antes de la fecha límite pasan a \"Vencido\" solos.",
-        ]} />
+        <div className="mt-6">
+          <HowItWorks steps={[
+            "Cuando un cliente genera un cupón desde tu oferta, aparece acá como \"Generado\".",
+            "Cuando venga al local, pedile el código y validalo arriba para marcarlo \"Canjeado\".",
+            "Los que nadie usó antes de la fecha límite pasan a \"Vencido\" solos.",
+          ]} />
+        </div>
 
-        <div className="mt-4 rounded-2xl border border-orange-400/30 bg-orange-500/10 p-6 mb-8">
-          <h2 className="text-xl font-black mb-4">Validar Cupón</h2>
-          <div className="flex gap-3">
+        <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <h2 className="text-xl font-black">Validar cupón</h2>
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <input
               type="text"
               value={validateCode}
@@ -111,15 +115,15 @@ export default function CuponesPage() {
             <button
               onClick={validateCoupon}
               disabled={!validateCode}
-              className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
+              className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
             >
               Validar
             </button>
           </div>
           {validationResult && (
             <div className={`mt-4 rounded-xl p-3 ${
-              validationResult.error 
-                ? "bg-red-500/10 border border-red-500/30" 
+              validationResult.error
+                ? "bg-red-500/10 border border-red-500/30"
                 : "bg-green-500/10 border border-green-500/30"
             }`}>
               <p className={`text-sm ${validationResult.error ? "text-red-300" : "text-green-300"}`}>
@@ -128,43 +132,52 @@ export default function CuponesPage() {
             </div>
           )}
         </div>
+        </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
-            <p className="text-3xl font-black">{stats.total}</p>
-            <p className="text-xs text-white/60 mt-1">Total</p>
+        <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+            <div className="rounded-[1.125rem] border border-white/[.05] bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <p className="text-3xl font-black" style={{ fontFamily: "var(--font-ticket)" }}>{stats.total}</p>
+              <p className="mt-1 text-xs text-white/50">Total</p>
+            </div>
           </div>
-          <div className="rounded-2xl border border-green-500/30 bg-green-500/10 p-4 text-center">
-            <p className="text-3xl font-black text-green-400">{stats.generated}</p>
-            <p className="text-xs text-white/60 mt-1">Generados</p>
+          <div className="rounded-[1.5rem] border border-green-500/20 bg-green-500/[.04] p-1.5">
+            <div className="rounded-[1.125rem] border border-green-500/10 bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <p className="text-3xl font-black text-green-400" style={{ fontFamily: "var(--font-ticket)" }}>{stats.generated}</p>
+              <p className="mt-1 text-xs text-white/50">Generados</p>
+            </div>
           </div>
-          <div className="rounded-2xl border border-blue-500/30 bg-blue-500/10 p-4 text-center">
-            <p className="text-3xl font-black text-blue-400">{stats.redeemed}</p>
-            <p className="text-xs text-white/60 mt-1">Canjeados</p>
+          <div className="rounded-[1.5rem] border border-sky-500/20 bg-sky-500/[.04] p-1.5">
+            <div className="rounded-[1.125rem] border border-sky-500/10 bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <p className="text-3xl font-black text-sky-400" style={{ fontFamily: "var(--font-ticket)" }}>{stats.redeemed}</p>
+              <p className="mt-1 text-xs text-white/50">Canjeados</p>
+            </div>
           </div>
-          <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-center">
-            <p className="text-3xl font-black text-red-400">{stats.expired}</p>
-            <p className="text-xs text-white/60 mt-1">Vencidos</p>
+          <div className="rounded-[1.5rem] border border-red-500/20 bg-red-500/[.04] p-1.5">
+            <div className="rounded-[1.125rem] border border-red-500/10 bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <p className="text-3xl font-black text-red-400" style={{ fontFamily: "var(--font-ticket)" }}>{stats.expired}</p>
+              <p className="mt-1 text-xs text-white/50">Vencidos</p>
+            </div>
           </div>
         </div>
 
-        <div>
-          <h2 className="text-2xl font-black mb-4">Historial de Cupones</h2>
+        <div className="mt-10">
+          <h2 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Historial de cupones</h2>
           {coupons.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
-              <p className="text-white/60">Aún no hay cupones generados para esta oferta</p>
+            <div className="mt-4 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+              <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <p className="text-white/50">Aún no hay cupones generados para esta oferta</p>
+              </div>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="mt-4 space-y-3">
               {coupons.map((coupon) => (
-                <div
-                  key={coupon.id}
-                  className="rounded-xl border border-white/10 bg-white/5 p-4"
-                >
-                  <div className="flex items-center justify-between">
+                <div key={coupon.id} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">
+                <div className="rounded-[1.125rem] border border-white/[.05] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                  <div className="flex items-center justify-between gap-3">
                     <div>
                       <p className="font-mono font-bold text-lg">{coupon.code}</p>
-                      <p className="text-xs text-white/60 mt-1">
+                      <p className="text-xs text-white/50 mt-1">
                         Generado: {new Date(coupon.generated_at).toLocaleString("es-AR")}
                       </p>
                       {coupon.redeemed_at && (
@@ -173,7 +186,7 @@ export default function CuponesPage() {
                         </p>
                       )}
                     </div>
-                    <span className={`rounded-lg px-3 py-1 text-xs font-bold ${
+                    <span className={`shrink-0 rounded-lg px-3 py-1 text-xs font-bold ${
                       coupon.status === "generated"
                         ? "bg-green-500/20 text-green-300"
                         : coupon.status === "redeemed"
@@ -185,6 +198,7 @@ export default function CuponesPage() {
                       {coupon.status.toUpperCase()}
                     </span>
                   </div>
+                </div>
                 </div>
               ))}
             </div>

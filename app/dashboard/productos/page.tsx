@@ -193,13 +193,14 @@ export default function ProductosPage() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
-      <div className="mx-auto max-w-3xl px-4 py-8">
+      <div className="mx-auto max-w-3xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
-        <div className="flex items-center gap-3 mb-6">
-          <Package className="h-8 w-8 text-orange-400" />
+        <div className="mb-10 flex items-start gap-3">
+          <Package className="mt-1 h-8 w-8 shrink-0 text-orange-400" />
           <div>
-            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Mis Productos</h1>
-            <p className="text-white/60">
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Catálogo</p>
+            <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mis productos</h1>
+            <p className="mt-3 text-white/50">
               Gestioná el catálogo de {negocio.name}
               {planActual.maxProductos !== -1 && (
                 <span className="text-white/40"> · {productos.length}/{planActual.maxProductos} productos (Plan {planActual.name})</span>

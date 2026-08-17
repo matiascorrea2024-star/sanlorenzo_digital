@@ -142,8 +142,8 @@ export default function NuevaOferta() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] pb-24 text-white">
-      <div className="mx-auto max-w-2xl px-4 py-10">
-        <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
+      <div className="mx-auto max-w-2xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
 
         {bienvenida && (
           <div className="mt-4 rounded-2xl border border-green-400/40 bg-green-500/10 p-4">
@@ -161,8 +161,9 @@ export default function NuevaOferta() {
           </div>
         )}
 
-        <h1 className="mt-3 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Nueva Oferta</h1>
-        <p className="mt-1 text-sm text-white/60">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Publicar</p>
+        <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Nueva oferta</h1>
+        <p className="mt-3 text-white/50">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
 
         <div className="mt-4">
           <HowItWorks steps={[
@@ -181,7 +182,8 @@ export default function NuevaOferta() {
           </div>
         )}
 
-        <div className="mt-4 space-y-5 rounded-3xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+        <div className="mt-6 rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="space-y-5 rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
           {negocios.length === 0 ? (
             <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/30 p-4">
               <p className="text-sm text-yellow-300">⚠️ No tenés negocios creados. <Link href="/dashboard/nuevo" className="underline font-bold">Crear uno ahora →</Link></p>
@@ -284,6 +286,7 @@ export default function NuevaOferta() {
           >
             {saving ? "⏳ Publicando…" : "🔥 Publicar Oferta"}
           </button>
+        </div>
         </div>
       </div>
     </main>

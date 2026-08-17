@@ -89,20 +89,21 @@ export default function OfertasPage() {
 
   return (
     <main className="bg-[#0c0a0b] min-h-screen text-white">
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="mb-8 flex items-center justify-between">
+      <div className="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <Link href="/dashboard" className="text-sm text-orange-400 hover:text-orange-300">
+            <Link href="/dashboard" className="text-sm font-bold text-orange-400 hover:text-orange-300">
               ← Volver al dashboard
             </Link>
-            <h1 className="text-3xl font-black mt-2" style={{ fontFamily: "var(--font-space)" }}>Mis Ofertas</h1>
-            <p className="text-white/60 mt-1">Gestioná tus promociones de La Gran Barata</p>
+            <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Ofertas y promos</p>
+            <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mis ofertas</h1>
+            <p className="mt-3 max-w-md text-white/50">Gestioná tus promociones de La Gran Barata Digital.</p>
           </div>
           <Link
             href="/dashboard/ofertas/nueva"
             className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
           >
-            + Nueva Oferta
+            + Nueva oferta
           </Link>
         </div>
 

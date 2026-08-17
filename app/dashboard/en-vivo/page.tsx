@@ -82,18 +82,19 @@ export default function EnVivoDashboard() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
-      <div className="mx-auto max-w-3xl px-4 py-8">
+      <div className="mx-auto max-w-3xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
-        <div className="mb-6 flex items-center gap-3">
-          <Radio className="h-8 w-8 text-red-400" />
+        <div className="mb-8 flex items-start gap-3">
+          <Radio className="mt-1 h-8 w-8 shrink-0 text-red-400" />
           <div>
-            <h1 className="flex items-center gap-1.5 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>
-              En Vivo
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Video en vivo</p>
+            <h1 className="mt-2 flex items-center gap-1.5 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>
+              En vivo
               <InfoTip label="Sobre el video en vivo">
                 El video se transmite con infraestructura externa gratuita (LiveKit Cloud), compartida entre todos los negocios de la plataforma. Mientras no se supere el uso gratuito, no tiene costo para vos. Si alguna vez se llegara a un límite, vas a ver un aviso claro acá antes de poder iniciar un nuevo vivo -- nunca se te va a cobrar nada de forma automática.
               </InfoTip>
             </h1>
-            <p className="text-white/60">Transmití en vivo desde {negocio.name} y mostrá tus productos en tiempo real</p>
+            <p className="mt-3 text-white/50">Transmití en vivo desde {negocio.name} y mostrá tus productos en tiempo real.</p>
           </div>
         </div>
 

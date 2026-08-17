@@ -65,13 +65,14 @@ export default function MuroDashboard() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
-      <div className="mx-auto max-w-2xl px-4 py-8">
+      <div className="mx-auto max-w-2xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
-        <div className="flex items-center gap-3 mb-6">
-          <Megaphone className="h-8 w-8 text-orange-400" />
+        <div className="mb-8 flex items-start gap-3">
+          <Megaphone className="mt-1 h-8 w-8 shrink-0 text-orange-400" />
           <div>
-            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Publicar en el Muro</h1>
-            <p className="text-white/60">Compartí novedades con toda la comunidad</p>
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Comunidad</p>
+            <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Publicar en el muro</h1>
+            <p className="mt-3 text-white/50">Compartí novedades con toda la comunidad.</p>
           </div>
         </div>
 
@@ -111,7 +112,7 @@ export default function MuroDashboard() {
             </div>
             </div>
 
-            <h2 className="text-lg font-black mb-3">Mis publicaciones ({posts.length})</h2>
+            <h2 className="mb-3 mt-10 text-lg font-black" style={{ fontFamily: "var(--font-space)" }}>Mis publicaciones ({posts.length})</h2>
             <div className="space-y-3">
               {posts.map(p => (
                 <div key={p.id} className="rounded-[1.5rem] border border-white/[.06] bg-white/[.02] p-1.5">

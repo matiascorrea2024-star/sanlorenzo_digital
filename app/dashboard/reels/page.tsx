@@ -45,14 +45,15 @@ export default function DashboardReelsPage() {
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
-      <div className="mx-auto max-w-3xl px-4 py-8">
+      <div className="mx-auto max-w-3xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
-        <div className="mb-6 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <Video className="h-8 w-8 text-orange-400" />
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <Video className="mt-1 h-8 w-8 shrink-0 text-orange-400" />
             <div>
-              <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Mis Reels</h1>
-              <p className="text-white/60">Videos cortos de tu negocio</p>
+              <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Video corto</p>
+              <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mis reels</h1>
+              <p className="mt-3 text-white/50">Videos cortos de tu negocio.</p>
             </div>
           </div>
           <Link href="/dashboard/reels/nueva" className="flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2.5 text-sm font-black hover:opacity-90">

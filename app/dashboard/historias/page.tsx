@@ -59,10 +59,11 @@ export default function HistoriasPage() {
 
   return (
     <main className="bg-[#0c0a0b] min-h-screen text-white">
-      <div className="mx-auto max-w-2xl px-4 py-8">
-        <Link href="/dashboard" className="text-sm text-orange-400">← Volver</Link>
-        <h1 className="text-3xl font-black mt-2" style={{ fontFamily: "var(--font-space)" }}>Publicar Historia (24h)</h1>
-        <p className="text-white/60 mt-1">Desaparece automáticamente en 24 horas</p>
+      <div className="mx-auto max-w-2xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
+        <Link href="/dashboard" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver</Link>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Historia 24h</p>
+        <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Publicar historia</h1>
+        <p className="mt-3 text-white/50">Desaparece automáticamente en 24 horas.</p>
 
         {sinPlan ? (
           <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">

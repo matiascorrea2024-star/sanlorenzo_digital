@@ -83,15 +83,22 @@ export default function SellosPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-10">
       <DashboardNav />
-      <h1 className="mb-1 flex items-center gap-2 text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>
-        <Ticket className="h-6 w-6 text-orange-400" /> Sellitos digitales
-      </h1>
-      <p className="mb-8 text-sm text-white/50">
-        Una tarjeta de fidelidad sin plástico: definí cuántos sellos hacen falta y qué se gana. El cliente genera un código en tu ficha y se lo muestra en el local -- vos lo cargás acá abajo.
-      </p>
+      <div className="mb-8 flex items-center gap-3">
+        <Ticket className="h-8 w-8 text-orange-400" />
+        <div>
+          <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Sellitos digitales</h1>
+          <p className="text-sm text-white/50">
+            Una tarjeta de fidelidad sin plástico: definí cuántos sellos hacen falta y qué se gana. El cliente genera un código en tu ficha y se lo muestra en el local -- vos lo cargás acá abajo.
+          </p>
+        </div>
+      </div>
 
       {!negocio ? (
-        <p className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center text-white/60">Primero necesitás tener un negocio creado.</p>
+        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+          <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-8 text-center text-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            Primero necesitás tener un negocio creado.
+          </div>
+        </div>
       ) : (
         <div className="space-y-8">
           <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">

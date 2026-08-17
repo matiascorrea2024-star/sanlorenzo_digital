@@ -44,8 +44,13 @@ export default function ResenasPage() {
     <main className="bg-[#0c0a0b] min-h-screen text-white pb-24">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
-        <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>⭐ Reseñas de tus clientes</h1>
-        <p className="mt-1 text-white/60">Respondé y demostrá que te importa tu comunidad</p>
+        <div className="mb-2 flex items-center gap-3">
+          <Star className="h-8 w-8 text-orange-400" />
+          <div>
+            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Reseñas de tus clientes</h1>
+            <p className="text-white/60">Respondé y demostrá que te importa tu comunidad</p>
+          </div>
+        </div>
 
         <div className="mt-6 space-y-4">
           {reviews.length === 0 ? (

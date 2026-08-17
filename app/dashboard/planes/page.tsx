@@ -138,14 +138,19 @@ export default function PlanesDashboard() {
     <main className="min-h-screen bg-[#0c0a0b] text-white pb-24">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <DashboardNav />
-        <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Tu plan</h1>
-        <p className="mt-1 text-white/60">
-          Plan actual de <strong>{negocio.name}</strong>:{" "}
-          <span className="font-black text-orange-400">{PLANES[negocio.plan]?.name || "Gratis"}</span>
-          {negocio.plan_expira && (
-            <span className="text-white/40"> · vence el {new Date(negocio.plan_expira).toLocaleDateString("es-AR")}</span>
-          )}
-        </p>
+        <div className="mb-2 flex items-center gap-3">
+          <Crown className="h-8 w-8 text-orange-400" />
+          <div>
+            <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Tu plan</h1>
+            <p className="text-white/60">
+              Plan actual de <strong>{negocio.name}</strong>:{" "}
+              <span className="font-black text-orange-400">{PLANES[negocio.plan]?.name || "Gratis"}</span>
+              {negocio.plan_expira && (
+                <span className="text-white/40"> · vence el {new Date(negocio.plan_expira).toLocaleDateString("es-AR")}</span>
+              )}
+            </p>
+          </div>
+        </div>
 
         <div className="mt-4">
           <HowItWorks steps={[

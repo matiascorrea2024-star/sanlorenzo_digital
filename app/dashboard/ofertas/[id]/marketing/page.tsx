@@ -95,41 +95,46 @@ export default function MarketingPage() {
 
   return (
     <main className="bg-[#0c0a0b] min-h-screen text-white">
-      <div className="mx-auto max-w-4xl px-4 py-8">
-        <Link href="/dashboard/ofertas" className="text-sm text-orange-400 hover:text-orange-300 mb-6 inline-block">
+      <div className="mx-auto max-w-4xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300 mb-6 inline-block">
           ← Volver a mis ofertas
         </Link>
 
-        <h1 className="text-3xl font-black mb-2" style={{ fontFamily: "var(--font-space)" }}>Marketing de la Oferta</h1>
-        <p className="text-white/60 mb-4">{offer.title}</p>
+        <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Marketing</p>
+        <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Marketing de la oferta</h1>
+        <p className="mt-3 text-white/50">{offer.title}</p>
 
-        <HowItWorks steps={[
-          "Cada link es igual a tu oferta, pero distinto según dónde lo compartas.",
-          "Así sabés si te llegan más clientes por Instagram o por WhatsApp.",
-          "Copiá el texto de la story o del mensaje y pegalo directo, sin editar nada.",
-        ]} />
+        <div className="mt-6">
+          <HowItWorks steps={[
+            "Cada link es igual a tu oferta, pero distinto según dónde lo compartas.",
+            "Así sabés si te llegan más clientes por Instagram o por WhatsApp.",
+            "Copiá el texto de la story o del mensaje y pegalo directo, sin editar nada.",
+          ]} />
+        </div>
 
-        <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
-          <h2 className="text-xl font-black mb-4">Links Trackeables</h2>
-          <p className="text-sm text-white/60 mb-4">
+        <div className="mt-6 space-y-6">
+        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <h2 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>Links trackeables</h2>
+          <p className="mt-1 text-sm text-white/50">
             Usá estos links para saber desde dónde vienen tus clientes
           </p>
-          
-          <div className="space-y-3">
+
+          <div className="mt-4 space-y-3">
             {[
               { label: "Instagram", url: igUrl, icon: "📸" },
               { label: "WhatsApp", url: waUrl, icon: "💬" },
               { label: "QR / Otros", url: qrUrl, icon: "📱" },
             ].map((item) => (
-              <div key={item.label} className="flex items-center gap-3">
+              <div key={item.label} className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3">
                 <span className="text-2xl">{item.icon}</span>
-                <div className="flex-1">
+                <div className="min-w-0 flex-1">
                   <p className="text-sm font-bold">{item.label}</p>
-                  <p className="text-xs text-white/50 truncate">{item.url}</p>
+                  <p className="truncate text-xs text-white/50">{item.url}</p>
                 </div>
                 <button
                   onClick={() => copyToClipboard(item.url, item.label)}
-                  className="rounded-xl border border-white/20 px-4 py-2 text-sm hover:bg-white/5"
+                  className="shrink-0 rounded-xl border border-white/20 px-4 py-2 text-sm hover:bg-white/5"
                 >
                   {copied === item.label ? "✅ Copiado" : "📋 Copiar"}
                 </button>
@@ -137,47 +142,53 @@ export default function MarketingPage() {
             ))}
           </div>
         </div>
+        </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-6">
-          <h2 className="text-xl font-black mb-4">Story para Instagram</h2>
-          <p className="text-sm text-white/60 mb-4">
+        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <h2 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>Story para Instagram</h2>
+          <p className="mt-1 text-sm text-white/50">
             Copiá este texto y pegalo en tu historia de Instagram
           </p>
-          <div className="rounded-xl bg-black/30 p-4 font-mono text-sm whitespace-pre-wrap mb-4">
+          <div className="mt-4 whitespace-pre-wrap rounded-xl bg-black/30 p-4 font-mono text-sm">
             {generateStoryText()}
           </div>
           <button
             onClick={() => copyToClipboard(generateStoryText(), "story")}
-            className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
+            className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
           >
-            {copied === "story" ? "✅ Copiado" : "📋 Copiar Story"}
+            {copied === "story" ? "✅ Copiado" : "📋 Copiar story"}
           </button>
         </div>
+        </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-xl font-black mb-4">Compartir en WhatsApp</h2>
-          <p className="text-sm text-white/60 mb-4">
+        <div className="rounded-[1.75rem] border border-white/[.06] bg-white/[.02] p-1.5">
+        <div className="rounded-[1.375rem] border border-white/[.05] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <h2 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>Compartir en WhatsApp</h2>
+          <p className="mt-1 text-sm text-white/50">
             Texto listo para enviar a tus clientes
           </p>
-          <div className="rounded-xl bg-black/30 p-4 font-mono text-sm whitespace-pre-wrap mb-4">
+          <div className="mt-4 whitespace-pre-wrap rounded-xl bg-black/30 p-4 font-mono text-sm">
             {generateWhatsAppText()}
           </div>
-          <div className="flex gap-3">
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <button
               onClick={() => copyToClipboard(generateWhatsAppText(), "whatsapp")}
-              className="flex-1 rounded-xl border border-white/20 px-6 py-3 font-bold hover:bg-white/5"
+              className="flex-1 rounded-full border border-white/20 px-6 py-3 font-bold hover:bg-white/5"
             >
-              {copied === "whatsapp" ? "✅ Copiado" : "📋 Copiar Texto"}
+              {copied === "whatsapp" ? "✅ Copiado" : "📋 Copiar texto"}
             </button>
             <a
               href={`https://wa.me/?text=${encodeURIComponent(generateWhatsAppText() + "\n\n" + waUrl)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 rounded-xl bg-green-500 px-6 py-3 font-black text-white hover:bg-green-600 text-center"
+              className="flex-1 rounded-full bg-green-500 px-6 py-3 text-center font-black text-white hover:bg-green-600"
             >
               💬 Abrir WhatsApp
             </a>
           </div>
+        </div>
+        </div>
         </div>
       </div>
     </main>
