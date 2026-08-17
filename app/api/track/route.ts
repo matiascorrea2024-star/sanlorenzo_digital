@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
             user_id: user?.id || null,
             path: body.path || null,
             metadata: body.metadata || null,
+            ip,
           })
         : Promise.resolve(),
     ]);
