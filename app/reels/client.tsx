@@ -43,11 +43,11 @@ export default function ReelsFeedClient({ initial }: { initial: Reel[] }) {
 
   if (initial.length === 0) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-black px-4 text-center text-[var(--text)]">
-        <Video className="mb-3 h-12 w-12 text-[var(--muted2)]" />
+      <main className="flex min-h-screen flex-col items-center justify-center bg-black px-4 text-center text-white">
+        <Video className="mb-3 h-12 w-12 text-white/40" />
         <p className="font-black">Todavía no hay reels</p>
-        <p className="mt-1 max-w-xs text-sm text-[var(--muted)]">Los negocios todavía no subieron videos. Volvé pronto.</p>
-        <Link href="/" className="mt-6 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black">← Volver al inicio</Link>
+        <p className="mt-1 max-w-xs text-sm text-white/60">Los negocios todavía no subieron videos. Volvé pronto.</p>
+        <Link href="/" className="mt-6 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black text-white">← Volver al inicio</Link>
       </main>
     );
   }
@@ -55,7 +55,7 @@ export default function ReelsFeedClient({ initial }: { initial: Reel[] }) {
   return (
     <main className="fixed inset-0 z-[200] bg-black">
       <Link href="/" aria-label="Volver" className="absolute left-4 top-4 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur">
-        <ArrowLeft className="h-4 w-4 text-[var(--text)]" />
+        <ArrowLeft className="h-4 w-4 text-white" />
       </Link>
       <div ref={containerRef} className="sld-no-scrollbar h-full w-full snap-y snap-mandatory overflow-y-scroll">
         {initial.map((r) => (
