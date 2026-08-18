@@ -94,20 +94,28 @@ export default function Hero({ onSearch, stats }: HeroProps) {
           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-300">San Lorenzo · Santa Fe</span>
         </div>
 
-        {/* Momento tipográfico: 3 líneas apiladas, la última alineada a
-            la derecha, líneas 1 y 3 solo con contorno (sin relleno) y
-            la del medio con el degradé de marca -- tal cual el diseño
-            aprobado en Superdesign. */}
-        <div className="relative mb-16 md:mb-20">
-          <h1
-            className="flex flex-col font-black uppercase leading-[0.85] tracking-tighter"
-            style={{ fontFamily: "var(--font-space)", fontSize: "clamp(3.2rem, 15vw, 10rem)" }}
-          >
-            <span style={{ WebkitTextStroke: "1.5px var(--text-stroke)", color: "transparent" }}>LA GRAN</span>
-            <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">BARATA</span>
-            <span className="text-right" style={{ WebkitTextStroke: "1.5px var(--text-stroke)", color: "transparent" }}>DIGITAL</span>
+        {/* Momento tipográfico: cartel de feria, no editorial de moda.
+            Misma lógica que un cartel de puesto de mercado real -- una
+            palabra chica de anuncio, la palabra fuerte (la oferta)
+            enorme y sólida, y el cierre. Fuente de ticket/cartel
+            (Big Shoulders, la misma que usan los precios en todo el
+            sitio) en vez de la display -- así el hero se siente parte
+            de la misma familia que el resto del producto, no un layer
+            aparte. Sin contorno ni degradé: relleno sólido, directo,
+            cálido. */}
+        <div className="relative mb-14 md:mb-16">
+          <h1 className="uppercase leading-[0.82] tracking-tight" style={{ fontFamily: "var(--font-ticket)" }}>
+            <span className="block font-bold text-[var(--text)]" style={{ fontSize: "clamp(1.6rem, 5.5vw, 3rem)", letterSpacing: "0.01em" }}>
+              La Gran
+            </span>
+            <span className="block font-black text-orange-500" style={{ fontSize: "clamp(5.5rem, 21vw, 14rem)" }}>
+              Barata
+            </span>
+            <span className="block font-bold text-[var(--text)]" style={{ fontSize: "clamp(1.8rem, 6.5vw, 3.5rem)", letterSpacing: "0.04em" }}>
+              Digital
+            </span>
           </h1>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-[var(--muted)] md:absolute md:right-0 md:top-1/2 md:mt-0 md:-translate-y-1/2 md:text-right md:text-base">
+          <p className="mt-5 max-w-lg text-sm leading-relaxed text-[var(--muted)] md:text-base">
             Las ofertas y promos de San Lorenzo, publicadas por los comercios en tiempo real.{" "}
             <span className="font-bold text-orange-300">Que no se te escape ninguna.</span>
           </p>
