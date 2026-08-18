@@ -67,7 +67,7 @@ export default function HistoriasPage() {
 
         {sinPlan ? (
           <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
               <p className="font-black">Las Historias 24h son de Plan PRO</p>
               <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
@@ -78,7 +78,7 @@ export default function HistoriasPage() {
           </div>
         ) : (
         <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="space-y-4 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="space-y-4 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <select value={businessId} onChange={e => setBusinessId(e.target.value)}
             className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3">
             {businesses.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}

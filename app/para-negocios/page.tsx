@@ -36,7 +36,7 @@ export default async function Page() {
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-[var(--text)]/70">Miniweb propia, productos con fotos, promociones que se renuevan solas y contacto directo por WhatsApp. Sin saber programar.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="/dashboard/nuevo" className="group/cta flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 pl-6 pr-2 text-sm font-black text-[var(--text)] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.98]">
+            <a href="/dashboard/nuevo" className="group/cta flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 pl-6 pr-2 text-sm font-black text-white transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.98]">
               Crear mi miniweb gratis
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black/15 transition-transform duration-300 group-hover/cta:translate-x-0.5">→</span>
             </a>

@@ -79,7 +79,7 @@ export default function NuevoReelPage() {
         ]} />
 
         <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="space-y-4 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="space-y-4 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             {negocios.length > 1 && (
               <select value={businessId} onChange={(e) => setBusinessId(e.target.value)}
                 className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm outline-none focus:border-orange-400">

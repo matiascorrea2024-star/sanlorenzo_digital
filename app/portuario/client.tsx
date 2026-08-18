@@ -14,19 +14,23 @@ const SERVICIOS = [
 export default function PortuarioView() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
-      <section className="relative overflow-hidden border-b border-[var(--line)] bg-gradient-to-br from-cyan-900/30 via-[#0c0a0b] to-blue-900/30 py-16">
+      {/* Banner atmosférico fijo (fondo siempre oscuro, sea cual sea el
+          tema del sitio -- es una ambientación tipo "puerto de noche",
+          no una superficie que deba responder al toggle). El texto acá
+          adentro va con color fijo claro, no con el token --text. */}
+      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-cyan-900/30 via-[#0c0a0b] to-blue-900/30 py-16">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(34,211,238,0.15),_transparent_50%)]" />
         <div className="relative mx-auto max-w-5xl px-4 text-center">
           <Badge size="md" className="bg-cyan-500/20 border-cyan-400/40 text-cyan-200">
             <Anchor className="h-3 w-3 mr-1" /> Sector portuario
           </Badge>
-          <h1 className="mt-4 text-4xl font-black md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
+          <h1 className="mt-4 text-4xl font-black text-white md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
             Puerto de{" "}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-400 bg-clip-text text-transparent">
               San Lorenzo
             </span>
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-[var(--text)]/70 md:text-lg">
+          <p className="mx-auto mt-4 max-w-2xl text-white/70 md:text-lg">
             El cordón portuario más importante del Paraná.
             Servicios portuarios, logística fluvial y comercio exterior
             en un solo lugar.
@@ -75,7 +79,7 @@ export default function PortuarioView() {
             <p className="text-sm text-[var(--text)]/70">¿Brindás servicios portuarios?</p>
             <h3 className="mt-2 text-2xl font-black">Publicá tu empresa en el ecosistema</h3>
             <Link href="/para-negocios"
-              className="mt-4 inline-block rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-6 py-3 text-sm font-black hover:opacity-90 transition">
+              className="mt-4 inline-block rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-6 py-3 text-sm font-black text-white hover:opacity-90 transition">
               Registrar empresa portuaria →
             </Link>
           </div>

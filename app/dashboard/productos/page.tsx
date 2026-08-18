@@ -211,7 +211,7 @@ export default function ProductosPage() {
 
         {!puedeSumar && (
           <div className="mb-4 rounded-[1.5rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.1rem] border border-[var(--ov-06)] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:flex-row sm:items-center">
+            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:flex-row sm:items-center">
               <p className="text-sm">Llegaste al límite de {planActual.maxProductos} productos del plan {planActual.name}.</p>
               <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
             </div>
@@ -228,13 +228,13 @@ export default function ProductosPage() {
           <div className="mb-4 flex gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-1.5">
             <button
               onClick={() => setModo("rapida")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "rapida" ? "bg-gradient-to-r from-orange-500 to-red-600 text-[var(--text)]" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "rapida" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Images className="h-4 w-4" /> Carga rápida por fotos
             </button>
             <button
               onClick={() => setModo("uno")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "uno" ? "bg-gradient-to-r from-orange-500 to-red-600 text-[var(--text)]" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "uno" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Package className="h-4 w-4" /> Agregar de a uno
             </button>
@@ -244,7 +244,7 @@ export default function ProductosPage() {
         {/* Carga rápida por fotos */}
         {modo === "rapida" && !editing && (
           <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <h2 className="text-lg font-black mb-1">Carga rápida</h2>
             <p className="mb-4 text-sm text-[var(--muted)]">Elegí todas las fotos que quieras cargar ahora.</p>
             <label className="flex h-28 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-[var(--line-strong)] bg-[var(--ov-03)] text-[var(--muted)] transition hover:border-orange-400/60 hover:text-[var(--text)]">
@@ -256,7 +256,7 @@ export default function ProductosPage() {
             {pendientes.length > 0 && (
               <div className="mt-5 space-y-3">
                 {pendientes.map((p) => (
-                  <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-[var(--line)] bg-black/20 p-3">
+                  <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-[var(--line)] bg-[var(--card-inner)] p-3">
                     <img src={p.preview} alt="" className="h-16 w-16 shrink-0 rounded-xl object-cover" />
                     <div className="flex flex-1 flex-col gap-2 sm:flex-row">
                       <input value={p.name} onChange={(e) => actualizarPendiente(p.id, "name", e.target.value)}
@@ -298,7 +298,7 @@ export default function ProductosPage() {
 
         {/* Formulario de a uno (también se usa para editar) */}
         <div className={`mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 ${modo === "rapida" && !editing ? "hidden" : ""}`}>
-        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <h2 className="text-lg font-black mb-4">{editing ? "Editar producto" : "Nuevo producto"}</h2>
           <div className="space-y-3">
             <ImageUploader
@@ -359,7 +359,7 @@ export default function ProductosPage() {
           ) : (
             productos.map(p => (
               <div key={p.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className={`flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] ${p.active === false ? "opacity-50" : ""}`}>
+              <div className={`flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] ${p.active === false ? "opacity-50" : ""}`}>
                 {Array.isArray(p.images) && p.images[0] ? (
                   <img src={p.images[0]} alt={p.name} className="h-12 w-12 rounded-xl object-cover" />
                 ) : (

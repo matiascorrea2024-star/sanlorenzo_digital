@@ -95,14 +95,14 @@ export default function SellosPage() {
 
       {!negocio ? (
         <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-8 text-center text-[var(--muted)] shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center text-[var(--muted)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             Primero necesitás tener un negocio creado.
           </div>
         </div>
       ) : (
         <div className="space-y-8">
           <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <h2 className="mb-4 font-black">Configurar tarjeta</h2>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
@@ -130,7 +130,7 @@ export default function SellosPage() {
 
           {programa && (
             <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <h2 className="mb-4 flex items-center gap-2 font-black">
                   <Stamp className="h-5 w-5 text-[var(--place)]" /> Dar un sello
                 </h2>

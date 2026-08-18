@@ -52,7 +52,7 @@ export default function SoportePage() {
 
         {!negocio ? (
           <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="font-bold">Todavía no tenés un negocio creado.</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Creá tu negocio primero para poder hablar con soporte.</p>
               <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
@@ -60,7 +60,7 @@ export default function SoportePage() {
           </div>
         ) : !admin ? (
           <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-8 text-center text-[var(--muted)] shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center text-[var(--muted)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               No pudimos cargar el chat de soporte. Probá de nuevo en un rato.
             </div>
           </div>

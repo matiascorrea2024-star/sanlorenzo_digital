@@ -41,7 +41,7 @@ export default function Particulares({ initial }: { initial: any[] }) {
         <div className="mt-4 flex flex-wrap gap-2">
           {catsConPublicaciones.map((c: any) => (
             <button key={c.id} onClick={() => setCat(cat === c.id ? null : c.id)}
-              className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors duration-300 ${cat === c.id ? "border-transparent bg-gradient-to-r from-cyan-500 to-sky-500 text-[var(--text)]" : "border-[var(--ov-08)] text-[var(--muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]"}`}>
+              className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors duration-300 ${cat === c.id ? "border-transparent bg-gradient-to-r from-cyan-500 to-sky-500 text-white" : "border-[var(--ov-08)] text-[var(--muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]"}`}>
               {c.icon} {c.name}
             </button>
           ))}

@@ -108,7 +108,7 @@ export default function BarrioView() {
               </p>
               <Link
                 href="/registro"
-                className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-bold text-[var(--text)]"
+                className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-bold text-white"
               >
                 Sumar mi negocio <ArrowRight className="h-4 w-4" />
               </Link>

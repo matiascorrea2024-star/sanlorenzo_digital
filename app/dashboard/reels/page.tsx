@@ -63,7 +63,7 @@ export default function DashboardReelsPage() {
 
         {reels.length === 0 ? (
           <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-10 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-10 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Video className="mx-auto mb-3 h-10 w-10 text-[var(--muted2)]" />
               <p className="font-bold">Todavía no subiste ningún reel.</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Mostrá tus productos en video -- se comparten mucho más que una foto.</p>
@@ -76,7 +76,7 @@ export default function DashboardReelsPage() {
           <div className="grid gap-3 sm:grid-cols-2">
             {reels.map((r) => (
               <div key={r.id} className={`rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 ${r.active === false ? "opacity-50" : ""}`}>
-                <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-1 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-1 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <video src={r.video_url} className="h-52 w-full rounded-[.85rem] object-cover" muted playsInline preload="metadata" />
                   <div className="p-3">
                     {r.caption && <p className="mb-2 truncate text-sm text-[var(--text)]/80">{r.caption}</p>}

@@ -85,12 +85,12 @@ export default function MuroDashboard() {
         ) : (
           <>
             <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <div className="flex flex-wrap gap-2 mb-4">
                 {TIPOS.map(t => (
                   <button key={t.k} onClick={() => setForm({ ...form, type: t.k })}
                     className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
-                      form.type === t.k ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
+                      form.type === t.k ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
                     }`}>
                     {t.l}
                   </button>
@@ -116,7 +116,7 @@ export default function MuroDashboard() {
             <div className="space-y-3">
               {posts.map(p => (
                 <div key={p.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-                <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <div className="flex-1">
                     <p className="font-bold">{p.title}</p>
                     <p className="text-xs text-[var(--muted)] capitalize">{p.type} · ❤️ {p.likes || 0}</p>

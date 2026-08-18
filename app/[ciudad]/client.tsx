@@ -85,7 +85,7 @@ export default function CiudadView() {
               del cordón industrial de a poco -- pronto vas a poder encontrar negocios y ofertas acá.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-[var(--text)]">
+              <Link href="/" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white">
                 Ver ciudades activas
               </Link>
               <Link href="/para-negocios" className="rounded-full border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold text-[var(--text)]/80 hover:bg-[var(--ov-05)]">
@@ -187,7 +187,7 @@ export default function CiudadView() {
               </p>
               <Link
                 href="/registro"
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-[var(--text)]"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white"
               >
                 Sumar mi negocio <ArrowRight className="h-4 w-4" />
               </Link>

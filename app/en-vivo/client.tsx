@@ -138,7 +138,7 @@ export default function EnVivoClient() {
                   <Sparkles className="mx-auto mb-3 h-7 w-7 text-orange-400" />
                   <p className="font-bold">Todavía no hubo transmisiones en San Lorenzo.</p>
                   <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">¿Tenés un negocio? Sé el primero en transmitir en vivo.</p>
-                  <Link href="/dashboard/en-vivo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-[var(--text)]">Crear mi transmisión</Link>
+                  <Link href="/dashboard/en-vivo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white">Crear mi transmisión</Link>
                 </div>
               </div>
             )}

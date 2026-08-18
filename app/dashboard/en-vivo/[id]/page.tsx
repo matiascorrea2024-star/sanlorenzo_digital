@@ -133,7 +133,7 @@ export default function ControlEnVivo() {
                   ["Productos mostrados", items.length],
                 ].map(([label, value]) => (
                   <div key={label as string} className="rounded-[1.25rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1">
-                    <div className="rounded-[.9rem] border border-[var(--ov-05)] bg-black/10 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                    <div className="rounded-[.9rem] border border-[var(--ov-05)] bg-black/10 p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                       <p className="text-2xl font-black text-orange-400 tabular-nums">{value}</p>
                       <p className="text-[10px] text-[var(--muted)]">{label}</p>
                     </div>
@@ -147,7 +147,7 @@ export default function ControlEnVivo() {
             )}
 
             <div className="mt-4 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="mb-3 flex items-center gap-1.5 font-black">
                 🛍️ Productos en este vivo
                 {!plan.vivoProductos && <Lock className="h-3.5 w-3.5 text-orange-400" />}
@@ -159,7 +159,7 @@ export default function ControlEnVivo() {
                   {items.length > 0 && (
                     <div className="mb-3 space-y-2">
                       {items.map((it) => (
-                        <div key={it.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-black/20 p-2.5">
+                        <div key={it.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--card-inner)] p-2.5">
                           <span className="text-sm">{it.products?.name}</span>
                           <button onClick={() => quitarProducto(it.id)}><X className="h-4 w-4 text-[var(--muted2)]" /></button>
                         </div>
@@ -168,7 +168,7 @@ export default function ControlEnVivo() {
                   )}
                   {productos.filter((p) => !items.some((it) => it.product_id === p.id)).length > 0 && (
                     <select onChange={(e) => e.target.value && agregarProducto(e.target.value)} value=""
-                      className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-3 py-2 text-sm outline-none">
+                      className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none">
                       <option value="">+ Agregar producto...</option>
                       {productos.filter((p) => !items.some((it) => it.product_id === p.id)).map((p) => (
                         <option key={p.id} value={p.id}>{p.name}</option>

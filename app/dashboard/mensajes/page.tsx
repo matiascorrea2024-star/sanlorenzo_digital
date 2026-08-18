@@ -123,7 +123,7 @@ export default function MensajesPage() {
               convoList.map(cv => (
                 <button key={cv.cust} onClick={() => setSelectedCustomer(cv.cust)}
                   className="group flex w-full items-center gap-1.5 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 text-left transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-orange-400/30">
                     <Avatar name={cv.name} size={48} />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">

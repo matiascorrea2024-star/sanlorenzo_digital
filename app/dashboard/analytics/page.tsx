@@ -133,7 +133,7 @@ export default function AnalyticsPage() {
 
         {negocios.length === 0 ? (
           <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="font-bold">Todavía no tenés un negocio creado.</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Cuando crees tu negocio, acá vas a ver visitas, contactos por WhatsApp y más.</p>
               <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
@@ -156,7 +156,7 @@ export default function AnalyticsPage() {
 
         {!planActual.stats ? (
           <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
               <p className="font-black">Las estadísticas completas son de Plan PRO</p>
               <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
@@ -173,7 +173,7 @@ export default function AnalyticsPage() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 mb-8">
           {cards.map(c => (
             <div key={c.label} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <c.icon className={`mx-auto h-6 w-6 ${c.color}`} />
                 <p className="mt-2 text-3xl font-black tabular-nums">{c.value}</p>
                 <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{c.label} <InfoTip label={`Qué significa ${c.label}`}>{c.info}</InfoTip></p>
@@ -184,7 +184,7 @@ export default function AnalyticsPage() {
 
         {posicion && (
           <div className="mb-8 rounded-[1.75rem] border border-sky-400/25 bg-gradient-to-br from-sky-500/[.08] to-blue-500/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="flex items-center gap-1.5 font-black">
                 📊 Tu lugar en la categoría
                 <InfoTip label="Cómo se calcula">Se compara con los demás negocios de tu mismo rubro usando los mismos puntos reales del ranking (seguidores, reseñas, ofertas, cupones canjeados) -- sin mostrar datos privados de nadie.</InfoTip>
@@ -199,7 +199,7 @@ export default function AnalyticsPage() {
 
         {/* Timeline gráfico simple */}
         <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <h2 className="text-lg font-black mb-4">Actividad últimos 7 días</h2>
           <div className="space-y-3">
             {timeline.map(day => (
@@ -223,7 +223,7 @@ export default function AnalyticsPage() {
 
         {/* Conversión */}
         <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-          <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <h2 className="text-lg font-black mb-3 flex items-center gap-1.5">
               Tasa de conversión
               <InfoTip label="Qué es la tasa de conversión">De cada 100 personas que ven tu negocio, cuántas terminan haciendo algo concreto (escribirte o generar un cupón). Un número más alto significa que tu ficha convence.</InfoTip>

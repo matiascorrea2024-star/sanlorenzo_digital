@@ -62,7 +62,7 @@ export default function ResenasPage() {
           ) : (
             reviews.map(r => (
               <div key={r.id} className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <div className="flex items-center gap-3">
                   <Avatar name={r.reviewer_name} size={40} />
                   <div className="flex-1">

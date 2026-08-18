@@ -231,7 +231,7 @@ export default function Editar() {
             <label className="flex items-end gap-2 pb-3"><input type="checkbox" checked={form.open} onChange={(e) => setForm({ ...form, open: e.target.checked })} /> <span className="text-sm">Abierto ahora</span></label>
           </div>
 
-          <div className="mt-4 rounded-xl border border-[var(--line)] bg-black/20 p-4">
+          <div className="mt-4 rounded-xl border border-[var(--line)] bg-[var(--card-inner)] p-4">
             <p className={lbl}>🚚 Envíos</p>
             <div className="flex flex-wrap gap-4">
               <label className="flex items-center gap-2 text-sm">
@@ -263,12 +263,12 @@ export default function Editar() {
         <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Productos / servicios</h2>
-            <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-[var(--text)]">+ Agregar</button>
+            <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
           </div>
           {items.length === 0 && <p className="text-sm text-[var(--muted)]">Agregá tu primer producto.</p>}
           <div className="grid gap-3">
             {items.map((it, i) => (
-              <div key={i} className="grid gap-2 rounded-xl border border-[var(--line)] bg-black/20 p-3 sm:grid-cols-[80px_1fr_140px_40px] items-center">
+              <div key={i} className="grid gap-2 rounded-xl border border-[var(--line)] bg-[var(--card-inner)] p-3 sm:grid-cols-[80px_1fr_140px_40px] items-center">
                 <ImageUploader value={it.photo} onChange={(url) => setItems(items.map((x, j) => j === i ? { ...x, photo: url } : x))} businessId={String(b.id)} itemId={String(i)} />
                 <input className={inp} placeholder="Nombre" value={it.name} onChange={(e) => setItems(items.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} />
                 <input className={inp} placeholder="Precio" value={it.price || ""} onChange={(e) => setItems(items.map((x, j) => j === i ? { ...x, price: e.target.value } : x))} />
@@ -281,12 +281,12 @@ export default function Editar() {
         <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Promociones</h2>
-            <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-[var(--text)]">+ Agregar</button>
+            <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
           </div>
           {promos.length === 0 && <p className="text-sm text-[var(--muted)]">Creá promos con vencimiento: solas se apagan cuando terminan.</p>}
           <div className="grid gap-3">
             {promos.map((pr, i) => (
-              <div key={i} className="grid gap-2 rounded-xl border border-[var(--line)] bg-black/20 p-3 sm:grid-cols-[1fr_120px_150px_40px]">
+              <div key={i} className="grid gap-2 rounded-xl border border-[var(--line)] bg-[var(--card-inner)] p-3 sm:grid-cols-[1fr_120px_150px_40px]">
                 <input className={inp} placeholder="Título (ej: 2x1 en texanas)" value={pr.title} onChange={(e) => setPromos(promos.map((x, j) => j === i ? { ...x, title: e.target.value } : x))} />
                 <input className={inp} placeholder="20% OFF" value={pr.discount} onChange={(e) => setPromos(promos.map((x, j) => j === i ? { ...x, discount: e.target.value } : x))} />
                 <div>
@@ -357,14 +357,14 @@ export default function Editar() {
             <div className="mb-4"><LevelBadge slug={b.slug} /></div>
             <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">Estadísticas de tu negocio (últimos 7 días)</h2>
             <div className="grid grid-cols-2 gap-4 mb-5">
-              <div className="rounded-[1.25rem] border border-[var(--ov-05)] bg-black/20 p-1">
-                <div className="rounded-[.9rem] bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="rounded-[1.25rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-1">
+                <div className="rounded-[.9rem] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <p className="text-3xl font-black text-orange-400 tabular-nums">{stats.views}</p>
                   <p className="text-xs text-[var(--muted)] uppercase mt-1">👁 Vistas a tu miniweb</p>
                 </div>
               </div>
-              <div className="rounded-[1.25rem] border border-[var(--ov-05)] bg-black/20 p-1">
-                <div className="rounded-[.9rem] bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="rounded-[1.25rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-1">
+                <div className="rounded-[.9rem] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <p className="text-3xl font-black text-[var(--ok)] tabular-nums">{stats.wa}</p>
                   <p className="text-xs text-[var(--muted)] uppercase mt-1">💬 Clicks a WhatsApp</p>
                 </div>
@@ -420,7 +420,7 @@ export default function Editar() {
         <ReviewModeration businessId={b.id} plan={b.plan} />
 
         <div className="mt-6 flex items-center gap-4">
-          <button onClick={save} disabled={saving} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black text-[var(--text)] hover:opacity-90 disabled:opacity-40">
+          <button onClick={save} disabled={saving} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black text-white hover:opacity-90 disabled:opacity-40">
             {saving ? "Guardando…" : "💾 Guardar cambios"}
           </button>
           {msg && <span className="text-sm">{msg}</span>}

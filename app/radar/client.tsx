@@ -30,9 +30,9 @@ function CountdownBlock({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center">
       <div className="rounded-xl bg-black/60 border border-red-400/30 px-3 py-2 min-w-[60px] text-center">
-        <p className="text-2xl md:text-3xl font-black text-[var(--text)] tabular-nums">{String(value).padStart(2, "0")}</p>
+        <p className="text-2xl md:text-3xl font-black text-white tabular-nums">{String(value).padStart(2, "0")}</p>
       </div>
-      <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{label}</p>
+      <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-white/50">{label}</p>
     </div>
   );
 }
@@ -84,22 +84,22 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
           <Badge variant="danger" size="md" pulse>
             <Zap className="h-3 w-3" /> Terminan HOY
           </Badge>
-          <h1 className="mt-4 text-4xl font-black md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
+          <h1 className="mt-4 text-4xl font-black text-white md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
             Radar de{" "}
             <span className="bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
               ofertas urgentes
             </span>
           </h1>
-          <p className="mx-auto mt-3 max-w-xl text-[var(--text)]/70">
+          <p className="mx-auto mt-3 max-w-xl text-white/70">
             Solo ofertas que vencen hoy. Después de la medianoche desaparecen.
           </p>
 
           {/* Countdown */}
           <div className="mt-8 flex justify-center gap-3 md:gap-6">
             <CountdownBlock value={h} label="Horas" />
-            <span className="text-3xl font-black text-[var(--muted2)] self-start mt-3">:</span>
+            <span className="text-3xl font-black text-white/40 self-start mt-3">:</span>
             <CountdownBlock value={m} label="Minutos" />
-            <span className="text-3xl font-black text-[var(--muted2)] self-start mt-3">:</span>
+            <span className="text-3xl font-black text-white/40 self-start mt-3">:</span>
             <CountdownBlock value={s} label="Segundos" />
           </div>
         </div>

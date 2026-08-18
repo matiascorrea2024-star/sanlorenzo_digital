@@ -105,7 +105,7 @@ export default function EnVivoDashboard() {
         ]} />
 
         <div className="mb-4 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="flex items-center justify-between rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="flex items-center justify-between rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <p className="text-sm text-[var(--muted)]">
               {plan.maxVivosPorMes === -1 ? "Vivos ilimitados con tu plan" : `${vivosEsteMes}/${plan.maxVivosPorMes} vivos este mes (Plan ${plan.name})`}
             </p>
@@ -123,15 +123,15 @@ export default function EnVivoDashboard() {
 
         {creando && (
           <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="space-y-3 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="space-y-3 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
-              placeholder="Título (ej: Liquidación de invierno 🔥)" className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              placeholder="Título (ej: Liquidación de invierno 🔥)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2}
-              placeholder="Descripción (opcional)" className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              placeholder="Descripción (opcional)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             <div>
               <label className="mb-1 block text-xs font-bold text-[var(--muted)]">Programar para más tarde (opcional -- si lo dejás vacío, lo podés empezar cuando quieras)</label>
               <input type="datetime-local" value={form.scheduled_at} onChange={(e) => setForm({ ...form, scheduled_at: e.target.value })}
-                className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
             </div>
             <button onClick={crear} disabled={!form.title.trim()} className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
               Crear
@@ -147,7 +147,7 @@ export default function EnVivoDashboard() {
             </div>
           ) : streams.map((s) => (
             <Link key={s.id} href={`/dashboard/en-vivo/${s.id}`} className="group block rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
-              <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] transition-colors group-hover:border-orange-400/30">
+              <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-orange-400/30">
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-bold">{s.title}</p>
                   <p className="flex items-center gap-2 text-xs text-[var(--muted2)]">

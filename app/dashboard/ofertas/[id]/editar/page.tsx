@@ -127,7 +127,7 @@ export default function EditarOferta() {
         </div>
 
         <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="space-y-5 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="space-y-5 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <div>
             <span className={lbl}>Título de la oferta *</span>
             <input className={inp} value={title} onChange={(e) => setTitle(e.target.value)} />

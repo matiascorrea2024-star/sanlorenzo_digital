@@ -102,7 +102,7 @@ export default function CuponesPage() {
         </div>
 
         <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <h2 className="text-xl font-black">Validar cupón</h2>
           <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <input
@@ -115,7 +115,7 @@ export default function CuponesPage() {
             <button
               onClick={validateCoupon}
               disabled={!validateCode}
-              className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-[var(--text)] hover:opacity-90 disabled:opacity-50"
+              className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
             >
               Validar
             </button>
@@ -136,25 +136,25 @@ export default function CuponesPage() {
 
         <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
           <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.125rem] border border-[var(--ov-05)] bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.125rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-3xl font-black" style={{ fontFamily: "var(--font-ticket)" }}>{stats.total}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Total</p>
             </div>
           </div>
           <div className="rounded-[1.5rem] border border-green-500/20 bg-green-500/[.04] p-1.5">
-            <div className="rounded-[1.125rem] border border-green-500/10 bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.125rem] border border-green-500/10 bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-3xl font-black text-[var(--ok)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.generated}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Generados</p>
             </div>
           </div>
           <div className="rounded-[1.5rem] border border-sky-500/20 bg-sky-500/[.04] p-1.5">
-            <div className="rounded-[1.125rem] border border-sky-500/10 bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.125rem] border border-sky-500/10 bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-3xl font-black text-[var(--place)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.redeemed}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Canjeados</p>
             </div>
           </div>
           <div className="rounded-[1.5rem] border border-red-500/20 bg-red-500/[.04] p-1.5">
-            <div className="rounded-[1.125rem] border border-red-500/10 bg-black/20 p-4 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.125rem] border border-red-500/10 bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-3xl font-black text-[var(--bad)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.expired}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Vencidos</p>
             </div>
@@ -165,7 +165,7 @@ export default function CuponesPage() {
           <h2 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Historial de cupones</h2>
           {coupons.length === 0 ? (
             <div className="mt-4 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <p className="text-[var(--muted)]">Aún no hay cupones generados para esta oferta</p>
               </div>
             </div>
@@ -173,7 +173,7 @@ export default function CuponesPage() {
             <div className="mt-4 space-y-3">
               {coupons.map((coupon) => (
                 <div key={coupon.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-                <div className="rounded-[1.125rem] border border-[var(--ov-05)] bg-black/20 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <div className="rounded-[1.125rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <div className="flex items-center justify-between gap-3">
                     <div>
                       <p className="font-mono font-bold text-lg">{coupon.code}</p>

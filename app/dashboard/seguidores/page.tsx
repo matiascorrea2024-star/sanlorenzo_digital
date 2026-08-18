@@ -97,13 +97,13 @@ export default function SeguidoresPage() {
 
         <div className="mb-6 grid grid-cols-2 gap-3">
           <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-3xl font-black text-orange-400">{total}</p>
               <p className="text-xs text-[var(--muted)]">Seguidores totales</p>
             </div>
           </div>
           <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-3xl font-black text-[var(--ok)]">+{nuevosMes}</p>
               <p className="text-xs text-[var(--muted)]">Nuevos este mes</p>
             </div>
@@ -118,7 +118,7 @@ export default function SeguidoresPage() {
 
         {plan.campanas ? (
           <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <p className="mb-3 font-black">Enviar novedad a tus seguidores</p>
             <textarea
               value={mensaje}
@@ -126,7 +126,7 @@ export default function SeguidoresPage() {
               rows={3}
               maxLength={200}
               placeholder="Ej: Llegó stock nuevo de zapatillas talle 42 👟"
-              className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-4 py-3 text-sm outline-none focus:border-orange-400"
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 text-sm outline-none focus:border-orange-400"
             />
             <p className="mt-1 text-right text-[10px] text-[var(--muted2)]">{mensaje.length}/200</p>
             <button
@@ -140,7 +140,7 @@ export default function SeguidoresPage() {
           </div>
         ) : (
           <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-6 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Lock className="mx-auto mb-2 h-7 w-7 text-orange-400" />
               <p className="font-black">Enviar novedades es una herramienta de Plan PRO</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Construí tu propia audiencia y avisale directo cuando tengas algo nuevo.</p>

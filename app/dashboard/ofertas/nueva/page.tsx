@@ -183,7 +183,7 @@ export default function NuevaOferta() {
         )}
 
         <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="space-y-5 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="space-y-5 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           {negocios.length === 0 ? (
             <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/30 p-4">
               <p className="text-sm text-[var(--warn)]">⚠️ No tenés negocios creados. <Link href="/dashboard/nuevo" className="underline font-bold">Crear uno ahora →</Link></p>
@@ -252,7 +252,7 @@ export default function NuevaOferta() {
                     peor caso con los números que el comercio ya cargó, para
                     que decida con esa cuenta hecha, no después de activarse. */}
                 {Number(metaParticipantes) >= 2 && Number(priceOffer) > 0 && (
-                  <p className="mt-2 rounded-lg bg-black/20 px-3 py-2 text-xs text-[var(--muted)]">
+                  <p className="mt-2 rounded-lg bg-[var(--card-inner)] px-3 py-2 text-xs text-[var(--muted)]">
                     ⚠️ Peor caso: si se llena el cupo, vas a entregar <strong className="text-[var(--text)]">{metaParticipantes} unidades</strong> a ${Number(priceOffer).toLocaleString("es-AR")} c/u
                     {Number(priceBefore) > Number(priceOffer) && (
                       <> -- resignás ${((Number(priceBefore) - Number(priceOffer)) * Number(metaParticipantes)).toLocaleString("es-AR")} respecto al precio de lista</>

@@ -493,7 +493,7 @@ export default function AdminPage() {
           {TABS.map(t => (
             <button key={t.k} onClick={() => { setTab(t.k); router.replace(`/admin?tab=${t.k}`); }}
               className={`relative flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2.5 text-xs font-bold transition ${
-                tab === t.k ? "bg-gradient-to-r from-red-500 to-orange-500 text-[var(--text)] shadow-lg shadow-red-500/20" : "border border-[var(--line)] bg-[var(--ov-03)] text-[var(--text)]/70 hover:border-[var(--line-strong)] hover:bg-[var(--ov-05)]"
+                tab === t.k ? "bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-lg shadow-red-500/20" : "border border-[var(--line)] bg-[var(--ov-03)] text-[var(--text)]/70 hover:border-[var(--line-strong)] hover:bg-[var(--ov-05)]"
               }`}>
               <t.icon className="h-3.5 w-3.5" /> {t.l}
               {t.count > 0 && (
@@ -1135,7 +1135,7 @@ export default function AdminPage() {
                         className={`shrink-0 rounded-xl px-3 py-2 text-xs font-black transition ${
                           c.status === "active"
                             ? "border border-red-400/30 bg-red-500/10 text-[var(--bad)] hover:bg-red-500/20"
-                            : "bg-gradient-to-r from-orange-500 to-red-600 text-[var(--text)] hover:opacity-90"
+                            : "bg-gradient-to-r from-orange-500 to-red-600 text-white hover:opacity-90"
                         }`}
                       >
                         {c.status === "active" ? "Desactivar" : "Activar"}

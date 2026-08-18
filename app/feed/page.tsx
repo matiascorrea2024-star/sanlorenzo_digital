@@ -115,14 +115,14 @@ export default function MuroPage() {
         <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
           <button onClick={() => setFiltro("todos")}
             className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
-              filtro === "todos" ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
+              filtro === "todos" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
             }`}>
             Todo
           </button>
           {Object.entries(TIPOS).map(([k, t]) => (
             <button key={k} onClick={() => setFiltro(k)}
               className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
-                filtro === k ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
+                filtro === k ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
               }`}>
               {t.label}
             </button>

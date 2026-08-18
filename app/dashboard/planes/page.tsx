@@ -162,7 +162,7 @@ export default function PlanesDashboard() {
 
         {campanas.filter((c) => !misReclamos.includes(c.id)).map((c) => (
           <div key={c.id} className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.375rem] border border-[var(--ov-06)] bg-black/20 p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] sm:flex-row sm:items-center">
+            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:flex-row sm:items-center">
               <div className="flex items-start gap-3">
                 <Gift className="h-6 w-6 shrink-0 text-orange-400" />
                 <div>
@@ -183,7 +183,7 @@ export default function PlanesDashboard() {
 
         {pendiente && (
           <div className="mt-6 rounded-[1.5rem] border border-yellow-400/25 bg-yellow-500/[.06] p-1.5">
-            <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Clock className="h-6 w-6 shrink-0 text-[var(--warn)]" />
               <div>
                 <p className="font-bold text-yellow-200">Solicitud de plan {PLANES[pendiente.plan]?.name} en revisión</p>
@@ -207,7 +207,7 @@ export default function PlanesDashboard() {
                     PLAN ACTUAL
                   </span>
                 )}
-                <div className={`flex h-full flex-col rounded-[1.375rem] border p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)] ${actual ? "border-[var(--ov-08)] bg-black/10" : "border-[var(--ov-05)] bg-black/10"}`}>
+                <div className={`flex h-full flex-col rounded-[1.375rem] border p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] ${actual ? "border-[var(--ov-08)] bg-black/10" : "border-[var(--ov-05)] bg-black/10"}`}>
                   <p.icon className={`h-7 w-7 ${actual ? "text-orange-400" : "text-[var(--muted)]"}`} />
                   <h2 className="mt-2 text-lg font-black">{PLANES[p.k].name}</h2>
                   <p className="text-2xl font-black text-orange-400">{p.precio}</p>
@@ -224,7 +224,7 @@ export default function PlanesDashboard() {
                       {actual ? "Activo" : esGratis ? "Plan sin costo" : "Solicitud en curso"}
                     </button>
                   ) : pidiendo === p.k ? (
-                    <div className="mt-5 space-y-2 rounded-xl border border-[var(--line)] bg-black/20 p-3">
+                    <div className="mt-5 space-y-2 rounded-xl border border-[var(--line)] bg-[var(--card-inner)] p-3">
                       <input type="file" accept="image/*" onChange={(e) => setArchivo(e.target.files?.[0] || null)}
                         className="w-full text-xs text-[var(--muted)] file:mr-2 file:rounded-lg file:border-0 file:bg-[var(--ov-10)] file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-[var(--text)]" />
                       <button onClick={() => solicitar(p.k)} disabled={enviando}
@@ -257,11 +257,11 @@ export default function PlanesDashboard() {
         {avisoMP && <p className="mt-4 text-center text-sm text-[var(--text)]/70">{avisoMP}</p>}
 
         <div className="mx-auto mt-8 max-w-xl rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center text-sm text-[var(--muted)] shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+          <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center text-sm text-[var(--muted)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <p className="font-bold text-[var(--text)]/80">¿Cómo se activa un plan pago?</p>
             <p className="mt-1">Con &quot;Pagar con Mercado Pago&quot; se activa solo apenas se acredita. Si preferís transferir, usá &quot;O transferir y subir comprobante&quot; -- un admin lo revisa y te lo activa.</p>
             {datosPago ? (
-              <p className="mt-2 whitespace-pre-line rounded-xl bg-black/20 p-3 font-mono text-xs text-[var(--ok)]">{datosPago}</p>
+              <p className="mt-2 whitespace-pre-line rounded-xl bg-[var(--card-inner)] p-3 font-mono text-xs text-[var(--ok)]">{datosPago}</p>
             ) : whatsapp ? (
               <p className="mt-2">
                 Escribinos por WhatsApp para coordinar el pago:{" "}

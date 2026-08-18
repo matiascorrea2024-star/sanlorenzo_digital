@@ -114,7 +114,7 @@ export default function MarketingPage() {
 
         <div className="mt-6 space-y-6">
         <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <h2 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>Links trackeables</h2>
           <p className="mt-1 text-sm text-[var(--muted)]">
             Usá estos links para saber desde dónde vienen tus clientes
@@ -145,7 +145,7 @@ export default function MarketingPage() {
         </div>
 
         <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <h2 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>Story para Instagram</h2>
           <p className="mt-1 text-sm text-[var(--muted)]">
             Copiá este texto y pegalo en tu historia de Instagram
@@ -155,7 +155,7 @@ export default function MarketingPage() {
           </div>
           <button
             onClick={() => copyToClipboard(generateStoryText(), "story")}
-            className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-[var(--text)] hover:opacity-90"
+            className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
           >
             {copied === "story" ? "✅ Copiado" : "📋 Copiar story"}
           </button>
@@ -163,7 +163,7 @@ export default function MarketingPage() {
         </div>
 
         <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <h2 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>Compartir en WhatsApp</h2>
           <p className="mt-1 text-sm text-[var(--muted)]">
             Texto listo para enviar a tus clientes

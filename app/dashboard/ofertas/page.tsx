@@ -101,7 +101,7 @@ export default function OfertasPage() {
           </div>
           <Link
             href="/dashboard/ofertas/nueva"
-            className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-[var(--text)] hover:opacity-90"
+            className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
           >
             + Nueva oferta
           </Link>
@@ -128,7 +128,7 @@ export default function OfertasPage() {
 
         {offers.length === 0 ? (
           <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-12 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-12 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <div className="text-6xl mb-4">🔥</div>
               <h2 className="text-2xl font-black mb-2">Aún no tenés ofertas</h2>
               <p className="text-[var(--muted)] mb-6">
@@ -136,7 +136,7 @@ export default function OfertasPage() {
               </p>
               <Link
                 href="/dashboard/ofertas/nueva"
-                className="inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 font-black text-[var(--text)] hover:opacity-90"
+                className="inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 font-black text-white hover:opacity-90"
               >
                 Crear mi primera oferta
               </Link>
@@ -151,7 +151,7 @@ export default function OfertasPage() {
                   key={offer.id}
                   className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5"
                 >
-                <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+                <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">

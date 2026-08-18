@@ -83,7 +83,7 @@ export default function CampanaPage() {
 
         {!plan.campanas ? (
           <div className="mt-8 rounded-[1.75rem] border border-orange-400/20 bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-orange-400/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-8 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-orange-400/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
               <p className="font-black">Promocionar por barrio es de Plan PRO</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Hacé que tu oferta se destaque en el barrio que más te importa.</p>
@@ -92,7 +92,7 @@ export default function CampanaPage() {
           </div>
         ) : barrios.length === 0 ? (
           <div className="mt-8 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-8 text-center text-[var(--muted)] shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center text-[var(--muted)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               Tu ciudad todavía no tiene barrios cargados para poder segmentar.
             </div>
           </div>
@@ -107,10 +107,10 @@ export default function CampanaPage() {
             </div>
 
             <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/20 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,.06)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Barrio</label>
               <select value={seleccionado} onChange={(e) => setSeleccionado(e.target.value)}
-                className="w-full rounded-xl border border-[var(--line-strong)] bg-black/20 px-4 py-3 text-sm outline-none focus:border-orange-400">
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 text-sm outline-none focus:border-orange-400">
                 <option value="">Sin promocionar</option>
                 {barrios.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
               </select>
