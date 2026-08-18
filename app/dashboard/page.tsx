@@ -78,7 +78,7 @@ export default function DashboardPage() {
         {loading ? (
           <p className="py-16 text-center text-[var(--muted)]">Cargando tus negocios…</p>
         ) : negocios.length === 0 ? (
-          <div className="rounded-3xl border border-[var(--line)] bg-gradient-to-b from-white/[.07] to-white/[.03] p-10 text-center">
+          <div className="rounded-3xl border border-[var(--line)] bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-10 text-center">
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-orange-500/20 to-red-600/20 text-5xl">🏪</div>
             <h2 className="mt-4 text-2xl font-black">Empezá acá</h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">3 pasos y tu negocio ya está funcionando en La Gran Barata Digital.</p>

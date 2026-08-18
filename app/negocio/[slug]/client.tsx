@@ -492,7 +492,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 const ultimasUnidades = p.stock != null && p.stock > 0 && p.stock <= 3;
                 return (
                 <div key={p.id} className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10">
-                <div className="overflow-hidden rounded-[1.375rem] border border-[var(--ov-06)] bg-gradient-to-b from-white/[.05] to-white/[.015] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+                <div className="overflow-hidden rounded-[1.375rem] border border-[var(--ov-06)] bg-gradient-to-b from-[var(--ov-05)] to-[var(--ov-02)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <div className="relative h-40 w-full overflow-hidden">
                     {Array.isArray(p.images) && p.images[0] && (
                       <Image src={p.images[0]} alt={p.name} fill quality={90}

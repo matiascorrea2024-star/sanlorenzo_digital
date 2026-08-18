@@ -205,7 +205,7 @@ export default function OfertaPage() {
 
           {/* DERECHA: precio + acciones */}
           <div className="lg:col-span-5">
-            <div className="rounded-[2.5rem] border border-[var(--line)] bg-gradient-to-b from-white/[.03] to-transparent p-6 shadow-xl sm:p-8">
+            <div className="rounded-[2.5rem] border border-[var(--line)] bg-gradient-to-b from-[var(--ov-03)] to-transparent p-6 shadow-xl sm:p-8">
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 {oferta.discount_percent ? (
                   <span className="rounded-lg border border-orange-500/20 bg-orange-500/10 px-3 py-1 text-xs font-black uppercase tracking-wider text-orange-400">-{oferta.discount_percent}% de ahorro</span>

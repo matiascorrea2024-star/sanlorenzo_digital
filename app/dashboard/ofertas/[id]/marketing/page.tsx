@@ -182,7 +182,7 @@ export default function MarketingPage() {
               href={`https://wa.me/?text=${encodeURIComponent(generateWhatsAppText() + "\n\n" + waUrl)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 rounded-full bg-green-500 px-6 py-3 text-center font-black text-[var(--text)] hover:bg-green-600"
+              className="flex-1 rounded-full bg-green-500 px-6 py-3 text-center font-black text-white hover:bg-green-600"
             >
               💬 Abrir WhatsApp
             </a>

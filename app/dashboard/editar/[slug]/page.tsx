@@ -157,7 +157,7 @@ export default function Editar() {
         </div>
 
         {/* 📸 FOTOS DEL NEGOCIO */}
-        <section className="mt-8 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+        <section className="mt-8 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
           <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">Fotos de tu negocio</h2>
           <p className="mb-4 text-sm text-[var(--muted)]">La foto de portada aparece en la home y en el directorio. El logo aparece junto al nombre en tu miniweb.</p>
           <div className="grid gap-6 md:grid-cols-2">
@@ -184,7 +184,7 @@ export default function Editar() {
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
           <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">Datos del negocio</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <label><span className={lbl}>Nombre</span><input className={inp} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></label>
@@ -260,7 +260,7 @@ export default function Editar() {
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Productos / servicios</h2>
             <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
@@ -278,7 +278,7 @@ export default function Editar() {
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Promociones</h2>
             <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
@@ -353,7 +353,7 @@ export default function Editar() {
 
         {/* 📊 Estadísticas */}
         {stats && (
-          <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+          <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
             <div className="mb-4"><LevelBadge slug={b.slug} /></div>
             <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">Estadísticas de tu negocio (últimos 7 días)</h2>
             <div className="grid grid-cols-2 gap-4 mb-5">
@@ -390,7 +390,7 @@ export default function Editar() {
         )}
 
         {/* 🤳 QR */}
-        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-white/[.07] to-white/[.03] p-6 shadow-xl shadow-orange-500/10">
+        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
           <h2 className="mb-2 font-bold">QR de tu negocio</h2>
           <p className="mb-4 text-sm text-[var(--muted)]">Imprimilo y pegalo en tu vidriera: los clientes lo escanean y caen directo en tu miniweb.</p>
           <div className="flex items-center gap-6 flex-wrap">

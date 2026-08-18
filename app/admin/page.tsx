@@ -497,7 +497,7 @@ export default function AdminPage() {
               }`}>
               <t.icon className="h-3.5 w-3.5" /> {t.l}
               {t.count > 0 && (
-                <span className={`ml-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full px-1 text-[9px] font-black ${tab === t.k ? "bg-black/25 text-[var(--text)]" : "bg-red-500 text-[var(--text)]"}`}>
+                <span className={`ml-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full px-1 text-[9px] font-black ${tab === t.k ? "bg-black/25 text-white" : "bg-red-500 text-white"}`}>
                   {t.count}
                 </span>
               )}

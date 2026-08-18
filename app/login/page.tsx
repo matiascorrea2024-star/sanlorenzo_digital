@@ -99,7 +99,7 @@ export default function LoginPage() {
                     <p className="mb-2 text-sm text-[var(--text)]/80">Te mandamos un link a tu email para elegir una nueva contraseña.</p>
                     <div className="flex gap-2">
                       <button type="button" onClick={handleForgot} disabled={forgotLoading}
-                        className="rounded-lg bg-orange-500 px-4 py-2 text-xs font-black text-[var(--text)] hover:opacity-90 disabled:opacity-50">
+                        className="rounded-lg bg-orange-500 px-4 py-2 text-xs font-black text-white hover:opacity-90 disabled:opacity-50">
                         {forgotLoading ? "Enviando…" : "Enviar link"}
                       </button>
                       <button type="button" onClick={() => setForgotMode(false)} className="rounded-lg border border-[var(--line-strong)] px-4 py-2 text-xs font-bold text-[var(--text)]/70">

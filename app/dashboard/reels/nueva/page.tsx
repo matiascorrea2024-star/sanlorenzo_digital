@@ -91,7 +91,7 @@ export default function NuevoReelPage() {
               <div className="relative overflow-hidden rounded-xl border border-[var(--line)] bg-black">
                 <video src={preview} controls playsInline className="max-h-96 w-full" />
                 <button onClick={() => elegirArchivo(null)}
-                  className="absolute right-2 top-2 rounded-full bg-black/70 px-3 py-1.5 text-xs font-bold text-[var(--text)] hover:bg-black/90">
+                  className="absolute right-2 top-2 rounded-full bg-black/70 px-3 py-1.5 text-xs font-bold text-white hover:bg-black/90">
                   Quitar
                 </button>
               </div>

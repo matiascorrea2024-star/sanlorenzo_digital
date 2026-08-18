@@ -93,7 +93,7 @@ export default function OfertasFinalizadasPage() {
                     Terminó
                   </div>
                   {p.discount && (
-                    <div className="absolute right-2 top-2 rounded-lg bg-red-500/90 px-2 py-1 text-[10px] font-black text-[var(--text)] backdrop-blur">
+                    <div className="absolute right-2 top-2 rounded-lg bg-red-500/90 px-2 py-1 text-[10px] font-black text-white backdrop-blur">
                       {p.discount}
                     </div>
                   )}

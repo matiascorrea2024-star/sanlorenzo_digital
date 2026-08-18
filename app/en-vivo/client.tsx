@@ -32,7 +32,7 @@ export default function EnVivoClient() {
     <Link href={`/en-vivo/${s.id}`} className={`group block rounded-[1.5rem] border p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 ${
       live ? "border-red-400/40 bg-gradient-to-br from-red-500/[.12] to-orange-500/[.04] shadow-[0_0_30px_-8px_rgba(239,68,68,.35)] hover:border-red-400/70" : "border-[var(--ov-06)] bg-[var(--ov-02)] hover:border-orange-400/30"
     }`}>
-      <div className="overflow-hidden rounded-[1.1rem] border border-[var(--ov-06)] bg-gradient-to-b from-white/[.05] to-white/[.015]">
+      <div className="overflow-hidden rounded-[1.1rem] border border-[var(--ov-06)] bg-gradient-to-b from-[var(--ov-05)] to-[var(--ov-02)]">
         <div className="relative h-36 w-full overflow-hidden bg-gradient-to-br from-red-500/20 to-orange-500/20">
           {s.cover_url ? (
             <Image src={s.cover_url} alt={s.title} fill sizes="(max-width: 768px) 50vw, 320px" quality={88}
@@ -41,7 +41,7 @@ export default function EnVivoClient() {
             <div className="flex h-full w-full items-center justify-center"><Radio className="h-8 w-8 text-[var(--muted2)]" /></div>
           )}
           {live && (
-            <span className="absolute left-2 top-2 flex items-center gap-1.5 rounded-full bg-red-500 px-2.5 py-1 text-[9px] font-black uppercase tracking-wide text-[var(--text)] shadow-lg">
+            <span className="absolute left-2 top-2 flex items-center gap-1.5 rounded-full bg-red-500 px-2.5 py-1 text-[9px] font-black uppercase tracking-wide text-white shadow-lg">
               <span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" /></span>
               En vivo
             </span>
@@ -68,7 +68,7 @@ export default function EnVivoClient() {
             </div>
           )}
           <h1 className="text-5xl font-black leading-[0.95] tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
-            <span className="bg-gradient-to-r from-white via-red-200 to-red-400 bg-clip-text text-transparent">En</span>{" "}
+            <span className="bg-gradient-to-r from-[var(--text)] via-red-300 to-red-500 bg-clip-text text-transparent">En</span>{" "}
             <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent animate-gradient">Vivo</span>
           </h1>
           <p className="mt-2 text-[var(--text)]/70">Comercios de San Lorenzo transmitiendo en tiempo real</p>

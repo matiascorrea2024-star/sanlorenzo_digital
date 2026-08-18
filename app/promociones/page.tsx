@@ -116,7 +116,7 @@ export default function PromocionesPage() {
                 <span className="text-[11px] font-black uppercase tracking-widest text-[var(--bad)]">Corriendo ahora</span>
               </div>
               <h1 className="text-5xl font-black leading-[0.95] tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
-                <span className="bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">La Gran</span>{" "}
+                <span className="bg-gradient-to-r from-[var(--text)] via-orange-300 to-orange-400 bg-clip-text text-transparent">La Gran</span>{" "}
                 <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent animate-gradient">Barata</span>
               </h1>
             </div>
