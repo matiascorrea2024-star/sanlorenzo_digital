@@ -113,7 +113,7 @@ export default function GroupDealPanel({ offerId, metaParticipantes, initialActi
               }`}>
               {anotado ? "✅ Ya estás anotado" : "Sumarme"}
             </button>
-            <button onClick={share} aria-label="Compartir" className="rounded-full border border-white/15 p-2.5 hover:bg-white/5">
+            <button onClick={share} aria-label="Compartir" className="rounded-full border border-[var(--line-strong)] p-2.5 hover:bg-[var(--ov-05)]">
               <Share2 className="h-4 w-4" />
             </button>
           </div>
