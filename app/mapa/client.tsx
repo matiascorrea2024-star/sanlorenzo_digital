@@ -11,7 +11,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 const CENTRO: [number, number] = [-32.7475, -60.7285];
 
-export default function MapaPage({ initial = [] }: { initial?: Business[] }) {
+export default function MapaPage({ initial = [] }: { initial?: any[] }) {
   const negocios = useAllBusinesses();
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletRef = useRef<any>(null);
@@ -29,11 +29,11 @@ export default function MapaPage({ initial = [] }: { initial?: Business[] }) {
     const centro = userCoords || { lat: -32.7475, lon: -60.7285 };
     const t = q.trim().toLowerCase();
     return negocios
-      .filter((b: Business) => b.latitude && b.longitude)
-      .filter((b: Business) => !t || `${b.name} ${b.category}`.toLowerCase().includes(t))
-      .map((b: Business) => ({ ...b, _km: calcDistanceKm(centro.lat, centro.lon, Number(b.latitude), Number(b.longitude)) }))
-      .filter((b: Business) => !radio || b._km <= radio)
-      .sort((a: Business & { _km: number }, b: Business & { _km: number }) => a._km - b._km)
+      .filter((b: any) => b.latitude && b.longitude)
+      .filter((b: any) => !t || `${b.name} ${b.category}`.toLowerCase().includes(t))
+      .map((b: any) => ({ ...b, _km: calcDistanceKm(centro.lat, centro.lon, Number(b.latitude), Number(b.longitude)) }))
+      .filter((b: any) => !radio || b._km <= radio)
+      .sort((a: any, b: any) => a._km - b._km)
       .slice(0, 30);
   }, [negocios, userCoords, radio, q]);
 
@@ -49,11 +49,11 @@ export default function MapaPage({ initial = [] }: { initial?: Business[] }) {
 
   // Stats
   useEffect(() => {
-    const conCoords = negocios.filter((b: Business) => b.latitude && b.longitude);
+    const conCoords = negocios.filter((b: any) => b.latitude && b.longitude);
     setStats({
       total: conCoords.length,
-      abiertos: conCoords.filter((b: Business) => b.open).length,
-      conOfertas: conCoords.filter((b: Business) => (b.promotions?.length || 0) > 0 || (b.ofertas || 0) > 0).length,
+      abiertos: conCoords.filter((b: any) => b.open).length,
+      conOfertas: conCoords.filter((b: any) => (b.promotions?.length || 0) > 0 || (b.ofertas || 0) > 0).length,
     });
   }, [negocios]);
 
@@ -110,7 +110,7 @@ export default function MapaPage({ initial = [] }: { initial?: Business[] }) {
       if (clusterRef.current) { map.removeLayer(clusterRef.current); }
       const cluster = Lglobal.markerClusterGroup({
         maxClusterRadius: 60,
-        iconCreateFunction: (c: unknown) => Lglobal.divIcon({
+        iconCreateFunction: (c: any) => Lglobal.divIcon({
           html: `<div style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f97316,#dc2626);border:2px solid white;box-shadow:0 3px 10px rgba(0,0,0,.5);color:white;font-weight:900;font-size:13px">${c.getChildCount()}</div>`,
           className: "", iconSize: [40, 40],
         }),
@@ -118,7 +118,7 @@ export default function MapaPage({ initial = [] }: { initial?: Business[] }) {
       clusterRef.current = cluster;
       markersRef.current = [];
 
-      negocios.forEach((b: Business) => {
+      negocios.forEach((b: any) => {
         if (!b.latitude || !b.longitude) return;
 
         // Filtro por radio (con fallback al centro de San Lorenzo si no hay GPS)
@@ -253,7 +253,7 @@ export default function MapaPage({ initial = [] }: { initial?: Business[] }) {
                 <p className="rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-6 text-center text-sm text-[var(--muted)]">
                   {q ? "No encontramos negocios con esa búsqueda." : "No hay negocios con ubicación en este radio todavía."}
                 </p>
-              ) : cercaDeVos.map((b: Business) => {
+              ) : cercaDeVos.map((b: any) => {
                 const tieneOfertas = (b.promotions?.length || 0) > 0;
                 return (
                   <Link key={b.id} href={`/negocio/${b.slug}`}

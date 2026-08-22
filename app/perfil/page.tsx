@@ -73,7 +73,7 @@ export default function PerfilPage() {
         // sigue este usuario, que ya vencieron en los últimos 14 días --
         // no hace falta saber si las vio o no, alcanza con que existieron
         // y se le pasaron.
-        const idsSeguidos = (fol || []).map((f: Follower) => f.business_id).filter(Boolean);
+        const idsSeguidos = (fol || []).map((f: any) => f.business_id).filter(Boolean);
         if (idsSeguidos.length) {
           const hace14 = fechaArgentina(new Date(Date.now() - 14 * 86400000));
           const hoyStr = hoyArgentina();
@@ -91,39 +91,39 @@ export default function PerfilPage() {
           .eq("user_id", user.id);
         const { data: refsData } = await sb
           .from("referrals").select("activated_at").eq("referrer_id", user.id);
-        const refActivos = (refsData || []).filter((r: unknown) => r.activated_at).length;
+        const refActivos = (refsData || []).filter((r: any) => r.activated_at).length;
 
         const acts = act || [];
-        const vistas = new Set(acts.filter((a: AnalyticsEvent) => a.type === "view").map((a: AnalyticsEvent) => a.business_id));
-        const cats = new Set(acts.filter((a: AnalyticsEvent) => a.type === "view" && a.businesses).map((a: AnalyticsEvent) => a.businesses.category));
-        const was = new Set(acts.filter((a: AnalyticsEvent) => a.type === "whatsapp").map((a: AnalyticsEvent) => a.business_id));
-        const shs = new Set(acts.filter((a: AnalyticsEvent) => a.type === "share").map((a: AnalyticsEvent) => a.business_id));
+        const vistas = new Set(acts.filter((a: any) => a.type === "view").map((a: any) => a.business_id));
+        const cats = new Set(acts.filter((a: any) => a.type === "view" && a.businesses).map((a: any) => a.businesses.category));
+        const was = new Set(acts.filter((a: any) => a.type === "whatsapp").map((a: any) => a.business_id));
+        const shs = new Set(acts.filter((a: any) => a.type === "share").map((a: any) => a.business_id));
 
         // created_at es timestamptz -- comparar el string tal cual (huso
         // UTC implícito) contra un "hoy" corría el mismo riesgo de
         // desfasaje horario que el resto de esta sesión. esHoyArgentina
         // convierte el timestamp real a fecha de Argentina antes de comparar.
-        const deHoy = acts.filter((a: AnalyticsEvent) => a.created_at && esHoyArgentina(a.created_at));
+        const deHoy = acts.filter((a: any) => a.created_at && esHoyArgentina(a.created_at));
         setMisiones({
-          vis: new Set(deHoy.filter((a: AnalyticsEvent) => a.type === "view").map((a: AnalyticsEvent) => a.business_id)).size,
-          wa: new Set(deHoy.filter((a: AnalyticsEvent) => a.type === "whatsapp").map((a: AnalyticsEvent) => a.business_id)).size,
-          sh: new Set(deHoy.filter((a: AnalyticsEvent) => a.type === "share").map((a: AnalyticsEvent) => a.business_id)).size,
+          vis: new Set(deHoy.filter((a: any) => a.type === "view").map((a: any) => a.business_id)).size,
+          wa: new Set(deHoy.filter((a: any) => a.type === "whatsapp").map((a: any) => a.business_id)).size,
+          sh: new Set(deHoy.filter((a: any) => a.type === "share").map((a: any) => a.business_id)).size,
         });
         // Mismo bug de huso horario que el resto de la sesión, versión
         // "racha": agrupar actividad por día en UTC podía partir en dos
         // un mismo día argentino (o unir dos días distintos), rompiendo
         // la racha real del usuario -- justo el número que más ve.
-        const dias = [...new Set(acts.filter((a: AnalyticsEvent) => a.created_at).map((a: AnalyticsEvent) => fechaArgentina(new Date(a.created_at))))] as string[];
+        const dias = [...new Set(acts.filter((a: any) => a.created_at).map((a: any) => fechaArgentina(new Date(a.created_at))))] as string[];
         let r = 0;
         let cursor = new Date();
         if (!dias.includes(fechaArgentina(cursor))) cursor = new Date(Date.now() - 86400000);
         while (dias.includes(fechaArgentina(cursor))) { r++; cursor = new Date(cursor.getTime() - 86400000); }
         setRacha(r);
         const hace7 = fechaArgentina(new Date(Date.now() - 6 * 86400000));
-        const semana = acts.filter((a: AnalyticsEvent) => a.created_at && fechaArgentina(new Date(a.created_at)) >= hace7);
-        const visWeek = new Set(semana.filter((a: AnalyticsEvent) => a.type === "view").map((a: AnalyticsEvent) => a.business_id)).size;
-        const waWeek = new Set(semana.filter((a: AnalyticsEvent) => a.type === "whatsapp").map((a: AnalyticsEvent) => a.business_id)).size;
-        const resWeek = (revsData || []).filter((r2: unknown) => r2.created_at && fechaArgentina(new Date(r2.created_at)) >= hace7).length;
+        const semana = acts.filter((a: any) => a.created_at && fechaArgentina(new Date(a.created_at)) >= hace7);
+        const visWeek = new Set(semana.filter((a: any) => a.type === "view").map((a: any) => a.business_id)).size;
+        const waWeek = new Set(semana.filter((a: any) => a.type === "whatsapp").map((a: any) => a.business_id)).size;
+        const resWeek = (revsData || []).filter((r2: any) => r2.created_at && fechaArgentina(new Date(r2.created_at)) >= hace7).length;
         let maxRacha = 0, tmp = 0, prev = "";
         for (const d of [...dias].sort()) {
           tmp = prev && (new Date(d + "T00:00:00Z").getTime() - new Date(prev + "T00:00:00Z").getTime()) === 86400000 ? tmp + 1 : 1;
@@ -428,7 +428,7 @@ export default function PerfilPage() {
 
         <h2 className="mt-10 mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Negocios que seguís</h2>
         <div className="grid gap-2">
-          {seguidos.map((f: Follower) => (
+          {seguidos.map((f: any) => (
             <Link key={f.business_id} href={"/negocio/" + (f.businesses?.slug || "")} className="rounded-xl border border-[var(--line)] bg-[var(--ov-05)] px-4 py-3 font-bold hover:border-orange-400/60">
               {f.businesses?.name || "Negocio"}
             </Link>

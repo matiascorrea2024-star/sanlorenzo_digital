@@ -10,7 +10,6 @@ import Badge from "@/components/ui/badge";
 import InfoTip from "@/components/ui/info-tip";
 import LiveChat from "@/components/live/live-chat";
 import { PLANES } from "@/lib/plans";
-import { AdminStats, Business, BusinessReview, Subscription, Report, Location } from "@/lib/types";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -18,13 +17,15 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState("user");
   const [tab, setTab] = useState(searchParams.get("tab") || "overview");
+  // Snapshot de "ahora" (no Date.now() de forma impura en cada render)
+  // para el chequeo de "sigue impulsada" en la lista de ofertas.
   const [ahora] = useState(() => Date.now());
-  const [stats, setStats] = useState<AdminStats>({ users: 0, businesses: 0, offers: 0, reviews: 0, views: 0, seguidores: 0, usersRecent: [] });
-  const [pendientes, setPendientes] = useState<Business[]>([]);
-  const [resenas, setResenas] = useState<BusinessReview[]>([]);
-  const [subs, setSubs] = useState<Subscription[]>([]);
-  const [ciudades, setCiudades] = useState<Location[]>([]);
-  const [reportes, setReportes] = useState<Report[]>([]);
+  const [stats, setStats] = useState<any>({});
+  const [pendientes, setPendientes] = useState<any[]>([]);
+  const [resenas, setResenas] = useState<any[]>([]);
+  const [subs, setSubs] = useState<any[]>([]);
+  const [ciudades, setCiudades] = useState<any[]>([]);
+  const [reportes, setReportes] = useState<any[]>([]);
   const [nuevaCiudad, setNuevaCiudad] = useState({ nombre: "", lat: "", lon: "" });
   const [creandoCiudad, setCreandoCiudad] = useState(false);
   const [barrioAbierto, setBarrioAbierto] = useState<string | null>(null);
@@ -32,23 +33,29 @@ export default function AdminPage() {
   const [editandoCiudad, setEditandoCiudad] = useState<string | null>(null);
   const [nombreCiudadEdit, setNombreCiudadEdit] = useState("");
 
-  const [negocios, setNegocios] = useState<Business[]>([]);
+  // Negocios y ofertas se cargan bajo demanda al abrir la pestaña --
+  // son listas que pueden crecer mucho, no tiene sentido pedirlas
+  // junto con el resto del overview.
+  const [negocios, setNegocios] = useState<any[]>([]);
   const [negociosCargados, setNegociosCargados] = useState(false);
   const [qNegocios, setQNegocios] = useState("");
-  const [negociosBusqueda, setNegociosBusqueda] = useState<Business[] | null>(null);
+  // Buscar en la base, no solo en los primeros 300 ya cargados en
+  // memoria -- con miles de negocios, el resto quedaba invisible para
+  // el propio buscador del admin. null = sin búsqueda activa.
+  const [negociosBusqueda, setNegociosBusqueda] = useState<any[] | null>(null);
   const [buscandoNegocios, setBuscandoNegocios] = useState(false);
-  const [ofertasAdmin, setOfertasAdmin] = useState<unknown[]>([]);
+  const [ofertasAdmin, setOfertasAdmin] = useState<any[]>([]);
   const [ofertasCargadas, setOfertasCargadas] = useState(false);
   const [qOfertas, setQOfertas] = useState("");
-  const [ofertasBusqueda, setOfertasBusqueda] = useState<unknown[] | null>(null);
+  const [ofertasBusqueda, setOfertasBusqueda] = useState<any[] | null>(null);
   const [buscandoOfertas, setBuscandoOfertas] = useState(false);
-  const [campanas, setCampanas] = useState<unknown[]>([]);
+  const [campanas, setCampanas] = useState<any[]>([]);
   const [campanasCargadas, setCampanasCargadas] = useState(false);
   const [nuevaCampana, setNuevaCampana] = useState({ title: "", description: "", grants_plan: "profesional", grants_dias: "90", max_cupos: "20" });
   const [creandoCampana, setCreandoCampana] = useState(false);
-  const [vivos, setVivos] = useState<unknown[]>([]);
+  const [vivos, setVivos] = useState<any[]>([]);
   const [vivosCargados, setVivosCargados] = useState(false);
-  const [chatMensajes, setChatMensajes] = useState<unknown[]>([]);
+  const [chatMensajes, setChatMensajes] = useState<any[]>([]);
   const [chatCargados, setChatCargados] = useState(false);
   const [vivoSeleccionado, setVivoSeleccionado] = useState<string | null>(null);
 
@@ -91,11 +98,11 @@ export default function AdminPage() {
 
       // Cantidad real de negocios por ciudad -- una sola consulta
       // agrupada en el cliente, no N+1.
-      const cityIds = (ciu.data || []).map((c: Location) => c.id);
+      const cityIds = (ciu.data || []).map((c: any) => c.id);
       if (cityIds.length) {
         const { data: bizRows } = await supabase().from("businesses").select("location_id").in("location_id", cityIds);
         const counts: Record<string, number> = {};
-        (bizRows || []).forEach((r: Business) => { if (r.location_id) counts[r.location_id] = (counts[r.location_id] || 0) + 1; });
+        (bizRows || []).forEach((r: any) => { if (r.location_id) counts[r.location_id] = (counts[r.location_id] || 0) + 1; });
         setCiudades((prev) => prev.map((c) => ({ ...c, _negocios: counts[c.id] || 0 })));
       }
     })();
@@ -186,7 +193,7 @@ export default function AdminPage() {
   // El navegador manda las cookies de sesión de Supabase automáticamente
   // (mismo origen); el servidor las lee vía lib/supabase-server.ts, igual
   // que ya hacen las rutas de app/api/coupons/*.
-  const authedFetch = async (url: string, method: string, body: unknown) => {
+  const authedFetch = async (url: string, method: string, body: any) => {
     const res = await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
@@ -203,14 +210,14 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/businesses", "PATCH", { id, status: "verificado" });
       setPendientes(prev => prev.filter(p => p.id !== id));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const rechazar = async (id: string) => {
     try {
       await authedFetch("/api/admin/businesses", "PATCH", { id, status: "rechazado" });
       setPendientes(prev => prev.filter(p => p.id !== id));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const borrarResena = async (id: string) => {
@@ -218,14 +225,14 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/reviews", "DELETE", { id });
       setResenas(prev => prev.filter(r => r.id !== id));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const resolverReporte = async (id: string) => {
     try {
       await authedFetch("/api/admin/reports", "PATCH", { id });
       setReportes(prev => prev.filter(r => r.id !== id));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const cambiarEstadoCiudad = async (id: string, status: string) => {
@@ -233,7 +240,7 @@ export default function AdminPage() {
       const res = await authedFetch("/api/admin/locations", "PATCH", { id, status });
       setCiudades(prev => prev.map(c => c.id === id ? { ...c, status, active: status === "active" } : c));
       if (res.warning) alert(res.warning);
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   // "locations" tiene RLS admin-only para escritura (locations_admin,
@@ -255,7 +262,7 @@ export default function AdminPage() {
       if (error) throw error;
       setCiudades(prev => [...prev, data]);
       setNuevaCiudad({ nombre: "", lat: "", lon: "" });
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
     setCreandoCiudad(false);
   };
 
@@ -271,28 +278,28 @@ export default function AdminPage() {
       setCiudades(prev => prev.map(c => c.id === ciudadId ? { ...c, _barrios: (c._barrios || 0) + 1 } : c));
       setNuevoBarrio("");
       setBarrioAbierto(null);
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const revisarSuscripcion = async (id: string, decision: "aprobar" | "rechazar") => {
     try {
       await authedFetch("/api/admin/subscriptions", "PATCH", { id, decision });
       setSubs(prev => prev.map(s => s.id === id ? { ...s, status: decision === "aprobar" ? "active" : "rechazado" } : s));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const toggleDestacado = async (id: string, destacado: boolean) => {
     try {
       await authedFetch("/api/admin/businesses", "PATCH", { id, destacado: !destacado });
       setNegocios(prev => prev.map(n => n.id === id ? { ...n, destacado: !destacado } : n));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const toggleActivoNegocio = async (id: string, activo: boolean) => {
     try {
       await authedFetch("/api/admin/businesses", "PATCH", { id, activo: !activo });
       setNegocios(prev => prev.map(n => n.id === id ? { ...n, activo: !activo } : n));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const crearCampana = async () => {
@@ -308,7 +315,7 @@ export default function AdminPage() {
       });
       setCampanas(prev => [{ ...res.campaign, campaign_claims: [{ count: 0 }] }, ...prev]);
       setNuevaCampana({ title: "", description: "", grants_plan: "profesional", grants_dias: "90", max_cupos: "20" });
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
     setCreandoCampana(false);
   };
 
@@ -316,14 +323,14 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/campaigns", "PATCH", { id, active: !active });
       setCampanas(prev => prev.map(c => c.id === id ? { ...c, active: !active } : c));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const toggleBloqueoVivo = async (id: string, blocked: boolean) => {
     try {
       await authedFetch("/api/admin/live-streams", "PATCH", { id, blocked: !blocked });
       setVivos(prev => prev.map(v => v.id === id ? { ...v, blocked: !blocked } : v));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const finalizarVivoAdmin = async (id: string) => {
@@ -331,7 +338,7 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/live-streams", "PATCH", { id, status: "ended" });
       setVivos(prev => prev.map(v => v.id === id ? { ...v, status: "ended", ended_at: new Date().toISOString() } : v));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const borrarVivo = async (id: string, titulo: string) => {
@@ -340,14 +347,14 @@ export default function AdminPage() {
       await authedFetch("/api/admin/live-streams", "DELETE", { id });
       setVivos(prev => prev.filter(v => v.id !== id));
       if (vivoSeleccionado === id) setVivoSeleccionado(null);
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const restaurarMensajeChat = async (id: string) => {
     try {
       await authedFetch("/api/admin/chat", "PATCH", { id });
       setChatMensajes(prev => prev.filter(m => m.id !== id));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const borrarMensajeChat = async (id: string) => {
@@ -355,14 +362,14 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/chat", "DELETE", { id });
       setChatMensajes(prev => prev.filter(m => m.id !== id));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const cambiarPlan = async (id: string, plan: string) => {
     try {
       await authedFetch("/api/admin/businesses", "PATCH", { id, plan });
       setNegocios(prev => prev.map(n => n.id === id ? { ...n, plan, destacado: plan === "premium" } : n));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const borrarNegocio = async (id: string, nombre: string) => {
@@ -370,21 +377,21 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/businesses", "DELETE", { id });
       setNegocios(prev => prev.filter(n => n.id !== id));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const toggleOfertaActiva = async (id: string, active: boolean) => {
     try {
       await authedFetch("/api/admin/offers", "PATCH", { id, active: !active });
       setOfertasAdmin(prev => prev.map(o => o.id === id ? { ...o, active: !active } : o));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const impulsarOferta = async (id: string, horas: number) => {
     try {
-      const r: unknown = await authedFetch("/api/admin/offers", "PATCH", { id, impulsar_horas: horas });
+      const r: any = await authedFetch("/api/admin/offers", "PATCH", { id, impulsar_horas: horas });
       setOfertasAdmin(prev => prev.map(o => o.id === id ? { ...o, impulsada_hasta: r.impulsada_hasta } : o));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const borrarOferta = async (id: string, titulo: string) => {
@@ -392,7 +399,7 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/offers", "DELETE", { id });
       setOfertasAdmin(prev => prev.filter(o => o.id !== id));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const cambiarRolUsuario = async (userId: string, rolActual: string) => {
@@ -400,11 +407,11 @@ export default function AdminPage() {
     if (!confirm(`¿Cambiar el rol de este usuario a "${nuevo}"?`)) return;
     try {
       await authedFetch("/api/admin/users", "PATCH", { user_id: userId, role: nuevo });
-      setStats((prev: AdminStats) => ({
+      setStats((prev: any) => ({
         ...prev,
-        usersRecent: prev.usersRecent.map((u: UserProfile) => u.user_id === userId ? { ...u, role: nuevo } : u),
+        usersRecent: prev.usersRecent.map((u: any) => u.user_id === userId ? { ...u, role: nuevo } : u),
       }));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const renombrarCiudad = async (id: string) => {
@@ -414,7 +421,7 @@ export default function AdminPage() {
       await authedFetch("/api/admin/locations", "PATCH", { id, name: nombre });
       setCiudades(prev => prev.map(c => c.id === id ? { ...c, name: nombre } : c));
       setEditandoCiudad(null);
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const borrarCiudad = async (id: string, nombre: string) => {
@@ -422,7 +429,7 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/locations", "DELETE", { id });
       setCiudades(prev => prev.filter(c => c.id !== id));
-    } catch (e: unknown) { alert(e.message); }
+    } catch (e: any) { alert(e.message); }
   };
 
   const pendientesPago = subs.filter(s => s.status === "pending").length;
@@ -537,7 +544,7 @@ export default function AdminPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {stats.usersRecent.map((u: UserProfile) => (
+                      {stats.usersRecent.map((u: any) => (
                         <tr key={u.user_id} className="border-b border-[var(--ov-05)] last:border-0 hover:bg-[var(--ov-03)]">
                           <td className="px-4 py-3 text-xs font-semibold">{u.display_name || u.user_id.slice(0, 8) + "…"}</td>
                           <td className="px-4 py-3 text-xs capitalize text-[var(--muted)]">{u.role}</td>

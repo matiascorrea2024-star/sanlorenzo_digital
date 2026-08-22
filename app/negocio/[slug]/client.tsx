@@ -49,9 +49,9 @@ const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
 export default function NegocioPage({ initialNegocio = null, initialOfertas = [], initialProductos = [], initialResenas = [] }: {
   initialNegocio?: any;
-  initialOfertas?: Business[];
-  initialProductos?: Business[];
-  initialResenas?: Business[];
+  initialOfertas?: any[];
+  initialProductos?: any[];
+  initialResenas?: any[];
 }) {
   const { trackViewBusiness, trackClickWhatsApp, trackClickMap, trackShareBusiness } = useAnalytics();
   const { show } = useToast();
@@ -65,12 +65,12 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   // acá, duplicando el fetch y agregando un parpadeo de loading evitable.
   const [negocio] = useState<any>(() => initialNegocio);
   const viendo = useLiveViewers(negocio?.id);
-  const [ofertas] = useState<Business[]>(() => {
+  const [ofertas] = useState<any[]>(() => {
     const hoy = hoyArgentina();
     return (initialOfertas || [])
-      .filter((o: Offer) => !o.valid_until || o.valid_until >= hoy)
+      .filter((o: any) => !o.valid_until || o.valid_until >= hoy)
       .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-      .map((o: Offer) => ({
+      .map((o: any) => ({
         id: o.id,
         title: o.title,
         description: o.description,
@@ -81,7 +81,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         image_url: o.image_url || initialNegocio?.portada_url,
       }));
   });
-  const [productos] = useState<Business[]>(() =>
+  const [productos] = useState<any[]>(() =>
     [...(initialProductos || [])].sort((a: any, b: any) => {
       if (!!b.featured !== !!a.featured) return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
       return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
