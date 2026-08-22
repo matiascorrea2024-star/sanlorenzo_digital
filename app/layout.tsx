@@ -31,6 +31,11 @@ import type { Viewport } from "next";
 export const viewport: Viewport = {
   themeColor: "#0c0a0b",
   colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
