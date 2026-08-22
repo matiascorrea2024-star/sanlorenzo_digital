@@ -3,6 +3,8 @@ import { Payment } from "mercadopago";
 import { mercadoPagoConfig } from "@/lib/mercadopago";
 import { supabaseCron } from "@/lib/supabase-cron";
 import { PLANES } from "@/lib/plans";
+import { aplicarLimiteCatalogo } from "@/lib/catalogo-limite";
+import { resend } from "@/lib/resend";
 
 // Webhook de Mercado Pago -- sin sesión de usuario detrás (lo llama el
 // propio Mercado Pago), protegido por un secreto propio en la query string
@@ -35,19 +37,50 @@ export async function POST(request: NextRequest) {
     const planInfo = PLANES[sub.plan];
     const dias = planInfo?.duracionDias || 30;
     const expira = new Date(Date.now() + dias * 86400000).toISOString();
+    
+    // Actualizar suscripción
     await sb.from("subscriptions").update({
       status: "approved",
       payment_ref: String(paymentId),
       started_at: new Date().toISOString(),
       expires_at: expira,
     }).eq("id", subscriptionId);
+    
+    // Actualizar negocio con nuevo plan
     await sb.from("businesses").update({
       plan: sub.plan,
       plan_expira: expira,
       destacado: sub.plan === "premium",
     }).eq("id", sub.business_id);
+    
+    // Aplicar límites de catálogo si es necesario
+    await aplicarLimiteCatalogo(sb, sub.business_id, sub.plan);
+    
+    // Obtener datos de negocio y owner para email
+    const { data: negocio } = await sb.from("businesses").select("id, name, owner_id").eq("id", sub.business_id).maybeSingle();
+    if (negocio?.owner_id) {
+      const { data: { users: [owner] } } = await sb.auth.admin.listUsers();
+      if (owner?.email) {
+        try {
+          await resend().emails.send({
+            from: "San Lorenzo Digital <noreply@sanlorenzodigital.vercel.app>",
+            to: owner.email,
+            subject: `¡Éxito! Tu plan ${planInfo?.name || "Premium"} está activo`,
+            html: `<h2>¡Bienvenido a ${planInfo?.name || "Premium"}!</h2>
+                   <p>Tu negocio <strong>${negocio.name}</strong> ya está en el plan ${planInfo?.name || "Premium"}.</p>
+                   <p>Válido hasta el: <strong>${new Date(expira).toLocaleDateString("es-AR")}</strong></p>
+                   <a href="https://sanlorenzodigital.vercel.app/dashboard/mis-negocios">Ver mis negocios</a>`,
+          });
+        } catch (e) {
+          console.log("Email error (no crítico):", e);
+        }
+      }
+    }
   } else if (payment.status === "rejected" || payment.status === "cancelled") {
-    await sb.from("subscriptions").update({ status: payment.status, payment_ref: String(paymentId) }).eq("id", subscriptionId);
+    await sb.from("subscriptions").update({ 
+      status: payment.status, 
+      payment_ref: String(paymentId) 
+    }).eq("id", subscriptionId);
   }
 
   return NextResponse.json({ ok: true });
