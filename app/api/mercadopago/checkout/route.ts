@@ -3,6 +3,7 @@ import { Preference } from "mercadopago";
 import { requireUser } from "@/lib/api-auth";
 import { mercadoPagoConfig } from "@/lib/mercadopago";
 import { PLANES } from "@/lib/plans";
+import { getRateLimitHeader, checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 const SITE = "https://sanlorenzodigital.vercel.app";
 
@@ -10,6 +11,11 @@ const SITE = "https://sanlorenzodigital.vercel.app";
 // plan directo desde /dashboard/planes, en vez de transferir y esperar
 // que un admin revise el comprobante a mano.
 export async function POST(request: NextRequest) {
+  // Rate limiting: máx 3 intentos por minuto
+  const ip = getRateLimitHeader(request);
+  const { ok, retryAfter } = checkRateLimit(ip, 3, 60);
+  if (!ok) return rateLimitResponse(retryAfter);
+
   const { sb, user, error } = await requireUser();
   if (!user) return NextResponse.json({ error }, { status: 401 });
 
