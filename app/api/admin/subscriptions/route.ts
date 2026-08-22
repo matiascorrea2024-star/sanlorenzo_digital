@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { MAX_DESTACADOS_SEMANALES } from "@/lib/plans";
+import { aplicarLimiteCatalogo } from "@/lib/catalogo-limite";
 
 export async function PATCH(request: NextRequest) {
   const { sb, user, isAdmin, error } = await requireAdmin();
@@ -45,10 +46,22 @@ export async function PATCH(request: NextRequest) {
     .eq("id", sub.business_id);
   if (bizError) return NextResponse.json({ error: bizError.message }, { status: 500 });
 
+  // Si el plan nuevo alcanza, esto reactiva solo lo que estaba oculto por
+  // haberse pasado del límite del plan anterior (el comerciante no tiene
+  // que volver a cargar nada).
+  await aplicarLimiteCatalogo(sb, sub.business_id, sub.plan);
+
   const { error: updError } = await sb.from("subscriptions")
     .update({ status: "active", expires_at: expira, revisado_por: user!.id, revisado_en: new Date().toISOString() })
     .eq("id", id);
   if (updError) return NextResponse.json({ error: updError.message }, { status: 500 });
+
+  await sb.from("analytics_events").insert({
+    business_id: sub.business_id,
+    event_name: "payment_confirmed",
+    event_type: "payment_confirmed",
+    metadata: { plan: sub.plan, provider: "transferencia", subscription_id: sub.id },
+  });
 
   return NextResponse.json({ ok: true });
 }

@@ -4,11 +4,13 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { ShoppingBasket, X, Trash2, MessageCircle } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
+import { useAnalytics } from "@/lib/hooks/use-analytics";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
 export default function CartFab() {
   const { items, removeItem, clear } = useCart();
+  const { trackCheckoutStarted } = useAnalytics();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
@@ -87,6 +89,10 @@ export default function CartFab() {
                   </div>
                   {grupo[0].businessWhatsapp ? (
                     <a
+                      onClick={() => trackCheckoutStarted(businessId, {
+                        channel: "whatsapp",
+                        items: grupo.length,
+                      })}
                       href={`https://wa.me/${String(grupo[0].businessWhatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(mensajeWhatsapp(grupo))}`}
                       target="_blank" rel="noopener noreferrer"
                       className="mt-3 flex items-center justify-center gap-2 rounded-full bg-green-500/15 border border-green-400/30 py-2.5 text-sm font-bold text-[var(--ok)] hover:bg-green-500/25"

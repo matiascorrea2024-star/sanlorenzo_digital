@@ -34,7 +34,7 @@ export default function MuroDashboard() {
     (async () => {
       if (!user) return;
       const { data: biz } = await supabase().from("businesses")
-        .select("*").eq("owner_id", user.id).maybeSingle();
+        .select("*").eq("owner_id", user.id).order("name").limit(1).maybeSingle();
       if (biz) { setNegocio(biz); load(biz.id); }
     })();
   }, [user]);

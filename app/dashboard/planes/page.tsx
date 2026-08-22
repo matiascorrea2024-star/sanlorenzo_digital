@@ -49,7 +49,7 @@ export default function PlanesDashboard() {
       if (!user) return;
       const sb = supabase();
       const { data: biz } = await sb.from("businesses")
-        .select("*").eq("owner_id", user.id).maybeSingle();
+        .select("*").eq("owner_id", user.id).order("name").limit(1).maybeSingle();
       setNegocio(biz);
       if (biz) {
         const [{ data: sub }, { data: camps }, { data: claims }] = await Promise.all([

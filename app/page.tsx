@@ -11,7 +11,7 @@ export default async function Page() {
   const [{ data: negocios }, { data: ofertas }] = await Promise.all([
     sb
       .from("businesses")
-      .select("id, name, slug, category, description, tags, items, latitude, longitude, address, whatsapp, instagram, portada_url, logo_url, plan, status, open, promotions, destacado, rating, reviews, favorites_count, type, hace_envios")
+      .select("id, name, slug, category, description, tags, items, latitude, longitude, address, whatsapp, instagram, portada_url, logo_url, plan, status, open, promotions, destacado, rating, reviews, favorites_count, type, hace_envios, updated_at")
       .in("status", ["verificado", "reclamado"])
       .eq("activo", true)
       .order("destacado", { ascending: false })

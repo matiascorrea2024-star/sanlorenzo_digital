@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 
+const EVENT_TYPES = new Set([
+  "view_business", "view_offer", "click_whatsapp", "click_map", "favorite",
+  "follow", "search", "coupon_generated", "coupon_redeemed", "share_business",
+  "share_offer", "checkout_started", "payment_confirmed", "tracked_link_click",
+]);
+
 export async function POST(req: NextRequest) {
   try {
     const ip =
@@ -16,6 +22,10 @@ export async function POST(req: NextRequest) {
     // (app/dashboard/analytics) -- antes este endpoint recibía event_type/
     // offer_id/product_id/metadata y los descartaba sin guardarlos en
     // ningún lado, por eso las estadísticas siempre mostraban 0.
+    if (body.event_type && !EVENT_TYPES.has(body.event_type)) {
+      return NextResponse.json({ error: "event_type inválido" }, { status: 400 });
+    }
+    const metadata = body.metadata && typeof body.metadata === "object" ? body.metadata : {};
     await Promise.all([
       sb.from("page_views").insert({
         business_id: body.business_id || null,
@@ -31,12 +41,14 @@ export async function POST(req: NextRequest) {
             product_id: body.product_id || null,
             user_id: user?.id || null,
             path: body.path || null,
-            metadata: body.metadata || null,
+            metadata,
+            source: typeof body.source === "string" ? body.source.slice(0, 40) : null,
+            source_code: typeof body.source_code === "string" ? body.source_code.slice(0, 40) : null,
             ip,
           })
         : Promise.resolve(),
     ]);
-  } catch (e) {
+  } catch {
     // silencioso: nunca rompe la navegación
   }
   return NextResponse.json({ ok: true });

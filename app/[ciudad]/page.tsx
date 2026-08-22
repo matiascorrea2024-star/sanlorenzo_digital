@@ -8,8 +8,16 @@ type Props = { params: Promise<{ ciudad: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { ciudad } = await params;
   const sb = await createClient();
+  // Antes esto pedía también el "parent" con un join
+  // (locations!locations_parent_id_fkey) que ni se usaba en el
+  // resultado -- y si ese join fallaba (nombre de constraint, RLS,
+  // lo que sea) toda la consulta volvía null y esta función caía
+  // siempre en la rama "Ciudad no encontrada", para CUALQUIER
+  // ciudad, aunque la página en sí cargara bien (el componente
+  // cliente hace su propia consulta, más simple, aparte). Misma
+  // consulta simple que ya usa el componente de la página de abajo.
   const { data: loc } = await sb.from("locations")
-    .select("*, parent:locations!locations_parent_id_fkey(name)")
+    .select("name, status")
     .eq("slug", ciudad)
     .eq("type", "city")
     .maybeSingle();

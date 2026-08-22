@@ -34,7 +34,7 @@ export default function EnVivoDashboard() {
   useEffect(() => {
     (async () => {
       if (!user) return;
-      const { data: biz } = await supabase().from("businesses").select("*").eq("owner_id", user.id).maybeSingle();
+      const { data: biz } = await supabase().from("businesses").select("*").eq("owner_id", user.id).order("name").limit(1).maybeSingle();
       setNegocio(biz);
       if (biz) await cargar(biz.id);
       setLoading(false);

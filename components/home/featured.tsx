@@ -8,16 +8,18 @@ export default function Featured({ list, title, userCoords }: {
   list: any[]; title: string; userCoords?: { lat: number; lon: number } | null;
 }) {
   return (
-    <section id="destacados" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
-      <SectionTitle
-        eyebrow="Directorio"
-        title={title}
-        action={
-          list.length > 0 ? (
-            <Link href="/negocios" className="text-sm text-[var(--muted)] hover:text-[var(--text)]">Explorar todo →</Link>
-          ) : undefined
-        }
-      />
+    <section id="destacados" className="editorial-businesses px-4 py-12 md:py-16">
+      {title && (
+        <SectionTitle
+          eyebrow="Directorio"
+          title={title}
+          action={
+            list.length > 0 ? (
+              <Link href="/negocios" className="text-sm text-[var(--muted)] hover:text-[var(--text)]">Explorar todo →</Link>
+            ) : undefined
+          }
+        />
+      )}
       {list.length === 0 ? (
         <div className="sld-card rounded-2xl px-6 py-8 text-center">
           <p className="font-semibold">No encontramos resultados</p>

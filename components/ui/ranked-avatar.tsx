@@ -4,6 +4,7 @@ import Image from "next/image";
 import Avatar from "@/components/ui/avatar";
 import { useRank } from "@/lib/rank-cache";
 import { rangoDe, gemaDe } from "@/lib/ranks";
+import RankFrame from "@/components/ui/rank-frame";
 
 // Icono de negocio PRO: doble anillo metálico, brillo especular,
 // gema facetada de categoría y nivel opcional.
@@ -29,19 +30,7 @@ export default function RankedAvatar({ slug, name, size = 44, categoria, photoUr
 
   return (
     <span className="inline-flex items-center gap-2 align-middle">
-      <span className="relative inline-block shrink-0" style={{ width: size + 8, height: size + 8 }}
-        title={`Nivel ${r.nivel} · ${r.rango}${r.tier ? " " + r.tier : ""}`}>
-        {/* Halo de energía pulsante */}
-        <span className="absolute inset-0 rounded-full blur-[7px]"
-          style={{ background: r.glow, animation: r.particulas >= 3 ? "rankPulse 2.6s ease-in-out infinite" : undefined }} />
-        {/* Anillo metálico exterior */}
-        <span className="relative block h-full w-full rounded-full"
-          style={{
-            background: r.metal,
-            padding: 2.5,
-            boxShadow: `0 0 14px ${r.accent}99, 0 2px 6px rgba(0,0,0,.6), inset 0 1px 1px rgba(255,255,255,.5)`,
-          }}>
-          {/* Separador oscuro interior */}
+      <RankFrame puntos={pts} size={size + 8} categoria={cat}>
           <span className="relative block h-full w-full overflow-hidden rounded-full bg-[#0c0a0b]" style={{ padding: 2 }}>
             {foto ? (
               <Image src={foto} alt={name} fill quality={90} sizes={`${size}px`}
@@ -50,11 +39,10 @@ export default function RankedAvatar({ slug, name, size = 44, categoria, photoUr
               <Avatar name={name} size={size} />
             )}
           </span>
-          {/* Brillo especular superior (efecto metal pulido) */}
-          <span className="pointer-events-none absolute left-[14%] top-[5%] h-[16%] w-[44%] rounded-full bg-white/45 blur-[2px]" />
-        </span>
+      </RankFrame>
+      <span className="pointer-events-none absolute left-[14%] top-[5%] z-10 h-[16%] w-[44%] rounded-full bg-white/45 blur-[2px]" aria-hidden="true" />
         {/* Gema facetada de categoría */}
-        <svg className="absolute -bottom-1 -right-1.5" width={gemaSize} height={gemaSize} viewBox="0 0 24 24"
+        <svg className="absolute -bottom-1 -right-1.5 z-20" width={gemaSize} height={gemaSize} viewBox="0 0 24 24"
           style={{ filter: `drop-shadow(0 0 5px ${gema})` }}>
           <polygon points="12,1 21,8 18,22 6,22 3,8" fill={gema} />
           <polygon points="12,1 16,8 12,22 8,8" fill="#fff" opacity="0.45" />
@@ -62,7 +50,6 @@ export default function RankedAvatar({ slug, name, size = 44, categoria, photoUr
           <polygon points="12,1 21,8 12,8" fill="#000" opacity="0.3" />
           <circle cx="9" cy="5" r="1.4" fill="#fff" opacity="0.9" />
         </svg>
-      </span>
       {showLevel && (
         <span className="flex flex-col leading-tight whitespace-nowrap">
           <span className="rounded-md px-1.5 py-0.5 text-[9px] font-black whitespace-nowrap"

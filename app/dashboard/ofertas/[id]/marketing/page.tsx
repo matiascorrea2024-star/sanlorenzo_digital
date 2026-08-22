@@ -13,6 +13,7 @@ export default function MarketingPage() {
   const [business, setBusiness] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState("");
+  const [trackedUrls, setTrackedUrls] = useState<Record<string, string>>({});
 
   const loadData = async () => {
     try {
@@ -45,6 +46,27 @@ export default function MarketingPage() {
   useEffect(() => {
     loadData();
   }, [offerId]);
+
+  useEffect(() => {
+    if (!offer?.id || !business?.id) return;
+    const origin = window.location.origin;
+    (async () => {
+      const entries = await Promise.all(["instagram", "whatsapp", "qr"].map(async (source) => {
+        try {
+          const response = await fetch("/api/tracked-links", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ business_id: business.id, offer_id: offer.id, source }),
+          });
+          const data = await response.json();
+          return [source, response.ok && data.short_url ? data.short_url : `${origin}/oferta/${offer.id}?source=${source}`] as const;
+        } catch {
+          return [source, `${origin}/oferta/${offer.id}?source=${source}`] as const;
+        }
+      }));
+      setTrackedUrls(Object.fromEntries(entries));
+    })();
+  }, [offer?.id, business?.id]);
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -88,10 +110,10 @@ export default function MarketingPage() {
     );
   }
 
-  const offerUrl = `https://sanlorenzodigital.vercel.app/negocio/${business.slug}`;
-  const igUrl = `${offerUrl}?source=instagram`;
-  const waUrl = `${offerUrl}?source=whatsapp`;
-  const qrUrl = `${offerUrl}?source=qr`;
+  const offerUrl = `https://sanlorenzodigital.vercel.app/oferta/${offer.id}`;
+  const igUrl = trackedUrls.instagram || offerUrl;
+  const waUrl = trackedUrls.whatsapp || offerUrl;
+  const qrUrl = trackedUrls.qr || offerUrl;
 
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
@@ -103,6 +125,11 @@ export default function MarketingPage() {
         <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Marketing</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Marketing de la oferta</h1>
         <p className="mt-3 text-[var(--muted)]">{offer.title}</p>
+        <div className="mt-4 rounded-2xl border border-orange-400/25 bg-orange-500/[.06] p-4 text-sm text-[var(--muted)]">
+          <strong className="text-[var(--text)]">Compartir estos links es gratis.</strong> “Impulsar oferta” es una
+          promoción paga aparte y hoy se activa manualmente desde administración; no se simula ningún cobro.
+          El checkout autoservicio de impulso queda pendiente de una orden/precio con RLS y conciliación propios.
+        </div>
 
         <div className="mt-6">
           <HowItWorks steps={[
@@ -117,7 +144,7 @@ export default function MarketingPage() {
         <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <h2 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>Links trackeables</h2>
           <p className="mt-1 text-sm text-[var(--muted)]">
-            Usá estos links para saber desde dónde vienen tus clientes
+            Cada link tiene un código propio y registra clics, sin inventar conversiones.
           </p>
 
           <div className="mt-4 space-y-3">

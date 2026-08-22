@@ -62,19 +62,17 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 px-2 pt-2 md:top-3 md:px-3 md:pt-3">
-      {/* Isla flotante, no una barra pegada al borde -- el blur/sombra crece
-          apenas se scrollea para que se note que "levanta" sobre el contenido. */}
-      <div className={`mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full border px-3 backdrop-blur-xl transition-all duration-500 md:h-16 md:px-5 ${
-        scrolled ? "border-[var(--line-strong)] bg-[var(--bg)]/90 shadow-2xl shadow-black/50" : "border-[var(--line)] bg-[var(--bg)]/70 shadow-lg shadow-black/30"
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0c0a0b]" aria-label="Navegación principal">
+      <div className={`site-header-inner mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 transition-colors md:h-16 md:px-6 ${
+        scrolled ? "bg-[#0c0a0b]" : "bg-[#0c0a0b]"
       }`}>
           <Link href="/" className="group flex shrink-0 items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-red-600 shadow-lg shadow-orange-500/25 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 group-hover:shadow-orange-500/45 group-hover:brightness-110">
+            <span className="grid h-8 w-8 place-items-center rounded-md bg-[var(--accent)] transition group-hover:bg-[var(--accent2)]">
               <ShoppingBag className="h-5 w-5 text-white" />
             </span>
             <span className="hidden leading-tight sm:block">
-              <span className="block text-sm font-black tracking-tight text-[var(--text)] md:text-base">LA GRAN BARATA</span>
-              <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-orange-400">Digital · San Lorenzo</span>
+              <span className="block text-sm font-black tracking-tight text-[#f7f3ec] md:text-base">LA GRAN BARATA</span>
+              <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--accent)]">Digital · San Lorenzo</span>
             </span>
           </Link>
 
@@ -85,11 +83,12 @@ export default function Header() {
                 <Link
                   key={it.href}
                   href={it.href}
-                  className={`relative rounded-full px-3.5 py-2 text-sm font-semibold transition-all duration-300 ${active ? "bg-[var(--ov-10)] text-[var(--text)]" : "text-[var(--muted)] hover:bg-[var(--ov-05)] hover:text-[var(--text)]"}`}
+                  aria-current={active ? "page" : undefined}
+                  className={`relative px-3 py-2 text-sm font-semibold transition-all duration-300 ${active ? "text-[#f7f3ec]" : "text-[#a99b86] hover:text-[#f7f3ec]"}`}
                 >
                   {it.label}
                   {active && (
-                    <span className="absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(249,115,22,.9)]" />
+                    <span className="absolute -bottom-1 left-3 right-3 h-0.5 bg-[var(--accent)]" />
                   )}
                 </Link>
               );
@@ -107,7 +106,7 @@ export default function Header() {
                 <button
                   onClick={() => setOpen(!open)}
                   aria-label="Menú de usuario"
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-sm font-black text-white transition hover:scale-105 md:h-9 md:w-9"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-sm font-black text-white transition hover:scale-105 md:h-9 md:w-9"
                 >
                   {(user.email || "?")[0].toUpperCase()}
                 </button>
@@ -120,7 +119,7 @@ export default function Header() {
                     </div>
 
                     <p className="px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">🏪 Mi comercio</p>
-                    <Link href="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-orange-300 hover:bg-orange-500/10">Mis negocios</Link>
+                    <Link href="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/10">Mis negocios</Link>
                     <Link href="/dashboard/ofertas/nueva" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Nueva oferta</Link>
                     <Link href="/dashboard/reels/nueva" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Nuevo reel</Link>
                     <Link href="/dashboard/analytics" onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-[var(--text)] hover:bg-[var(--ov-05)]">Estadísticas</Link>
@@ -157,9 +156,9 @@ export default function Header() {
               <AuthButton />
             )}
 
-            <Link href="/para-negocios" className="group/cta btn-shine hidden items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-1.5 pl-4 pr-1.5 text-sm font-black text-white transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-95 active:scale-[0.98] md:inline-flex">
+            <Link href="/para-negocios" className="group/cta hidden items-center gap-2 bg-[var(--accent)] px-4 py-2 text-sm font-black text-white transition hover:bg-[var(--accent2)] active:scale-[0.98] md:inline-flex">
               Publicar negocio
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black/15 transition-transform duration-300 group-hover/cta:translate-x-0.5">↗</span>
+              <span className="transition-transform duration-300 group-hover/cta:translate-x-0.5">↗</span>
             </Link>
           </div>
       </div>

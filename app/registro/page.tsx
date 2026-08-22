@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { signUpWithEmail } from "@/lib/auth-helpers";
 import { supabase } from "@/lib/supabase";
@@ -9,10 +9,13 @@ import { friendlyError } from "@/lib/friendly-error";
 
 export default function RegistroPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [role, setRole] = useState<"user" | "business_owner">("user");
+  const [role, setRole] = useState<"user" | "business_owner">(
+    searchParams.get("role") === "business_owner" ? "business_owner" : "user"
+  );
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,8 +43,12 @@ export default function RegistroPage() {
         try {
           const ref = localStorage.getItem("sld-ref");
           if (ref && ref !== user.id) {
-            await supabase().from("referrals").insert({ referrer_id: ref, referred_id: user.id });
-            localStorage.removeItem("sld-ref");
+            const response = await fetch("/api/referrals/attribute", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ referrer_id: ref }),
+            });
+            if (response.ok) localStorage.removeItem("sld-ref");
           }
         } catch {}
       }
@@ -56,7 +63,7 @@ export default function RegistroPage() {
 
   if (success) {
     return (
-      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center px-4">
+      <main className="sld-editorial-page min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div className="rounded-[1.75rem] border border-green-400/25 bg-green-500/[.06] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
@@ -71,7 +78,7 @@ export default function RegistroPage() {
   }
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] px-4 py-8">
+    <main className="sld-editorial-page relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-8">
       <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.16), transparent 55%), radial-gradient(circle at 90% 100%, rgba(34,211,238,.1), transparent 55%)" }} />
       <div className="relative w-full max-w-md">
         <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
@@ -80,8 +87,8 @@ export default function RegistroPage() {
             <Link href="/" className="inline-block mb-4">
               <span className="text-3xl">🛍️</span>
             </Link>
-            <h1 className="text-2xl font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Crear cuenta</h1>
-            <p className="mt-2 text-[var(--muted)]">Unite a San Lorenzo Digital</p>
+            <h1 className="text-2xl font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Tu próximo descubrimiento empieza acá</h1>
+            <p className="mt-2 text-[var(--muted)]">Creá tu cuenta gratis y conectate con lo mejor de San Lorenzo.</p>
           </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -165,7 +172,7 @@ export default function RegistroPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
+              className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-3.5 font-black text-white shadow-lg shadow-orange-950/20 hover:brightness-110 disabled:opacity-50"
             >
               {loading ? "Creando cuenta..." : "Crear cuenta"}
             </button>

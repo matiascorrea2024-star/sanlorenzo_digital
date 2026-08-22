@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import OfferCard from "@/components/ui/offer-card";
 import { supabase } from "@/lib/supabase";
 import { hoyArgentina } from "@/lib/fecha-ar";
+import { CATEGORIES } from "@/lib/data";
 
 type Row = {
   id: string;
@@ -40,7 +41,11 @@ function diasA(vence?: string) {
 export default function PromocionesPage() {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [count, setCount] = useState(0);
+  const [category, setCategory] = useState("");
+  const [minDiscount, setMinDiscount] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
   // Snapshot de "ahora" tomado una sola vez (no en cada render) para
   // no llamar Date.now() de forma impura durante el cálculo de impulsada.
@@ -52,7 +57,8 @@ export default function PromocionesPage() {
       // filtra active=true) -- antes esta página leía businesses.promotions,
       // un campo JSON legacy que nadie escribe desde que existe la tabla
       // offers: las ofertas que publican los comercios nunca llegaban acá.
-      const { data } = await supabase().from("offers_with_business").select("*").order("created_at", { ascending: false }).limit(200);
+      const { data, error: queryError } = await supabase().from("offers_with_business").select("*").order("created_at", { ascending: false }).limit(200);
+      if (queryError) setError("No pudimos cargar las ofertas. Revisá tu conexión e intentá de nuevo.");
       setRows((data as Row[]) || []);
       setLoading(false);
     })();
@@ -62,7 +68,10 @@ export default function PromocionesPage() {
   const activas = useMemo(
     () =>
       rows
-        .filter((o) => !o.valid_until || o.valid_until >= hoy)
+        .filter((o) => (!o.valid_until || o.valid_until >= hoy)
+          && (!category || o.business_category === category)
+          && (!minDiscount || Number(o.discount_percent || 0) >= minDiscount)
+          && (!maxPrice || !o.offer_price || Number(o.offer_price) <= maxPrice))
         .map((o) => ({
           id: o.id,
           negocio: o.business_name,
@@ -75,6 +84,7 @@ export default function PromocionesPage() {
           ahora: o.offer_price ? Number(o.offer_price) : undefined,
           portada_url: o.business_portada,
           logo_url: o.business_logo,
+          creado: o.created_at,
           precio_prometido: !!o.precio_prometido,
           latitude: o.business_latitude ? Number(o.business_latitude) : undefined,
           longitude: o.business_longitude ? Number(o.business_longitude) : undefined,
@@ -84,7 +94,7 @@ export default function PromocionesPage() {
         }))
         // Impulsadas primero -- lo que el negocio pagó por destacar hoy.
         .sort((a, b) => (b.impulsada ? 1 : 0) - (a.impulsada ? 1 : 0)),
-    [rows, hoy, ahora]
+    [rows, hoy, ahora, category, minDiscount, maxPrice]
   );
 
   const urgentes = useMemo(() => activas.filter((o) => { const d = diasA(o.vence); return d !== null && d <= 1; }), [activas]);
@@ -131,6 +141,34 @@ export default function PromocionesPage() {
       </section>
 
       <div className="mx-auto max-w-6xl px-4 pt-10">
+        <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <label className="flex min-h-12 items-center justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm">
+            <span className="font-bold">Rubro</span>
+            <select value={category} onChange={(e) => setCategory(e.target.value)} className="max-w-[62%] bg-transparent text-right text-[var(--muted)] outline-none">
+              <option value="">Todos</option>
+              {CATEGORIES.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+            </select>
+          </label>
+          <label className="flex min-h-12 items-center justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm">
+            <span className="font-bold">Precio hasta</span>
+            <select value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="bg-transparent text-right text-[var(--muted)] outline-none">
+              <option value={0}>Cualquiera</option>
+              <option value={10000}>$10.000</option>
+              <option value={25000}>$25.000</option>
+              <option value={50000}>$50.000</option>
+            </select>
+          </label>
+          <label className="flex min-h-12 items-center justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm">
+            <span className="font-bold">Descuento mínimo</span>
+            <select value={minDiscount} onChange={(e) => setMinDiscount(Number(e.target.value))} className="bg-transparent text-[var(--muted)] outline-none">
+              <option value={0}>Cualquiera</option>
+              <option value={10}>10%</option>
+              <option value={20}>20%</option>
+              <option value={30}>30%</option>
+            </select>
+          </label>
+        </div>
+        {error && <div role="alert" className="mb-6 border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">{error}</div>}
         {!loading && activas.length === 0 ? (
           <div className="sld-card rounded-3xl p-10 text-center">
             <p className="mt-3 text-xl font-black">No hay ofertas activas ahora</p>

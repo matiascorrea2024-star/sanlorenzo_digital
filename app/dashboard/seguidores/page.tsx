@@ -25,7 +25,7 @@ export default function SeguidoresPage() {
     (async () => {
       if (!user) return;
       const sb = supabase();
-      const { data: biz } = await sb.from("businesses").select("*").eq("owner_id", user.id).maybeSingle();
+      const { data: biz } = await sb.from("businesses").select("*").eq("owner_id", user.id).order("name").limit(1).maybeSingle();
       if (biz) {
         setNegocio(biz);
         const desdeMes = new Date(Date.now() - 30 * 86400000).toISOString();

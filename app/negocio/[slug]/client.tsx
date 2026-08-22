@@ -31,6 +31,8 @@ import ResponseBadge from "@/components/business/response-badge";
 import LoyaltyCard from "@/components/business/loyalty-card";
 import BookingWidget from "@/components/business/booking-widget";
 import { hoyArgentina } from "@/lib/fecha-ar";
+import { getTrackedShareUrl } from "@/lib/tracked-link";
+import { relativeTime } from "@/lib/relative-time";
 
 const CATEGORY_IMAGES: Record<string, string> = {
   calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=1200&q=85",
@@ -51,7 +53,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   initialProductos?: any[];
   initialResenas?: any[];
 }) {
-  const { trackViewBusiness, trackClickWhatsApp, trackClickMap } = useAnalytics();
+  const { trackViewBusiness, trackClickWhatsApp, trackClickMap, trackShareBusiness } = useAnalytics();
   const { show } = useToast();
   const { addItem, hasItem } = useCart();
   const params = useParams();
@@ -118,11 +120,19 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   }, [negocio]);
 
   useEffect(() => {
-    if (negocio) trackViewBusiness(negocio.id);
+    if (negocio) {
+      const params = new URLSearchParams(window.location.search);
+      const sourceCode = params.get("src") || undefined;
+      trackViewBusiness(negocio.id, sourceCode ? "tracked_link" : undefined, sourceCode);
+    }
   }, [negocio]);
 
   const share = async () => {
-    const url = window.location.href;
+    const url = await getTrackedShareUrl({
+      businessId: negocio.id,
+      source: "share",
+      fallback: window.location.href,
+    });
     const text = `🔥 ${negocio.name} en La Gran Barata Digital\n📍 ${negocio.address || "San Lorenzo"}\n⭐ ${negocio.rating || 0} (${negocio.reviews || 0} reseñas)\n\n#LaGranBarataSanLorenzo`;
 
     // Igual que en la ficha de oferta: preferimos compartir una imagen
@@ -142,6 +152,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
       try {
         await navigator.share({ files: [file], title: negocio.name, text });
         track(negocio.id, "share");
+        trackShareBusiness(negocio.id);
         show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
       } catch {
         // Usuario canceló -- no reintentamos con un segundo cartel de texto.
@@ -155,6 +166,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
       await navigator.clipboard.writeText(`${text}\n${url}`);
     }
     track(negocio.id, "share");
+    trackShareBusiness(negocio.id);
     show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
   };
 
@@ -183,6 +195,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   const portada = negocio.portada_url || CATEGORY_IMAGES[negocio.category] || CATEGORY_IMAGES.gastronomia;
   const waDestacado = negocio.whatsapp && planDe(negocio).whatsappDestacado;
+  const actualizado = relativeTime(negocio.updated_at);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -277,6 +290,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 </span>
               )}
               <LevelBadge slug={negocio.slug} />
+              {actualizado && <span className="text-[11px] font-semibold text-[var(--muted2)]">Actualizado {actualizado}</span>}
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2 pb-1">
@@ -661,6 +675,19 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
       <div className="mx-auto max-w-4xl px-4 pb-8">
         <LevelUpCard slug={slug} />
       </div>
+      {negocio.whatsapp && (
+        <div className="fixed inset-x-0 bottom-14 z-40 border-t border-white/10 bg-[#0c0a0b]/95 p-3 pb-[calc(.75rem+env(safe-area-inset-bottom))] backdrop-blur-md sm:hidden">
+          <a
+            onClick={() => trackClickWhatsApp(negocio.id)}
+            href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${negocio.name} en La Gran Barata Digital`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-h-12 w-full items-center justify-center gap-2 bg-green-600 px-4 py-3 text-sm font-black text-white"
+          >
+            <MessageCircle className="h-5 w-5" /> Escribir por WhatsApp
+          </a>
+        </div>
+      )}
     </main>
   );
 }

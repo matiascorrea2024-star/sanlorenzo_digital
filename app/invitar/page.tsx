@@ -6,9 +6,9 @@ import PageHero from "@/components/ui/page-hero";
 import { supabase } from "@/lib/supabase";
 
 const HITOS = [
-  { n: 3, premio: "Tu negocio aparece como \"Nuevo\" destacado 3 días" },
-  { n: 10, premio: "1 mes de Plan PRO gratis" },
-  { n: 25, premio: "\"Negocio Destacado del Mes\" (posición fija en home)" },
+  { n: 3, premio: "3 días de visibilidad \"Nuevo\" para tu negocio" },
+  { n: 10, premio: "1 mes de Plan PRO sin costo" },
+  { n: 25, premio: "Destacado del Mes (posición fija en home)" },
 ];
 
 export default function InvitarPage() {
@@ -34,7 +34,7 @@ export default function InvitarPage() {
 
   if (loading) return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--muted)] text-sm">Cargando…</main>;
 
-  const link = user ? `https://sanlorenzodigital.vercel.app/?ref=${user.id}` : "";
+  const link = user ? `https://sanlorenzodigital.vercel.app/?ref=${user.id}&src=invite` : "";
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(link)}`;
 
   const copiar = async () => {
@@ -119,7 +119,7 @@ export default function InvitarPage() {
               <span>Tus referidos</span>
               <span className="text-orange-400">{activos} activos <span className="text-[var(--muted2)] font-normal">/ {total} totales</span></span>
             </p>
-            <p className="mt-1 text-xs text-[var(--muted2)]">Activo = la persona ya completó el onboarding, no solo se registró.</p>
+            <p className="mt-1 text-xs text-[var(--muted2)]">No damos descuentos financiados por la plataforma: los hitos se convierten en días Pro y visibilidad para tu negocio. Activo = completó el onboarding.</p>
             <div className="mt-4 space-y-2">
               {HITOS.map((h) => {
                 const logrado = activos >= h.n;

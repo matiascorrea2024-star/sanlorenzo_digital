@@ -1,9 +1,13 @@
+type AnalyticsMetadata = Record<string, string | number | boolean | null>;
+
 export function useAnalytics() {
   const track = async (eventType: string, data?: {
     business_id?: string;
     offer_id?: string;
     product_id?: string;
-    metadata?: Record<string, any>;
+    metadata?: AnalyticsMetadata;
+    source?: string;
+    source_code?: string;
   }) => {
     try {
       await fetch("/api/track", {
@@ -17,8 +21,10 @@ export function useAnalytics() {
   };
 
   return {
-    trackViewBusiness: (businessId: string) => track("view_business", { business_id: businessId }),
-    trackViewOffer: (offerId: string, businessId?: string) => track("view_offer", { offer_id: offerId, business_id: businessId }),
+    trackViewBusiness: (businessId: string, source?: string, sourceCode?: string) =>
+      track("view_business", { business_id: businessId, source, source_code: sourceCode }),
+    trackViewOffer: (offerId: string, businessId?: string, source?: string, sourceCode?: string) =>
+      track("view_offer", { offer_id: offerId, business_id: businessId, source, source_code: sourceCode }),
     trackClickWhatsApp: (businessId: string) => track("click_whatsapp", { business_id: businessId }),
     trackClickMap: (businessId: string) => track("click_map", { business_id: businessId }),
     trackFavorite: (businessId: string) => track("favorite", { business_id: businessId }),
@@ -26,6 +32,14 @@ export function useAnalytics() {
     trackSearch: (query: string) => track("search", { metadata: { query } }),
     trackCouponGenerated: (offerId: string, businessId: string) => track("coupon_generated", { offer_id: offerId, business_id: businessId }),
     trackCouponRedeemed: (couponId: string, businessId: string) => track("coupon_redeemed", { metadata: { coupon_id: couponId }, business_id: businessId }),
+    trackShareBusiness: (businessId: string, source = "share", sourceCode?: string) =>
+      track("share_business", { business_id: businessId, source, source_code: sourceCode }),
+    trackShareOffer: (offerId: string, businessId: string, source = "share", sourceCode?: string) =>
+      track("share_offer", { offer_id: offerId, business_id: businessId, source, source_code: sourceCode }),
+    trackCheckoutStarted: (businessId: string, metadata: AnalyticsMetadata = {}) =>
+      track("checkout_started", { business_id: businessId, metadata }),
+    trackPaymentConfirmed: (businessId: string, metadata: AnalyticsMetadata = {}) =>
+      track("payment_confirmed", { business_id: businessId, metadata }),
     track,
   };
 }

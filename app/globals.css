@@ -2,12 +2,9 @@
 
 /* ============================================================
    SAN LORENZO DIGITAL — DESIGN TOKENS
-   Single source of truth. Paleta de marca: naranja + rojo de feria
-   sobre base neutra. El naranja se mantiene (validado: es de los
-   mejores colores para CTA -- amigable, alta visibilidad, menos
-   agresivo que el rojo puro). El rosa se reemplazó por rojo: es el
-   color universal de "oferta/rebaja" en cualquier feria o local de
-   San Lorenzo, habla el mismo idioma que ya conoce la gente de acá.
+   Single source of truth.    Paleta de marca: negro + rosa coral/fucsia
+   sobre base neutra. El rosa concentra CTA, oferta y promoción, con
+   suficiente profundidad para texto y botones accesibles.
    El fondo dejó de ser un marrón oscuro (leía "sucio"/podrido a esa
    luminosidad) y pasó a un negro casi neutro -- el calor lo ponen
    los acentos (naranja/rojo/dorado), no la base. Cian "río" como
@@ -16,27 +13,32 @@
    un color nuevo, agregarlo acá con nombre semántico primero.
    ============================================================ */
 :root{
+  --font-body: var(--font-inter), Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: var(--font-space), "Helvetica Neue", Arial, sans-serif;
+  --font-condensed: var(--font-ticket), "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --space-page: clamp(1rem, 4vw, 2rem);
+  --radius-control: .75rem;
+  --radius-card: 1.25rem;
+  --shadow-card: 0 14px 32px rgba(0,0,0,.16);
   /* Fondo y superficies -- negro casi neutro (apenas un dejo cálido),
      una sola fuente de verdad. El calor lo hacen los acentos, no la base. */
   --bg:#0c0a0b; --surface:#161314; --surface2:#1c1819; --surface3:#242021;
   --line:rgba(255,247,237,.09); --line-strong:rgba(255,247,237,.16);
   --text:#f7f3ec; --muted:#a99b86; --muted2:#7d6f5c;
 
-  /* Marca: naranja + rojo de feria sobre base neutra. Los mismos en los
-     dos temas -- el acento no cambia, solo lo que hay atrás. */
-  --accent:#f97316; --accent2:#dc2626;
-  /* "Lugar": el cian del río Paraná / puerto -- acento secundario para
-     ubicación, mapa, exploración y confianza (no reemplaza a la marca). */
-  --place:#22d3ee; --place2:#0891b2;
+  /* Marca: negro + rosa coral/fucsia. El rosa concentra acción,
+     ofertas, promociones y estados destacados. */
+  --accent:#d12f68; --accent2:#a91f55;
+  --place:#d12f68; --place2:#a91f55;
   /* Estos pasteles (emerald/amber/sky-300/400 de Tailwind) se eligieron
      para resaltar sobre el fondo casi negro -- sobre el fondo claro se
      lavan y quedan casi ilegibles (lo marcó un vecino probando el toggle).
      Por eso son tokens con valor propio por tema, no colores fijos. */
-  --ok:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --ok:#34d399; --warn:#d12f68; --bad:#fb7185;
 
   /* Semánticos de producto (sección 28 del brief de diseño). */
-  --offer:#fb923c;      /* precio/urgencia de oferta */
-  --premium:#fbbf24;    /* Destacado Semanal / badges premium */
+  --offer:#e04a7f;      /* precio/urgencia de oferta */
+  --premium:#f6a5be;    /* Destacado Semanal / badges premium */
 
   /* Overlays translúcidos -- el truco de "vidrio" (bg-white/5,
      border-white/10, etc.) usado en TODO el sitio para cards/hairlines.
@@ -66,6 +68,48 @@
      DIGITAL) -- mitad de opacidad del color de texto de cada tema. */
   --text-stroke:rgba(255,247,237,.5);
 }
+.sld-editorial-page {
+  --bg: #f4eadc;
+  --surface: #fffaf3;
+  --surface2: #eee2d1;
+  --line: rgba(38,27,18,.14);
+  --line-strong: rgba(38,27,18,.24);
+  --text: #211914;
+  --muted: #6f5b49;
+  --muted2: #957d68;
+  --ov-03: rgba(38,27,18,.035);
+  --ov-05: rgba(38,27,18,.06);
+  --ov-06: rgba(38,27,18,.09);
+  --card-inner: rgba(255,255,255,.42);
+  --card-inner-highlight: rgba(255,255,255,.72);
+  background: #f4eadc;
+  color: #211914;
+}
+:root:not([data-theme="light"]) .sld-editorial-page {
+  --bg: #211b1d;
+  --surface: #2a2324;
+  --surface2: #31292a;
+  --line: rgba(255,247,237,.14);
+  --line-strong: rgba(255,247,237,.24);
+  --text: #f7f3ec;
+  --muted: #c4b5a5;
+  --muted2: #aa9885;
+  background: #211b1d;
+  color: #f7f3ec;
+}
+.sld-editorial-page .sld-card {
+  border-color: var(--line);
+  background: var(--surface);
+  box-shadow: 0 14px 28px rgba(0,0,0,.12);
+}
+.sld-editorial-page button[type="submit"] {
+  background: var(--accent);
+  background-image: none;
+}
+:root[data-theme="light"] .sld-editorial-page .text-orange-300,
+:root[data-theme="light"] .sld-editorial-page .text-orange-400 {
+  color: var(--accent2);
+}
 
 /* Tema claro -- mismo acento naranja/rojo, base clara cálida (no blanco
    puro) para no perder el carácter "de feria" del sitio. Activado por
@@ -90,15 +134,24 @@
   /* Versiones oscurecidas/saturadas de los semánticos para que como
      texto/ícono se lean sobre el fondo claro (los pasteles del modo
      oscuro casi no tienen contraste acá). */
-  --place:#0e7490; --place2:#0891b2;
-  --ok:#047857; --warn:#b45309; --bad:#b91c1c;
+  --place:#a91f55; --place2:#861642;
+  --ok:#047857; --warn:#a91f55; --bad:#b91c1c;
+}
+:root[data-theme="light"] .sld-card {
+  border-color: rgba(28,23,20,.09);
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 12px 30px rgba(89,62,34,.10);
+}
+:root[data-theme="light"] .sld-card:hover {
+  border-color: color-mix(in srgb,var(--accent) 48%,transparent);
+  box-shadow: 0 16px 40px rgba(89,62,34,.14), 0 0 0 1px color-mix(in srgb,var(--accent) 14%,transparent);
 }
 *{box-sizing:border-box}
 /* Se probó Lenis (scroll con inercia) y se sacó -- feedback directo: no
    gustó cómo se sentía. Vuelve el scroll nativo. */
 html{scroll-behavior:smooth; color-scheme: dark;}
 html[data-theme="light"]{color-scheme:light;}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-inter),system-ui,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body)}
 ::selection{background:rgba(220,38,38,.35);color:white}
 a{transition:color .2s ease,border-color .2s ease,background-color .2s ease,transform .2s ease,opacity .2s ease}
 button,input,textarea,select{font:inherit}
@@ -109,8 +162,402 @@ button{cursor:pointer}
    fondo oscuro (no un panel casi opaco) -- así el fondo respira y las
    cards se sienten "de vidrio ligero", no bloques sólidos apilados. */
 .sld-card{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);box-shadow:0 12px 30px rgba(0,0,0,.22);transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
-.sld-card:hover{border-color:rgba(249,115,22,.35);box-shadow:0 16px 40px rgba(0,0,0,.28),0 0 0 1px rgba(249,115,22,.12);transform:translateY(-2px)}
+.sld-card:hover{border-color:color-mix(in srgb,var(--accent) 48%,transparent);box-shadow:0 16px 40px rgba(0,0,0,.28),0 0 0 1px color-mix(in srgb,var(--accent) 16%,transparent);transform:translateY(-2px)}
+.sld-button-primary {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background: var(--accent);
+  color: #fff;
+  padding: .7rem 1rem;
+  font-size: .875rem;
+  font-weight: 800;
+  transition: background-color .2s ease, transform .2s ease, opacity .2s ease;
+}
+.sld-button-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+.sld-button-primary:disabled { cursor: not-allowed; opacity: .55; transform: none; }
+.sld-input {
+  min-height: 2.75rem;
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
+  padding: .7rem .85rem;
+  outline: none;
+}
+.sld-input::placeholder { color: var(--muted2); }
+.sld-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent); }
+.sld-status { border: 1px solid var(--line); border-radius: var(--radius-control); padding: .75rem 1rem; font-size: .875rem; }
 .sld-no-scrollbar::-webkit-scrollbar{display:none}.sld-no-scrollbar{scrollbar-width:none}
+
+/* Dirección editorial de la home: crema cálido para descubrir y negro
+   para el directorio. Las variables locales mantienen componentes
+   existentes y datos reales intactos, pero cambian la lectura de la
+   superficie sin duplicar lógica de tema. */
+.editorial-hero,
+.editorial-cream-section {
+  --bg: #f4eadc;
+  --surface: #fffaf3;
+  --surface2: #eee2d1;
+  --surface3: #e5d5c0;
+  --line: rgba(38, 27, 18, .14);
+  --line-strong: rgba(38, 27, 18, .24);
+  --text: #211914;
+  --muted: #6f5b49;
+  --muted2: #957d68;
+  --ov-02: rgba(38,27,18,.02);
+  --ov-03: rgba(38,27,18,.035);
+  --ov-05: rgba(38,27,18,.06);
+  --ov-06: rgba(38,27,18,.09);
+  --ov-08: rgba(38,27,18,.12);
+  --ov-10: rgba(38,27,18,.15);
+  --card-inner: rgba(255,255,255,.42);
+  --card-inner-highlight: rgba(255,255,255,.72);
+  --accent: #d12f68;
+  --accent2: #a91f55;
+  --offer: #d83d73;
+  --ok: #28735b;
+  --bad: #b93631;
+  --warn: #a91f55;
+  background: var(--bg);
+  color: var(--text);
+}
+.editorial-hero {
+  background:
+    radial-gradient(circle at 76% 12%, rgba(223,75,47,.13), transparent 24rem),
+    linear-gradient(135deg, #f8efe3 0%, #f2e5d4 100%);
+}
+.editorial-hero-rule {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .45;
+  background-image: linear-gradient(90deg, transparent 0 49.8%, rgba(38,27,18,.08) 50%, transparent 50.2%);
+}
+.editorial-hero-aside {
+  border-top: 1px solid var(--line);
+  padding-top: 1.25rem;
+}
+.editorial-trust {
+  background: rgba(255,250,243,.5);
+}
+.editorial-cream-section {
+  max-width: none;
+}
+.editorial-cream-section > * {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.editorial-cream-section .sld-card {
+  border-color: rgba(38,27,18,.12);
+  background: rgba(255,250,243,.82);
+  box-shadow: 0 14px 28px rgba(89,62,34,.11);
+}
+.editorial-cream-section .sld-card:hover {
+  border-color: rgba(223,75,47,.4);
+  box-shadow: 0 18px 34px rgba(89,62,34,.15);
+}
+.editorial-businesses {
+  background: #121011;
+  color: #f7f3ec;
+}
+.editorial-businesses .max-w-7xl {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.plans-editorial {
+  --bg: #f4eadc;
+  --surface: #fffaf3;
+  --surface2: #eee2d1;
+  --line: rgba(38, 27, 18, .14);
+  --line-strong: rgba(38, 27, 18, .24);
+  --text: #211914;
+  --muted: #6f5b49;
+  --muted2: #957d68;
+  --ov-03: rgba(38,27,18,.035);
+  --ov-05: rgba(38,27,18,.06);
+  --ov-06: rgba(38,27,18,.09);
+  --ov-08: rgba(38,27,18,.12);
+  --ov-10: rgba(38,27,18,.15);
+  --card-inner: rgba(255,255,255,.42);
+  --card-inner-highlight: rgba(255,255,255,.72);
+  --accent: #d12f68;
+  background: #f4eadc;
+}
+:root:not([data-theme="light"]) .plans-editorial {
+  --bg: #0c0a0b;
+  --surface: #161314;
+  --surface2: #1c1819;
+  --surface3: #242021;
+  --line: rgba(255,247,237,.09);
+  --line-strong: rgba(255,247,237,.16);
+  --text: #f7f3ec;
+  --muted: #a99b86;
+  --muted2: #7d6f5c;
+  --ov-03: rgba(255,255,255,.03);
+  --ov-05: rgba(255,255,255,.05);
+  --ov-06: rgba(255,255,255,.06);
+  --ov-10: rgba(255,255,255,.1);
+  --card-inner: rgba(0,0,0,.2);
+  --card-inner-highlight: rgba(255,255,255,.06);
+  background: #0c0a0b;
+}
+
+/* Pasada editorial compartida: superficies planas, reglas finas y
+   jerarquía tipográfica. Se usa en la home y puede reutilizarse en las
+   vistas de descubrimiento sin alterar la lógica de datos. */
+.sld-section-cream {
+  --bg: #211b1d;
+  --surface: #2a2324;
+  --surface2: #31292a;
+  --surface3: #3a3131;
+  --line: rgba(255,247,237,.14);
+  --line-strong: rgba(255,247,237,.24);
+  --text: #f7f3ec;
+  --muted: #c4b5a5;
+  --muted2: #aa9885;
+  --ov-03: rgba(255,255,255,.04);
+  --ov-05: rgba(255,255,255,.06);
+  --ov-06: rgba(255,255,255,.09);
+  --card-inner: rgba(0,0,0,.12);
+  --card-inner-highlight: rgba(255,255,255,.06);
+  --accent: #d12f68;
+  background: var(--bg);
+  color: var(--text);
+}
+:root[data-theme="light"] .sld-section-cream {
+  --bg: #f4eadc;
+  --surface: #fffaf3;
+  --surface2: #eee2d1;
+  --surface3: #e5d5c0;
+  --line: rgba(38,27,18,.14);
+  --line-strong: rgba(38,27,18,.24);
+  --text: #211914;
+  --muted: #6f5b49;
+  --muted2: #957d68;
+  --ov-03: rgba(38,27,18,.035);
+  --ov-05: rgba(38,27,18,.06);
+  --ov-06: rgba(38,27,18,.09);
+  --card-inner: rgba(255,255,255,.42);
+  --card-inner-highlight: rgba(255,255,255,.72);
+}
+.sld-section-dark {
+  --bg: #121011;
+  --surface: #161314;
+  --surface2: #1c1819;
+  --surface3: #242021;
+  --line: rgba(255,247,237,.09);
+  --line-strong: rgba(255,247,237,.16);
+  --text: #f7f3ec;
+  --muted: #a99b86;
+  --muted2: #7d6f5c;
+  --ov-03: rgba(255,255,255,.03);
+  --ov-05: rgba(255,255,255,.05);
+  --ov-06: rgba(255,255,255,.06);
+  --ov-10: rgba(255,255,255,.1);
+  --card-inner: rgba(0,0,0,.2);
+  --card-inner-highlight: rgba(255,255,255,.06);
+  background: #121011;
+  color: #f7f3ec;
+}
+.site-header-inner {
+  --text: #f7f3ec;
+  --muted: #a99b86;
+  --muted2: #7d6f5c;
+  --line: rgba(255,247,237,.14);
+  --line-strong: rgba(255,247,237,.22);
+  --surface: #161314;
+  --surface2: #1c1819;
+  --ov-05: rgba(255,255,255,.06);
+  --ov-10: rgba(255,255,255,.1);
+}
+.site-footer {
+  --text: #f7f3ec;
+  --muted: #a99b86;
+  --muted2: #7d6f5c;
+  --line: rgba(255,247,237,.14);
+  --line-strong: rgba(255,247,237,.22);
+  --surface2: #1c1819;
+  --ov-03: rgba(255,255,255,.03);
+  --ov-05: rgba(255,255,255,.05);
+  --ov-06: rgba(255,255,255,.06);
+  --ov-10: rgba(255,255,255,.1);
+}
+.sld-display {
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: .93;
+}
+.sld-eyebrow {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+.sld-filter {
+  flex: 0 0 auto;
+  border: 1px solid rgba(255,247,237,.16);
+  background: transparent;
+  color: #a99b86;
+  padding: .55rem .8rem;
+  font-size: .75rem;
+  font-weight: 800;
+  transition: border-color .2s ease, color .2s ease, background-color .2s ease;
+}
+.sld-filter-light {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  padding: .55rem .8rem;
+  font-size: .75rem;
+  font-weight: 800;
+}
+.sld-filter-light:hover,
+.sld-filter-light.is-active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--text);
+}
+.sld-filter:hover,
+.sld-filter.is-active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--text);
+}
+.sld-sponsored {
+  border: 1px solid color-mix(in srgb, var(--accent) 54%, transparent);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 58%),
+    #1b1717;
+}
+.editorial-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .18;
+  background-image:
+    linear-gradient(rgba(38,27,18,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(38,27,18,.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(90deg, black, transparent 78%);
+}
+.editorial-hero {
+  background: #f4eadc;
+}
+:root:not([data-theme="light"]) .editorial-hero {
+  --bg: #211b1d;
+  --surface: #2a2324;
+  --surface2: #31292a;
+  --surface3: #3a3131;
+  --line: rgba(255,247,237,.14);
+  --line-strong: rgba(255,247,237,.24);
+  --text: #f7f3ec;
+  --muted: #c4b5a5;
+  --muted2: #aa9885;
+  --ov-03: rgba(255,255,255,.04);
+  --ov-05: rgba(255,255,255,.06);
+  --ov-06: rgba(255,255,255,.09);
+  --card-inner: rgba(0,0,0,.12);
+  --card-inner-highlight: rgba(255,255,255,.06);
+  background: #211b1d;
+}
+.editorial-hero .hero-search {
+  border-color: rgba(38,27,18,.18);
+  background: rgba(255,250,243,.72);
+  box-shadow: 0 12px 28px rgba(89,62,34,.08);
+  backdrop-filter: none;
+}
+.editorial-hero .hero-search > div {
+  border-color: rgba(38,27,18,.12);
+  background: #fffaf3;
+  box-shadow: none;
+}
+.editorial-hero .hero-search button {
+  border-radius: 0;
+  background: var(--accent);
+}
+:root:not([data-theme="light"]) .editorial-hero .hero-search {
+  border-color: rgba(255,247,237,.18);
+  background: rgba(42,35,36,.72);
+  box-shadow: 0 12px 28px rgba(0,0,0,.2);
+}
+:root:not([data-theme="light"]) .editorial-hero .hero-search > div {
+  border-color: rgba(255,247,237,.12);
+  background: #2a2324;
+}
+
+/* Compatibilidad de utilities heredadas: la interfaz sigue usando
+   clases Tailwind antiguas, pero todas las acciones comerciales deben
+   converger en el rosa de marca. Rojo/verde quedan reservados para
+   estados realmente semánticos. */
+[class*="text-orange-"],
+[class*="text-amber-"],
+[class*="text-yellow-"],
+[class*="text-cyan-"],
+[class*="text-sky-"] {
+  color: var(--accent) !important;
+}
+[class*="bg-orange-"],
+[class*="bg-amber-"],
+[class*="bg-yellow-"],
+[class*="bg-cyan-"],
+[class*="bg-sky-"] {
+  background-color: color-mix(in srgb, var(--accent) 14%, transparent) !important;
+  background-image: none !important;
+}
+[class~="bg-orange-500"],
+[class~="bg-orange-600"],
+[class~="bg-orange-400"] {
+  background-color: var(--accent) !important;
+  background-image: none !important;
+}
+[class*="border-orange-"],
+[class*="border-amber-"],
+[class*="border-yellow-"],
+[class*="border-cyan-"],
+[class*="border-sky-"] {
+  border-color: color-mix(in srgb, var(--accent) 48%, transparent) !important;
+}
+[class*="from-orange-"],
+[class*="from-amber-"],
+[class*="from-yellow-"],
+[class*="from-cyan-"],
+[class*="from-sky-"] {
+  --tw-gradient-from: var(--accent) !important;
+  --tw-gradient-to: color-mix(in srgb, var(--accent) 0%, transparent) !important;
+}
+[class*="via-orange-"],
+[class*="via-amber-"],
+[class*="via-yellow-"],
+[class*="via-cyan-"],
+[class*="via-sky-"] {
+  --tw-gradient-via: var(--accent) !important;
+}
+[class*="to-orange-"],
+[class*="to-amber-"],
+[class*="to-yellow-"],
+[class*="to-cyan-"],
+[class*="to-sky-"] {
+  --tw-gradient-to: var(--accent2) !important;
+}
+[class*="from-red-"],
+[class*="to-red-"] {
+  --tw-gradient-from: var(--accent) !important;
+  --tw-gradient-to: var(--accent2) !important;
+}
+:root:not([data-theme="light"]) .editorial-trust {
+  background: rgba(42,35,36,.72);
+}
 
 /* SAN LORENZO DIGITAL · HOME
    Alias legacy -- algunos componentes más viejos todavía referencian
@@ -129,10 +576,11 @@ button{cursor:pointer}
 
 .sld-home {
   min-height: 100vh;
-  /* Naranja + rojo de marca, arriba-izquierda y esquina opuesta. */
+  /* Negro + rosa con profundidad mínima; las secciones editoriales
+     controlan sus propias superficies. */
   background:
-    radial-gradient(circle at 15% -5%, rgba(249,115,22,.11), transparent 34rem),
-    radial-gradient(circle at 95% 15%, rgba(220,38,38,.06), transparent 30rem),
+    radial-gradient(circle at 15% -5%, color-mix(in srgb,var(--accent) 11%,transparent), transparent 34rem),
+    radial-gradient(circle at 95% 15%, color-mix(in srgb,var(--accent2) 7%,transparent), transparent 30rem),
     var(--sld-bg);
   color: var(--sld-text);
   overflow: hidden;
@@ -140,7 +588,7 @@ button{cursor:pointer}
 
 /* ===== ACCESIBILIDAD (WCAG AA) ===== */
 :focus-visible {
-  outline: 3px solid #f97316;
+  outline: 3px solid var(--accent);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -157,7 +605,7 @@ button{cursor:pointer}
   left: -9999px;
   top: 0;
   z-index: 999;
-  background: #f97316;
+  background: var(--accent);
   color: #000;
   padding: 0.75rem 1.25rem;
   font-weight: 800;
@@ -196,6 +644,87 @@ img:not([class*="h-"]), video:not([class*="h-"]), canvas:not([class*="h-"]), svg
 @media (max-width: 430px) { .text-5xl { font-size: 2.4rem; } }
 @media (pointer: coarse) {
   button:not([class*="h-"]), a:not([class*="h-"]) { min-height: 40px; }
+}
+@media (max-width: 640px) {
+  input, select, textarea { font-size: 16px; }
+  [role="dialog"] { max-height: calc(100dvh - 1rem); }
+  .sld-table-wrap { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+.sld-table-wrap table { min-width: 36rem; }
+
+/* Marcos de rango: energía contenida y premium. El movimiento vive en
+   opacity/transform, sin recalcular layout ni generar loops pesados. */
+@keyframes rankRowIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes rankSweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes rankHalo {
+  0%, 100% { opacity: .38; transform: scale(.96); }
+  50% { opacity: .7; transform: scale(1.04); }
+}
+.ranked-row {
+  animation: rankRowIn .55s cubic-bezier(.22,.8,.2,1) both;
+}
+.rank-podium-card {
+  position: relative;
+  isolation: isolate;
+  box-shadow: 0 18px 50px rgba(209,47,104,.14);
+}
+.rank-podium-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: 1.6rem;
+  background: linear-gradient(120deg, var(--accent), transparent 42%, var(--accent2));
+  opacity: .72;
+}
+.ranked-avatar-frame::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 0;
+  border-radius: 999px;
+  background: conic-gradient(from 0deg, transparent 0 52%, var(--rank-accent, var(--accent)) 66%, transparent 78% 100%);
+  opacity: 0;
+  animation: rankSweep 7s linear infinite;
+}
+.ranked-avatar-frame > span,
+.ranked-avatar-frame > svg { position: relative; z-index: 1; }
+.rank-level-1::before,
+.rank-level-2::before,
+.rank-level-3::before { opacity: .32; animation-duration: 10s; }
+.rank-level-4::before,
+.rank-level-5::before,
+.rank-level-6::before,
+.rank-level-7::before,
+.rank-level-8::before { opacity: .78; animation-duration: 6s; }
+.rank-division-frame::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  z-index: -1;
+  clip-path: polygon(30% 0%,70% 0%,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%);
+  background: conic-gradient(from 0deg, transparent 0 48%, var(--accent) 62%, transparent 78% 100%);
+  opacity: .38;
+  animation: rankSweep 8s linear infinite;
+}
+.rank-level-5::before,
+.rank-level-6::before,
+.rank-level-7::before,
+.rank-level-8::before { animation-duration: 5s; opacity: .7; }
+.rank-podium-card .rank-division-frame { animation: rankHalo 3.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .ranked-row,
+  .ranked-avatar-frame::before,
+  .rank-division-frame::before,
+  .rank-podium-card .rank-division-frame {
+    animation: none;
+  }
 }
 
 /* ===== TIPOGRAFÍA MOBILE PREMIUM ===== */
@@ -357,19 +886,19 @@ main img:not([class*="h-"]) {
 .animate-float-delayed { animation: float-delayed 8s ease-in-out infinite; }
 .animate-float-slow { animation: float-slow 10s ease-in-out infinite; }
 
-::selection { background: rgba(249,115,22,.4); color: #fff; }
+::selection { background: color-mix(in srgb, var(--accent) 45%, transparent); color: #fff; }
 
-* { scrollbar-width: thin; scrollbar-color: rgba(249,115,22,.5) rgba(255,255,255,.05); }
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--accent) 55%, transparent) rgba(255,255,255,.05); }
 *::-webkit-scrollbar { width: 8px; height: 8px; }
 *::-webkit-scrollbar-track { background: rgba(255,255,255,.05); }
-*::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(249,115,22,.6), rgba(220,38,38,.6)); border-radius: 999px; }
+*::-webkit-scrollbar-thumb { background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 75%, transparent), color-mix(in srgb, var(--accent2) 75%, transparent)); border-radius: 999px; }
 
 a, button { transition: all .25s ease; }
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: rgba(249,115,22,.6) !important;
-  box-shadow: 0 0 0 3px rgba(249,115,22,.15);
+  border-color: color-mix(in srgb, var(--accent) 72%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-33.33%); } }
@@ -394,7 +923,7 @@ input:focus, select:focus, textarea:focus {
 
 /* Glow del buscador del hero: solo aparece con el foco real (teclear,
    tocar), nunca de forma ambiente -- feedback, no decoración. */
-.hero-search:focus-within { box-shadow: 0 0 0 3px rgba(249,115,22,.22), 0 24px 60px -24px rgba(249,115,22,.4); }
+.hero-search:focus-within { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent), 0 24px 60px -24px color-mix(in srgb, var(--accent) 35%, transparent); }
 
 /* ============================================================
    SISTEMA DE ELEVACIÓN (3 niveles) + GLASS 2.0 + MARCOS DE LETRA
@@ -406,12 +935,12 @@ input:focus, select:focus, textarea:focus {
 .glass-2 {
   padding: 1px;
   border-radius: 1.05rem;
-  background: linear-gradient(135deg, rgba(249,115,22,.5), rgba(220,38,38,.35), rgba(255,255,255,.08));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 50%, transparent), color-mix(in srgb, var(--accent2) 35%, transparent), rgba(255,255,255,.08));
   box-shadow: 0 30px 70px -30px rgba(0,0,0,.75);
   transition: background .5s ease;
 }
 .glass-2:hover, .glass-2:focus-within {
-  background: linear-gradient(135deg, rgba(249,115,22,.85), rgba(220,38,38,.65), rgba(249,115,22,.4));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 85%, transparent), color-mix(in srgb, var(--accent2) 65%, transparent), color-mix(in srgb, var(--accent) 40%, transparent));
 }
 .glass-2 > * { border-radius: calc(1.05rem - 1px) !important; }
 .glass-2-inner {
@@ -423,6 +952,12 @@ input:focus, select:focus, textarea:focus {
   border: 1px solid rgba(255,247,237,.12);
   background: linear-gradient(180deg, rgba(28,21,14,.96), rgba(18,13,9,.98));
   box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 40px 100px -30px rgba(0,0,0,.85);
+}
+:root[data-theme="light"] .glass-modal {
+  border-color: rgba(28,23,20,.14);
+  background: linear-gradient(180deg, #fffaf3, #f3efe7);
+  color: #211914;
+  box-shadow: 0 18px 50px rgba(89,62,34,.18);
 }
 
 /* "Marcos" de letra: relleno en gradiente de marca + trazo fino --
@@ -457,9 +992,9 @@ input:focus, select:focus, textarea:focus {
   filter: blur(90px);
   animation: breathe 9s ease-in-out infinite;
 }
-.aurora-bg > span:nth-child(1) { top: -6rem; left: 8%; width: 30rem; height: 30rem; background: rgba(249,115,22,.28); }
-.aurora-bg > span:nth-child(2) { top: 30%; right: 4%; width: 28rem; height: 28rem; background: rgba(220,38,38,.24); animation-delay: 3s; }
-.aurora-bg > span:nth-child(3) { bottom: -8rem; left: 35%; width: 26rem; height: 26rem; background: rgba(34,211,238,.16); animation-delay: 6s; }
+.aurora-bg > span:nth-child(1) { top: -6rem; left: 8%; width: 30rem; height: 30rem; background: color-mix(in srgb, var(--accent) 28%, transparent); }
+.aurora-bg > span:nth-child(2) { top: 30%; right: 4%; width: 28rem; height: 28rem; background: color-mix(in srgb, var(--accent2) 24%, transparent); animation-delay: 3s; }
+.aurora-bg > span:nth-child(3) { bottom: -8rem; left: 35%; width: 26rem; height: 26rem; background: color-mix(in srgb, var(--accent) 16%, transparent); animation-delay: 6s; }
 @keyframes breathe { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
 
 /* Reveal escalonado de cards dentro de una grilla/fila -- se activa
@@ -499,9 +1034,8 @@ body::after {
 }
 
 @media (max-width: 640px) {
-  main h1 { font-size: 1.5rem !important; }
-  main h2 { font-size: 1.15rem !important; }
-  main > div { padding-left: 0.75rem; padding-right: 0.75rem; }
+  main h1 { font-size: clamp(2rem, 9vw, 2.8rem) !important; line-height: 1.05 !important; }
+  main h2 { font-size: clamp(1.4rem, 6.5vw, 2rem) !important; line-height: 1.12 !important; }
   body::after { opacity: .02; }
 }
 
@@ -514,3 +1048,303 @@ select option { background-color: #1c1819; color: #fff; }
 select option:checked { background-color: #7c2d12; }
 
 body { padding-bottom: 64px; }
+
+/* El subrayado de marca se reserva para enlaces de texto explícitos.
+   Los links que envuelven cards, logos o controles no deben dibujar una
+   línea debajo de toda la pieza. */
+a::after { display: none !important; }
+
+/* En pantallas táctiles el movimiento es mínimo: conserva feedback sin
+   que una card o un botón "salte" durante el scroll. */
+@media (pointer: coarse) {
+  button:hover:not(:disabled), [role="button"]:hover, .btn:hover,
+  .sld-card:hover, [class*="card"]:hover {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   VISUAL IMPROVEMENTS v2.0 — ANIMACIONES & EFECTOS PREMIUM
+   Enfoque: Glassmorphism, gradientes suaves, animaciones 60fps
+   ============================================================ */
+
+/* KEYFRAMES - Animaciones reutilizables */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.5); }
+}
+
+/* ELEMENTO: Todos los botones */
+button, [role="button"], .btn {
+  @apply transition-all duration-300 ease-out;
+  @apply will-change-transform;
+}
+
+button:hover:not(:disabled), [role="button"]:hover, .btn:hover {
+  @apply translate-y-[-2px];
+  @apply shadow-lg;
+}
+
+button:active:not(:disabled), [role="button"]:active {
+  @apply translate-y-0;
+}
+
+button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* ELEMENTO: Cards con efecto hover premium */
+.sld-card, [class*="card"], article {
+  @apply transition-all duration-300 ease-out;
+  @apply will-change-transform;
+  border-radius: 12px;
+}
+
+.sld-card:hover, [class*="card"]:hover {
+  @apply -translate-y-1 shadow-xl;
+}
+
+/* ELEMENTO: Links y navegación */
+a, [role="link"] {
+  @apply transition-colors duration-200;
+  @apply relative;
+}
+
+a:not(.btn):not([class*="button"])::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] transition-all duration-300;
+}
+
+a:not(.btn):not([class*="button"]):hover::after {
+  @apply w-full;
+}
+
+/* ELEMENTO: Inputs y formularios */
+input, textarea, select {
+  @apply transition-all duration-200;
+  @apply focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--bg)];
+}
+
+input:focus, textarea:focus, select:focus {
+  @apply shadow-lg;
+}
+
+/* GLASSMORPHISM - Overlays y modales */
+.glassmorphism, [class*="modal"], [class*="overlay"] {
+  background: rgba(22, 19, 20, 0.7);
+  backdrop-filter: blur(10px);
+  @apply border border-white/10;
+}
+
+/* GRADIENTES - Elementos premium */
+.gradient-accent {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-[var(--accent)] via-[var(--offer)] to-[var(--accent2)] bg-clip-text text-transparent;
+}
+
+.gradient-border {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--bg), var(--bg)) padding-box,
+              linear-gradient(135deg, var(--accent), var(--accent2)) border-box;
+}
+
+/* SKELETON LOADER - Elegante y performant */
+.skeleton {
+  @apply bg-gradient-to-r from-[var(--surface)] via-[var(--surface2)] to-[var(--surface)];
+  animation: shimmer 2s infinite;
+  background-size: 200% 100%;
+}
+
+/* BADGES Y ETIQUETAS */
+.badge, .tag, [class*="badge"] {
+  @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
+  @apply transition-all duration-200;
+  @apply border border-white/10;
+}
+
+.badge:hover, .tag:hover {
+  @apply -translate-y-0.5 shadow-md;
+}
+
+.badge-premium {
+  background: linear-gradient(135deg, var(--premium) 0%, var(--offer) 100%);
+  color: #000;
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* HOVER EFFECTS - Sutiles pero notables */
+.hover-lift {
+  @apply transition-all duration-300;
+}
+
+.hover-lift:hover {
+  @apply -translate-y-2 shadow-2xl;
+}
+
+.hover-glow {
+  @apply transition-all duration-300;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
+}
+
+.hover-fade {
+  @apply opacity-80 transition-opacity duration-300;
+}
+
+.hover-fade:hover {
+  @apply opacity-100;
+}
+
+/* SCROLL REVEAL - Fade in cuando entra en viewport */
+.scroll-reveal {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* TIPOGRAFÍA PREMIUM */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-space);
+  @apply tracking-tight;
+  line-height: 1.2;
+}
+
+p, body {
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+}
+
+/* Pequeño pero importante: gap consistente */
+.flex-gap-4 { @apply gap-4; }
+.flex-gap-6 { @apply gap-6; }
+.flex-gap-8 { @apply gap-8; }
+
+/* PRECIO DESTACADO - Gran impacto visual */
+.price-highlight {
+  font-family: var(--font-ticket);
+  @apply text-3xl font-bold;
+  @apply bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent;
+}
+
+/* OFFER TICKER - Scroll smooth infinito */
+.offer-ticker {
+  @apply overflow-hidden;
+}
+
+.offer-ticker-content {
+  @apply flex gap-4;
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.offer-ticker-content:hover {
+  animation-play-state: paused;
+}
+
+/* CTA BUTTON PREMIUM - Efecto shine */
+.cta-button {
+  @apply relative overflow-hidden;
+  @apply bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)];
+  @apply text-white font-semibold px-6 py-3 rounded-lg;
+  @apply transition-all duration-300;
+  @apply shadow-lg hover:shadow-xl;
+}
+
+.cta-button::before {
+  content: '';
+  @apply absolute top-0 left-[-100%] w-full h-full bg-white/20;
+  @apply transition-all duration-500;
+}
+
+.cta-button:hover::before {
+  @apply left-full;
+}
+
+/* PAGE TRANSITIONS - Fade suave */
+@keyframes pageEnter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+[data-page] {
+  animation: pageEnter 0.3s ease-out;
+}
+
+/* DARK MODE - Ajustes adicionales para tema oscuro */
+@media (prefers-color-scheme: dark) {
+  .glassmorphism {
+    background: rgba(22, 19, 20, 0.8);
+  }
+
+  input:focus {
+    @apply ring-offset-[var(--bg)];
+  }
+}
+
+/* LIGHT MODE - Ajustes para tema claro */
+@media (prefers-color-scheme: light) {
+  .glassmorphism {
+    background: rgba(250, 247, 242, 0.85);
+    @apply border-black/10;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-[var(--accent)] via-[var(--accent2)] to-[var(--accent)] bg-clip-text text-transparent;
+  }
+}
+
+/* MOBILE OPTIMIZATIONS - Touch targets ≥ 48px */
+@media (max-width: 768px) {
+  button, [role="button"], .btn {
+    @apply min-h-[48px] min-w-[48px];
+  }
+
+  a, [role="link"] {
+    @apply p-2 -m-2;
+  }
+
+  .sld-card:hover {
+    @apply -translate-y-0.5;
+  }
+}
+
+@media (pointer: coarse) {
+  button:hover:not(:disabled), [role="button"]:hover, .btn:hover,
+  .sld-card:hover, [class*="card"]:hover {
+    transform: none !important;
+  }
+}

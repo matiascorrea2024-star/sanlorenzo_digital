@@ -86,7 +86,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
 
   useEffect(() => {
     if (!user) { setMisNegocio(null); return; }
-    supabase().from("businesses").select("id, name").eq("owner_id", user.id).maybeSingle().then(({ data }) => setMisNegocio(data));
+    supabase().from("businesses").select("id, name").eq("owner_id", user.id).order("name").limit(1).maybeSingle().then(({ data }) => setMisNegocio(data));
   }, [user]);
 
   const publicar = async () => {

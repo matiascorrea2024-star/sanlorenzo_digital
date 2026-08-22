@@ -36,6 +36,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
   const [rows, setRows] = useState<any[]>(initial || []);
   const [tab, setTab] = useState("dia");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [masAbierto, setMasAbierto] = useState(false);
   const masRef = useRef<HTMLDivElement>(null);
   const tabMasActivo = TABS_MAS.find((t) => t.k === tab);
@@ -69,6 +70,11 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
         supabase().from("businesses").select("id, favorites_count"),
         supabase().from("muro_posts").select("business_id"),
       ]);
+      if (ligas.error) {
+        setError("No pudimos cargar el ranking. Intentá de nuevo más tarde.");
+        setLoading(false);
+        return;
+      }
 
       const viewCount: Record<string, number> = {};
       const weekCount: Record<string, number> = {};
@@ -237,6 +243,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
         </div>
 
         {/* Lista */}
+        {error && <div role="alert" className="mt-6 border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">{error}</div>}
         <div className="mt-6 space-y-3">
           {loading ? (
             [1, 2, 3, 4, 5].map((i) => (
@@ -250,13 +257,18 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                 <div className="h-6 w-16 animate-pulse rounded-full bg-[var(--ov-10)]" />
               </div>
             ))
+          ) : sorted.length === 0 ? (
+            <div className="border border-dashed border-[var(--line-strong)] p-8 text-center text-sm text-[var(--muted)]">
+              Todavía no hay datos suficientes para ordenar el ranking.
+            </div>
           ) : sorted.map((r, i) => {
             const rango = rangoDe(r.puntos);
             const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
             const esTop10 = i >= 3 && i < 10;
             return (
               <Link key={r.id} href={`/negocio/${r.slug}`}
-                className={`block rounded-[1.5rem] border transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 ${i === 0 ? "p-2" : "p-1.5"} ${
+                style={{ animationDelay: `${Math.min(i * 45, 450)}ms` }}
+                className={`ranked-row block rounded-[1.5rem] border transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 ${i === 0 ? "rank-podium-card p-2" : "p-1.5"} ${
                   i === 0 ? "border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 to-transparent hover:border-yellow-400/60" : "border-[var(--ov-06)] bg-[var(--ov-02)] hover:border-orange-400/30"
                 }`}>
                 <div className={`flex items-center gap-4 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] ${i === 0 ? "p-5 sm:p-6" : "p-3.5"}`}>

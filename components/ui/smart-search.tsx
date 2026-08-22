@@ -73,7 +73,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
     const miSecuencia = ++secuencia.current;
     const timer = setTimeout(async () => {
       const [{ data: prods }, { data: offs }, { data: biz }] = await Promise.all([
-        supabase().from("products").select("*, businesses(name, slug)").ilike("name", `%${lower}%`).eq("active", true).limit(4),
+        supabase().from("products").select("*, businesses(name, slug)").ilike("name", `%${lower}%`).eq("active", true).eq("hidden_by_plan", false).limit(4),
         supabase().from("offers_with_business").select("*").ilike("title", `%${lower}%`).eq("active", true).limit(3),
         supabase().from("businesses").select("id, name, slug, category")
           .in("status", ["verificado", "reclamado"]).eq("activo", true)
@@ -154,12 +154,13 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
 
   return (
     <div ref={boxRef} className={`relative w-full ${className}`}>
-      <form onSubmit={onSubmit} className="rounded-[1.5rem] border border-[var(--line-strong)] bg-[var(--ov-03)] p-1 shadow-2xl backdrop-blur-xl">
+      <form onSubmit={onSubmit} className="hero-search rounded-[1.5rem] border border-[var(--line-strong)] bg-[var(--ov-03)] p-1 shadow-2xl backdrop-blur-xl">
       <div className="flex items-center gap-2 rounded-[1.25rem] border border-[var(--line)] bg-[var(--surface)]/90 pr-1 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
         <div className="pl-2.5 text-orange-400 sm:pl-3"><Search className="h-4 w-4 sm:h-5 sm:w-5" /></div>
         <input ref={inputRef} value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }}
           onFocus={() => setOpen(true)}
           placeholder={placeholder}
+          aria-label="Buscar ofertas, productos y negocios"
           className="w-full min-w-0 bg-transparent px-2 py-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--muted)] md:text-base" />
         {shortcutSlash && !q && (
           <kbd className="mr-1 hidden h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[var(--line-strong)] bg-[var(--ov-05)] text-[10px] font-bold text-[var(--muted2)] md:flex">/</kbd>

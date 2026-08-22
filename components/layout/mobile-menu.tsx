@@ -90,7 +90,7 @@ export default function MobileMenu() {
                 <div className="flex flex-wrap gap-2">
                   {ciudades.map((c) => (
                     <Link key={c.slug} href={`/${c.slug}`} onClick={() => setOpen(false)}
-                      className="flex items-center gap-1.5 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-1.5 text-xs font-bold text-[var(--text)]/80 hover:border-orange-400/40 hover:text-[var(--text)]">
+                      className="flex items-center gap-1.5 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-1.5 text-xs font-bold text-[var(--text)]/80 hover:border-[var(--accent)]/40 hover:text-[var(--text)]">
                       <span className={c.status !== "active" ? "text-[var(--muted)]" : ""}>{c.name}</span>
                       {c.status !== "active" && (
                         <span className="rounded-full bg-[var(--ov-10)] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-[var(--muted2)]">Próx.</span>
@@ -107,7 +107,7 @@ export default function MobileMenu() {
                 <div className="space-y-1">
                   {s.links.map((l) => (
                     <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
-                      className="flex items-center justify-between rounded-xl px-3 py-3 text-base font-bold text-[var(--text)]/85 transition hover:bg-[var(--ov-05)] hover:text-orange-300">
+                      className="flex items-center justify-between rounded-xl px-3 py-3 text-base font-bold text-[var(--text)]/85 transition hover:bg-[var(--ov-05)] hover:text-[var(--accent)]">
                       {l.l}
                       <ArrowRight className="h-4 w-4 text-[var(--muted2)]" />
                     </Link>
@@ -117,7 +117,7 @@ export default function MobileMenu() {
             ))}
 
             <Link href="/dashboard/nuevo" onClick={() => setOpen(false)}
-              className="btn-shine mt-8 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3.5 text-sm font-black text-white">
+              className="btn-shine mt-8 flex items-center justify-center gap-2 rounded-full bg-[var(--accent)] py-3.5 text-sm font-black text-white">
               Publicar mi negocio gratis
             </Link>
           </div>

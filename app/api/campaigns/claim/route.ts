@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
+import { aplicarLimiteCatalogo } from "@/lib/catalogo-limite";
 
 export async function POST(request: NextRequest) {
   const sb = await createClient();
@@ -34,6 +35,8 @@ export async function POST(request: NextRequest) {
     .update({ plan: camp.grants_plan, plan_expira: expira, destacado: camp.grants_plan === "premium" })
     .eq("id", business_id);
   if (bizError) return NextResponse.json({ error: bizError.message }, { status: 500 });
+
+  await aplicarLimiteCatalogo(sb, business_id, camp.grants_plan);
 
   return NextResponse.json({ ok: true, expira });
 }

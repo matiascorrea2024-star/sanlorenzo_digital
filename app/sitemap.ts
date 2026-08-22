@@ -3,11 +3,13 @@ import { createClient } from "@/lib/supabase-server";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sb = await createClient();
-  const { data: negocios, error: e1 } = await sb.from("businesses").select("slug").eq("status", "verificado").limit(200);
+  const { data: negocios, error: e1 } = await sb.from("businesses").select("slug").eq("status", "verificado").neq("activo", false).limit(200);
   // offers no tiene columna "updated_at" (sí created_at) -- con el nombre
   // viejo, Postgrest devolvía error sin tirar excepción y esta consulta
   // quedaba en null en silencio: el sitemap nunca incluyó ninguna oferta.
-  const { data: ofertas, error: e2 } = await sb.from("offers").select("id, created_at").eq("active", true).limit(500);
+  const { data: ofertas, error: e2 } = await sb.from("offers")
+    .select("id, created_at, businesses!inner(status, activo)")
+    .eq("active", true).eq("businesses.status", "verificado").neq("businesses.activo", false).limit(500);
   const { data: ciudades, error: e3 } = await sb.from("locations").select("id, slug").eq("type", "city").eq("active", true);
   const { data: barrios, error: e4 } = await sb.from("locations").select("slug, parent_id").eq("type", "neighborhood").eq("active", true);
   const { data: posts, error: e5 } = await sb.from("blog_posts").select("slug, updated_at").eq("published", true);

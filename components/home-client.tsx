@@ -1,22 +1,15 @@
 "use client";
+
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, MessageCircle, Search, Store } from "lucide-react";
+import { ArrowRight, Megaphone, Search, Store, Tag } from "lucide-react";
 import Hero from "@/components/home/hero";
-import OffersTicker from "@/components/home/offers-ticker";
-import LiveNow from "@/components/home/live-now";
-import Stories from "@/components/home/stories";
-import ReelsStrip from "@/components/home/reels-strip";
-import NewThisWeek from "@/components/home/new-this-week";
-import NegocioDelMes from "@/components/home/negocio-del-mes";
-import OfertaBomba from "@/components/home/oferta-bomba";
-import TipRotativo from "@/components/home/tip-rotativo";
 import Featured from "@/components/home/featured";
 import OfferCard from "@/components/ui/offer-card";
-import SectionTitle from "@/components/ui/section-title";
 import { CATEGORIES } from "@/lib/data";
 import { hoyArgentina } from "@/lib/fecha-ar";
+import { PLANES } from "@/lib/plans";
 
 type Oferta = {
   id: string;
@@ -28,44 +21,41 @@ type Oferta = {
   descuento?: number;
   antes?: number;
   ahora?: number;
-  real?: boolean;
   portada_url?: string;
   logo_url?: string;
   creado?: string;
-  lat?: number;
-  lon?: number;
+  latitude?: number;
+  longitude?: number;
+  precio_prometido?: boolean;
   destacado?: boolean;
   rating?: number;
   verificado?: boolean;
+  impulsada?: boolean;
+  businessOpen?: boolean;
 };
 
 const daysTo = (date: string) => {
-  const hoy = new Date();
-  hoy.setHours(0, 0, 0, 0);
-  return Math.round((new Date(date + "T00:00:00").getTime() - hoy.getTime()) / 86400000);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.round((new Date(`${date}T00:00:00`).getTime() - today.getTime()) / 86400000);
 };
 
-const chip = (active: boolean) =>
-  `shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
-    active
-      ? "border-orange-400/50 bg-gradient-to-r from-orange-500/20 to-red-600/20 text-[var(--text)]"
-      : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]"
-  }`;
-
-const PASOS = [
-  { icon: Search, titulo: "Buscá", texto: "Escribí lo que necesitás y mirá qué hay cerca tuyo.", grad: "from-orange-500 to-amber-400", glow: "shadow-orange-500/40" },
-  { icon: Store, titulo: "Elegí", texto: "Mirá fotos, precios y datos reales de cada negocio.", grad: "from-red-600 to-rose-400", glow: "shadow-red-600/40" },
-  { icon: MessageCircle, titulo: "Contactá", texto: "Hablá directo por WhatsApp con el comercio.", grad: "from-cyan-500 to-sky-400", glow: "shadow-cyan-500/40" },
-];
+const planFeatures: Record<string, string[]> = {
+  gratis: ["Perfil de negocio", "Hasta 3 ofertas activas"],
+  profesional: ["Ofertas ilimitadas", "Estadísticas y campañas"],
+  premium: ["Posición destacada", "Más visibilidad durante 7 días"],
+};
 
 export default function HomeClient({ initial, initialOfertas }: { initial: any[]; initialOfertas: any[] }) {
   const router = useRouter();
   const [cat, setCat] = useState<string | null>(null);
   const [coords] = useState<{ lat: number; lon: number } | null>(null);
   const [hoy] = useState(() => hoyArgentina());
+  const [ahora] = useState(() => Date.now());
+  const [modo, setModo] = useState<"todo" | "ahora" | "esta-noche">("todo");
 
-  const ofertas = useMemo<Oferta[]>(() => {
-    return (initialOfertas || [])
+  const ofertas = useMemo<Oferta[]>(() => (
+    (initialOfertas || [])
       .filter((o: any) => o.active && (!o.valid_until || o.valid_until >= hoy))
       .map((o: any) => ({
         id: o.id,
@@ -77,226 +67,213 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         descuento: o.discount_percent ? Number(o.discount_percent) : undefined,
         antes: o.old_price ? Number(o.old_price) : undefined,
         ahora: o.offer_price ? Number(o.offer_price) : undefined,
-        real: true,
         portada_url: o.business_portada,
         logo_url: o.business_logo,
         creado: o.created_at,
         precio_prometido: !!o.precio_prometido,
-        lat: o.business_latitude ? Number(o.business_latitude) : undefined,
-        lon: o.business_longitude ? Number(o.business_longitude) : undefined,
+        latitude: o.business_latitude ? Number(o.business_latitude) : undefined,
+        longitude: o.business_longitude ? Number(o.business_longitude) : undefined,
         destacado: !!o.business_destacado,
         rating: o.business_rating ? Number(o.business_rating) : undefined,
         verificado: o.business_status === "verificado",
-      }));
-  }, [initialOfertas, hoy]);
+        impulsada: !!o.impulsada_hasta && new Date(o.impulsada_hasta).getTime() > ahora,
+        businessOpen: o.business_open === true,
+      }))
+      .sort((a, b) => Number(!!b.impulsada) - Number(!!a.impulsada))
+  ), [initialOfertas, hoy, ahora]);
 
   const categoryCounts = useMemo(() => {
-    const m = new Map<string, number>();
-    for (const b of initial as any[]) m.set(b.category, (m.get(b.category) || 0) + 1);
-    return m;
+    const counts = new Map<string, number>();
+    initial.forEach((business: any) => counts.set(business.category, (counts.get(business.category) || 0) + 1));
+    return counts;
   }, [initial]);
 
   const filteredBusinesses = useMemo(() => {
-    // Destacado Semanal (plan pago) manda al frente -- si no, pagar por
-    // posición destacada no cambiaba nada en la práctica.
-    const base = cat ? initial.filter((b: any) => b.category === cat) : initial;
-    return [...base].sort((a: any, b: any) => (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0));
+    const list = cat ? initial.filter((business: any) => business.category === cat) : initial;
+    return [...list].sort((a: any, b: any) => Number(!!b.destacado) - Number(!!a.destacado));
   }, [initial, cat]);
 
-  // El buscador y las sugerencias del hero no filtran esta misma
-  // página -- van al buscador dedicado, que ya tiene los filtros
-  // completos (distancia, envíos, abierto ahora, etc.).
+  const urgentOffers = ofertas.filter((offer) => offer.vence && daysTo(offer.vence) <= 1);
+  const ofertasVisibles = ofertas.filter((offer) => {
+    if (modo === "ahora") return offer.businessOpen === true;
+    if (modo === "esta-noche") return !offer.vence || daysTo(offer.vence) >= 0;
+    return true;
+  });
+  const verifiedBusinesses = initial.filter((business: any) => business.status === "verificado").length;
   const irABuscar = (term: string) => router.push(`/buscar?q=${encodeURIComponent(term)}`);
 
-  const plataformaVacia = initial.length === 0 && ofertas.length === 0;
-  const porVencer = ofertas.filter((o) => o.vence && daysTo(o.vence) <= 3).length;
-  // Snapshot de "ahora" tomado una sola vez (lazy initializer, no en
-  // cada render) para el resumen diario -- solo cuenta lo que es real.
-  const [ahora] = useState(() => Date.now());
-  const nuevasHoy = ofertas.filter((o) => o.creado && (ahora - new Date(o.creado).getTime()) / 86400000 <= 1).length;
-  const terminanHoy = ofertas.filter((o) => o.vence && daysTo(o.vence) === 0).length;
-
   return (
-    <main>
+    <main className="sld-home">
       <Hero
         onSearch={irABuscar}
-        stats={{ promos: ofertas.length, negocios: initial.length, pronto: porVencer }}
+        stats={{ promos: ofertasVisibles.length, negocios: initial.length, pronto: urgentOffers.length }}
       />
-      <OffersTicker />
-      <Stories />
 
-      {/* Color que respira debajo del hero: aurora muy sutil en loop
-          lento (solo opacity), detrás de todas las secciones nuevas. */}
-      <div className="relative">
-        <div className="aurora-bg" aria-hidden="true">
-          <span /><span /><span />
-        </div>
-        <div className="relative z-10">
-      <OfertaBomba />
-      <LiveNow />
-      <ReelsStrip />
-      <NewThisWeek />
-
-      {/* CTA compacta al chat comunitario -- sin fetch propio, no suma
-          peso a la home. */}
-      <div className="mx-auto max-w-4xl px-4">
-        <Link href="/comunidad"
-          className="group flex items-center justify-between gap-3 rounded-full border border-cyan-400/20 bg-cyan-500/[.05] px-5 py-3 text-sm transition hover:border-cyan-400/40 hover:bg-cyan-500/10">
-          <span className="flex items-center gap-2">
-            <MessageCircle className="h-4 w-4 shrink-0 text-[var(--place)]" />
-            <span className="font-bold text-cyan-100">Chat de tu ciudad</span>
-            <span className="hidden text-[var(--muted)] sm:inline">-- preguntas, avisos, conectá con tus vecinos</span>
-          </span>
-          <ArrowRight className="h-4 w-4 shrink-0 text-[var(--place)] transition group-hover:translate-x-0.5" />
-        </Link>
-      </div>
-
-      <NegocioDelMes />
-
-      {/* ===== HOY EN SAN LORENZO ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
-        <div className="mb-10 flex flex-col items-baseline justify-between gap-4 md:flex-row md:gap-6">
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent)]">Hoy en San Lorenzo</p>
-            <h2 className="mt-2 text-5xl font-black uppercase leading-[0.9] tracking-tighter sm:text-6xl md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
-              OFERTAS{" "}
-              <span style={{ WebkitTextStroke: "1.5px rgba(255,247,237,.5)", color: "transparent" }}>ACTIVAS</span>
-            </h2>
-            {ofertas.length > 0 && (
-              <p className="mt-2 text-sm text-[var(--muted)]">
-                {[
-                  `${ofertas.length} ${ofertas.length === 1 ? "oferta activa" : "ofertas activas"}`,
-                  nuevasHoy > 0 && `${nuevasHoy} ${nuevasHoy === 1 ? "nueva" : "nuevas"} hoy`,
-                  terminanHoy > 0 && `${terminanHoy} ${terminanHoy === 1 ? "termina" : "terminan"} hoy`,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
-              </p>
-            )}
-          </div>
-          {ofertas.length > 0 && (
-            <Link href="/promociones" className="shrink-0 border-b border-orange-500/30 pb-1 text-xs font-black uppercase tracking-[.3em] text-orange-500 hover:text-orange-400">
-              Ver todas
-            </Link>
-          )}
-        </div>
-        {ofertas.length > 0 ? (
-          <div
-            role="region"
-            aria-label="Ofertas activas, scroll horizontal"
-            tabIndex={0}
-            className="sld-no-scrollbar -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0"
-          >
-            {ofertas.slice(0, 10).map((o) => (
-              <div key={o.id} className="stagger-item w-72 shrink-0">
-                <OfferCard o={o} userCoords={coords} />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="sld-card flex flex-col items-center gap-3 rounded-2xl px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
+      <section className="sld-section-cream border-b border-[var(--line)] px-4 py-12 sm:px-6 md:py-16" aria-labelledby="categorias-title">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-7 flex items-end justify-between gap-4">
             <div>
-              <p className="font-semibold">Estamos llegando: sé de los primeros.</p>
-              <p className="mt-1 text-sm text-[var(--muted)]">Todavía no hay ofertas publicadas -- las primeras van a aparecer acá.</p>
+              <p className="sld-eyebrow text-[var(--place)]">Explorá por rubro</p>
+              <h2 id="categorias-title" className="sld-display mt-2 text-4xl sm:text-5xl">Lo que buscás, cerca.</h2>
             </div>
-            <Link
-              href="/dashboard/ofertas/nueva"
-              className="shrink-0 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white transition hover:opacity-90"
-            >
-              Publicar la primera oferta
+            <Link href="/negocios" className="hidden items-center gap-2 text-sm font-bold text-[var(--text)] hover:text-[var(--accent)] sm:inline-flex">
+              Ver directorio <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        )}
-        {ofertas.length === 0 && (
-          <div
-            role="region"
-            aria-label="Rubros próximamente"
-            tabIndex={0}
-            className="sld-no-scrollbar mt-3 flex gap-2 overflow-x-auto"
-          >
-            {CATEGORIES.slice(0, 8).map((c) => (
-              <span key={c.id} className="shrink-0 rounded-full border border-[var(--line)] bg-[var(--ov-03)] px-3 py-1 text-xs text-[var(--muted)]">
-                {c.icon} {c.name} · próximamente
-              </span>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+            {CATEGORIES.slice(0, 8).map((category) => (
+              <Link
+                key={category.id}
+                href={`/negocios?cat=${category.id}`}
+                className="group flex min-h-28 flex-col justify-between border border-[var(--line)] bg-[var(--surface)] p-4 transition hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[0_12px_24px_rgba(0,0,0,.14)]"
+              >
+                <span className="text-2xl" aria-hidden="true">{category.icon}</span>
+                <span className="mt-5 text-sm font-bold text-[var(--text)]">{category.name}</span>
+                <span className="mt-1 text-xs text-[var(--muted2)]">
+                  {categoryCounts.get(category.id) || 0} {categoryCounts.get(category.id) === 1 ? "negocio" : "negocios"}
+                </span>
+              </Link>
             ))}
           </div>
-        )}
+        </div>
       </section>
 
-      {/* ===== NEGOCIOS DESTACADOS ===== */}
-      {!plataformaVacia && (
-        <>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <div role="region" aria-label="Filtrar por rubro, scroll horizontal" tabIndex={0} className="sld-no-scrollbar flex gap-2 overflow-x-auto pb-2">
-              <button onClick={() => setCat(null)} className={chip(!cat)}>Todo</button>
-              {CATEGORIES.filter((c) => categoryCounts.has(c.id)).map((c) => (
-                <button key={c.id} onClick={() => setCat(cat === c.id ? null : c.id)} className={chip(cat === c.id)}>
-                  {c.icon} {c.name} <span className="opacity-60">{categoryCounts.get(c.id)}</span>
+      <section id="ofertas" className="sld-section-cream px-4 pb-14 sm:px-6 md:pb-20" aria-labelledby="ofertas-title">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-7 flex flex-col gap-3 border-t border-[var(--line)] pt-8 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="sld-eyebrow text-[var(--accent)]">Promociones vigentes</p>
+              <h2 id="ofertas-title" className="sld-display mt-2 text-4xl sm:text-5xl">
+                {modo === "ahora" ? "Ahora, cerca." : modo === "esta-noche" ? "Para esta noche." : "Ofertas de hoy."}
+              </h2>
+              <p className="mt-2 max-w-xl text-sm text-[var(--muted)]">
+                Precios publicados por comercios locales. Revisá la vigencia antes de acercarte.
+              </p>
+            </div>
+            <Link href="/promociones" className="inline-flex items-center gap-2 text-sm font-bold text-[var(--text)] hover:text-[var(--accent)]">
+              Ver todas <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="mb-5 flex gap-2 overflow-x-auto pb-1" role="group" aria-label="Filtrar ofertas por momento">
+            {([
+              ["todo", "Todo"],
+              ["ahora", "Ahora"],
+              ["esta-noche", "Esta noche"],
+            ] as const).map(([value, label]) => (
+              <button key={value} type="button" onClick={() => setModo(value)} className={`sld-filter-light ${modo === value ? "is-active" : ""}`}>
+                {label}
+              </button>
+            ))}
+          </div>
+          {ofertasVisibles.length > 0 ? (
+            <div className="sld-no-scrollbar -mx-4 flex gap-4 overflow-x-auto px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-4">
+              {ofertasVisibles.slice(0, 8).map((offer) => (
+                <div key={offer.id} className="w-[18rem] shrink-0 sm:w-auto">
+                  <OfferCard o={offer} userCoords={coords} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-7">
+              <p className="font-bold text-[var(--text)]">{modo === "ahora" ? "No hay ofertas de negocios abiertos ahora." : "Todavía no hay ofertas activas para este momento."}</p>
+              <p className="mt-1 text-sm text-[var(--muted)]">Probá otro momento o revisá todas las ofertas vigentes.</p>
+              <Link href="/para-negocios" className="mt-5 inline-flex items-center gap-2 bg-[var(--accent)] px-4 py-3 text-sm font-black text-white hover:bg-[var(--accent2)]">
+                Publicar una oferta <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="sld-section-dark border-y border-white/10 px-4 py-14 sm:px-6 md:py-20" aria-labelledby="comercios-title">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-7 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="sld-eyebrow text-[var(--place)]">Directorio local</p>
+              <h2 id="comercios-title" className="sld-display mt-2 text-4xl text-[#f7f3ec] sm:text-5xl">Comercios destacados.</h2>
+              <p className="mt-2 max-w-xl text-sm text-[#a99b86]">Negocios con información pública para que elijas dónde comprar.</p>
+            </div>
+            <Link href="/negocios" className="inline-flex items-center gap-2 text-sm font-bold text-[var(--text)] hover:text-[var(--accent)]">
+              Explorar directorio <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          {initial.length > 0 && (
+            <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
+              <button type="button" onClick={() => setCat(null)} className={`sld-filter ${!cat ? "is-active" : ""}`}>Todos</button>
+              {CATEGORIES.filter((category) => categoryCounts.has(category.id)).slice(0, 8).map((category) => (
+                <button key={category.id} type="button" onClick={() => setCat(cat === category.id ? null : category.id)} className={`sld-filter ${cat === category.id ? "is-active" : ""}`}>
+                  {category.name}
                 </button>
               ))}
             </div>
-          </div>
-          <Featured list={filteredBusinesses} title="Negocios destacados" userCoords={coords} />
-        </>
-      )}
-
-      <TipRotativo />
-
-      {/* ===== CÓMO FUNCIONA ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
-        <SectionTitle eyebrow="Cómo funciona" title="Así de simple" />
-        <div className="grid gap-4 sm:grid-cols-3">
-          {PASOS.map(({ icon: Icon, titulo, texto, grad, glow }, i) => (
-            <div key={titulo} className="stagger-item rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1">
-              <div className="relative overflow-hidden rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                <span className="pointer-events-none absolute -right-4 -top-6 text-8xl font-black text-[var(--ov-05)]" style={{ fontFamily: "var(--font-ticket)" }}>{i + 1}</span>
-                <div className={`relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${grad} shadow-lg ${glow}`}>
-                  <Icon className="h-6 w-6 text-white" strokeWidth={2.4} />
-                </div>
-                <h3 className="relative mt-4 text-lg font-black" style={{ fontFamily: "var(--font-space)" }}>{titulo}</h3>
-                <p className="relative mt-1.5 text-sm text-[var(--muted)]">{texto}</p>
-              </div>
-            </div>
-          ))}
+          )}
+          <Featured list={filteredBusinesses} title="" userCoords={coords} />
         </div>
       </section>
 
-      {/* ===== PARA COMERCIOS Y PARTICULARES ===== */}
-      <section id="sumate" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
-        <div className="rounded-[1.75rem] border border-orange-400/20 bg-gradient-to-br from-orange-500/[.06] to-red-600/[.03] p-1.5">
-          <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:p-10">
-            <p className="text-xs font-bold uppercase tracking-[.2em] text-[var(--accent2)]">Para comercios</p>
-            <h2 className="mt-2 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl" style={{ fontFamily: "var(--font-space)" }}>
-              Publicá tu negocio gratis y aparecé en San Lorenzo Digital.
-            </h2>
-            <p className="mt-3 max-w-xl text-sm leading-6 text-[var(--muted)]">
-              Sin saber programar, en 2 minutos. Los vecinos te encuentran buscando por rubro, producto o nombre.
-            </p>
-            <Link
-              href="/dashboard/nuevo"
-              className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-bold text-white transition hover:opacity-90"
-            >
-              Crear mi negocio
+      <section className="sld-section-dark px-4 pb-14 sm:px-6 md:pb-20" aria-label="Promoción para comercios">
+        <div className="mx-auto max-w-7xl">
+          <div className="sld-sponsored grid gap-6 p-6 sm:p-9 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[.2em] text-[var(--accent)]">
+                <Megaphone className="h-4 w-4" /> Espacio publicitario · disponible
+              </div>
+              <h2 className="mt-3 max-w-2xl text-3xl font-black tracking-tight text-[#f7f3ec] sm:text-4xl">Hacé que tu negocio aparezca donde tus vecinos están buscando.</h2>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-[#c7b8a4]">Publicá tu negocio gratis o conocé opciones de promoción. Las campañas pagas se identifican claramente.</p>
+            </div>
+            <Link href="/planes" className="inline-flex items-center justify-center gap-2 bg-[var(--accent)] px-5 py-3 text-sm font-black text-white hover:bg-[var(--accent2)]">
+              Ver planes <ArrowRight className="h-4 w-4" />
             </Link>
+          </div>
+        </div>
+      </section>
 
-            <div className="mt-8 flex items-start gap-3 border-t border-[var(--line)] pt-6">
-              <span className="text-2xl">🙋</span>
-              <div>
-                <p className="font-bold text-[var(--text)]">¿Vendés algo pero no tenés local?</p>
-                <p className="mt-1 max-w-xl text-sm leading-6 text-[var(--muted)]">
-                  También podés sumarte, gratis. Ropa, comida casera, changas, lo que sea -- sin necesidad de un
-                  comercio físico.
-                </p>
-                <Link href="/dashboard/nuevo?type=particular" className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-[var(--place)] hover:text-cyan-200">
-                  Sumarme como particular →
-                </Link>
-              </div>
+      <section className="sld-section-cream px-4 py-14 sm:px-6 md:py-20" aria-labelledby="sumate-title">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-start">
+          <div>
+            <p className="sld-eyebrow text-[var(--place)]">Una ciudad que se encuentra</p>
+            <h2 id="sumate-title" className="sld-display mt-2 max-w-2xl text-4xl sm:text-6xl">La guía local se construye entre todos.</h2>
+            <p className="mt-5 max-w-xl text-base leading-7 text-[var(--muted)]">La cantidad que ves arriba refleja los datos disponibles hoy. No usamos testimonios ni métricas inventadas: descubrí, contactá y compartí negocios reales.</p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link href="/registro" className="inline-flex items-center gap-2 bg-[var(--text)] px-5 py-3 text-sm font-black text-[var(--bg)] hover:bg-[var(--accent)] hover:text-white"><Search className="h-4 w-4" /> Crear cuenta</Link>
+              <Link href="/para-negocios" className="inline-flex items-center gap-2 border border-[var(--line-strong)] px-5 py-3 text-sm font-black text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)]"><Store className="h-4 w-4" /> Publicar negocio</Link>
+            </div>
+          </div>
+          <div className="border-t border-[var(--line)] pt-5">
+            <p className="sld-eyebrow text-[var(--muted2)]">Datos de esta página</p>
+            <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-7">
+              <div><strong className="sld-display text-5xl text-[var(--text)]">{initial.length}</strong><p className="mt-1 text-xs font-bold uppercase tracking-wider text-[var(--muted2)]">negocios publicados</p></div>
+              <div><strong className="sld-display text-5xl text-[var(--text)]">{ofertas.length}</strong><p className="mt-1 text-xs font-bold uppercase tracking-wider text-[var(--muted2)]">ofertas activas</p></div>
+              <div><strong className="sld-display text-5xl text-[var(--text)]">{categoryCounts.size}</strong><p className="mt-1 text-xs font-bold uppercase tracking-wider text-[var(--muted2)]">rubros con presencia</p></div>
+              <div><strong className="sld-display text-5xl text-[var(--text)]">{verifiedBusinesses}</strong><p className="mt-1 text-xs font-bold uppercase tracking-wider text-[var(--muted2)]">negocios verificados</p></div>
             </div>
           </div>
         </div>
       </section>
+
+      <section className="sld-section-dark px-4 py-14 sm:px-6 md:py-20" aria-labelledby="planes-title">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="sld-eyebrow text-[var(--accent)]">Para comercios</p>
+              <h2 id="planes-title" className="sld-display mt-2 text-4xl text-[var(--text)] sm:text-5xl">Empezá simple. Crecé cuando quieras.</h2>
+            </div>
+            <Link href="/planes" className="inline-flex items-center gap-2 text-sm font-bold text-[var(--text)] hover:text-[var(--accent)]">Comparar planes <ArrowRight className="h-4 w-4" /></Link>
+          </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            {(["gratis", "profesional", "premium"] as const).map((key) => {
+              const plan = PLANES[key];
+              return (
+                <Link key={key} href="/planes" className={`border p-5 transition hover:-translate-y-1 ${key === "premium" ? "border-[var(--accent)] bg-[var(--accent)]/10" : "border-white/15 bg-white/[.04]"}`}>
+                  <div className="flex items-start justify-between gap-3"><div><p className="text-xs font-black uppercase tracking-[.18em] text-[var(--muted)]">{key === "gratis" ? "Para empezar" : key === "premium" ? "Mayor exposición" : "Para crecer"}</p><h3 className="mt-2 text-xl font-black text-[var(--text)]">{plan.name}</h3></div><Tag className="h-5 w-5 text-[var(--accent)]" /></div>
+                  <p className="mt-5 text-3xl font-black text-[var(--accent)]">{plan.precioARS ? `$${plan.precioARS.toLocaleString("es-AR")}` : "Gratis"}{plan.precioARS > 0 && <span className="ml-1 text-sm font-medium text-[var(--muted)]">/mes</span>}</p>
+                  <ul className="mt-5 space-y-2 text-sm text-[var(--muted)]">{planFeatures[key].map((feature) => <li key={feature}>✓ {feature}</li>)}</ul>
+                </Link>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }

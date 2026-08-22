@@ -5,7 +5,7 @@ import { mercadoPagoConfig } from "@/lib/mercadopago";
 import { PLANES } from "@/lib/plans";
 import { getRateLimitHeader, checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
-const SITE = "https://sanlorenzodigital.vercel.app";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://sanlorenzodigital.vercel.app";
 
 // Crea una preferencia de Checkout Pro para que un comerciante pague un
 // plan directo desde /dashboard/planes, en vez de transferir y esperar
@@ -21,6 +21,9 @@ export async function POST(request: NextRequest) {
 
   const config = mercadoPagoConfig();
   if (!config) return NextResponse.json({ error: "El pago con Mercado Pago todavía no está disponible. Usá la transferencia por ahora." }, { status: 503 });
+  if (!process.env.MP_WEBHOOK_SECRET) {
+    return NextResponse.json({ error: "El cobro online está pendiente de configuración segura. Usá la transferencia por ahora." }, { status: 503 });
+  }
 
   const { businessId, plan } = await request.json();
   if (!businessId || !plan) return NextResponse.json({ error: "businessId y plan son requeridos" }, { status: 400 });
@@ -36,8 +39,8 @@ export async function POST(request: NextRequest) {
   }
 
   const { data: sub, error: subErr } = await sb.from("subscriptions")
-    .insert({ business_id: businessId, plan, status: "pending_mp" })
-    .select().single();
+    .insert({ business_id: businessId, plan, status: "pending" })
+    .select("id").single();
   if (subErr) return NextResponse.json({ error: subErr.message }, { status: 500 });
 
   try {
@@ -60,6 +63,13 @@ export async function POST(request: NextRequest) {
         },
         auto_return: "approved",
       },
+    });
+    await sb.from("analytics_events").insert({
+      business_id: businessId,
+      event_name: "checkout_started",
+      event_type: "checkout_started",
+      user_id: user.id,
+      metadata: { plan, amount_ars: planInfo.precioARS, provider: "mercadopago" },
     });
     return NextResponse.json({ init_point: result.init_point });
   } catch (e) {

@@ -18,7 +18,7 @@ export default async function Page() {
   const [{ data, count }] = await Promise.all([
     sb
       .from("businesses")
-      .select("id, name, slug, category, rating, reviews, open, description, portada_url, address, whatsapp, plan, status, type, hace_envios, destacado", { count: "exact" })
+      .select("id, name, slug, category, rating, reviews, open, description, portada_url, address, whatsapp, plan, status, type, hace_envios, destacado, updated_at", { count: "exact" })
       .in("status", ["verificado", "reclamado"])
       .eq("activo", true)
       .or("type.is.null,type.in.(comercio,servicio,profesional)")

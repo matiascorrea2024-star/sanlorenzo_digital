@@ -22,7 +22,14 @@ type Pendiente = { id: string; file: File; preview: string; name: string; price:
 export default function ProductosPage() {
   const { user } = useAuth();
   const { show } = useToast();
-  const [negocio, setNegocio] = useState<any>(null);
+  // Antes esto traía UN solo negocio con .maybeSingle() -- que ROMPE
+  // (tira error) apenas el dueño tiene más de un negocio, algo que el
+  // resto del panel sí soporta (ver "Nueva oferta", que tiene su
+  // propio selector de negocio). Un comerciante con 2 locales
+  // directamente no podía entrar a cargar catálogo. Ahora trae todos
+  // los suyos y deja elegir cuál, mismo patrón que ya usa ofertas.
+  const [negocios, setNegocios] = useState<any[]>([]);
+  const [negocioId, setNegocioId] = useState("");
   const [productos, setProductos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<any>(null);
@@ -31,22 +38,34 @@ export default function ProductosPage() {
   const [pendientes, setPendientes] = useState<Pendiente[]>([]);
   const [guardandoTodo, setGuardandoTodo] = useState(false);
 
+  const negocio = negocios.find((n) => n.id === negocioId) || null;
+
   useEffect(() => {
     (async () => {
       if (!user) return;
-      const { data: biz } = await supabase().from("businesses").select("*").eq("owner_id", user.id).maybeSingle();
-      if (biz) {
-        setNegocio(biz);
-        const { data: prods } = await supabase().from("products")
-          .select("*").eq("business_id", biz.id)
-          .order("featured", { ascending: false }).order("created_at", { ascending: false });
-        setProductos(prods || []);
-      }
+      const { data: prof } = await supabase().from("user_profiles").select("role").eq("user_id", user.id).maybeSingle();
+      const q = supabase().from("businesses").select("*").order("name");
+      if (prof?.role !== "admin") q.eq("owner_id", user.id);
+      const { data: bizList } = await q;
+      const list = bizList || [];
+      setNegocios(list);
+      if (list.length > 0) setNegocioId(list[0].id);
       setLoading(false);
     })();
   }, [user]);
 
+  useEffect(() => {
+    if (!negocioId) { setProductos([]); return; }
+    (async () => {
+      const { data: prods } = await supabase().from("products")
+        .select("*").eq("business_id", negocioId)
+        .order("featured", { ascending: false }).order("created_at", { ascending: false });
+      setProductos(prods || []);
+    })();
+  }, [negocioId]);
+
   const reload = async () => {
+    if (!negocio) return;
     const { data: prods } = await supabase().from("products")
       .select("*").eq("business_id", negocio.id)
       .order("featured", { ascending: false }).order("created_at", { ascending: false });
@@ -142,6 +161,7 @@ export default function ProductosPage() {
   const listosParaGuardar = pendientes.filter((p) => p.name.trim() && p.price.trim());
 
   const cupoRestante = planActual.maxProductos === -1 ? Infinity : Math.max(0, planActual.maxProductos - productos.length);
+  const productosOcultosPorPlan = productos.filter((p) => p.hidden_by_plan).length;
 
   const guardarTodo = async () => {
     if (!negocio || listosParaGuardar.length === 0) return;
@@ -209,10 +229,31 @@ export default function ProductosPage() {
           </div>
         </div>
 
+        {negocios.length > 1 && (
+          <div className="mb-4">
+            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Negocio</label>
+            <select value={negocioId} onChange={(e) => { setNegocioId(e.target.value); setEditing(null); setForm(emptyForm()); }}
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-orange-400/60 focus:outline-none">
+              {negocios.map((n) => <option key={n.id} value={n.id}>{n.name}</option>)}
+            </select>
+          </div>
+        )}
+
         {!puedeSumar && (
           <div className="mb-4 rounded-[1.5rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
             <div className="flex flex-col items-start justify-between gap-3 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:flex-row sm:items-center">
               <p className="text-sm">Llegaste al límite de {planActual.maxProductos} productos del plan {planActual.name}.</p>
+              <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
+            </div>
+          </div>
+        )}
+
+        {productosOcultosPorPlan > 0 && (
+          <div className="mb-4 rounded-[1.5rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
+            <div className="flex flex-col items-start justify-between gap-3 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:flex-row sm:items-center">
+              <p className="text-sm">
+                Tenés <b>{productosOcultosPorPlan}</b> {productosOcultosPorPlan === 1 ? "producto oculto" : "productos ocultos"} del catálogo público porque tu plan actual permite hasta {planActual.maxProductos}. No se borraron -- mejorá el plan y vuelven a aparecer al toque.
+              </p>
               <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
             </div>
           </div>
@@ -372,6 +413,7 @@ export default function ProductosPage() {
                     {p.name}
                     {p.featured && <Star className="h-3.5 w-3.5 fill-yellow-400 text-[var(--warn)]" />}
                     {p.active === false && <span className="rounded-full bg-[var(--ov-10)] px-2 py-0.5 text-[9px] font-black uppercase text-[var(--muted)]">Oculto</span>}
+                    {p.hidden_by_plan && <span className="rounded-full bg-orange-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-orange-400">Oculto por plan</span>}
                   </p>
                   <p className="text-xs text-[var(--muted)]">{p.category || "Sin categoría"} · Stock: {p.stock ?? "—"}</p>
                   <p className="text-sm font-black text-orange-400">${Number(p.price).toLocaleString("es-AR")}</p>
