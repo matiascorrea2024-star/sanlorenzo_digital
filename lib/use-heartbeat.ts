@@ -7,6 +7,7 @@ export function useHeartbeat(userId: string | undefined) {
     if (!userId) return;
 
     const tick = async () => {
+      if (document.visibilityState !== "visible") return;
       try {
         await supabase()
           .from("user_profiles")
@@ -18,8 +19,14 @@ export function useHeartbeat(userId: string | undefined) {
     };
 
     tick(); // primera vez al entrar
-    const id = setInterval(tick, 60 * 1000); // cada 60 segundos
-    return () => clearInterval(id);
+    const id = setInterval(tick, 60 * 1000); // cada 60 segundos mientras está visible
+    document.addEventListener("visibilitychange", tick);
+    window.addEventListener("focus", tick);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener("visibilitychange", tick);
+      window.removeEventListener("focus", tick);
+    };
   }, [userId]);
 }
 

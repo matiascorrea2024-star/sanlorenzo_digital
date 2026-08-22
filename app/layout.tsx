@@ -16,14 +16,15 @@ import ReferralTracker from "@/components/referral-tracker";
 import { CartProvider } from "@/lib/cart-context";
 import CartFab from "@/components/cart/cart-fab";
 import { ThemeProvider } from "@/lib/theme-context";
+import Analytics from "@/components/analytics";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", fallback: ["Arial", "sans-serif"] });
+const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space", fallback: ["Arial", "sans-serif"] });
 // Cara "cartel de mercado / ticket" para el wordmark, precios y descuentos --
 // condensada y de peso pesado, referencia al cordón industrial real de San
 // Lorenzo (Big Shoulders nació para la cartelería de Chicago), no una
 // tipografía de SaaS genérica.
-const ticket = Big_Shoulders({ subsets: ["latin"], weight: "variable", axes: ["opsz"], variable: "--font-ticket" });
+const ticket = Big_Shoulders({ subsets: ["latin"], weight: "variable", axes: ["opsz"], variable: "--font-ticket", fallback: ["Arial Narrow", "Arial", "sans-serif"] });
 
 import type { Viewport } from "next";
 
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </AuthProvider>
       </ToastProvider>
       <InstallApp />
+      <Analytics />
       </body>
     </html>
   );

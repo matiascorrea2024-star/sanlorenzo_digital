@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 import Link from "next/link";
-import { TrendingUp, Eye, MessageCircle, MapPin, Heart, Ticket, Users, Lock } from "lucide-react";
+import { TrendingUp, Eye, MessageCircle, MapPin, Heart, Ticket, Users, Lock, ShoppingBasket, CircleCheck } from "lucide-react";
 import InfoTip from "@/components/ui/info-tip";
 import { planDe } from "@/lib/plans";
 
@@ -13,7 +13,8 @@ export default function AnalyticsPage() {
   const [negocios, setNegocios] = useState<any[]>([]);
   const [selectedBiz, setSelectedBiz] = useState<string>("");
   const [stats, setStats] = useState<any>({
-    views: 0, whatsapp: 0, map: 0, favorites: 0, coupons: 0, follows: 0
+    views: 0, offerViews: 0, whatsapp: 0, map: 0, favorites: 0, coupons: 0,
+    follows: 0, shares: 0, checkout: 0, payments: 0
   });
   const [timeline, setTimeline] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -59,8 +60,9 @@ export default function AnalyticsPage() {
         .order("created_at", { ascending: false });
 
       const counts: Record<string, number> = {
-        view_business: 0, click_whatsapp: 0, click_map: 0,
-        favorite: 0, coupon_generated: 0, follow: 0
+        view_business: 0, view_offer: 0, click_whatsapp: 0, click_map: 0,
+        favorite: 0, coupon_generated: 0, follow: 0, share_business: 0,
+        share_offer: 0, checkout_started: 0, payment_confirmed: 0
       };
 
       (events || []).forEach(e => {
@@ -71,11 +73,15 @@ export default function AnalyticsPage() {
 
       setStats({
         views: counts.view_business,
+        offerViews: counts.view_offer,
         whatsapp: counts.click_whatsapp,
         map: counts.click_map,
         favorites: counts.favorite,
         coupons: counts.coupon_generated,
         follows: counts.follow,
+        shares: counts.share_business + counts.share_offer,
+        checkout: counts.checkout_started,
+        payments: counts.payment_confirmed,
       });
 
       // Timeline últimos 7 días
@@ -109,11 +115,15 @@ export default function AnalyticsPage() {
 
   const cards = [
     { icon: Eye, label: "Visitas", value: stats.views, color: "text-[var(--place)]", info: "Cuántas veces entraron a la ficha de tu negocio en los últimos 30 días." },
+    { icon: Eye, label: "Ofertas vistas", value: stats.offerViews, color: "text-orange-300", info: "Cuántas veces abrieron una oferta asociada a tu negocio." },
     { icon: MessageCircle, label: "WhatsApp", value: stats.whatsapp, color: "text-[var(--ok)]", info: "Cuántas personas tocaron el botón de WhatsApp para escribirte." },
     { icon: MapPin, label: "Cómo llegar", value: stats.map, color: "text-orange-400", info: "Cuántas personas tocaron \"Cómo llegar\" para ver tu ubicación en el mapa." },
     { icon: Heart, label: "Favoritos", value: stats.favorites, color: "text-[var(--bad)]", info: "Cuántas personas guardaron tu negocio en sus favoritos." },
     { icon: Users, label: "Seguidores", value: stats.follows, color: "text-purple-400", info: "Cuántas personas te siguen para enterarse de tus novedades y ofertas." },
     { icon: Ticket, label: "Cupones", value: stats.coupons, color: "text-[var(--ok)]", info: "Cuántos cupones de tus ofertas generaron los clientes para usar en el local." },
+    { icon: TrendingUp, label: "Compartidos", value: stats.shares, color: "text-[var(--place)]", info: "Compartidos rastreados de tu negocio y sus ofertas." },
+    { icon: ShoppingBasket, label: "Intenciones", value: stats.checkout, color: "text-purple-400", info: "Personas que iniciaron un pedido desde el changuito." },
+    { icon: CircleCheck, label: "Pagos", value: stats.payments, color: "text-[var(--ok)]", info: "Pagos confirmados por el webhook verificado de Mercado Pago." },
   ];
 
   const maxViews = Math.max(...timeline.map(d => d.views), 1);

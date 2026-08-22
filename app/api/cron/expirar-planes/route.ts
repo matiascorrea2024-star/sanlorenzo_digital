@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseCron } from "@/lib/supabase-cron";
+import { aplicarLimiteCatalogo } from "@/lib/catalogo-limite";
 
 // Baja a "gratis" los negocios cuyo plan pago venció (plan_expira < ahora).
 // Sin esto, un "Destacado Semanal" de 7 días o una campaña temporal se
@@ -29,6 +30,12 @@ export async function GET(request: NextRequest) {
       .update({ plan: "gratis", destacado: false, plan_expira: null })
       .in("id", ids);
     if (updError) return NextResponse.json({ error: updError.message }, { status: 500 });
+
+    // El catálogo nunca se borra -- pero al bajar a "gratis" el excedente
+    // sobre el nuevo límite se oculta del público (ver lib/catalogo-limite).
+    for (const b of vencidos) {
+      await aplicarLimiteCatalogo(sb, b.id, "gratis");
+    }
   }
 
   return NextResponse.json({ ok: true, dry, bajados: vencidos?.length || 0, negocios: vencidos?.map((b) => b.name) || [] });

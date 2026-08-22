@@ -9,7 +9,9 @@ type Props = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const sb = await createClient();
-  const { data: offer } = await sb.from("offers").select("*, businesses(name, slug, category, portada_url, logo_url, address)").eq("id", id).maybeSingle();
+  const { data: offer } = await sb.from("offers")
+    .select("*, businesses!inner(name, slug, category, portada_url, logo_url, address, status, activo)")
+    .eq("id", id).eq("active", true).eq("businesses.status", "verificado").neq("businesses.activo", false).maybeSingle();
 
   if (!offer) {
     return { title: "Oferta no encontrada | La Gran Barata Digital" };
@@ -32,7 +34,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { id } = await params;
   const sb = await createClient();
-  const { data: offer } = await sb.from("offers").select("*, businesses(name, slug, category, portada_url, address, whatsapp, instagram)").eq("id", id).maybeSingle();
+  const { data: offer } = await sb.from("offers")
+    .select("*, businesses!inner(name, slug, category, portada_url, address, whatsapp, instagram, status, activo)")
+    .eq("id", id).eq("active", true).eq("businesses.status", "verificado").neq("businesses.activo", false).maybeSingle();
   if (!offer) notFound();
 
   // Google espera Product > offers > Offer (Product como raíz) para

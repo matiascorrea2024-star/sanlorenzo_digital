@@ -63,7 +63,7 @@ export default function BusinessMap({
             width: 32px;
             height: 32px;
             border-radius: 50% 50% 50% 0;
-            background: #8B5CF6;
+            background: #22d3ee;
             border: 3px solid #ffffff;
             box-shadow: 0 3px 12px rgba(0,0,0,0.45);
             transform: rotate(-45deg);
@@ -96,16 +96,16 @@ export default function BusinessMap({
   if (!validCoordinates) {
     return (
       <div
-        className={`rounded-lg bg-surface-2 border border-border p-8 text-center ${className}`}
+        className={`rounded-lg bg-[var(--surface2)] border border-[var(--line)] p-8 text-center ${className}`}
       >
-        <p className="text-text-2">📍 Ubicación no disponible</p>
+        <p className="text-[var(--muted)]">📍 Ubicación no disponible</p>
       </div>
     );
   }
 
   return (
     <div
-      className={`relative w-full h-64 rounded-lg overflow-hidden border border-border ${className}`}
+      className={`relative w-full h-64 rounded-lg overflow-hidden border border-[var(--line)] ${className}`}
     >
       <MapContainer
         center={[latitude, longitude]}

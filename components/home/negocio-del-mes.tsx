@@ -89,7 +89,7 @@ export default function NegocioDelMes() {
           <p className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--warn)]">Reconocimiento del mes</p>
           <h2 className="mt-2 text-5xl font-black uppercase leading-[0.9] tracking-tighter sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
             NEGOCIO{" "}
-            <span style={{ WebkitTextStroke: "1.5px rgba(255,247,237,.5)", color: "transparent" }}>DEL MES</span>
+            <span style={{ WebkitTextStroke: "1.5px var(--text-stroke)", color: "transparent" }}>DEL MES</span>
           </h2>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-[var(--muted)]">
             El reconocimiento de los vecinos a los negocios de San Lorenzo -- se vota una vez por mes, sin trampa.

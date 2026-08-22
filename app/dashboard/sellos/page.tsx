@@ -24,7 +24,7 @@ export default function SellosPage() {
   useEffect(() => {
     (async () => {
       if (!user) return;
-      const { data: biz } = await supabase().from("businesses").select("id, name").eq("owner_id", user.id).maybeSingle();
+      const { data: biz } = await supabase().from("businesses").select("id, name").eq("owner_id", user.id).order("name").limit(1).maybeSingle();
       if (biz) {
         setNegocio(biz);
         const { data: prog } = await supabase().from("loyalty_programs").select("*").eq("business_id", biz.id).maybeSingle();

@@ -124,7 +124,7 @@ export default function BusinessPulse({ negocio }: Props) {
             <p className="flex items-center gap-1.5 text-xs font-bold text-orange-300"><Lock className="h-3.5 w-3.5" /> ¿Vale la pena Plan PRO?</p>
             <p className="mt-1 text-xs text-[var(--muted)]">
               Tenés {datos.seguidoresTotal} seguidor{datos.seguidoresTotal === 1 ? "" : "es"} y {datos.ofertasActivas} oferta{datos.ofertasActivas === 1 ? "" : "s"} activa{datos.ofertasActivas === 1 ? "" : "s"} sin poder ver el detalle de tus visitas.
-              Con PRO ves exactamente quién te encuentra y qué funciona mejor.
+              Con PRO ves qué canales y contenidos funcionan mejor para tu negocio.
             </p>
             <Link href="/dashboard/planes" className="mt-2 inline-flex items-center gap-1 text-xs font-black text-orange-400 hover:text-orange-300">
               <TrendingUp className="h-3.5 w-3.5" /> Ver planes →

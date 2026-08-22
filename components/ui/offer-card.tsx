@@ -10,6 +10,7 @@ import { fmtDistance } from "@/lib/geo";
 import { calcSDLScore, sdlLabel } from "@/lib/sdl-score";
 import CountdownTimer from "@/components/ui/countdown-timer";
 import CategoryCover from "@/components/ui/category-cover";
+import { relativeTime } from "@/lib/relative-time";
 
 type Offer = {
   id: string; negocio: string; slug: string; producto: string; cat: string;
@@ -20,6 +21,7 @@ type Offer = {
   rating?: number;
   verificado?: boolean;
   impulsada?: boolean;
+  creado?: string;
 };
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
@@ -60,6 +62,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
     diasRestantes,
   });
   const sdl = sdlLabel(sdlScore);
+  const publicado = relativeTime(o.creado);
 
   // Flags de urgencia
   const esUrgente = diasRestantes !== null && diasRestantes <= 1; // vence hoy o mañana
@@ -135,7 +138,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2 mb-1">
           <div className="flex min-w-0 items-center gap-1 text-xs font-bold uppercase tracking-wider text-orange-400/80">
             <span className="truncate">{o.negocio}</span>
@@ -146,7 +149,8 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
             🔥 {sdlScore}/100
           </span>
         </div>
-        <h3 className="mt-1 line-clamp-2 min-h-[2.5rem] text-sm font-black leading-tight text-[var(--text)]">{o.producto}</h3>
+        <h3 className="mt-1 line-clamp-2 min-h-[2.5rem] text-base font-black leading-tight text-[var(--text)] sm:text-[1.05rem]">{o.producto}</h3>
+        {publicado && <p className="mt-2 text-[11px] font-semibold text-[var(--muted2)]">Publicado {publicado}</p>}
         <div className="mt-auto pt-3">
           {o.ahora && o.antes ? (
             <div className="flex items-end justify-between">

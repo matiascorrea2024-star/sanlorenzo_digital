@@ -22,7 +22,7 @@ export default function LevelUpCard({ slug, showCtas = false }: { slug?: string;
       const { data: { user } } = await supabase().auth.getUser();
       if (!user) return;
       const { data: biz } = await supabase().from("businesses")
-        .select("slug").eq("owner_id", user.id).maybeSingle();
+        .select("slug").eq("owner_id", user.id).order("name").limit(1).maybeSingle();
       if (biz) setOwnSlug(biz.slug);
     })();
   }, [slug]);

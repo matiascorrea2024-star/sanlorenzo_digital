@@ -17,6 +17,8 @@ import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
 import GroupDealPanel from "@/components/offers/group-deal-panel";
 import { generarImagenOferta } from "@/lib/share-image";
 import { useCart } from "@/lib/cart-context";
+import { getTrackedShareUrl } from "@/lib/tracked-link";
+import { relativeTime } from "@/lib/relative-time";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
@@ -30,7 +32,7 @@ export default function OfertaPage() {
   const [loading, setLoading] = useState(true);
   const [canjeados, setCanjeados] = useState(0);
   const [compartiendo, setCompartiendo] = useState(false);
-  const { trackViewOffer } = useAnalytics();
+  const { trackViewOffer, trackClickWhatsApp, trackShareOffer } = useAnalytics();
   const viendo = useLiveViewers(offerId);
   const { addItem, hasItem } = useCart();
 
@@ -39,7 +41,8 @@ export default function OfertaPage() {
       const { data: offer } = await supabase().from("offers").select("*").eq("id", offerId).single();
       if (offer) {
         setOferta(offer);
-        trackViewOffer(offer.id, offer.business_id);
+        const sourceCode = new URLSearchParams(window.location.search).get("src") || undefined;
+        trackViewOffer(offer.id, offer.business_id, sourceCode ? "tracked_link" : undefined, sourceCode);
         const { data: biz } = await supabase().from("businesses").select("*").eq("id", offer.business_id).single();
         if (biz) setNegocio(biz);
         // Prueba social real: cupones que YA se canjearon para esta oferta
@@ -56,7 +59,12 @@ export default function OfertaPage() {
   }, [offerId]);
 
   const share = async () => {
-    const url = window.location.href;
+    const url = await getTrackedShareUrl({
+      offerId,
+      businessId: negocio?.id || undefined,
+      source: "share",
+      fallback: window.location.href,
+    });
     const text = `🔥 ${oferta.title}\n💰 ${oferta.offer_price ? fmt(Number(oferta.offer_price)) : "OFERTA"}\n📍 ${negocio?.name || "San Lorenzo"}\n\n#LaGranBarataSanLorenzo`;
 
     // Preferimos compartir la imagen generada (lista para Instagram Story /
@@ -75,7 +83,10 @@ export default function OfertaPage() {
     if (file && navigator.canShare?.({ files: [file] })) {
       try {
         await navigator.share({ files: [file], title: oferta.title, text });
-        if (negocio?.id) track(negocio.id, "share");
+        if (negocio?.id) {
+          track(negocio.id, "share");
+          trackShareOffer(oferta.id, negocio.id);
+        }
         show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
       } catch {
         // Usuario canceló el share de la imagen -- no reintentamos con
@@ -89,7 +100,10 @@ export default function OfertaPage() {
     } else {
       await navigator.clipboard.writeText(`${text}\n${url}`);
     }
-    if (negocio?.id) track(negocio.id, "share");
+    if (negocio?.id) {
+      track(negocio.id, "share");
+      trackShareOffer(oferta.id, negocio.id);
+    }
     show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
   };
 
@@ -120,6 +134,7 @@ export default function OfertaPage() {
   const vencido = dias !== null && dias < 0;
   const venceHoy = dias === 0;
   const ahorro = oferta.old_price && oferta.offer_price ? Number(oferta.old_price) - Number(oferta.offer_price) : null;
+  const publicado = relativeTime(oferta.created_at);
 
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)] pb-24">
@@ -159,6 +174,7 @@ export default function OfertaPage() {
                   <div className="min-w-0">
                     {negocio.category && <p className="mb-2 text-[10px] font-black uppercase tracking-[.35em] text-white/60">{negocio.category}</p>}
                     <h1 className="text-3xl font-black leading-[0.95] sm:text-4xl md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{oferta.title}</h1>
+                    {publicado && <p className="mt-2 text-xs font-semibold text-white/70">Publicado {publicado}</p>}
                   </div>
                   <div className="flex shrink-0 gap-2">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/10 backdrop-blur-md sm:h-14 sm:w-14">
@@ -224,6 +240,7 @@ export default function OfertaPage() {
               <div className="mt-8 space-y-3">
                 {negocio.whatsapp && (
                   <a
+                    onClick={() => trackClickWhatsApp(negocio.id)}
                     href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi la oferta "${oferta.title}" en La Gran Barata Digital`)}`}
                     target="_blank" rel="noopener noreferrer"
                     className="flex h-16 w-full items-center justify-between rounded-2xl bg-green-600 px-8 font-black text-white transition hover:bg-green-500"
@@ -283,6 +300,19 @@ export default function OfertaPage() {
           </div>
         </div>
       </div>
+      {negocio.whatsapp && !vencido && (
+        <div className="fixed inset-x-0 bottom-14 z-40 border-t border-white/10 bg-[#0c0a0b]/95 p-3 pb-[calc(.75rem+env(safe-area-inset-bottom))] backdrop-blur-md sm:hidden">
+          <a
+            onClick={() => trackClickWhatsApp(negocio.id)}
+            href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi la oferta "${oferta.title}" en La Gran Barata Digital`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-h-12 w-full items-center justify-center gap-2 bg-green-600 px-4 py-3 text-sm font-black text-white"
+          >
+            <MessageCircle className="h-5 w-5" /> Consultar por WhatsApp
+          </a>
+        </div>
+      )}
     </main>
   );
 }

@@ -14,7 +14,7 @@ export default function PlanLimitBanner() {
     (async () => {
       if (!user) return;
       const { data: biz } = await supabase().from("businesses")
-        .select("id, plan").eq("owner_id", user.id).maybeSingle();
+        .select("id, plan").eq("owner_id", user.id).order("name").limit(1).maybeSingle();
       if (!biz) return;
       const { count } = await supabase().from("offers")
         .select("*", { count: "exact", head: true })

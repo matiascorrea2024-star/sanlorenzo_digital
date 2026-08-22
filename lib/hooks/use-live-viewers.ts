@@ -20,7 +20,15 @@ export function useLiveViewers(channelKey?: string | null) {
     chan.on("presence", { event: "sync" }, () => {
       setCount(Object.keys(chan.presenceState()).length);
     }).subscribe(async (status) => {
-      if (status === "SUBSCRIBED") await chan.track({ t: Date.now() });
+      if (status !== "SUBSCRIBED") {
+        setCount(0);
+        return;
+      }
+      try {
+        await chan.track({ t: Date.now() });
+      } catch {
+        setCount(0);
+      }
     });
     return () => { supabase().removeChannel(chan); };
   }, [channelKey]);

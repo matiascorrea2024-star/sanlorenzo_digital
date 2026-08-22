@@ -42,7 +42,7 @@ export default async function Page({ params }: Props) {
   const { data: ofertas } = await sb.from("offers")
     .select("*").eq("business_id", negocio?.id).eq("active", true).limit(20);
   const { data: productos } = await sb.from("products")
-    .select("*").eq("business_id", negocio?.id).eq("active", true)
+    .select("*").eq("business_id", negocio?.id).eq("active", true).eq("hidden_by_plan", false)
     .order("featured", { ascending: false }).order("created_at", { ascending: false }).limit(20);
   const { data: resenas } = await sb.from("business_reviews")
     .select("*").eq("business_id", negocio?.id).order("created_at", { ascending: false }).limit(10);

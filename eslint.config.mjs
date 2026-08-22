@@ -7,6 +7,9 @@ import tseslint from "typescript-eslint";
 import reactHooks from "eslint-plugin-react-hooks";
 
 const eslintConfig = [
+  {
+    ignores: ["test-results/**", ".next/**", "node_modules/**"],
+  },
   ...nextConfig,
   {
     files: ["**/*.ts", "**/*.tsx"],

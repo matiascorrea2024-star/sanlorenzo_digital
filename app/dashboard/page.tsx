@@ -9,12 +9,14 @@ import DashboardNav from "@/components/dashboard/dashboard-nav";
 import BusinessPulse from "@/components/dashboard/business-pulse";
 import BusinessStats from "@/components/dashboard/business-stats";
 import PlanLimitBanner from "@/components/dashboard/plan-limit-banner";
+import LiveVisitors from "@/components/dashboard/live-visitors";
 
 export default function DashboardPage() {
   const { show } = useToast();
   const { user, loading: authLoading } = useAuth();
   const [negocios, setNegocios] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [role, setRole] = useState("user");
   const [nombre, setNombre] = useState("");
 
@@ -30,7 +32,8 @@ export default function DashboardPage() {
       setNombre(prof?.display_name || (user.email || "").split("@")[0] || "");
       const q = sb.from("businesses").select("*").order("name");
       if (r !== "admin") q.eq("owner_id", user.id);
-      const { data } = await q;
+      const { data, error: queryError } = await q;
+      if (queryError) setError("No pudimos cargar tu panel. Revisá tu conexión e intentá de nuevo.");
       setNegocios(data || []);
       setLoading(false);
     })();
@@ -75,6 +78,12 @@ export default function DashboardPage() {
 
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <DashboardNav />
+        {error && (
+          <div role="alert" className="mb-6 flex flex-wrap items-center justify-between gap-3 border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">
+            <span>{error}</span>
+            <button type="button" onClick={() => window.location.reload()} className="font-bold underline">Reintentar</button>
+          </div>
+        )}
         {loading ? (
           <p className="py-16 text-center text-[var(--muted)]">Cargando tus negocios…</p>
         ) : negocios.length === 0 ? (
@@ -105,6 +114,7 @@ export default function DashboardPage() {
           <>
           <PlanLimitBanner />
           <BusinessStats />
+          <LiveVisitors businessId={negocios[0]?.id} />
           <BusinessPulse negocio={negocios[0]} />
           <div className="grid gap-4 md:grid-cols-2">
             {negocios.map((b) => (
@@ -136,17 +146,16 @@ export default function DashboardPage() {
                   </button>
                 </div>
 
+                {/* Antes cada tarjeta de negocio repetía 6 accesos más
+                    (Ofertas, Mensajes, Productos, Reseñas, Historias,
+                    Estadísticas) -- pero esos links NO eran específicos
+                    de este negocio (mismo href en las 3 tarjetas si
+                    tenías 3 negocios) y ya están, mejor explicados, en
+                    la grilla de arriba (DashboardNav). Acá queda solo
+                    lo que sí depende de ESTE negocio puntual. */}
                 <div className="mt-3 grid grid-cols-3 gap-2">
                   <Link href={`/dashboard/editar/${b.slug}`} className="rounded-xl border border-[var(--line-strong)] px-2 py-2 text-center text-xs font-bold hover:bg-[var(--ov-05)]">✏️ Editar</Link>
                   <Link href={`/negocio/${b.slug}`} className="rounded-xl border border-[var(--line-strong)] px-2 py-2 text-center text-xs font-bold hover:bg-[var(--ov-05)]">👁 Ver</Link>
-                  <Link href="/dashboard/ofertas" className="rounded-xl border border-[var(--line-strong)] px-2 py-2 text-center text-xs font-bold hover:bg-[var(--ov-05)]">🔥 Ofertas</Link>
-                  <Link href="/dashboard/mensajes" className="rounded-xl border border-[var(--line-strong)] px-2 py-2 text-center text-xs font-bold hover:bg-[var(--ov-05)]">💬 Mensajes</Link>
-                  <Link href="/dashboard/productos" className="rounded-xl border border-[var(--line-strong)] px-2 py-2 text-center text-xs font-bold hover:bg-[var(--ov-05)]">📦 Productos</Link>
-                  <Link href="/dashboard/resenas" className="rounded-xl border border-[var(--line-strong)] px-2 py-2 text-center text-xs font-bold hover:bg-[var(--ov-05)]">⭐ Reseñas</Link>
-                </div>
-                <div className="mt-2 grid grid-cols-3 gap-2">
-                  <Link href="/dashboard/historias" className="rounded-xl border border-[var(--line-strong)] px-2 py-2 text-center text-xs font-bold hover:bg-[var(--ov-05)]">📸 Historias</Link>
-                  <Link href="/dashboard/analytics" className="rounded-xl border border-[var(--line-strong)] px-2 py-2 text-center text-xs font-bold hover:bg-[var(--ov-05)]">📊 Estadísticas</Link>
                   <button
                     onClick={() => {
                       const url = `https://sanlorenzodigital.vercel.app/negocio/${b.slug}`;

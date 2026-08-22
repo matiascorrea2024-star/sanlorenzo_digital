@@ -7,39 +7,44 @@ import { useEffect, useRef, useState } from "react";
 import { CATEGORIES } from "@/lib/data";
 import BusinessCard from "@/components/business/card";
 import { supabase } from "@/lib/supabase";
+import { sanitizeSearchQuery } from "@/lib/sanitize";
 
 export const NEGOCIOS_PAGE_SIZE = 60;
 
-const COLUMNS = "id, name, slug, category, rating, reviews, open, description, portada_url, address, whatsapp, plan, status, type, hace_envios, destacado";
+const COLUMNS = "id, name, slug, category, rating, reviews, open, description, portada_url, address, whatsapp, plan, status, type, hace_envios, destacado, updated_at";
 
-async function fetchPage({ cat, q, openNow, from, to }: { cat: string | null; q: string; openNow: boolean; from: number; to: number }) {
+async function fetchPage({ cat, q, openNow, mode, delivery, minRating, from, to }: { cat: string | null; q: string; openNow: boolean; mode: string; delivery: boolean; minRating: number; from: number; to: number }) {
   let query = supabase().from("businesses").select(COLUMNS, { count: "exact" })
     .in("status", ["verificado", "reclamado"])
     .eq("activo", true)
     .or("type.is.null,type.in.(comercio,servicio,profesional)");
   if (cat) query = query.eq("category", cat);
-  if (openNow) query = query.eq("open", true);
-  const term = q.trim();
+  if (openNow || mode === "ahora" || mode === "esta-noche") query = query.eq("open", true);
+  if (delivery) query = query.eq("hace_envios", true);
+  if (minRating > 0) query = query.gte("rating", minRating);
+  const term = sanitizeSearchQuery(q).trim();
   if (term) query = query.or(`name.ilike.%${term}%,description.ilike.%${term}%`);
-  const { data, count } = await query.order("destacado", { ascending: false }).order("name").range(from, to);
+  const { data, count, error } = await query.order("destacado", { ascending: false }).order("name").range(from, to);
+  if (error) throw error;
   return { data: data || [], count: count ?? 0 };
 }
 
 export default function Negocios({ initial, initialTotal }: { initial: any[]; initialTotal: number }) {
   const searchParams = useSearchParams();
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState(() => searchParams.get("q") || "");
   const [cat, setCat] = useState<string | null>(() => {
-    const c = searchParams.get("categoria");
+    const c = searchParams.get("categoria") || searchParams.get("cat");
     return c && CATEGORIES.some((x: any) => x.id === c) ? c : null;
   });
-  const [openNow, setOpenNow] = useState(false);
+  const [openNow, setOpenNow] = useState(() => searchParams.get("abierto") === "1");
+  const [mode, setMode] = useState(() => searchParams.get("modo") || "");
+  const [delivery, setDelivery] = useState(() => searchParams.get("envios") === "1");
+  const [minRating, setMinRating] = useState(() => Number(searchParams.get("rating") || 0));
   const [list, setList] = useState<any[]>(initial);
   const [total, setTotal] = useState(initialTotal);
   const [loadingMore, setLoadingMore] = useState(false);
   const [buscando, setBuscando] = useState(false);
-  // No refetch en el primerísimo render -- initial ya viene de la
-  // página servidor con estos mismos filtros base.
-  const primerRender = useRef(true);
+  const [error, setError] = useState("");
   // Si el usuario tipea rápido, una respuesta vieja puede tardar más y
   // llegar DESPUÉS de una más nueva, pisando el resultado correcto con
   // uno de una búsqueda ya descartada. Este contador de secuencia
@@ -47,30 +52,39 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
   const secuencia = useRef(0);
 
   useEffect(() => {
-    if (primerRender.current) { primerRender.current = false; return; }
     setBuscando(true);
+    setError("");
     const miSecuencia = ++secuencia.current;
     const t = setTimeout(async () => {
-      const { data, count } = await fetchPage({ cat, q, openNow, from: 0, to: NEGOCIOS_PAGE_SIZE - 1 });
-      if (miSecuencia !== secuencia.current) return;
-      setList(data);
-      setTotal(count);
-      setBuscando(false);
+      try {
+        const { data, count } = await fetchPage({ cat, q, openNow, mode, delivery, minRating, from: 0, to: NEGOCIOS_PAGE_SIZE - 1 });
+        if (miSecuencia !== secuencia.current) return;
+        setList(data);
+        setTotal(count);
+      } catch {
+        if (miSecuencia === secuencia.current) setError("No pudimos cargar el directorio. Revisá tu conexión e intentá de nuevo.");
+      } finally {
+        if (miSecuencia === secuencia.current) setBuscando(false);
+      }
     }, q.trim() ? 300 : 0);
     return () => clearTimeout(t);
-  }, [cat, q, openNow]);
+  }, [cat, q, openNow, mode, delivery, minRating]);
 
   const cargarMas = async () => {
     setLoadingMore(true);
-    const { data } = await fetchPage({ cat, q, openNow, from: list.length, to: list.length + NEGOCIOS_PAGE_SIZE - 1 });
-    setList((prev) => [...prev, ...data]);
+    try {
+      const { data } = await fetchPage({ cat, q, openNow, mode, delivery, minRating, from: list.length, to: list.length + NEGOCIOS_PAGE_SIZE - 1 });
+      setList((prev) => [...prev, ...data]);
+    } catch {
+      setError("No pudimos cargar más negocios.");
+    }
     setLoadingMore(false);
   };
 
   const hasMore = list.length < total;
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 md:py-14">
+    <main className="mx-auto max-w-6xl px-4 py-10 md:py-14" aria-busy={buscando}>
       <p className="mb-2 inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[.2em] text-orange-300">
         Directorio
       </p>
@@ -79,18 +93,41 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
         {total} {total === 1 ? "negocio activo" : "negocios activos"} ahora mismo
         {buscando && <span className="ml-2 text-[var(--muted2)]">buscando...</span>}
       </p>
+      {error && (
+        <div role="alert" className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">
+          <span>{error}</span>
+          <button type="button" onClick={() => setError("")} className="font-bold underline">Cerrar</button>
+        </div>
+      )}
 
-      <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+      <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="w-full rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1">
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar negocio…"
             className="w-full rounded-[.75rem] border border-[var(--ov-05)] bg-[var(--card-inner)] px-4 py-2.5 text-sm text-[var(--text)] outline-none placeholder:text-[var(--muted2)] focus:border-orange-400/40" />
         </div>
-        <label className="flex shrink-0 items-center gap-2 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] px-4 py-3 text-sm text-[var(--muted)]">
-          <input type="checkbox" checked={openNow} onChange={(e) => setOpenNow(e.target.checked)} className="accent-orange-500" />
+        <label className="flex min-h-12 items-center gap-2 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] px-4 py-3 text-sm text-[var(--muted)]">
+          <input type="checkbox" checked={openNow} onChange={(e) => setOpenNow(e.target.checked)} className="accent-[var(--accent)]" />
           Abierto ahora
+        </label>
+        <label className="flex min-h-12 items-center gap-2 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] px-4 py-3 text-sm text-[var(--muted)]">
+          <input type="checkbox" checked={delivery} onChange={(e) => setDelivery(e.target.checked)} className="accent-[var(--accent)]" />
+          Hace envíos
+        </label>
+        <label className="flex min-h-12 items-center justify-between gap-2 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] px-4 py-3 text-sm text-[var(--muted)]">
+          <span>Rating mínimo</span>
+          <select value={minRating} onChange={(e) => setMinRating(Number(e.target.value))} className="bg-transparent font-bold text-[var(--text)] outline-none">
+            <option value={0}>Cualquiera</option>
+            <option value={4}>4+</option>
+            <option value={4.5}>4,5+</option>
+          </select>
         </label>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
+        {([["", "Todo"], ["ahora", "Ahora"], ["esta-noche", "Esta noche"]] as const).map(([value, label]) => (
+          <button key={value} type="button" onClick={() => setMode(value)} className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${mode === value ? "border-transparent bg-[var(--accent)] text-white" : "border-[var(--ov-08)] text-[var(--muted)] hover:border-[var(--line-strong)]"}`}>
+            {label}
+          </button>
+        ))}
         {CATEGORIES.map((c: any) => (
           <button key={c.id} onClick={() => setCat(cat === c.id ? null : c.id)}
             className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors duration-300 ${cat === c.id ? "border-transparent bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border-[var(--ov-08)] text-[var(--muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]"}`}>

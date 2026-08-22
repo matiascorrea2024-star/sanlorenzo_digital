@@ -37,13 +37,13 @@ export default function DivisionFrame({ children, puntos, size = 96, showLabel =
   const gema = gemaDe(categoria);
 
   return (
-    <div className="relative inline-flex flex-col items-center" style={{ width: size + 32 }}>
+    <div className={`rank-division-frame rank-level-${r.nivel} relative inline-flex flex-col items-center`} data-rank-level={r.nivel} style={{ width: size + 32 }}>
       {/* Halo de energía */}
       <div className="pointer-events-none absolute inset-0" style={{ background: r.glow, transform: "scale(1.4)", filter: "blur(6px)" }} />
 
       {enFuego && (
         <>
-          <div className="blaze-ring pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle,rgba(251,146,60,.55) 0%,rgba(239,68,68,.25) 45%,transparent 75%)", transform: "scale(1.55)" }} />
+          <div className="blaze-ring pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle,rgba(233,72,123,.55) 0%,rgba(189,36,91,.25) 45%,transparent 75%)", transform: "scale(1.55)" }} />
           <span className="blaze-flame" style={{ top: -10, left: "10%" }}>🔥</span>
           <span className="blaze-flame b2" style={{ top: -14, right: "8%" }}>🔥</span>
           <span className="blaze-flame b3" style={{ bottom: 6, left: "-6%" }}>🔥</span>

@@ -4,6 +4,7 @@ import RankBadge from "@/components/ui/rank-badge";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 import CategoryCover from "@/components/ui/category-cover";
 import { calcDistanceKm, fmtDistance } from "@/lib/geo";
+import { relativeTime } from "@/lib/relative-time";
 
 export default function BusinessCard({ b, userCoords, featured = false }: { b: any; userCoords?: { lat: number; lon: number } | null; featured?: boolean }) {
   const cat = String(b.category || "").toLowerCase();
@@ -15,6 +16,7 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
   const dist = userCoords && b.latitude && b.longitude
     ? fmtDistance(calcDistanceKm(userCoords.lat, userCoords.lon, Number(b.latitude), Number(b.longitude)))
     : null;
+  const actualizado = relativeTime(b.updated_at);
 
   return (
     // Doble-marco: la card real (bordes redondeados grandes, radio
@@ -85,13 +87,14 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
 
       {/* Info */}
       <div className={`flex flex-1 flex-col pt-1 ${featured ? "p-4 md:p-6" : "p-3 md:p-4"}`}>
-        <h3 className={`truncate font-black transition group-hover:text-orange-300 ${featured ? "text-xl md:text-2xl" : "text-sm md:text-base"}`}>
+        <h3 className={`truncate font-black tracking-tight transition group-hover:text-orange-300 ${featured ? "text-xl md:text-2xl" : "text-base md:text-lg"}`}>
           {b.name}
         </h3>
         <p className={`mt-0.5 flex flex-wrap items-center gap-x-1 capitalize text-[var(--muted)] ${featured ? "text-xs md:text-sm" : "text-[11px] md:text-xs"}`}>
           <span>{b.category}{b.address ? ` · ${b.address}` : ""}</span>
           <RankBadge slug={b.slug} categoria={b.category} />
         </p>
+        {actualizado && <p className="mt-1 text-[11px] text-[var(--muted2)]">Actualizado {actualizado}</p>}
         {b.description && (
           <p className={`mt-2 line-clamp-2 text-[var(--muted)] ${featured ? "text-sm" : "text-xs"}`}>{b.description}</p>
         )}
@@ -106,8 +109,8 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
             <span className="font-normal text-[var(--muted2)]">({b.reviews || 0})</span>
             {b.hace_envios && <span className="rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[9px] font-black text-[var(--place)]">🚚 Envíos</span>}
           </span>
-          <span className="text-xs font-bold text-orange-400 opacity-0 transition group-hover:opacity-100">
-            Ver →
+          <span className="rounded-full border border-orange-400/20 bg-orange-500/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-orange-300 transition group-hover:border-orange-400/50 group-hover:bg-orange-500/20">
+            Ver negocio →
           </span>
         </div>
       </div>

@@ -74,12 +74,18 @@ export default function PortuarioView() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-[1.75rem] border border-cyan-400/25 bg-gradient-to-br from-cyan-500/[.08] to-blue-500/[.04] p-1.5">
+        {/* CTA con el mismo gradiente naranja/rojo que usa TODO el resto
+            del sitio (home, /planes, /b2b) -- antes era cian/azul, el
+            único botón de "publicar" de toda la web que no llevaba la
+            marca. El cian de arriba (ambientación "puerto de noche") se
+            mantiene tal cual; lo que cambia es solo este cierre, que es
+            donde importa que se reconozca la marca para convertir. */}
+        <div className="mt-10 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-500/[.04] p-1.5">
           <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <p className="text-sm text-[var(--text)]/70">¿Brindás servicios portuarios?</p>
             <h3 className="mt-2 text-2xl font-black">Publicá tu empresa en el ecosistema</h3>
             <Link href="/para-negocios"
-              className="mt-4 inline-block rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-6 py-3 text-sm font-black text-white hover:opacity-90 transition">
+              className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black text-white hover:opacity-90 transition">
               Registrar empresa portuaria →
             </Link>
           </div>
