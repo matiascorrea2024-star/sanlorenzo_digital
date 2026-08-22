@@ -46,7 +46,7 @@ const planFeatures: Record<string, string[]> = {
   premium: ["Posición destacada", "Más visibilidad durante 7 días"],
 };
 
-export default function HomeClient({ initial, initialOfertas }: { initial: any[]; initialOfertas: any[] }) {
+export default function HomeClient({ initial, initialOfertas }: { initial: Business[]; initialOfertas: Business[] }) {
   const router = useRouter();
   const [cat, setCat] = useState<string | null>(null);
   const [coords] = useState<{ lat: number; lon: number } | null>(null);
@@ -56,8 +56,8 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
 
   const ofertas = useMemo<Oferta[]>(() => (
     (initialOfertas || [])
-      .filter((o: any) => o.active && (!o.valid_until || o.valid_until >= hoy))
-      .map((o: any) => ({
+      .filter((o: Offer) => o.active && (!o.valid_until || o.valid_until >= hoy))
+      .map((o: Offer) => ({
         id: o.id,
         negocio: o.business_name,
         slug: o.business_slug,

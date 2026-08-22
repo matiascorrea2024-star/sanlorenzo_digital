@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 export default function Error({ error, reset }: {
   error: Error & { digest?: string };
@@ -17,10 +18,10 @@ export default function Error({ error, reset }: {
             className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
             Reintentar
           </button>
-          <a href="/"
+          <Link href="/"
             className="rounded-xl border border-[var(--line-strong)] px-6 py-3 text-sm font-black hover:bg-[var(--ov-10)]">
             Ir al inicio
-          </a>
+          </Link>
         </div>
       </div>
     </main>

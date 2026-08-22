@@ -35,8 +35,8 @@ export interface Business {
   tags?: string[];
   rating?: number;
   reviews?: number;
-  promotions?: any[];
-  items?: any[];
+  promotions?: unknown[];
+  items?: unknown[];
   professionals?: string[];
   latitude?: number;
   longitude?: number;
@@ -128,7 +128,7 @@ export interface AnalyticsEvent {
   business_id?: string;
   event_name: string;
   path?: string;
-  metadata: any;
+  metadata: unknown;
   user_id?: string;
   created_at: string;
 }
@@ -150,10 +150,55 @@ export interface Metric {
   created_at: string;
 }
 
+export interface Subscription {
+  id: string;
+  business_id: string;
+  plan: string;
+  status: 'pending' | 'active' | 'canceled';
+  started_at?: string;
+  canceled_at?: string;
+  businesses?: { name: string };
+}
+
+export interface Report {
+  id: string;
+  business_id: string;
+  reason: string;
+  description?: string;
+  status: 'pending' | 'resolved' | 'dismissed';
+  created_at: string;
+  businesses?: { name: string; slug: string };
+}
+
+export interface Location {
+  id: string;
+  name: string;
+  type: 'city' | 'neighborhood';
+  latitude?: number;
+  longitude?: number;
+  parent_id?: string;
+  created_at: string;
+}
+
+export interface BusinessReview {
+  id: string;
+  business_id: string;
+  rating: number;
+  comment?: string;
+  created_at: string;
+  user_id?: string;
+}
+
+export interface PageView {
+  id: number;
+  business_id?: string;
+  path?: string;
+  created_at: string;
+}
+
 // ============================================
 // TIPOS COMPUESTOS PARA LA APP
 // ============================================
-
 
 export interface OfferCard {
   id: string;
@@ -176,6 +221,7 @@ export interface Category {
   name: string;
   icon: string;
 }
+
 export interface FullBusiness extends Business {
   offers?: Offer[];
   items_list?: Item[];
@@ -183,7 +229,7 @@ export interface FullBusiness extends Business {
   location_source?: "auto" | "manual" | "error";
   location_verified?: boolean;
   location_updated_at?: string;
-  promotions?: any[];
+  promotions?: unknown[];
   portada_url?: string;
   logo_url?: string;
   destacado?: boolean;
@@ -195,4 +241,14 @@ export interface FullBusiness extends Business {
   website?: string;
   cover_url?: string;
   professionals?: string[];
+}
+
+export interface AdminStats {
+  users: number;
+  businesses: number;
+  offers: number;
+  reviews: number;
+  views: number;
+  seguidores: number;
+  usersRecent: UserProfile[];
 }
