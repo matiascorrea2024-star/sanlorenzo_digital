@@ -9,10 +9,10 @@ import { planDe } from "@/lib/plans";
 import { Lock } from "lucide-react";
 
 const FONDOS = [
-  "from-orange-500 to-red-600",
+  "from-[var(--accent)] to-red-600",
   "from-green-500 to-teal-500",
   "from-blue-500 to-purple-500",
-  "from-red-500 to-orange-500",
+  "from-red-500 to-[#861642]",
 ];
 
 export default function HistoriasPage() {
@@ -60,20 +60,20 @@ export default function HistoriasPage() {
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-2xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver</Link>
-        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Historia 24h</p>
+        <Link href="/dashboard" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]">← Volver</Link>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Historia 24h</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Publicar historia</h1>
         <p className="mt-3 text-[var(--muted)]">Desaparece automáticamente en 24 horas.</p>
 
         {sinPlan ? (
-          <div className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
+          <div className="mt-6 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
+              <Lock className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
               <p className="font-black">Las Historias 24h son de Plan PRO</p>
               <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
                 Con PRO Comerciante podés publicar historias que aparecen 24 horas en la plataforma, como Instagram.
               </p>
-              <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
+              <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-[var(--accent)] px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
             </div>
           </div>
         ) : (
@@ -89,7 +89,7 @@ export default function HistoriasPage() {
             className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3" />
 
           <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)}
-            className="w-full text-sm text-[var(--text)]/70 file:mr-3 file:rounded-xl file:border-0 file:bg-gradient-to-r file:from-orange-500 file:to-red-600 file:px-4 file:py-2 file:text-sm file:font-black file:text-[var(--text)]" />
+            className="w-full text-sm text-[var(--text)]/70 file:mr-3 file:rounded-xl file:border-0 file:bg-gradient-to-r file:from-[var(--accent)] file:to-red-600 file:px-4 file:py-2 file:text-sm file:font-black file:text-[var(--text)]" />
 
           <div className="flex gap-2">
             {FONDOS.map(f => (
@@ -103,7 +103,7 @@ export default function HistoriasPage() {
           </div>
 
           <button onClick={publicar} disabled={loading || !text || !businessId}
-            className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black disabled:opacity-50">
+            className="w-full rounded-full bg-[var(--accent)] py-3 font-black disabled:opacity-50">
             {loading ? "Publicando..." : "Publicar Historia"}
           </button>
         </div>

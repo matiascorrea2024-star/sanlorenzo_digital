@@ -55,10 +55,10 @@ export default function MensajesClientePage() {
 
   if (!user) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4 text-center text-[var(--muted)]">
+      <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] px-4 text-center text-[#a99b86]">
         <div>
           <p className="text-3xl">💬</p>
-          <h1 className="mt-3 text-xl font-bold text-[var(--text)]" style={{ fontFamily: "var(--font-space)" }}>Mis mensajes</h1>
+          <h1 className="mt-3 font-display text-xl uppercase tracking-tight text-[#f7f3ec]">Mis mensajes</h1>
           <p className="mt-1 text-sm">Iniciá sesión para ver tus conversaciones.</p>
         </div>
       </main>
@@ -68,29 +68,25 @@ export default function MensajesClientePage() {
   const sel = selectedBiz ? bizMap[selectedBiz] : null;
 
   return (
-    <main className="bg-[var(--bg)] min-h-screen text-[var(--text)] pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
       <PageHero title="Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />
       <div className="mx-auto max-w-3xl px-4 py-8">
         {!selectedBiz && (
-          <div className="space-y-2">
+          <div className="space-y-3">
             {convoList.length === 0 ? (
-              <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-                <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center text-[var(--muted)]">
-                  Aún no tenés conversaciones. Escribile a un negocio desde su página.
-                </div>
+              <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center text-[#a99b86]">
+                Aún no tenés conversaciones. Escribile a un negocio desde su página.
               </div>
             ) : (
               convoList.map(cv => (
                 <button key={cv.biz} onClick={() => setSelectedBiz(cv.biz)}
-                  className="group flex w-full items-center gap-1.5 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 text-left transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-orange-400/30">
-                    <Avatar name={cv.name} size={48} />
-                    <div className="min-w-0 flex-1">
-                      <div className="flex justify-between"><p className="font-bold">{cv.name}</p><span className="text-[10px] text-[var(--muted2)]">{timeShort(cv.last.created_at)}</span></div>
-                      <p className="truncate text-xs text-[var(--muted)]">{cv.last.body}</p>
-                    </div>
-                    {cv.unread > 0 && <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-green-500 px-1 text-xs font-black text-black">{cv.unread}</span>}
+                  className="group flex w-full items-center gap-4 rounded-[2rem] border border-white/5 bg-[#161314] p-4 text-left transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                  <Avatar name={cv.name} size={48} />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-2"><p className="font-display truncate uppercase tracking-tight">{cv.name}</p><span className="shrink-0 text-[10px] uppercase tracking-widest text-[#7d6f5c]">{timeShort(cv.last.created_at)}</span></div>
+                    <p className="truncate text-xs text-[#a99b86]">{cv.last.body}</p>
                   </div>
+                  {cv.unread > 0 && <span className="flex h-6 min-w-[24px] shrink-0 items-center justify-center rounded-full bg-[var(--accent)] px-1 text-xs font-black text-white">{cv.unread}</span>}
                 </button>
               ))
             )}
@@ -99,7 +95,7 @@ export default function MensajesClientePage() {
 
         {selectedBiz && sel && (
           <div className="mt-4">
-            <button onClick={() => setSelectedBiz(null)} className="mb-2 text-sm text-orange-400">← Conversaciones</button>
+            <button onClick={() => setSelectedBiz(null)} className="mb-2 text-[11px] font-black uppercase tracking-widest text-[var(--accent)]">← Conversaciones</button>
             <Chat businessId={selectedBiz} ownerId={sel.owner_id} businessName={sel.name} businessSlug={sel.slug} />
           </div>
         )}

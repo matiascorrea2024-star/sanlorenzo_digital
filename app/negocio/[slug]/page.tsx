@@ -44,8 +44,6 @@ export default async function Page({ params }: Props) {
   const { data: productos } = await sb.from("products")
     .select("*").eq("business_id", negocio?.id).eq("active", true).eq("hidden_by_plan", false)
     .order("featured", { ascending: false }).order("created_at", { ascending: false }).limit(20);
-  const { data: resenas } = await sb.from("business_reviews")
-    .select("*").eq("business_id", negocio?.id).order("created_at", { ascending: false }).limit(10);
 
   // JSON-LD: LocalBusiness schema (Google indexa mejor)
   let jsonLd = null;
@@ -82,7 +80,7 @@ export default async function Page({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       )}
-      <NegocioPage initialNegocio={negocio} initialOfertas={ofertas || []} initialProductos={productos || []} initialResenas={resenas || []} />
+      <NegocioPage initialNegocio={negocio} initialOfertas={ofertas || []} initialProductos={productos || []} />
     </>
   );
 }

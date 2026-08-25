@@ -15,10 +15,6 @@ interface LocationPickerProps {
 
 const DEFAULT_CENTER: [number, number] = [-32.7475, -60.7285];
 
-// URL de iconos de Leaflet desde CDN (siempre funcionan)
-const ICON_URL = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png";
-const SHADOW_URL = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png";
-
 export default function LocationPicker({
   address,
   latitude,
@@ -259,7 +255,7 @@ export default function LocationPicker({
         type="button"
         onClick={buscarDireccion}
         disabled={loading}
-        className="w-full rounded-xl border border-orange-400 bg-orange-500/10 px-4 py-2.5 text-sm font-bold text-orange-300 hover:bg-orange-500/20 disabled:opacity-50"
+        className="w-full rounded-xl border border-[var(--accent)] bg-[var(--accent)]/10 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/20 disabled:opacity-50"
       >
         {loading ? "🔎 Buscando..." : "🔎 Buscar dirección en el mapa"}
       </button>

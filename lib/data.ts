@@ -1,11 +1,4 @@
 
-// Fechas dinámicas para ofertas demo: siempre relativas a HOY (nunca expiran)
-const en = (dias: number) => {
-  const d = new Date();
-  d.setDate(d.getDate() + dias);
-  return d.toISOString().slice(0, 10);
-};
-
 export type Business = {
   id: string;
   slug: string;

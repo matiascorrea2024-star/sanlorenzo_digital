@@ -18,7 +18,7 @@ export default function LevelBadge({ slug }: { slug?: string; verificado?: boole
       {r.proximo ? (
         <div className="w-40">
           <div className="h-1 rounded-full bg-[var(--ov-10)] overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-orange-500 to-red-600" style={{ width: `${r.progreso}%` }} />
+            <div className="h-full bg-[var(--accent)]" style={{ width: `${r.progreso}%` }} />
           </div>
           <p className="text-[10px] text-[var(--muted2)] mt-0.5">→ {r.proximo} (faltan {r.faltan})</p>
         </div>

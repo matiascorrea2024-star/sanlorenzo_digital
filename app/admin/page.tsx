@@ -1,11 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper, Search, Trash2, Pencil, MessageCircle, Gift, Radio, Square, EyeOff } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
 import OnlineBadge from "@/components/ui/online-badge";
 import AdminVisits from "@/components/admin/visits";
+import MfaChallenge from "@/components/admin/mfa-challenge";
 import Badge from "@/components/ui/badge";
 import InfoTip from "@/components/ui/info-tip";
 import LiveChat from "@/components/live/live-chat";
@@ -15,7 +17,7 @@ export default function AdminPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState("user");
+  const [, setRole] = useState("user");
   const [tab, setTab] = useState(searchParams.get("tab") || "overview");
   // Snapshot de "ahora" (no Date.now() de forma impura en cada render)
   // para el chequeo de "sigue impulsada" en la lista de ofertas.
@@ -58,6 +60,23 @@ export default function AdminPage() {
   const [chatMensajes, setChatMensajes] = useState<any[]>([]);
   const [chatCargados, setChatCargados] = useState(false);
   const [vivoSeleccionado, setVivoSeleccionado] = useState<string | null>(null);
+
+  // 2FA gradual: si la cuenta tiene factor TOTP verificado, esta sesión
+  // tiene que pasar el challenge antes de mostrar el panel (AAL2). Si
+  // todavía no cargó ningún factor, entra normal -- la activación se
+  // hace desde /perfil#cuenta, nadie queda afuera de su propio panel.
+  const [mfa, setMfa] = useState<"checking" | "ok" | "challenge">("checking");
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data: aal } = await supabase().auth.mfa.getAuthenticatorAssuranceLevel();
+        if (!aal || aal.currentLevel === "aal2" || aal.nextLevel !== "aal2") { setMfa("ok"); return; }
+        setMfa("challenge");
+      } catch {
+        setMfa("ok");
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -106,7 +125,7 @@ export default function AdminPage() {
         setCiudades((prev) => prev.map((c) => ({ ...c, _negocios: counts[c.id] || 0 })));
       }
     })();
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (tab === "negocios" && !negociosCargados) {
@@ -461,10 +480,25 @@ export default function AdminPage() {
     );
   }
 
+  if (mfa === "checking") {
+    return (
+      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">
+        <div className="text-center">
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-b-2 border-[var(--accent)]" />
+          <p className="mt-4 text-sm text-[var(--muted)]">Verificando acceso…</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (mfa === "challenge") {
+    return <MfaChallenge onSuccess={() => setMfa("ok")} />;
+  }
+
   const cards = [
     { icon: Users, label: "Usuarios", value: stats.users, color: "text-[var(--place)]", bg: "from-sky-500/10" },
     { icon: Store, label: "Negocios", value: stats.businesses, color: "text-[var(--ok)]", bg: "from-green-500/10" },
-    { icon: Flame, label: "Ofertas", value: stats.offers, color: "text-orange-400", bg: "from-orange-500/10" },
+    { icon: Flame, label: "Ofertas", value: stats.offers, color: "text-[var(--accent)]", bg: "from-[var(--accent)]/10" },
     { icon: Star, label: "Reseñas", value: stats.reviews, color: "text-[var(--warn)]", bg: "from-yellow-500/10" },
     { icon: Eye, label: "Visitas", value: stats.views, color: "text-[var(--bad)]", bg: "from-red-600/10" },
     { icon: Heart, label: "Seguidores", value: stats.seguidores, color: "text-purple-400", bg: "from-purple-500/10" },
@@ -476,7 +510,7 @@ export default function AdminPage() {
         <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
           <p className="mb-3 text-[10px] font-black uppercase tracking-[.4em] text-[var(--bad)]">Control total</p>
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-[#861642]/20">
               <Shield className="h-7 w-7 text-[var(--bad)]" />
             </div>
             <div>
@@ -493,7 +527,7 @@ export default function AdminPage() {
           {TABS.map(t => (
             <button key={t.k} onClick={() => { setTab(t.k); router.replace(`/admin?tab=${t.k}`); }}
               className={`relative flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2.5 text-xs font-bold transition ${
-                tab === t.k ? "bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-lg shadow-red-500/20" : "border border-[var(--line)] bg-[var(--ov-03)] text-[var(--text)]/70 hover:border-[var(--line-strong)] hover:bg-[var(--ov-05)]"
+                tab === t.k ? "bg-[var(--accent)] text-white shadow-lg shadow-red-500/20" : "border border-[var(--line)] bg-[var(--ov-03)] text-[var(--text)]/70 hover:border-[var(--line-strong)] hover:bg-[var(--ov-05)]"
               }`}>
               <t.icon className="h-3.5 w-3.5" /> {t.l}
               {t.count > 0 && (
@@ -577,7 +611,7 @@ export default function AdminPage() {
               <div className="relative w-full max-w-xs">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted2)]" />
                 <input value={qNegocios} onChange={(e) => setQNegocios(e.target.value)} placeholder="Buscar por nombre (en toda la base)..."
-                  className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400" />
+                  className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] py-2 pl-9 pr-3 text-sm outline-none focus:border-[var(--accent)]" />
               </div>
             </div>
             {!negociosCargados ? (
@@ -601,7 +635,7 @@ export default function AdminPage() {
                     <div className="flex flex-wrap items-center gap-1.5">
                       <select value={n.plan || "gratis"} onChange={(e) => cambiarPlan(n.id, e.target.value)}
                         title="Asignar plan manualmente (venta por fuera del comprobante, promo, etc.)"
-                        className="rounded-lg border border-[var(--line-strong)] bg-[var(--card-inner)] px-2 py-1 text-[11px] font-bold outline-none focus:border-orange-400">
+                        className="rounded-lg border border-[var(--line-strong)] bg-[var(--card-inner)] px-2 py-1 text-[11px] font-bold outline-none focus:border-[var(--accent)]">
                         {Object.entries(PLANES).map(([k, p]) => <option key={k} value={k}>{p.name}</option>)}
                       </select>
                       <a href={`/negocio/${n.slug}`} target="_blank" rel="noopener noreferrer"
@@ -645,7 +679,7 @@ export default function AdminPage() {
               <div className="relative w-full max-w-xs">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted2)]" />
                 <input value={qOfertas} onChange={(e) => setQOfertas(e.target.value)} placeholder="Buscar por título (en toda la base)..."
-                  className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400" />
+                  className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] py-2 pl-9 pr-3 text-sm outline-none focus:border-[var(--accent)]" />
               </div>
             </div>
             {!ofertasCargadas ? (
@@ -816,7 +850,7 @@ export default function AdminPage() {
                 <div className="space-y-2.5">
                   {subs.map(s => (
                     <div key={s.id} className="flex items-center gap-3 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-4">
-                      <CreditCard className="h-6 w-6 shrink-0 text-orange-400" />
+                      <CreditCard className="h-6 w-6 shrink-0 text-[var(--accent)]" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-bold">{(s as any).businesses?.name || "Negocio"}</p>
                         <p className="text-xs capitalize text-[var(--muted)]">Plan {s.plan} · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
@@ -838,24 +872,24 @@ export default function AdminPage() {
         {tab === "campanas" && (
           <div className="mt-8">
             <div className="mb-6 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-5">
-              <h2 className="mb-1 text-lg font-black flex items-center gap-2"><Gift className="h-5 w-5 text-orange-400" /> Nueva campaña</h2>
+              <h2 className="mb-1 text-lg font-black flex items-center gap-2"><Gift className="h-5 w-5 text-[var(--accent)]" /> Nueva campaña</h2>
               <p className="mb-4 text-xs text-[var(--muted)]">Ej: &quot;Fundadores&quot; -- 3 meses de PRO gratis para los primeros 20 negocios. La cancelás cuando quieras sin borrar el historial.</p>
               <div className="grid gap-3 sm:grid-cols-2">
                 <input value={nuevaCampana.title} onChange={(e) => setNuevaCampana({ ...nuevaCampana, title: e.target.value })}
-                  placeholder="Título (ej: Fundadores San Lorenzo)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
+                  placeholder="Título (ej: Fundadores San Lorenzo)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] sm:col-span-2" />
                 <input value={nuevaCampana.description} onChange={(e) => setNuevaCampana({ ...nuevaCampana, description: e.target.value })}
-                  placeholder="Descripción corta para el negocio (opcional)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
+                  placeholder="Descripción corta para el negocio (opcional)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] sm:col-span-2" />
                 <select value={nuevaCampana.grants_plan} onChange={(e) => setNuevaCampana({ ...nuevaCampana, grants_plan: e.target.value })}
-                  className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400">
+                  className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)]">
                   {Object.entries(PLANES).map(([k, p]) => <option key={k} value={k}>Otorga: {p.name}</option>)}
                 </select>
                 <input value={nuevaCampana.grants_dias} onChange={(e) => setNuevaCampana({ ...nuevaCampana, grants_dias: e.target.value })}
-                  type="number" placeholder="Días de duración" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400" />
+                  type="number" placeholder="Días de duración" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)]" />
                 <input value={nuevaCampana.max_cupos} onChange={(e) => setNuevaCampana({ ...nuevaCampana, max_cupos: e.target.value })}
-                  type="number" placeholder="Cupo máximo (vacío = sin límite)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400 sm:col-span-2" />
+                  type="number" placeholder="Cupo máximo (vacío = sin límite)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] sm:col-span-2" />
               </div>
               <button onClick={crearCampana} disabled={creandoCampana || !nuevaCampana.title.trim()}
-                className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+                className="mt-3 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-black disabled:opacity-50">
                 {creandoCampana ? "Creando..." : "Crear campaña"}
               </button>
             </div>
@@ -972,7 +1006,7 @@ export default function AdminPage() {
                           </button>
                           {v.status === "live" && (
                             <button onClick={() => finalizarVivoAdmin(v.id)}
-                              className="flex items-center gap-1 rounded-lg bg-orange-500/15 px-2.5 py-1 text-[11px] font-bold text-orange-300 hover:bg-orange-500/25">
+                              className="flex items-center gap-1 rounded-lg bg-[var(--accent)]/15 px-2.5 py-1 text-[11px] font-bold text-[var(--accent)] hover:bg-[var(--accent)]/25">
                               <Square className="h-3 w-3" /> Finalizar
                             </button>
                           )}
@@ -1039,34 +1073,34 @@ export default function AdminPage() {
 
         {/* CARGAR BULK */}
         {tab === "cargar-bulk" && (
-          <div className="mt-8 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
+          <div className="mt-8 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Upload className="h-8 w-8 text-orange-400" />
+              <Upload className="h-8 w-8 text-[var(--accent)]" />
               <p className="mt-3 text-lg font-black">Cargar masiva de negocios reales</p>
               <p className="mt-1 text-sm text-[var(--text)]/70">
                 Subí negocios reales de San Lorenzo desde un CSV. Quedarán en estado &quot;pendiente&quot; para verificación.
               </p>
-              <a href="/admin/cargar-bulk"
-                className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
+              <Link href="/admin/cargar-bulk"
+                className="mt-4 inline-block rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-black hover:opacity-90">
                 Ir a la herramienta de carga →
-              </a>
+              </Link>
             </div>
           </div>
         )}
 
         {/* BLOG */}
         {tab === "blog" && (
-          <div className="mt-8 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
+          <div className="mt-8 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Newspaper className="h-8 w-8 text-orange-400" />
+              <Newspaper className="h-8 w-8 text-[var(--accent)]" />
               <p className="mt-3 text-lg font-black">Blog / Novedades</p>
               <p className="mt-1 text-sm text-[var(--text)]/70">
                 Escribí artículos y novedades de la plataforma. Se publican en /blog cuando los marcás como publicados.
               </p>
-              <a href="/admin/blog"
-                className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
+              <Link href="/admin/blog"
+                className="mt-4 inline-block rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-black hover:opacity-90">
                 Ir al editor de artículos →
-              </a>
+              </Link>
             </div>
           </div>
         )}
@@ -1076,17 +1110,17 @@ export default function AdminPage() {
           <div className="mt-8">
             <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Ciudades de la plataforma <span className="text-[var(--muted2)]">({ciudades.length})</span></h2>
 
-            <div className="mb-5 rounded-2xl border border-orange-400/20 bg-orange-500/[0.04] p-4">
-              <p className="mb-2 text-xs font-black uppercase tracking-wider text-orange-300">+ Agregar ciudad nueva</p>
+            <div className="mb-5 rounded-2xl border border-[var(--accent)]/20 bg-[var(--accent)]/[0.04] p-4">
+              <p className="mb-2 text-xs font-black uppercase tracking-wider text-[var(--accent)]">+ Agregar ciudad nueva</p>
               <div className="grid gap-2 sm:grid-cols-[1fr_auto_auto_auto]">
                 <input value={nuevaCiudad.nombre} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, nombre: e.target.value })}
-                  placeholder="Nombre de la ciudad" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400" />
+                  placeholder="Nombre de la ciudad" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)]" />
                 <input value={nuevaCiudad.lat} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, lat: e.target.value })}
-                  placeholder="Latitud (opcional)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400 sm:w-36" />
+                  placeholder="Latitud (opcional)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] sm:w-36" />
                 <input value={nuevaCiudad.lon} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, lon: e.target.value })}
-                  placeholder="Longitud (opcional)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400 sm:w-36" />
+                  placeholder="Longitud (opcional)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] sm:w-36" />
                 <button onClick={crearCiudad} disabled={creandoCiudad || !nuevaCiudad.nombre.trim()}
-                  className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black disabled:opacity-50">
+                  className="rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-black disabled:opacity-50">
                   {creandoCiudad ? "…" : "Crear"}
                 </button>
               </div>
@@ -1109,7 +1143,7 @@ export default function AdminPage() {
                           <input value={nombreCiudadEdit} onChange={(e) => setNombreCiudadEdit(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && renombrarCiudad(c.id)}
                             autoFocus
-                            className="w-full rounded-lg border border-orange-400/40 bg-[var(--card-inner)] px-2 py-1 text-sm font-bold outline-none" />
+                            className="w-full rounded-lg border border-[var(--accent)]/40 bg-[var(--card-inner)] px-2 py-1 text-sm font-bold outline-none" />
                         ) : (
                           <p className="truncate font-bold">{c.name}</p>
                         )}
@@ -1135,7 +1169,7 @@ export default function AdminPage() {
                         className={`shrink-0 rounded-xl px-3 py-2 text-xs font-black transition ${
                           c.status === "active"
                             ? "border border-red-400/30 bg-red-500/10 text-[var(--bad)] hover:bg-red-500/20"
-                            : "bg-gradient-to-r from-orange-500 to-red-600 text-white hover:opacity-90"
+                            : "bg-[var(--accent)] text-white hover:opacity-90"
                         }`}
                       >
                         {c.status === "active" ? "Desactivar" : "Activar"}
@@ -1143,7 +1177,7 @@ export default function AdminPage() {
                       {editandoCiudad === c.id ? (
                         <>
                           <button onClick={() => renombrarCiudad(c.id)}
-                            className="shrink-0 rounded-xl bg-orange-500/20 px-3 py-2 text-xs font-bold text-orange-300 hover:bg-orange-500/30">
+                            className="shrink-0 rounded-xl bg-[var(--accent)]/20 px-3 py-2 text-xs font-bold text-[var(--accent)] hover:bg-[var(--accent)]/30">
                             Guardar
                           </button>
                           <button onClick={() => setEditandoCiudad(null)}
@@ -1163,7 +1197,7 @@ export default function AdminPage() {
                       </button>
                       <select value={c.status || "draft"} onChange={(e) => cambiarEstadoCiudad(c.id, e.target.value)}
                         title="Otros estados (borrador, suspendida, archivada)"
-                        className="shrink-0 rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-2 py-2 text-xs font-bold outline-none focus:border-orange-400">
+                        className="shrink-0 rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-2 py-2 text-xs font-bold outline-none focus:border-[var(--accent)]">
                         <option value="draft">Borrador</option>
                         <option value="inactive">Inactiva</option>
                         <option value="active">Activa</option>
@@ -1180,7 +1214,7 @@ export default function AdminPage() {
                         <input value={nuevoBarrio} onChange={(e) => setNuevoBarrio(e.target.value)}
                           onKeyDown={(e) => e.key === "Enter" && agregarBarrio(c.id)}
                           placeholder="Nombre del barrio" autoFocus
-                          className="flex-1 rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-orange-400" />
+                          className="flex-1 rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)]" />
                         <button onClick={() => agregarBarrio(c.id)} disabled={!nuevoBarrio.trim()}
                           className="rounded-xl bg-[var(--ov-10)] px-4 py-2 text-xs font-bold hover:bg-[var(--ov-20)] disabled:opacity-50">
                           Agregar

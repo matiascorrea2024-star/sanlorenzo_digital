@@ -77,7 +77,7 @@ export default function CuponesPage() {
   if (loading) {
     return (
       <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--accent)]"></div>
       </main>
     );
   }
@@ -85,11 +85,11 @@ export default function CuponesPage() {
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-4xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300 mb-6 inline-block">
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)] mb-6 inline-block">
           ← Volver a mis ofertas
         </Link>
 
-        <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Cupones</p>
+        <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Cupones</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Cupones de la oferta</h1>
         {offer && <p className="mt-3 text-[var(--muted)]">{offer.title}</p>}
 
@@ -110,12 +110,12 @@ export default function CuponesPage() {
               value={validateCode}
               onChange={(e) => setValidateCode(e.target.value)}
               placeholder="Ej: SLD-ABC123-XYZ789"
-              className="flex-1 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-[var(--text)] outline-none focus:border-orange-400"
+              className="flex-1 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-[var(--text)] outline-none focus:border-[var(--accent)]"
             />
             <button
               onClick={validateCoupon}
               disabled={!validateCode}
-              className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
+              className="rounded-full bg-[var(--accent)] px-6 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
             >
               Validar
             </button>

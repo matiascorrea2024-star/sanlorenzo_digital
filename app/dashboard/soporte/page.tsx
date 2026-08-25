@@ -37,7 +37,7 @@ export default function SoportePage() {
       <div className="mx-auto max-w-2xl px-4 py-8">
         <DashboardNav />
         <div className="mb-6 flex items-center gap-3">
-          <LifeBuoy className="h-8 w-8 text-orange-400" />
+          <LifeBuoy className="h-8 w-8 text-[var(--accent)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Soporte</h1>
             <p className="text-[var(--muted)]">Consultas, dudas o bugs -- hablás directo con nosotros.</p>
@@ -55,7 +55,7 @@ export default function SoportePage() {
             <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="font-bold">Todavía no tenés un negocio creado.</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Creá tu negocio primero para poder hablar con soporte.</p>
-              <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
+              <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
             </div>
           </div>
         ) : !admin ? (

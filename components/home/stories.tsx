@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 export default function Stories() {
@@ -34,9 +33,9 @@ export default function Stories() {
           return (
             <button key={g[0].business_id} onClick={() => setSelected(g[0])}
               className="flex flex-col items-center gap-1 shrink-0">
-              <span className="rounded-full bg-gradient-to-tr from-orange-500 to-red-600 p-[2px]">
+              <span className="rounded-full bg-gradient-to-tr from-[var(--accent)] to-red-600 p-[2px]">
                 <span className="block rounded-full bg-[var(--bg)] p-[2px]">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-orange-500/30 to-red-600/30 text-xl font-black">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[var(--accent)]/30 to-red-600/30 text-xl font-black">
                     {b?.name?.[0] || "🏪"}
                   </span>
                 </span>
@@ -52,7 +51,7 @@ export default function Stories() {
           <div className={`w-full max-w-sm rounded-3xl bg-gradient-to-br ${selected.background} p-8 text-center`} onClick={e => e.stopPropagation()}>
             <p className="text-xs font-bold uppercase text-white/80">{selected.businesses?.name}</p>
             <p className="mt-4 text-2xl font-black text-white whitespace-pre-wrap">{selected.text}</p>
-            {selected.image_url && <img src={selected.image_url} className="mt-4 rounded-2xl" alt="" />}
+            {selected.image_url && <img src={selected.image_url} className="mt-4 rounded-2xl" alt={selected.title || "Historia destacada"} />}
             <button onClick={() => setSelected(null)} className="mt-6 rounded-xl bg-black/30 px-6 py-2 text-sm font-bold text-white">Cerrar</button>
           </div>
         </div>

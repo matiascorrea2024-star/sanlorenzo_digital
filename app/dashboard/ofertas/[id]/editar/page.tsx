@@ -10,7 +10,7 @@ import { friendlyError } from "@/lib/friendly-error";
 import HowItWorks from "@/components/ui/how-it-works";
 import { hoyArgentina } from "@/lib/fecha-ar";
 
-const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-orange-400/60 focus:outline-none transition";
+const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-[var(--accent)]/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-[var(--muted)]";
 
 export default function EditarOferta() {
@@ -63,7 +63,7 @@ export default function EditarOferta() {
       setPrecioPrometido(!!offer.precio_prometido);
       setLoading(false);
     })();
-  }, [id]);
+  }, [id, router]);
 
   const desc =
     Number(priceBefore) > 0 && Number(priceOffer) >= 0 && Number(priceOffer) < Number(priceBefore)
@@ -105,7 +105,7 @@ export default function EditarOferta() {
         <div>
           <p className="text-4xl mb-3">🔍</p>
           <p className="font-bold">{error}</p>
-          <Link href="/dashboard/ofertas" className="mt-4 inline-block text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
+          <Link href="/dashboard/ofertas" className="mt-4 inline-block text-[var(--accent)] hover:text-[var(--accent)]">← Volver a mis ofertas</Link>
         </div>
       </main>
     );
@@ -114,8 +114,8 @@ export default function EditarOferta() {
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-2xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
-        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Editar</p>
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]">← Volver a mis ofertas</Link>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Editar</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Editar oferta</h1>
 
         <div className="mt-6">
@@ -153,9 +153,9 @@ export default function EditarOferta() {
             </div>
           </div>
           {desc > 0 && (
-            <div className="rounded-2xl border border-orange-400/40 bg-orange-500/10 p-4 text-center">
+            <div className="rounded-2xl border border-[var(--accent)]/40 bg-[var(--accent)]/10 p-4 text-center">
               <p className="text-xs text-[var(--muted)]">Descuento calculado</p>
-              <p className="text-3xl font-black text-orange-400">{desc}% OFF</p>
+              <p className="text-3xl font-black text-[var(--accent)]">{desc}% OFF</p>
             </div>
           )}
           <div>
@@ -181,7 +181,7 @@ export default function EditarOferta() {
           )}
 
           <button onClick={guardar} disabled={saving}
-            className="btn-shine w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50">
+            className="btn-shine w-full rounded-xl bg-[var(--accent)] px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50">
             {saving ? "⏳ Guardando…" : "💾 Guardar cambios"}
           </button>
         </div>

@@ -12,7 +12,7 @@ const TIPOS: Record<string, { icon: any; label: string; color: string }> = {
   novedad: { icon: Sparkles, label: "Novedad", color: "text-[var(--place)] bg-sky-500/15 border-sky-400/40" },
   evento: { icon: PartyPopper, label: "Evento", color: "text-purple-400 bg-purple-500/15 border-purple-400/40" },
   apertura: { icon: Store, label: "Apertura", color: "text-[var(--ok)] bg-green-500/15 border-green-400/40" },
-  producto: { icon: Package, label: "Nuevo producto", color: "text-orange-400 bg-orange-500/15 border-orange-400/40" },
+  producto: { icon: Package, label: "Nuevo producto", color: "text-[var(--accent)] bg-[var(--accent)]/15 border-[var(--accent)]/40" },
   anuncio: { icon: Megaphone, label: "Anuncio", color: "text-[var(--warn)] bg-yellow-500/15 border-yellow-400/40" },
 };
 
@@ -97,16 +97,19 @@ export default function MuroPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-500">En vivo</p>
-            <h1 className="mt-2 text-5xl font-black leading-[0.9] tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Muro <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">local</span></h1>
-            <p className="mt-2 text-[var(--muted)]">Lo que está pasando en el comercio de San Lorenzo</p>
+            <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+              <span className="live-dot inline-block h-2 w-2 rounded-full" /> En vivo
+            </p>
+            <h1 className="mt-2 font-display text-5xl uppercase leading-[0.9] tracking-tight text-[#f7f3ec]">Muro <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">local</span></h1>
+            <p className="mt-2 text-[#a99b86]">Lo que está pasando en el comercio de San Lorenzo</p>
           </div>
           <Link href="/dashboard/muro"
-            className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">
+            className="btn-hard shrink-0 rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white"
+            style={{ fontFamily: "var(--font-display)" }}>
             + Publicar
           </Link>
         </div>
@@ -114,15 +117,15 @@ export default function MuroPage() {
         {/* Filtros por tipo */}
         <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
           <button onClick={() => setFiltro("todos")}
-            className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
-              filtro === "todos" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
+            className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
+              filtro === "todos" ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
             }`}>
             Todo
           </button>
           {Object.entries(TIPOS).map(([k, t]) => (
             <button key={k} onClick={() => setFiltro(k)}
-              className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
-                filtro === k ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
+              className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
+                filtro === k ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
               }`}>
               {t.label}
             </button>
@@ -132,26 +135,24 @@ export default function MuroPage() {
         {/* Posts */}
         <div className="mt-6 space-y-4">
           {todos.length === 0 && (
-            <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-10 text-center text-[var(--muted)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                Todavía no hay publicaciones de este tipo.
-              </div>
+            <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center text-[#a99b86]">
+              Todavía no hay publicaciones de este tipo.
             </div>
           )}
           {todos.map(p => {
             const t = TIPOS[p.type] || TIPOS.anuncio;
             const isLiked = !!liked[p.id];
             return (
-              <article key={p.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-orange-400/20">
-              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+              <article key={p.id} className="rounded-[2rem] border border-white/5 bg-[#161314] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+              <div className="p-4 sm:p-5">
                 {/* Header del post */}
                 <div className="flex items-center gap-3">
                   <RankedAvatar slug={p.business_slug} name={p.business_name} size={44} />
                   <div className="flex-1">
-                    <Link href={`/negocio/${p.business_slug}`} className="font-bold hover:text-orange-400">
+                    <Link href={`/negocio/${p.business_slug}`} className="font-bold hover:text-[var(--accent)]">
                       {p.business_name}
                     </Link>
-                    <p className="text-xs text-[var(--muted2)]">{timeAgo(p.created_at)}</p>
+                    <p className="text-xs text-[#7d6f5c]">{timeAgo(p.created_at)}</p>
                   </div>
                   <span className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-black ${t.color}`}>
                     <t.icon className="h-3 w-3" /> {t.label}
@@ -159,23 +160,23 @@ export default function MuroPage() {
                 </div>
 
                 {/* Contenido */}
-                <h2 className="mt-3 text-lg font-black">{p.title}</h2>
-                {p.body && <p className="mt-1 text-sm text-[var(--text)]/70 leading-relaxed">{p.body}</p>}
+                <h2 className="mt-3 font-display text-lg uppercase tracking-tight text-[#f7f3ec]">{p.title}</h2>
+                {p.body && <p className="mt-1 text-sm leading-relaxed text-[#a99b86]">{p.body}</p>}
                 {p.image_url && (
-                  <div className="relative mt-3 h-72 w-full overflow-hidden rounded-xl">
+                  <div className="relative mt-3 h-72 w-full overflow-hidden rounded-2xl border border-white/5">
                     <Image src={p.image_url} alt={p.title} fill sizes="(max-width: 768px) 100vw, 640px" quality={88} className="object-cover" />
                   </div>
                 )}
 
                 {/* Acciones */}
-                <div className="mt-4 flex items-center gap-4 border-t border-[var(--line)] pt-3">
+                <div className="mt-4 flex items-center gap-4 border-t border-white/5 pt-3">
                   <button onClick={() => like(p.id)} disabled={likingIds.has(p.id)}
-                    className={`flex items-center gap-1.5 text-sm font-bold transition disabled:opacity-60 ${isLiked ? "text-[var(--bad)]" : "text-[var(--muted)] hover:text-[var(--bad)]"}`}>
+                    className={`flex items-center gap-1.5 text-sm font-bold transition disabled:opacity-60 ${isLiked ? "text-[var(--accent)]" : "text-[#a99b86] hover:text-[var(--accent)]"}`}>
                     <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
                     {p.likes || 0}
                   </button>
                   <Link href={`/negocio/${p.business_slug}`}
-                    className="flex items-center gap-1 text-sm font-bold text-[var(--muted)] hover:text-orange-400">
+                    className="flex items-center gap-1 text-sm font-bold text-[#a99b86] hover:text-[var(--accent)]">
                     Ver negocio <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>

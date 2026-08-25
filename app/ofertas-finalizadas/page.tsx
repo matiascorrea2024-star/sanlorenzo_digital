@@ -2,7 +2,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import PageHero from "@/components/ui/page-hero";
 import NotifyMeButton from "@/components/offers/notify-me-button";
 import { supabase } from "@/lib/supabase";
 import CategoryCover from "@/components/ui/category-cover";
@@ -57,52 +56,55 @@ export default function OfertasFinalizadasPage() {
   );
 
   return (
-    <main className="bg-[var(--bg)] text-[var(--text)] min-h-screen pb-24">
-      <PageHero
-        title="Ofertas que ya terminaron"
-        subtitle="Mirá lo que te perdiste... y seguí a tus negocios favoritos para no perderte la próxima."
-      >
-        <Link href="/promociones" className="mt-3 inline-flex items-center gap-1 text-sm text-orange-400 hover:text-orange-300">← Ver promociones activas</Link>
-      </PageHero>
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
+      <section className="relative overflow-hidden border-b border-white/5">
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 20% 0%, rgba(209,47,104,.14), transparent 60%), radial-gradient(circle at 85% 30%, rgba(169,31,85,.08), transparent 55%)" }} />
+        <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
+          <Link href="/" className="text-[11px] font-bold uppercase tracking-widest text-[#a99b86] transition hover:text-[var(--accent)]">← Volver al inicio</Link>
+          <p className="mt-6 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>La Gran Barata</p>
+          <h1 className="mt-3 font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-7xl">
+            Ofertas que ya <span className="knockout-text magenta-glow">terminaron</span>
+          </h1>
+          <p className="mt-4 max-w-xl text-base text-[#a99b86]">Mirá lo que te perdiste... y seguí a tus negocios favoritos para no perderte la próxima.</p>
+          <Link href="/promociones" className="mt-5 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-[var(--accent)] transition hover:text-white">← Ver promociones activas</Link>
+        </div>
+      </section>
 
-      <div className="mx-auto max-w-6xl px-4">
+      <div className="mx-auto max-w-6xl px-4 pt-10">
         {!loading && pasadas.length === 0 ? (
-          <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-10 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <p className="text-xl font-black">Todavía no hay ofertas finalizadas</p>
-              <p className="mt-2 text-sm text-[var(--muted)]">Las promociones vencidas van a aparecer acá cuando pasen su fecha.</p>
-            </div>
+          <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center md:p-10">
+            <p className="font-display text-xl uppercase tracking-tight">Todavía no hay ofertas finalizadas</p>
+            <p className="mt-2 text-sm text-[#a99b86]">Las promociones vencidas van a aparecer acá cuando pasen su fecha.</p>
           </div>
         ) : loading ? (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {[0, 1, 2, 3].map((i) => <div key={i} className="h-52 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--ov-05)]" />)}
+            {[0, 1, 2, 3].map((i) => <div key={i} className="h-52 animate-pulse rounded-2xl border border-white/5 bg-[#161314]" />)}
           </div>
         ) : (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {pasadas.map((p) => (
-              <Link key={p.id} href={"/negocio/" + p.slug} className="group overflow-hidden rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 opacity-85 transition hover:opacity-100">
-                <div className="overflow-hidden rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-orange-400/40">
-                <div className="relative h-28 overflow-hidden grayscale group-hover:grayscale-0 transition duration-500">
+              <Link key={p.id} href={"/negocio/" + p.slug} className="group overflow-hidden rounded-2xl border border-white/5 bg-[#161314] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                <div className="relative h-28 overflow-hidden grayscale transition duration-500 group-hover:grayscale-0">
                   {p.img ? (
                     <Image src={p.img} alt={p.title} fill sizes="(max-width: 768px) 50vw, 280px" quality={80} className="object-cover transition-transform duration-500 group-hover:scale-110" />
                   ) : (
                     <CategoryCover category={p.cat} seed={p.id} className="h-full w-full transition-transform duration-500 group-hover:scale-110" />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute left-2 top-2 rounded-lg bg-black/70 px-2 py-1 text-[10px] font-black text-[var(--bad)] backdrop-blur">
+                  <div className="absolute left-2 top-2 rounded-xl bg-black/70 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-[#a99b86] backdrop-blur">
                     Terminó
                   </div>
                   {p.discount && (
-                    <div className="absolute right-2 top-2 rounded-lg bg-red-500/90 px-2 py-1 text-[10px] font-black text-white backdrop-blur">
+                    <div className="absolute right-2 top-2 rounded-xl px-3.5 py-1.5 text-[12px] font-black uppercase tracking-widest text-white shadow-2xl" style={{ background: "var(--accent)" }}>
                       {p.discount}
                     </div>
                   )}
                 </div>
-                <div className="p-3">
-                  <p className="line-clamp-2 text-sm font-bold leading-snug group-hover:text-orange-300 transition">{p.title}</p>
-                  <p className="mt-1 line-clamp-1 text-xs capitalize text-[var(--muted)]">{p.negocio} · {p.cat}</p>
-                  <div className="mt-2 flex items-center justify-between gap-2 border-t border-[var(--ov-05)] pt-2">
-                    <span className="text-[10px] text-[var(--muted2)]">
+                <div className="p-4">
+                  <p className="line-clamp-2 text-sm font-bold leading-snug transition group-hover:text-[var(--accent)]">{p.title}</p>
+                  <p className="mt-1 line-clamp-1 text-xs capitalize text-[#a99b86]">{p.negocio} · {p.cat}</p>
+                  <div className="mt-2 flex items-center justify-between gap-2 border-t border-white/5 pt-2">
+                    <span className="text-[10px] text-[#7d6f5c]">
                       {new Date(p.expires + "T00:00:00").toLocaleDateString("es-AR", { day: "numeric", month: "short" })}
                     </span>
                     {p.businessId && (
@@ -112,22 +114,21 @@ export default function OfertasFinalizadasPage() {
                     )}
                   </div>
                 </div>
-                </div>
               </Link>
             ))}
           </div>
         )}
 
-        <div className="mt-10 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
-          <div className="overflow-hidden rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+        <div className="mt-10 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-r from-[var(--accent)]/[.08] to-transparent p-1.5">
+          <div className="overflow-hidden rounded-2xl border border-white/5 bg-[#161314] p-8 text-center">
           <div className="mx-auto max-w-xl">
-            <h2 className="text-xl font-black">No te pierdas la próxima</h2>
-            <p className="mt-2 text-sm text-[var(--text)]/70">Entrá a tus negocios favoritos y seguilos. Las ofertas nuevas aparecen todos los días.</p>
+            <h2 className="font-display text-2xl uppercase tracking-tight">No te pierdas la <span className="text-[var(--accent)]">próxima</span></h2>
+            <p className="mt-2 text-sm text-[#a99b86]">Entrá a tus negocios favoritos y seguilos. Las ofertas nuevas aparecen todos los días.</p>
             <div className="mt-5 flex flex-wrap justify-center gap-3">
-              <Link href="/negocios" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90 transition">
+              <Link href="/negocios" className="btn-hard rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
                 Explorar negocios →
               </Link>
-              <Link href="/ranking" className="rounded-full border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold hover:bg-[var(--ov-05)] transition">
+              <Link href="/ranking" className="rounded-xl border border-white/10 px-6 py-3 text-xs font-black uppercase tracking-widest text-[#a99b86] transition hover:border-[var(--accent)] hover:text-white">
                 Ver ranking
               </Link>
             </div>

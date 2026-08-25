@@ -97,7 +97,7 @@ export default function MarketingPage() {
   if (loading) {
     return (
       <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--accent)]"></div>
       </main>
     );
   }
@@ -118,14 +118,14 @@ export default function MarketingPage() {
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-4xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300 mb-6 inline-block">
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)] mb-6 inline-block">
           ← Volver a mis ofertas
         </Link>
 
-        <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Marketing</p>
+        <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Marketing</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Marketing de la oferta</h1>
         <p className="mt-3 text-[var(--muted)]">{offer.title}</p>
-        <div className="mt-4 rounded-2xl border border-orange-400/25 bg-orange-500/[.06] p-4 text-sm text-[var(--muted)]">
+        <div className="mt-4 rounded-2xl border border-[var(--accent)]/25 bg-[var(--accent)]/[.06] p-4 text-sm text-[var(--muted)]">
           <strong className="text-[var(--text)]">Compartir estos links es gratis.</strong> “Impulsar oferta” es una
           promoción paga aparte y hoy se activa manualmente desde administración; no se simula ningún cobro.
           El checkout autoservicio de impulso queda pendiente de una orden/precio con RLS y conciliación propios.
@@ -182,7 +182,7 @@ export default function MarketingPage() {
           </div>
           <button
             onClick={() => copyToClipboard(generateStoryText(), "story")}
-            className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-black text-white hover:opacity-90"
+            className="mt-4 w-full rounded-full bg-[var(--accent)] px-6 py-3 font-black text-white hover:opacity-90"
           >
             {copied === "story" ? "✅ Copiado" : "📋 Copiar story"}
           </button>

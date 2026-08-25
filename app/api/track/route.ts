@@ -5,6 +5,7 @@ const EVENT_TYPES = new Set([
   "view_business", "view_offer", "click_whatsapp", "click_map", "favorite",
   "follow", "search", "coupon_generated", "coupon_redeemed", "share_business",
   "share_offer", "checkout_started", "payment_confirmed", "tracked_link_click",
+  "interest_offer",
 ]);
 
 export async function POST(req: NextRequest) {
@@ -52,4 +53,25 @@ export async function POST(req: NextRequest) {
     // silencioso: nunca rompe la navegación
   }
   return NextResponse.json({ ok: true });
+}
+
+export async function GET(req: NextRequest) {
+  const offerId = req.nextUrl.searchParams.get("offer_id");
+  if (!offerId) return NextResponse.json({ count: null });
+  try {
+    const sb = await createClient();
+    // count "exact" con head:true = solo el número, sin traer filas.
+    // Si RLS bloquea o la tabla no existe, Supabase devuelve count null
+    // (o lanza) -- en ambos casos el front recibe { count: null } y no
+    // muestra ningún número.
+    const { count, error } = await sb
+      .from("analytics_events")
+      .select("*", { count: "exact", head: true })
+      .eq("event_type", "interest_offer")
+      .eq("offer_id", offerId);
+    if (error) return NextResponse.json({ count: null });
+    return NextResponse.json({ count });
+  } catch {
+    return NextResponse.json({ count: null });
+  }
 }

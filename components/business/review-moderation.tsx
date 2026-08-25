@@ -39,8 +39,8 @@ export default function ReviewModeration({ businessId, plan }: { businessId: str
   const ocultas = list.filter((r) => r.hidden);
 
   return (
-    <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
-      <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">⭐ Reseñas de clientes</h2>
+    <section className="mt-6 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
+      <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-red-300 bg-clip-text text-transparent">⭐ Reseñas de clientes</h2>
       {list.length === 0 && <p className="text-sm text-[var(--muted)]">Cuando un cliente deje una reseña, la vas a poder moderar desde acá.</p>}
       {visibles.length > 0 && (
         <div className="grid gap-3">
@@ -52,8 +52,8 @@ export default function ReviewModeration({ businessId, plan }: { businessId: str
               </div>
               {r.comment && <p className="mt-1 text-sm text-[var(--text)]/70">{r.comment}</p>}
               {r.reply ? (
-                <div className="mt-2 rounded-lg border-l-4 border-orange-400 bg-orange-500/10 p-2">
-                  <p className="text-[11px] font-bold text-orange-300">↳ Tu respuesta</p>
+                <div className="mt-2 rounded-lg border-l-4 border-[var(--accent)] bg-[var(--accent)]/10 p-2">
+                  <p className="text-[11px] font-bold text-[var(--accent)]">↳ Tu respuesta</p>
                   <p className="text-xs text-[var(--text)]/70">{r.reply}</p>
                 </div>
               ) : puedeResponder ? (
@@ -62,12 +62,12 @@ export default function ReviewModeration({ businessId, plan }: { businessId: str
                     value={replyDraft[r.id] || ""}
                     onChange={(e) => setReplyDraft((d) => ({ ...d, [r.id]: e.target.value }))}
                     placeholder="Responder públicamente…"
-                    className="flex-1 rounded-lg border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-1.5 text-xs outline-none focus:border-orange-400"
+                    className="flex-1 rounded-lg border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-1.5 text-xs outline-none focus:border-[var(--accent)]"
                   />
-                  <button onClick={() => sendReply(r.id)} className="rounded-lg bg-orange-500/20 px-3 py-1.5 text-xs font-bold text-orange-300 hover:bg-orange-500/30">Responder</button>
+                  <button onClick={() => sendReply(r.id)} className="rounded-lg bg-[var(--accent)]/20 px-3 py-1.5 text-xs font-bold text-[var(--accent)] hover:bg-[var(--accent)]/30">Responder</button>
                 </div>
               ) : (
-                <Link href="/dashboard/planes" className="mt-2 flex items-center gap-1.5 text-xs font-bold text-orange-400 hover:text-orange-300">
+                <Link href="/dashboard/planes" className="mt-2 flex items-center gap-1.5 text-xs font-bold text-[var(--accent)] hover:text-[var(--accent)]">
                   <Lock className="h-3 w-3" /> Responder reseñas es de Plan PRO -- mejorar plan →
                 </Link>
               )}

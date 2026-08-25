@@ -8,13 +8,12 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
 import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
 import { safeJsonLd } from "@/lib/json-ld";
-import { MapPin, Clock, Phone, MessageCircle, Share2, Heart, ArrowLeft, ExternalLink, Flame, Tag, Star, Search, Truck, Navigation, Package, ShoppingBasket, Check } from "lucide-react";
+import { MapPin, Clock, Phone, MessageCircle, Share2, ArrowLeft, ExternalLink, Flame, Star, Search, Truck, Navigation, Package, ShoppingBasket, Check, Tv } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import Badge from "@/components/ui/badge";
 import BusinessMap from "@/components/business/map";
@@ -47,11 +46,10 @@ const CATEGORY_IMAGES: Record<string, string> = {
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
-export default function NegocioPage({ initialNegocio = null, initialOfertas = [], initialProductos = [], initialResenas = [] }: {
+export default function NegocioPage({ initialNegocio = null, initialOfertas = [], initialProductos = [] }: {
   initialNegocio?: any;
   initialOfertas?: any[];
   initialProductos?: any[];
-  initialResenas?: any[];
 }) {
   const { trackViewBusiness, trackClickWhatsApp, trackClickMap, trackShareBusiness } = useAnalytics();
   const { show } = useToast();
@@ -101,15 +99,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   const [detalle, setDetalle] = useState<"info" | "resenas" | "chat">("info");
   const catsProductos = Array.from(new Set(productos.map((p) => p.category).filter(Boolean))) as string[];
   const [loading] = useState(false);
-  const [user, setUser] = useState<any>(null);
   const [compartiendo, setCompartiendo] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      const { data: { user } } = await supabase().auth.getUser();
-      setUser(user);
-    })();
-  }, [slug]);
 
   useEffect(() => {
     if (!negocio) return;
@@ -125,7 +115,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
       const sourceCode = params.get("src") || undefined;
       trackViewBusiness(negocio.id, sourceCode ? "tracked_link" : undefined, sourceCode);
     }
-  }, [negocio]);
+  }, [negocio, trackViewBusiness]);
 
   const share = async () => {
     const url = await getTrackedShareUrl({
@@ -372,6 +362,17 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">{compartiendo ? "Generando..." : "Compartir"}</span>
             </div>
           </button>
+          <a
+            href={`/negocio/${slug}/tv`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1"
+          >
+            <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+              <Tv className="h-6 w-6 text-[var(--accent)]" />
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">Modo TV</span>
+            </div>
+          </a>
         </div>
 
         {negocio.description && (

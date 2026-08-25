@@ -42,23 +42,23 @@ export default function BusinessStats() {
   if (loading) return null;
 
   const cards = [
-    { icon: Eye, label: "Visitas (7 días)", value: s.views7, color: "text-[var(--place)]" },
-    { icon: TrendingUp, label: "Visitas totales", value: s.viewsTotal, color: "text-orange-400" },
-    { icon: Users, label: "Seguidores", value: s.followers, color: "text-[var(--ok)]" },
-    { icon: Heart, label: "Favoritos", value: s.favs, color: "text-[var(--bad)]" },
-    { icon: Star, label: "Reseñas", value: s.revs, color: "text-[var(--warn)]" },
-    { icon: Ticket, label: "Cupones", value: s.coupons, color: "text-[var(--bad)]" },
+    { icon: Eye, label: "Visitas (7 días)", value: s.views7, color: "magenta-glow text-[var(--accent)]" },
+    { icon: TrendingUp, label: "Visitas totales", value: s.viewsTotal, color: "text-[#fbbf24]" },
+    { icon: Users, label: "Seguidores", value: s.followers, color: "text-[#f7f3ec]" },
+    { icon: Heart, label: "Favoritos", value: s.favs, color: "text-[#fbbf24]" },
+    { icon: Star, label: "Reseñas", value: s.revs, color: "text-[#fbbf24]" },
+    { icon: Ticket, label: "Cupones", value: s.coupons, color: "text-[#f7f3ec]" },
   ];
 
   return (
     <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
       {cards.map((c) => (
-        <div key={c.label} className="rounded-[1.25rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1">
-          <div className="rounded-[.9rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-            <c.icon className={`mx-auto h-5 w-5 ${c.color}`} />
-            <p className="mt-1 text-2xl font-black tabular-nums text-[var(--text)]">{c.value}</p>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{c.label}</p>
+        <div key={c.label} className="rounded-[2rem] border border-white/5 bg-[#161314] p-4 sm:p-5">
+          <div className="flex items-center gap-1.5 text-[#7d6f5c]">
+            <c.icon className="h-3.5 w-3.5 shrink-0" />
+            <p className="truncate text-[9px] font-black uppercase tracking-[0.2em]" style={{ fontFamily: "var(--font-display)" }}>{c.label}</p>
           </div>
+          <p className={`mt-3 font-display text-4xl leading-none tabular-nums sm:text-5xl ${c.color}`}>{c.value}</p>
         </div>
       ))}
     </div>

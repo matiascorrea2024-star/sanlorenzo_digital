@@ -127,9 +127,9 @@ export default function CityChat({ locationId }: { locationId: string }) {
           {mensajes.map((m) => (
             <div key={m.id} className="group flex items-start justify-between gap-2 text-sm">
               <p className="min-w-0">
-                <span className="font-bold text-orange-300">{m.sender_name}</span>
+                <span className="font-bold text-[var(--accent)]">{m.sender_name}</span>
                 {m.business_id && (
-                  <span className="ml-1 inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-orange-500/20 to-red-600/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-orange-300">
+                  <span className="ml-1 inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-[var(--accent)]/20 to-red-600/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-[var(--accent)]">
                     <Store className="h-2.5 w-2.5" /> Negocio
                   </span>
                 )}
@@ -153,7 +153,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
                 {sugerencias.map((n) => (
                   <button key={n.slug} onClick={() => elegirMencion(n)}
                     className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs font-bold text-[var(--text)] hover:bg-[var(--ov-10)]">
-                    <Store className="h-3 w-3 text-orange-400" /> {n.name}
+                    <Store className="h-3 w-3 text-[var(--accent)]" /> {n.name}
                   </button>
                 ))}
               </div>
@@ -161,16 +161,16 @@ export default function CityChat({ locationId }: { locationId: string }) {
             <div className="flex gap-2">
               <input value={texto} onChange={(e) => onChangeTexto(e.target.value)} onKeyDown={(e) => e.key === "Enter" && enviar()}
                 placeholder="Escribí algo... (@ para etiquetar un negocio)" maxLength={500}
-                className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2 text-sm text-[var(--text)] outline-none focus:border-orange-400" />
+                className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]" />
               <button onClick={enviar} disabled={!texto.trim() || enviando} aria-label="Enviar"
-                className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 disabled:opacity-50">
+                className="rounded-full bg-[var(--accent)] px-4 py-2 disabled:opacity-50">
                 <Send className="h-4 w-4 text-white" />
               </button>
             </div>
           </div>
         ) : (
           <p className="border-t border-[var(--ov-05)] p-5 text-center text-xs text-[var(--muted2)] sm:p-6">
-            <Link href="/login" className="font-bold text-orange-400 hover:text-orange-300">Iniciá sesión</Link> para participar del chat.
+            <Link href="/login" className="font-bold text-[var(--accent)] hover:text-[var(--accent)]">Iniciá sesión</Link> para participar del chat.
           </p>
         )}
       </div>

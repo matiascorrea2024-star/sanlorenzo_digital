@@ -94,7 +94,7 @@ export default function TurnosPage() {
     <main className="mx-auto max-w-4xl px-4 py-10">
       <DashboardNav />
       <div className="mb-8 flex items-center gap-3">
-        <Calendar className="h-8 w-8 text-orange-400" />
+        <Calendar className="h-8 w-8 text-[var(--accent)]" />
         <div>
           <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Turnos</h1>
           <p className="text-sm text-[var(--muted)]">
@@ -119,7 +119,7 @@ export default function TurnosPage() {
               <div className="mb-4 flex flex-wrap gap-2">
                 {DIAS.map((d) => (
                   <button key={d.v} onClick={() => toggleDia(d.v)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${diasSemana.includes(d.v) ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${diasSemana.includes(d.v) ? "bg-[var(--accent)]" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
                     {d.l}
                   </button>
                 ))}
@@ -129,17 +129,17 @@ export default function TurnosPage() {
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-[var(--muted)]">Desde</label>
                   <input type="time" value={horaDesde} onChange={(e) => setHoraDesde(e.target.value)}
-                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-orange-400" />
+                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-[var(--accent)]" />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-[var(--muted)]">Hasta</label>
                   <input type="time" value={horaHasta} onChange={(e) => setHoraHasta(e.target.value)}
-                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-orange-400" />
+                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-[var(--accent)]" />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-[var(--muted)]">Duración del turno (min)</label>
                   <select value={duracion} onChange={(e) => setDuracion(e.target.value)}
-                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-orange-400">
+                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-[var(--accent)]">
                     {[15, 20, 30, 45, 60, 90].map((m) => <option key={m} value={m}>{m} min</option>)}
                   </select>
                 </div>
@@ -151,7 +151,7 @@ export default function TurnosPage() {
               </label>
 
               <button onClick={guardar} disabled={guardando || diasSemana.length === 0}
-                className="mt-5 flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+                className="mt-5 flex items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black disabled:opacity-50">
                 <Save className="h-4 w-4" /> {guardando ? "Guardando..." : "Guardar"}
               </button>
             </div>

@@ -14,9 +14,12 @@ const favCache = {
 async function loadFavorites(userId: string) {
   if (favCache.loaded) return;
   try {
+    // Siempre scoped al usuario: RLS ya lo limita, pero el filtro
+    // explícito evita mezclar datos si cambia alguna policy.
     const { data, error } = await supabase()
       .from("favorites")
-      .select("item_id, item_type");
+      .select("item_id, item_type")
+      .eq("user_id", userId);
     if (error) {
       // Tabla rota o permisos - modo degradado silencioso
       favCache.loaded = true;

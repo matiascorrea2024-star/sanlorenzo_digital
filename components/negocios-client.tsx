@@ -84,53 +84,53 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
   const hasMore = list.length < total;
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 md:py-14" aria-busy={buscando}>
-      <p className="mb-2 inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[.2em] text-orange-300">
+    <main className="mx-auto min-h-screen max-w-6xl bg-[#0c0a0b] px-4 py-10 pb-24 text-[#f7f3ec] md:py-14" aria-busy={buscando}>
+      <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
         Directorio
       </p>
-      <h1 className="text-4xl font-black tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Negocios de San Lorenzo</h1>
-      <p className="mt-2 text-sm text-[var(--muted)]">
+      <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-6xl">Negocios de <span className="knockout-text magenta-glow">San Lorenzo</span></h1>
+      <p className="mt-2 text-sm text-[#a99b86]">
         {total} {total === 1 ? "negocio activo" : "negocios activos"} ahora mismo
-        {buscando && <span className="ml-2 text-[var(--muted2)]">buscando...</span>}
+        {buscando && <span className="ml-2 text-[#7d6f5c]">buscando...</span>}
       </p>
       {error && (
-        <div role="alert" className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">
+        <div role="alert" className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">
           <span>{error}</span>
           <button type="button" onClick={() => setError("")} className="font-bold underline">Cerrar</button>
         </div>
       )}
 
       <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="w-full rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1">
+        <div className="w-full">
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar negocio…"
-            className="w-full rounded-[.75rem] border border-[var(--ov-05)] bg-[var(--card-inner)] px-4 py-2.5 text-sm text-[var(--text)] outline-none placeholder:text-[var(--muted2)] focus:border-orange-400/40" />
+            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-[#7d6f5c] focus:border-[var(--accent)]" />
         </div>
-        <label className="flex min-h-12 items-center gap-2 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] px-4 py-3 text-sm text-[var(--muted)]">
+        <label className="flex min-h-12 items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#a99b86]">
           <input type="checkbox" checked={openNow} onChange={(e) => setOpenNow(e.target.checked)} className="accent-[var(--accent)]" />
           Abierto ahora
         </label>
-        <label className="flex min-h-12 items-center gap-2 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] px-4 py-3 text-sm text-[var(--muted)]">
+        <label className="flex min-h-12 items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#a99b86]">
           <input type="checkbox" checked={delivery} onChange={(e) => setDelivery(e.target.checked)} className="accent-[var(--accent)]" />
           Hace envíos
         </label>
-        <label className="flex min-h-12 items-center justify-between gap-2 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--ov-02)] px-4 py-3 text-sm text-[var(--muted)]">
+        <label className="flex min-h-12 items-center justify-between gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#a99b86]">
           <span>Rating mínimo</span>
-          <select value={minRating} onChange={(e) => setMinRating(Number(e.target.value))} className="bg-transparent font-bold text-[var(--text)] outline-none">
+          <select value={minRating} onChange={(e) => setMinRating(Number(e.target.value))} className="bg-transparent font-bold text-white outline-none">
             <option value={0}>Cualquiera</option>
             <option value={4}>4+</option>
             <option value={4.5}>4,5+</option>
           </select>
         </label>
       </div>
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="custom-scrollbar mt-4 flex gap-2 overflow-x-auto pb-2">
         {([["", "Todo"], ["ahora", "Ahora"], ["esta-noche", "Esta noche"]] as const).map(([value, label]) => (
-          <button key={value} type="button" onClick={() => setMode(value)} className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${mode === value ? "border-transparent bg-[var(--accent)] text-white" : "border-[var(--ov-08)] text-[var(--muted)] hover:border-[var(--line-strong)]"}`}>
+          <button key={value} type="button" onClick={() => setMode(value)} className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition-colors ${mode === value ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"}`}>
             {label}
           </button>
         ))}
         {CATEGORIES.map((c: any) => (
           <button key={c.id} onClick={() => setCat(cat === c.id ? null : c.id)}
-            className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors duration-300 ${cat === c.id ? "border-transparent bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border-[var(--ov-08)] text-[var(--muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]"}`}>
+            className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition-colors ${cat === c.id ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"}`}>
             {c.icon} {c.name}
           </button>
         ))}
@@ -141,29 +141,27 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
           rubro más. */}
       <Link
         href="/particulares"
-        className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-cyan-400/20 bg-cyan-500/[.06] px-4 py-3 text-sm transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
+        className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm transition hover:border-[var(--accent)] hover:bg-white/[.07]"
       >
         <span>
-          <span className="font-bold text-[var(--place)]">🙋 ¿Buscás algo de un particular?</span>
-          <span className="ml-1.5 text-[var(--muted)]">Venta entre vecinos, sin local ni negocio.</span>
+          <span className="font-bold text-[#f7f3ec]">🙋 ¿Buscás algo de un particular?</span>
+          <span className="ml-1.5 text-[#a99b86]">Venta entre vecinos, sin local ni negocio.</span>
         </span>
-        <ArrowRight className="h-4 w-4 shrink-0 text-[var(--place)]" />
+        <ArrowRight className="h-4 w-4 shrink-0 text-[var(--accent)]" />
       </Link>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {list.map((b: any) => <BusinessCard key={b.id} b={b} />)}
       </div>
       {!buscando && list.length === 0 && (
-        <div className="mt-8 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-10 text-center">
-            <p className="font-black text-[var(--text)]">No encontramos exactamente eso.</p>
-            <p className="mt-1 text-sm text-[var(--muted)]">Estamos incorporando negocios de esta categoría. ¿Tenés uno? Sumalo.</p>
-          </div>
+        <div className="mt-8 rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center">
+          <p className="font-display text-xl uppercase tracking-tight text-[#f7f3ec]">No encontramos exactamente eso.</p>
+          <p className="mt-1 text-sm text-[#a99b86]">Estamos incorporando negocios de esta categoría. ¿Tenés uno? Sumalo.</p>
         </div>
       )}
       {hasMore && (
         <div className="mt-8 flex justify-center">
           <button onClick={cargarMas} disabled={loadingMore}
-            className="inline-flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-6 py-3 text-sm font-bold text-[var(--text)]/80 transition hover:border-orange-400/40 hover:text-[var(--text)] disabled:opacity-50">
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 px-6 py-3 text-xs font-black uppercase tracking-widest text-[#a99b86] transition hover:border-[var(--accent)] hover:text-white disabled:opacity-50">
             {loadingMore && <Loader2 className="h-4 w-4 animate-spin" />}
             {loadingMore ? "Cargando..." : `Cargar más (${total - list.length} restantes)`}
           </button>

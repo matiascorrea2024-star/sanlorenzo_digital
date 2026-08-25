@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Upload, CheckCircle2, XCircle, Download } from "lucide-react";
+import { Upload, CheckCircle2, Download } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 
@@ -41,7 +41,7 @@ export default function CargarBulkPage() {
       setCiudades(ciu || []);
       if (ciu && ciu.length === 1) setCiudadId(ciu[0].id);
     })();
-  }, []);
+  }, [router]);
 
   const parsear = () => {
     const lineas = csv.trim().split("\n").map(l => l.trim()).filter(Boolean);
@@ -125,7 +125,7 @@ export default function CargarBulkPage() {
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">
-          <Upload className="h-8 w-8 text-orange-400" />
+          <Upload className="h-8 w-8 text-[var(--accent)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Carga masiva de negocios</h1>
             <p className="text-[var(--muted)]">Cargá negocios reales desde CSV en 2 minutos</p>
@@ -138,7 +138,7 @@ export default function CargarBulkPage() {
         <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <p className="font-bold mb-2">Ciudad de estos negocios</p>
           <select value={ciudadId} onChange={(e) => setCiudadId(e.target.value)}
-            className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400">
+            className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]">
             <option value="">Elegí una ciudad...</option>
             {ciudades.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
@@ -169,9 +169,9 @@ export default function CargarBulkPage() {
           <p className="font-bold mb-2">2. Pegá el CSV acá</p>
           <textarea value={csv} onChange={(e) => setCsv(e.target.value)} rows={10}
             placeholder="nombre,categoria,direccion,whatsapp,descripcion,horario\nPizzería X,gastronomia,Av. San Martín 100,5493415555555,Descripción,Horario"
-            className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 font-mono text-xs outline-none focus:border-orange-400" />
+            className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 font-mono text-xs outline-none focus:border-[var(--accent)]" />
           <button onClick={parsear} disabled={!csv.trim()}
-            className="mt-3 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+            className="mt-3 rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black disabled:opacity-50">
             Previsualizar ({preview.length} negocios)
           </button>
         </div>

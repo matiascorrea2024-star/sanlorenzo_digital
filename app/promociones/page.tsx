@@ -112,28 +112,28 @@ export default function PromocionesPage() {
   }, { dependencies: [loading, activas.length] });
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
       {/* Header propio del evento "Gran Barata" -- no el PageHero genérico
           del resto del sitio: acá la energía/urgencia es el punto. */}
-      <section ref={heroRef} className="relative overflow-hidden border-b border-[var(--ov-05)]">
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 20% 0%, rgba(249,115,22,.22), transparent 60%), radial-gradient(circle at 85% 30%, rgba(220,38,38,.14), transparent 55%)" }} />
+      <section ref={heroRef} className="relative overflow-hidden border-b border-white/5">
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 20% 0%, rgba(209,47,104,.16), transparent 60%), radial-gradient(circle at 85% 30%, rgba(169,31,85,.10), transparent 55%)" }} />
         <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <Link href="/" className="text-sm text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
-          <div className="mt-3 flex flex-wrap items-end justify-between gap-6">
+          <Link href="/" className="text-[11px] font-bold uppercase tracking-widest text-[#a99b86] transition hover:text-[var(--accent)]">← Volver al inicio</Link>
+          <div className="mt-6 flex flex-wrap items-end justify-between gap-6">
             <div>
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1">
-                <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" /></span>
-                <span className="text-[11px] font-black uppercase tracking-widest text-[var(--bad)]">Corriendo ahora</span>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-1.5">
+                <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" /></span>
+                <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Corriendo ahora</span>
               </div>
-              <h1 className="text-5xl font-black leading-[0.95] tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
-                <span className="bg-gradient-to-r from-[var(--text)] via-orange-300 to-orange-400 bg-clip-text text-transparent">La Gran</span>{" "}
-                <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent animate-gradient">Barata</span>
+              <h1 className="font-display text-5xl leading-[0.95] tracking-tight md:text-7xl">
+                <span>La Gran</span>{" "}
+                <span className="knockout-text magenta-glow">Barata</span>
               </h1>
             </div>
-            <div className="shrink-0 rounded-[1.75rem] border border-orange-400/20 bg-gradient-to-br from-orange-500/10 to-transparent p-1.5">
-              <div className="rounded-[1.375rem] border border-[var(--line)] bg-[var(--card-inner)] px-6 py-4 text-center backdrop-blur">
-                <p className="tabular-nums text-4xl font-black text-orange-400 md:text-5xl" style={{ fontFamily: "var(--font-ticket)" }}>{count}</p>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted)]">oferta{count === 1 ? "" : "s"} activa{count === 1 ? "" : "s"}</p>
+            <div className="shrink-0 rounded-[1.75rem] border border-[var(--accent)]/25 bg-[#161314] p-1.5 shadow-[0_0_40px_rgba(209,47,104,0.08)]">
+              <div className="rounded-2xl border border-white/5 bg-[#161314] px-6 py-4 text-center">
+                <p className="tabular-nums font-display text-4xl text-[var(--accent)] md:text-5xl">{count}</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#a99b86]">oferta{count === 1 ? "" : "s"} activa{count === 1 ? "" : "s"}</p>
               </div>
             </div>
           </div>
@@ -142,25 +142,25 @@ export default function PromocionesPage() {
 
       <div className="mx-auto max-w-6xl px-4 pt-10">
         <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <label className="flex min-h-12 items-center justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm">
-            <span className="font-bold">Rubro</span>
-            <select value={category} onChange={(e) => setCategory(e.target.value)} className="max-w-[62%] bg-transparent text-right text-[var(--muted)] outline-none">
+          <label className="flex min-h-12 items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-[#a99b86]">Rubro</span>
+            <select value={category} onChange={(e) => setCategory(e.target.value)} className="max-w-[62%] bg-transparent text-right text-[#a99b86] outline-none">
               <option value="">Todos</option>
               {CATEGORIES.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </label>
-          <label className="flex min-h-12 items-center justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm">
-            <span className="font-bold">Precio hasta</span>
-            <select value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="bg-transparent text-right text-[var(--muted)] outline-none">
+          <label className="flex min-h-12 items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-[#a99b86]">Precio hasta</span>
+            <select value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="bg-transparent text-right text-[#a99b86] outline-none">
               <option value={0}>Cualquiera</option>
               <option value={10000}>$10.000</option>
               <option value={25000}>$25.000</option>
               <option value={50000}>$50.000</option>
             </select>
           </label>
-          <label className="flex min-h-12 items-center justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm">
-            <span className="font-bold">Descuento mínimo</span>
-            <select value={minDiscount} onChange={(e) => setMinDiscount(Number(e.target.value))} className="bg-transparent text-[var(--muted)] outline-none">
+          <label className="flex min-h-12 items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-[#a99b86]">Descuento mínimo</span>
+            <select value={minDiscount} onChange={(e) => setMinDiscount(Number(e.target.value))} className="bg-transparent text-[#a99b86] outline-none">
               <option value={0}>Cualquiera</option>
               <option value={10}>10%</option>
               <option value={20}>20%</option>
@@ -168,14 +168,15 @@ export default function PromocionesPage() {
             </select>
           </label>
         </div>
-        {error && <div role="alert" className="mb-6 border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">{error}</div>}
+        {error && <div role="alert" className="mb-6 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">{error}</div>}
         {!loading && activas.length === 0 ? (
-          <div className="sld-card rounded-3xl p-10 text-center">
-            <p className="mt-3 text-xl font-black">No hay ofertas activas ahora</p>
-            <p className="mt-2 text-sm text-[var(--muted)]">Los negocios publican ofertas nuevas todos los días. Volvé a pasar más tarde.</p>
+          <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center md:p-10">
+            <p className="font-display mt-3 text-xl uppercase tracking-tight">No hay ofertas activas ahora</p>
+            <p className="mt-2 text-sm text-[#a99b86]">Los negocios publican ofertas nuevas todos los días. Volvé a pasar más tarde.</p>
             <Link
               href="/dashboard/ofertas/nueva"
-              className="mt-6 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold hover:opacity-90"
+              className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white"
+              style={{ fontFamily: "var(--font-display)" }}
             >
               Soy comercio: publicar oferta
             </Link>
@@ -183,7 +184,7 @@ export default function PromocionesPage() {
         ) : loading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="h-72 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--ov-05)]" />
+              <div key={i} className="h-72 animate-pulse rounded-2xl border border-white/5 bg-[#161314]" />
             ))}
           </div>
         ) : (
@@ -191,10 +192,10 @@ export default function PromocionesPage() {
             {urgentes.length > 0 && (
               <div className="mb-10">
                 <div className="mb-4 flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[var(--bad)]">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[var(--accent)]">
                     ⏰ Vencen hoy o mañana
                   </span>
-                  <span className="text-sm font-bold text-[var(--muted2)]">corré antes de que se acaben</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#7d6f5c]">corré antes de que se acaben</span>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {urgentes.map((o) => <OfferCard key={o.id} o={o} />)}
@@ -204,7 +205,7 @@ export default function PromocionesPage() {
             {resto.length > 0 && (
               <div>
                 {urgentes.length > 0 && (
-                  <p className="mb-4 text-[11px] font-black uppercase tracking-widest text-[var(--muted2)]">El resto de las ofertas</p>
+                  <p className="mb-4 text-[11px] font-black uppercase tracking-widest text-[#7d6f5c]">El resto de las ofertas</p>
                 )}
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {resto.map((o) => <OfferCard key={o.id} o={o} />)}
@@ -215,7 +216,7 @@ export default function PromocionesPage() {
         )}
 
         <div className="mt-10 text-center">
-          <Link href="/ofertas-finalizadas" className="text-sm text-[var(--muted)] transition hover:text-orange-300">
+          <Link href="/ofertas-finalizadas" className="text-[11px] font-bold uppercase tracking-widest text-[#a99b86] transition hover:text-[var(--accent)]">
             Ver ofertas que ya terminaron →
           </Link>
         </div>

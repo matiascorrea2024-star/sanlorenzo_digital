@@ -216,9 +216,9 @@ export default function ProductosPage() {
       <div className="mx-auto max-w-3xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-10 flex items-start gap-3">
-          <Package className="mt-1 h-8 w-8 shrink-0 text-orange-400" />
+          <Package className="mt-1 h-8 w-8 shrink-0 text-[var(--accent)]" />
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Catálogo</p>
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Catálogo</p>
             <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mis productos</h1>
             <p className="mt-3 text-[var(--muted)]">
               Gestioná el catálogo de {negocio.name}
@@ -233,28 +233,28 @@ export default function ProductosPage() {
           <div className="mb-4">
             <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Negocio</label>
             <select value={negocioId} onChange={(e) => { setNegocioId(e.target.value); setEditing(null); setForm(emptyForm()); }}
-              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-orange-400/60 focus:outline-none">
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-[var(--accent)]/60 focus:outline-none">
               {negocios.map((n) => <option key={n.id} value={n.id}>{n.name}</option>)}
             </select>
           </div>
         )}
 
         {!puedeSumar && (
-          <div className="mb-4 rounded-[1.5rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
+          <div className="mb-4 rounded-[1.5rem] border border-[var(--accent)]/25 bg-gradient-to-r from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
             <div className="flex flex-col items-start justify-between gap-3 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:flex-row sm:items-center">
               <p className="text-sm">Llegaste al límite de {planActual.maxProductos} productos del plan {planActual.name}.</p>
-              <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
+              <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-[var(--accent)] px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
             </div>
           </div>
         )}
 
         {productosOcultosPorPlan > 0 && (
-          <div className="mb-4 rounded-[1.5rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
+          <div className="mb-4 rounded-[1.5rem] border border-[var(--accent)]/25 bg-gradient-to-r from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
             <div className="flex flex-col items-start justify-between gap-3 rounded-[1.1rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:flex-row sm:items-center">
               <p className="text-sm">
                 Tenés <b>{productosOcultosPorPlan}</b> {productosOcultosPorPlan === 1 ? "producto oculto" : "productos ocultos"} del catálogo público porque tu plan actual permite hasta {planActual.maxProductos}. No se borraron -- mejorá el plan y vuelven a aparecer al toque.
               </p>
-              <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
+              <Link href="/dashboard/planes" className="shrink-0 rounded-full bg-[var(--accent)] px-4 py-2 text-xs font-black hover:opacity-90">Mejorar plan →</Link>
             </div>
           </div>
         )}
@@ -269,13 +269,13 @@ export default function ProductosPage() {
           <div className="mb-4 flex gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-1.5">
             <button
               onClick={() => setModo("rapida")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "rapida" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "rapida" ? "bg-[var(--accent)] text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Images className="h-4 w-4" /> Carga rápida por fotos
             </button>
             <button
               onClick={() => setModo("uno")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "uno" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${modo === "uno" ? "bg-[var(--accent)] text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Package className="h-4 w-4" /> Agregar de a uno
             </button>
@@ -288,7 +288,7 @@ export default function ProductosPage() {
           <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <h2 className="text-lg font-black mb-1">Carga rápida</h2>
             <p className="mb-4 text-sm text-[var(--muted)]">Elegí todas las fotos que quieras cargar ahora.</p>
-            <label className="flex h-28 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-[var(--line-strong)] bg-[var(--ov-03)] text-[var(--muted)] transition hover:border-orange-400/60 hover:text-[var(--text)]">
+            <label className="flex h-28 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-[var(--line-strong)] bg-[var(--ov-03)] text-[var(--muted)] transition hover:border-[var(--accent)]/60 hover:text-[var(--text)]">
               <Images className="h-6 w-6" />
               <span className="text-sm font-bold">Elegir fotos</span>
               <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { agregarFotos(e.target.files); e.target.value = ""; }} />
@@ -298,17 +298,17 @@ export default function ProductosPage() {
               <div className="mt-5 space-y-3">
                 {pendientes.map((p) => (
                   <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-[var(--line)] bg-[var(--card-inner)] p-3">
-                    <img src={p.preview} alt="" className="h-16 w-16 shrink-0 rounded-xl object-cover" />
+                    <img src={p.preview} alt={p.name ? `Vista previa de ${p.name}` : "Vista previa del producto"} className="h-16 w-16 shrink-0 rounded-xl object-cover" />
                     <div className="flex flex-1 flex-col gap-2 sm:flex-row">
                       <input value={p.name} onChange={(e) => actualizarPendiente(p.id, "name", e.target.value)}
                         placeholder="Nombre del producto *" disabled={p.status === "subiendo"}
-                        className="flex-1 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-2 text-sm outline-none focus:border-orange-400 disabled:opacity-50" />
+                        className="flex-1 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] disabled:opacity-50" />
                       <input value={p.price} onChange={(e) => actualizarPendiente(p.id, "price", e.target.value)}
                         placeholder="Precio *" type="number" disabled={p.status === "subiendo"}
-                        className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-2 text-sm outline-none focus:border-orange-400 disabled:opacity-50 sm:w-32" />
+                        className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] disabled:opacity-50 sm:w-32" />
                     </div>
                     {p.status === "subiendo" ? (
-                      <Loader2 className="h-5 w-5 shrink-0 animate-spin text-orange-400" />
+                      <Loader2 className="h-5 w-5 shrink-0 animate-spin text-[var(--accent)]" />
                     ) : p.status === "error" ? (
                       <span title="No se pudo subir -- probá de nuevo" className="shrink-0 text-xs font-bold text-[var(--bad)]">Error</span>
                     ) : (
@@ -321,7 +321,7 @@ export default function ProductosPage() {
                 <button
                   onClick={guardarTodo}
                   disabled={guardandoTodo || listosParaGuardar.length === 0 || cupoRestante <= 0}
-                  className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50"
+                  className="w-full rounded-full bg-[var(--accent)] py-3 text-sm font-black disabled:opacity-50"
                 >
                   {guardandoTodo ? "Guardando..." : `Guardar todo (${Math.min(listosParaGuardar.length, cupoRestante)})`}
                 </button>
@@ -329,7 +329,7 @@ export default function ProductosPage() {
                   <p className="text-center text-xs text-[var(--muted2)]">Completá nombre y precio en todas para poder guardarlas.</p>
                 )}
                 {isFinite(cupoRestante) && listosParaGuardar.length > cupoRestante && (
-                  <p className="text-center text-xs text-orange-300">Tu plan permite {cupoRestante} más -- el resto queda pendiente hasta que mejores el plan.</p>
+                  <p className="text-center text-xs text-[var(--accent)]">Tu plan permite {cupoRestante} más -- el resto queda pendiente hasta que mejores el plan.</p>
                 )}
               </div>
             )}
@@ -350,20 +350,20 @@ export default function ProductosPage() {
               previewClass="h-40 w-full rounded-xl"
             />
             <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-              placeholder="Nombre del producto *" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              placeholder="Nombre del producto *" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
-              placeholder="Descripción" rows={2} className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              placeholder="Descripción" rows={2} className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             <div className="grid grid-cols-2 gap-3">
               <input value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })}
-                placeholder="Precio *" type="number" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="Precio *" type="number" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
               <input value={form.old_price} onChange={(e) => setForm({ ...form, old_price: e.target.value })}
-                placeholder="Precio anterior (opcional)" type="number" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="Precio anterior (opcional)" type="number" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
-                placeholder="Categoría" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="Categoría" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
               <input value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })}
-                placeholder="Stock (opcional)" type="number" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="Stock (opcional)" type="number" className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             </div>
             {planActual.destacarCatalogo ? (
               <label className="flex items-center gap-2 text-sm text-[var(--text)]/80">
@@ -371,13 +371,13 @@ export default function ProductosPage() {
                 <Star className="h-4 w-4 text-[var(--warn)]" /> Destacar este producto (aparece primero en el catálogo)
               </label>
             ) : (
-              <Link href="/dashboard/planes" className="flex items-center gap-1.5 text-xs font-bold text-orange-400 hover:text-orange-300">
+              <Link href="/dashboard/planes" className="flex items-center gap-1.5 text-xs font-bold text-[var(--accent)] hover:text-[var(--accent)]">
                 <Star className="h-3.5 w-3.5" /> Destacar productos es de Plan PRO -- mejorar plan →
               </Link>
             )}
             <div className="flex gap-2">
               <button onClick={save} disabled={!form.name || !form.price || !puedeSumar}
-                className="flex-1 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black disabled:opacity-50">
+                className="flex-1 rounded-full bg-[var(--accent)] py-2.5 text-sm font-black disabled:opacity-50">
                 {editing ? "Guardar cambios" : "Crear producto"}
               </button>
               {editing && (
@@ -404,8 +404,8 @@ export default function ProductosPage() {
                 {Array.isArray(p.images) && p.images[0] ? (
                   <img src={p.images[0]} alt={p.name} className="h-12 w-12 rounded-xl object-cover" />
                 ) : (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/20 to-red-600/20">
-                    <Package className="h-6 w-6 text-orange-400" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--accent)]/20 to-red-600/20">
+                    <Package className="h-6 w-6 text-[var(--accent)]" />
                   </div>
                 )}
                 <div className="flex-1">
@@ -413,10 +413,10 @@ export default function ProductosPage() {
                     {p.name}
                     {p.featured && <Star className="h-3.5 w-3.5 fill-yellow-400 text-[var(--warn)]" />}
                     {p.active === false && <span className="rounded-full bg-[var(--ov-10)] px-2 py-0.5 text-[9px] font-black uppercase text-[var(--muted)]">Oculto</span>}
-                    {p.hidden_by_plan && <span className="rounded-full bg-orange-500/20 px-2 py-0.5 text-[9px] font-black uppercase text-orange-400">Oculto por plan</span>}
+                    {p.hidden_by_plan && <span className="rounded-full bg-[var(--accent)]/20 px-2 py-0.5 text-[9px] font-black uppercase text-[var(--accent)]">Oculto por plan</span>}
                   </p>
                   <p className="text-xs text-[var(--muted)]">{p.category || "Sin categoría"} · Stock: {p.stock ?? "—"}</p>
-                  <p className="text-sm font-black text-orange-400">${Number(p.price).toLocaleString("es-AR")}</p>
+                  <p className="text-sm font-black text-[var(--accent)]">${Number(p.price).toLocaleString("es-AR")}</p>
                 </div>
                 <button onClick={() => toggleActive(p)} title={p.active === false ? "Mostrar en el catálogo" : "Ocultar del catálogo"}
                   className="rounded-lg bg-[var(--ov-10)] p-2 hover:bg-[var(--ov-20)]">

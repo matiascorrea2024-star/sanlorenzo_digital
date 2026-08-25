@@ -132,7 +132,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
     return (
       <div className="mt-8 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-6 text-center">
         <p className="text-lg font-black">💬 Chateá con este negocio</p>
-        <Link href="/login" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black">Iniciar sesión</Link>
+        <Link href="/login" className="mt-4 inline-block rounded-xl bg-[var(--accent)] px-6 py-2.5 text-sm font-black">Iniciar sesión</Link>
       </div>
     );
   }
@@ -188,8 +188,8 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
               <div className="mb-1"><AdminBadge /></div>
             )}
             <div className={`rounded-2xl px-4 py-2 text-sm shadow ${
-              r.sender_id === user.id ? "rounded-br-none bg-gradient-to-r from-orange-500 to-red-600 text-white"
-              : otherIsStaff && r.sender_id === staffId ? "rounded-bl-none border border-yellow-400/30 bg-gradient-to-br from-yellow-500/15 to-orange-500/10 text-[var(--text)]/90"
+              r.sender_id === user.id ? "rounded-br-none bg-[var(--accent)] text-white"
+              : otherIsStaff && r.sender_id === staffId ? "rounded-bl-none border border-yellow-400/30 bg-gradient-to-br from-yellow-500/15 to-[#861642]/10 text-[var(--text)]/90"
               : "rounded-bl-none bg-[var(--ov-10)] text-[var(--text)]/90"
             }`}>
             <p>{r.body}</p>
@@ -211,9 +211,9 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
       <div className="flex gap-2 border-t border-[var(--line)] bg-[var(--card-inner)] p-3">
         <input value={body} onChange={(e) => setBody(e.target.value)} onKeyDown={(e) => e.key === "Enter" && send()}
           placeholder="Escribí un mensaje"
-          className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-5 py-2.5 text-sm outline-none focus:border-orange-400" />
+          className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-5 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
         <button onClick={send} disabled={!body.trim()}
-          className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">➤</button>
+          className="rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black disabled:opacity-50">➤</button>
       </div>
     </section>
   );

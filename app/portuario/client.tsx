@@ -13,24 +13,24 @@ const SERVICIOS = [
 
 export default function PortuarioView() {
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
       {/* Banner atmosférico fijo (fondo siempre oscuro, sea cual sea el
           tema del sitio -- es una ambientación tipo "puerto de noche",
           no una superficie que deba responder al toggle). El texto acá
           adentro va con color fijo claro, no con el token --text. */}
-      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-cyan-900/30 via-[#0c0a0b] to-blue-900/30 py-16">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(34,211,238,0.15),_transparent_50%)]" />
+      <section className="relative overflow-hidden border-b border-white/10 bg-[#0c0a0b] py-16">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(209,47,104,0.14),_transparent_50%)]" />
         <div className="relative mx-auto max-w-5xl px-4 text-center">
-          <Badge size="md" className="bg-cyan-500/20 border-cyan-400/40 text-cyan-200">
-            <Anchor className="h-3 w-3 mr-1" /> Sector portuario
+          <Badge size="md" className="border-[var(--accent)]/40 bg-[var(--accent)]/10 text-[var(--accent)]">
+            <Anchor className="mr-1 h-3 w-3" /> Sector portuario
           </Badge>
-          <h1 className="mt-4 text-4xl font-black text-white md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
+          <h1 className="mt-4 font-display text-4xl uppercase leading-[0.9] tracking-tight text-white md:text-6xl">
             Puerto de{" "}
-            <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-400 bg-clip-text text-transparent">
+            <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-red-600 bg-clip-text text-transparent">
               San Lorenzo
             </span>
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-white/70 md:text-lg">
+          <p className="mx-auto mt-4 max-w-2xl text-[#a99b86] md:text-lg">
             El cordón portuario más importante del Paraná.
             Servicios portuarios, logística fluvial y comercio exterior
             en un solo lugar.
@@ -39,20 +39,20 @@ export default function PortuarioView() {
       </section>
 
       <div className="mx-auto max-w-5xl px-4 py-12">
-        <h2 className="text-2xl font-black mb-6">Servicios del sector</h2>
+        <h2 className="mb-6 font-display text-2xl uppercase tracking-tight">Servicios del sector</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {SERVICIOS.map(s => (
             <Link key={s.titulo} href="/negocios?categoria=portuario"
-              className="group rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5">
-              <div className="flex items-start gap-4 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-cyan-400/30">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cyan-500/15">
-                  <s.icon className="h-6 w-6 text-[var(--place)]" />
+              className="group rounded-[2rem] border border-white/5 bg-[#161314] p-5 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--accent)]/10">
+                  <s.icon className="h-6 w-6 text-[var(--accent)]" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-bold">{s.titulo}</p>
-                  <p className="text-sm text-[var(--muted)] mt-1">{s.desc}</p>
+                  <p className="font-display text-lg uppercase tracking-tight">{s.titulo}</p>
+                  <p className="mt-1 text-sm text-[#a99b86]">{s.desc}</p>
                 </div>
-                <ArrowRight className="h-4 w-4 text-[var(--place)] shrink-0 mt-1 transition duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[var(--accent)] transition duration-300 group-hover:translate-x-1" />
               </div>
             </Link>
           ))}
@@ -65,11 +65,9 @@ export default function PortuarioView() {
             { v: "150+", l: "Empresas del sector" },
             { v: "#1", l: "Puerto agroexportador" },
           ].map(s => (
-            <div key={s.l} className="rounded-[1.5rem] border border-cyan-400/25 bg-cyan-500/[.04] p-1.5">
-              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                <p className="text-3xl font-black text-[var(--place)]">{s.v}</p>
-                <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{s.l}</p>
-              </div>
+            <div key={s.l} className="rounded-[2rem] border border-white/5 bg-[#161314] p-4 text-center transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+              <p className="magenta-glow font-display text-3xl text-[var(--accent)]">{s.v}</p>
+              <p className="mt-1 text-[10px] font-black uppercase tracking-[0.25em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>{s.l}</p>
             </div>
           ))}
         </div>
@@ -80,15 +78,14 @@ export default function PortuarioView() {
             marca. El cian de arriba (ambientación "puerto de noche") se
             mantiene tal cual; lo que cambia es solo este cierre, que es
             donde importa que se reconozca la marca para convertir. */}
-        <div className="mt-10 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-500/[.04] p-1.5">
-          <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-            <p className="text-sm text-[var(--text)]/70">¿Brindás servicios portuarios?</p>
-            <h3 className="mt-2 text-2xl font-black">Publicá tu empresa en el ecosistema</h3>
-            <Link href="/para-negocios"
-              className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black text-white hover:opacity-90 transition">
-              Registrar empresa portuaria →
-            </Link>
-          </div>
+        <div className="mt-10 rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center">
+          <p className="text-sm text-[#a99b86]">¿Brindás servicios portuarios?</p>
+          <h3 className="mt-2 font-display text-2xl uppercase tracking-tight">Publicá tu empresa en el ecosistema</h3>
+          <Link href="/para-negocios"
+            className="btn-hard mt-4 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white"
+            style={{ fontFamily: "var(--font-display)" }}>
+            Registrar empresa portuaria →
+          </Link>
         </div>
       </div>
     </main>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Clock, MapPin, BadgeCheck } from "lucide-react";
 import Badge from "@/components/ui/badge";
 import FavoriteButton from "@/components/ui/favorite-button";
+import InterestButton from "@/components/offers/interest-button";
 import { fmtDistance } from "@/lib/geo";
 import { calcSDLScore, sdlLabel } from "@/lib/sdl-score";
 import CountdownTimer from "@/components/ui/countdown-timer";
@@ -61,7 +62,6 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
     rating: o.rating || 0,
     diasRestantes,
   });
-  const sdl = sdlLabel(sdlScore);
   const publicado = relativeTime(o.creado);
 
   // Flags de urgencia
@@ -71,66 +71,65 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
 
   return (
     <Link href={o.id.startsWith("demo-") ? ("/negocio/" + o.slug) : ("/oferta/" + o.id)}
-      className={`group relative block rounded-[1.75rem] border p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 ${
-        esUrgente
-          ? "border-red-400/30 bg-gradient-to-br from-red-500/[.08] to-transparent hover:border-red-400/60 hover:shadow-2xl hover:shadow-red-500/20"
-          : "border-[var(--ov-06)] bg-[var(--ov-02)] hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10"
-      }`}>
-      <div className="relative flex flex-col overflow-hidden rounded-[1.375rem] border border-[var(--ov-06)] bg-gradient-to-b from-[var(--ov-05)] to-[var(--ov-02)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-      <div className="relative aspect-[16/10] w-full overflow-hidden">
+      className="group relative block rounded-[2rem] border border-white/5 bg-[#161314] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+      {/* Portada */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-t-[2rem]">
         {o.portada_url ? (
           <Image src={o.portada_url} alt={o.producto} fill quality={90}
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition duration-500 group-hover:scale-110" />
+            className="object-cover transition duration-700 group-hover:scale-110" />
         ) : (
-          <CategoryCover category={o.cat} seed={o.id} className="h-full w-full transition duration-500 group-hover:scale-110" />
+          <CategoryCover category={o.cat} seed={o.id} className="h-full w-full transition duration-700 group-hover:scale-110" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-        <div className="absolute left-3 top-3 flex flex-col gap-1.5">
-          {o.impulsada && (
-            <span className="rounded-lg bg-gradient-to-r from-cyan-500 to-sky-500 px-2 py-0.5 text-[10px] font-black text-white shadow">
-              🚀 Impulsada
-            </span>
-          )}
-          {esEscaso && (
-            <span className="rounded-lg bg-yellow-500/90 px-2 py-0.5 text-[10px] font-black text-black shadow">
-              🔥 Últimas unidades
-            </span>
-          )}
-          {esTop && !esEscaso && (
-            <span className="rounded-lg bg-sky-500/90 px-2 py-0.5 text-[10px] font-black text-white shadow">
-              ⭐ Más vendido
-            </span>
-          )}
-          {isDemo && (
-            <span className="rounded-lg bg-yellow-500/90 px-2 py-0.5 text-[10px] font-black text-black">
-              DEMO
-            </span>
-          )}
-          {o.precio_prometido && (
-            <span className="flex items-center gap-1 rounded-lg bg-sky-500/90 px-2 py-0.5 text-[10px] font-black text-white shadow" title="Precio certificado por el equipo de San Lorenzo Digital">
-              🔒 Precio Prometido
-            </span>
-          )}
+
+        {/* Badges superiores izquierdos */}
+        <div className="absolute left-4 top-4 flex flex-col items-start gap-2">
           {o.descuento ? (
-            <span
-              className="rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-2.5 py-1 text-sm text-white shadow-lg"
-              style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}
-            >
-              -{o.descuento}%
+            <span className={`rounded-xl px-3.5 py-1.5 text-[12px] font-black uppercase tracking-widest text-white shadow-2xl ${esUrgente ? "animate-pulse" : ""}`}
+              style={{ fontFamily: "var(--font-display)", background: "var(--accent)" }}>
+              -{o.descuento}% OFF
             </span>
           ) : (
             <Badge variant="warning" size="sm">OFERTA</Badge>
           )}
+          {o.impulsada && (
+            <span className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black shadow-2xl" style={{ fontFamily: "var(--font-display)" }}>
+              <span aria-hidden="true">🚀</span> Impulsada
+            </span>
+          )}
+          {esTop && !esEscaso && (
+            <span className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black shadow-2xl" style={{ fontFamily: "var(--font-display)" }}>
+              <span aria-hidden="true">⭐</span> Top
+            </span>
+          )}
+          {isDemo && (
+            <span className="rounded-xl bg-yellow-500 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black shadow-2xl" style={{ fontFamily: "var(--font-display)" }}>Demo</span>
+          )}
+          {o.precio_prometido && (
+            <span className="flex items-center gap-1 rounded-xl bg-sky-500 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white shadow-2xl" style={{ fontFamily: "var(--font-display)" }} title="Precio certificado por el equipo de San Lorenzo Digital">
+              🔒 Precio Prometido
+            </span>
+          )}
+          {esEscaso && (
+            <span className="flex items-center gap-1 rounded-xl bg-black/60 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[#fbbf24] shadow-2xl backdrop-blur-md" style={{ fontFamily: "var(--font-display)" }}>
+              🔥 Últimas unidades
+            </span>
+          )}
           {dist && (
-            <span className="flex items-center gap-1 rounded-lg bg-black/60 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur-md">
-              <MapPin className="h-2.5 w-2.5" /> {dist}
+            <span className="flex items-center gap-1 rounded-xl bg-black/60 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white backdrop-blur-md" style={{ fontFamily: "var(--font-display)" }}>
+              <MapPin className="h-3 w-3" /> {dist}
             </span>
           )}
         </div>
-        <div className="absolute right-3 top-3" aria-label="Acciones de favorito"><FavoriteButton itemType="offer" itemId={o.id} /></div>
+
+        <div className="absolute right-4 top-4 flex flex-col items-center gap-2" aria-label="Acciones de la oferta">
+          <FavoriteButton itemType="offer" itemId={o.id} />
+          <InterestButton compact offerId={o.id} />
+        </div>
+
         {v && (
-          <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between gap-2">
+          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-2">
             <Badge variant={v.variant} size="sm" pulse={v.urgent}>
               <Clock className="h-3 w-3" /> {v.label}
             </Badge>
@@ -138,37 +137,41 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-4 sm:p-5">
-        <div className="flex items-center justify-between gap-2 mb-1">
-          <div className="flex min-w-0 items-center gap-1 text-xs font-bold uppercase tracking-wider text-orange-400/80">
-            <span className="truncate">{o.negocio}</span>
+
+      {/* Cuerpo */}
+      <div className="flex flex-col p-5 sm:p-6">
+        <div className="mb-2 flex items-center justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-1.5">
+            <span className="truncate text-[10px] font-black uppercase tracking-[0.2em] text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>{o.negocio}</span>
             {o.verificado && <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[var(--place)]" aria-label="Comercio verificado" />}
             <RankedAvatar slug={o.slug} name={o.negocio || ""} size={20} /> <RankBadge slug={o.slug} />
           </div>
-          <span className={`text-[10px] font-black ${sdl.color}`}>
-            🔥 {sdlScore}/100
+          <span className="shrink-0 rounded-md bg-white/5 px-1.5 py-0.5 text-[9px] font-black tabular-nums text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}
+            title={sdlLabel(sdlScore).text}>
+            {sdlScore}
           </span>
         </div>
-        <h3 className="mt-1 line-clamp-2 min-h-[2.5rem] text-base font-black leading-tight text-[var(--text)] sm:text-[1.05rem]">{o.producto}</h3>
-        {publicado && <p className="mt-2 text-[11px] font-semibold text-[var(--muted2)]">Publicado {publicado}</p>}
-        <div className="mt-auto pt-3">
+
+        <h3 className="line-clamp-2 min-h-[2.6rem] font-display text-xl uppercase leading-[0.95] tracking-wide text-[#f7f3ec] transition-colors group-hover:text-[var(--accent)] sm:text-2xl">{o.producto}</h3>
+        {publicado && <p className="mt-2 text-[10px] font-bold uppercase tracking-wider text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Publicado {publicado}</p>}
+
+        <div className="mt-auto pt-4">
           {o.ahora && o.antes ? (
             <div className="flex items-end justify-between">
-              <div>
-                <p className="text-[10px] text-[var(--muted2)] line-through">{fmt(o.antes)}</p>
-                <p className="text-3xl leading-none text-[var(--text)]" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>{fmt(o.ahora)}</p>
+              <div className="flex items-baseline gap-2.5">
+                <span className="font-display text-4xl leading-none text-[var(--accent)] transition-colors group-hover:text-white">{fmt(o.ahora)}</span>
+                <span className="text-sm font-bold text-[#a99b86] line-through decoration-2">{fmt(o.antes)}</span>
               </div>
               {o.descuento && (
-                <span className="rounded-lg bg-green-500/15 px-2 py-1 text-xs font-black text-[var(--ok)]">
+                <span className="rounded-lg bg-green-500/15 px-2 py-1 text-[10px] font-black uppercase tracking-wider text-[var(--ok)]" style={{ fontFamily: "var(--font-display)" }}>
                   Ahorrás {fmt(o.antes - o.ahora)}
                 </span>
               )}
             </div>
           ) : (
-            <p className="text-sm font-bold text-orange-400">Ver oferta →</p>
+            <p className="text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Ver oferta →</p>
           )}
         </div>
-      </div>
       </div>
     </Link>
   );

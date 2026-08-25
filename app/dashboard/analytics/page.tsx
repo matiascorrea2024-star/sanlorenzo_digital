@@ -115,9 +115,9 @@ export default function AnalyticsPage() {
 
   const cards = [
     { icon: Eye, label: "Visitas", value: stats.views, color: "text-[var(--place)]", info: "Cuántas veces entraron a la ficha de tu negocio en los últimos 30 días." },
-    { icon: Eye, label: "Ofertas vistas", value: stats.offerViews, color: "text-orange-300", info: "Cuántas veces abrieron una oferta asociada a tu negocio." },
+    { icon: Eye, label: "Ofertas vistas", value: stats.offerViews, color: "text-[var(--accent)]", info: "Cuántas veces abrieron una oferta asociada a tu negocio." },
     { icon: MessageCircle, label: "WhatsApp", value: stats.whatsapp, color: "text-[var(--ok)]", info: "Cuántas personas tocaron el botón de WhatsApp para escribirte." },
-    { icon: MapPin, label: "Cómo llegar", value: stats.map, color: "text-orange-400", info: "Cuántas personas tocaron \"Cómo llegar\" para ver tu ubicación en el mapa." },
+    { icon: MapPin, label: "Cómo llegar", value: stats.map, color: "text-[var(--accent)]", info: "Cuántas personas tocaron \"Cómo llegar\" para ver tu ubicación en el mapa." },
     { icon: Heart, label: "Favoritos", value: stats.favorites, color: "text-[var(--bad)]", info: "Cuántas personas guardaron tu negocio en sus favoritos." },
     { icon: Users, label: "Seguidores", value: stats.follows, color: "text-purple-400", info: "Cuántas personas te siguen para enterarse de tus novedades y ofertas." },
     { icon: Ticket, label: "Cupones", value: stats.coupons, color: "text-[var(--ok)]", info: "Cuántos cupones de tus ofertas generaron los clientes para usar en el local." },
@@ -134,7 +134,7 @@ export default function AnalyticsPage() {
         <DashboardNav />
         
         <div className="flex items-center gap-3 mb-6">
-          <TrendingUp className="h-8 w-8 text-orange-400" />
+          <TrendingUp className="h-8 w-8 text-[var(--accent)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Analytics</h1>
             <p className="text-[var(--muted)]">Estadísticas de los últimos 30 días</p>
@@ -146,7 +146,7 @@ export default function AnalyticsPage() {
             <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="font-bold">Todavía no tenés un negocio creado.</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Cuando crees tu negocio, acá vas a ver visitas, contactos por WhatsApp y más.</p>
-              <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
+              <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
             </div>
           </div>
         ) : (
@@ -156,7 +156,7 @@ export default function AnalyticsPage() {
             {negocios.map(b => (
               <button key={b.id} onClick={() => setSelectedBiz(b.id)}
                 className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold transition ${
-                  selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)]"
+                  selectedBiz === b.id ? "bg-[var(--accent)]" : "border border-[var(--line-strong)] bg-[var(--ov-05)]"
                 }`}>
                 {b.name}
               </button>
@@ -165,16 +165,16 @@ export default function AnalyticsPage() {
         )}
 
         {!planActual.stats ? (
-          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
+          <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
+              <Lock className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
               <p className="font-black">Las estadísticas completas son de Plan PRO</p>
               <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
                 Con el plan Gratis ves solo tus visitas totales. Con PRO Comerciante desbloqueás el detalle día a día,
                 contactos por WhatsApp, favoritos, cupones y tasa de conversión.
               </p>
-              <p className="mt-4 text-3xl font-black text-orange-400 tabular-nums">{stats.views} <span className="text-sm font-bold text-[var(--muted)]">visitas (30 días)</span></p>
-              <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
+              <p className="mt-4 text-3xl font-black text-[var(--accent)] tabular-nums">{stats.views} <span className="text-sm font-bold text-[var(--muted)]">visitas (30 días)</span></p>
+              <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-[var(--accent)] px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
             </div>
           </div>
         ) : (
@@ -219,7 +219,7 @@ export default function AnalyticsPage() {
                 </span>
                 <div className="flex-1 flex items-center gap-2">
                   <div className="flex-1 h-6 bg-[var(--ov-05)] rounded overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-orange-500 to-red-600 transition-all"
+                    <div className="h-full bg-[var(--accent)] transition-all"
                       style={{ width: `${(day.views / maxViews) * 100}%` }} />
                   </div>
                   <span className="text-xs font-bold w-12 text-right tabular-nums">{day.views}</span>
@@ -232,7 +232,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Conversión */}
-        <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
+        <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
           <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <h2 className="text-lg font-black mb-3 flex items-center gap-1.5">
               Tasa de conversión

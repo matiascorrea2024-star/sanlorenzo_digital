@@ -27,7 +27,7 @@ export default function TipRotativo() {
           ocupando espacio, casi ningún tip completaba. Ahora se permite
           que baje a una segunda línea en vez de recortar el texto. */}
       <div className="flex items-start gap-2.5 rounded-2xl border border-[var(--line)] bg-[var(--ov-03)] px-4 py-2.5 text-xs text-[var(--muted)] sm:items-center">
-        <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-orange-400 sm:mt-0" />
+        <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)] sm:mt-0" />
         <span className="shrink-0 font-bold text-[var(--text)]/80">¿Sabías que?</span>
         <span>{TIPS[i]}</span>
       </div>

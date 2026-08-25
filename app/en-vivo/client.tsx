@@ -29,19 +29,19 @@ export default function EnVivoClient() {
   }, []);
 
   const Card = ({ s, live }: { s: any; live?: boolean }) => (
-    <Link href={`/en-vivo/${s.id}`} className={`group block rounded-[1.5rem] border p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 ${
-      live ? "border-red-400/40 bg-gradient-to-br from-red-500/[.12] to-orange-500/[.04] shadow-[0_0_30px_-8px_rgba(239,68,68,.35)] hover:border-red-400/70" : "border-[var(--ov-06)] bg-[var(--ov-02)] hover:border-orange-400/30"
+    <Link href={`/en-vivo/${s.id}`} className={`group block rounded-[2rem] border p-1.5 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)] ${
+      live ? "border-[var(--accent)]/40 bg-[#161314] shadow-[0_0_30px_-8px_rgba(209,47,104,.35)]" : "border-white/5 bg-[#161314]"
     }`}>
-      <div className="overflow-hidden rounded-[1.1rem] border border-[var(--ov-06)] bg-gradient-to-b from-[var(--ov-05)] to-[var(--ov-02)]">
-        <div className="relative h-36 w-full overflow-hidden bg-gradient-to-br from-red-500/20 to-orange-500/20">
+      <div className="overflow-hidden rounded-[1.5rem] border border-white/5 bg-[#161314]">
+        <div className="relative h-36 w-full overflow-hidden bg-gradient-to-br from-[var(--accent)]/25 to-[#861642]/15">
           {s.cover_url ? (
             <Image src={s.cover_url} alt={s.title} fill sizes="(max-width: 768px) 50vw, 320px" quality={88}
               className="object-cover transition duration-500 group-hover:scale-110" />
           ) : (
-            <div className="flex h-full w-full items-center justify-center"><Radio className="h-8 w-8 text-[var(--muted2)]" /></div>
+            <div className="flex h-full w-full items-center justify-center"><Radio className="h-8 w-8 text-[#7d6f5c]" /></div>
           )}
           {live && (
-            <span className="absolute left-2 top-2 flex items-center gap-1.5 rounded-full bg-red-500 px-2.5 py-1 text-[9px] font-black uppercase tracking-wide text-white shadow-lg">
+            <span className="absolute left-2 top-2 flex items-center gap-1.5 rounded-full bg-[var(--accent)] px-2.5 py-1 text-[9px] font-black uppercase tracking-widest text-white shadow-lg" style={{ fontFamily: "var(--font-display)" }}>
               <span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" /></span>
               En vivo
             </span>
@@ -49,48 +49,46 @@ export default function EnVivoClient() {
           {s.businesses?.plan === "premium" && <span className="absolute right-2 top-2 rounded-full bg-yellow-500/90 px-2 py-0.5 text-[9px] font-black text-black">🔥 Destacado</span>}
         </div>
         <div className="p-4">
-          <p className="truncate font-bold">{s.title}</p>
-          <p className="truncate text-xs text-[var(--muted)]">{s.businesses?.name}</p>
+          <p className="truncate font-display text-sm uppercase tracking-tight">{s.title}</p>
+          <p className="truncate text-xs text-[#a99b86]">{s.businesses?.name}</p>
         </div>
       </div>
     </Link>
   );
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
-      <section className="relative overflow-hidden border-b border-[var(--ov-05)]">
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(239,68,68,.20), transparent 55%), radial-gradient(circle at 90% 40%, rgba(249,115,22,.12), transparent 55%)" }} />
+    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
+      <section className="relative overflow-hidden border-b border-white/5">
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(209,47,104,.16), transparent 55%), radial-gradient(circle at 90% 40%, rgba(169,31,85,.10), transparent 55%)" }} />
         <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
           {!loading && enVivo.length > 0 && (
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1">
-              <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" /></span>
-              <span className="text-[11px] font-black uppercase tracking-widest text-[var(--bad)]">{enVivo.length} transmitiendo ahora</span>
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1">
+              <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" /></span>
+              <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>{enVivo.length} transmitiendo ahora</span>
             </div>
           )}
-          <h1 className="text-5xl font-black leading-[0.95] tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-space)" }}>
-            <span className="bg-gradient-to-r from-[var(--text)] via-red-300 to-red-500 bg-clip-text text-transparent">En</span>{" "}
-            <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent animate-gradient">Vivo</span>
+          <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-7xl">
+            <span className="bg-gradient-to-r from-[#f7f3ec] via-[var(--accent)] to-[#861642] bg-clip-text text-transparent">En</span>{" "}
+            <span className="knockout-text magenta-glow">Vivo</span>
           </h1>
-          <p className="mt-2 text-[var(--text)]/70">Comercios de San Lorenzo transmitiendo en tiempo real</p>
+          <p className="mt-2 text-[#a99b86]">Comercios de San Lorenzo transmitiendo en tiempo real</p>
         </div>
       </section>
       <div className="mx-auto max-w-6xl px-4 py-8">
         {loading ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-48 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--ov-05)]" />)}</div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-48 animate-pulse rounded-2xl border border-white/5 bg-[#161314]" />)}</div>
         ) : (
           <>
             <section className="mb-10">
-              <h2 className="mb-4 flex items-center gap-2 text-xl font-black">
-                <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" /></span>
+              <h2 className="mb-4 flex items-center gap-2 font-display text-xl uppercase tracking-tight">
+                <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--accent)]" /></span>
                 Ahora ({enVivo.length})
               </h2>
               {enVivo.length === 0 ? (
-                <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-                  <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] px-6 py-10 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                    <Radio className="mx-auto mb-3 h-7 w-7 text-[var(--muted2)]" />
-                    <p className="font-bold">No hay comercios transmitiendo ahora.</p>
-                    <p className="mt-1 text-sm text-[var(--muted)]">Revisá &quot;Próximamente&quot; o volvé más tarde.</p>
-                  </div>
+                <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center">
+                  <Radio className="mx-auto mb-3 h-7 w-7 text-[#7d6f5c]" />
+                  <p className="font-display text-xl uppercase tracking-tight">No hay comercios transmitiendo ahora.</p>
+                  <p className="mt-1 text-sm text-[#a99b86]">Revisá &quot;Próximamente&quot; o volvé más tarde.</p>
                 </div>
               ) : (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -101,15 +99,13 @@ export default function EnVivoClient() {
 
             {proximos.length > 0 && (
               <section className="mb-10">
-                <h2 className="mb-4 flex items-center gap-2 text-xl font-black"><Clock className="h-5 w-5 text-[var(--place)]" /> Próximamente</h2>
+                <h2 className="mb-4 flex items-center gap-2 font-display text-xl uppercase tracking-tight"><Clock className="h-5 w-5 text-[var(--accent)]" /> Próximamente</h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {proximos.map((s) => (
-                    <div key={s.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-                      <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                        <p className="truncate font-bold">{s.title}</p>
-                        <p className="truncate text-xs text-[var(--muted)]">{s.businesses?.name}</p>
-                        <p className="mt-2 text-xs font-bold text-[var(--place)]">{s.scheduled_at && new Date(s.scheduled_at).toLocaleString("es-AR", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>
-                      </div>
+                    <div key={s.id} className="rounded-[2rem] border border-white/5 bg-[#161314] p-4 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                      <p className="truncate font-display text-sm uppercase tracking-tight">{s.title}</p>
+                      <p className="truncate text-xs text-[#a99b86]">{s.businesses?.name}</p>
+                      <p className="mt-2 text-xs font-bold text-[var(--accent)]">{s.scheduled_at && new Date(s.scheduled_at).toLocaleString("es-AR", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>
                     </div>
                   ))}
                 </div>
@@ -118,14 +114,12 @@ export default function EnVivoClient() {
 
             {finalizados.length > 0 && (
               <section>
-                <h2 className="mb-4 flex items-center gap-2 text-xl font-black text-[var(--muted)]"><Users className="h-5 w-5" /> Finalizados recientemente</h2>
+                <h2 className="mb-4 flex items-center gap-2 font-display text-xl uppercase tracking-tight text-[#a99b86]"><Users className="h-5 w-5" /> Finalizados recientemente</h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {finalizados.map((s) => (
-                    <div key={s.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 opacity-60">
-                      <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                        <p className="truncate font-bold">{s.title}</p>
-                        <p className="truncate text-xs text-[var(--muted)]">{s.businesses?.name} · {s.total_viewers} espectadores</p>
-                      </div>
+                    <div key={s.id} className="rounded-[2rem] border border-white/5 bg-[#161314] p-4 opacity-60">
+                      <p className="truncate font-display text-sm uppercase tracking-tight">{s.title}</p>
+                      <p className="truncate text-xs text-[#a99b86]">{s.businesses?.name} · {s.total_viewers} espectadores</p>
                     </div>
                   ))}
                 </div>
@@ -133,13 +127,11 @@ export default function EnVivoClient() {
             )}
 
             {enVivo.length === 0 && proximos.length === 0 && finalizados.length === 0 && (
-              <div className="mt-4 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-                <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] px-6 py-10 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <Sparkles className="mx-auto mb-3 h-7 w-7 text-orange-400" />
-                  <p className="font-bold">Todavía no hubo transmisiones en San Lorenzo.</p>
-                  <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">¿Tenés un negocio? Sé el primero en transmitir en vivo.</p>
-                  <Link href="/dashboard/en-vivo" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white">Crear mi transmisión</Link>
-                </div>
+              <div className="mt-4 rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center">
+                <Sparkles className="mx-auto mb-3 h-7 w-7 text-[var(--accent)]" />
+                <p className="font-display text-xl uppercase tracking-tight">Todavía no hubo transmisiones en San Lorenzo.</p>
+                <p className="mx-auto mt-1 max-w-sm text-sm text-[#a99b86]">¿Tenés un negocio? Sé el primero en transmitir en vivo.</p>
+                <Link href="/dashboard/en-vivo" className="btn-hard mt-4 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>Crear mi transmisión</Link>
               </div>
             )}
           </>

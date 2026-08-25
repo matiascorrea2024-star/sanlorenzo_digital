@@ -23,7 +23,7 @@ export default function CitySwitcher() {
     <div className="relative hidden md:block" ref={ref}>
       <button onClick={() => setOpen(!open)}
         className="flex items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-xs font-bold text-[var(--muted)] hover:bg-[var(--ov-10)] hover:text-[var(--text)]">
-        <MapPin className="h-3.5 w-3.5 text-orange-400" /> Ciudades <ChevronDown className="h-3 w-3" />
+        <MapPin className="h-3.5 w-3.5 text-[var(--accent)]" /> Ciudades <ChevronDown className="h-3 w-3" />
       </button>
       {open && (
         <div className="absolute left-0 top-10 z-50 w-56 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-03)] p-1.5 shadow-2xl backdrop-blur-xl">

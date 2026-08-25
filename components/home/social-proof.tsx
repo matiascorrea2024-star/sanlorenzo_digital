@@ -49,7 +49,7 @@ export default function SocialProof() {
             key={stat.label}
             className="rounded-xl border border-[var(--line)] bg-[var(--surface2)] p-6 text-center"
           >
-            <div className="text-2xl font-black text-orange-500 sm:text-3xl">
+            <div className="text-2xl font-black text-[var(--accent)] sm:text-3xl">
               {stat.number}
             </div>
             <p className="mt-2 text-xs font-bold uppercase tracking-widest text-[var(--muted)]">
@@ -72,7 +72,7 @@ export default function SocialProof() {
           {TESTIMONIALS.map((testimonial) => (
             <div
               key={testimonial.name}
-              className="rounded-xl border border-[var(--line)] bg-[var(--surface2)] p-6 transition hover:border-orange-500/50"
+              className="rounded-xl border border-[var(--line)] bg-[var(--surface2)] p-6 transition hover:border-[var(--accent)]/50"
             >
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -92,7 +92,7 @@ export default function SocialProof() {
                 {Array.from({ length: testimonial.rating }).map((_, i) => (
                   <Star
                     key={i}
-                    className="h-4 w-4 fill-orange-500 text-orange-500"
+                    className="h-4 w-4 fill-[var(--accent)] text-[var(--accent)]"
                   />
                 ))}
               </div>
@@ -110,15 +110,15 @@ export default function SocialProof() {
         <h3 className="mb-6 text-xl font-bold">Confianza verificada</h3>
         <div className="flex flex-wrap items-center justify-center gap-6">
           <div className="text-center">
-            <p className="text-2xl font-black text-orange-500">✓</p>
+            <p className="text-2xl font-black text-[var(--accent)]">✓</p>
             <p className="text-xs text-[var(--muted)]">Verificado</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-black text-orange-500">🔒</p>
+            <p className="text-2xl font-black text-[var(--accent)]">🔒</p>
             <p className="text-xs text-[var(--muted)]">Seguro</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-black text-orange-500">⚡</p>
+            <p className="text-2xl font-black text-[var(--accent)]">⚡</p>
             <p className="text-xs text-[var(--muted)]">Rápido</p>
           </div>
         </div>

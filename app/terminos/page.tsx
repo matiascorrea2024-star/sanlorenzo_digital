@@ -7,10 +7,10 @@ export const metadata = {
 
 export default function TerminosPage() {
   return (
-    <main className="bg-[var(--bg)] text-[var(--text)] min-h-screen">
+    <main className="bg-[#0c0a0b] text-[#f7f3ec] min-h-screen">
       <PageHero title="Términos y Condiciones" subtitle="San Lorenzo Digital · Ley 25.326" />
       <div className="mx-auto max-w-2xl px-4 py-12">
-        <p className="text-sm text-[var(--muted2)]">Última actualización: agosto 2026 · San Lorenzo, Santa Fe, Argentina</p>
+        <p className="text-sm text-[#7d6f5c]">Última actualización: agosto 2026 · San Lorenzo, Santa Fe, Argentina</p>
 
         <div className="mt-10 space-y-10">
           {[
@@ -54,12 +54,12 @@ export default function TerminosPage() {
             { t: "Modificaciones", body: <p>Estos términos pueden modificarse. Los cambios se publicarán en esta página y entrarán en vigor 7 días después de su publicación.</p> },
             { t: "Jurisdicción", body: <p>Estos términos se rigen por las leyes de la República Argentina. Cualquier disputa se resolverá en los tribunales de la ciudad de San Lorenzo, Santa Fe.</p> },
           ].map((s, i) => (
-            <section key={s.t} className="border-t border-[var(--ov-06)] pt-6 first:border-t-0 first:pt-0">
+            <section key={s.t} className="border-t border-white/5 pt-6 first:border-t-0 first:pt-0">
               <div className="flex items-baseline gap-3">
-                <span className="text-xs font-black text-orange-400" style={{ fontFamily: "var(--font-ticket)" }}>{String(i + 1).padStart(2, "0")}</span>
-                <h2 className="text-lg font-black" style={{ fontFamily: "var(--font-space)" }}>{s.t}</h2>
+                <span className="text-xs font-black text-[var(--accent)]" style={{ fontFamily: "var(--font-ticket)" }}>{String(i + 1).padStart(2, "0")}</span>
+                <h2 className="font-display text-lg uppercase tracking-tight">{s.t}</h2>
               </div>
-              <div className="mt-3 text-sm leading-[1.75] text-[var(--text)]/70">{s.body}</div>
+              <div className="mt-3 text-sm leading-[1.75] text-[#a99b86]">{s.body}</div>
             </section>
           ))}
         </div>

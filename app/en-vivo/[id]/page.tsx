@@ -55,7 +55,7 @@ export default function VerEnVivo() {
     return (
       <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center justify-center gap-3 text-[var(--text)]">
         <p className="text-[var(--muted)]">Esta transmisión no está disponible.</p>
-        <Link href="/en-vivo" className="text-orange-400">← Ver otras transmisiones</Link>
+        <Link href="/en-vivo" className="text-[var(--accent)]">← Ver otras transmisiones</Link>
       </main>
     );
   }
@@ -63,7 +63,7 @@ export default function VerEnVivo() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-6xl px-4 py-6">
-        <button onClick={() => router.back()} className="mb-4 text-sm text-orange-400"><ArrowLeft className="mr-1 inline h-4 w-4" />Volver</button>
+        <button onClick={() => router.back()} className="mb-4 text-sm text-[var(--accent)]"><ArrowLeft className="mr-1 inline h-4 w-4" />Volver</button>
 
         <div className="grid gap-4 lg:grid-cols-3">
           <div className="lg:col-span-2">
@@ -86,7 +86,7 @@ export default function VerEnVivo() {
               <div className="flex flex-wrap items-start justify-between gap-3 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <div className="min-w-0 flex-1">
                   <h1 className="text-xl font-black" style={{ fontFamily: "var(--font-space)" }}>{stream.title}</h1>
-                  <Link href={`/negocio/${negocio.slug}`} className="mt-1 flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-orange-300">
+                  <Link href={`/negocio/${negocio.slug}`} className="mt-1 flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--accent)]">
                     <Store className="h-3.5 w-3.5" /> {negocio.name}
                   </Link>
                   {stream.description && <p className="mt-2 text-sm text-[var(--text)]/70">{stream.description}</p>}
@@ -112,10 +112,10 @@ export default function VerEnVivo() {
                     return (
                       <div key={it.id} className="rounded-[1.25rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
                         <div className="flex items-center gap-3 rounded-[.9rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-3 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                          {(p?.images?.[0]) && <img src={p.images[0]} alt="" className="h-14 w-14 rounded-lg object-cover" />}
+                          {(p?.images?.[0]) && <img src={p.images[0]} alt={p?.name || "Producto en vivo"} className="h-14 w-14 rounded-lg object-cover" />}
                           <div className="min-w-0 flex-1">
                             <p className="truncate text-sm font-bold">{p?.name || o?.title}</p>
-                            <p className="text-sm font-black text-orange-400">${Number(it.promo_price || p?.price || o?.offer_price || 0).toLocaleString("es-AR")}</p>
+                            <p className="text-sm font-black text-[var(--accent)]">${Number(it.promo_price || p?.price || o?.offer_price || 0).toLocaleString("es-AR")}</p>
                           </div>
                           {negocio.whatsapp && (
                             <a href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola! Te escribo por "${p?.name || o?.title}" que vi en tu vivo`)}`}

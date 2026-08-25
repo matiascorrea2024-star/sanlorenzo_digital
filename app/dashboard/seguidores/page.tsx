@@ -88,7 +88,7 @@ export default function SeguidoresPage() {
       <div className="mx-auto max-w-2xl px-4 py-8">
         <DashboardNav />
         <div className="mb-6 flex items-center gap-3">
-          <Heart className="h-8 w-8 text-orange-400" />
+          <Heart className="h-8 w-8 text-[var(--accent)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Tus seguidores</h1>
             <p className="text-[var(--muted)]">La audiencia propia de {negocio.name} dentro de la plataforma</p>
@@ -98,7 +98,7 @@ export default function SeguidoresPage() {
         <div className="mb-6 grid grid-cols-2 gap-3">
           <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
             <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <p className="text-3xl font-black text-orange-400">{total}</p>
+              <p className="text-3xl font-black text-[var(--accent)]">{total}</p>
               <p className="text-xs text-[var(--muted)]">Seguidores totales</p>
             </div>
           </div>
@@ -126,25 +126,25 @@ export default function SeguidoresPage() {
               rows={3}
               maxLength={200}
               placeholder="Ej: Llegó stock nuevo de zapatillas talle 42 👟"
-              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 text-sm outline-none focus:border-orange-400"
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]"
             />
             <p className="mt-1 text-right text-[10px] text-[var(--muted2)]">{mensaje.length}/200</p>
             <button
               onClick={enviarNovedad}
               disabled={enviando || !mensaje.trim() || total === 0}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50"
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] py-3 text-sm font-black disabled:opacity-50"
             >
               <Send className="h-4 w-4" /> {enviando ? "Enviando..." : total === 0 ? "Todavía no tenés seguidores" : `Enviar a ${Math.min(total, MAX_DESTINATARIOS)} seguidor${total === 1 ? "" : "es"}`}
             </button>
           </div>
           </div>
         ) : (
-          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
+          <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Lock className="mx-auto mb-2 h-7 w-7 text-orange-400" />
+              <Lock className="mx-auto mb-2 h-7 w-7 text-[var(--accent)]" />
               <p className="font-black">Enviar novedades es una herramienta de Plan PRO</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Construí tu propia audiencia y avisale directo cuando tengas algo nuevo.</p>
-              <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black hover:opacity-90">Ver planes →</Link>
+              <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black hover:opacity-90">Ver planes →</Link>
             </div>
           </div>
         )}

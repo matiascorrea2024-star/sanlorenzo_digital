@@ -35,7 +35,7 @@ export default function NewsletterSignup() {
       } else {
         show("⚠️ Algo salió mal. Probá de nuevo.", "error");
       }
-    } catch (error) {
+    } catch {
       show("❌ Error al suscribirse.", "error");
     } finally {
       setLoading(false);
@@ -48,7 +48,7 @@ export default function NewsletterSignup() {
       className="flex flex-col gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface2)] p-4 sm:flex-row"
     >
       <div className="flex items-center gap-2">
-        <Mail className="h-5 w-5 text-orange-500" />
+        <Mail className="h-5 w-5 text-[var(--accent)]" />
         <input
           type="email"
           placeholder="tu@email.com"
@@ -61,7 +61,7 @@ export default function NewsletterSignup() {
       <button
         type="submit"
         disabled={loading}
-        className="whitespace-nowrap rounded-lg bg-orange-500 px-4 py-2 font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+        className="whitespace-nowrap rounded-lg bg-[var(--accent)] px-4 py-2 font-semibold text-white transition hover:bg-[var(--accent2)] disabled:opacity-50"
       >
         {loading ? "Suscribiendo..." : "Suscribirse"}
       </button>

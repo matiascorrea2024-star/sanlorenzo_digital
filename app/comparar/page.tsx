@@ -30,26 +30,24 @@ function CompararContent() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+      <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
         <PageHero title="Comparador" subtitle="Compará negocios y productos de un vistazo" />
-        <div className="mx-auto max-w-5xl px-4 py-16 text-center text-[var(--muted)]">Cargando...</div>
+        <div className="mx-auto max-w-5xl px-4 py-16 text-center text-[#a99b86]">Cargando...</div>
       </main>
     );
   }
 
   if (productos.length === 0) {
     return (
-      <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+      <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
         <PageHero title="Comparador" subtitle="Compará negocios y productos de un vistazo" />
         <div className="mx-auto max-w-5xl px-4 py-12 text-center">
-          <div className="mx-auto max-w-md rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-10 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Package className="mx-auto h-16 w-16 text-[var(--muted2)] mb-4" />
-              <p className="text-[var(--muted)]">No hay productos seleccionados para comparar.</p>
-              <Link href="/negocios" className="mt-6 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">
-                Explorar productos
-              </Link>
-            </div>
+          <div className="mx-auto max-w-md rounded-3xl border border-dashed border-white/10 bg-[#161314] p-10">
+            <Package className="mx-auto h-16 w-16 text-[#7d6f5c] mb-4" />
+            <p className="text-[#a99b86]">No hay productos seleccionados para comparar.</p>
+            <Link href="/negocios" className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
+              Explorar productos
+            </Link>
           </div>
         </div>
       </main>
@@ -69,29 +67,29 @@ function CompararContent() {
   const mejorId = conScore.reduce((best, p) => p.sdlScore > best.sdlScore ? p : best, conScore[0]).id;
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
       <PageHero title="Comparador" subtitle={`Comparando ${productos.length} producto${productos.length !== 1 ? "s" : ""} lado a lado`} />
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <Link href="/negocios" className="flex items-center gap-1 text-sm text-orange-400 mb-4">
+        <Link href="/negocios" className="mb-4 inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-widest text-[var(--accent)]">
           <ArrowLeft className="h-4 w-4" /> Volver a productos
         </Link>
 
-        <div className="mt-8 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="overflow-x-auto rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-2 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+        <div className="mt-8 rounded-[2rem] border border-white/5 bg-[#161314] p-2 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+        <div className="overflow-x-auto rounded-[1.5rem] border border-white/5 bg-[#161314] p-2">
           <table className="w-full border-collapse">
             <thead>
               <tr>
-                <th className="p-3 text-left text-xs font-bold uppercase tracking-wider text-[var(--muted2)] border-b border-[var(--line)]">Característica</th>
+                <th className="border-b border-white/10 p-3 text-left text-[10px] font-black uppercase tracking-[0.25em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Característica</th>
                 {conScore.map(p => (
-                  <th key={p.id} className="p-3 text-center border-b border-[var(--line)] min-w-[180px]">
+                  <th key={p.id} className="min-w-[180px] border-b border-white/10 p-3 text-center">
                     {p.id === mejorId && (
                       <Badge variant="success" size="sm" className="mb-2">🏆 Mejor opción</Badge>
                     )}
-                    <div className="mx-auto h-24 w-24 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-600/20 flex items-center justify-center mb-2">
-                      <Package className="h-10 w-10 text-orange-400" />
+                    <div className="mx-auto mb-2 flex h-24 w-24 items-center justify-center rounded-2xl border border-white/5 bg-[#161314] magenta-glow">
+                      <Package className="h-10 w-10 text-[var(--accent)]" />
                     </div>
-                    <p className="font-black text-sm">{p.name}</p>
-                    <Link href={`/negocio/${p.businesses.slug}`} className="text-xs text-[var(--muted)] hover:text-orange-400">
+                    <p className="font-display text-sm uppercase tracking-tight">{p.name}</p>
+                    <Link href={`/negocio/${p.businesses.slug}`} className="text-xs text-[#a99b86] transition hover:text-[var(--accent)]">
                       {p.businesses.name} →
                     </Link>
                   </th>
@@ -99,46 +97,46 @@ function CompararContent() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-[var(--line)]">
+              <tr className="border-b border-white/5">
                 <td className="p-3 text-sm font-bold">💰 Precio</td>
                 {conScore.map(p => (
                   <td key={p.id} className="p-3 text-center">
-                    {p.old_price && <p className="text-xs text-[var(--muted2)] line-through">${Number(p.old_price).toLocaleString("es-AR")}</p>}
-                    <p className="text-lg font-black text-orange-400">${Number(p.price).toLocaleString("es-AR")}</p>
+                    {p.old_price && <p className="text-xs text-[#7d6f5c] line-through">${Number(p.old_price).toLocaleString("es-AR")}</p>}
+                    <p className="font-display text-lg text-[var(--accent)]">${Number(p.price).toLocaleString("es-AR")}</p>
                   </td>
                 ))}
               </tr>
-              <tr className="border-b border-[var(--line)] bg-[var(--ov-02)]">
+              <tr className="border-b border-white/5 bg-white/[0.02]">
                 <td className="p-3 text-sm font-bold">🏷️ Categoría</td>
                 {conScore.map(p => (
                   <td key={p.id} className="p-3 text-center text-sm capitalize">{p.category || p.businesses?.category || "—"}</td>
                 ))}
               </tr>
-              <tr className="border-b border-[var(--line)]">
+              <tr className="border-b border-white/5">
                 <td className="p-3 text-sm font-bold">⭐ Rating negocio</td>
                 {conScore.map(p => (
                   <td key={p.id} className="p-3 text-center">
                     <span className="inline-flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-[var(--warn)]" />
-                      <span className="font-bold">{Number(p.businesses?.rating || 0).toFixed(1)}</span>
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <span className="font-display">{Number(p.businesses?.rating || 0).toFixed(1)}</span>
                     </span>
                   </td>
                 ))}
               </tr>
-              <tr className="border-b border-[var(--line)] bg-[var(--ov-02)]">
+              <tr className="border-b border-white/5 bg-white/[0.02]">
                 <td className="p-3 text-sm font-bold">📦 Stock</td>
                 {conScore.map(p => (
                   <td key={p.id} className="p-3 text-center text-sm">{p.stock ?? "—"}</td>
                 ))}
               </tr>
-              <tr className="border-b border-[var(--line)]">
+              <tr className="border-b border-white/5">
                 <td className="p-3 text-sm font-bold">🔥 SDL Score</td>
                 {conScore.map(p => (
                   <td key={p.id} className="p-3 text-center">
-                    <span className={`text-2xl font-black ${p.id === mejorId ? "text-[var(--ok)]" : "text-[var(--text)]"}`}>
+                    <span className={`font-display text-2xl ${p.id === mejorId ? "text-[var(--ok)]" : "text-[#f7f3ec]"}`}>
                       {p.sdlScore}
                     </span>
-                    <p className="text-[10px] text-[var(--muted)]">/100</p>
+                    <p className="text-[10px] uppercase tracking-widest text-[#7d6f5c]">/100</p>
                   </td>
                 ))}
               </tr>
@@ -146,14 +144,17 @@ function CompararContent() {
                 <td className="p-3 text-sm font-bold">🛒 Acción</td>
                 {conScore.map(p => (
                   <td key={p.id} className="p-3 text-center">
-                    <Link href={`/negocio/${p.businesses.slug}`}
-                      className={`inline-block rounded-xl px-4 py-2 text-xs font-black transition ${
-                        p.id === mejorId
-                          ? "bg-gradient-to-r from-orange-500 to-red-600 hover:opacity-90"
-                          : "border border-[var(--line-strong)] hover:bg-[var(--ov-10)]"
-                      }`}>
-                      Ver negocio
-                    </Link>
+                    {p.id === mejorId ? (
+                      <Link href={`/negocio/${p.businesses.slug}`}
+                        className="btn-hard inline-block rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
+                        Ver negocio
+                      </Link>
+                    ) : (
+                      <Link href={`/negocio/${p.businesses.slug}`}
+                        className="inline-block rounded-xl border border-white/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-[#a99b86] transition hover:border-[var(--accent)] hover:text-white" style={{ fontFamily: "var(--font-display)" }}>
+                        Ver negocio
+                      </Link>
+                    )}
                   </td>
                 ))}
               </tr>
@@ -162,7 +163,7 @@ function CompararContent() {
         </div>
         </div>
 
-        <p className="mt-8 text-center text-xs text-[var(--muted2)]">
+        <p className="mt-8 text-center text-xs text-[#7d6f5c]">
           El SDL Score se calcula en base a precio, descuento, rating del negocio y disponibilidad.
         </p>
       </div>
@@ -173,8 +174,8 @@ function CompararContent() {
 export default function CompararPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+      <main className="min-h-screen flex items-center justify-center bg-[#0c0a0b] text-[#f7f3ec]">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-[var(--accent)]"></div>
       </main>
     }>
       <CompararContent />

@@ -10,7 +10,7 @@ import { friendlyError } from "@/lib/friendly-error";
 import HowItWorks from "@/components/ui/how-it-works";
 import { hoyArgentina, inicioDeHoyArgentinaISO } from "@/lib/fecha-ar";
 
-const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-orange-400/60 focus:outline-none transition";
+const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-[var(--accent)]/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-[var(--muted)]";
 // Tope duro para que un negocio chico no se comprometa a una cantidad
 // de canjes que después no puede cumplir -- mismo error que hundió
@@ -143,7 +143,7 @@ export default function NuevaOferta() {
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-2xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]">← Volver a mis ofertas</Link>
 
         {bienvenida && (
           <div className="mt-4 rounded-2xl border border-green-400/40 bg-green-500/10 p-4">
@@ -152,7 +152,7 @@ export default function NuevaOferta() {
               <span className="text-[var(--muted2)]" aria-hidden>→</span>
               <span className="text-[var(--muted)]">Catálogo (opcional)</span>
               <span className="text-[var(--muted2)]" aria-hidden>→</span>
-              <span className="text-orange-300">Tu primera oferta</span>
+              <span className="text-[var(--accent)]">Tu primera oferta</span>
               <span className="text-[var(--muted2)]" aria-hidden>→</span>
               <span className="text-[var(--muted)]">Publicá</span>
             </div>
@@ -161,7 +161,7 @@ export default function NuevaOferta() {
           </div>
         )}
 
-        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Publicar</p>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Publicar</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Nueva oferta</h1>
         <p className="mt-3 text-[var(--muted)]">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
 
@@ -177,7 +177,7 @@ export default function NuevaOferta() {
           <div className="mt-4 rounded-xl border border-[var(--line)] bg-[var(--ov-03)] p-3 text-xs text-[var(--muted)]">
             Plan <b className="text-[var(--text)]/80">{planActual.name}</b>: {limite.activas}/{limiteActivas} ofertas activas · {limite.hoy}/{limiteHoy} publicadas hoy.
             {(limite.activas >= (limiteActivas || 0) || limite.hoy >= (limiteHoy || 0)) && (
-              <> <Link href="/dashboard/planes" className="font-bold text-orange-400 hover:text-orange-300">Mejorar plan →</Link></>
+              <> <Link href="/dashboard/planes" className="font-bold text-[var(--accent)] hover:text-[var(--accent)]">Mejorar plan →</Link></>
             )}
           </div>
         )}
@@ -229,9 +229,9 @@ export default function NuevaOferta() {
           </div>
 
           {desc > 0 && (
-            <div className="rounded-2xl border border-orange-400/40 bg-orange-500/10 p-4 text-center">
+            <div className="rounded-2xl border border-[var(--accent)]/40 bg-[var(--accent)]/10 p-4 text-center">
               <p className="text-xs text-[var(--muted)]">Descuento calculado</p>
-              <p className="text-3xl font-black text-orange-400">{desc}% OFF</p>
+              <p className="text-3xl font-black text-[var(--accent)]">{desc}% OFF</p>
             </div>
           )}
 
@@ -282,7 +282,7 @@ export default function NuevaOferta() {
           <button
             onClick={publicar}
             disabled={saving || negocios.length === 0}
-            className="btn-shine w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50"
+            className="btn-shine w-full rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-black transition hover:opacity-90 disabled:opacity-50"
           >
             {saving ? "⏳ Publicando…" : "🔥 Publicar Oferta"}
           </button>

@@ -35,7 +35,7 @@ export default function AdminBlogPage() {
       setReady(true);
       await cargar();
     })();
-  }, []);
+  }, [router]);
 
   const nuevo = () => { setDraft(emptyDraft); setEditing(true); setError(""); };
   const editar = (p: any) => { setDraft(p); setEditing(true); setError(""); };
@@ -85,11 +85,11 @@ export default function AdminBlogPage() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-4xl px-4 py-8">
-        <Link href="/admin?tab=blog" className="text-sm text-orange-400 hover:text-orange-300">← Volver al panel</Link>
+        <Link href="/admin?tab=blog" className="text-sm text-[var(--accent)] hover:text-[var(--accent)]">← Volver al panel</Link>
         <div className="mt-4 flex items-center justify-between">
-          <h1 className="flex items-center gap-2 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}><Newspaper className="h-7 w-7 text-orange-300" /> Blog</h1>
+          <h1 className="flex items-center gap-2 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}><Newspaper className="h-7 w-7 text-[var(--accent)]" /> Blog</h1>
           {!editing && (
-            <button onClick={nuevo} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2.5 text-sm font-black hover:opacity-90">
+            <button onClick={nuevo} className="flex items-center gap-1.5 rounded-full bg-[var(--accent)] px-4 py-2.5 text-sm font-black hover:opacity-90">
               <Plus className="h-4 w-4" /> Nuevo artículo
             </button>
           )}
@@ -99,17 +99,17 @@ export default function AdminBlogPage() {
           <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
           <div className="space-y-4 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <input value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })}
-              placeholder="Título" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 font-bold outline-none focus:border-orange-400" />
+              placeholder="Título" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 font-bold outline-none focus:border-[var(--accent)]" />
             <input value={draft.excerpt} onChange={(e) => setDraft({ ...draft, excerpt: e.target.value })}
-              placeholder="Copete corto (aparece en la lista)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              placeholder="Copete corto (aparece en la lista)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             <textarea value={draft.content} onChange={(e) => setDraft({ ...draft, content: e.target.value })}
               placeholder="Contenido del artículo" rows={10}
-              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 text-sm outline-none focus:border-orange-400" />
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]" />
             <div className="grid gap-3 sm:grid-cols-2">
               <input value={draft.cover_url} onChange={(e) => setDraft({ ...draft, cover_url: e.target.value })}
-                placeholder="URL de imagen de portada (opcional)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="URL de imagen de portada (opcional)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
               <input value={draft.author} onChange={(e) => setDraft({ ...draft, author: e.target.value })}
-                placeholder="Autor (opcional)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                placeholder="Autor (opcional)" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             </div>
             <label className="flex items-center gap-2 text-sm">
               <input type="checkbox" checked={draft.published} onChange={(e) => setDraft({ ...draft, published: e.target.checked })} />
@@ -118,7 +118,7 @@ export default function AdminBlogPage() {
             {error && <p className="text-sm text-[var(--bad)]">❌ {error}</p>}
             <div className="flex gap-2">
               <button onClick={guardar} disabled={saving}
-                className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
+                className="rounded-full bg-[var(--accent)] px-6 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
                 {saving ? "Guardando…" : "Guardar"}
               </button>
               <button onClick={() => setEditing(false)} className="rounded-full border border-[var(--line-strong)] px-6 py-2.5 text-sm font-bold text-[var(--text)]/70 hover:bg-[var(--ov-05)]">

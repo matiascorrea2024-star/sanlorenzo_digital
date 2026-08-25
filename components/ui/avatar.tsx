@@ -1,8 +1,8 @@
 const GRADS = [
-  "from-orange-500 to-red-600",
+  "from-[var(--accent)] to-red-600",
   "from-green-500 to-teal-500",
   "from-blue-500 to-purple-500",
-  "from-red-500 to-orange-500",
+  "from-red-500 to-[#861642]",
   "from-yellow-500 to-red-500",
   "from-teal-400 to-blue-500",
 ];

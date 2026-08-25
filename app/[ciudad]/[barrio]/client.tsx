@@ -54,39 +54,40 @@ export default function BarrioView() {
   }, [ciudadSlug, barrioSlug]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Cargando...</main>;
+    return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-[#f7f3ec]">Cargando...</main>;
   }
 
   if (!barrio || !ciudad) {
     return (
-      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">
+      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-[#f7f3ec]">
         <div className="text-center">
-          <Search className="mx-auto mb-4 h-10 w-10 text-[var(--muted2)]" />
-          <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Barrio no encontrado</h1>
-          <Link href={`/${ciudadSlug}`} className="mt-4 inline-block text-orange-400">← Volver a {ciudadSlug}</Link>
+          <Search className="mx-auto mb-4 h-10 w-10 text-[#7d6f5c]" />
+          <h1 className="font-display text-3xl uppercase tracking-tight">Barrio no encontrado</h1>
+          <Link href={`/${ciudadSlug}`} className="mt-4 inline-block text-[var(--accent)]">← Volver a {ciudadSlug}</Link>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
-      <section className="border-b border-[var(--line)] bg-gradient-to-br from-orange-500/10 to-red-600/10 py-12">
-        <div className="mx-auto max-w-6xl px-4">
-          <Link href={`/${ciudadSlug}`} className="text-sm text-orange-400 flex items-center gap-1 mb-3">
+    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
+      <section className="relative overflow-hidden border-b border-white/10 bg-[#0c0a0b] py-12">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(209,47,104,0.14),_transparent_55%)]" />
+        <div className="relative mx-auto max-w-6xl px-4">
+          <Link href={`/${ciudadSlug}`} className="mb-3 flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
             <ArrowLeft className="h-4 w-4" /> Volver a {ciudad.name}
           </Link>
           <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Barrio</Badge>
-          <h1 className="mt-3 text-4xl font-black md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{barrio.name}</h1>
-          <p className="mt-2 text-[var(--text)]/70">{barrio.name}, {ciudad.name}</p>
+          <h1 className="mt-3 font-display text-4xl uppercase leading-[0.9] tracking-tight md:text-6xl">{barrio.name}</h1>
+          <p className="mt-2 text-[#a99b86]">{barrio.name}, {ciudad.name}</p>
         </div>
       </section>
 
       <div className="mx-auto max-w-6xl px-4 py-8">
         {ofertasPromo.length > 0 && (
           <section className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-2xl font-black">
-              <Flame className="h-6 w-6 text-orange-400" /> Ofertas para {barrio.name}
+            <h2 className="mb-4 flex items-center gap-2 font-display text-2xl uppercase tracking-tight">
+              <Flame className="h-6 w-6 text-[var(--accent)]" /> Ofertas para {barrio.name}
             </h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {ofertasPromo.map((o) => <OfferCard key={o.id} o={o} />)}
@@ -94,26 +95,27 @@ export default function BarrioView() {
           </section>
         )}
 
-        <h2 className="text-2xl font-black mb-4">
-          <Store className="inline h-6 w-6 mr-2" />
+        <h2 className="mb-4 font-display text-2xl uppercase tracking-tight">
+          <Store className="mr-2 inline h-6 w-6" />
           Negocios en {barrio.name} ({negocios.length})
         </h2>
         {negocios.length === 0 ? (
-          <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] px-6 py-10 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Sparkles className="mx-auto mb-3 h-7 w-7 text-orange-400" />
-              <p className="font-bold">Todavía no hay negocios en {barrio.name}</p>
-              <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
+          <section className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8">
+            <div className="text-center">
+              <Sparkles className="mx-auto mb-3 h-7 w-7 text-[var(--accent)]" />
+              <p className="font-display text-xl uppercase tracking-tight">Todavía no hay negocios en {barrio.name}</p>
+              <p className="mx-auto mt-1 max-w-sm text-sm text-[#a99b86]">
                 Si tenés un comercio en este barrio, podés ser el primero en aparecer acá.
               </p>
               <Link
                 href="/registro"
-                className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-bold text-white"
+                className="btn-hard mt-4 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white"
+                style={{ fontFamily: "var(--font-display)" }}
               >
                 Sumar mi negocio <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-          </div>
+          </section>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {negocios.map(b => (

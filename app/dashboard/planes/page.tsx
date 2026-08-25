@@ -139,12 +139,12 @@ export default function PlanesDashboard() {
       <div className="mx-auto max-w-4xl px-4 py-8">
         <DashboardNav />
         <div className="mb-2 flex items-center gap-3">
-          <Crown className="h-8 w-8 text-orange-400" />
+          <Crown className="h-8 w-8 text-[var(--accent)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Tu plan</h1>
             <p className="text-[var(--muted)]">
               Plan actual de <strong>{negocio.name}</strong>:{" "}
-              <span className="font-black text-orange-400">{PLANES[negocio.plan]?.name || "Gratis"}</span>
+              <span className="font-black text-[var(--accent)]">{PLANES[negocio.plan]?.name || "Gratis"}</span>
               {negocio.plan_expira && (
                 <span className="text-[var(--muted2)]"> · vence el {new Date(negocio.plan_expira).toLocaleDateString("es-AR")}</span>
               )}
@@ -161,10 +161,10 @@ export default function PlanesDashboard() {
         </div>
 
         {campanas.filter((c) => !misReclamos.includes(c.id)).map((c) => (
-          <div key={c.id} className="mt-6 rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-r from-orange-500/[.08] to-red-600/[.04] p-1.5">
+          <div key={c.id} className="mt-6 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-r from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
             <div className="flex flex-col items-start justify-between gap-3 rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:flex-row sm:items-center">
               <div className="flex items-start gap-3">
-                <Gift className="h-6 w-6 shrink-0 text-orange-400" />
+                <Gift className="h-6 w-6 shrink-0 text-[var(--accent)]" />
                 <div>
                   <p className="font-black">{c.title}</p>
                   <p className="text-sm text-[var(--muted)]">
@@ -173,7 +173,7 @@ export default function PlanesDashboard() {
                 </div>
               </div>
               <button onClick={() => reclamarCampana(c.id)} disabled={reclamando === c.id}
-                className="shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+                className="shrink-0 rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black disabled:opacity-50">
                 {reclamando === c.id ? "Reclamando..." : "Reclamar beneficio"}
               </button>
             </div>
@@ -200,17 +200,17 @@ export default function PlanesDashboard() {
             return (
               <div key={p.k}
                 className={`relative rounded-[1.75rem] p-1.5 ${
-                  actual ? "border border-orange-400/50 bg-gradient-to-b from-orange-500/[.1] to-red-600/[.04]" : "border border-[var(--ov-06)] bg-[var(--ov-02)]"
+                  actual ? "border border-[var(--accent)]/50 bg-gradient-to-b from-[var(--accent)]/[.1] to-red-600/[.04]" : "border border-[var(--ov-06)] bg-[var(--ov-02)]"
                 }`}>
                 {actual && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-1 text-xs font-black">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[var(--accent)] px-4 py-1 text-xs font-black">
                     PLAN ACTUAL
                   </span>
                 )}
                 <div className={`flex h-full flex-col rounded-[1.375rem] border p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] ${actual ? "border-[var(--ov-08)] bg-black/10" : "border-[var(--ov-05)] bg-black/10"}`}>
-                  <p.icon className={`h-7 w-7 ${actual ? "text-orange-400" : "text-[var(--muted)]"}`} />
+                  <p.icon className={`h-7 w-7 ${actual ? "text-[var(--accent)]" : "text-[var(--muted)]"}`} />
                   <h2 className="mt-2 text-lg font-black">{PLANES[p.k].name}</h2>
-                  <p className="text-2xl font-black text-orange-400">{p.precio}</p>
+                  <p className="text-2xl font-black text-[var(--accent)]">{p.precio}</p>
                   <ul className="mt-4 flex-1 space-y-2">
                     {p.features.map(f => (
                       <li key={f} className="flex items-center gap-2 text-sm text-[var(--text)]/80">
@@ -228,7 +228,7 @@ export default function PlanesDashboard() {
                       <input type="file" accept="image/*" onChange={(e) => setArchivo(e.target.files?.[0] || null)}
                         className="w-full text-xs text-[var(--muted)] file:mr-2 file:rounded-lg file:border-0 file:bg-[var(--ov-10)] file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-[var(--text)]" />
                       <button onClick={() => solicitar(p.k)} disabled={enviando}
-                        className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2 text-sm font-black hover:opacity-90 disabled:opacity-50">
+                        className="w-full rounded-full bg-[var(--accent)] py-2 text-sm font-black hover:opacity-90 disabled:opacity-50">
                         {enviando ? "Enviando…" : "Enviar comprobante"}
                       </button>
                       <button onClick={() => { setPidiendo(null); setArchivo(null); setError(""); }} className="w-full text-xs text-[var(--muted2)] hover:text-[var(--muted)]">
@@ -238,7 +238,7 @@ export default function PlanesDashboard() {
                   ) : (
                     <div className="mt-5 space-y-2">
                       <button onClick={() => pagarConMP(p.k)} disabled={pagandoMP === p.k}
-                        className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
+                        className="w-full rounded-full bg-[var(--accent)] py-2.5 text-sm font-black hover:opacity-90 disabled:opacity-50">
                         {pagandoMP === p.k ? "Redirigiendo…" : "Pagar con Mercado Pago"}
                       </button>
                       <button onClick={() => setPidiendo(p.k)}
@@ -265,7 +265,7 @@ export default function PlanesDashboard() {
             ) : whatsapp ? (
               <p className="mt-2">
                 Escribinos por WhatsApp para coordinar el pago:{" "}
-                <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="font-bold text-orange-400">Contactar</a>
+                <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="font-bold text-[var(--accent)]">Contactar</a>
               </p>
             ) : null}
           </div>

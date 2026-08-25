@@ -84,7 +84,7 @@ export default function SellosPage() {
     <main className="mx-auto max-w-4xl px-4 py-10">
       <DashboardNav />
       <div className="mb-8 flex items-center gap-3">
-        <Ticket className="h-8 w-8 text-orange-400" />
+        <Ticket className="h-8 w-8 text-[var(--accent)]" />
         <div>
           <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Sellitos digitales</h1>
           <p className="text-sm text-[var(--muted)]">
@@ -108,13 +108,13 @@ export default function SellosPage() {
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-[var(--muted)]">Sellos necesarios</label>
                   <input type="number" min={2} max={30} value={meta} onChange={(e) => setMeta(e.target.value)}
-                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-orange-400" />
+                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-[var(--accent)]" />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-[var(--muted)]">Premio</label>
                   <input type="text" value={premio} onChange={(e) => setPremio(e.target.value)}
                     placeholder="Ej: Un café gratis" maxLength={80}
-                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-orange-400" />
+                    className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 outline-none focus:border-[var(--accent)]" />
                 </div>
               </div>
               <label className="mt-4 flex items-center gap-2 text-sm text-[var(--text)]/70">
@@ -122,7 +122,7 @@ export default function SellosPage() {
                 Tarjeta activa (visible en mi ficha)
               </label>
               <button onClick={guardar} disabled={guardando || !premio.trim() || Number(meta) < 2}
-                className="mt-5 flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black disabled:opacity-50">
+                className="mt-5 flex items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black disabled:opacity-50">
                 <Save className="h-4 w-4" /> {guardando ? "Guardando..." : "Guardar"}
               </button>
             </div>
@@ -138,7 +138,7 @@ export default function SellosPage() {
                 <div className="flex flex-wrap gap-3">
                   <input type="text" value={codigo} onChange={(e) => setCodigo(e.target.value.toUpperCase())}
                     placeholder="Ej: 7K3M9P" maxLength={6}
-                    className="w-40 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-center font-black tracking-widest outline-none focus:border-orange-400" />
+                    className="w-40 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-center font-black tracking-widest outline-none focus:border-[var(--accent)]" />
                   <button onClick={validar} disabled={validando || codigo.trim().length < 4}
                     className="flex items-center gap-2 rounded-full bg-sky-500/20 border border-sky-400/40 px-5 py-2.5 text-sm font-black text-[var(--place)] hover:bg-sky-500/30 disabled:opacity-50">
                     <CheckCircle2 className="h-4 w-4" /> {validando ? "Validando..." : "Sumar sello"}

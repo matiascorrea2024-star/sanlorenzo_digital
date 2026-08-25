@@ -44,7 +44,7 @@ export default function AdminSoportePage() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-2xl px-4 py-8">
-        <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-orange-400 hover:text-orange-300">
+        <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-[var(--accent)] hover:text-[var(--accent)]">
           <ArrowLeft className="h-4 w-4" /> Volver al panel
         </Link>
         <h1 className="mt-3 mb-6 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Soporte con {negocio.name}</h1>

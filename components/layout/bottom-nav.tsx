@@ -25,8 +25,8 @@ export default function BottomNav() {
 
   return (
     <nav aria-label="Navegación principal"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--line)] bg-[var(--bg)]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden">
-      <div className="pointer-events-none h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" />
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-[#0c0a0b]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden">
+      <div className="pointer-events-none h-px bg-gradient-to-r from-transparent via-[var(--accent)]/50 to-transparent" />
       <div className="grid min-h-14 grid-cols-7">
         {ITEMS.map((item) => {
           const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);

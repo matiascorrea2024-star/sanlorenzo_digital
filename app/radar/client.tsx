@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { Clock, Flame, Zap } from "lucide-react";
+import { Flame, Zap } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { hoyArgentina } from "@/lib/fecha-ar";
 import OfferCard from "@/components/ui/offer-card";
@@ -29,10 +29,10 @@ function useCountdown(targetDate: Date) {
 function CountdownBlock({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="rounded-xl bg-black/60 border border-red-400/30 px-3 py-2 min-w-[60px] text-center">
-        <p className="text-2xl md:text-3xl font-black text-white tabular-nums">{String(value).padStart(2, "0")}</p>
+      <div className="min-w-[60px] rounded-xl border border-red-400/30 bg-black/60 px-3 py-2 text-center shadow-2xl shadow-black/50">
+        <p className="font-display text-2xl tabular-nums text-white md:text-3xl">{String(value).padStart(2, "0")}</p>
       </div>
-      <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-white/50">{label}</p>
+      <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">{label}</p>
     </div>
   );
 }
@@ -76,21 +76,24 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
       {/* Hero del Radar */}
-      <section className="relative overflow-hidden border-b border-red-400/20 bg-gradient-to-br from-red-900/30 via-[#0c0a0b] to-orange-900/30 py-12">
+      <section className="relative overflow-hidden border-b border-red-400/20 bg-gradient-to-br from-red-900/30 via-[#0c0a0b] to-[#861642]/30 py-12">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(239,68,68,0.15),_transparent_50%)]" />
         <div className="relative mx-auto max-w-5xl px-4 text-center">
+          <p className="mb-4 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+            <span className="live-dot inline-block h-2 w-2 rounded-full bg-[var(--accent)]" /> Radar en vivo
+          </p>
           <Badge variant="danger" size="md" pulse>
             <Zap className="h-3 w-3" /> Terminan HOY
           </Badge>
-          <h1 className="mt-4 text-4xl font-black text-white md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
+          <h1 className="mt-4 font-display text-4xl uppercase tracking-tight text-white md:text-6xl">
             Radar de{" "}
-            <span className="bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent magenta-glow">
               ofertas urgentes
             </span>
           </h1>
-          <p className="mx-auto mt-3 max-w-xl text-white/70">
+          <p className="mx-auto mt-3 max-w-xl text-[#a99b86]">
             Solo ofertas que vencen hoy. Después de la medianoche desaparecen.
           </p>
 
@@ -109,23 +112,22 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
         {loading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-80 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--ov-05)]" />
+              <div key={i} className="h-80 animate-pulse rounded-2xl border border-white/5 bg-[#161314]" />
             ))}
           </div>
         ) : ofertas.length === 0 ? (
-          <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-12 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Flame className="mx-auto h-12 w-12 text-[var(--muted2)] mb-3" />
-              <p className="text-lg font-bold">No hay ofertas que terminen hoy</p>
-              <p className="mt-2 text-sm text-[var(--muted)]">Volvé mañana o mirá todas las ofertas activas.</p>
-            </div>
+          <div className="rounded-2xl border border-white/5 bg-[#161314] p-12 text-center shadow-2xl shadow-black/50">
+            <Flame className="mx-auto mb-3 h-12 w-12 text-[#7d6f5c]" />
+            <p className="font-display text-2xl uppercase tracking-tight">No hay ofertas que terminen hoy</p>
+            <p className="mt-2 text-sm text-[#a99b86]">Volvé mañana o mirá todas las ofertas activas.</p>
           </div>
         ) : (
           <>
             <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-xl font-black">
-                <Flame className="inline h-5 w-5 text-orange-400 mr-2" />
-                {ofertas.length} oferta{ofertas.length !== 1 ? "s" : ""} que vence{ofertas.length !== 1 ? "n" : ""} hoy
+              <h2 className="font-display text-3xl uppercase tracking-tight">
+                <Flame className="mr-2 inline h-5 w-5 text-[var(--accent)]" />
+                {ofertas.length} oferta{ofertas.length !== 1 ? "s" : ""} que vence{ofertas.length !== 1 ? "n" : ""}{" "}
+                <span className="text-[var(--accent)]">hoy</span>
               </h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -62,7 +62,7 @@ export default function NotifyMeButton({
         setState("error");
         setMessage(data.error);
       }
-    } catch (e) {
+    } catch {
       setState("error");
       setMessage("Error al crear la alerta");
     }
@@ -78,7 +78,7 @@ export default function NotifyMeButton({
 
   if (state === "done") {
     return (
-      <div className={`rounded-xl border-2 border-orange-400/40 bg-orange-500/10 px-4 py-2 text-sm font-black text-orange-300 ${className}`}>
+      <div className={`rounded-xl border-2 border-[var(--accent)]/40 bg-[var(--accent)]/10 px-4 py-2 text-sm font-black text-[var(--accent)] ${className}`}>
         ✅ {message}
       </div>
     );
@@ -88,7 +88,7 @@ export default function NotifyMeButton({
     <button
       onClick={handleClick}
       disabled={state === "loading"}
-      className={`rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-black text-white hover:opacity-90 disabled:opacity-50 ${className}`}
+      className={`rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-black text-white hover:opacity-90 disabled:opacity-50 ${className}`}
     >
       {state === "loading" ? "Suscribiendo..." : "🔔 Avisame si vuelve"}
     </button>

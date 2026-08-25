@@ -25,23 +25,25 @@ export default function PricingBanner() {
 
   return (
     <div className="fixed bottom-4 right-4 z-40 max-w-sm animate-in slide-in-from-bottom-4 duration-500">
-      <div className="relative rounded-2xl border border-orange-500/30 bg-gradient-to-br from-orange-600/20 to-red-600/20 p-5 shadow-2xl backdrop-blur-md">
+      <div className="relative overflow-hidden rounded-[2rem] border border-[var(--accent)]/40 bg-[#161314]/95 p-6 shadow-[0_0_50px_rgba(209,47,104,.15)] backdrop-blur-md">
+        <div className="pointer-events-none absolute left-[-20%] top-[-50%] h-[90%] w-[90%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[100px]" aria-hidden="true" />
+
         {/* Close button */}
         <button
           onClick={() => {
             setDismissed(true);
             localStorage.setItem("pricing-banner-dismissed", "true");
           }}
-          className="absolute right-3 top-3 rounded-full p-1 hover:bg-white/10"
+          className="absolute right-3 top-3 rounded-full p-1 text-[#7d6f5c] transition hover:bg-white/10 hover:text-white"
         >
           <X className="h-4 w-4" />
         </button>
 
         {/* Content */}
-        <div className="pr-6">
-          <h3 className="font-bold text-orange-300">¿Querés destacar tu negocio?</h3>
-          <p className="mt-2 text-sm text-[var(--muted)]">
-            Planes desde <span className="font-bold text-orange-400">$4.900/mes</span>
+        <div className="relative pr-6">
+          <h3 className="font-display text-xl tracking-tight text-white">¿Querés destacar tu negocio?</h3>
+          <p className="mt-2 text-sm text-[#a99b86]">
+            Planes desde <span className="font-black text-[var(--accent)]">$4.900/mes</span>
           </p>
 
           <Link
@@ -51,7 +53,8 @@ export default function PricingBanner() {
                 window.trackEvent("cro_banner_click", { banner: "pricing" });
               }
             }}
-            className="mt-4 flex items-center gap-2 rounded-lg bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-bold text-white transition hover:shadow-lg hover:shadow-orange-500/50"
+            className="btn-hard mt-5 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-black uppercase tracking-widest text-white"
+            style={{ fontFamily: "var(--font-display)" }}
           >
             Ver planes
             <ArrowRight className="h-4 w-4" />

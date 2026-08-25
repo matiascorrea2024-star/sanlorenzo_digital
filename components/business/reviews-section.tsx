@@ -114,7 +114,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
 
   return (
     <section className="mt-10">
-      <h2 className="text-xl font-black text-orange-400">⭐ Reseñas</h2>
+      <h2 className="text-xl font-black text-[var(--accent)]">⭐ Reseñas</h2>
 
       {/* Resumen -- solo si hay al menos una reseña real: un "—" gigante en
           text-5xl con 0 reseñas se veía como una barra blanca rota, no como
@@ -145,12 +145,12 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
         </div>
         <textarea value={comment} onChange={(e) => setComment(e.target.value)} rows={3}
           placeholder="Contá tu experiencia..."
-          className="mt-3 w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm outline-none focus:border-orange-400" />
+          className="mt-3 w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]" />
 
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {fotos.map((f, i) => (
             <div key={i} className="relative h-16 w-16 overflow-hidden rounded-xl border border-[var(--line-strong)]">
-              <img src={URL.createObjectURL(f)} alt="" className="h-full w-full object-cover" />
+              <img src={URL.createObjectURL(f)} alt={`Foto nueva: ${f.name}`} className="h-full w-full object-cover" />
               <button onClick={() => setFotos(prev => prev.filter((_, j) => j !== i))}
                 aria-label="Quitar foto" title="Quitar foto"
                 className="absolute right-0.5 top-0.5 rounded-full bg-black/70 p-0.5">
@@ -159,7 +159,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
             </div>
           ))}
           {fotos.length < MAX_FOTOS && (
-            <label className="flex h-16 w-16 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-[var(--line-strong)] text-[var(--muted2)] hover:border-orange-400/50 hover:text-orange-400">
+            <label className="flex h-16 w-16 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-[var(--line-strong)] text-[var(--muted2)] hover:border-[var(--accent)]/50 hover:text-[var(--accent)]">
               <Camera className="h-5 w-5" />
               <span className="text-[9px] font-bold">{fotos.length}/{MAX_FOTOS}</span>
               <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => agregarFotos(e.target.files)} />
@@ -168,7 +168,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
         </div>
 
         <button onClick={send} disabled={sending || !comment.trim()}
-          className="mt-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-sm font-black disabled:opacity-50">
+          className="mt-3 rounded-xl bg-[var(--accent)] px-6 py-2.5 text-sm font-black disabled:opacity-50">
           {sent ? "✅ ¡Gracias por tu reseña!" : sending ? "Enviando..." : "Publicar reseña"}
         </button>
         {!sending && !sent && !comment.trim() && (
@@ -212,8 +212,8 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
               </div>
             )}
             {r.reply && (
-              <div className="mt-3 rounded-xl border-l-4 border-orange-400 bg-orange-500/10 p-3">
-                <p className="text-xs font-black text-orange-300">↳ Respuesta del negocio</p>
+              <div className="mt-3 rounded-xl border-l-4 border-[var(--accent)] bg-[var(--accent)]/10 p-3">
+                <p className="text-xs font-black text-[var(--accent)]">↳ Respuesta del negocio</p>
                 <p className="mt-1 text-sm text-[var(--text)]/80">{r.reply}</p>
               </div>
             )}

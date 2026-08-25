@@ -10,6 +10,8 @@ import BusinessPulse from "@/components/dashboard/business-pulse";
 import BusinessStats from "@/components/dashboard/business-stats";
 import PlanLimitBanner from "@/components/dashboard/plan-limit-banner";
 import LiveVisitors from "@/components/dashboard/live-visitors";
+import GrowthCenter from "@/components/dashboard/growth-center";
+import CommercialCalendar from "@/components/dashboard/commercial-calendar";
 
 export default function DashboardPage() {
   const { show } = useToast();
@@ -19,6 +21,7 @@ export default function DashboardPage() {
   const [error, setError] = useState("");
   const [role, setRole] = useState("user");
   const [nombre, setNombre] = useState("");
+  const [ofertasActivas, setOfertasActivas] = useState(0);
 
   useEffect(() => {
     if (authLoading) return;
@@ -38,6 +41,14 @@ export default function DashboardPage() {
       setLoading(false);
     })();
   }, [user, authLoading]);
+
+  // Conteo real de ofertas activas del primer negocio (mismo criterio que BusinessPulse: active=true).
+  useEffect(() => {
+    const bid = negocios[0]?.id;
+    if (!bid) { setOfertasActivas(0); return; }
+    supabase().from("offers").select("id", { count: "exact", head: true }).eq("business_id", bid).eq("active", true)
+      .then(({ count }) => setOfertasActivas(count || 0));
+  }, [negocios]);
 
   const toggle = async (id: string, campo: string, valor: any) => {
     const { error } = await supabase().from("businesses").update({ [campo]: valor }).eq("id", id);
@@ -114,6 +125,10 @@ export default function DashboardPage() {
           <>
           <PlanLimitBanner />
           <BusinessStats />
+          <div className="mb-8 grid gap-4 lg:grid-cols-2">
+            <GrowthCenter business={negocios[0]} ofertasActivas={ofertasActivas} />
+            <CommercialCalendar />
+          </div>
           <LiveVisitors businessId={negocios[0]?.id} />
           <BusinessPulse negocio={negocios[0]} />
           <div className="grid gap-4 md:grid-cols-2">

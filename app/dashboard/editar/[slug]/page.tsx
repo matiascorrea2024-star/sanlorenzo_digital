@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import LevelBadge from "@/components/business/level-badge";
 import ImageUploader from "@/components/upload/image-uploader";
@@ -77,7 +78,7 @@ export default function Editar() {
       setItems(Array.isArray(data.items) ? data.items : []);
       setPromos(Array.isArray(data.promotions) ? data.promotions : []);
     })();
-  }, [slug]);
+  }, [slug, router]);
 
   useEffect(() => {
     (async () => {
@@ -137,7 +138,7 @@ export default function Editar() {
   );
   if (!form) return <main className="px-4 py-20 text-center text-sm text-[var(--muted)]">Cargando…</main>;
 
-  const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-orange-400/60 focus:outline-none transition";
+  const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-[var(--accent)]/60 focus:outline-none transition";
   const lbl = "mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]";
 
   return (
@@ -145,7 +146,7 @@ export default function Editar() {
       <div className="mx-auto max-w-3xl px-4 py-10">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Editar {b.name}</h1>
-          <a href={`/negocio/${b.slug}`} target="_blank" className="rounded-xl border border-orange-400/30 bg-orange-500/10 px-4 py-2.5 text-sm font-bold text-orange-300 hover:bg-orange-500/20">👁️ Ver en vivo</a>
+          <a href={`/negocio/${b.slug}`} target="_blank" className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/20">👁️ Ver en vivo</a>
         </div>
 
         <div className="mt-4">
@@ -157,8 +158,8 @@ export default function Editar() {
         </div>
 
         {/* 📸 FOTOS DEL NEGOCIO */}
-        <section className="mt-8 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
-          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">Fotos de tu negocio</h2>
+        <section className="mt-8 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
+          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-red-300 bg-clip-text text-transparent">Fotos de tu negocio</h2>
           <p className="mb-4 text-sm text-[var(--muted)]">La foto de portada aparece en la home y en el directorio. El logo aparece junto al nombre en tu miniweb.</p>
           <div className="grid gap-6 md:grid-cols-2">
             <div>
@@ -184,8 +185,8 @@ export default function Editar() {
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
-          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">Datos del negocio</h2>
+        <section className="mt-6 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
+          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-red-300 bg-clip-text text-transparent">Datos del negocio</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <label><span className={lbl}>Nombre</span><input className={inp} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></label>
             <label><span className={lbl}>WhatsApp</span><input className={inp} value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value.replace(/\D/g, "") })} /></label>
@@ -260,10 +261,10 @@ export default function Editar() {
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
+        <section className="mt-6 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Productos / servicios</h2>
-            <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
+            <button onClick={() => setItems([...items, { name: "", price: "", note: "", photo: "" }])} className="rounded-full bg-[var(--accent)] px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
           </div>
           {items.length === 0 && <p className="text-sm text-[var(--muted)]">Agregá tu primer producto.</p>}
           <div className="grid gap-3">
@@ -278,10 +279,10 @@ export default function Editar() {
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
+        <section className="mt-6 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Promociones</h2>
-            <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
+            <button onClick={() => setPromos([...promos, { title: "", discount: "", expires: "" }])} className="rounded-full bg-[var(--accent)] px-3 py-1.5 text-sm font-bold text-white">+ Agregar</button>
           </div>
           {promos.length === 0 && <p className="text-sm text-[var(--muted)]">Creá promos con vencimiento: solas se apagan cuando terminan.</p>}
           <div className="grid gap-3">
@@ -334,32 +335,32 @@ export default function Editar() {
         
         {/* 💰 Plan -- los precios y beneficios reales viven en un solo
             lugar (/dashboard/planes), para no repetirlos acá desactualizados. */}
-        <section className="mt-6 rounded-2xl border border-yellow-400/40 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 p-6">
+        <section className="mt-6 rounded-2xl border border-yellow-400/40 bg-gradient-to-r from-yellow-500/10 to-[#861642]/10 p-6">
           {b.destacado ? (
             <p className="text-sm font-bold text-[var(--ok)]">🎉 Tu negocio está en Destacado Semanal: aparece con prioridad en la home y el mapa.</p>
           ) : (
             <>
               <h2 className="mb-1 font-black text-[var(--warn)]">¿Querés más visibilidad?</h2>
               <p className="mb-4 text-sm text-[var(--text)]/70">Mirá los planes pagos: más ofertas, estadísticas, catálogo destacado y posición fija en la home.</p>
-              <a
+              <Link
                 href="/dashboard/planes"
-                className="inline-block rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 px-5 py-2.5 text-sm font-black text-black hover:opacity-90"
+                className="inline-block rounded-xl bg-gradient-to-r from-yellow-400 to-[#861642] px-5 py-2.5 text-sm font-black text-black hover:opacity-90"
               >
                 Ver planes y precios →
-              </a>
+              </Link>
             </>
           )}
         </section>
 
         {/* 📊 Estadísticas */}
         {stats && (
-          <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
+          <section className="mt-6 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
             <div className="mb-4"><LevelBadge slug={b.slug} /></div>
-            <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">Estadísticas de tu negocio (últimos 7 días)</h2>
+            <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-red-300 bg-clip-text text-transparent">Estadísticas de tu negocio (últimos 7 días)</h2>
             <div className="grid grid-cols-2 gap-4 mb-5">
               <div className="rounded-[1.25rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-1">
                 <div className="rounded-[.9rem] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="text-3xl font-black text-orange-400 tabular-nums">{stats.views}</p>
+                  <p className="text-3xl font-black text-[var(--accent)] tabular-nums">{stats.views}</p>
                   <p className="text-xs text-[var(--muted)] uppercase mt-1">👁 Vistas a tu miniweb</p>
                 </div>
               </div>
@@ -378,7 +379,7 @@ export default function Editar() {
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
                     <span className="text-[10px] text-[var(--muted)]">{d.n}</span>
                     <div
-                      className="w-full rounded-t bg-gradient-to-t from-orange-500 to-red-600"
+                      className="w-full rounded-t bg-gradient-to-t from-[var(--accent)] to-red-600"
                       style={{ height: `${(d.n / max) * 70 + 4}px` }}
                     />
                     <span className="text-[10px] text-[var(--muted)]">{d.d}</span>
@@ -390,7 +391,7 @@ export default function Editar() {
         )}
 
         {/* 🤳 QR */}
-        <section className="mt-6 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-orange-500/10">
+        <section className="mt-6 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
           <h2 className="mb-2 font-bold">QR de tu negocio</h2>
           <p className="mb-4 text-sm text-[var(--muted)]">Imprimilo y pegalo en tu vidriera: los clientes lo escanean y caen directo en tu miniweb.</p>
           <div className="flex items-center gap-6 flex-wrap">
@@ -410,7 +411,7 @@ export default function Editar() {
                   a.click();
                 } catch { alert("No se pudo descargar el QR ahora."); }
               }}
-              className="rounded-xl border border-orange-400/30 bg-orange-500/10 px-4 py-2.5 text-sm font-bold text-orange-300 hover:bg-orange-500/20"
+              className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/20"
             >
               ⬇️ Descargar QR en alta calidad
             </button>
@@ -420,7 +421,7 @@ export default function Editar() {
         <ReviewModeration businessId={b.id} plan={b.plan} />
 
         <div className="mt-6 flex items-center gap-4">
-          <button onClick={save} disabled={saving} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black text-white hover:opacity-90 disabled:opacity-40">
+          <button onClick={save} disabled={saving} className="rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-black text-white hover:opacity-90 disabled:opacity-40">
             {saving ? "Guardando…" : "💾 Guardar cambios"}
           </button>
           {msg && <span className="text-sm">{msg}</span>}

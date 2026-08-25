@@ -15,6 +15,8 @@ import OnboardingOverlay from "@/components/onboarding/onboarding-overlay";
 import ReferralTracker from "@/components/referral-tracker";
 import { CartProvider } from "@/lib/cart-context";
 import CartFab from "@/components/cart/cart-fab";
+import AbandonedCartReminder from "@/components/cart/abandoned-reminder";
+import CookieConsent from "@/components/ui/cookie-consent";
 import { ThemeProvider } from "@/lib/theme-context";
 import Analytics from "@/components/analytics";
 
@@ -78,6 +80,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <OnlineNow />
       <FloatingAssistant />
       <CartFab />
+      <AbandonedCartReminder />
+      <CookieConsent />
       <Spotlight />
       <ScrollReveal />
       <OnboardingOverlay />

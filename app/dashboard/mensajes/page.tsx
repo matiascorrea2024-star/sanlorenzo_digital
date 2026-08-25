@@ -93,7 +93,7 @@ export default function MensajesPage() {
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="mb-2 flex items-center gap-3">
-          <MessageCircle className="h-8 w-8 text-orange-400" />
+          <MessageCircle className="h-8 w-8 text-[var(--accent)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Mensajes</h1>
             <p className="text-[var(--muted)]">Tus conversaciones con clientes, en un solo lugar</p>
@@ -104,7 +104,7 @@ export default function MensajesPage() {
           <div className="mt-4 flex gap-2 overflow-x-auto">
             {businesses.map(b => (
               <button key={b.id} onClick={() => { setSelectedBiz(b.id); setSelectedCustomer(null); }}
-                className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${selectedBiz === b.id ? "bg-gradient-to-r from-orange-500 to-red-600" : "bg-[var(--ov-05)] border border-[var(--line)]"}`}>
+                className={`shrink-0 rounded-xl px-4 py-2 text-sm font-bold ${selectedBiz === b.id ? "bg-[var(--accent)]" : "bg-[var(--ov-05)] border border-[var(--line)]"}`}>
                 {b.name}
               </button>
             ))}
@@ -123,7 +123,7 @@ export default function MensajesPage() {
               convoList.map(cv => (
                 <button key={cv.cust} onClick={() => setSelectedCustomer(cv.cust)}
                   className="group flex w-full items-center gap-1.5 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 text-left transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-orange-400/30">
+                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-[var(--accent)]/30">
                     <Avatar name={cv.name} size={48} />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
@@ -144,7 +144,7 @@ export default function MensajesPage() {
 
         {selectedCustomer && biz && (
           <div className="mt-4">
-            <button onClick={() => setSelectedCustomer(null)} className="mb-2 text-sm text-orange-400">← Conversaciones</button>
+            <button onClick={() => setSelectedCustomer(null)} className="mb-2 text-sm text-[var(--accent)]">← Conversaciones</button>
             <Chat businessId={selectedBiz} ownerId={user?.id} businessName={biz.name} customerId={selectedCustomer} />
           </div>
         )}

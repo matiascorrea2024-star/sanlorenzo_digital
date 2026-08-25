@@ -8,7 +8,7 @@ export default function Featured({ list, title, userCoords }: {
   list: any[]; title: string; userCoords?: { lat: number; lon: number } | null;
 }) {
   return (
-    <section id="destacados" className="editorial-businesses px-4 py-12 md:py-16">
+    <section id="destacados">
       {title && (
         <SectionTitle
           eyebrow="Directorio"
@@ -21,7 +21,7 @@ export default function Featured({ list, title, userCoords }: {
         />
       )}
       {list.length === 0 ? (
-        <div className="sld-card rounded-2xl px-6 py-8 text-center">
+        <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] px-6 py-8 text-center">
           <p className="font-semibold">No encontramos resultados</p>
           <p className="mt-1 text-sm text-[var(--muted)]">Probá con otra palabra o elegí otra categoría.</p>
         </div>

@@ -27,7 +27,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-200"
                 : t.type === "error"
                 ? "border-red-400/30 bg-red-500/20 text-red-200"
-                : "border-orange-400/30 bg-orange-500/20 text-orange-200"
+                : "border-[var(--accent)]/30 bg-[var(--accent)]/20 text-[var(--accent)]"
             }`}
           >
             {t.type === "success" && "✅ "}

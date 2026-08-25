@@ -29,25 +29,26 @@ export default function PlanLimitBanner() {
   const plan = PLANES[info.plan] || PLANES.gratis;
 
   return (
-    <div className="mb-6 rounded-[1.75rem] border border-orange-400/30 bg-gradient-to-r from-orange-500/[.1] to-red-600/[.06] p-1.5">
-      <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <div className="flex items-center gap-3">
-            <Lock className="h-6 w-6 text-orange-400" />
-            <div>
-              <p className="font-black text-[var(--text)]">
-                Llegaste al límite del plan {plan.name} ({info.activas} oferta{info.activas === 1 ? "" : "s"} activa{info.activas === 1 ? "" : "s"})
-              </p>
-              <p className="text-sm text-[var(--muted)]">
-                Pasá a PRO Comerciante para publicar ofertas ilimitadas + estadísticas + historias.
-              </p>
-            </div>
+    <div className="mb-6 rounded-[2rem] border border-[var(--accent)]/30 bg-[#161314]">
+      <div className="flex flex-col items-center justify-between gap-4 p-6 md:flex-row">
+        <div className="flex items-center gap-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10">
+            <Lock className="h-5 w-5 text-[var(--accent)]" />
+          </span>
+          <div>
+            <p className="font-display text-lg uppercase tracking-tight text-[#f7f3ec]">
+              Llegaste al límite del plan {plan.name} ({info.activas} oferta{info.activas === 1 ? "" : "s"} activa{info.activas === 1 ? "" : "s"})
+            </p>
+            <p className="mt-0.5 text-sm text-[#a99b86]">
+              Pasá a PRO Comerciante para publicar ofertas ilimitadas + estadísticas + historias.
+            </p>
           </div>
-          <Link href="/dashboard/planes"
-            className="flex shrink-0 items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-3 text-sm font-black hover:opacity-90">
-            <Rocket className="h-4 w-4" /> Mejorar plan
-          </Link>
         </div>
+        <Link href="/dashboard/planes"
+          className="btn-hard flex shrink-0 items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white"
+          style={{ fontFamily: "var(--font-display)" }}>
+          <Rocket className="h-4 w-4" /> Mejorar plan
+        </Link>
       </div>
     </div>
   );

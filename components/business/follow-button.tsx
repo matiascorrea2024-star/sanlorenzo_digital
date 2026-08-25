@@ -50,7 +50,7 @@ export default function FollowButton({ businessId }: { businessId: string }) {
   return (
     <button onClick={toggle} disabled={busy}
       className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-black transition ${
-        siguiendo ? "border-orange-400/60 bg-orange-500/15 text-orange-300" : "border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)] hover:border-orange-400"
+        siguiendo ? "border-[var(--accent)]/60 bg-[var(--accent)]/15 text-[var(--accent)]" : "border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)] hover:border-[var(--accent)]"
       }`}>
       {siguiendo ? "★ Siguiendo" : "☆ Seguir"} · {count}
     </button>

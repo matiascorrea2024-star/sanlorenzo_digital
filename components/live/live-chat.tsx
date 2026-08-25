@@ -62,7 +62,7 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
         {mensajes.length === 0 && <p className="text-center text-xs text-[var(--muted2)]">Todavía no hay mensajes. ¡Escribí el primero!</p>}
         {mensajes.map((m) => (
           <div key={m.id} className="group flex items-start justify-between gap-2 text-sm">
-            <p><span className="font-bold text-orange-300">{m.sender_name}:</span> <span className="text-[var(--text)]/80">{m.body}</span></p>
+            <p><span className="font-bold text-[var(--accent)]">{m.sender_name}:</span> <span className="text-[var(--text)]/80">{m.body}</span></p>
             {puedeModerar && (
               <button onClick={() => ocultar(m.id)} title="Ocultar mensaje" className="shrink-0 opacity-0 group-hover:opacity-100">
                 <Trash2 className="h-3.5 w-3.5 text-[var(--bad)]" />
@@ -76,8 +76,8 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
         <div className="flex gap-2 border-t border-[var(--line)] p-3">
           <input value={texto} onChange={(e) => setTexto(e.target.value)} onKeyDown={(e) => e.key === "Enter" && enviar()}
             placeholder="Escribí algo..." maxLength={300}
-            className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2 text-sm text-[var(--text)] outline-none focus:border-orange-400" />
-          <button onClick={enviar} disabled={!texto.trim()} className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 disabled:opacity-50">
+            className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]" />
+          <button onClick={enviar} disabled={!texto.trim()} className="rounded-full bg-[var(--accent)] px-4 py-2 disabled:opacity-50">
             <Send className="h-4 w-4 text-white" />
           </button>
         </div>

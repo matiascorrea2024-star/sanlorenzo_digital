@@ -58,16 +58,16 @@ export default function CiudadView() {
   }, [ciudadSlug]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Cargando...</main>;
+    return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-[#f7f3ec]">Cargando...</main>;
   }
 
   if (!ciudad) {
     return (
-      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">
+      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-[#f7f3ec]">
         <div className="text-center">
-          <Search className="mx-auto mb-4 h-10 w-10 text-[var(--muted2)]" />
-          <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Ciudad no encontrada</h1>
-          <Link href="/" className="mt-4 inline-block text-orange-400">← Volver al inicio</Link>
+          <Search className="mx-auto mb-4 h-10 w-10 text-[#7d6f5c]" />
+          <h1 className="font-display text-3xl uppercase tracking-tight">Ciudad no encontrada</h1>
+          <Link href="/" className="mt-4 inline-block text-[var(--accent)]">← Volver al inicio</Link>
         </div>
       </main>
     );
@@ -75,20 +75,21 @@ export default function CiudadView() {
 
   if (ciudad.status !== "active") {
     return (
-      <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
-        <section className="border-b border-[var(--line)] bg-gradient-to-br from-orange-500/10 to-red-600/10 py-16">
-          <div className="mx-auto max-w-2xl px-4 text-center">
+      <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec]">
+        <section className="relative overflow-hidden border-b border-white/10 bg-[#0c0a0b] py-16">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(209,47,104,0.14),_transparent_55%)]" />
+          <div className="relative mx-auto max-w-2xl px-4 text-center">
             <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Próximamente</Badge>
-            <h1 className="mt-3 text-4xl font-black md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Estamos llegando a {ciudad.name}</h1>
-            <p className="mx-auto mt-3 max-w-md text-[var(--text)]/70">
+            <h1 className="mt-3 font-display text-4xl uppercase leading-[0.95] tracking-tight md:text-6xl">Estamos llegando a {ciudad.name}</h1>
+            <p className="mx-auto mt-3 max-w-md text-[#a99b86]">
               Todavía no activamos {ciudad.name} en La Gran Barata Digital. Estamos sumando ciudades
               del cordón industrial de a poco -- pronto vas a poder encontrar negocios y ofertas acá.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white">
+              <Link href="/" className="btn-hard rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
                 Ver ciudades activas
               </Link>
-              <Link href="/para-negocios" className="rounded-full border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold text-[var(--text)]/80 hover:bg-[var(--ov-05)]">
+              <Link href="/para-negocios" className="rounded-xl border border-white/15 px-6 py-3 text-xs font-black uppercase tracking-widest text-[#a99b86] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:border-[var(--accent)] hover:text-white" style={{ fontFamily: "var(--font-display)" }}>
                 Tengo un negocio acá
               </Link>
             </div>
@@ -101,13 +102,14 @@ export default function CiudadView() {
   const sinContenido = negocios.length === 0 && ofertas.length === 0;
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
       {/* Hero de ciudad */}
-      <section className="border-b border-[var(--line)] bg-gradient-to-br from-orange-500/10 to-red-600/10 py-12">
-        <div className="mx-auto max-w-6xl px-4">
+      <section className="relative overflow-hidden border-b border-white/10 bg-[#0c0a0b] py-12">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(209,47,104,0.14),_transparent_55%)]" />
+        <div className="relative mx-auto max-w-6xl px-4">
           <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Ciudad</Badge>
-          <h1 className="mt-3 text-4xl font-black md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{ciudad.name}</h1>
-          <p className="mt-2 text-[var(--text)]/70">
+          <h1 className="mt-3 font-display text-4xl uppercase leading-[0.9] tracking-tight md:text-6xl">{ciudad.name}</h1>
+          <p className="mt-2 text-[#a99b86]">
             Descubrí negocios, ofertas y servicios en {ciudad.name}
           </p>
         </div>
@@ -117,15 +119,13 @@ export default function CiudadView() {
         {/* Barrios */}
         {barrios.length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl font-black mb-4">Barrios de {ciudad.name}</h2>
+            <h2 className="mb-4 font-display text-2xl uppercase tracking-tight">Barrios de {ciudad.name}</h2>
             <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
               {barrios.map(b => (
                 <Link key={b.id} href={`/${ciudadSlug}/${b.slug}`}
-                  className="group rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-orange-400/30">
-                    <p className="font-bold">{b.name}</p>
-                    <p className="text-xs text-[var(--muted)]">Ver negocios →</p>
-                  </div>
+                  className="group rounded-[2rem] border border-white/5 bg-[#161314] p-5 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                  <p className="font-display text-xl uppercase tracking-tight">{b.name}</p>
+                  <p className="text-xs text-[#a99b86]">Ver negocios →</p>
                 </Link>
               ))}
             </div>
@@ -135,12 +135,12 @@ export default function CiudadView() {
         {/* Ofertas en esta ciudad */}
         {ofertas.length > 0 && (
           <section className="mb-12">
-            <div className="flex items-end justify-between mb-4">
+            <div className="mb-4 flex items-end justify-between">
               <div>
                 <Badge variant="danger" size="sm" pulse><Flame className="h-3 w-3" /> Ofertas</Badge>
-                <h2 className="mt-2 text-2xl font-black">Ofertas en {ciudad.name}</h2>
+                <h2 className="mt-2 font-display text-2xl uppercase tracking-tight">Ofertas en {ciudad.name}</h2>
               </div>
-              <Link href="/promociones" className="text-sm font-bold text-orange-400 flex items-center gap-1">
+              <Link href="/promociones" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
                 Ver todas <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -153,12 +153,12 @@ export default function CiudadView() {
         {/* Negocios destacados */}
         {negocios.length > 0 && (
           <section>
-            <div className="flex items-end justify-between mb-4">
+            <div className="mb-4 flex items-end justify-between">
               <div>
                 <Badge variant="info" size="sm"><Store className="h-3 w-3" /> Negocios</Badge>
-                <h2 className="mt-2 text-2xl font-black">Negocios en {ciudad.name}</h2>
+                <h2 className="mt-2 font-display text-2xl uppercase tracking-tight">Negocios en {ciudad.name}</h2>
               </div>
-              <Link href="/negocios" className="text-sm font-bold text-orange-400 flex items-center gap-1">
+              <Link href="/negocios" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
                 Ver todos <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -177,17 +177,18 @@ export default function CiudadView() {
             (esto es lo que hace que una ciudad nueva se sienta "viva" desde
             el día 1, no un cascarón). */}
         {sinContenido && (
-          <section className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] px-6 py-12 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Sparkles className="mx-auto mb-3 h-8 w-8 text-orange-400" />
-              <h2 className="text-xl font-black">{ciudad.name} recién se está sumando a la plataforma</h2>
-              <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">
+          <section className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8">
+            <div className="text-center">
+              <Sparkles className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
+              <h2 className="font-display text-xl uppercase tracking-tight">{ciudad.name} recién se está sumando a la plataforma</h2>
+              <p className="mx-auto mt-2 max-w-md text-sm text-[#a99b86]">
                 Todavía no hay negocios ni ofertas cargados acá. Si tenés un comercio en {ciudad.name},
                 podés ser el primero en aparecer.
               </p>
               <Link
                 href="/registro"
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-bold text-white"
+                className="btn-hard mt-5 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white"
+                style={{ fontFamily: "var(--font-display)" }}
               >
                 Sumar mi negocio <ArrowRight className="h-4 w-4" />
               </Link>

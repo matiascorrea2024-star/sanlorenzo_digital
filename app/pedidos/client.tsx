@@ -28,31 +28,31 @@ export default function PedidosPage() {
   }, [locationId]);
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
       {/* Hero editorial: calco del mockup aprobado -- headline gigante de
           2 líneas con degradé en la segunda, sin centrar. */}
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.12), transparent 45%), radial-gradient(circle at 85% 30%, rgba(220,38,38,.08), transparent 45%)" }} />
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(209,47,104,.14), transparent 45%), radial-gradient(circle at 85% 30%, rgba(169,31,85,.10), transparent 45%)" }} />
         <div className="relative mx-auto max-w-6xl px-4 pb-6 pt-14 sm:px-6 md:pt-20">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
-              <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.4em] text-orange-400">
+              <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
                 <HelpCircle className="h-3.5 w-3.5" /> Tablón comunitario
               </p>
-              <h1 className="text-6xl font-bold leading-[0.9]" style={{ fontFamily: "var(--font-space)" }}>
+              <h1 className="font-display text-6xl uppercase leading-[0.9] tracking-tight sm:text-7xl">
                 ¿Quién<br />
-                <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">tiene esto?</span>
+                <span className="knockout-text magenta-glow">tiene esto?</span>
               </h1>
-              <p className="mt-5 max-w-md text-lg font-medium leading-relaxed text-[var(--muted)]">
+              <p className="mt-5 max-w-md text-lg font-medium leading-relaxed text-[#a99b86]">
                 Publicá lo que buscás y recibí respuestas directas de vecinos y comercios locales. El mercado colaborativo de San Lorenzo.
               </p>
             </div>
             {!loading && ciudades.length > 1 && (
-              <div className="flex min-w-[220px] items-center gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-02)] px-4 py-3">
-                <MapPin className="h-4 w-4 shrink-0 text-orange-400" />
+              <div className="flex min-w-[220px] items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                <MapPin className="h-4 w-4 shrink-0 text-[var(--accent)]" />
                 <select value={locationId} onChange={(e) => setLocationId(e.target.value)}
-                  className="w-full cursor-pointer appearance-none bg-transparent text-sm font-bold outline-none">
-                  {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[var(--surface2)]">{c.name}</option>)}
+                  className="w-full cursor-pointer appearance-none bg-transparent text-sm font-bold text-[#f7f3ec] outline-none">
+                  {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[#161314]">{c.name}</option>)}
                 </select>
               </div>
             )}

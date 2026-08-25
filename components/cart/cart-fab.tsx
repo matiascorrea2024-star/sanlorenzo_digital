@@ -70,7 +70,7 @@ export default function CartFab() {
               {Object.entries(porNegocio).map(([businessId, grupo]) => (
                 <div key={businessId} className="rounded-2xl border border-[var(--line)] bg-[var(--ov-03)] p-4">
                   <Link href={`/negocio/${grupo[0].businessSlug}`} onClick={() => setOpen(false)}
-                    className="mb-2 block text-sm font-black text-[var(--text)] hover:text-orange-300">
+                    className="mb-2 block text-sm font-black text-[var(--text)] hover:text-[var(--accent)]">
                     {grupo[0].businessName}
                   </Link>
                   <div className="space-y-1.5">

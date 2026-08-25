@@ -96,96 +96,84 @@ export default function PulsoClient() {
   const hayAlgo = categoriaTop || vencenHoy.length > 0 || recienPublicado.length > 0 || negocioEnAlza || ofertasSemana > 0 || negociosSemana > 0;
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
       <PageHero title="¿Qué está pasando hoy en San Lorenzo?" subtitle="El pulso comercial de la ciudad, con datos reales de la plataforma" />
       <div className="mx-auto max-w-5xl px-4 py-8">
         {loading ? (
           <div className="grid gap-4 md:grid-cols-2">
-            {Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-32 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--ov-05)]" />)}
+            {Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-32 animate-pulse rounded-2xl border border-white/5 bg-[#161314]" />)}
           </div>
         ) : !hayAlgo ? (
-          <div className="sld-card rounded-2xl p-10 text-center">
-            <Sparkles className="mx-auto mb-3 h-8 w-8 text-orange-400" />
-            <p className="font-bold">Todavía no hay suficiente actividad para mostrar tendencias.</p>
-            <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
+          <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-10 text-center">
+            <Sparkles className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
+            <p className="font-display text-xl uppercase tracking-tight">Todavía no hay suficiente actividad para mostrar tendencias.</p>
+            <p className="mx-auto mt-1 max-w-sm text-sm text-[#a99b86]">
               Esta página se va llenando sola a medida que la ciudad usa la plataforma -- buscá, mirá ofertas, volvé mañana.
             </p>
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {categoriaTop && (
-              <div className="rounded-[1.75rem] border border-orange-400/25 bg-gradient-to-br from-orange-500/[.08] to-red-600/[.04] p-1.5">
-                <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-orange-300"><Search className="h-3.5 w-3.5" /> Categoría más buscada hoy</p>
-                  <p className="mt-2 text-2xl font-black">{categoriaTop.icon} {categoriaTop.nombre}</p>
-                  <p className="mt-1 text-sm text-[var(--muted)]">{categoriaTop.busquedas} búsqueda{categoriaTop.busquedas === 1 ? "" : "s"} hoy</p>
-                </div>
+              <div className="rounded-[2rem] border border-[var(--accent)]/30 bg-[#161314] p-6 shadow-[0_0_20px_rgba(209,47,104,0.1)]">
+                <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Search className="h-3.5 w-3.5" /> Categoría más buscada hoy</p>
+                <p className="mt-2 font-display text-2xl">{categoriaTop.icon} {categoriaTop.nombre}</p>
+                <p className="mt-1 text-sm text-[#a99b86]">{categoriaTop.busquedas} búsqueda{categoriaTop.busquedas === 1 ? "" : "s"} hoy</p>
               </div>
             )}
 
             {negocioEnAlza && (
-              <div className="rounded-[1.75rem] border border-green-400/25 bg-gradient-to-br from-green-500/[.08] to-emerald-500/[.04] p-1.5">
-                <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[var(--ok)]"><TrendingUp className="h-3.5 w-3.5" /> Negocio en alza esta semana</p>
-                  <Link href={`/negocio/${negocioEnAlza.slug}`} className="mt-2 block text-2xl font-black hover:text-[var(--ok)]">{negocioEnAlza.name}</Link>
-                  <p className="mt-1 text-sm text-[var(--muted)]">+{negocioEnAlza.crecimiento} visitas vs la semana anterior</p>
-                </div>
+              <div className="rounded-[2rem] border border-green-400/25 bg-[#161314] p-6 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--ok)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
+                <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--ok)]" style={{ fontFamily: "var(--font-display)" }}><TrendingUp className="h-3.5 w-3.5" /> Negocio en alza esta semana</p>
+                <Link href={`/negocio/${negocioEnAlza.slug}`} className="mt-2 block font-display text-2xl transition hover:text-[var(--ok)]">{negocioEnAlza.name}</Link>
+                <p className="mt-1 text-sm text-[#a99b86]">+{negocioEnAlza.crecimiento} visitas vs la semana anterior</p>
               </div>
             )}
 
-            <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[var(--place)]"><PieChart className="h-3.5 w-3.5" /> Tendencia de la semana</p>
-                <p className="mt-2 text-2xl font-black">{ofertasSemana} oferta{ofertasSemana === 1 ? "" : "s"} nueva{ofertasSemana === 1 ? "" : "s"}</p>
-                <p className="mt-1 text-sm text-[var(--muted)]">{negociosSemana} negocio{negociosSemana === 1 ? "" : "s"} nuevo{negociosSemana === 1 ? "" : "s"} esta semana</p>
-              </div>
+            <div className="rounded-[2rem] border border-white/5 bg-[#161314] p-6 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+              <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}><PieChart className="h-3.5 w-3.5" /> Tendencia de la semana</p>
+              <p className="mt-2 font-display text-2xl">{ofertasSemana} oferta{ofertasSemana === 1 ? "" : "s"} nueva{ofertasSemana === 1 ? "" : "s"}</p>
+              <p className="mt-1 text-sm text-[#a99b86]">{negociosSemana} negocio{negociosSemana === 1 ? "" : "s"} nuevo{negociosSemana === 1 ? "" : "s"} esta semana</p>
             </div>
 
             {categoriasConMas.length > 0 && (
-              <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-                <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="mb-2 text-xs font-black uppercase tracking-wider text-[var(--muted2)]">Rubros con más negocios</p>
-                  <div className="space-y-1.5">
-                    {categoriasConMas.map((c) => (
-                      <div key={c.nombre} className="flex items-center justify-between text-sm">
-                        <span>{c.icon} {c.nombre}</span>
-                        <span className="text-[var(--muted2)]">{c.cant}</span>
-                      </div>
-                    ))}
-                  </div>
+              <div className="rounded-[2rem] border border-white/5 bg-[#161314] p-6 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                <p className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Rubros con más negocios</p>
+                <div className="space-y-1.5">
+                  {categoriasConMas.map((c) => (
+                    <div key={c.nombre} className="flex items-center justify-between text-sm">
+                      <span>{c.icon} {c.nombre}</span>
+                      <span className="font-display text-[#7d6f5c]">{c.cant}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
 
             {vencenHoy.length > 0 && (
-              <div className="rounded-[1.75rem] border border-red-400/25 bg-gradient-to-br from-red-500/[.08] to-orange-500/[.04] p-1.5 md:col-span-2">
-                <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[var(--bad)]"><Clock className="h-3.5 w-3.5" /> {vencenHoy.length} oferta{vencenHoy.length === 1 ? "" : "s"} vence{vencenHoy.length === 1 ? "" : "n"} hoy</p>
-                  <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-                    {vencenHoy.map((o: any) => (
-                      <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-[var(--line)] bg-[var(--card-inner)] p-3 hover:border-red-400/40">
-                        <p className="truncate text-sm font-bold">{o.title}</p>
-                        <p className="text-xs text-[var(--muted)]">{o.business_name}</p>
-                        {o.offer_price && <p className="mt-1 text-sm font-black text-orange-400">{fmt(Number(o.offer_price))}</p>}
-                      </Link>
-                    ))}
-                  </div>
+              <div className="rounded-[2rem] border border-red-400/25 bg-[#161314] p-6 md:col-span-2">
+                <p className="mb-3 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--bad)]" style={{ fontFamily: "var(--font-display)" }}><Clock className="h-3.5 w-3.5" /> {vencenHoy.length} oferta{vencenHoy.length === 1 ? "" : "s"} vence{vencenHoy.length === 1 ? "" : "n"} hoy</p>
+                <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                  {vencenHoy.map((o: any) => (
+                    <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-white/10 bg-white/[0.03] p-3 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                      <p className="truncate text-sm font-bold">{o.title}</p>
+                      <p className="text-xs text-[#a99b86]">{o.business_name}</p>
+                      {o.offer_price && <p className="mt-1 font-display text-sm text-[var(--accent)]">{fmt(Number(o.offer_price))}</p>}
+                    </Link>
+                  ))}
                 </div>
               </div>
             )}
 
             {recienPublicado.length > 0 && (
-              <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 md:col-span-2">
-                <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="mb-3 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[var(--place)]"><Flame className="h-3.5 w-3.5" /> Recién publicado</p>
-                  <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-                    {recienPublicado.map((o: any) => (
-                      <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-[var(--line)] bg-[var(--card-inner)] p-3 hover:border-sky-400/40">
-                        <p className="truncate text-sm font-bold">{o.title}</p>
-                        <p className="text-xs text-[var(--muted)]">{o.business_name}</p>
-                      </Link>
-                    ))}
-                  </div>
+              <div className="rounded-[2rem] border border-white/5 bg-[#161314] p-6 md:col-span-2">
+                <p className="mb-3 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Flame className="h-3.5 w-3.5" /> Recién publicado</p>
+                <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                  {recienPublicado.map((o: any) => (
+                    <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-white/10 bg-white/[0.03] p-3 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                      <p className="truncate text-sm font-bold">{o.title}</p>
+                      <p className="text-xs text-[#a99b86]">{o.business_name}</p>
+                    </Link>
+                  ))}
                 </div>
               </div>
             )}

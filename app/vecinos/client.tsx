@@ -66,77 +66,71 @@ export default function VecinosPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
       <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
         <RankingSwitch current="vecinos" />
 
-        <p className="mt-8 text-[10px] font-black uppercase tracking-[.4em] text-orange-500">Comunidad activa</p>
-        <h1 className="mt-2 text-5xl font-black uppercase leading-[0.9] tracking-tighter sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
+        <p className="mt-8 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Comunidad activa</p>
+        <h1 className="mt-2 font-display text-5xl uppercase leading-[0.9] tracking-tight text-[#f7f3ec] sm:text-6xl">
           RANKING DE{" "}
-          <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">VECINOS</span>
+          <span className="bg-gradient-to-r from-[var(--accent)] to-[#fbbf24] bg-clip-text text-transparent">VECINOS</span>
         </h1>
-        <p className="mt-4 max-w-lg text-lg text-[var(--muted)]">Los vecinos más activos de San Lorenzo. ¿Llegás al podio?</p>
+        <p className="mt-4 max-w-lg text-lg text-[#a99b86]">Los vecinos más activos de San Lorenzo. ¿Llegás al podio?</p>
 
         {miRank && (
-          <div className="mt-8 rounded-[1.75rem] border border-orange-400/20 bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <p className="text-sm font-black text-orange-300">
-                📍 Vas {miRank.puesto}º de {miRank.total} vecinos · {miRank.puntos} puntos
-              </p>
-              <p className="mt-1 text-xs text-[var(--muted)]">Seguí sumando para aparecer en el podio 👇</p>
-            </div>
+          <div className="mt-8 rounded-2xl border border-[var(--accent)]/20 bg-[#161314] p-5 text-center">
+            <p className="text-sm font-black text-[var(--accent)]">
+              📍 Vas {miRank.puesto}º de {miRank.total} vecinos · {miRank.puntos} puntos
+            </p>
+            <p className="mt-1 text-xs text-[#a99b86]">Seguí sumando para aparecer en el podio 👇</p>
           </div>
         )}
 
         <div className="mt-8 space-y-3">
-          {loading && <p className="text-center text-[var(--muted)]">Cargando vecinos...</p>}
+          {loading && <p className="text-center text-[#a99b86]">Cargando vecinos...</p>}
           {!loading &&
             vecinos.map((v, i) => {
               const r = rangoDeUsuario(v.puntos);
               return (
-                <div key={v.id} className={`rounded-[1.5rem] border transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 ${i === 0 ? "p-2 border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 to-transparent" : "p-1.5 border-[var(--ov-06)] bg-[var(--ov-02)]"}`}>
-                  <div className={`flex items-center gap-4 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] ${i === 0 ? "p-5" : "p-3.5"}`}>
-                    <span className={`shrink-0 text-center font-black ${i === 0 ? "w-12 text-4xl" : "w-8 text-xl"}`}>{medalla(i)}</span>
+                <div key={v.id} className={`rounded-2xl border p-4 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)] ${i === 0 ? "border-[#fbbf24]/25 bg-gradient-to-br from-[#fbbf24]/5 to-transparent" : "border-white/5 bg-[#161314]"}`}>
+                  <div className="flex items-center gap-4">
+                    <span className={`shrink-0 text-center leading-none ${i === 0 ? "gold-glow w-14 font-display text-4xl text-[#fbbf24]" : i < 3 ? "w-12 text-3xl text-[#fbbf24]" : "w-10 font-display text-2xl text-[var(--accent)]"}`}>{medalla(i)}</span>
                     <DivisionFrame puntos={v.puntos} escala={ESCALA_PUNTOS_USUARIO} size={i === 0 ? 56 : 40}>
                       <Avatar name={v.nombre} size={i === 0 ? 52 : 40} />
                     </DivisionFrame>
                     <div className="min-w-0 flex-1">
-                      <p className={`truncate font-bold capitalize ${i === 0 ? "text-lg" : ""}`} style={i === 0 ? { fontFamily: "var(--font-space)" } : undefined}>{v.nombre}</p>
+                      <p className={`truncate font-bold capitalize ${i === 0 ? "text-lg" : ""}`}>{v.nombre}</p>
                       <p className="text-xs font-bold uppercase tracking-wide" style={{ color: r.accent }}>{r.rango}{r.tier && ` ${r.tier}`}</p>
                     </div>
                     <div className="shrink-0 text-right">
-                      <p className="text-xl font-black text-orange-400" style={{ fontFamily: "var(--font-ticket)" }}>{v.puntos}</p>
-                      <p className="text-[10px] uppercase tracking-wider text-[var(--muted2)]">puntos</p>
+                      <p className={`font-display text-3xl ${i === 0 ? "gold-glow text-[#fbbf24]" : i < 3 ? "text-[#fbbf24]" : "text-[var(--accent)]"}`}>{v.puntos}</p>
+                      <p className="text-[10px] uppercase tracking-wider text-[#7d6f5c]">puntos</p>
                     </div>
                   </div>
                 </div>
               );
             })}
           {!loading && vecinos.length === 0 && (
-            <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-10 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                <p className="text-lg font-bold">Todavía no hay vecinos en el ranking</p>
-                <p className="mt-1 text-sm text-[var(--muted)]">
-                  Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas para sumar puntos.
-                </p>
-                <Link href="/promociones" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">
-                  Ver ofertas →
-                </Link>
-              </div>
+            <div className="rounded-2xl border border-white/5 bg-[#161314] p-10 text-center">
+              <p className="text-lg font-bold">Todavía no hay vecinos en el ranking</p>
+              <p className="mt-1 text-sm text-[#a99b86]">
+                Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas para sumar puntos.
+              </p>
+              <Link href="/promociones" className="btn-hard mt-4 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
+                Ver ofertas →
+              </Link>
             </div>
           )}
         </div>
 
-        <div className="mt-8 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-            <p className="font-black">🎖 ¿Cómo se sube?</p>
-            <p className="mt-1 text-sm text-[var(--muted)]">
-              Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas.
-            </p>
-            <Link href="/perfil" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">
-              Ver mis misiones →
-            </Link>
-          </div>
+        <div className="mt-8 rounded-2xl border border-white/5 bg-[#161314] p-6 text-center">
+          <p className="font-display text-xl uppercase tracking-tight text-[#f7f3ec]">🎖 ¿Cómo se sube?</p>
+          <p className="mt-1 text-sm text-[#a99b86]">
+            Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas.
+          </p>
+          <Link href="/perfil" className="btn-hard mt-4 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
+            Ver mis misiones →
+          </Link>
         </div>
       </div>
     </main>

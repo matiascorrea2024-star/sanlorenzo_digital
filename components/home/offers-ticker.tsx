@@ -67,9 +67,9 @@ export default function OffersTicker() {
           <Link
             key={p.id + "-" + i}
             href={p.href}
-            className="flex items-center gap-4 text-sm font-black uppercase tracking-[0.3em] text-[var(--muted2)] transition hover:text-orange-500"
+            className="flex items-center gap-4 text-sm font-black uppercase tracking-[0.3em] text-[var(--muted2)] transition hover:text-[var(--accent)]"
           >
-            <span className="text-orange-500">{String((i % items.length) + 1).padStart(2, "0")}</span>
+            <span className="text-[var(--accent)]">{String((i % items.length) + 1).padStart(2, "0")}</span>
             <span>{p.label}</span>
             <span>· {p.sub}</span>
           </Link>

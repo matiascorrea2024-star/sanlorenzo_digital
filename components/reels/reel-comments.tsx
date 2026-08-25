@@ -84,10 +84,10 @@ export default function ReelComments({ reelId, onClose, onCommentAdded }: {
               onKeyDown={(e) => e.key === "Enter" && enviar()}
               placeholder="Agregá un comentario..."
               maxLength={300}
-              className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm text-[var(--text)] outline-none focus:border-orange-400"
+              className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]"
             />
             <button onClick={enviar} disabled={sending || !text.trim()} aria-label="Enviar"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-red-600 disabled:opacity-50">
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] disabled:opacity-50">
               <Send className="h-4 w-4 text-white" />
             </button>
           </div>

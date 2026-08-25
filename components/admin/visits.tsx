@@ -59,7 +59,7 @@ export default function AdminVisits() {
             onClick={sembrar}
             disabled={loading}
             title="Inserta 5 visitas falsas para probar cómo se ve la tabla -- no son datos reales"
-            className="rounded-xl border border-orange-400/40 bg-orange-500/10 px-3 py-1.5 text-xs font-bold text-orange-300 transition hover:bg-orange-500/20 disabled:opacity-50"
+            className="rounded-xl border border-[var(--accent)]/40 bg-[var(--accent)]/10 px-3 py-1.5 text-xs font-bold text-[var(--accent)] transition hover:bg-[var(--accent)]/20 disabled:opacity-50"
           >
             {loading ? "⏳ Sembrando..." : "🌱 Simular 5 visitas"}
           </button>
@@ -84,7 +84,7 @@ export default function AdminVisits() {
             ) : (
               visibles.map((v, i) => (
                 <tr key={v.id || i} className="border-b border-[var(--ov-05)] hover:bg-[var(--ov-05)]">
-                  <td className="px-3 py-2 font-mono text-[10px] text-orange-300 md:px-4 md:text-xs">{v.ip || "—"}</td>
+                  <td className="px-3 py-2 font-mono text-[10px] text-[var(--accent)] md:px-4 md:text-xs">{v.ip || "—"}</td>
                   <td className="max-w-[140px] truncate px-3 py-2 text-[10px] text-[var(--text)] md:max-w-none md:px-4 md:text-xs">
                     {v.business_id ? (nombres[v.business_id] || "Miniweb") : v.path || "/"}
                   </td>

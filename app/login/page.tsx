@@ -47,36 +47,35 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] px-4">
-      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(249,115,22,.16), transparent 55%), radial-gradient(circle at 90% 100%, rgba(34,211,238,.1), transparent 55%)" }} />
-      <div className="relative w-full max-w-md">
-        <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-          <div className="text-center mb-8">
-            <Link href="/" className="inline-block mb-4">
-              <span className="text-3xl">🛍️</span>
-            </Link>
-            <h1 className="text-2xl font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Iniciar sesión</h1>
-            <p className="mt-2 text-[var(--muted)]">Entrá a tu cuenta de San Lorenzo Digital</p>
-          </div>
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0c0a0b] px-4 text-[#f7f3ec]">
+      <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
+      <div className="relative w-full max-w-md rounded-[2.5rem] border border-white/10 bg-[#161314] p-8 shadow-2xl">
+        <div className="mb-8 text-center">
+          <Link href="/" className="mb-4 inline-block">
+            <span className="text-3xl">🛍️</span>
+          </Link>
+          <h1 className="font-display text-4xl uppercase tracking-tight sm:text-5xl">Iniciar sesión</h1>
+          <p className="mt-3 text-sm text-[#a99b86]">Entrá a tu cuenta de San Lorenzo Digital</p>
+        </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-[var(--text)]/80 mb-2">Email</label>
+              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-[var(--text)] outline-none focus:border-orange-400"
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-[#7d6f5c] outline-none transition focus:border-[var(--accent)] focus:bg-white/10"
                 placeholder="tu@email.com"
               />
             </div>
 
             <div>
               <div className="mb-2 flex items-center justify-between">
-                <label className="block text-sm font-semibold text-[var(--text)]/80">Contraseña</label>
-                <button type="button" onClick={() => { setForgotMode(true); setError(""); }} className="text-xs font-semibold text-orange-400 hover:text-orange-300">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>Contraseña</label>
+                <button type="button" onClick={() => { setForgotMode(true); setError(""); }} className="text-xs font-bold text-[var(--accent)] transition hover:text-white">
                   ¿Olvidaste tu contraseña?
                 </button>
               </div>
@@ -85,24 +84,24 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-[var(--text)] outline-none focus:border-orange-400"
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-[#7d6f5c] outline-none transition focus:border-[var(--accent)] focus:bg-white/10"
                 placeholder="••••••••"
               />
             </div>
 
             {forgotMode && (
-              <div className="rounded-xl border border-orange-400/30 bg-orange-500/10 p-4">
+              <div className="rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-4">
                 {forgotSent ? (
-                  <p className="text-sm text-orange-200">✅ Si ese email tiene una cuenta, te mandamos un link para restablecer la contraseña.</p>
+                  <p className="text-sm text-[var(--accent)]">✅ Si ese email tiene una cuenta, te mandamos un link para restablecer la contraseña.</p>
                 ) : (
                   <>
-                    <p className="mb-2 text-sm text-[var(--text)]/80">Te mandamos un link a tu email para elegir una nueva contraseña.</p>
+                    <p className="mb-3 text-sm text-[#a99b86]">Te mandamos un link a tu email para elegir una nueva contraseña.</p>
                     <div className="flex gap-2">
                       <button type="button" onClick={handleForgot} disabled={forgotLoading}
-                        className="rounded-lg bg-orange-500 px-4 py-2 text-xs font-black text-white hover:opacity-90 disabled:opacity-50">
+                        className="btn-hard rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
                         {forgotLoading ? "Enviando…" : "Enviar link"}
                       </button>
-                      <button type="button" onClick={() => setForgotMode(false)} className="rounded-lg border border-[var(--line-strong)] px-4 py-2 text-xs font-bold text-[var(--text)]/70">
+                      <button type="button" onClick={() => setForgotMode(false)} className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-bold text-[#a99b86] transition hover:text-white">
                         Cancelar
                       </button>
                     </div>
@@ -112,7 +111,7 @@ export default function LoginPage() {
             )}
 
             {error && (
-              <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-3">
+              <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-3">
                 <p className="text-sm text-[var(--bad)]">{error}</p>
               </div>
             )}
@@ -120,22 +119,21 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
+              className="btn-hard w-full rounded-xl bg-[var(--accent)] py-4 text-xs font-black uppercase tracking-widest text-white"
+              style={{ fontFamily: "var(--font-display)" }}
             >
               {loading ? "Entrando..." : "Iniciar sesión"}
             </button>
           </form>
 
-          <div className="mt-6 text-center space-y-3">
-            <Link href="/registro" className="block text-sm text-orange-400 hover:text-orange-300">
+          <div className="mt-6 space-y-3 text-center">
+            <Link href="/registro" className="block text-sm font-bold text-[var(--accent)] transition hover:text-white">
               ¿No tenés cuenta? Registrate
             </Link>
-            <Link href="/" className="block text-sm text-[var(--muted)] hover:text-[var(--text)]/70">
+            <Link href="/" className="block text-sm text-[#a99b86] transition hover:text-[var(--accent)]">
               ← Volver al inicio
             </Link>
           </div>
-        </div>
-        </div>
       </div>
     </main>
   );

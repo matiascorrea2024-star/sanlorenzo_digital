@@ -78,7 +78,7 @@ export default function AsistenteComerciantePage() {
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">
-          <Wand2 className="h-8 w-8 text-orange-400" />
+          <Wand2 className="h-8 w-8 text-[var(--accent)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Asistente de publicaciones</h1>
             <p className="text-[var(--muted)]">Generá títulos, descripciones y copy para WhatsApp en segundos</p>
@@ -87,7 +87,7 @@ export default function AsistenteComerciantePage() {
 
         <div className="mb-6">
           <p className="mb-3 flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-[var(--muted2)]">
-            <Lightbulb className="h-3.5 w-3.5 text-orange-400" /> Tips que realmente ayudan a vender
+            <Lightbulb className="h-3.5 w-3.5 text-[var(--accent)]" /> Tips que realmente ayudan a vender
           </p>
           <div className="grid gap-2.5 sm:grid-cols-2">
             {TIPS.map((tip) => (
@@ -109,23 +109,23 @@ export default function AsistenteComerciantePage() {
           <div className="space-y-3">
             <input value={form.producto} onChange={(e) => setForm({ ...form, producto: e.target.value })}
               placeholder="¿Qué vendés? Ej: Zapatillas deportivas *"
-              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             <input value={form.negocio} onChange={(e) => setForm({ ...form, negocio: e.target.value })}
               placeholder="Nombre de tu negocio"
-              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             <div className="grid grid-cols-3 gap-3">
               <input value={form.precio} onChange={(e) => setForm({ ...form, precio: e.target.value })}
                 placeholder="Precio" type="number"
-                className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
               <input value={form.precioAntes} onChange={(e) => setForm({ ...form, precioAntes: e.target.value })}
                 placeholder="Precio anterior" type="number"
-                className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
               <input value={form.descuento} onChange={(e) => setForm({ ...form, descuento: e.target.value })}
                 placeholder="% OFF" type="number"
-                className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             </div>
             <button onClick={generar} disabled={!form.producto}
-              className="w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
+              className="w-full rounded-full bg-[var(--accent)] py-3 text-sm font-black disabled:opacity-50">
               ✨ Generar publicación
             </button>
           </div>

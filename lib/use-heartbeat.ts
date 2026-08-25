@@ -13,7 +13,7 @@ export function useHeartbeat(userId: string | undefined) {
           .from("user_profiles")
           .update({ last_seen_at: new Date().toISOString() })
           .eq("user_id", userId);
-      } catch (e) {
+      } catch {
         // silencioso: no rompe la app si falla
       }
     };

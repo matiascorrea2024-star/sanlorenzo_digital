@@ -45,7 +45,7 @@ export default function ResenasPage() {
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="mb-2 flex items-center gap-3">
-          <Star className="h-8 w-8 text-orange-400" />
+          <Star className="h-8 w-8 text-[var(--accent)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Reseñas de tus clientes</h1>
             <p className="text-[var(--muted)]">Respondé y demostrá que te importa tu comunidad</p>
@@ -90,9 +90,9 @@ export default function ResenasPage() {
                       <textarea value={replies[r.id] || ""}
                         onChange={(e) => setReplies(prev => ({ ...prev, [r.id]: e.target.value }))}
                         rows={2} placeholder="Respondé al cliente..."
-                        className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                        className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
                       <button onClick={() => saveReply(r.id)}
-                        className="mt-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2 text-xs font-black hover:opacity-90">
+                        className="mt-2 rounded-full bg-[var(--accent)] px-5 py-2 text-xs font-black hover:opacity-90">
                         {saved[r.id] ? "✅ Guardada" : "Responder"}
                       </button>
                     </>

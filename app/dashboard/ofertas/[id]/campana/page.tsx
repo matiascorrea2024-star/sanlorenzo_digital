@@ -76,18 +76,18 @@ export default function CampanaPage() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-orange-400 hover:text-orange-300">← Volver a mis ofertas</Link>
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]">← Volver a mis ofertas</Link>
         <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--place)]">Alcance segmentado</p>
         <h1 className="mt-2 flex items-center gap-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}><MapPin className="h-9 w-9 text-[var(--place)]" /> Promocionar por barrio</h1>
         <p className="mt-3 text-[var(--muted)]">&quot;{offer.title}&quot;</p>
 
         {!plan.campanas ? (
-          <div className="mt-8 rounded-[1.75rem] border border-orange-400/20 bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-orange-400/10 bg-gradient-to-br from-orange-500/10 to-red-600/10 p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Lock className="mx-auto mb-3 h-8 w-8 text-orange-400" />
+          <div className="mt-8 rounded-[1.75rem] border border-[var(--accent)]/20 bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--accent)]/10 bg-gradient-to-br from-[var(--accent)]/10 to-red-600/10 p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+              <Lock className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
               <p className="font-black">Promocionar por barrio es de Plan PRO</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Hacé que tu oferta se destaque en el barrio que más te importa.</p>
-              <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-5 py-2.5 text-sm font-black">Ver planes →</Link>
+              <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black">Ver planes →</Link>
             </div>
           </div>
         ) : barrios.length === 0 ? (
@@ -110,7 +110,7 @@ export default function CampanaPage() {
             <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Barrio</label>
               <select value={seleccionado} onChange={(e) => setSeleccionado(e.target.value)}
-                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 text-sm outline-none focus:border-orange-400">
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]">
                 <option value="">Sin promocionar</option>
                 {barrios.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
               </select>
@@ -126,7 +126,7 @@ export default function CampanaPage() {
               )}
 
               <button onClick={guardar} disabled={guardando}
-                className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
+                className="mt-4 w-full rounded-full bg-[var(--accent)] py-3 text-sm font-black disabled:opacity-50">
                 {guardando ? "Guardando..." : "Guardar"}
               </button>
             </div>

@@ -39,13 +39,13 @@ export default function InstallApp() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-36 left-4 right-4 z-[90] mx-auto max-w-sm rounded-2xl border border-orange-400/40 bg-[var(--surface2)]/95 p-4 shadow-2xl backdrop-blur-xl md:bottom-24">
+    <div className="fixed bottom-36 left-4 right-4 z-[90] mx-auto max-w-sm rounded-2xl border border-[var(--accent)]/40 bg-[var(--surface2)]/95 p-4 shadow-2xl backdrop-blur-xl md:bottom-24">
       <button onClick={close} aria-label="Cerrar aviso de instalación"
         className="absolute right-2 top-2 text-[var(--muted2)] hover:text-[var(--text)]">
         <X className="h-4 w-4" />
       </button>
       <div className="flex items-center gap-3">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-red-600">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--accent)]">
           <Download className="h-6 w-6 text-white" />
         </div>
         <div className="flex-1">
@@ -54,7 +54,7 @@ export default function InstallApp() {
         </div>
       </div>
       <button onClick={install}
-        className="mt-3 w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 py-2.5 text-sm font-black hover:opacity-90">
+        className="mt-3 w-full rounded-xl bg-[var(--accent)] py-2.5 text-sm font-black hover:opacity-90">
         Instalar app
       </button>
     </div>

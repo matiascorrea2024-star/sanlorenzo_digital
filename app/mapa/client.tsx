@@ -11,7 +11,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 const CENTRO: [number, number] = [-32.7475, -60.7285];
 
-export default function MapaPage({ initial = [] }: { initial?: any[] }) {
+export default function MapaPage() {
   const negocios = useAllBusinesses();
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletRef = useRef<any>(null);
@@ -167,24 +167,26 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
   }, [negocios, radio, userCoords]);
 
   return (
-    <main className="bg-[var(--bg)] min-h-screen pb-24 text-[var(--text)]">
+    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
       <div className="mx-auto max-w-[1600px] px-4 py-8 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
           {/* IZQUIERDA: mapa protagonista */}
           <div className="flex flex-col gap-5">
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Exploración geográfica</p>
-                <h1 className="mt-2 text-4xl font-bold tracking-tighter sm:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
-                  Mapa de la <span className="bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">Ciudad</span>
+                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Exploración geográfica</p>
+                <h1 className="mt-2 font-display text-4xl uppercase tracking-tight sm:text-6xl">
+                  Mapa de la <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-red-600 bg-clip-text text-transparent">Ciudad</span>
                 </h1>
               </div>
-              <div className="flex items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--ov-03)] p-1">
+              <div className="flex flex-wrap items-center gap-2">
                 {[0.5, 1, 2, 3, 5, 10].map(r => (
                   <button key={r} onClick={() => setRadio(radio === r ? null : r)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all duration-300 ${
-                      radio === r ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg shadow-orange-500/20" : "text-[var(--muted)] hover:bg-[var(--ov-05)] hover:text-[var(--text)]"
-                    }`}>
+                    className={`rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
+                      radio === r
+                        ? "border-[var(--accent)] bg-[var(--accent)] text-white"
+                        : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
+                    }`} style={{ fontFamily: "var(--font-display)" }}>
                     {r < 1 ? "500 m" : `${r} km`}
                   </button>
                 ))}
@@ -192,23 +194,23 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
             </div>
 
             {/* Mapa -- mismo doble marco que el resto de la plataforma. */}
-            <div className="relative flex-1 rounded-[2rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 shadow-2xl shadow-black/50">
-              <div className="relative min-h-[420px] overflow-hidden rounded-[calc(2rem-0.375rem)] border border-[var(--ov-05)] md:min-h-[560px]">
+            <div className="relative flex-1 rounded-3xl border border-white/10 bg-white/5 p-2 shadow-2xl shadow-black/50">
+              <div className="relative min-h-[420px] overflow-hidden rounded-2xl border border-white/5 md:min-h-[560px]">
                 <div ref={mapRef} className="relative z-0 h-full min-h-[420px] w-full md:min-h-[560px]" />
                 {!mapReady && (
-                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[var(--ov-05)]">
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#161314]/90 backdrop-blur-sm">
                     <div className="flex flex-col items-center gap-3">
-                      <div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-500 border-t-transparent" />
-                      <p className="text-sm text-[var(--muted)]">Cargando el mapa...</p>
+                      <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--accent)] border-t-transparent" />
+                      <p className="text-sm text-[#a99b86]">Cargando el mapa...</p>
                     </div>
                   </div>
                 )}
                 {mapReady && stats.total === 0 && (
-                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[var(--bg)]/90 p-6 text-center backdrop-blur-sm">
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0c0a0b]/90 p-6 text-center backdrop-blur-sm">
                     <div>
-                      <MapPin className="mx-auto h-8 w-8 text-[var(--muted2)]" />
-                      <p className="mt-3 font-bold">Todavía no hay negocios con ubicación cargada</p>
-                      <p className="mt-1 text-sm text-[var(--muted)]">Los comercios van a aparecer acá a medida que carguen su ubicación exacta.</p>
+                      <MapPin className="mx-auto h-8 w-8 text-[#7d6f5c]" />
+                      <p className="mt-3 font-display text-xl uppercase tracking-tight">Todavía no hay negocios con ubicación cargada</p>
+                      <p className="mt-1 text-sm text-[#a99b86]">Los comercios van a aparecer acá a medida que carguen su ubicación exacta.</p>
                     </div>
                   </div>
                 )}
@@ -217,68 +219,68 @@ export default function MapaPage({ initial = [] }: { initial?: any[] }) {
 
             {/* Stats reales + leyenda */}
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <div className="rounded-2xl border border-[var(--ov-06)] bg-[var(--ov-02)] p-4">
-                <span className="mb-1 block text-[9px] font-black uppercase tracking-widest text-[var(--muted2)]">Negocios</span>
-                <span className="text-3xl font-black" style={{ fontFamily: "var(--font-ticket)" }}>{stats.total}</span>
+              <div className="rounded-2xl border border-white/5 bg-[#161314] p-4 transition hover:border-[var(--accent)]">
+                <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.25em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Negocios</span>
+                <span className="font-display text-3xl">{stats.total}</span>
               </div>
-              <div className="rounded-2xl border border-[var(--ov-06)] bg-[var(--ov-02)] p-4">
-                <span className="mb-1 block text-[9px] font-black uppercase tracking-widest text-[var(--muted2)]">Abiertos ahora</span>
-                <span className="text-3xl font-black text-[var(--ok)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.abiertos}</span>
+              <div className="rounded-2xl border border-white/5 bg-[#161314] p-4 transition hover:border-[var(--accent)]">
+                <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.25em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Abiertos ahora</span>
+                <span className="font-display text-3xl text-[var(--ok)]">{stats.abiertos}</span>
               </div>
-              <div className="rounded-2xl border border-[var(--ov-06)] bg-[var(--ov-02)] p-4">
-                <span className="mb-1 block text-[9px] font-black uppercase tracking-widest text-[var(--muted2)]">Con ofertas</span>
-                <span className="text-3xl font-black text-orange-400" style={{ fontFamily: "var(--font-ticket)" }}>{stats.conOfertas}</span>
+              <div className="rounded-2xl border border-white/5 bg-[#161314] p-4 transition hover:border-[var(--accent)]">
+                <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.25em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Con ofertas</span>
+                <span className="font-display text-3xl text-[var(--accent)]">{stats.conOfertas}</span>
               </div>
             </div>
-            <div className="flex flex-wrap gap-4 text-xs text-[var(--muted)]">
+            <div className="flex flex-wrap gap-4 text-xs text-[#a99b86]">
               <span>🟢 Abierto</span>
               <span>🔴 Cerrado</span>
               <span>🔥 Con ofertas</span>
               <span>🏪 Sin ofertas</span>
-              {userCoords ? <span className="text-[var(--place)]">● Tu ubicación</span> : <span className="text-[var(--muted2)]">Distancias desde el centro de San Lorenzo</span>}
+              {userCoords ? <span className="text-[var(--place)]">● Tu ubicación</span> : <span className="text-[#7d6f5c]">Distancias desde el centro de San Lorenzo</span>}
             </div>
           </div>
 
           {/* DERECHA: panel "cerca de vos" -- mismos negocios del mapa,
               ordenados por distancia, calco del mockup aprobado. */}
           <div className="flex flex-col gap-4">
-            <h3 className="text-xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Cerca de vos</h3>
+            <h3 className="font-display text-2xl uppercase tracking-tight">Cerca de vos</h3>
             <div className="relative">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted2)]" />
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--accent)]" />
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="¿Qué buscás hoy?"
-                className="w-full rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] py-3 pl-11 pr-4 text-sm outline-none transition focus:border-orange-500/50" />
+                className="w-full rounded-2xl border border-white/10 bg-black/30 py-3 pl-11 pr-4 text-sm outline-none transition placeholder:text-[#7d6f5c] focus:border-[var(--accent)]" />
             </div>
-            <div className="sld-no-scrollbar flex max-h-[560px] flex-col gap-3 overflow-y-auto pr-1 lg:max-h-[760px]">
+            <div className="custom-scrollbar flex max-h-[560px] flex-col gap-3 overflow-y-auto pr-1 lg:max-h-[760px]">
               {cercaDeVos.length === 0 ? (
-                <p className="rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-6 text-center text-sm text-[var(--muted)]">
+                <p className="rounded-2xl border border-white/5 bg-[#161314] p-6 text-center text-sm text-[#a99b86]">
                   {q ? "No encontramos negocios con esa búsqueda." : "No hay negocios con ubicación en este radio todavía."}
                 </p>
               ) : cercaDeVos.map((b: any) => {
                 const tieneOfertas = (b.promotions?.length || 0) > 0;
                 return (
                   <Link key={b.id} href={`/negocio/${b.slug}`}
-                    className="group rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-0.5 hover:border-orange-400/30">
-                    <div className="flex gap-4 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-[var(--ov-05)]">
+                    className="group rounded-2xl border border-white/5 bg-[#161314] p-4 transition hover:border-[var(--accent)]">
+                    <div className="flex gap-4">
+                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-white/5 bg-black/30">
                         {b.logo_url ? (
                           <Image src={b.logo_url} alt={b.name} fill sizes="64px" className="object-cover transition duration-500 group-hover:scale-110" />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center text-xl font-black text-[var(--muted2)]">{b.name[0]}</div>
+                          <div className="flex h-full w-full items-center justify-center font-display text-2xl text-[#7d6f5c]">{b.name[0]}</div>
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <p className="truncate text-[9px] font-bold uppercase tracking-widest text-orange-400">{b.category}</p>
-                            <h4 className="truncate text-sm font-bold leading-tight">{b.name}</h4>
+                            <p className="truncate text-[9px] font-bold uppercase tracking-widest text-[var(--accent)]">{b.category}</p>
+                            <h4 className="truncate text-base font-black leading-tight">{b.name}</h4>
                           </div>
                           {tieneOfertas && (
-                            <span className="flex shrink-0 items-center gap-1 rounded-full bg-orange-500/20 px-1.5 py-0.5 text-orange-400">
+                            <span className="flex shrink-0 items-center gap-1 rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-2 py-0.5 text-[var(--accent)]">
                               <Flame className="h-2.5 w-2.5" /><span className="text-[9px] font-black">HOT</span>
                             </span>
                           )}
                         </div>
-                        <div className="mt-2 flex items-center gap-3 text-[11px] font-medium text-[var(--muted)]">
+                        <div className="mt-2 flex items-center gap-3 text-[11px] font-medium text-[#a99b86]">
                           <span className="flex items-center gap-1"><MapPin className="h-3 w-3 text-[var(--place)]" /> {fmtDistance(b._km)}</span>
                           {Number(b.reviews) > 0 && <span className="flex items-center gap-1"><Star className="h-3 w-3 text-yellow-500" /> {Number(b.rating).toFixed(1)}</span>}
                           <span className={b.open ? "text-[var(--ok)]" : "text-[var(--bad)]"}>{b.open ? "● Abierto" : "● Cerrado"}</span>

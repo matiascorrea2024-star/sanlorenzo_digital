@@ -88,7 +88,7 @@ test.describe('San Lorenzo Digital - Flujo de Pagos', () => {
     
     // La página no debe ejecutar el script
     page.on('dialog', (dialog) => {
-      throw new Error('XSS ejecutado - alert() se disparó');
+      throw new Error(`XSS ejecutado - dialogo disparado: ${dialog.message()}`);
     });
     
     // Esperar un poco para estar seguros

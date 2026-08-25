@@ -43,7 +43,7 @@ export default function LiveNow() {
           <Link key={s.id} href={`/en-vivo/${s.id}`}
             className="group w-56 shrink-0 rounded-[1.5rem] border border-red-400/20 bg-[var(--ov-02)] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
             <div className="overflow-hidden rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-red-400/40">
-              <div className="relative h-32 w-full overflow-hidden bg-gradient-to-br from-red-500/20 to-orange-500/20">
+              <div className="relative h-32 w-full overflow-hidden bg-gradient-to-br from-red-500/20 to-[#861642]/20">
                 {s.cover_url && (
                   <Image src={s.cover_url} alt={s.title} fill sizes="224px" quality={85}
                     className="object-cover transition duration-500 group-hover:scale-105" />

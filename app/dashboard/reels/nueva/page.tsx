@@ -64,9 +64,9 @@ export default function NuevoReelPage() {
       <div className="mx-auto max-w-2xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-8 flex items-start gap-3">
-          <Video className="mt-1 h-8 w-8 shrink-0 text-orange-400" />
+          <Video className="mt-1 h-8 w-8 shrink-0 text-[var(--accent)]" />
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Video corto</p>
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Video corto</p>
             <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Nuevo reel</h1>
             <p className="mt-3 text-[var(--muted)]">Un video corto de tu negocio, hasta {REEL_MAX_SECONDS} segundos.</p>
           </div>
@@ -82,7 +82,7 @@ export default function NuevoReelPage() {
           <div className="space-y-4 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             {negocios.length > 1 && (
               <select value={businessId} onChange={(e) => setBusinessId(e.target.value)}
-                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm outline-none focus:border-orange-400">
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]">
                 {negocios.map((n) => <option key={n.id} value={n.id}>{n.name}</option>)}
               </select>
             )}
@@ -96,7 +96,7 @@ export default function NuevoReelPage() {
                 </button>
               </div>
             ) : (
-              <label className="flex h-40 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--line-strong)] bg-[var(--ov-03)] text-[var(--muted)] transition hover:border-orange-400/60 hover:text-[var(--text)]">
+              <label className="flex h-40 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--line-strong)] bg-[var(--ov-03)] text-[var(--muted)] transition hover:border-[var(--accent)]/60 hover:text-[var(--text)]">
                 <Video className="h-7 w-7" />
                 <span className="text-sm font-bold">Elegir video</span>
                 <span className="text-xs text-[var(--muted2)]">Hasta {REEL_MAX_SECONDS}s · máx. {REEL_MAX_MB}MB</span>
@@ -106,7 +106,7 @@ export default function NuevoReelPage() {
 
             <textarea value={caption} onChange={(e) => setCaption(e.target.value)} rows={2} maxLength={200}
               placeholder="Contá qué muestra el video..."
-              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm outline-none focus:border-orange-400" />
+              className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm outline-none focus:border-[var(--accent)]" />
 
             {error && (
               <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-3">
@@ -115,7 +115,7 @@ export default function NuevoReelPage() {
             )}
 
             <button onClick={publicar} disabled={uploading || !file || !businessId}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] py-3 text-sm font-black disabled:opacity-50">
               {uploading ? <><Loader2 className="h-4 w-4 animate-spin" /> Subiendo...</> : "🎬 Publicar Reel"}
             </button>
           </div>

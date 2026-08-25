@@ -143,7 +143,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
         <div className="rounded-[2rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
           <div className="rounded-[1.625rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <div className="mb-4 flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--ov-10)]"><PenTool className="h-3.5 w-3.5 text-orange-400" /></span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--ov-10)]"><PenTool className="h-3.5 w-3.5 text-[var(--accent)]" /></span>
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--muted)]">Nueva solicitud</span>
             </div>
             <textarea value={texto} onChange={(e) => setTexto(e.target.value)} rows={3} maxLength={280}
@@ -151,7 +151,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
               className="w-full resize-none border-none bg-transparent text-lg font-medium text-[var(--text)] outline-none placeholder:text-[var(--muted2)]" />
             <div className="flex items-center justify-end border-t border-[var(--ov-05)] pt-4">
               <button onClick={publicar} disabled={publicando || texto.trim().length < 5}
-                className="flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-2.5 text-xs font-black uppercase tracking-widest text-white disabled:opacity-50">
+                className="flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-2.5 text-xs font-black uppercase tracking-widest text-white disabled:opacity-50">
                 <Send className="h-3.5 w-3.5" /> {publicando ? "Publicando..." : "Publicar pedido"}
               </button>
             </div>
@@ -165,7 +165,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
           </div>
           {tasaRespuesta !== null && (
             <div>
-              <span className="block text-4xl font-black text-orange-400" style={{ fontFamily: "var(--font-ticket)" }}>{tasaRespuesta}%</span>
+              <span className="block text-4xl font-black text-[var(--accent)]" style={{ fontFamily: "var(--font-ticket)" }}>{tasaRespuesta}%</span>
               <span className="text-[10px] font-black uppercase tracking-widest text-[var(--muted2)]">Tasa de respuesta</span>
             </div>
           )}
@@ -206,7 +206,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
                       <CheckCircle2 className="h-3 w-3" /> Resuelto
                     </span>
                   ) : (
-                    <span className="shrink-0 rounded-full border border-orange-400/20 bg-orange-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-orange-400">Buscando</span>
+                    <span className="shrink-0 rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[var(--accent)]">Buscando</span>
                   )}
                 </div>
 
@@ -220,7 +220,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
                         <div className="min-w-0">
                           {r.negocio ? (
                             <div className="mb-1 flex items-center gap-2">
-                              <Link href={`/negocio/${r.negocio.slug}`} className="text-xs font-bold text-orange-400 hover:underline">{r.negocio.name}</Link>
+                              <Link href={`/negocio/${r.negocio.slug}`} className="text-xs font-bold text-[var(--accent)] hover:underline">{r.negocio.name}</Link>
                               <span className="rounded bg-[var(--ov-10)] px-1.5 py-0.5 text-[9px] font-black uppercase text-[var(--muted2)]">Negocio</span>
                             </div>
                           ) : (
@@ -239,15 +239,15 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
                       <div className="flex w-full gap-2">
                         <input type="text" value={respTexto} onChange={(e) => setRespTexto(e.target.value)} maxLength={200}
                           placeholder="Yo tengo / conozco un lugar..." autoFocus
-                          className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2 text-xs text-[var(--text)] outline-none focus:border-orange-400" />
+                          className="flex-1 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2 text-xs text-[var(--text)] outline-none focus:border-[var(--accent)]" />
                         <button onClick={() => responder(p.id)} disabled={respondiendo || respTexto.trim().length < 2}
-                          className="rounded-full border border-orange-400/40 bg-orange-500/20 px-4 py-2 text-xs font-bold text-orange-300 disabled:opacity-50">
+                          className="rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/20 px-4 py-2 text-xs font-bold text-[var(--accent)] disabled:opacity-50">
                           Enviar
                         </button>
                       </div>
                     ) : (
                       <button onClick={() => { setAbierto(p.id); setRespTexto(""); }}
-                        className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--muted2)] hover:text-orange-400">
+                        className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--muted2)] hover:text-[var(--accent)]">
                         <MessageCircle className="h-4 w-4" /> Responder
                       </button>
                     )}

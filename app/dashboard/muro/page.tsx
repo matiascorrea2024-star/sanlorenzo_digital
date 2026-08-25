@@ -68,9 +68,9 @@ export default function MuroDashboard() {
       <div className="mx-auto max-w-2xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-8 flex items-start gap-3">
-          <Megaphone className="mt-1 h-8 w-8 shrink-0 text-orange-400" />
+          <Megaphone className="mt-1 h-8 w-8 shrink-0 text-[var(--accent)]" />
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Comunidad</p>
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Comunidad</p>
             <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Publicar en el muro</h1>
             <p className="mt-3 text-[var(--muted)]">Compartí novedades con toda la comunidad.</p>
           </div>
@@ -90,7 +90,7 @@ export default function MuroDashboard() {
                 {TIPOS.map(t => (
                   <button key={t.k} onClick={() => setForm({ ...form, type: t.k })}
                     className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
-                      form.type === t.k ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
+                      form.type === t.k ? "bg-[var(--accent)] text-white" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"
                     }`}>
                     {t.l}
                   </button>
@@ -98,15 +98,15 @@ export default function MuroDashboard() {
               </div>
               <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
                 placeholder="Título de la publicación *"
-                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
               <textarea value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })}
                 placeholder="Contale a la comunidad..." rows={3}
-                className="mt-3 w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="mt-3 w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
               <input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })}
                 placeholder="URL de imagen (opcional)"
-                className="mt-3 w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-orange-400" />
+                className="mt-3 w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
               <button onClick={publish} disabled={sending || !form.title}
-                className="mt-4 w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-3 text-sm font-black disabled:opacity-50">
+                className="mt-4 w-full rounded-full bg-[var(--accent)] py-3 text-sm font-black disabled:opacity-50">
                 {sending ? "Publicando..." : "📢 Publicar en el muro"}
               </button>
             </div>

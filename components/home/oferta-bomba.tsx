@@ -63,14 +63,14 @@ export default function OfertaBomba() {
       <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
         <div className="relative overflow-hidden rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
           <div className="relative flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-[calc(2.5rem-0.375rem)] border border-[var(--ov-05)] bg-[var(--card-inner)] px-8 py-16 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:px-20">
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-600/10" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[var(--accent)]/10 to-red-600/10" />
             <Lock className="relative z-10 mb-8 h-16 w-16 text-[var(--ov-10)]" strokeWidth={1.5} />
             <h2 className="relative z-10 text-4xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Oferta Bomba</h2>
             <p className="relative z-10 mx-auto mt-4 max-w-xs text-sm text-[var(--muted2)]">
               Solo disponible para vecinos nivel 🚶 Explorador o más -- seguí negocios, dejá reseñas o compartí ofertas para desbloquearla.
             </p>
             <Link href="/perfil"
-              className="relative z-10 mt-8 inline-block rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-10 py-3.5 text-xs font-black uppercase tracking-widest text-white transition hover:opacity-90">
+              className="relative z-10 mt-8 inline-block rounded-full bg-[var(--accent)] px-10 py-3.5 text-xs font-black uppercase tracking-widest text-white transition hover:opacity-90">
               Ver mi progreso
             </Link>
           </div>
