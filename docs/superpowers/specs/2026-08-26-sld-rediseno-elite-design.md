@@ -3,6 +3,8 @@
 > Spec de diseño. Última actualización: 2026-08-26.
 > Complementa a `HANDOFF.md` (estado técnico y convenciones) — no lo reemplaza.
 
+> **Amendment 2026-08-26 (post Batch 1):** el dueño pidió explícitamente que la Fase 1 no sea un ajuste de tokens sobre el markup actual, sino un **transplante literal, página por página, del markup/layout de los 22 mockups de superdesign** ("no quiero ver el diseño que hay actual, tiene que cambiar totalmente") — estructura de tarjetas, header, hero, espaciados, jerarquía visual tal cual están en los mockups. Además dio licencia creativa explícita para sumar mejoras propias más allá de los mockups donde el criterio propio lo justifique ("si ves que le podes agregar más cosas... para que quede buenísimo, hacelo"). Esto NO relaja §2: sigue sin inventarse dato, contador o feature que no exista de verdad — el transplante es de layout/visual, los `<span>{{likesCount}}</span>` y similares del mockup se reemplazan por bindings reales o se omiten si no hay dato. Se prioriza fidelidad al mockup + mejoras propias justificadas por sobre "reusar lo que ya hay" cuando entran en conflicto.
+
 ## 1. Visión y objetivo de negocio
 
 El dueño quiere que San Lorenzo Digital sea la razón por la que un vecino de San Lorenzo abre el celular antes que Instagram, Facebook o MercadoLibre para ver qué está pasando en su ciudad. Es un proyecto comercial: el dueño necesita generar ingresos reales a través de los planes pagos de comercios (`lib/plans.ts`) y, a futuro, replicar el modelo en otras ciudades. El criterio de éxito no es "que se vea lindo" sino que:
