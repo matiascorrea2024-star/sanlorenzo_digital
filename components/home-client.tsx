@@ -142,7 +142,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
             eyebrow="Explorá por rubro"
             title={<>Lo que buscás,<br /><span className="text-[var(--accent)]">cerca.</span></>}
             action={
-              <Link href="/negocios" className="hidden items-center gap-2 text-xs font-black uppercase tracking-widest text-white/60 transition hover:text-[var(--accent)] sm:inline-flex" style={{ fontFamily: "var(--font-display)" }}>
+              <Link href="/negocios" className="hidden items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent)] sm:inline-flex" style={{ fontFamily: "var(--font-display)" }}>
                 Ver directorio <ArrowRight className="h-4 w-4" />
               </Link>
             }
@@ -286,7 +286,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
             <p className="mt-6 max-w-xl text-base leading-relaxed text-[#c4b5a5]">La cantidad que ves acá refleja los datos disponibles hoy. No usamos testimonios ni métricas inventadas: descubrí, contactá y compartí negocios reales.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/registro" className="btn-hard inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}><Search className="h-4 w-4" /> Crear cuenta</Link>
-              <Link href="/para-negocios" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-white transition hover:border-[var(--accent)] hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Store className="h-4 w-4" /> Publicar negocio</Link>
+              <Link href="/para-negocios" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-[var(--text)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Store className="h-4 w-4" /> Publicar negocio</Link>
             </div>
           </div>
           <div className="lg:border-l lg:border-[var(--line-strong)] lg:pl-12">
@@ -299,7 +299,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
                 { v: verifiedBusinesses, l: "negocios verificados" },
               ].map((s) => (
                 <div key={s.l}>
-                  <strong className="magenta-glow block font-display text-6xl leading-none tabular-nums text-white md:text-7xl">{s.v}</strong>
+                  <strong className="magenta-glow block font-display text-4xl leading-none tabular-nums text-[var(--text)] md:text-5xl">{s.v}</strong>
                   <p className="mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{s.l}</p>
                 </div>
               ))}
