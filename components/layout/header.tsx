@@ -45,16 +45,23 @@ export default function Header() {
   // así que el header se actualiza solo apenas cambia la sesión.
   const { user } = useAuth();
   const [role, setRole] = useState("user");
+  const [nombre, setNombre] = useState("");
+  const [tieneNegocio, setTieneNegocio] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const unread = useUnreadMessages();
 
   useEffect(() => {
-    if (!user) { setRole("user"); return; }
+    if (!user) { setRole("user"); setNombre(""); setTieneNegocio(false); return; }
     (async () => {
-      const { data: prof } = await supabase().from("user_profiles")
-        .select("role").eq("user_id", user.id).maybeSingle();
+      const sb = supabase();
+      const [{ data: prof }, { count }] = await Promise.all([
+        sb.from("user_profiles").select("role, display_name").eq("user_id", user.id).maybeSingle(),
+        sb.from("businesses").select("id", { count: "exact", head: true }).eq("owner_id", user.id),
+      ]);
       setRole(prof?.role || "user");
+      setNombre(prof?.display_name || "");
+      setTieneNegocio((count || 0) > 0);
     })();
   }, [user]);
 
@@ -122,41 +129,65 @@ export default function Header() {
                   className="flex items-center gap-2 rounded-md border border-white/10 bg-white/5 py-1 pl-1 pr-2 transition hover:border-white/25 md:pr-3"
                 >
                   <span className="grid h-6 w-6 place-items-center rounded bg-[var(--accent)] text-xs font-black text-white">
-                    {(user.email || "?")[0].toUpperCase()}
+                    {(nombre || user.email || "?")[0].toUpperCase()}
                   </span>
                   <span className="hidden flex-col items-start leading-none min-[450px]:flex">
                     <span className="max-w-[110px] truncate text-[11px] font-bold text-white/70">Hola,</span>
-                    <span className="max-w-[110px] truncate text-xs font-black text-white">{(user.email || "").split("@")[0]}</span>
+                    <span className="max-w-[110px] truncate text-xs font-black text-white">{nombre || (user.email || "").split("@")[0]}</span>
                   </span>
                 </button>
                 {open && (
                   <div className="absolute right-0 top-14 z-50 w-72 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-03)] p-1.5 shadow-2xl backdrop-blur-xl">
                   <div className="custom-scrollbar max-h-[80vh] overflow-y-auto rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--surface2)] p-2">
-                    <div className="mb-1 border-b border-[var(--line)] px-3 py-2">
-                      <p className="text-xs text-[var(--muted)]">Conectado como</p>
-                      <p className="truncate text-sm font-bold text-[var(--text)]">{user.email}</p>
-                    </div>
+                    {/* Un solo punto de entrada claro al perfil -- desde
+                        ahí cuelgan cuenta, misiones y (si tiene negocio)
+                        el acceso al panel. Nada de mostrar el email acá. */}
+                    <Link href="/perfil" onClick={() => setOpen(false)} className="mb-1 flex items-center gap-3 rounded-xl border-b border-[var(--line)] px-3 py-2.5 hover:bg-[var(--ov-05)]">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-white">{(nombre || user.email || "?")[0].toUpperCase()}</span>
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm font-black text-[var(--text)]">{nombre || "Mi perfil"}</span>
+                        <span className="block text-xs font-bold text-[var(--accent)]">Ver mi perfil →</span>
+                      </span>
+                    </Link>
 
-                    <p className="px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">Mi comercio</p>
-                    <Link href="/dashboard" onClick={() => setOpen(false)} className={`${linkBase} text-[var(--accent)]`}><Store className="h-4 w-4 shrink-0" />Mis negocios</Link>
-                    <Link href="/dashboard/ofertas/nueva" onClick={() => setOpen(false)} className={linkBase}>Nueva oferta</Link>
-                    <Link href="/dashboard/reels/nueva" onClick={() => setOpen(false)} className={linkBase}>Nuevo reel</Link>
-                    <Link href="/dashboard/analytics" onClick={() => setOpen(false)} className={linkBase}>Estadísticas</Link>
+                    {/* Comerciante: solo aparece si el usuario tiene al
+                        menos un negocio -- a un comprador puro no le
+                        sirve de nada ver esto, es justo lo que generaba
+                        el quilombo. */}
+                    {tieneNegocio && (
+                      <>
+                        <p className="px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">Mi comercio</p>
+                        <Link href="/dashboard" onClick={() => setOpen(false)} className={`${linkBase} text-[var(--accent)]`}><Store className="h-4 w-4 shrink-0" />Panel de comerciante</Link>
+                        <Link href="/dashboard/ofertas/nueva" onClick={() => setOpen(false)} className={linkBase}>Nueva oferta</Link>
+                        <Link href="/dashboard/productos" onClick={() => setOpen(false)} className={linkBase}>Catálogo</Link>
+                        <Link href="/dashboard/analytics" onClick={() => setOpen(false)} className={linkBase}>Estadísticas</Link>
+                      </>
+                    )}
 
-                    <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">Mi actividad</p>
-                    <Link href="/comunidad" onClick={() => setOpen(false)} className={linkBase}>Chat de la ciudad</Link>
-                    <Link href="/pedidos" onClick={() => setOpen(false)} className={linkBase}>¿Quién tiene esto?</Link>
+                    <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">Comprando</p>
                     <Link href="/favoritos" onClick={() => setOpen(false)} className={linkBase}>Favoritos</Link>
+                    <Link href="/mi-barata" onClick={() => setOpen(false)} className={linkBase}>Mi Barata</Link>
                     <Link href="/mensajes" onClick={() => setOpen(false)} className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-[var(--text)] transition-colors hover:bg-[var(--ov-05)]">
                       <span>Mensajes</span>
-                      {unread > 0 && <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-black text-white">{unread > 9 ? "9+" : unread}</span>}
+                      {unread > 0 && <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[var(--bad)] px-1 text-[10px] font-black text-white">{unread > 9 ? "9+" : unread}</span>}
                     </Link>
+                    <Link href="/pedidos" onClick={() => setOpen(false)} className={linkBase}>¿Quién tiene esto?</Link>
+                    <Link href="/comunidad" onClick={() => setOpen(false)} className={linkBase}>Chat de la ciudad</Link>
+
+                    <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">Tu progreso</p>
                     <Link href="/perfil#misiones" onClick={() => setOpen(false)} className={linkBase}>Misiones y nivel</Link>
+                    <Link href="/vecinos" onClick={() => setOpen(false)} className={linkBase}>Ranking de vecinos</Link>
+                    <Link href="/invitar" onClick={() => setOpen(false)} className={linkBase}>Invitar amigos</Link>
+
+                    {!tieneNegocio && (
+                      <>
+                        <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">¿Tenés un negocio?</p>
+                        <Link href="/para-negocios" onClick={() => setOpen(false)} className={`${linkBase} text-[var(--accent)]`}><Store className="h-4 w-4 shrink-0" />Publicar mi negocio</Link>
+                      </>
+                    )}
 
                     <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">Cuenta</p>
                     <Link href="/perfil#cuenta" onClick={() => setOpen(false)} className={linkBase}>Perfil y clave</Link>
-                    <Link href="/vecinos" onClick={() => setOpen(false)} className={linkBase}>Ranking de vecinos</Link>
-                    <Link href="/invitar" onClick={() => setOpen(false)} className={linkBase}>Invitar amigos</Link>
                     <button onClick={salir} className="w-full rounded-xl px-3 py-2 text-left text-sm font-semibold text-[var(--bad)] hover:bg-[var(--ov-05)]">Salir</button>
 
                     {role === "admin" && (
