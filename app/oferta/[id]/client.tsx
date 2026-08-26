@@ -4,11 +4,13 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
-import { ArrowLeft, Share2, MessageCircle, Truck, ShoppingBasket, ShoppingBasket as BasketIcon, Check, Flame } from "lucide-react";
+import { ArrowLeft, Share2, MessageCircle, Truck, ShoppingBasket, ShoppingBasket as BasketIcon, Check, Flame, Star, Clock, ShieldCheck, Eye } from "lucide-react";
 import CountdownTimer from "@/components/ui/countdown-timer";
 import CouponButton from "@/components/offers/coupon-button";
 import FavoriteButton from "@/components/ui/favorite-button";
 import NotifyMeButton from "@/components/offers/notify-me-button";
+import FollowButton from "@/components/business/follow-button";
+import ReviewsSection from "@/components/business/reviews-section";
 import { track } from "@/lib/track";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { planDe } from "@/lib/plans";
@@ -21,6 +23,8 @@ import { getTrackedShareUrl } from "@/lib/tracked-link";
 import { sumarAMiBarata } from "@/lib/mi-barata";
 import { useAuth } from "@/components/providers/auth-provider";
 import { relativeTime } from "@/lib/relative-time";
+import { estaAbiertoAhora } from "@/lib/horarios";
+import { calcSDLScore } from "@/lib/sdl-score";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
@@ -60,6 +64,16 @@ export default function OfertaPage() {
       setLoading(false);
     })();
   }, [offerId, trackViewOffer]);
+
+  // "Abierto ahora": calculado en efecto (no en render) para no
+  // desincronizar la hidratación server/cliente -- mismo patrón que la
+  // ficha del negocio (app/negocio/[slug]/client.tsx).
+  const [abierto, setAbierto] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (!negocio) return;
+    const porHorario = estaAbiertoAhora(negocio.schedule_json);
+    setAbierto(porHorario === null ? (negocio.open ?? null) : porHorario);
+  }, [negocio]);
 
   const share = async () => {
     const url = await getTrackedShareUrl({
@@ -138,10 +152,19 @@ export default function OfertaPage() {
   const venceHoy = dias === 0;
   const ahorro = oferta.old_price && oferta.offer_price ? Number(oferta.old_price) - Number(oferta.offer_price) : null;
   const publicado = relativeTime(oferta.created_at);
+  // Mismo índice que usan las OfferCard en toda la web (lib/sdl-score.ts) --
+  // "Top" acá significa lo mismo que en cualquier otra tarjeta del sitio,
+  // no es un badge inventado para esta página en particular.
+  const sdlScore = calcSDLScore({ descuento: oferta.discount_percent || 0, rating: negocio.rating || 0, diasRestantes: dias });
+  const esTop = sdlScore >= 80;
+  const codigoCorto = String(oferta.id).slice(0, 8).toUpperCase();
+  const plan = planDe(negocio);
 
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
-      {/* Grilla 7/5: imagen + descripción a la izquierda, precio/acciones a la derecha. */}
+      {/* Glow ambiental de marca, mismo lenguaje que el resto del sitio V3. */}
+      <div className="pointer-events-none fixed left-[-10%] top-[-15%] -z-10 h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[180px]" aria-hidden="true" />
+
       <div className="mx-auto max-w-[1700px] px-4 pt-6 sm:px-6 md:pt-10">
         {vencido && (
           <div className="mb-6 rounded-3xl border border-[var(--line-strong)] bg-[var(--surface)] p-6 text-center">
@@ -152,20 +175,25 @@ export default function OfertaPage() {
         )}
 
         <div className="grid gap-8 lg:grid-cols-12">
-          {/* IZQUIERDA: imagen + título superpuesto + descripción */}
+          {/* IZQUIERDA: imagen + título superpuesto + detalles + reseñas reales */}
           <div className="lg:col-span-7">
-            <div className="rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 shadow-2xl shadow-black/80">
-              <div className="relative overflow-hidden rounded-[2.1rem] border border-[var(--ov-05)]">
+            <div className="rounded-[2.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 shadow-2xl shadow-black/80">
+              <div className="relative overflow-hidden rounded-[2.3rem] border border-[var(--ov-05)]">
                 <div className="absolute left-4 top-4 z-10 flex flex-wrap gap-2 sm:left-6 sm:top-6">
                   {viendo >= 2 && (
-                    <span className="flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-black/40 px-3 py-1.5 backdrop-blur-md">
+                    <span className="flex items-center gap-2 rounded-xl border border-[var(--line-strong)] bg-black/50 px-3.5 py-2 backdrop-blur-md">
                       <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" /></span>
                       <span className="text-[11px] font-black uppercase tracking-wider">{viendo} vecinos viendo ahora</span>
                     </span>
                   )}
                   {venceHoy && (
-                    <span className="flex items-center gap-1.5 rounded-full border border-[var(--line-strong)] bg-red-600 px-3 py-1.5 text-[11px] font-black uppercase tracking-wider">
+                    <span className="flex items-center gap-1.5 rounded-xl border border-[var(--line-strong)] bg-red-600 px-3.5 py-2 text-[11px] font-black uppercase tracking-wider">
                       <Flame className="h-3.5 w-3.5" /> Vence hoy
+                    </span>
+                  )}
+                  {esTop && !venceHoy && (
+                    <span className="flex items-center gap-1.5 rounded-xl bg-white px-3.5 py-2 text-[11px] font-black uppercase tracking-wider text-black shadow-2xl">
+                      ⭐ Top de la semana
                     </span>
                   )}
                 </div>
@@ -225,12 +253,42 @@ export default function OfertaPage() {
                 </p>
               )}
             </div>
+
+            {/* Reseñas reales del comercio -- mismo componente completo que
+                la ficha (fotos, visita verificada, respuestas). Antes solo
+                vivía en /negocio/[slug]; acá aporta confianza justo donde
+                más importa: el momento de decidir. */}
+            <div id="resenas" className="mt-14 scroll-mt-24 px-2">
+              <div className="mb-8 flex items-center gap-4">
+                <div className="h-9 w-1.5 rounded-full bg-[var(--accent)]" />
+                <h2 className="font-display text-3xl uppercase tracking-tight sm:text-4xl">Lo que dicen los vecinos</h2>
+              </div>
+              <ReviewsSection businessId={negocio.id} baseRating={negocio.rating || 0} baseCount={negocio.reviews || 0} />
+            </div>
           </div>
 
-          {/* DERECHA: precio + acciones */}
+          {/* DERECHA: precio + acciones + comercio */}
           <div className="lg:col-span-5">
-            <div className="rounded-[2.5rem] border border-[var(--line)] bg-gradient-to-b from-[var(--ov-03)] to-transparent p-6 shadow-xl sm:p-8">
+            <div className="rounded-[2.75rem] border border-[var(--line)] bg-[var(--surface2)] p-6 shadow-xl sm:p-8">
               <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
+                <span className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Oferta #{codigoCorto}</span>
+                {!vencido && dias !== null && dias <= 2 && oferta.valid_until && <CountdownTimer expiresAt={oferta.valid_until} compact />}
+              </div>
+
+              <h2 className="font-display text-3xl uppercase leading-[0.95] tracking-tight sm:text-4xl">{oferta.title}</h2>
+
+              {negocio.rating > 0 && (
+                <a href="#resenas" className="mt-3 flex items-center gap-2 text-sm">
+                  <span className="flex items-center gap-1 font-display text-xl font-black text-[var(--text)]">
+                    <Star className="h-4 w-4 fill-[var(--warn)] text-[var(--warn)]" /> {Number(negocio.rating).toFixed(1)}
+                  </span>
+                  {negocio.reviews > 0 && (
+                    <span className="font-bold text-[var(--muted)] underline decoration-[var(--line-strong)] underline-offset-2">{negocio.reviews} reseñas del comercio</span>
+                  )}
+                </a>
+              )}
+
+              <div className="mt-5 mb-2 flex flex-wrap items-center gap-2">
                 {oferta.discount_percent ? (
                   <span className={`rounded-xl px-4 py-1.5 text-sm font-black uppercase tracking-widest text-white shadow-2xl ${venceHoy ? "animate-pulse" : ""}`}
                     style={{ fontFamily: "var(--font-display)", background: "var(--accent)" }}>
@@ -238,14 +296,48 @@ export default function OfertaPage() {
                   </span>
                 ) : oferta.precio_prometido ? (
                   <span className="rounded-xl bg-sky-500 px-4 py-1.5 text-xs font-black uppercase tracking-widest text-white shadow-2xl" style={{ fontFamily: "var(--font-display)" }}>🔒 Precio prometido</span>
-                ) : <span />}
-                {!vencido && dias !== null && dias <= 2 && oferta.valid_until && <CountdownTimer expiresAt={oferta.valid_until} compact />}
+                ) : null}
               </div>
 
               {oferta.old_price && <p className="text-xl font-bold tracking-tight text-[var(--muted2)] line-through decoration-2">{fmt(Number(oferta.old_price))}</p>}
               <div className="flex items-baseline gap-3">
                 {oferta.offer_price && <p className="magenta-glow font-display text-7xl leading-none text-[var(--accent)] transition-colors sm:text-8xl">{fmt(Number(oferta.offer_price))}</p>}
                 {ahorro && ahorro > 0 && <span className="mb-2 shrink-0 rounded-lg bg-green-500/15 px-2 py-1 text-xs font-black uppercase tracking-wider text-[var(--ok)]" style={{ fontFamily: "var(--font-display)" }}>Ahorrás {fmt(ahorro)}</span>}
+              </div>
+
+              {/* Chips de info real -- nada acá es inventado: horario sale
+                  del cálculo real (lib/horarios.ts), envío y verificación
+                  son campos reales del negocio, "interés ahora" es el mismo
+                  contador de vecinos viendo que ya usa el resto del sitio. */}
+              <div className="mt-8 grid grid-cols-2 gap-4 border-y border-[var(--line)] py-7">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--ov-05)] text-[var(--accent)]"><Clock className="h-5 w-5" /></span>
+                  <div className="min-w-0">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-[var(--muted2)]">Horario</p>
+                    <p className="truncate text-sm font-black">{abierto === null ? "Consultar" : abierto ? "Abierto ahora" : "Cerrado ahora"}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--ov-05)] text-[var(--accent)]"><Truck className="h-5 w-5" /></span>
+                  <div className="min-w-0">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-[var(--muted2)]">Envío</p>
+                    <p className="truncate text-sm font-black">{negocio.envio_gratis ? "Gratis en la zona" : negocio.hace_envios ? "Hace envíos" : "Retirás en el local"}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--ov-05)] text-[var(--accent)]"><ShieldCheck className="h-5 w-5" /></span>
+                  <div className="min-w-0">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-[var(--muted2)]">Comercio</p>
+                    <p className="truncate text-sm font-black">{negocio.status === "verificado" ? "Verificado" : "En la plataforma"}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--ov-05)] text-[var(--accent)]"><Eye className="h-5 w-5" /></span>
+                  <div className="min-w-0">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-[var(--muted2)]">Interés</p>
+                    <p className="truncate text-sm font-black">{viendo >= 1 ? `${viendo} viendo ahora` : "Sé el primero"}</p>
+                  </div>
+                </div>
               </div>
 
               <div className="mt-8 space-y-3">
@@ -268,7 +360,7 @@ export default function OfertaPage() {
                     businessId: negocio.id, businessName: negocio.name, businessSlug: negocio.slug, businessWhatsapp: negocio.whatsapp,
                   })}
                   disabled={hasItem(`oferta-${oferta.id}`)}
-                  className="flex h-16 w-full items-center justify-between rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-8 font-black uppercase tracking-wider text-white transition hover:border-[var(--accent)] hover:bg-[var(--ov-10)] disabled:opacity-60"
+                  className="flex h-16 w-full items-center justify-between rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-8 font-black uppercase tracking-wider text-[var(--text)] transition hover:border-[var(--accent)] hover:bg-[var(--ov-10)] disabled:opacity-60"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   {hasItem(`oferta-${oferta.id}`) ? "En el changuito" : "Sumar al changuito"}
@@ -311,20 +403,39 @@ export default function OfertaPage() {
               </div>
             )}
 
-            <Link href={`/negocio/${negocio.slug}`}
-              className="mt-6 flex items-center gap-4 rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6 transition-all duration-500 hover:-translate-y-1 hover:border-[var(--accent)]">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[var(--accent)]/25 to-[#861642]/25 text-xl font-black">
-                {negocio.logo_url ? <Image src={negocio.logo_url} alt={negocio.name} width={64} height={64} className="h-full w-full object-cover" /> : negocio.name[0]}
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="truncate font-display text-xl uppercase tracking-wide">{negocio.name}</h3>
-                  {negocio.status === "verificado" && <Check className="h-4 w-4 shrink-0 text-[var(--place)]" />}
+            {/* Tarjeta del comercio -- logo, nombre, plan real, rating/reseñas
+                reales (columnas de businesses), Seguir + Ver perfil. */}
+            <div className="mt-6 rounded-[2.5rem] border border-[var(--line)] bg-[var(--surface)] p-7 transition-all duration-500 hover:border-[var(--accent)]/50">
+              <Link href={`/negocio/${negocio.slug}`} className="flex items-center gap-5">
+                <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[var(--accent)]/25 to-[#861642]/25 text-xl font-black">
+                  {negocio.logo_url ? <Image src={negocio.logo_url} alt={negocio.name} width={64} height={64} className="h-full w-full object-cover" /> : negocio.name[0]}
+                  {negocio.status === "verificado" && (
+                    <span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-[var(--surface)] bg-sky-500">
+                      <Check className="h-3.5 w-3.5 text-white" />
+                    </span>
+                  )}
                 </div>
-                {negocio.address && <p className="truncate text-xs text-[var(--muted2)]">{negocio.address}</p>}
-                <span className="mt-1 inline-block text-[11px] font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Ver negocio →</span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="truncate font-display text-xl uppercase tracking-wide">{negocio.name}</h3>
+                    {plan.name !== "Gratis" && (
+                      <span className="shrink-0 rounded-lg bg-sky-500/10 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-sky-400">{plan.name}</span>
+                    )}
+                  </div>
+                  <div className="mt-1 flex items-center gap-4 text-xs font-bold text-[var(--muted2)]">
+                    {negocio.rating > 0 && <span className="flex items-center gap-1"><Star className="h-3 w-3 fill-[var(--warn)] text-[var(--warn)]" /> {Number(negocio.rating).toFixed(1)} · {negocio.reviews || 0} reseñas</span>}
+                    {negocio.address && <span className="truncate">{negocio.address}</span>}
+                  </div>
+                </div>
+              </Link>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <FollowButton businessId={negocio.id} />
+                <Link href={`/negocio/${negocio.slug}`}
+                  className="flex items-center justify-center rounded-full border border-[var(--line-strong)] px-3 py-1 text-xs font-black uppercase tracking-widest text-[var(--text)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]">
+                  Ver perfil →
+                </Link>
               </div>
-            </Link>
+            </div>
 
             {/* "Avisame si vuelve" solo si la oferta ya venció: con la
                 oferta activa era una contradicción (¿volver de dónde?). */}
