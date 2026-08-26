@@ -63,7 +63,7 @@ export default function DashboardPage() {
       <main className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg)] px-4 text-center text-[var(--text)]">
         <p className="text-5xl">🔐</p>
         <h1 className="mt-4 text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Iniciá sesión para gestionar tus negocios</h1>
-        <Link href="/login" className="mt-6 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black">Ingresar →</Link>
+        <Link href="/login" className="mt-6 rounded-xl bg-[var(--accent)] px-6 py-3 text-sm font-black text-white hover:bg-[var(--accent2)]">Ingresar →</Link>
       </main>
     );
   }
@@ -74,16 +74,16 @@ export default function DashboardPage() {
           solo en esta página, calco del mockup aprobado ("Hola, [nombre].
           Tu pulso hoy."), sin inventar métricas que no existen. */}
       <div className="mx-auto max-w-5xl px-4 pb-8 pt-12 sm:px-6">
-        <p className="text-[10px] font-black uppercase tracking-[.4em] text-orange-400">Panel de comerciante</p>
-        <h1 className="mt-3 text-4xl font-bold leading-[0.95] tracking-tight sm:text-5xl md:text-6xl" style={{ fontFamily: "var(--font-space)" }}>
+        <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Panel de comerciante</p>
+        <h1 className="mt-3 font-display text-3xl uppercase leading-[0.95] tracking-tight sm:text-4xl">
           {nombre ? `Hola, ${nombre}.` : "Tu panel."}<br />
-          <span className="text-orange-500">Tu negocio, sin vueltas.</span>
+          <span className="text-[var(--accent)]">Tu negocio, sin vueltas.</span>
         </h1>
-        <p className="mt-4 max-w-xl text-lg text-[var(--muted)]">Control rápido: abrí, cerrá y manejá tus ofertas desde acá.</p>
+        <p className="mt-4 max-w-xl text-base text-[var(--muted)]">Control rápido: abrí, cerrá y manejá tus ofertas desde acá.</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/dashboard/nuevo" className="rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90">+ Crear negocio</Link>
+          <Link href="/dashboard/nuevo" className="rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-black text-white hover:bg-[var(--accent2)]">+ Crear negocio</Link>
           {role === "admin" && (
-            <Link href="/admin" className="rounded-full border border-red-400/40 bg-red-500/10 px-6 py-3 text-sm font-bold text-[var(--bad)] hover:bg-red-500/20">🛡️ Panel admin</Link>
+            <Link href="/admin" className="rounded-full border border-[var(--bad)]/40 bg-[var(--bad)]/10 px-6 py-3 text-sm font-bold text-[var(--bad)] hover:bg-[var(--bad)]/20">🛡️ Panel admin</Link>
           )}
         </div>
       </div>
@@ -91,7 +91,7 @@ export default function DashboardPage() {
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <DashboardNav />
         {error && (
-          <div role="alert" className="mb-6 flex flex-wrap items-center justify-between gap-3 border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">
+          <div role="alert" className="mb-6 flex flex-wrap items-center justify-between gap-3 border border-[var(--bad)]/30 bg-[var(--bad)]/10 px-4 py-3 text-sm text-[var(--bad)]">
             <span>{error}</span>
             <button type="button" onClick={() => window.location.reload()} className="font-bold underline">Reintentar</button>
           </div>
@@ -100,12 +100,12 @@ export default function DashboardPage() {
           <p className="py-16 text-center text-[var(--muted)]">Cargando tus negocios…</p>
         ) : negocios.length === 0 ? (
           <div className="rounded-3xl border border-[var(--line)] bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-10 text-center">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-orange-500/20 to-red-600/20 text-5xl">🏪</div>
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-[var(--accent)]/15 text-5xl">🏪</div>
             <h2 className="mt-4 text-2xl font-black">Empezá acá</h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">3 pasos y tu negocio ya está funcionando en La Gran Barata Digital.</p>
             <ol className="mx-auto mt-6 max-w-sm space-y-3 text-left">
-              <li className="flex items-start gap-3 rounded-2xl border border-orange-400/30 bg-orange-500/10 p-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-black">1</span>
+              <li className="flex items-start gap-3 rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-black text-white">1</span>
                 <div><p className="text-sm font-bold">Completá tu negocio</p><p className="text-xs text-[var(--muted)]">Nombre, rubro, WhatsApp y ubicación.</p></div>
               </li>
               <li className="flex items-start gap-3 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-3">
@@ -117,7 +117,7 @@ export default function DashboardPage() {
                 <div><p className="text-sm font-bold">Compartí tu página</p><p className="text-xs text-[var(--muted)]">Mandala por WhatsApp a tus clientes.</p></div>
               </li>
             </ol>
-            <Link href="/dashboard/nuevo" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-sm font-black hover:opacity-90 transition">
+            <Link href="/dashboard/nuevo" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3 text-sm font-black text-white hover:bg-[var(--accent2)] transition">
               <span>✨</span>
               <span>Empezar: crear mi negocio →</span>
             </Link>
@@ -155,7 +155,7 @@ export default function DashboardPage() {
                   </button>
                   <button
                     onClick={() => toggle(b.id, "ofertas_al_cerrar", b.ofertas_al_cerrar === false)}
-                    className={`rounded-xl border px-3 py-2.5 text-xs font-bold transition ${b.ofertas_al_cerrar !== false ? "border-orange-400/30 bg-orange-500/10 text-orange-300" : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--muted)]"}`}
+                    className={`rounded-xl border px-3 py-2.5 text-xs font-bold transition ${b.ofertas_al_cerrar !== false ? "border-[var(--accent)]/30 bg-[var(--accent)]/10 text-[var(--accent)]" : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--muted)]"}`}
                     title="Si cerrás el local, tus ofertas siguen visibles"
                   >
                     {b.ofertas_al_cerrar !== false ? "🔥 Ofertas siguen al cerrar" : "⏸️ Ofertas solo abierto"}

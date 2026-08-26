@@ -9,6 +9,7 @@ import { PLANES, planDe, puedePublicarOferta, puedePublicarHoy, OFERTA_DURACION_
 import { friendlyError } from "@/lib/friendly-error";
 import HowItWorks from "@/components/ui/how-it-works";
 import { hoyArgentina, inicioDeHoyArgentinaISO } from "@/lib/fecha-ar";
+import OfferCard from "@/components/ui/offer-card";
 
 const inp = "w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-06)] px-4 py-3 text-sm text-[var(--text)] focus:border-[var(--accent)]/60 focus:outline-none transition";
 const lbl = "mb-1.5 block text-xs font-bold uppercase tracking-wider text-[var(--muted)]";
@@ -51,7 +52,7 @@ export default function NuevaOferta() {
 
       const { data: prof } = await sb.from("user_profiles").select("role").eq("user_id", user.id).maybeSingle();
 
-      const q = sb.from("businesses").select("id, name, plan").order("name");
+      const q = sb.from("businesses").select("id, name, slug, plan, category, logo_url, rating, status, latitude, longitude").order("name");
       if (prof?.role !== "admin") q.eq("owner_id", user.id);
       const { data, error } = await q;
       if (error) { setError(friendlyError(error, "No se pudieron cargar tus negocios. Probá de nuevo.")); return; }
@@ -140,9 +141,33 @@ export default function NuevaOferta() {
   const limiteActivas = limite ? PLANES[limite.plan]?.maxOfertas ?? 3 : null;
   const limiteHoy = limite ? PLANES[limite.plan]?.ofertasNuevasPorDia ?? 1 : null;
 
+  // Vista previa en vivo: mismo componente OfferCard que se ve en toda
+  // la web, alimentado con lo que se va tipeando -- nadie publica a
+  // ciegas. Placeholders solo mientras el campo está vacío (nunca se
+  // guardan como si fueran datos reales).
+  const negocioSel = negocios.find((n) => n.id === biz);
+  const previewOferta = negocioSel ? {
+    id: "preview",
+    negocio: negocioSel.name,
+    slug: negocioSel.slug,
+    cat: negocioSel.category,
+    producto: title.trim() || "Título de tu oferta acá",
+    vence: expires || undefined,
+    descuento: desc > 0 ? desc : undefined,
+    antes: Number(priceBefore) > 0 ? Number(priceBefore) : undefined,
+    ahora: Number(priceOffer) > 0 ? Number(priceOffer) : undefined,
+    portada_url: image || undefined,
+    logo_url: negocioSel.logo_url,
+    latitude: negocioSel.latitude,
+    longitude: negocioSel.longitude,
+    rating: negocioSel.rating,
+    verificado: negocioSel.status === "verificado",
+    creado: new Date().toISOString(),
+  } : null;
+
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
-      <div className="mx-auto max-w-2xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
+      <div className="mx-auto max-w-[1400px] px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
         <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]">← Volver a mis ofertas</Link>
 
         {bienvenida && (
@@ -182,7 +207,8 @@ export default function NuevaOferta() {
           </div>
         )}
 
-        <div className="mt-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+        <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_380px]">
+        <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
         <div className="space-y-5 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           {negocios.length === 0 ? (
             <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/30 p-4">
@@ -287,6 +313,28 @@ export default function NuevaOferta() {
             {saving ? "⏳ Publicando…" : "🔥 Publicar Oferta"}
           </button>
         </div>
+        </div>
+
+        {/* Vista previa en vivo -- oculta en mobile (la OfferCard real
+            necesita ancho para leerse bien), siempre visible en desktop
+            mientras se completa el formulario. */}
+        <aside className="hidden lg:block">
+          <div className="sticky top-6">
+            <p className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+              👁 Así se va a ver
+            </p>
+            {previewOferta ? (
+              <div className="pointer-events-none">
+                <OfferCard o={previewOferta} />
+              </div>
+            ) : (
+              <div className="rounded-[2rem] border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-10 text-center text-sm text-[var(--muted)]">
+                Elegí un negocio para ver la vista previa.
+              </div>
+            )}
+            <p className="mt-3 text-center text-xs text-[var(--muted2)]">Se actualiza mientras completás el formulario.</p>
+          </div>
+        </aside>
         </div>
       </div>
     </main>

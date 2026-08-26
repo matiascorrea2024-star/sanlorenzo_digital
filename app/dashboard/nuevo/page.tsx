@@ -196,7 +196,7 @@ export default function NuevoNegocioPage() {
 
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
-      <div className="mx-auto max-w-2xl px-4 py-8">
+      <div className="mx-auto max-w-[1300px] px-4 py-8">
         <Link href="/dashboard" className="text-sm text-[var(--accent)] hover:text-[var(--accent)] mb-6 inline-block">
           ← Volver al dashboard
         </Link>
@@ -230,6 +230,7 @@ export default function NuevoNegocioPage() {
           "Al crear el negocio, te llevamos directo a publicar tu primera oferta.",
         ]} />
 
+        <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className={lbl}>¿Qué tipo de vendedor sos? *</label>
@@ -378,6 +379,37 @@ export default function NuevoNegocioPage() {
             {loading ? "Creando…" : "Crear negocio y seguir →"}
           </button>
         </form>
+
+        {/* Vista previa en vivo -- oculta en mobile, siempre visible en
+            desktop mientras se completa el formulario. */}
+        <aside className="hidden lg:block">
+          <div className="sticky top-6">
+            <p className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+              👁 Así se va a ver
+            </p>
+            <div className="overflow-hidden rounded-[1.75rem] border border-[var(--line)] bg-[var(--surface)]">
+              <div className="relative h-24 bg-gradient-to-br from-[#2a2324] to-[#161314]">
+                {formData.portadaUrl && (
+                  <img src={formData.portadaUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                )}
+              </div>
+              <div className="-mt-8 px-5 pb-5">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-[var(--surface)] bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] text-xl font-black text-white">
+                  {formData.name.trim() ? formData.name.trim()[0].toUpperCase() : "?"}
+                </div>
+                <p className="mt-2 font-display text-xl uppercase tracking-tight text-[var(--text)]">{formData.name.trim() || "Nombre de tu negocio"}</p>
+                <p className="mt-0.5 text-xs text-[var(--muted)]">
+                  {categories.find((c) => c.id === formData.category)?.name || formData.category}
+                  {formData.address ? ` · ${formData.address}` : ""}
+                </p>
+                {formData.description && <p className="mt-2 line-clamp-2 text-xs text-[var(--muted)]">{formData.description}</p>}
+                <div className="mt-3 rounded-xl bg-green-500 px-4 py-2.5 text-center text-xs font-black text-white">💬 WhatsApp</div>
+              </div>
+            </div>
+            <p className="mt-3 text-center text-xs text-[var(--muted2)]">Se actualiza mientras completás el formulario.</p>
+          </div>
+        </aside>
+        </div>
         </>
         )}
       </div>
