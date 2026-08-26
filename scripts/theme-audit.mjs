@@ -2,8 +2,8 @@
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
 
-const BASE = 'http://127.0.0.1:3000';
-const OUT = 'test-results/theme-audit';
+const BASE = process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:3000';
+const OUT = '.audit/theme';
 mkdirSync(OUT, { recursive: true });
 
 // Home + páginas marcadas como sospechosas de romper en tema claro
@@ -17,21 +17,26 @@ const ROUTES = [
 const b = await chromium.launch();
 for (const route of ROUTES) {
   const page = await b.newPage({ viewport: { width: 1440, height: 900 } });
-  await page.goto(BASE + route, { waitUntil: 'networkidle' });
-  const slug = route === '/' ? 'home' : route.replaceAll('/', '_');
+  try {
+    await page.goto(BASE + route, { waitUntil: 'networkidle' });
+    const slug = route === '/' ? 'home' : route.replaceAll('/', '_');
 
-  // Dark (default del sitio)
-  await page.evaluate(() => document.documentElement.removeAttribute('data-theme'));
-  await page.waitForTimeout(300);
-  await page.screenshot({ path: `${OUT}/${slug}--dark.png`, fullPage: true });
+    // Dark (default del sitio)
+    await page.evaluate(() => document.documentElement.removeAttribute('data-theme'));
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: `${OUT}/${slug}--dark.png`, fullPage: true });
 
-  // Light
-  await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
-  await page.waitForTimeout(300);
-  await page.screenshot({ path: `${OUT}/${slug}--light.png`, fullPage: true });
+    // Light
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: `${OUT}/${slug}--light.png`, fullPage: true });
 
-  await page.close();
-  console.log(`✓ ${route}`);
+    console.log(`✓ ${route}`);
+  } catch (err) {
+    console.error(`✗ ${route}: ${err.message}`);
+  } finally {
+    await page.close();
+  }
 }
 await b.close();
 console.log(`\nCapturas en ${OUT}/`);

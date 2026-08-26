@@ -44,6 +44,7 @@ npm run seed:local     # seed de datos de prueba (scripts/seed-local.mjs)
 4. **Nunca usar `sed` para editar JSX** (rompió el build históricamente). Usar herramientas de edición proper.
 5. Fechas: **siempre** contra `hoyArgentina()` (`lib/fecha-ar.ts`), nunca contra el reloj del dispositivo. `valid_until` es un string `YYYY-MM-DD`.
 6. Playwright usa `reuseExistingServer: true`: si hay un dev server viejo/roto en el 3000, los tests van a fallar de forma engañosa. Verificar que el 3000 esté sano antes de culpar al código.
+7. `npx playwright test` **borra `test-results/`** (es su `outputDir`). Cualquier script de diagnóstico propio (ej. `scripts/theme-audit.mjs`) NO debe escribir ahí — usar una ubicación gitignoreada separada (ej. `.audit/`).
 
 ## 4. Mapa de arquitectura
 
