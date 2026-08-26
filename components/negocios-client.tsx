@@ -12,16 +12,17 @@ import FavoriteButton from "@/components/ui/favorite-button";
 import { supabase } from "@/lib/supabase";
 import { sanitizeSearchQuery } from "@/lib/sanitize";
 import { expandirBusqueda } from "@/lib/sinonimos";
-import { FilterGroup, CheckRow, RadioRow } from "@/components/ui/filter-sidebar";
+import { ExpandableFilterGroup, FilterGroup, CheckRow, RadioRow } from "@/components/ui/filter-sidebar";
 
 export const NEGOCIOS_PAGE_SIZE = 60;
 
-const COLUMNS = "id, name, slug, category, rating, reviews, open, description, portada_url, address, whatsapp, plan, status, type, hace_envios, destacado, updated_at";
+const COLUMNS = "id, name, slug, category, rating, reviews, open, description, portada_url, address, whatsapp, plan, status, type, hace_envios, destacado, updated_at, neighborhood_id";
 
 type Sort = "destacado" | "rating" | "reciente";
+type Estado = "cualquiera" | "abierto" | "cerrado";
 
-async function fetchPage({ cats, q, openNow, mode, delivery, minRating, soloDestacados, soloVerificados, sort, from, to }: {
-  cats: string[]; q: string; openNow: boolean; mode: string; delivery: boolean; minRating: number;
+async function fetchPage({ cats, barrios, q, estado, mode, delivery, minRating, soloDestacados, soloVerificados, sort, from, to }: {
+  cats: string[]; barrios: string[]; q: string; estado: Estado; mode: string; delivery: boolean; minRating: number;
   soloDestacados: boolean; soloVerificados: boolean; sort: Sort; from: number; to: number;
 }) {
   let query = supabase().from("businesses").select(COLUMNS, { count: "exact" })
@@ -29,7 +30,9 @@ async function fetchPage({ cats, q, openNow, mode, delivery, minRating, soloDest
     .eq("activo", true)
     .or("type.is.null,type.in.(comercio,servicio,profesional)");
   if (cats.length > 0) query = query.in("category", cats);
-  if (openNow || mode === "ahora" || mode === "esta-noche") query = query.eq("open", true);
+  if (barrios.length > 0) query = query.in("neighborhood_id", barrios);
+  if (estado === "abierto" || mode === "ahora" || mode === "esta-noche") query = query.eq("open", true);
+  else if (estado === "cerrado") query = query.eq("open", false);
   if (delivery) query = query.eq("hace_envios", true);
   if (minRating > 0) query = query.gte("rating", minRating);
   if (soloDestacados) query = query.eq("destacado", true);
@@ -59,18 +62,38 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
     const c = searchParams.get("categoria") || searchParams.get("cat");
     return c && CATEGORIES.some((x: any) => x.id === c) ? [c] : [];
   });
-  const [openNow, setOpenNow] = useState(() => searchParams.get("abierto") === "1");
+  const [estado, setEstado] = useState<Estado>(() => searchParams.get("abierto") === "1" ? "abierto" : "cualquiera");
   const [mode, setMode] = useState(() => searchParams.get("modo") || "");
   const [delivery, setDelivery] = useState(() => searchParams.get("envios") === "1");
   const [minRating, setMinRating] = useState(() => Number(searchParams.get("rating") || 0));
   const [soloDestacados, setSoloDestacados] = useState(false);
   const [soloVerificados, setSoloVerificados] = useState(false);
   const [sort, setSort] = useState<Sort>("destacado");
+  const [barrios, setBarrios] = useState<string[]>([]);
+  const [barriosDisponibles, setBarriosDisponibles] = useState<{ id: string; name: string }[]>([]);
   const [list, setList] = useState<any[]>(initial);
   const [total, setTotal] = useState(initialTotal);
   const [loadingMore, setLoadingMore] = useState(false);
   const [buscando, setBuscando] = useState(false);
   const [error, setError] = useState("");
+  const [recomendados, setRecomendados] = useState<any[]>([]);
+
+  // Barrios reales de San Lorenzo (lib/data no los tiene -- viven en
+  // la tabla locations, cargados una sola vez, no dependen de filtros).
+  useEffect(() => {
+    supabase().from("locations").select("id, name").eq("type", "neighborhood").eq("active", true).order("name")
+      .then(({ data }) => setBarriosDisponibles((data || []).map((l: any) => ({ id: l.id, name: l.name }))));
+  }, []);
+
+  // Recomendados: los mejor valorados de la plataforma, independiente
+  // de los filtros activos -- para que la pantalla nunca quede "seca"
+  // aunque el filtro puesto tenga pocos o ningún resultado.
+  useEffect(() => {
+    supabase().from("businesses").select(COLUMNS)
+      .in("status", ["verificado", "reclamado"]).eq("activo", true).gt("rating", 0)
+      .order("rating", { ascending: false }).limit(4)
+      .then(({ data }) => setRecomendados(data || []));
+  }, []);
   // Si el usuario tipea rápido, una respuesta vieja puede tardar más y
   // llegar DESPUÉS de una más nueva, pisando el resultado correcto con
   // uno de una búsqueda ya descartada. Este contador de secuencia
@@ -83,7 +106,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
     const miSecuencia = ++secuencia.current;
     const t = setTimeout(async () => {
       try {
-        const { data, count } = await fetchPage({ cats, q, openNow, mode, delivery, minRating, soloDestacados, soloVerificados, sort, from: 0, to: NEGOCIOS_PAGE_SIZE - 1 });
+        const { data, count } = await fetchPage({ cats, barrios, q, estado, mode, delivery, minRating, soloDestacados, soloVerificados, sort, from: 0, to: NEGOCIOS_PAGE_SIZE - 1 });
         if (miSecuencia !== secuencia.current) return;
         setList(data);
         setTotal(count);
@@ -94,12 +117,12 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
       }
     }, q.trim() ? 300 : 0);
     return () => clearTimeout(t);
-  }, [cats, q, openNow, mode, delivery, minRating, soloDestacados, soloVerificados, sort]);
+  }, [cats, barrios, q, estado, mode, delivery, minRating, soloDestacados, soloVerificados, sort]);
 
   const cargarMas = async () => {
     setLoadingMore(true);
     try {
-      const { data } = await fetchPage({ cats, q, openNow, mode, delivery, minRating, soloDestacados, soloVerificados, sort, from: list.length, to: list.length + NEGOCIOS_PAGE_SIZE - 1 });
+      const { data } = await fetchPage({ cats, barrios, q, estado, mode, delivery, minRating, soloDestacados, soloVerificados, sort, from: list.length, to: list.length + NEGOCIOS_PAGE_SIZE - 1 });
       setList((prev) => [...prev, ...data]);
     } catch {
       setError("No pudimos cargar más negocios.");
@@ -109,6 +132,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
 
   const hasMore = list.length < total;
   const toggleCat = (id: string) => setCats((prev) => prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]);
+  const toggleBarrio = (id: string) => setBarrios((prev) => prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]);
 
   return (
     <main className="mx-auto min-h-screen max-w-[1500px] bg-[var(--bg)] px-4 py-8 pb-24 text-[var(--text)] sm:px-6">
@@ -125,11 +149,10 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
       <div className="mt-6 flex items-start gap-8">
         {/* ── Sidebar de filtros: denso, siempre visible en desktop ── */}
         <aside className="hidden w-[230px] shrink-0 lg:block">
-          <FilterGroup title="Rubro">
-            {CATEGORIES.map((c: any) => (
-              <CheckRow key={c.id} checked={cats.includes(c.id)} onChange={() => toggleCat(c.id)} label={<>{c.icon} {c.name}</>} />
-            ))}
-          </FilterGroup>
+          <ExpandableFilterGroup title="Rubro" items={CATEGORIES} selected={cats} onToggle={toggleCat} visibleCount={8} />
+          {barriosDisponibles.length > 0 && (
+            <ExpandableFilterGroup title="Barrio" items={barriosDisponibles} selected={barrios} onToggle={toggleBarrio} visibleCount={6} />
+          )}
           <FilterGroup title="Valoración mínima">
             {[{ v: 0, l: "Cualquiera" }, { v: 4, l: "★★★★ y más" }, { v: 4.5, l: "★★★★½ y más" }].map((o) => (
               <label key={o.v} className="flex cursor-pointer items-center gap-2.5 text-sm text-[var(--muted)] transition hover:text-[var(--text)]">
@@ -138,8 +161,10 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
               </label>
             ))}
           </FilterGroup>
-          <FilterGroup title="Disponibilidad">
-            <CheckRow checked={openNow} onChange={() => setOpenNow((v) => !v)} label="Abierto ahora" />
+          <FilterGroup title="Estado">
+            {[{ v: "cualquiera" as Estado, l: "Cualquiera" }, { v: "abierto" as Estado, l: "Abierto ahora" }, { v: "cerrado" as Estado, l: "Cerrado ahora" }].map((o) => (
+              <RadioRow key={o.v} name="estado" checked={estado === o.v} onChange={() => setEstado(o.v)} label={o.l} />
+            ))}
             <CheckRow checked={delivery} onChange={() => setDelivery((v) => !v)} label="Hace envíos" />
           </FilterGroup>
           <FilterGroup title="Destacar">
@@ -265,6 +290,33 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
                 {loadingMore && <Loader2 className="h-4 w-4 animate-spin" />}
                 {loadingMore ? "Cargando..." : `Cargar más (${total - list.length} restantes)`}
               </button>
+            </div>
+          )}
+
+          {/* Recomendados: mejor valorados de la plataforma, siempre
+              presentes -- para que la pantalla nunca quede vacía de
+              descubrimiento aunque el filtro puesto dé pocos resultados. */}
+          {recomendados.length > 0 && (
+            <div className="mt-12 border-t border-[var(--line)] pt-8">
+              <p className="mb-4 text-[11px] font-black uppercase tracking-[.2em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Los mejor valorados de San Lorenzo</p>
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                {recomendados.map((b: any) => (
+                  <Link key={b.id} href={`/negocio/${b.slug}`}
+                    className="group flex items-center gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3 transition hover:border-[var(--accent)]/50">
+                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl">
+                      {b.portada_url ? (
+                        <Image src={b.portada_url} alt={b.name} fill quality={80} sizes="56px" className="object-cover" />
+                      ) : (
+                        <CategoryCover category={b.category} seed={String(b.id || b.slug)} className="h-full w-full" />
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-[var(--text)] transition group-hover:text-[var(--accent)]">{b.name}</p>
+                      <p className="text-xs font-bold text-[var(--warn)]">★ {Number(b.rating).toFixed(1)} <span className="font-normal text-[var(--muted)]">({b.reviews || 0})</span></p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
         </div>

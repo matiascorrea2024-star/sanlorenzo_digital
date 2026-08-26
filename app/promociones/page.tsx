@@ -7,7 +7,9 @@ import OfferCard from "@/components/ui/offer-card";
 import { supabase } from "@/lib/supabase";
 import { hoyArgentina } from "@/lib/fecha-ar";
 import { CATEGORIES } from "@/lib/data";
-import { FilterGroup, CheckRow, RadioRow } from "@/components/ui/filter-sidebar";
+import { ExpandableFilterGroup, FilterGroup, CheckRow, RadioRow } from "@/components/ui/filter-sidebar";
+import CategoryCover from "@/components/ui/category-cover";
+import Image from "next/image";
 
 type Row = {
   id: string;
@@ -46,10 +48,12 @@ export default function PromocionesPage() {
   const [count, setCount] = useState(0);
   const [cats, setCats] = useState<string[]>([]);
   const [minDiscount, setMinDiscount] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
+  const [precioMin, setPrecioMin] = useState("");
+  const [precioMax, setPrecioMax] = useState("");
   const [soloVerificados, setSoloVerificados] = useState(false);
   const [soloDestacados, setSoloDestacados] = useState(false);
   const [soloUrgentes, setSoloUrgentes] = useState(false);
+  const [recomendados, setRecomendados] = useState<any[]>([]);
   const toggleCat = (id: string) => setCats((prev) => prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]);
   const heroRef = useRef<HTMLDivElement>(null);
   // Snapshot de "ahora" tomado una sola vez (no en cada render) para
@@ -67,6 +71,12 @@ export default function PromocionesPage() {
       setRows((data as Row[]) || []);
       setLoading(false);
     })();
+    // Recomendados: negocios mejor valorados, para que la pantalla nunca
+    // quede "seca" -- descubrimiento cruzado más allá de solo ofertas.
+    supabase().from("businesses").select("id, name, slug, category, portada_url, logo_url, rating, reviews")
+      .in("status", ["verificado", "reclamado"]).eq("activo", true).gt("rating", 0)
+      .order("rating", { ascending: false }).limit(4)
+      .then(({ data }) => setRecomendados(data || []));
   }, []);
 
   const [hoy] = useState(() => hoyArgentina());
@@ -76,7 +86,8 @@ export default function PromocionesPage() {
         .filter((o) => (!o.valid_until || o.valid_until >= hoy)
           && (cats.length === 0 || cats.includes(o.business_category))
           && (!minDiscount || Number(o.discount_percent || 0) >= minDiscount)
-          && (!maxPrice || !o.offer_price || Number(o.offer_price) <= maxPrice)
+          && (!precioMin || !o.offer_price || Number(o.offer_price) >= Number(precioMin))
+          && (!precioMax || !o.offer_price || Number(o.offer_price) <= Number(precioMax))
           && (!soloVerificados || o.business_status === "verificado")
           && (!soloDestacados || o.business_destacado)
           && (!soloUrgentes || (diasA(o.valid_until) !== null && (diasA(o.valid_until) as number) <= 1)))
@@ -102,7 +113,7 @@ export default function PromocionesPage() {
         }))
         // Impulsadas primero -- lo que el negocio pagó por destacar hoy.
         .sort((a, b) => (b.impulsada ? 1 : 0) - (a.impulsada ? 1 : 0)),
-    [rows, hoy, ahora, cats, minDiscount, maxPrice, soloVerificados, soloDestacados, soloUrgentes]
+    [rows, hoy, ahora, cats, minDiscount, precioMin, precioMax, soloVerificados, soloDestacados, soloUrgentes]
   );
 
   const urgentes = useMemo(() => activas.filter((o) => { const d = diasA(o.vence); return d !== null && d <= 1; }), [activas]);
@@ -151,15 +162,18 @@ export default function PromocionesPage() {
       <div className="mx-auto flex max-w-[1500px] items-start gap-8 px-4 pt-8">
         {/* ── Sidebar de filtros, mismo patrón que /negocios ── */}
         <aside className="hidden w-[230px] shrink-0 lg:block">
-          <FilterGroup title="Rubro">
-            {CATEGORIES.map((c) => (
-              <CheckRow key={c.id} checked={cats.includes(c.id)} onChange={() => toggleCat(c.id)} label={<>{c.icon} {c.name}</>} />
-            ))}
-          </FilterGroup>
-          <FilterGroup title="Precio máximo">
-            {[{ v: 0, l: "Cualquiera" }, { v: 10000, l: "$10.000" }, { v: 25000, l: "$25.000" }, { v: 50000, l: "$50.000" }].map((o) => (
-              <RadioRow key={o.v} name="maxprecio" checked={maxPrice === o.v} onChange={() => setMaxPrice(o.v)} label={o.l} />
-            ))}
+          <ExpandableFilterGroup title="Rubro" items={CATEGORIES} selected={cats} onToggle={toggleCat} visibleCount={8} />
+          <FilterGroup title="Precio">
+            <div className="flex items-center gap-2">
+              <input type="number" min={0} inputMode="numeric" value={precioMin} onChange={(e) => setPrecioMin(e.target.value)} placeholder="Mín."
+                className="w-full rounded-lg border border-[var(--line-strong)] bg-[var(--ov-05)] px-2 py-1.5 text-xs outline-none focus:border-[var(--accent)]" />
+              <span className="text-xs text-[var(--muted2)]">—</span>
+              <input type="number" min={0} inputMode="numeric" value={precioMax} onChange={(e) => setPrecioMax(e.target.value)} placeholder="Máx."
+                className="w-full rounded-lg border border-[var(--line-strong)] bg-[var(--ov-05)] px-2 py-1.5 text-xs outline-none focus:border-[var(--accent)]" />
+            </div>
+            {(precioMin || precioMax) && (
+              <button onClick={() => { setPrecioMin(""); setPrecioMax(""); }} className="text-xs font-bold text-[var(--accent)] hover:underline">Limpiar precio</button>
+            )}
           </FilterGroup>
           <FilterGroup title="Descuento mínimo">
             {[{ v: 0, l: "Cualquiera" }, { v: 10, l: "10% o más" }, { v: 20, l: "20% o más" }, { v: 30, l: "30% o más" }].map((o) => (
@@ -230,6 +244,30 @@ export default function PromocionesPage() {
                 </div>
               )}
             </>
+          )}
+
+          {recomendados.length > 0 && (
+            <div className="mt-12 border-t border-[var(--line)] pt-8">
+              <p className="mb-4 text-[11px] font-black uppercase tracking-[.2em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Negocios mejor valorados para descubrir</p>
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                {recomendados.map((b: any) => (
+                  <Link key={b.id} href={`/negocio/${b.slug}`}
+                    className="group flex items-center gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3 transition hover:border-[var(--accent)]/50">
+                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl">
+                      {b.portada_url ? (
+                        <Image src={b.portada_url} alt={b.name} fill quality={80} sizes="56px" className="object-cover" />
+                      ) : (
+                        <CategoryCover category={b.category} seed={String(b.id || b.slug)} className="h-full w-full" />
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-[var(--text)] transition group-hover:text-[var(--accent)]">{b.name}</p>
+                      <p className="text-xs font-bold text-[var(--warn)]">★ {Number(b.rating).toFixed(1)} <span className="font-normal text-[var(--muted)]">({b.reviews || 0})</span></p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
           )}
 
           <div className="mt-10 text-center">

@@ -29,6 +29,7 @@ const ICON_NAV = [
 
 const NAV = [
   { href: "/negocios", label: "Negocios", icon: Store },
+  { href: "/promociones", label: "Ofertas", icon: Flame },
   { href: "/reels", label: "Reels", icon: Clapperboard },
   { href: "/feed", label: "Muro", icon: Newspaper },
   { href: "/ranking", label: "Ranking", icon: Trophy },
