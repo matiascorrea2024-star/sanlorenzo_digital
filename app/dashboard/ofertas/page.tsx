@@ -9,6 +9,8 @@ import DashboardNav from "@/components/dashboard/dashboard-nav";
 import HowItWorks from "@/components/ui/how-it-works";
 import { useToast } from "@/components/ui/toast";
 import { friendlyError } from "@/lib/friendly-error";
+import { planDe } from "@/lib/plans";
+import { hoyArgentina } from "@/lib/fecha-ar";
 
 export default function OfertasPage() {
   const { user } = useAuth();
@@ -77,6 +79,34 @@ export default function OfertasPage() {
       if (o.business_id === bizId) return { ...o, es_bomba: false };
       return o;
     }));
+  };
+
+  const duplicar = async (offer: any) => {
+    const business = businesses.find((b) => b.id === offer.business_id);
+    if (!business) return;
+    // La copia arranca inactiva: avisar si al activarla se iría del plan.
+    const hoy = hoyArgentina();
+    const activas = offers.filter(
+      (o) => o.business_id === offer.business_id && o.active && (!o.valid_until || o.valid_until >= hoy)
+    ).length;
+    const max = planDe(business).maxOfertas;
+    const { id: _id, created_at: _creada, es_bomba: _bomba, ...copia } = offer;
+    const { error } = await supabase()
+      .from("offers")
+      .insert({
+        ...copia,
+        active: false,
+        es_bomba: false,
+        valid_until: new Date(Date.now() - 3 * 3600e3 + 7 * 86400e3).toISOString().slice(0, 10),
+      });
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo duplicar la oferta.")}`, "error"); return; }
+    show(
+      max !== -1 && activas >= max
+        ? `📋 Copia creada inactiva. Tu plan permite ${max} activas: pausá otra para poder activarla.`
+        : "📋 Copia creada inactiva. Editá precios y activala cuando quieras.",
+      "success"
+    );
+    loadData();
   };
 
   if (loading) {
@@ -243,6 +273,12 @@ export default function OfertasPage() {
                         ⋯ Más
                       </summary>
                       <div className="absolute right-0 z-10 mt-2 w-44 space-y-1 rounded-xl border border-[var(--line)] bg-[var(--surface2)] p-2 shadow-2xl">
+                        <button
+                          onClick={() => duplicar(offer)}
+                          className="block w-full rounded-lg px-3 py-2 text-left text-xs font-bold hover:bg-[var(--ov-10)]"
+                        >
+                          📋 Duplicar
+                        </button>
                         <Link href={`/dashboard/ofertas/${offer.id}/cupones`} className="block rounded-lg px-3 py-2 text-xs font-bold hover:bg-[var(--ov-10)]">
                           🎟️ Cupones
                         </Link>

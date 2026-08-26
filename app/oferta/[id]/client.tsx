@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
-import { ArrowLeft, Share2, MessageCircle, Truck, ShoppingBasket, Check, Flame } from "lucide-react";
+import { ArrowLeft, Share2, MessageCircle, Truck, ShoppingBasket, ShoppingBasket as BasketIcon, Check, Flame } from "lucide-react";
 import CountdownTimer from "@/components/ui/countdown-timer";
 import CouponButton from "@/components/offers/coupon-button";
 import FavoriteButton from "@/components/ui/favorite-button";
@@ -18,6 +18,8 @@ import GroupDealPanel from "@/components/offers/group-deal-panel";
 import { generarImagenOferta } from "@/lib/share-image";
 import { useCart } from "@/lib/cart-context";
 import { getTrackedShareUrl } from "@/lib/tracked-link";
+import { sumarAMiBarata } from "@/lib/mi-barata";
+import { useAuth } from "@/components/providers/auth-provider";
 import { relativeTime } from "@/lib/relative-time";
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
@@ -35,6 +37,7 @@ export default function OfertaPage() {
   const { trackViewOffer, trackClickWhatsApp, trackShareOffer } = useAnalytics();
   const viendo = useLiveViewers(offerId);
   const { addItem, hasItem } = useCart();
+  const { user } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -270,6 +273,25 @@ export default function OfertaPage() {
                 >
                   {hasItem(`oferta-${oferta.id}`) ? "En el changuito" : "Sumar al changuito"}
                   {hasItem(`oferta-${oferta.id}`) ? <Check className="h-6 w-6 text-[var(--place)]" /> : <ShoppingBasket className="h-6 w-6 text-[var(--place)]" />}
+                </button>
+                {/* Mi Barata: lista de compras planificada (persistente,
+                    multi-negocio). Distinto del changuito, que es checkout. */}
+                <button
+                  onClick={async () => {
+                    if (!user) {
+                      router.push("/login?redirect=/oferta/" + oferta.id);
+                      return;
+                    }
+                    const res = await sumarAMiBarata(user.id, oferta.id);
+                    if (res === "agregada") show("🧺 Sumada a Mi Barata. Mirá tu vuelta en /mi-barata", "success");
+                    else if (res === "ya-estaba") show("Ya estaba en tu barata", "info");
+                    else show("❌ No se pudo sumar. Probá de nuevo.", "error");
+                  }}
+                  className="flex h-14 w-full items-center justify-between rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/5 px-8 text-sm font-black uppercase tracking-wider text-[var(--accent)] transition hover:bg-[var(--accent)]/15"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  Sumar a Mi Barata
+                  <BasketIcon className="h-5 w-5" />
                 </button>
               </div>
             </div>

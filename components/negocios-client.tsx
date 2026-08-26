@@ -8,6 +8,7 @@ import { CATEGORIES } from "@/lib/data";
 import BusinessCard from "@/components/business/card";
 import { supabase } from "@/lib/supabase";
 import { sanitizeSearchQuery } from "@/lib/sanitize";
+import { expandirBusqueda } from "@/lib/sinonimos";
 
 export const NEGOCIOS_PAGE_SIZE = 60;
 
@@ -23,7 +24,15 @@ async function fetchPage({ cat, q, openNow, mode, delivery, minRating, from, to 
   if (delivery) query = query.eq("hace_envios", true);
   if (minRating > 0) query = query.gte("rating", minRating);
   const term = sanitizeSearchQuery(q).trim();
-  if (term) query = query.or(`name.ilike.%${term}%,description.ilike.%${term}%`);
+  if (term) {
+    // Expansión con sinónimos ("choper" encuentra "cerveza"): el término
+    // original va primero, cada variante pasa por el mismo sanitize.
+    const condiciones = expandirBusqueda(term).flatMap((t) => {
+      const seguro = sanitizeSearchQuery(t);
+      return [`name.ilike.%${seguro}%`, `description.ilike.%${seguro}%`];
+    });
+    query = query.or(condiciones.join(","));
+  }
   const { data, count, error } = await query.order("destacado", { ascending: false }).order("name").range(from, to);
   if (error) throw error;
   return { data: data || [], count: count ?? 0 };

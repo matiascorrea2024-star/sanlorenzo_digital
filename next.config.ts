@@ -11,7 +11,8 @@ const cspHeader = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' https: data:",
-  "connect-src 'self' https: wss: https://www.google-analytics.com",
+  // En dev, permitir el Supabase local (otro puerto => no es 'self').
+  `connect-src 'self' https: wss: https://www.google-analytics.com${process.env.NODE_ENV === "development" ? " http://127.0.0.1:54321 ws://127.0.0.1:54321" : ""}`,
   "frame-src 'self' https://checkout.mercadopago.com https://*.livekit.cloud",
   "object-src 'none'",
   "base-uri 'self'",

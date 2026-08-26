@@ -12,6 +12,7 @@ import PlanLimitBanner from "@/components/dashboard/plan-limit-banner";
 import LiveVisitors from "@/components/dashboard/live-visitors";
 import GrowthCenter from "@/components/dashboard/growth-center";
 import CommercialCalendar from "@/components/dashboard/commercial-calendar";
+import QrVidriera from "@/components/dashboard/qr-vidriera";
 
 export default function DashboardPage() {
   const { show } = useToast();
@@ -181,6 +182,10 @@ export default function DashboardPage() {
                   >
                     📲 Compartir
                   </button>
+                </div>
+
+                <div className="mt-3">
+                  <QrVidriera businessId={b.id} businessName={b.name} />
                 </div>
               </div>
               </div>

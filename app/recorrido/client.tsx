@@ -3,9 +3,11 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/components/providers/auth-provider";
 import { supabase } from "@/lib/supabase";
 import { getFavorites } from "@/lib/favorites";
+import { getMiBarata } from "@/lib/mi-barata";
 import { calcDistanceKm, fmtDistance } from "@/lib/geo";
 import { Route, LocateFixed, Navigation, ArrowRight, MessageCircle, Loader2 } from "lucide-react";
 import "leaflet/dist/leaflet.css";
@@ -35,6 +37,7 @@ type OrderedStop = Stop & { leg: number | null };
 
 export default function RecorridoClient() {
   const { user, loading: authLoading } = useAuth();
+  const fuente = useSearchParams().get("fuente");
   const [stops, setStops] = useState<Stop[] | null>(null);
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
   const [geoLocating, setGeoLocating] = useState(false);
@@ -47,7 +50,6 @@ export default function RecorridoClient() {
     }
     let cancelled = false;
     (async () => {
-      const favs = await getFavorites(user.id);
       const byId = new Map<string, Stop>();
       const addBiz = (b: any) => {
         if (!b || byId.has(b.id)) return;
@@ -65,26 +67,40 @@ export default function RecorridoClient() {
           lon,
         });
       };
-      if (favs.businesses.length) {
-        const { data } = await supabase()
-          .from("businesses")
-          .select("id, name, slug, category, portada_url, whatsapp, latitude, longitude")
-          .in("id", favs.businesses);
-        (data || []).forEach(addBiz);
-      }
-      if (favs.offers.length) {
-        const { data } = await supabase()
-          .from("offers")
-          .select("businesses!inner(id, name, slug, category, portada_url, whatsapp, latitude, longitude)")
-          .in("id", favs.offers);
-        (data || []).forEach((o: any) => addBiz(o.businesses));
+      if (fuente === "barata") {
+        // Modo "armá la vuelta": los negocios de Mi Barata, no los favoritos.
+        const barata = await getMiBarata(user.id);
+        const slugs = Array.from(new Set(barata.map((i) => i.slug).filter(Boolean)));
+        if (slugs.length) {
+          const { data } = await supabase()
+            .from("businesses")
+            .select("id, name, slug, category, portada_url, whatsapp, latitude, longitude")
+            .in("slug", slugs);
+          (data || []).forEach(addBiz);
+        }
+      } else {
+        const favs = await getFavorites(user.id);
+        if (favs.businesses.length) {
+          const { data } = await supabase()
+            .from("businesses")
+            .select("id, name, slug, category, portada_url, whatsapp, latitude, longitude")
+            .in("id", favs.businesses);
+          (data || []).forEach(addBiz);
+        }
+        if (favs.offers.length) {
+          const { data } = await supabase()
+            .from("offers")
+            .select("businesses!inner(id, name, slug, category, portada_url, whatsapp, latitude, longitude)")
+            .in("id", favs.offers);
+          (data || []).forEach((o: any) => addBiz(o.businesses));
+        }
       }
       if (!cancelled) setStops(Array.from(byId.values()));
     })();
     return () => {
       cancelled = true;
     };
-  }, [user]);
+  }, [user, fuente]);
 
   // Vecino más cercano desde la ubicación del usuario. Sin ubicación,
   // la lista queda en el orden en que se guardaron los favoritos.
@@ -192,12 +208,16 @@ export default function RecorridoClient() {
         <div className="relative mx-auto max-w-6xl px-4 pb-10 pt-16 sm:px-6">
           <Route className="h-10 w-10 text-[var(--accent)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
           <p className="mt-4 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
-            Hoy salgo a comprar
+            {fuente === "barata" ? "Tu barata, ordenada" : "Hoy salgo a comprar"}
           </p>
           <h1 className="mt-2 font-display text-4xl uppercase tracking-tight sm:text-6xl">
             Mi <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-red-600 bg-clip-text text-transparent">recorrido</span>
           </h1>
-          <p className="mt-3 max-w-xl text-base text-[#a99b86]">Tus favoritos ordenados para recorrerlos en el menor tiempo posible.</p>
+          <p className="mt-3 max-w-xl text-base text-[#a99b86]">
+            {fuente === "barata"
+              ? "Los negocios de tu barata, ordenados para levantar todas las ofertas en el menor tiempo."
+              : "Tus favoritos ordenados para recorrerlos en el menor tiempo posible."}
+          </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <button

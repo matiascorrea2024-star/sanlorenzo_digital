@@ -103,56 +103,50 @@ Flujo acordado con el dueño: **auditar → quick wins → testing con usuarios 
 - Pre-lanzamiento (del dueño, no código): ocultar negocios de prueba de la DB ("MATIAS PRUEBA" etc.), rotar token GitHub viejo.
 - QR del Modo TV depende de `api.qrserver.com` (tiene fallback graceful; idea #2 lo reemplaza).
 
-## 8. Backlog de ideas priorizado (para implementar)
+## 8. Backlog de ideas (estado al 2026-08-26)
 
-Orden por impacto/esfuerzo. Cada una indica qué, por qué y dónde tocar. **Las #1-#3 no dependen del testing** (son fricción objetiva); #4+ conviene validarlas en las sesiones.
+### ✅ Implementado (commit feat del 26/08)
 
-### #1 · Duplicar y plantillas de ofertas (dashboard) — complejidad baja
-**Qué**: botón "Duplicar" en cada fila de `/dashboard/ofertas` que crea una copia desactivada con `valid_until` recalculado (+7 días) listo para editar. Opcional v2: "guardar como plantilla" (columna `es_plantilla` en `offers` o tabla nueva).
-**Por qué**: publicar/re-publicar ofertas es LA acción semanal del comerciante; re-escribirla entera cada vez es la fricción #1 de retención.
-**Dónde**: `app/dashboard/ofertas/page.tsx` (fila + botón), ruta API de ofertas del dashboard (mirar `app/api/` existente o server action), migración solo si va por plantillas.
-**Cuidado**: respetar límites del plan (`maxOfertas`) al duplicar; copia siempre `active=false` para revisión.
+- **#1 Duplicar ofertas**: botón "📋 Duplicar" en `⋯ Más` de cada oferta en `/dashboard/ofertas`. Copia inactiva con `valid_until` +7 días, avisa si al activarla se supera el límite del plan. Insert directo del cliente (mismo patrón RLS que "nueva").
+- **#2 QR de vidriera**: componente `components/dashboard/qr-vidriera.tsx` dentro de la tarjeta de cada negocio del dashboard. QR generado LOCALMENTE (paquete `qrcode`) apuntando a `/r/[code]` con `source=qr` (el RPC `create_tracked_link` es idempotente: el QR impreso nunca cambia). Descarga PNG/SVG + contador de escaneos (columna `clicks` de `tracked_links`, legible por el dueño).
+- **#3 Mi Barata** (`/mi-barata`): lista de compras persistente multi-negocio. `lib/mi-barata.ts` + `app/mi-barata/` (totales con ahorro, agrupado por negocio con WhatsApp agrupado, quitar ítems) + botón "Sumar a Mi Barata" en `/oferta/[id]` + `/recorrido?fuente=barata` reusa el optimizador de ruta con los negocios de la barata. **Requiere la migración `20260826120000_mi_barata.sql` aplicada en el Supabase REMOTO antes del deploy** (en local ya está aplicada; sin ella el botón falla con toast de error y la página muestra vacía, sin romper).
+- **#5 Sinónimos argentos**: `lib/sinonimos.ts` (~120 términos curados) + expansión en `components/negocios-client.tsx` ("choper" encuentra "cerveza"). El término original tiene prioridad; máx 5 términos por query.
+- **#9 Seed curado**: `scripts/seed-local.mjs` ahora siembra 12 comercios realistas de San Lorenzo con fotos (Unsplash verificadas), horarios, ratings y 17 ofertas con precios creíbles (una vence HOY para probar countdowns). `--reset` borra solo lo demo; `--bulk N` conserva el generador masivo. Login demo: `sld.demo.0001@local.test` / `DemoLocal2026!`.
+- **#4 Push a seguidores: YA EXISTÍA** — no implementar de nuevo. Cadena completa en DB: `trg_notify_offer` (insert de oferta activa → notificación a seguidores) → `trg_notify_push_webhook` (insert de notification → `net.http_post` → `/api/push/send` → web-push). El anti-spam lo da el límite de ofertas/día del plan.
 
-### #2 · QR de vidriera por comercio (adquisición local) — complejidad baja
-**Qué**: en el dashboard, sección "Tu QR de vidriera": QR estable que apunta a `/r/[code]` (tracked link con `src=vidriera`) → ficha del negocio. Descarga en PNG/SVG listo para imprimir. Stats de escaneos ya existen (`analytics_events` `tracked_link_click`).
-**Por qué**: cierra el círculo offline→online: el cliente está EN el local, escanea, ve el catálogo/ofertas, sigue al comercio. Es el gancho perfecto para venderle el plan Plus al comerciante ("medís cuánta gente escaneó").
-**Dónde**: nuevo bloque en `components/dashboard/` + página de descarga. **Generar el QR localmente** (paquete `qrcode` o SVG propio) — reemplaza a `api.qrserver.com` del Modo TV de paso.
-**Nota**: `app/r/[code]` y `tracked_links` ya existen; solo falta el generador + UI.
+### Dev contra Supabase local (para probar features nuevas sin tocar producción)
 
-### #3 · "Mi barata de la semana" (el diferenciador) — complejidad media
-**Qué**: el vecino arma una lista con ofertas de VARIOS negocios y la app le muestra: total ahorrado vs precio regular, negocios involucrados, y dos acciones: "Armar recorrido" (reutiliza `/recorrido`, ordenador nearest-neighbor ya hecho) y "Consultar todo por WhatsApp" (un mensaje agrupado por negocio).
-**Por qué**: la promesa real de "La Gran Barata" es ahorrar combinando ofertas. Convierte la app de listado a herramienta semanal. Nadie en el mercado local lo tiene.
-**Dónde**: `user_lists` + `list_items` YA EXISTEN en Supabase sin uso (verificar RLS en migraciones: crear policies scoped a `user_id` si no tienen). UI nueva `app/mi-barata/`, reutilizar `lib/geo.ts`, `cart-context` como referencia de patrón.
-**Cuidado**: ofertas pueden vencer — la lista debe mostrar estado vigente/vencida por ítem, no romper el total.
+```bash
+fuser -k 3000/tcp
+NEXT_PUBLIC_SUPABASE_URL="http://127.0.0.1:54321" \
+NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CR7P_DMHUpj8QgX9C8n8d3EANcV9DceXK4c0Hd7Xcmw" \
+npm run dev
+```
+La CSP permite `http://127.0.0.1:54321` en `connect-src` SOLO en desarrollo (ver `next.config.ts`). Sin esa excepción el login local falla con "No pudimos conectarnos".
 
-### #4 · Push segmentado por categoría (retención) — complejidad media-alta
-**Qué**: cuando un comercio publica una oferta, notificar push a los vecinos que siguen/interesaron esa categoría o ese comercio. Ya existe TODO el caño: `push_subscriptions`, `app/api/push/send` (web-push), toggle en perfil, `user_alerts` de notify-me.
-**Por qué**: retención pura: "entró oferta de carne" trae de vuelta al vecino sin abrir la app.
-**Dónde**: hook en la creación de oferta (API del dashboard o trigger) → query de audiencia (`followers` ∪ `interest_offer` en `analytics_events` ∪ preferencias de perfil) → encolar a `app/api/push/send`.
-**Cuidado (crítico)**: anti-spam — máximo 1-2 push/día por usuario, respetar consentimiento de cookies/permisos, dedupe por oferta. Sin esto la desinstalación es segura.
+### Pendientes del backlog (post-testing)
 
-### #5 · Sinónimos argentos en búsqueda — complejidad baja
-**Qué**: diccionario curado (~100 términos) que expande la query: choper→cerveza, fiambre, panchos, zapatillas↔calzado, gummi↔goma, etc. Aplicarlo en `/negocios?q=` y `smart-search` antes del filtro.
-**Por qué**: la gente busca como habla; el LIKE literal no encuentra nada y la búsqueda "muerta" mata la confianza.
-**Dónde**: `lib/sinonimos.ts` nuevo + `components/negocios-client.tsx` + `components/ui/smart-search.tsx`. V2: columna `search_terms` editable por el comercio.
+- **#6 Horarios estructurados** + "ABIERTO AHORA" calculado (media; migración + editor + badge).
+- **#7 Reseñas con foto** (media; storage + moderación).
+- **#8 Modo claro pulido** (media; barrido de contraste V3 en light).
+- **#10 PWA offline** (baja-media; sw.js mínimo, NO cachear rutas auth).
+- Post-testing: historial de precios en /comparar, referidos con UI, bottom-nav 7→5, jerarquía del mapa, densidad home.
 
-### #6 · Horarios estructurados + "ABIERTO AHORA" real — complejidad media
+### Detalle de las pendientes
+
+#### #6 · Horarios estructurados + "ABIERTO AHORA" real — complejidad media
 **Qué**: hoy `businesses.schedule` es texto libre y `open` un booleano manual. Modelar horarios (JSON por día o tabla) y calcular "abierto ahora" con `America/Argentina/Buenos_Aires`. El badge de la ficha y los filtros del mapa pasan a ser confiables.
 **Dónde**: migración + `app/dashboard/editar/[slug]` (editor amigable de horarios) + helper en `lib/` + consumidores del badge (`negocio/[slug]/client.tsx`, mapa).
 
-### #7 · Reseñas con foto — complejidad media
+#### #7 · Reseñas con foto — complejidad media
 **Qué**: extender `business_reviews` con 1-3 fotos (storage ya se usa para productos/ofertas). La foto de una factura/plato vale más que 10 estrellas para confianza local.
 **Dónde**: `components/business/reviews-section.tsx` (form + grid), migración (`review_photos jsonb` o tabla), moderación existente en `review-moderation.tsx` debe mostrarlas.
 
-### #8 · Modo claro pulido — complejidad media
+#### #8 · Modo claro pulido — complejidad media
 **Qué**: auditar TODA la app en light (el audit histórico ya encontró Reels ilegible). Contraste de V3 (magenta sobre blanco necesita ajustes), sombras `.btn-hard` hardcodeadas a `#861642` funcionan, pero revisar `bg-white/5` sobre claro.
 **Dónde**: `app/globals.css` (tokens por tema) + barrido de capturas light (mismo script de screenshots con `colorScheme: 'light'`).
 
-### #9 · Seed realista para demos y testing — complejidad baja (¡hacer antes del testing de usuarios!)
-**Qué**: ampliar `scripts/seed-local.mjs` a ~10 negocios con fotos (Unsplash ya está en `images.remotePatterns`) y 12+ ofertas vigentes con precios creíbles, distribuidos en categorías y barrios.
-**Por qué**: con la plaza vacía, el testing con usuarios mide la plaza vacía. Es prerrequisito de las sesiones.
-
-### #10 · PWA offline básica — complejidad baja-media
+#### #10 · PWA offline básica — complejidad baja-media
 **Qué**: service worker mínimo: cache de shell + última home/ofertas vistas para abrir offline (el colectivo/barrio con señal floja es contexto real). Manifest ya existe.
 **Dónde**: `public/sw.js` + registro en `app/layout.tsx`. No cachear rutas autenticadas ni POSTs.
 
@@ -161,6 +155,7 @@ Orden por impacto/esfuerzo. Cada una indica qué, por qué y dónde tocar. **Las
 - Programa de referidos vecino→vecino (`app/api/referrals` ya existe, falta UI con recompensa).
 - Bottom-nav 7→5, jerarquía del mapa, densidad home (ver sección 6).
 - Multi-sucursal; exportar seguidores (comerciante); campañas por barrio ya existen en API (`app/api/campaigns`).
+- Plantillas de ofertas (v2 de #1): columna `es_plantilla` en `offers` o tabla nueva.
 
 ## 9. Qué NO hacer
 
