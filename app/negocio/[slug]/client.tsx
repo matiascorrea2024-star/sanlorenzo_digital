@@ -174,7 +174,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
     return (
       <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
-          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-orange-500"></div>
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-[var(--accent)]"></div>
           <p className="mt-4 text-[var(--muted)]">Cargando negocio...</p>
         </div>
       </main>
@@ -186,8 +186,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
       <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
           <p className="mb-4 text-5xl">🔍</p>
-          <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Negocio no encontrado</h1>
-          <Link href="/" className="mt-4 inline-block text-orange-400 hover:text-orange-300">← Volver al inicio</Link>
+          <h1 className="font-display text-2xl uppercase tracking-tight">Negocio no encontrado</h1>
+          <Link href="/" className="mt-4 inline-block text-[var(--accent)] hover:underline">← Volver al inicio</Link>
         </div>
       </main>
     );
@@ -219,6 +219,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   return (
     <main className="bg-[var(--bg)] min-h-screen pb-24 text-[var(--text)]">
+      {/* Glow ambiental de marca, mismo lenguaje que el resto del sitio V3. */}
+      <div className="pointer-events-none fixed left-[-10%] top-[-15%] -z-10 h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[180px]" aria-hidden="true" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
 
       {/* HERO editorial: foto grande con esquinas muy redondeadas y las
@@ -267,14 +269,14 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             </DivisionFrame>
           ) : (
             <DivisionFrame puntos={negocio.puntos || 0} size={112} categoria={negocio.category} showLabel mostrarProgreso={false}>
-              <div className="flex h-28 w-28 items-center justify-center rounded-3xl border-[6px] border-[var(--bg)] bg-gradient-to-br from-orange-500 to-red-600 text-4xl font-black shadow-2xl">
+              <div className="flex h-28 w-28 items-center justify-center rounded-3xl border-[6px] border-[var(--bg)] bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] text-4xl font-black shadow-2xl">
                 {negocio.name[0]}
               </div>
             </DivisionFrame>
           )}
           <div className="min-w-0 flex-1 pb-1">
             <p className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--muted2)]">{negocio.category}</p>
-            <h1 className="truncate text-3xl font-bold leading-tight md:text-5xl" style={{ fontFamily: "var(--font-space)" }}>{negocio.name}</h1>
+            <h1 className="truncate font-display text-3xl uppercase leading-tight tracking-tight md:text-5xl">{negocio.name}</h1>
             <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5">
               {Number(negocio.reviews) > 0 && (
                 <span className="flex items-center gap-1.5 text-[var(--warn)]">
@@ -284,8 +286,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 </span>
               )}
               {viendo >= 2 && (
-                <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-orange-300">
-                  <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-orange-500" /></span>
+                <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[var(--accent)]">
+                  <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" /></span>
                   {viendo} viendo esto ahora
                 </span>
               )}
@@ -305,7 +307,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             negocio activo con ofertas vigentes confundía: ¿volver de dónde?).
             Con el negocio abierto y ofertas activas, el CTA útil es WhatsApp. */}
         {(abierto === false || ofertas.length === 0) && (
-          <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
+          <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-5 md:flex-row">
             <div>
               <p className="font-black">🔔 Avisame cuando {negocio.name} publique ofertas</p>
               <p className="text-sm text-[var(--muted)]">
@@ -317,7 +319,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         )}
 
         {abierto === false && (
-          <div className="mb-6 rounded-2xl border border-red-400/40 bg-red-500/10 p-4 text-center">
+          <div className="mb-6 rounded-2xl border border-[var(--bad)]/40 bg-[var(--bad)]/10 p-4 text-center">
             <p className="font-black text-[var(--bad)]">🔴 Cerrado ahora</p>
             <p className="mt-1 text-sm text-[var(--muted)]">
               {negocio.schedule ? `Horario: ${negocio.schedule}` : "Consultá el horario antes de ir."}
@@ -366,7 +368,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1"
             >
               <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                <MapPin className="h-6 w-6 text-orange-400" />
+                <MapPin className="h-6 w-6 text-[var(--accent)]" />
                 <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">Mapa</span>
               </div>
             </a>
@@ -393,7 +395,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
         {negocio.description && (
           <div className="mb-8">
-            <h2 className="mb-3 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Sobre el negocio</h2>
+            <h2 className="mb-3 font-display text-2xl uppercase tracking-tight">Sobre el negocio</h2>
             <p className="leading-relaxed text-[var(--text)]/80">{negocio.description}</p>
           </div>
         )}
@@ -408,13 +410,13 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           <div className="mb-5 flex gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-1.5">
             <button
               onClick={() => setSeccion("catalogo")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "catalogo" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "catalogo" ? "bg-[var(--accent)] text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Package className="h-4 w-4" /> Catálogo ({productos.length})
             </button>
             <button
               onClick={() => setSeccion("ofertas")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "ofertas" ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "ofertas" ? "bg-[var(--accent)] text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Flame className="h-4 w-4" /> Ofertas ({ofertas.length})
             </button>
@@ -424,7 +426,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {/* OFERTAS ACTIVAS: tarjetas compactas horizontales */}
         {ofertas.length > 0 && (productos.length === 0 || seccion === "ofertas") && (
           <div className="mb-8">
-            <h2 className="mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Ofertas activas ({ofertas.length})</h2>
+            <h2 className="mb-4 font-display text-2xl uppercase tracking-tight">Ofertas activas ({ofertas.length})</h2>
             <div className="space-y-3">
               {ofertas.map((o) => {
                 const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
@@ -435,7 +437,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   <Link
                     key={o.id}
                     href={`/oferta/${o.id}`}
-                    className="group flex gap-4 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-3 transition hover:border-orange-400/40 hover:bg-[var(--ov-08)]"
+                    className="group flex gap-4 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-3 transition hover:border-[var(--accent)]/40 hover:bg-[var(--ov-08)]"
                   >
                     <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-28">
                       <Image
@@ -447,21 +449,21 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                         className="object-cover transition group-hover:scale-105"
                       />
                       {o.discount_percent > 0 && (
-                        <span className="absolute left-1 top-1 rounded-md bg-gradient-to-r from-red-500 to-orange-500 px-1.5 py-0.5 text-[10px] font-black text-white shadow">
+                        <span className="absolute left-1 top-1 rounded-md bg-[var(--accent)] px-1.5 py-0.5 text-[10px] font-black text-white shadow">
                           -{o.discount_percent}%
                         </span>
                       )}
                     </div>
                     <div className="flex min-w-0 flex-1 flex-col">
                       <div className="mb-1 flex flex-wrap items-center gap-1.5">
-                        {dias === 0 && <span className="rounded bg-red-500/20 px-1.5 py-0.5 text-[10px] font-black text-[var(--bad)]">VENCE HOY</span>}
+                        {dias === 0 && <span className="rounded bg-[var(--bad)]/20 px-1.5 py-0.5 text-[10px] font-black text-[var(--bad)]">VENCE HOY</span>}
                         {dias !== null && dias > 0 && dias <= 3 && <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-black text-[var(--warn)]">En {dias} días</span>}
                       </div>
                       <h3 className="line-clamp-2 text-sm font-black leading-snug sm:text-base">{o.title}</h3>
                       <div className="mt-auto flex items-end justify-between gap-2 pt-1">
                         <div>
                           {o.old_price && <p className="text-[11px] text-[var(--muted2)] line-through">{fmt(Number(o.old_price))}</p>}
-                          {o.offer_price && <p className="text-lg font-black text-orange-400">{fmt(Number(o.offer_price))}</p>}
+                          {o.offer_price && <p className="text-lg font-black text-[var(--accent)]">{fmt(Number(o.offer_price))}</p>}
                         </div>
                         {ahorro && ahorro > 0 && (
                           <span className="rounded bg-green-500/15 px-2 py-1 text-[11px] font-black text-[var(--ok)]">
@@ -480,24 +482,24 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {/* PRODUCTOS / CATÁLOGO */}
         {productos.length > 0 && (ofertas.length === 0 || seccion === "catalogo") && (
           <div className="mb-8">
-            <h2 className="mb-4 text-2xl font-bold" style={{ fontFamily: "var(--font-space)" }}>Catálogo ({productos.length})</h2>
+            <h2 className="mb-4 font-display text-2xl uppercase tracking-tight">Catálogo ({productos.length})</h2>
             {productos.length > 6 && (
               <div className="relative mb-4">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted2)]" />
                 <input value={qProd} onChange={(e) => setQProd(e.target.value)}
                   placeholder="Buscar en el catálogo..."
-                  className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] py-2.5 pl-9 pr-4 text-sm outline-none focus:border-orange-400" />
+                  className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] py-2.5 pl-9 pr-4 text-sm outline-none focus:border-[var(--accent)]" />
               </div>
             )}
             {catsProductos.length > 1 && (
               <div className="mb-4 flex flex-wrap gap-2">
                 <button onClick={() => setCatProd(null)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-[var(--accent)]" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
                   Todos
                 </button>
                 {catsProductos.map((c) => (
                   <button key={c} onClick={() => setCatProd(c)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-gradient-to-r from-orange-500 to-red-600" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-[var(--accent)]" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
                     {c}
                   </button>
                 ))}
@@ -522,7 +524,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 const enOferta = p.old_price && Number(p.old_price) > Number(p.price);
                 const ultimasUnidades = p.stock != null && p.stock > 0 && p.stock <= 3;
                 return (
-                <div key={p.id} className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10">
+                <div key={p.id} className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 hover:border-[var(--accent)]/30 hover:shadow-xl hover:shadow-[var(--accent)]/10">
                 <div className="overflow-hidden rounded-[1.375rem] border border-[var(--ov-06)] bg-gradient-to-b from-[var(--ov-05)] to-[var(--ov-02)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <div className="relative h-40 w-full overflow-hidden">
                     {Array.isArray(p.images) && p.images[0] && (
@@ -533,9 +535,9 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     {(enOferta || esNuevo || ultimasUnidades || p.featured) && (
                       <div className="absolute left-2 top-2 flex flex-col gap-1">
                         {p.featured && <span className="rounded-full bg-yellow-500/90 px-2 py-0.5 text-[9px] font-black text-black">⭐ Destacado</span>}
-                        {enOferta && <span className="rounded-full bg-gradient-to-r from-red-500 to-orange-500 px-2 py-0.5 text-[9px] font-black text-white">🔥 Oferta</span>}
+                        {enOferta && <span className="rounded-full bg-[var(--accent)] px-2 py-0.5 text-[9px] font-black text-white">🔥 Oferta</span>}
                         {esNuevo && <span className="rounded-full bg-sky-500/90 px-2 py-0.5 text-[9px] font-black text-white">🆕 Nuevo</span>}
-                        {ultimasUnidades && <span className="rounded-full bg-red-600/90 px-2 py-0.5 text-[9px] font-black text-white">⚡ Últimas unidades</span>}
+                        {ultimasUnidades && <span className="rounded-full bg-[var(--bad)]/90 px-2 py-0.5 text-[9px] font-black text-white">⚡ Últimas unidades</span>}
                       </div>
                     )}
                   </div>
@@ -547,7 +549,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                     <div className="mt-3 flex items-end justify-between">
                       <div>
                         {p.old_price && <p className="text-xs text-[var(--muted2)] line-through">${Number(p.old_price).toLocaleString("es-AR")}</p>}
-                        <p className="text-2xl text-orange-400" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>${Number(p.price).toLocaleString("es-AR")}</p>
+                        <p className="text-2xl text-[var(--accent)]" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>${Number(p.price).toLocaleString("es-AR")}</p>
                       </div>
                       {p.stock && <span className="text-[10px] text-[var(--muted)]">Stock: {p.stock}</span>}
                     </div>
@@ -598,7 +600,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             <button
               key={key}
               onClick={() => setDetalle(key)}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${detalle === key ? "bg-gradient-to-r from-orange-500 to-red-600 text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${detalle === key ? "bg-[var(--accent)] text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
             >
               <Icon className="h-4 w-4" /> {label}
             </button>
@@ -613,7 +615,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 <div className="space-y-5">
                   {negocio.address && (
                     <div className="flex items-start gap-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><MapPin className="h-4 w-4 text-orange-400" /></span>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><MapPin className="h-4 w-4 text-[var(--accent)]" /></span>
                       <div className="min-w-0">
                         <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Dirección</p>
                         <p className="text-sm text-[var(--text)]/90">{negocio.address}</p>
@@ -622,7 +624,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   )}
                   {negocio.schedule && (
                     <div className="flex items-start gap-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><Clock className="h-4 w-4 text-orange-400" /></span>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><Clock className="h-4 w-4 text-[var(--accent)]" /></span>
                       <div className="min-w-0">
                         <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Horarios</p>
                         <p className="text-sm text-[var(--text)]/90">{negocio.schedule}</p>
@@ -631,7 +633,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   )}
                   {negocio.whatsapp && (
                     <div className="flex items-start gap-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><Phone className="h-4 w-4 text-orange-400" /></span>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><Phone className="h-4 w-4 text-[var(--accent)]" /></span>
                       <div className="min-w-0">
                         <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">WhatsApp</p>
                         <p className="text-sm font-bold text-[var(--text)]/90">{negocio.whatsapp}</p>
@@ -640,10 +642,10 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   )}
                   {negocio.instagram && (
                     <div className="flex items-start gap-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-500/10"><ExternalLink className="h-4 w-4 text-orange-400" /></span>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><ExternalLink className="h-4 w-4 text-[var(--accent)]" /></span>
                       <div className="min-w-0">
                         <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Instagram</p>
-                        <a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-orange-400 hover:text-orange-300">@{negocio.instagram}</a>
+                        <a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--accent)] hover:text-[var(--accent2)]">@{negocio.instagram}</a>
                       </div>
                     </div>
                   )}
