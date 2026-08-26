@@ -224,8 +224,19 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
               const rating = Number(b.rating || 0);
               const cat = CATEGORIES.find((c: any) => c.id === b.category);
               return (
-                <Link key={b.id} href={`/negocio/${b.slug}`}
-                  className="group flex gap-4 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3.5 transition hover:border-[var(--accent)]/50 sm:p-4">
+                <div key={b.id}
+                  className="group relative flex gap-4 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3.5 transition hover:border-[var(--accent)]/50 sm:p-4">
+                  {/* Link "estirado": cubre toda la tarjeta para que sea clickeable
+                      entera, sin anidar un <a> dentro de otro <a> (WhatsApp) ni
+                      poner contenido de bloque dentro del <p> de más abajo -- eso
+                      rompía la hidratación de React (ver consola en /negocios). */}
+                  {/* style inline a propósito: globals.css tiene una regla sin @layer
+                      (`a, [role="link"] { position: relative }`, línea ~1133) que le
+                      gana a la utilidad .absolute de Tailwind en cualquier <a>/<Link>
+                      del sitio -- bug de cascada CSS pendiente de arreglar de raíz
+                      (ver HANDOFF.md). Con style inline nos aseguramos de que este
+                      link sí quede position:absolute sin depender de esa pelea. */}
+                  <Link href={`/negocio/${b.slug}`} aria-label={b.name} className="rounded-2xl" style={{ position: "absolute", inset: 0 }} />
                   <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-28">
                     {b.portada_url ? (
                       <Image src={b.portada_url} alt={b.name} fill quality={85} sizes="112px" className="object-cover" />
@@ -237,12 +248,12 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
                         <h3 className="truncate text-[15px] font-bold text-[var(--text)] transition group-hover:text-[var(--accent)] sm:text-base">{b.name}</h3>
-                        <p className="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-[var(--muted)]">
+                        <div className="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-[var(--muted)]">
                           <RankedAvatar slug={b.slug} name={b.name} categoria={b.category} size={16} />
                           <span className="capitalize">{cat?.name || b.category}{b.address ? ` · ${b.address}` : ""}</span>
-                        </p>
+                        </div>
                       </div>
-                      <div className="shrink-0"><FavoriteButton itemType="business" itemId={b.id} /></div>
+                      <div className="relative z-10 shrink-0"><FavoriteButton itemType="business" itemId={b.id} /></div>
                     </div>
 
                     {rating > 0 && (
@@ -264,15 +275,14 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
 
                   {b.whatsapp && (
                     <a
-                      onClick={(e) => e.stopPropagation()}
                       href={`https://wa.me/${String(b.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${b.name} en La Gran Barata Digital`)}`}
                       target="_blank" rel="noopener noreferrer"
-                      className="hidden shrink-0 items-center gap-1.5 self-center rounded-xl bg-green-500 px-4 py-2.5 text-xs font-black text-white transition hover:bg-green-600 sm:flex"
+                      className="relative z-10 hidden shrink-0 items-center gap-1.5 self-center rounded-xl bg-green-500 px-4 py-2.5 text-xs font-black text-white transition hover:bg-green-600 sm:flex"
                     >
                       <MessageCircle className="h-4 w-4" /> WhatsApp
                     </a>
                   )}
-                </Link>
+                </div>
               );
             })}
           </div>
