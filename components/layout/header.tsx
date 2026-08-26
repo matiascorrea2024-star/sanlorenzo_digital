@@ -77,34 +77,33 @@ export default function Header() {
 
   return (
     <header className="glass-dark sticky top-0 z-50" aria-label="Navegación principal">
-      {/* ── Fila 1 (v3): logo XL · búsqueda · icon-nav · usuario ── */}
+      {/* ── Fila 1: barra densa y plana, calcada del patrón Amazon --
+          logo chico, búsqueda dominante, cuenta a la derecha. Sin
+          animaciones de hover ni sombras -- utilitario, no "vidriera". ── */}
       <div>
-        <div className="mx-auto flex h-16 max-w-[1700px] items-center justify-between gap-4 px-3 md:h-20 md:px-6 lg:h-24">
-          <Link href="/" className="group flex shrink-0 items-center gap-3 md:gap-4">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--accent)] transition-all duration-300 group-hover:rotate-6 group-hover:scale-110 md:h-12 md:w-12">
-              <ShoppingBag className="h-5 w-5 text-white md:h-6 md:w-6" />
+        <div className="mx-auto flex h-14 max-w-[1700px] items-center justify-between gap-3 px-3 md:px-6">
+          <Link href="/" className="flex shrink-0 items-center gap-2">
+            <span className="grid h-7 w-7 place-items-center rounded-md bg-[var(--accent)]">
+              <ShoppingBag className="h-4 w-4 text-white" />
             </span>
-            <span className="hidden flex-col leading-none sm:flex">
-              <span className="font-display text-xl tracking-tight text-[var(--text)] md:text-2xl">LA GRAN BARATA</span>
-              <span className="mt-1 text-[9px] font-bold uppercase leading-none tracking-[0.3em] text-[var(--accent)] md:text-[10px]" style={{ fontFamily: "var(--font-display)" }}>World Class · Digital</span>
-            </span>
+            <span className="hidden text-base font-bold tracking-tight text-white sm:inline" style={{ fontFamily: "var(--font-tech)" }}>La Gran Barata</span>
           </Link>
 
           <SmartSearch className="hidden min-w-0 max-w-3xl flex-1 lg:block" shortcutSlash />
 
-          <div className="ml-auto flex shrink-0 items-center gap-1 md:gap-4">
-            <nav className="hidden items-center gap-5 xl:flex" aria-label="Accesos destacados">
+          <div className="ml-auto flex shrink-0 items-center gap-1 md:gap-3">
+            <nav className="hidden items-center gap-4 xl:flex" aria-label="Accesos destacados">
               {ICON_NAV.map((it) => {
                 const active = pathname.startsWith(it.href);
                 return (
                   <Link key={it.href} href={it.href} aria-current={active ? "page" : undefined}
-                    className={`group flex flex-col items-center transition-colors ${active ? "text-[var(--accent)]" : "text-white/50 hover:text-[var(--accent)]"}`}>
-                    <it.icon className="h-6 w-6 transition-transform group-hover:scale-110" />
-                    <span className="mt-1 text-[9px] font-bold uppercase tracking-widest" style={{ fontFamily: "var(--font-display)" }}>{it.label}</span>
+                    className={`flex flex-col items-center transition-colors ${active ? "text-[var(--accent)]" : "text-white/50 hover:text-white"}`}>
+                    <it.icon className="h-4 w-4" />
+                    <span className="mt-0.5 text-[9px] font-bold uppercase tracking-wide">{it.label}</span>
                   </Link>
                 );
               })}
-              <div className="h-10 w-px bg-[var(--ov-10)]" />
+              <div className="h-7 w-px bg-white/10" />
             </nav>
 
             <MobileMenu />
@@ -118,14 +117,14 @@ export default function Header() {
                   onClick={() => setOpen(!open)}
                   aria-label="Menú de usuario"
                   aria-expanded={open}
-                  className="flex items-center gap-3 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] py-1 pl-1 pr-2.5 transition hover:border-[var(--line-strong)] md:pr-4"
+                  className="flex items-center gap-2 rounded-md border border-white/10 bg-white/5 py-1 pl-1 pr-2 transition hover:border-white/25 md:pr-3"
                 >
-                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--accent)] text-sm font-black text-white md:h-10 md:w-10">
+                  <span className="grid h-6 w-6 place-items-center rounded bg-[var(--accent)] text-xs font-black text-white">
                     {(user.email || "?")[0].toUpperCase()}
                   </span>
                   <span className="hidden flex-col items-start leading-none min-[450px]:flex">
-                    <span className="max-w-[120px] truncate text-sm font-black">{(user.email || "").split("@")[0]}</span>
-                    <span className="mt-0.5 text-[9px] font-bold uppercase tracking-tighter text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Mi cuenta</span>
+                    <span className="max-w-[110px] truncate text-[11px] font-bold text-white/70">Hola,</span>
+                    <span className="max-w-[110px] truncate text-xs font-black text-white">{(user.email || "").split("@")[0]}</span>
                   </span>
                 </button>
                 {open && (
@@ -174,7 +173,7 @@ export default function Header() {
               <AuthButton />
             )}
 
-            <Link href="/para-negocios" className="btn-hard hidden items-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-xs font-black uppercase tracking-widest text-white xl:inline-flex" style={{ fontFamily: "var(--font-display)" }}>
+            <Link href="/para-negocios" className="hidden items-center gap-1.5 rounded-md bg-[var(--accent)] px-3 py-1.5 text-xs font-bold text-white transition hover:bg-[var(--accent2)] xl:inline-flex">
               Publicar negocio
             </Link>
           </div>
@@ -193,8 +192,8 @@ export default function Header() {
             const active = pathname.startsWith(it.href);
             return (
               <Link key={it.href} href={it.href} aria-current={active ? "page" : undefined}
-                className={`relative flex items-center gap-1.5 px-3 py-2 text-[13px] font-bold transition-colors ${
-                  active ? "text-[var(--text)]" : "text-[var(--muted)] hover:text-[var(--text)]"
+                className={`relative flex items-center gap-1.5 px-3 py-2 text-[13px] font-semibold transition-colors ${
+                  active ? "text-white" : "text-white/55 hover:text-white"
                 }`}>
                 <it.icon className={`h-3.5 w-3.5 ${active ? "text-[var(--accent)]" : "opacity-60"}`} />
                 {it.label}
