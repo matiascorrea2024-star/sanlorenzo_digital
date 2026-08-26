@@ -19,6 +19,7 @@ import { useCart } from "@/lib/cart-context";
 import Badge from "@/components/ui/badge";
 import BusinessMap from "@/components/business/map";
 import ReviewsSection from "@/components/business/reviews-section";
+import OfferCard from "@/components/ui/offer-card";
 import Chat from "@/components/business/chat";
 import FollowButton from "@/components/business/follow-button";
 import NotifyMeButton from "@/components/offers/notify-me-button";
@@ -44,8 +45,6 @@ const CATEGORY_IMAGES: Record<string, string> = {
   profesionales: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
   tecnologia: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
 };
-
-const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
 export default function NegocioPage({ initialNegocio = null, initialOfertas = [], initialProductos = [] }: {
   initialNegocio?: any;
@@ -78,6 +77,9 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         discount_percent: o.discount_percent,
         valid_until: o.valid_until,
         image_url: o.image_url || initialNegocio?.portada_url,
+        created_at: o.created_at,
+        precio_prometido: o.precio_prometido,
+        impulsada: o.impulsada,
       }));
   });
   const [productos] = useState<any[]>(() =>
@@ -223,28 +225,23 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
       <div className="pointer-events-none fixed left-[-10%] top-[-15%] -z-10 h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[180px]" aria-hidden="true" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
 
-      {/* HERO editorial: foto grande con esquinas muy redondeadas y las
-          badges reales flotando sobre ella (tal cual el mockup aprobado),
-          la ficha de perfil (logo/nombre/acciones) se monta encima con
-          margen negativo, no debajo en flujo normal. */}
-      <div className="mx-auto max-w-5xl px-4 pt-6 sm:px-6">
-        {/* La relación panorámica 21/9 recién funciona sin recortar
-            cuando hay ancho de sobra -- combinada con una altura mínima
-            en mobile, el aspect-ratio ganaba y forzaba el ancho del box
-            por ENCIMA del viewport (overflow horizontal real, no cosmético).
-            Por eso en mobile usa una relación más vertical y sin mínimo. */}
-        <section className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem] border border-[var(--line)] shadow-2xl shadow-black/50 sm:aspect-[16/9] md:aspect-[21/8]">
+      {/* HERO editorial: tapa panorámica enorme + tarjeta de perfil que se
+          monta ENCIMA con margen negativo (calcado del mockup "Shop Profile
+          Premium" de superdesign) -- nada de foto chica con nombre al lado,
+          la marca del comercio ocupa la pantalla. */}
+      <div className="mx-auto max-w-[1700px] px-4 pt-6 sm:px-6">
+        <section className="relative h-[280px] overflow-hidden rounded-[2.5rem] border border-[var(--line)] shadow-2xl shadow-black/50 sm:h-[380px] sm:rounded-[3.5rem] md:h-[480px]">
           {negocio.portada_url ? (
             <Image src={negocio.portada_url} alt={negocio.name} fill priority quality={92}
               sizes="100vw" className="object-cover" />
           ) : (
             <CategoryCover category={negocio.category} seed={negocio.id || negocio.slug} className="absolute inset-0 h-full w-full" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a0b] via-[#0c0a0b]/10 to-transparent" />
-          <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 hover:bg-black/70">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a0b] via-[#0c0a0b]/15 to-transparent" />
+          <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 hover:bg-black/70 sm:left-6 sm:top-6">
             <ArrowLeft className="h-5 w-5" />
           </button>
-          <div className="absolute left-4 right-4 top-4 ml-14 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:ml-16">
+          <div className="absolute left-4 right-4 top-4 ml-14 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:top-6 sm:ml-16">
             <BusinessLiveBadge businessId={negocio.id} />
             {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
             {abierto !== null && (
@@ -262,42 +259,91 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </div>
         </section>
 
-        <div className="relative z-10 -mt-10 flex flex-col items-start gap-4 px-2 sm:-mt-14 sm:flex-row sm:items-end sm:px-4">
-          {negocio.logo_url ? (
-            <DivisionFrame puntos={negocio.puntos || 0} size={104} categoria={negocio.category}>
-              <Image src={negocio.logo_url} alt={negocio.name} width={112} height={112} quality={92} className="h-28 w-28 rounded-3xl border-[6px] border-[var(--bg)] object-cover shadow-2xl" />
-            </DivisionFrame>
-          ) : (
-            <DivisionFrame puntos={negocio.puntos || 0} size={112} categoria={negocio.category} showLabel mostrarProgreso={false}>
-              <div className="flex h-28 w-28 items-center justify-center rounded-3xl border-[6px] border-[var(--bg)] bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] text-4xl font-black shadow-2xl">
-                {negocio.name[0]}
+        {/* Tarjeta de perfil superpuesta -- margen negativo real, no un
+            simple "-mt-10" cosmético: la tapa y la tarjeta se leen como
+            una sola pieza, como en el mockup aprobado. */}
+        <div className="relative z-10 mx-auto -mt-16 max-w-6xl px-2 sm:-mt-24 sm:px-4 md:-mt-28">
+          <div className="rounded-[2.25rem] border border-[var(--line-strong)] bg-[var(--surface2)] p-6 shadow-[0_40px_80px_rgba(0,0,0,0.35)] sm:rounded-[3rem] sm:p-10 md:p-12">
+            <div className="flex flex-col items-center gap-8 text-center md:flex-row md:items-start md:gap-12 md:text-left">
+              <div className="shrink-0">
+                {negocio.logo_url ? (
+                  <DivisionFrame puntos={negocio.puntos || 0} size={144} categoria={negocio.category}>
+                    <Image src={negocio.logo_url} alt={negocio.name} width={144} height={144} quality={92} className="h-36 w-36 rounded-full border-[6px] border-[var(--surface2)] object-cover shadow-2xl" />
+                  </DivisionFrame>
+                ) : (
+                  <DivisionFrame puntos={negocio.puntos || 0} size={144} categoria={negocio.category} showLabel mostrarProgreso={false}>
+                    <div className="flex h-36 w-36 items-center justify-center rounded-full border-[6px] border-[var(--surface2)] bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] text-6xl font-black text-white shadow-[0_0_50px_rgba(209,47,104,0.35)]">
+                      {negocio.name[0]}
+                    </div>
+                  </DivisionFrame>
+                )}
               </div>
-            </DivisionFrame>
-          )}
-          <div className="min-w-0 flex-1 pb-1">
-            <p className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--muted2)]">{negocio.category}</p>
-            <h1 className="truncate font-display text-3xl uppercase leading-tight tracking-tight md:text-5xl">{negocio.name}</h1>
-            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5">
-              {Number(negocio.reviews) > 0 && (
-                <span className="flex items-center gap-1.5 text-[var(--warn)]">
-                  <Star className="h-4 w-4 fill-current" />
-                  <span className="font-black leading-none" style={{ fontFamily: "var(--font-ticket)" }}>{Number(negocio.rating).toFixed(1)}</span>
-                  <span className="text-xs font-normal text-[var(--muted2)]">({negocio.reviews} reseñas)</span>
-                </span>
-              )}
-              {viendo >= 2 && (
-                <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[var(--accent)]">
-                  <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" /></span>
-                  {viendo} viendo esto ahora
-                </span>
-              )}
-              <LevelBadge slug={negocio.slug} mostrarProgreso={false} />
-              {actualizado && <span className="text-[11px] font-semibold text-[var(--muted2)]">Actualizado {actualizado}</span>}
+
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] font-black uppercase tracking-[.35em] text-[var(--accent)]">{negocio.category}{negocio.address ? ` · San Lorenzo` : ""}</p>
+                <h1 className="mt-1 font-display text-4xl uppercase leading-[0.9] tracking-tight sm:text-6xl md:text-7xl">{negocio.name}</h1>
+
+                {/* Stats reales -- rating/reseñas de la columna businesses,
+                    seguidores del propio FollowButton (mismo dato, sin
+                    duplicar el fetch), nada inventado. */}
+                <div className="mt-7 flex flex-wrap items-center justify-center gap-x-10 gap-y-5 md:justify-start">
+                  {Number(negocio.reviews) > 0 && (
+                    <div className="flex flex-col items-center md:items-start">
+                      <span className="font-display text-4xl leading-none sm:text-5xl">{Number(negocio.rating).toFixed(1)}</span>
+                      <span className="mt-1 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">
+                        <Star className="h-3.5 w-3.5 fill-[var(--warn)] text-[var(--warn)]" /> {negocio.reviews} reseñas
+                      </span>
+                    </div>
+                  )}
+                  <LevelBadge slug={negocio.slug} mostrarProgreso={false} />
+                  {viendo >= 2 && (
+                    <div className="flex flex-col items-center md:items-start">
+                      <span className="flex items-center gap-1.5 font-display text-4xl leading-none text-[var(--accent)] sm:text-5xl">
+                        <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--accent)]" /></span>
+                        {viendo}
+                      </span>
+                      <span className="mt-1 text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">Viendo esto ahora</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-7 flex flex-col gap-2.5 text-sm font-bold text-[var(--muted)] md:items-start">
+                  {negocio.address && (
+                    <p className="flex items-center justify-center gap-3 md:justify-start"><MapPin className="h-4 w-4 shrink-0 text-[var(--accent)]" /> {negocio.address}</p>
+                  )}
+                  {(negocio.schedule || abierto !== null) && (
+                    <p className="flex items-center justify-center gap-3 md:justify-start">
+                      <Clock className="h-4 w-4 shrink-0 text-[var(--accent)]" />
+                      {abierto === null ? "Consultar horario" : abierto ? "Abierto ahora" : "Cerrado ahora"}{negocio.schedule ? ` · ${negocio.schedule}` : ""}
+                    </p>
+                  )}
+                  {actualizado && <p className="text-xs font-semibold text-[var(--muted2)]">Actualizado {actualizado}</p>}
+                </div>
+
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+                  <FollowButton businessId={negocio.id} size="lg" />
+                  {negocio.website && (
+                    <a href={negocio.website} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2.5 rounded-2xl border-2 border-[var(--line-strong)] px-8 py-4 font-display text-lg uppercase tracking-tight transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:text-xl">
+                      Visitar <ExternalLink className="h-5 w-5" />
+                    </a>
+                  )}
+                  <button onClick={() => { setDetalle("chat"); document.getElementById("detalle-ficha")?.scrollIntoView({ behavior: "smooth", block: "start" }); }}
+                    className="inline-flex items-center gap-2.5 rounded-2xl border-2 border-[var(--line-strong)] px-8 py-4 font-display text-lg uppercase tracking-tight transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:text-xl">
+                    Contactar <MessageCircle className="h-5 w-5" />
+                  </button>
+                  <FavoriteButton itemType="business" itemId={negocio.id} variant="card" size={24} />
+                </div>
+
+                {Array.isArray(negocio.tags) && negocio.tags.length > 0 && (
+                  <div className="mt-7 flex flex-wrap justify-center gap-2.5 md:justify-start">
+                    {negocio.tags.map((tag: string) => (
+                      <span key={tag} className="rounded-xl border border-[var(--line)] bg-[var(--ov-05)] px-4 py-2 text-[10px] font-black uppercase tracking-[.2em] text-[var(--muted)]">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="flex shrink-0 items-center gap-2 pb-1">
-            <FollowButton businessId={negocio.id} />
-            <FavoriteButton itemType="business" itemId={negocio.id} variant="card" size={24} />
           </div>
         </div>
       </div>
@@ -423,58 +469,42 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           </div>
         )}
 
-        {/* OFERTAS ACTIVAS: tarjetas compactas horizontales */}
+        {/* OFERTAS ACTIVAS: misma OfferCard que usa el resto del sitio
+            (home, radar, resultados de búsqueda) -- antes esta ficha tenía
+            su propia versión compacta en miniatura, ahora es una sola
+            tarjeta consistente en toda la web. */}
         {ofertas.length > 0 && (productos.length === 0 || seccion === "ofertas") && (
           <div className="mb-8">
-            <h2 className="mb-4 font-display text-2xl uppercase tracking-tight">Ofertas activas ({ofertas.length})</h2>
-            <div className="space-y-3">
-              {ofertas.map((o) => {
-                const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
-                const vence = o.valid_until ? new Date(o.valid_until + "T00:00:00") : null;
-                const dias = vence ? Math.round((vence.getTime() - hoy.getTime()) / 86400000) : null;
-                const ahorro = o.old_price && o.offer_price ? Number(o.old_price) - Number(o.offer_price) : null;
-                return (
-                  <Link
-                    key={o.id}
-                    href={`/oferta/${o.id}`}
-                    className="group flex gap-4 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-3 transition hover:border-[var(--accent)]/40 hover:bg-[var(--ov-08)]"
-                  >
-                    <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-28">
-                      <Image
-                        src={o.image_url || portada}
-                        alt={o.title}
-                        fill
-                        quality={88}
-                        sizes="112px"
-                        className="object-cover transition group-hover:scale-105"
-                      />
-                      {o.discount_percent > 0 && (
-                        <span className="absolute left-1 top-1 rounded-md bg-[var(--accent)] px-1.5 py-0.5 text-[10px] font-black text-white shadow">
-                          -{o.discount_percent}%
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex min-w-0 flex-1 flex-col">
-                      <div className="mb-1 flex flex-wrap items-center gap-1.5">
-                        {dias === 0 && <span className="rounded bg-[var(--bad)]/20 px-1.5 py-0.5 text-[10px] font-black text-[var(--bad)]">VENCE HOY</span>}
-                        {dias !== null && dias > 0 && dias <= 3 && <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-black text-[var(--warn)]">En {dias} días</span>}
-                      </div>
-                      <h3 className="line-clamp-2 text-sm font-black leading-snug sm:text-base">{o.title}</h3>
-                      <div className="mt-auto flex items-end justify-between gap-2 pt-1">
-                        <div>
-                          {o.old_price && <p className="text-[11px] text-[var(--muted2)] line-through">{fmt(Number(o.old_price))}</p>}
-                          {o.offer_price && <p className="text-lg font-black text-[var(--accent)]">{fmt(Number(o.offer_price))}</p>}
-                        </div>
-                        {ahorro && ahorro > 0 && (
-                          <span className="rounded bg-green-500/15 px-2 py-1 text-[11px] font-black text-[var(--ok)]">
-                            -{fmt(ahorro)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
+            <div className="mb-6 flex items-center gap-4">
+              <div className="h-9 w-1.5 rounded-full bg-[var(--accent)]" />
+              <h2 className="font-display text-3xl uppercase tracking-tight">Ofertas activas ({ofertas.length})</h2>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {ofertas.map((o) => (
+                <OfferCard
+                  key={o.id}
+                  o={{
+                    id: o.id,
+                    negocio: negocio.name,
+                    slug: negocio.slug,
+                    producto: o.title,
+                    cat: negocio.category,
+                    vence: o.valid_until || undefined,
+                    descuento: o.discount_percent || undefined,
+                    antes: o.old_price || undefined,
+                    ahora: o.offer_price || undefined,
+                    portada_url: o.image_url || portada,
+                    logo_url: negocio.logo_url,
+                    latitude: negocio.latitude,
+                    longitude: negocio.longitude,
+                    precio_prometido: o.precio_prometido,
+                    rating: negocio.rating,
+                    verificado: negocio.status === "verificado",
+                    impulsada: o.impulsada,
+                    creado: o.created_at,
+                  }}
+                />
+              ))}
             </div>
           </div>
         )}
@@ -591,7 +621,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
         {/* Info, reseñas y chat agrupados en pestañas -- antes se apilaban
             uno debajo del otro, ahora está todo junto y elegible. */}
-        <div className="mb-5 flex gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-1.5">
+        <div id="detalle-ficha" className="mb-5 flex scroll-mt-24 gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-1.5">
           {([
             { key: "info" as const, label: "Info y mapa", icon: MapPin },
             { key: "resenas" as const, label: `Reseñas${negocio.reviews ? ` (${negocio.reviews})` : ""}`, icon: Star },

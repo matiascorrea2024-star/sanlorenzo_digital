@@ -6,7 +6,7 @@ import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { useToast } from "@/components/ui/toast";
 import { friendlyError } from "@/lib/friendly-error";
 
-export default function FollowButton({ businessId }: { businessId: string }) {
+export default function FollowButton({ businessId, size = "sm" }: { businessId: string; size?: "sm" | "lg" }) {
   const { show } = useToast();
   const [user, setUser] = useState<any>(null);
   const [count, setCount] = useState(0);
@@ -46,6 +46,19 @@ export default function FollowButton({ businessId }: { businessId: string }) {
     }
     setBusy(false);
   };
+
+  if (size === "lg") {
+    return (
+      <button onClick={toggle} disabled={busy}
+        className={`btn-hard inline-flex items-center justify-center gap-2.5 rounded-2xl px-8 py-4 font-display text-lg uppercase tracking-tight transition sm:text-xl ${
+          siguiendo
+            ? "border-2 border-[var(--accent)]/60 bg-[var(--accent)]/15 text-[var(--accent)]"
+            : "bg-[var(--accent)] text-white hover:bg-[var(--accent2)]"
+        }`}>
+        {siguiendo ? "★ Siguiendo" : "☆ Seguir"} <span className="text-sm font-bold opacity-80">· {count}</span>
+      </button>
+    );
+  }
 
   return (
     <button onClick={toggle} disabled={busy}
