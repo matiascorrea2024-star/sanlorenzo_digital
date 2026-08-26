@@ -1403,6 +1403,11 @@ p, body {
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255,255,255,.08);
 }
+/* El header vidriado adapta al tema: en light, vidrio claro. */
+:root[data-theme="light"] .glass-dark {
+  background: rgba(250,247,242,.92);
+  border-bottom-color: rgba(12,10,11,.08);
+}
 
 /* Scrollbar fino con thumb magenta (listas horizontales, paneles). */
 .custom-scrollbar::-webkit-scrollbar { height: 4px; width: 4px; }
@@ -1418,6 +1423,12 @@ p, body {
   background-clip: text;
   text-shadow: 0 0 30px rgba(209,47,104,.5);
   background-image: linear-gradient(rgba(255,255,255,.34), rgba(247,243,236,.22));
+}
+/* En light el knockout blanco desaparece sobre fondo claro: mismo efecto,
+   pero con el magenta de marca. */
+:root[data-theme="light"] .knockout-text {
+  background-image: linear-gradient(var(--accent), #861642);
+  text-shadow: none;
 }
 
 /* Punto "en vivo" con anillo expansivo (radar, feeds, dashboards). */

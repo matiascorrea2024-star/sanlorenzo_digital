@@ -100,7 +100,7 @@ export default function TvEscaparate({ negocio, ofertas }: { negocio: any; ofert
 
   const logo = negocio.logo_url ? (
     <Image src={negocio.logo_url} alt={negocio.name} width={56} height={56} quality={90}
-      className="h-12 w-12 rounded-xl border border-white/15 object-cover lg:h-14 lg:w-14" />
+      className="h-12 w-12 rounded-xl border border-[var(--line-strong)] object-cover lg:h-14 lg:w-14" />
   ) : (
     <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--accent)] font-display text-2xl lg:h-14 lg:w-14">
       {(negocio.name || "?")[0]}
@@ -108,7 +108,7 @@ export default function TvEscaparate({ negocio, ofertas }: { negocio: any; ofert
   );
 
   return (
-    <main onMouseMove={wake} className="relative h-dvh select-none overflow-hidden bg-[#0c0a0b] text-white">
+    <main onMouseMove={wake} className="relative h-dvh select-none overflow-hidden bg-[var(--bg)] text-white">
 
       {slides.length === 0 ? (
         <div className="flex h-full flex-col items-center justify-center gap-6 px-8 text-center">
@@ -152,14 +152,14 @@ export default function TvEscaparate({ negocio, ofertas }: { negocio: any; ofert
                   </p>
                 )}
                 {s.oldPrice !== null && s.price !== null && s.oldPrice > s.price && (
-                  <p className="pb-2 font-display text-4xl text-[#a99b86] line-through decoration-[#a99b86] lg:pb-6 lg:text-7xl">
+                  <p className="pb-2 font-display text-4xl text-[var(--muted)] line-through decoration-[#a99b86] lg:pb-6 lg:text-7xl">
                     ${s.oldPrice.toLocaleString("es-AR")}
                   </p>
                 )}
               </div>
               {s.dias !== null && (
                 <p className={`mt-5 w-fit rounded-full px-4 py-1.5 text-sm font-black uppercase tracking-widest lg:text-xl ${
-                  s.dias === 0 ? "bg-red-500/20 text-[var(--bad)]" : "border border-white/20 text-white/80"}`}>
+                  s.dias === 0 ? "bg-red-500/20 text-[var(--bad)]" : "border border-[var(--line-strong)] text-white/80"}`}>
                   {s.dias === 0 ? "¡VENCE HOY!" : `Vence en ${s.dias} ${s.dias === 1 ? "día" : "días"}`}
                 </p>
               )}
@@ -183,11 +183,11 @@ export default function TvEscaparate({ negocio, ofertas }: { negocio: any; ofert
       {/* CONTROLES OCULTOS */}
       <div className={`absolute right-5 top-5 z-40 flex items-center gap-2 transition-opacity duration-300 lg:right-8 lg:top-8 ${uiVisible || paused ? "opacity-100" : "pointer-events-none opacity-0"}`}>
         <button onClick={() => setPaused((p) => !p)} aria-label={paused ? "Reanudar" : "Pausar"}
-          className="rounded-full border border-white/15 bg-black/60 p-3 backdrop-blur-md transition hover:bg-black/80">
+          className="rounded-full border border-[var(--line-strong)] bg-black/60 p-3 backdrop-blur-md transition hover:bg-black/80">
           {paused ? <Play className="h-5 w-5" /> : <Pause className="h-5 w-5" />}
         </button>
         <Link href={`/negocio/${negocio.slug}`} target="_blank" rel="noopener noreferrer"
-          className="rounded-full border border-white/15 bg-black/60 px-4 py-2.5 font-tech text-xs uppercase tracking-widest backdrop-blur-md transition hover:bg-black/80">
+          className="rounded-full border border-[var(--line-strong)] bg-black/60 px-4 py-2.5 font-tech text-xs uppercase tracking-widest backdrop-blur-md transition hover:bg-black/80">
           Salir
         </Link>
       </div>
@@ -208,7 +208,7 @@ export default function TvEscaparate({ negocio, ofertas }: { negocio: any; ofert
       </footer>
 
       {/* PROGRESO DEL SLIDE */}
-      <div className="absolute inset-x-0 bottom-0 z-40 h-1 bg-white/10">
+      <div className="absolute inset-x-0 bottom-0 z-40 h-1 bg-[var(--ov-10)]">
         <div ref={barRef} style={{ width: "0%" }} className="h-full bg-[var(--accent)]" />
       </div>
     </main>

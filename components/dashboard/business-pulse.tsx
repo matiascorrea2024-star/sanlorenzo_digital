@@ -52,7 +52,7 @@ export default function BusinessPulse({ negocio }: Props) {
   }, [negocio?.id]);
 
   if (loading || !datos) {
-    return <div className="mb-8 h-40 animate-pulse rounded-[2rem] border border-white/5 bg-[#161314]" />;
+    return <div className="mb-8 h-40 animate-pulse rounded-[2rem] border border-[var(--line)] bg-[var(--surface)]" />;
   }
 
   const perfilCompleto = !!(negocio.description && negocio.address && negocio.whatsapp && (negocio.schedule || negocio.type !== "comercio") && (negocio.portada_url || negocio.logo_url));
@@ -80,15 +80,15 @@ export default function BusinessPulse({ negocio }: Props) {
   return (
     <div className="mb-8 grid gap-4 lg:grid-cols-2">
       {/* Reputación digital */}
-      <div className="rounded-[2rem] border border-white/5 bg-[#161314] p-6">
+      <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6">
         <div className="mb-4 flex items-end justify-between gap-3">
-          <p className="flex items-center gap-1.5 font-display text-lg uppercase tracking-tight text-[#f7f3ec]">
+          <p className="flex items-center gap-1.5 font-display text-lg uppercase tracking-tight text-[var(--text)]">
             💎 Reputación digital
             <InfoTip label="Qué es la reputación digital">Un puntaje de 0 a 100 basado en cosas reales: perfil completo, buenas reseñas, si respondés a clientes, si publicás ofertas y si mantenés el catálogo actualizado.</InfoTip>
           </p>
-          <span className={`magenta-glow shrink-0 font-display text-5xl leading-none tabular-nums ${scoreColor}`}>{score}<span className="text-base text-[#7d6f5c]">/100</span></span>
+          <span className={`magenta-glow shrink-0 font-display text-5xl leading-none tabular-nums ${scoreColor}`}>{score}<span className="text-base text-[var(--muted2)]">/100</span></span>
         </div>
-        <div className="h-2 rounded-full bg-white/5">
+        <div className="h-2 rounded-full bg-[var(--ov-05)]">
           <div className="h-full rounded-full bg-[var(--accent)]" style={{ width: `${score}%` }} />
         </div>
         <p className={`mb-4 mt-2 text-xs font-black uppercase tracking-widest ${scoreColor}`}>{scoreLabel}</p>
@@ -96,26 +96,26 @@ export default function BusinessPulse({ negocio }: Props) {
           {checklist.map((c) => (
             <div key={c.label} className="flex items-center gap-2 text-sm">
               {c.ok ? <CheckCircle2 className="h-4 w-4 shrink-0 text-[#34d399]" /> : <Circle className="h-4 w-4 shrink-0 text-white/15" />}
-              <span className={c.ok ? "text-[#f7f3ec]/85" : "text-[#7d6f5c]"}>{c.label}</span>
-              <span className="ml-auto text-[10px] text-[#7d6f5c]">{c.detalle}</span>
+              <span className={c.ok ? "text-[var(--text)]/85" : "text-[var(--muted2)]"}>{c.label}</span>
+              <span className="ml-auto text-[10px] text-[var(--muted2)]">{c.detalle}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Misión semanal */}
-      <div className="rounded-[2rem] border border-white/5 bg-[#161314] p-6">
-        <p className="mb-4 flex items-center gap-2 font-display text-lg uppercase tracking-tight text-[#f7f3ec]"><Target className="h-4 w-4 text-[var(--accent)]" /> Misión de la semana</p>
+      <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6">
+        <p className="mb-4 flex items-center gap-2 font-display text-lg uppercase tracking-tight text-[var(--text)]"><Target className="h-4 w-4 text-[var(--accent)]" /> Misión de la semana</p>
         <div className="space-y-2.5">
           {misiones.map((m) => (
-            <div key={m.label} className={`rounded-2xl border p-3 ${m.done ? "border-emerald-400/25 bg-emerald-400/5" : "border-white/5 bg-white/[.02]"}`}>
+            <div key={m.label} className={`rounded-2xl border p-3 ${m.done ? "border-emerald-400/25 bg-emerald-400/5" : "border-[var(--line)] bg-[var(--ov-02)]"}`}>
               <div className="flex items-center justify-between gap-2">
-                <p className="text-xs font-bold text-[#f7f3ec]">{m.label}</p>
-                <span className={`shrink-0 rounded-lg px-2 py-0.5 text-[10px] font-black uppercase tracking-widest ${m.done ? "bg-emerald-400/10 text-[#34d399]" : "text-[#7d6f5c]"}`}>
+                <p className="text-xs font-bold text-[var(--text)]">{m.label}</p>
+                <span className={`shrink-0 rounded-lg px-2 py-0.5 text-[10px] font-black uppercase tracking-widest ${m.done ? "bg-emerald-400/10 text-[#34d399]" : "text-[var(--muted2)]"}`}>
                   {m.done ? "✅ +" + m.pts + "pts" : `${Math.min(m.prog, m.meta)}/${m.meta}`}
                 </span>
               </div>
-              <div className="mt-2 h-1.5 rounded-full bg-white/5">
+              <div className="mt-2 h-1.5 rounded-full bg-[var(--ov-05)]">
                 <div className="h-full rounded-full bg-[var(--accent)]" style={{ width: `${Math.min(100, Math.round((m.prog / m.meta) * 100))}%` }} />
               </div>
             </div>
@@ -125,7 +125,7 @@ export default function BusinessPulse({ negocio }: Props) {
         {!plan.stats && (datos.ofertasActivas > 0 || datos.seguidoresTotal > 0) && (
           <div className="mt-4 rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-4">
             <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Lock className="h-3.5 w-3.5" /> ¿Vale la pena Plan PRO?</p>
-            <p className="mt-1.5 text-xs leading-relaxed text-[#a99b86]">
+            <p className="mt-1.5 text-xs leading-relaxed text-[var(--muted)]">
               Tenés {datos.seguidoresTotal} seguidor{datos.seguidoresTotal === 1 ? "" : "es"} y {datos.ofertasActivas} oferta{datos.ofertasActivas === 1 ? "" : "s"} activa{datos.ofertasActivas === 1 ? "" : "s"} sin poder ver el detalle de tus visitas.
               Con PRO ves qué canales y contenidos funcionan mejor para tu negocio.
             </p>

@@ -55,7 +55,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-[#0c0a0b] text-[#f7f3ec]">
+    <section className="relative overflow-hidden bg-[var(--bg)] text-[var(--text)]">
       {/* Orbs de marca -- gradientes estáticos, costo cero */}
       <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[70%] w-[70%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
       <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
@@ -84,10 +84,10 @@ export default function Hero({ onSearch, stats }: HeroProps) {
                 shortcutSlash
               />
               <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2">
-                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Probá con</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Probá con</span>
                 {sugerencias.map((sug) => (
                   <button key={sug} onClick={() => onSearch && onSearch(sug)}
-                    className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-bold text-white/70 transition hover:border-[var(--accent)] hover:text-white">
+                    className="rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-3.5 py-1.5 text-xs font-bold text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]">
                     {sug}
                   </button>
                 ))}
@@ -100,7 +100,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
             </div>
           </div>
 
-          <aside className="lg:border-l lg:border-white/10 lg:pl-12">
+          <aside className="lg:border-l lg:border-[var(--line-strong)] lg:pl-12">
             <div className="mb-8 flex items-center gap-2.5 text-[10px] font-black uppercase tracking-[0.25em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
               <span className="live-dot !h-2.5 !w-2.5" aria-hidden="true" /> En tu ciudad, hoy
             </div>
@@ -108,12 +108,12 @@ export default function Hero({ onSearch, stats }: HeroProps) {
               {STATS.map((s) => (
                 <div key={s.label}>
                   <span className="magenta-glow block font-display text-6xl leading-none tabular-nums text-white md:text-7xl">{s.value}</span>
-                  <span className="mt-3 block text-[10px] font-black uppercase tracking-[0.2em] text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>{s.label}</span>
+                  <span className="mt-3 block text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{s.label}</span>
                   {s.sub && <span className="mt-1 block text-xs font-bold text-[var(--accent)]">{s.sub}</span>}
                 </div>
               ))}
             </div>
-            <div className="mt-10 rounded-2xl border border-white/5 bg-white/[.03] p-5">
+            <div className="mt-10 rounded-2xl border border-[var(--line)] bg-[var(--ov-03)] p-5">
               <p className="text-sm leading-relaxed text-[#c4b5a5]">
                 <span className="font-black text-white">Sin vueltas, sin intermediarios.</span><br />
                 Contactá al comercio por WhatsApp y resolvé en el barrio.
@@ -124,7 +124,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
       </div>
 
       {/* Barra de confianza */}
-      <div className="relative z-10 border-y border-white/5 bg-white/[.02]">
+      <div className="relative z-10 border-y border-[var(--line)] bg-[var(--ov-02)]">
         <div ref={trustRef} className="mx-auto grid max-w-[1700px] grid-cols-2 gap-y-3 px-4 py-4 sm:px-6 md:grid-cols-4 md:gap-4">
           {TRUST.map(({ icon: Icon, label, iconClass }) => (
             <div key={label} className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-wider text-white/60" style={{ fontFamily: "var(--font-display)" }}>

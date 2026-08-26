@@ -29,17 +29,17 @@ export default function PlanLimitBanner() {
   const plan = PLANES[info.plan] || PLANES.gratis;
 
   return (
-    <div className="mb-6 rounded-[2rem] border border-[var(--accent)]/30 bg-[#161314]">
+    <div className="mb-6 rounded-[2rem] border border-[var(--accent)]/30 bg-[var(--surface)]">
       <div className="flex flex-col items-center justify-between gap-4 p-6 md:flex-row">
         <div className="flex items-center gap-4">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10">
             <Lock className="h-5 w-5 text-[var(--accent)]" />
           </span>
           <div>
-            <p className="font-display text-lg uppercase tracking-tight text-[#f7f3ec]">
+            <p className="font-display text-lg uppercase tracking-tight text-[var(--text)]">
               Llegaste al límite del plan {plan.name} ({info.activas} oferta{info.activas === 1 ? "" : "s"} activa{info.activas === 1 ? "" : "s"})
             </p>
-            <p className="mt-0.5 text-sm text-[#a99b86]">
+            <p className="mt-0.5 text-sm text-[var(--muted)]">
               Pasá a PRO Comerciante para publicar ofertas ilimitadas + estadísticas + historias.
             </p>
           </div>

@@ -24,7 +24,7 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
     <Link
       href={`/negocio/${b.slug}`}
       data-spot
-      className={`group relative block h-full overflow-hidden rounded-[2rem] border border-white/5 bg-[#161314] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)] ${
+      className={`group relative block h-full overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)] ${
         featured ? "ring-1 ring-[var(--accent)]/40" : ""
       }`}
     >
@@ -89,11 +89,11 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
         <h3 className={`truncate font-display uppercase tracking-wide transition-colors group-hover:text-[var(--accent)] ${featured ? "text-2xl md:text-3xl" : "text-lg md:text-xl"}`}>
           {b.name}
         </h3>
-        <p className={`mt-0.5 flex flex-wrap items-center gap-x-1 capitalize text-[#a99b86] ${featured ? "text-xs md:text-sm" : "text-[11px] md:text-xs"}`}>
+        <p className={`mt-0.5 flex flex-wrap items-center gap-x-1 capitalize text-[var(--muted)] ${featured ? "text-xs md:text-sm" : "text-[11px] md:text-xs"}`}>
           <span>{b.category}{b.address ? ` · ${b.address}` : ""}</span>
           <RankBadge slug={b.slug} categoria={b.category} />
         </p>
-        {actualizado && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Actualizado {actualizado}</p>}
+        {actualizado && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Actualizado {actualizado}</p>}
         {b.description && (
           <p className={`mt-2 line-clamp-2 text-[#c4b5a5] ${featured ? "text-sm" : "text-xs"}`}>{b.description}</p>
         )}
@@ -105,10 +105,10 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
         <div className="mt-auto flex items-center justify-between pt-3">
           <span className="flex items-center gap-2 text-xs font-bold text-[#fbbf24]">
             ★ {rating}
-            <span className="font-normal text-[#7d6f5c]">({b.reviews || 0})</span>
+            <span className="font-normal text-[var(--muted2)]">({b.reviews || 0})</span>
             {b.hace_envios && <span className="rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-[var(--place)]">🚚 Envíos</span>}
           </span>
-          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white/60 transition group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-white"
+          <span className="rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white/60 transition group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-white"
             style={{ fontFamily: "var(--font-display)" }}>
             Ver negocio →
           </span>

@@ -48,7 +48,7 @@ export default function MiBarataClient() {
 
   if (authLoading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] text-[#f7f3ec]">
+      <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] text-[var(--text)]">
         <Loader2 className="h-8 w-8 animate-spin text-[var(--accent)]" />
       </main>
     );
@@ -56,13 +56,13 @@ export default function MiBarataClient() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
-        <section className="relative overflow-hidden border-b border-white/5">
+      <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
+        <section className="relative overflow-hidden border-b border-[var(--line)]">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(209,47,104,.16),transparent_55%)]" />
           <div className="relative mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
             <Basket className="mx-auto h-14 w-14 text-[var(--accent)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
             <h1 className="mt-4 font-display text-4xl uppercase tracking-tight sm:text-5xl">Mi barata</h1>
-            <p className="mt-3 text-base text-[#a99b86]">Guardá ofertas de varios negocios y mirá cuánto ahorrás en una sola vuelta.</p>
+            <p className="mt-3 text-base text-[var(--muted)]">Guardá ofertas de varios negocios y mirá cuánto ahorrás en una sola vuelta.</p>
             <Link href="/login" className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
               Ingresá para armar tu barata
             </Link>
@@ -73,8 +73,8 @@ export default function MiBarataClient() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
-      <section className="relative overflow-hidden border-b border-white/5">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
+      <section className="relative overflow-hidden border-b border-[var(--line)]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(209,47,104,.16),transparent_55%)]" />
         <div className="relative mx-auto max-w-3xl px-4 pb-8 pt-16 sm:px-6">
           <Basket className="h-10 w-10 text-[var(--accent)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
@@ -87,7 +87,7 @@ export default function MiBarataClient() {
 
           {items !== null && items.length > 0 && (
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <span className="rounded-full border border-white/10 px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>
+              <span className="rounded-full border border-[var(--line-strong)] px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
                 {totales.vigentes} oferta{totales.vigentes !== 1 ? "s" : ""} vigente{totales.vigentes !== 1 ? "s" : ""} · {grupos.length} negocio{grupos.length !== 1 ? "s" : ""}
               </span>
               {totales.ahorro > 0 && (
@@ -104,10 +104,10 @@ export default function MiBarataClient() {
         {items === null ? (
           <div className="flex justify-center py-16"><Loader2 className="h-8 w-8 animate-spin text-[var(--accent)]" /></div>
         ) : items.length === 0 ? (
-          <div className="rounded-[2rem] border border-white/5 bg-[#161314] p-12 text-center">
-            <Basket className="mx-auto h-16 w-16 text-[#7d6f5c]" />
+          <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-12 text-center">
+            <Basket className="mx-auto h-16 w-16 text-[var(--muted2)]" />
             <h2 className="mt-4 font-display text-2xl uppercase tracking-tight sm:text-3xl">Tu barata está vacía</h2>
-            <p className="mx-auto mt-2 max-w-md text-sm text-[#a99b86]">
+            <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">
               Cuando veas una oferta que te sirva, tocá <strong className="text-white">“Sumar a Mi Barata”</strong> y armá tu vuelta con todo lo que necesitás.
             </p>
             <Link href="/promociones" className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
@@ -123,7 +123,7 @@ export default function MiBarataClient() {
                   <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Si comprás todo lo vigente</p>
                   <p className="mt-2 font-display text-4xl leading-none">{fmt(totales.ahora)}</p>
                   {totales.ahorro > 0 && (
-                    <p className="mt-1 text-sm text-[#a99b86]">
+                    <p className="mt-1 text-sm text-[var(--muted)]">
                       Precio regular {fmt(totales.antes)} · <strong className="text-[var(--ok)]">ahorrás {fmt(totales.ahorro)}</strong>
                     </p>
                   )}
@@ -140,7 +140,7 @@ export default function MiBarataClient() {
 
             {/* Agrupado por negocio */}
             {grupos.map((g) => (
-              <section key={g.slug} className="rounded-[2rem] border border-white/5 bg-[#161314] p-5">
+              <section key={g.slug} className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <h2 className="font-display text-xl uppercase tracking-wide">{g.negocio}</h2>
@@ -164,10 +164,10 @@ export default function MiBarataClient() {
                   {g.items.map((i) => {
                     const vencida = !i.active || (i.valid_until && i.valid_until < hoy);
                     return (
-                      <li key={i.item_id} className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${vencida ? "border-white/5 bg-white/[.02] opacity-60" : "border-white/5 bg-white/[.03]"}`}>
+                      <li key={i.item_id} className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${vencida ? "border-[var(--line)] bg-[var(--ov-02)] opacity-60" : "border-[var(--line)] bg-[var(--ov-03)]"}`}>
                         <Link href={`/oferta/${i.offer_id}`} className="min-w-0 flex-1">
                           <p className="truncate text-sm font-bold">{i.title}</p>
-                          <p className="mt-0.5 text-xs text-[#a99b86]">
+                          <p className="mt-0.5 text-xs text-[var(--muted)]">
                             {i.offer_price ? fmt(i.offer_price) : "A consultar"}
                             {i.old_price && i.offer_price && i.old_price > i.offer_price && (
                               <span className="ml-2 line-through">{fmt(i.old_price)}</span>

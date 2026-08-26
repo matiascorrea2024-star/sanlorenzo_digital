@@ -71,7 +71,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
 
   return (
     <Link href={o.id.startsWith("demo-") ? ("/negocio/" + o.slug) : ("/oferta/" + o.id)}
-      className="group relative block rounded-[2rem] border border-white/5 bg-[#161314] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+      className="group relative block rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
       {/* Portada */}
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-t-[2rem]">
         {o.portada_url ? (
@@ -142,25 +142,25 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
       <div className="flex flex-col p-5 sm:p-6">
         <div className="mb-2 flex items-center justify-between gap-2">
           <div className="flex min-w-0 items-center gap-1.5">
-            <span className="truncate text-[10px] font-black uppercase tracking-[0.2em] text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>{o.negocio}</span>
+            <span className="truncate text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{o.negocio}</span>
             {o.verificado && <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[var(--place)]" aria-label="Comercio verificado" />}
             <RankedAvatar slug={o.slug} name={o.negocio || ""} size={20} /> <RankBadge slug={o.slug} />
           </div>
-          <span className="shrink-0 rounded-md bg-white/5 px-1.5 py-0.5 text-[9px] font-black tabular-nums text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}
+          <span className="shrink-0 rounded-md bg-[var(--ov-05)] px-1.5 py-0.5 text-[9px] font-black tabular-nums text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}
             title={sdlLabel(sdlScore).text}>
             {sdlScore}
           </span>
         </div>
 
-        <h3 className="line-clamp-2 min-h-[2.6rem] font-display text-xl uppercase leading-[0.95] tracking-wide text-[#f7f3ec] transition-colors group-hover:text-[var(--accent)] sm:text-2xl">{o.producto}</h3>
-        {publicado && <p className="mt-2 text-[10px] font-bold uppercase tracking-wider text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Publicado {publicado}</p>}
+        <h3 className="line-clamp-2 min-h-[2.6rem] font-display text-xl uppercase leading-[0.95] tracking-wide text-[var(--text)] transition-colors group-hover:text-[var(--accent)] sm:text-2xl">{o.producto}</h3>
+        {publicado && <p className="mt-2 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Publicado {publicado}</p>}
 
         <div className="mt-auto pt-4">
           {o.ahora && o.antes ? (
             <div className="flex items-end justify-between">
               <div className="flex items-baseline gap-2.5">
                 <span className="font-display text-4xl leading-none text-[var(--accent)] transition-colors group-hover:text-white">{fmt(o.ahora)}</span>
-                <span className="text-sm font-bold text-[#a99b86] line-through decoration-2">{fmt(o.antes)}</span>
+                <span className="text-sm font-bold text-[var(--muted)] line-through decoration-2">{fmt(o.antes)}</span>
               </div>
               {o.descuento && (
                 <span className="rounded-lg bg-green-500/15 px-2 py-1 text-[10px] font-black uppercase tracking-wider text-[var(--ok)]" style={{ fontFamily: "var(--font-display)" }}>

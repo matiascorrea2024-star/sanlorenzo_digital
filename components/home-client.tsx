@@ -55,8 +55,8 @@ function SectionHead({ eyebrow, title, sub, action }: { eyebrow: string; title: 
     <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>{eyebrow}</p>
-        <h2 className="mt-3 max-w-2xl font-display text-4xl leading-[0.9] tracking-tight text-[#f7f3ec] sm:text-5xl md:text-6xl">{title}</h2>
-        {sub && <p className="mt-3 max-w-xl text-sm text-[#a99b86]">{sub}</p>}
+        <h2 className="mt-3 max-w-2xl font-display text-4xl leading-[0.9] tracking-tight text-[var(--text)] sm:text-5xl md:text-6xl">{title}</h2>
+        {sub && <p className="mt-3 max-w-xl text-sm text-[var(--muted)]">{sub}</p>}
       </div>
       {action}
     </div>
@@ -127,7 +127,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
   const irABuscar = (term: string) => router.push(`/buscar?q=${encodeURIComponent(term)}`);
 
   return (
-    <main className="bg-[#0c0a0b] text-[#f7f3ec]">
+    <main className="bg-[var(--bg)] text-[var(--text)]">
       <Hero
         onSearch={irABuscar}
         stats={{ promos: ofertasVisibles.length, negocios: initial.length, pronto: urgentOffers.length }}
@@ -136,7 +136,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
       <OfertasBomba ofertas={ofertasBomba} />
 
       {/* ── Rubros ── */}
-      <section className="border-b border-white/5 px-4 py-14 sm:px-6 md:py-20" aria-labelledby="categorias-title">
+      <section className="border-b border-[var(--line)] px-4 py-14 sm:px-6 md:py-20" aria-labelledby="categorias-title">
         <div className="mx-auto max-w-[1700px]">
           <SectionHead
             eyebrow="Explorá por rubro"
@@ -152,11 +152,11 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
               <Link
                 key={category.id}
                 href={`/negocios?cat=${category.id}`}
-                className="card-lift group flex min-h-32 flex-col justify-between rounded-3xl border border-white/5 bg-[#161314] p-4 hover:border-[var(--accent)]"
+                className="card-lift group flex min-h-32 flex-col justify-between rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-4 hover:border-[var(--accent)]"
               >
                 <span className="text-3xl transition-transform duration-300 group-hover:scale-125 group-hover:-rotate-6" aria-hidden="true">{category.icon}</span>
-                <span className="mt-6 text-sm font-black uppercase tracking-wide text-[#f7f3ec]" style={{ fontFamily: "var(--font-display)" }}>{category.name}</span>
-                <span className="mt-1 text-[10px] font-bold uppercase tracking-widest text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>
+                <span className="mt-6 text-sm font-black uppercase tracking-wide text-[var(--text)]" style={{ fontFamily: "var(--font-display)" }}>{category.name}</span>
+                <span className="mt-1 text-[10px] font-bold uppercase tracking-widest text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>
                   {categoryCounts.get(category.id) || 0} {categoryCounts.get(category.id) === 1 ? "negocio" : "negocios"}
                 </span>
               </Link>
@@ -199,7 +199,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
                 className={`rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
                   modo === value
                     ? "border-[var(--accent)] bg-[var(--accent)] text-white"
-                    : "border-white/10 bg-transparent text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
+                    : "border-[var(--line-strong)] bg-transparent text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
                 }`}
                 style={{ fontFamily: "var(--font-display)" }}>
                 {label}
@@ -215,9 +215,9 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
               ))}
             </div>
           ) : (
-            <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8">
-              <p className="font-display text-xl uppercase tracking-wide text-[#f7f3ec]">{modo === "ahora" ? "No hay ofertas de negocios abiertos ahora." : "Todavía no hay ofertas activas para este momento."}</p>
-              <p className="mt-2 text-sm text-[#a99b86]">Probá otro momento o revisá todas las ofertas vigentes.</p>
+            <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8">
+              <p className="font-display text-xl uppercase tracking-wide text-[var(--text)]">{modo === "ahora" ? "No hay ofertas de negocios abiertos ahora." : "Todavía no hay ofertas activas para este momento."}</p>
+              <p className="mt-2 text-sm text-[var(--muted)]">Probá otro momento o revisá todas las ofertas vigentes.</p>
               <Link href="/para-negocios" className="btn-hard mt-6 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
                 Publicar una oferta <ArrowRight className="h-4 w-4" />
               </Link>
@@ -227,7 +227,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
       </section>
 
       {/* ── Directorio ── */}
-      <section className="border-y border-white/5 bg-[#121011] px-4 py-14 sm:px-6 md:py-20" aria-labelledby="comercios-title">
+      <section className="border-y border-[var(--line)] bg-[#121011] px-4 py-14 sm:px-6 md:py-20" aria-labelledby="comercios-title">
         <div className="mx-auto max-w-[1700px]">
           <SectionHead
             eyebrow="Directorio local"
@@ -243,12 +243,12 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
             <div className="mb-6 flex gap-2 overflow-x-auto pb-1 custom-scrollbar">
               <button type="button" onClick={() => setCat(null)}
                 className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
-                  !cat ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
+                  !cat ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
                 }`} style={{ fontFamily: "var(--font-display)" }}>Todos</button>
               {CATEGORIES.filter((category) => categoryCounts.has(category.id)).slice(0, 8).map((category) => (
                 <button key={category.id} type="button" onClick={() => setCat(cat === category.id ? null : category.id)}
                   className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
-                    cat === category.id ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
+                    cat === category.id ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
                   }`} style={{ fontFamily: "var(--font-display)" }}>
                   {category.name}
                 </button>
@@ -267,7 +267,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
               <div className="flex items-center gap-2.5 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
                 <Megaphone className="h-4 w-4" /> Espacio publicitario · disponible
               </div>
-              <h2 className="mt-4 max-w-2xl font-display text-3xl uppercase leading-[0.92] tracking-tight text-[#f7f3ec] sm:text-5xl">Hacé que tu negocio aparezca donde tus vecinos buscan.</h2>
+              <h2 className="mt-4 max-w-2xl font-display text-3xl uppercase leading-[0.92] tracking-tight text-[var(--text)] sm:text-5xl">Hacé que tu negocio aparezca donde tus vecinos buscan.</h2>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#c7b8a4]">Publicá tu negocio gratis o conocé opciones de promoción. Las campañas pagas se identifican claramente.</p>
             </div>
             <Link href="/planes" className="btn-hard inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-8 py-4 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
@@ -282,15 +282,15 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         <div className="mx-auto grid max-w-[1700px] gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-start">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Una ciudad que se encuentra</p>
-            <h2 id="sumate-title" className="mt-3 font-display text-4xl uppercase leading-[0.9] tracking-tight text-[#f7f3ec] sm:text-6xl md:text-7xl">La guía local se construye <span className="knockout-text magenta-glow">entre todos.</span></h2>
+            <h2 id="sumate-title" className="mt-3 font-display text-4xl uppercase leading-[0.9] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">La guía local se construye <span className="knockout-text magenta-glow">entre todos.</span></h2>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-[#c4b5a5]">La cantidad que ves acá refleja los datos disponibles hoy. No usamos testimonios ni métricas inventadas: descubrí, contactá y compartí negocios reales.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/registro" className="btn-hard inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}><Search className="h-4 w-4" /> Crear cuenta</Link>
-              <Link href="/para-negocios" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-6 py-3.5 text-xs font-black uppercase tracking-widest text-white transition hover:border-[var(--accent)] hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Store className="h-4 w-4" /> Publicar negocio</Link>
+              <Link href="/para-negocios" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-white transition hover:border-[var(--accent)] hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Store className="h-4 w-4" /> Publicar negocio</Link>
             </div>
           </div>
-          <div className="lg:border-l lg:border-white/10 lg:pl-12">
-            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Datos de esta página</p>
+          <div className="lg:border-l lg:border-[var(--line-strong)] lg:pl-12">
+            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Datos de esta página</p>
             <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10">
               {[
                 { v: initial.length, l: "negocios publicados" },
@@ -300,7 +300,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
               ].map((s) => (
                 <div key={s.l}>
                   <strong className="magenta-glow block font-display text-6xl leading-none tabular-nums text-white md:text-7xl">{s.v}</strong>
-                  <p className="mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>{s.l}</p>
+                  <p className="mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{s.l}</p>
                 </div>
               ))}
             </div>
@@ -309,7 +309,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
       </section>
 
       {/* ── Planes ── */}
-      <section className="border-t border-white/5 bg-[#121011] px-4 py-14 sm:px-6 md:py-20" aria-labelledby="planes-title">
+      <section className="border-t border-[var(--line)] bg-[#121011] px-4 py-14 sm:px-6 md:py-20" aria-labelledby="planes-title">
         <div className="mx-auto max-w-[1700px]">
           <SectionHead
             eyebrow="Para comercios"
@@ -326,14 +326,14 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
               const featured = key === "premium";
               return (
                 <Link key={key} href="/planes"
-                  className={`card-lift relative overflow-hidden rounded-[2rem] border p-7 ${featured ? "pricing-card border-[var(--accent)]/60 bg-gradient-to-br from-[var(--accent)]/[.12] to-transparent" : "border-white/5 bg-[#161314]"}`}>
+                  className={`card-lift relative overflow-hidden rounded-[2rem] border p-7 ${featured ? "pricing-card border-[var(--accent)]/60 bg-gradient-to-br from-[var(--accent)]/[.12] to-transparent" : "border-[var(--line)] bg-[var(--surface)]"}`}>
                   {featured && (
                     <span className="absolute right-5 top-5 animate-pulse rounded-lg bg-[var(--accent)] px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>Top</span>
                   )}
-                  <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>{key === "gratis" ? "Para empezar" : key === "premium" ? "Mayor exposición" : "Para crecer"}</p>
-                  <h3 className="mt-3 font-display text-2xl uppercase tracking-tight text-[#f7f3ec]">{plan.name}</h3>
-                  <p className="mt-6 font-display text-5xl leading-none text-[var(--accent)]">{plan.precioARS ? `$${plan.precioARS.toLocaleString("es-AR")}` : "Gratis"}{plan.precioARS > 0 && <span className="ml-1 text-sm font-bold text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>/mes</span>}</p>
-                  <ul className="mt-6 space-y-2.5 border-t border-white/5 pt-5 text-sm font-semibold text-[#c4b5a5]">
+                  <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{key === "gratis" ? "Para empezar" : key === "premium" ? "Mayor exposición" : "Para crecer"}</p>
+                  <h3 className="mt-3 font-display text-2xl uppercase tracking-tight text-[var(--text)]">{plan.name}</h3>
+                  <p className="mt-6 font-display text-5xl leading-none text-[var(--accent)]">{plan.precioARS ? `$${plan.precioARS.toLocaleString("es-AR")}` : "Gratis"}{plan.precioARS > 0 && <span className="ml-1 text-sm font-bold text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>/mes</span>}</p>
+                  <ul className="mt-6 space-y-2.5 border-t border-[var(--line)] pt-5 text-sm font-semibold text-[#c4b5a5]">
                     {planFeatures[key].map((feature) => <li key={feature} className="flex items-center gap-2"><span className="text-[var(--ok)]">✓</span> {feature}</li>)}
                   </ul>
                 </Link>

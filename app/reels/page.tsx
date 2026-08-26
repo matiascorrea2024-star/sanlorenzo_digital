@@ -19,7 +19,7 @@ export default async function ReelsPage() {
     .limit(30);
 
   return (
-    <Suspense fallback={<main className="fixed inset-0 z-[200] bg-[#0c0a0b]" />}>
+    <Suspense fallback={<main className="fixed inset-0 z-[200] bg-[var(--bg)]" />}>
       <ReelsFeedClient initial={(data as any[]) || []} />
     </Suspense>
   );

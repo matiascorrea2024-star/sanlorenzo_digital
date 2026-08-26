@@ -66,33 +66,33 @@ export default function VecinosPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
         <RankingSwitch current="vecinos" />
 
         <p className="mt-8 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Comunidad activa</p>
-        <h1 className="mt-2 font-display text-5xl uppercase leading-[0.9] tracking-tight text-[#f7f3ec] sm:text-6xl">
+        <h1 className="mt-2 font-display text-5xl uppercase leading-[0.9] tracking-tight text-[var(--text)] sm:text-6xl">
           RANKING DE{" "}
           <span className="bg-gradient-to-r from-[var(--accent)] to-[#fbbf24] bg-clip-text text-transparent">VECINOS</span>
         </h1>
-        <p className="mt-4 max-w-lg text-lg text-[#a99b86]">Los vecinos más activos de San Lorenzo. ¿Llegás al podio?</p>
+        <p className="mt-4 max-w-lg text-lg text-[var(--muted)]">Los vecinos más activos de San Lorenzo. ¿Llegás al podio?</p>
 
         {miRank && (
-          <div className="mt-8 rounded-2xl border border-[var(--accent)]/20 bg-[#161314] p-5 text-center">
+          <div className="mt-8 rounded-2xl border border-[var(--accent)]/20 bg-[var(--surface)] p-5 text-center">
             <p className="text-sm font-black text-[var(--accent)]">
               📍 Vas {miRank.puesto}º de {miRank.total} vecinos · {miRank.puntos} puntos
             </p>
-            <p className="mt-1 text-xs text-[#a99b86]">Seguí sumando para aparecer en el podio 👇</p>
+            <p className="mt-1 text-xs text-[var(--muted)]">Seguí sumando para aparecer en el podio 👇</p>
           </div>
         )}
 
         <div className="mt-8 space-y-3">
-          {loading && <p className="text-center text-[#a99b86]">Cargando vecinos...</p>}
+          {loading && <p className="text-center text-[var(--muted)]">Cargando vecinos...</p>}
           {!loading &&
             vecinos.map((v, i) => {
               const r = rangoDeUsuario(v.puntos);
               return (
-                <div key={v.id} className={`rounded-2xl border p-4 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)] ${i === 0 ? "border-[#fbbf24]/25 bg-gradient-to-br from-[#fbbf24]/5 to-transparent" : "border-white/5 bg-[#161314]"}`}>
+                <div key={v.id} className={`rounded-2xl border p-4 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)] ${i === 0 ? "border-[#fbbf24]/25 bg-gradient-to-br from-[#fbbf24]/5 to-transparent" : "border-[var(--line)] bg-[var(--surface)]"}`}>
                   <div className="flex items-center gap-4">
                     <span className={`shrink-0 text-center leading-none ${i === 0 ? "gold-glow w-14 font-display text-4xl text-[#fbbf24]" : i < 3 ? "w-12 text-3xl text-[#fbbf24]" : "w-10 font-display text-2xl text-[var(--accent)]"}`}>{medalla(i)}</span>
                     <DivisionFrame puntos={v.puntos} escala={ESCALA_PUNTOS_USUARIO} size={i === 0 ? 56 : 40}>
@@ -104,16 +104,16 @@ export default function VecinosPage() {
                     </div>
                     <div className="shrink-0 text-right">
                       <p className={`font-display text-3xl ${i === 0 ? "gold-glow text-[#fbbf24]" : i < 3 ? "text-[#fbbf24]" : "text-[var(--accent)]"}`}>{v.puntos}</p>
-                      <p className="text-[10px] uppercase tracking-wider text-[#7d6f5c]">puntos</p>
+                      <p className="text-[10px] uppercase tracking-wider text-[var(--muted2)]">puntos</p>
                     </div>
                   </div>
                 </div>
               );
             })}
           {!loading && vecinos.length === 0 && (
-            <div className="rounded-2xl border border-white/5 bg-[#161314] p-10 text-center">
+            <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-10 text-center">
               <p className="text-lg font-bold">Todavía no hay vecinos en el ranking</p>
-              <p className="mt-1 text-sm text-[#a99b86]">
+              <p className="mt-1 text-sm text-[var(--muted)]">
                 Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas para sumar puntos.
               </p>
               <Link href="/promociones" className="btn-hard mt-4 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
@@ -123,9 +123,9 @@ export default function VecinosPage() {
           )}
         </div>
 
-        <div className="mt-8 rounded-2xl border border-white/5 bg-[#161314] p-6 text-center">
-          <p className="font-display text-xl uppercase tracking-tight text-[#f7f3ec]">🎖 ¿Cómo se sube?</p>
-          <p className="mt-1 text-sm text-[#a99b86]">
+        <div className="mt-8 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 text-center">
+          <p className="font-display text-xl uppercase tracking-tight text-[var(--text)]">🎖 ¿Cómo se sube?</p>
+          <p className="mt-1 text-sm text-[var(--muted)]">
             Seguí negocios, contactá por WhatsApp, compartí ofertas y dejá reseñas.
           </p>
           <Link href="/perfil" className="btn-hard mt-4 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>

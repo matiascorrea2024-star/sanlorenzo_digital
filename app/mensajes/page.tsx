@@ -55,10 +55,10 @@ export default function MensajesClientePage() {
 
   if (!user) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] px-4 text-center text-[#a99b86]">
+      <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4 text-center text-[var(--muted)]">
         <div>
           <p className="text-3xl">💬</p>
-          <h1 className="mt-3 font-display text-xl uppercase tracking-tight text-[#f7f3ec]">Mis mensajes</h1>
+          <h1 className="mt-3 font-display text-xl uppercase tracking-tight text-[var(--text)]">Mis mensajes</h1>
           <p className="mt-1 text-sm">Iniciá sesión para ver tus conversaciones.</p>
         </div>
       </main>
@@ -68,23 +68,23 @@ export default function MensajesClientePage() {
   const sel = selectedBiz ? bizMap[selectedBiz] : null;
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <PageHero title="Mis mensajes" subtitle="Conversaciones con negocios de San Lorenzo" />
       <div className="mx-auto max-w-3xl px-4 py-8">
         {!selectedBiz && (
           <div className="space-y-3">
             {convoList.length === 0 ? (
-              <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center text-[#a99b86]">
+              <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center text-[var(--muted)]">
                 Aún no tenés conversaciones. Escribile a un negocio desde su página.
               </div>
             ) : (
               convoList.map(cv => (
                 <button key={cv.biz} onClick={() => setSelectedBiz(cv.biz)}
-                  className="group flex w-full items-center gap-4 rounded-[2rem] border border-white/5 bg-[#161314] p-4 text-left transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                  className="group flex w-full items-center gap-4 rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-4 text-left transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
                   <Avatar name={cv.name} size={48} />
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-2"><p className="font-display truncate uppercase tracking-tight">{cv.name}</p><span className="shrink-0 text-[10px] uppercase tracking-widest text-[#7d6f5c]">{timeShort(cv.last.created_at)}</span></div>
-                    <p className="truncate text-xs text-[#a99b86]">{cv.last.body}</p>
+                    <div className="flex items-center justify-between gap-2"><p className="font-display truncate uppercase tracking-tight">{cv.name}</p><span className="shrink-0 text-[10px] uppercase tracking-widest text-[var(--muted2)]">{timeShort(cv.last.created_at)}</span></div>
+                    <p className="truncate text-xs text-[var(--muted)]">{cv.last.body}</p>
                   </div>
                   {cv.unread > 0 && <span className="flex h-6 min-w-[24px] shrink-0 items-center justify-center rounded-full bg-[var(--accent)] px-1 text-xs font-black text-white">{cv.unread}</span>}
                 </button>

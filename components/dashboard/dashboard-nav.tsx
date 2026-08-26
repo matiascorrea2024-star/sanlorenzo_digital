@@ -55,12 +55,12 @@ export default function DashboardNav() {
       <Link
         key={item.href}
         href={item.href}
-        className={`group flex items-center gap-3 border-l-4 py-2.5 pl-4 pr-3 transition-all duration-200 ${isActive ? "border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]" : "border-transparent text-[#a99b86] hover:bg-white/5 hover:text-white"}`}
+        className={`group flex items-center gap-3 border-l-4 py-2.5 pl-4 pr-3 transition-all duration-200 ${isActive ? "border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]" : "border-transparent text-[var(--muted)] hover:bg-[var(--ov-05)] hover:text-white"}`}
       >
-        <Icon className={`h-4 w-4 shrink-0 transition-colors ${isActive ? "text-[var(--accent)]" : "text-[#7d6f5c] group-hover:text-white"}`} />
+        <Icon className={`h-4 w-4 shrink-0 transition-colors ${isActive ? "text-[var(--accent)]" : "text-[var(--muted2)] group-hover:text-white"}`} />
         <span className="min-w-0">
           <span className="block truncate text-sm font-bold">{item.label}</span>
-          <span className={`block truncate text-[11px] ${isActive ? "text-[var(--accent)]/70" : "text-[#7d6f5c]"}`}>{item.sub}</span>
+          <span className={`block truncate text-[11px] ${isActive ? "text-[var(--accent)]/70" : "text-[var(--muted2)]"}`}>{item.sub}</span>
         </span>
       </Link>
     );
@@ -68,9 +68,9 @@ export default function DashboardNav() {
 
   const divider = (title: string) => (
     <div className="mb-4 flex items-center gap-4">
-      <div className="h-px flex-1 bg-white/10" />
+      <div className="h-px flex-1 bg-[var(--ov-10)]" />
       <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>{title}</span>
-      <div className="h-px w-8 bg-white/10" />
+      <div className="h-px w-8 bg-[var(--ov-10)]" />
     </div>
   );
 

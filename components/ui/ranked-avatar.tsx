@@ -31,7 +31,7 @@ export default function RankedAvatar({ slug, name, size = 44, categoria, photoUr
   return (
     <span className="inline-flex items-center gap-2 align-middle">
       <RankFrame puntos={pts} size={size + 8} categoria={cat}>
-          <span className="relative block h-full w-full overflow-hidden rounded-full bg-[#0c0a0b]" style={{ padding: 2 }}>
+          <span className="relative block h-full w-full overflow-hidden rounded-full bg-[var(--bg)]" style={{ padding: 2 }}>
             {foto ? (
               <Image src={foto} alt={name} fill quality={90} sizes={`${size}px`}
                 className="rounded-full object-cover" onError={() => setFotoRota(true)} />

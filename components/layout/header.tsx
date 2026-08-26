@@ -85,7 +85,7 @@ export default function Header() {
               <ShoppingBag className="h-5 w-5 text-white md:h-6 md:w-6" />
             </span>
             <span className="hidden flex-col leading-none sm:flex">
-              <span className="font-display text-xl tracking-tight text-[#f7f3ec] md:text-2xl">LA GRAN BARATA</span>
+              <span className="font-display text-xl tracking-tight text-[var(--text)] md:text-2xl">LA GRAN BARATA</span>
               <span className="mt-1 text-[9px] font-bold uppercase leading-none tracking-[0.3em] text-[var(--accent)] md:text-[10px]" style={{ fontFamily: "var(--font-display)" }}>World Class · Digital</span>
             </span>
           </Link>
@@ -104,7 +104,7 @@ export default function Header() {
                   </Link>
                 );
               })}
-              <div className="h-10 w-px bg-white/10" />
+              <div className="h-10 w-px bg-[var(--ov-10)]" />
             </nav>
 
             <MobileMenu />
@@ -118,7 +118,7 @@ export default function Header() {
                   onClick={() => setOpen(!open)}
                   aria-label="Menú de usuario"
                   aria-expanded={open}
-                  className="flex items-center gap-3 rounded-2xl border border-white/5 bg-white/5 py-1 pl-1 pr-2.5 transition hover:border-white/10 md:pr-4"
+                  className="flex items-center gap-3 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] py-1 pl-1 pr-2.5 transition hover:border-[var(--line-strong)] md:pr-4"
                 >
                   <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--accent)] text-sm font-black text-white md:h-10 md:w-10">
                     {(user.email || "?")[0].toUpperCase()}
@@ -194,7 +194,7 @@ export default function Header() {
             return (
               <Link key={it.href} href={it.href} aria-current={active ? "page" : undefined}
                 className={`relative flex items-center gap-1.5 px-3 py-2 text-[13px] font-bold transition-colors ${
-                  active ? "text-[#f7f3ec]" : "text-[#a99b86] hover:text-[#f7f3ec]"
+                  active ? "text-[var(--text)]" : "text-[var(--muted)] hover:text-[var(--text)]"
                 }`}>
                 <it.icon className={`h-3.5 w-3.5 ${active ? "text-[var(--accent)]" : "opacity-60"}`} />
                 {it.label}

@@ -152,7 +152,7 @@ export default function RecorridoClient() {
 
   if (authLoading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] text-[#f7f3ec]">
+      <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] text-[var(--text)]">
         <Loader2 className="h-8 w-8 animate-spin text-[var(--accent)]" />
       </main>
     );
@@ -160,14 +160,14 @@ export default function RecorridoClient() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
-        <section className="relative overflow-hidden border-b border-white/5">
+      <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
+        <section className="relative overflow-hidden border-b border-[var(--line)]">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(209,47,104,.16),transparent_55%)]" />
           <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0c0a0b] to-transparent" />
           <div className="relative mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
             <Route className="mx-auto h-14 w-14 text-[var(--accent)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
             <h1 className="mt-4 font-display text-4xl uppercase tracking-tight sm:text-5xl">Mi recorrido</h1>
-            <p className="mt-3 text-base text-[#a99b86]">Armá el camino más corto entre tus negocios y ofertas favoritas.</p>
+            <p className="mt-3 text-base text-[var(--muted)]">Armá el camino más corto entre tus negocios y ofertas favoritas.</p>
             <Link
               href="/login"
               className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white"
@@ -196,13 +196,13 @@ export default function RecorridoClient() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <style>{`
         .stop-num { background: transparent; border: 0; box-shadow: none; color: #fff; font-weight: 900; font-size: 11px; padding: 0; font-family: var(--font-display); }
         .stop-num::before { display: none; }
       `}</style>
 
-      <section className="relative overflow-hidden border-b border-white/5">
+      <section className="relative overflow-hidden border-b border-[var(--line)]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(209,47,104,.16),transparent_55%)]" />
         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0c0a0b] to-transparent" />
         <div className="relative mx-auto max-w-6xl px-4 pb-10 pt-16 sm:px-6">
@@ -213,7 +213,7 @@ export default function RecorridoClient() {
           <h1 className="mt-2 font-display text-4xl uppercase tracking-tight sm:text-6xl">
             Mi <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-red-600 bg-clip-text text-transparent">recorrido</span>
           </h1>
-          <p className="mt-3 max-w-xl text-base text-[#a99b86]">
+          <p className="mt-3 max-w-xl text-base text-[var(--muted)]">
             {fuente === "barata"
               ? "Los negocios de tu barata, ordenados para levantar todas las ofertas en el menor tiempo."
               : "Tus favoritos ordenados para recorrerlos en el menor tiempo posible."}
@@ -231,7 +231,7 @@ export default function RecorridoClient() {
             </button>
             {ordered && ordered.length > 0 && (
               <>
-                <span className="rounded-full border border-white/10 px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>
+                <span className="rounded-full border border-[var(--line-strong)] px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
                   {ordered.length} parada{ordered.length !== 1 ? "s" : ""}
                 </span>
                 {conOrden && (
@@ -254,14 +254,14 @@ export default function RecorridoClient() {
         {stops === null ? (
           <div className="grid gap-4 lg:grid-cols-2">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-28 animate-pulse rounded-[2rem] border border-white/5 bg-white/5" />
+              <div key={i} className="h-28 animate-pulse rounded-[2rem] border border-[var(--line)] bg-[var(--ov-05)]" />
             ))}
           </div>
         ) : stops.length === 0 ? (
-          <div className="mt-4 rounded-[2rem] border border-white/5 bg-[#161314] p-12 text-center">
-            <Route className="mx-auto h-16 w-16 text-[#7d6f5c]" />
+          <div className="mt-4 rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-12 text-center">
+            <Route className="mx-auto h-16 w-16 text-[var(--muted2)]" />
             <h2 className="mt-4 font-display text-2xl uppercase tracking-tight sm:text-3xl">Nada para recorrer todavía</h2>
-            <p className="mx-auto mt-2 max-w-md text-sm text-[#a99b86]">
+            <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">
               Ninguno de tus favoritos guardados tiene ubicación cargada en el mapa. Guardá negocios u ofertas con ubicación y volvé para armar tu recorrido.
             </p>
             <Link
@@ -276,7 +276,7 @@ export default function RecorridoClient() {
           <div className="grid gap-8 lg:grid-cols-[1fr_460px]">
             <div className="flex flex-col gap-4">
               {!conOrden && !geoError && (
-                <p className="rounded-[2rem] border border-white/5 bg-[#161314] px-5 py-4 text-sm text-[#a99b86]">
+                <p className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] px-5 py-4 text-sm text-[var(--muted)]">
                   Tocá <span className="font-bold text-white">“Usar mi ubicación”</span> para ordenar las paradas del punto más cercano al más lejano.
                 </p>
               )}
@@ -284,7 +284,7 @@ export default function RecorridoClient() {
               <ol className="flex flex-col gap-3">
                 {(ordered || []).map((s, i) => (
                   <li key={s.id}>
-                    <div className="group rounded-[2rem] border border-white/5 bg-[#161314] p-4 transition hover:border-[var(--accent)] sm:p-5">
+                    <div className="group rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)] sm:p-5">
                       <div className="flex items-start gap-4">
                         <span
                           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-display text-lg font-black text-white"
@@ -292,18 +292,18 @@ export default function RecorridoClient() {
                         >
                           {i + 1}
                         </span>
-                        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-white/5 bg-black/30">
+                        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[var(--line)] bg-black/30">
                           {s.portada_url ? (
                             <Image src={s.portada_url} alt={s.name} fill sizes="64px" className="object-cover transition duration-500 group-hover:scale-110" />
                           ) : (
-                            <div className="flex h-full w-full items-center justify-center font-display text-2xl text-[#7d6f5c]">{s.name[0]}</div>
+                            <div className="flex h-full w-full items-center justify-center font-display text-2xl text-[var(--muted2)]">{s.name[0]}</div>
                           )}
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-[9px] font-black uppercase tracking-widest text-[var(--accent)]">{s.category}</p>
                           <h3 className="truncate font-display text-lg uppercase leading-tight">{s.name}</h3>
                           {s.leg !== null && (
-                            <p className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-[#a99b86]">
+                            <p className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-[var(--muted)]">
                               <Navigation className="h-3 w-3 text-[var(--place)]" />
                               {fmtDistance(s.leg)} desde {i === 0 ? "tu ubicación" : "la parada anterior"}
                             </p>
@@ -311,7 +311,7 @@ export default function RecorridoClient() {
                           <div className="mt-3 flex flex-wrap items-center gap-2">
                             <Link
                               href={`/negocio/${s.slug}`}
-                              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-widest transition hover:border-[var(--accent)] hover:text-white"
+                              className="inline-flex items-center gap-1.5 rounded-full border border-[var(--line-strong)] px-4 py-2 text-[10px] font-black uppercase tracking-widest transition hover:border-[var(--accent)] hover:text-white"
                               style={{ fontFamily: "var(--font-display)" }}
                             >
                               Ver negocio <ArrowRight className="h-3 w-3" />
@@ -346,8 +346,8 @@ export default function RecorridoClient() {
             </div>
 
             <div className="self-start lg:sticky lg:top-24">
-              <div className="relative rounded-3xl border border-white/10 bg-white/5 p-2 shadow-2xl shadow-black/50">
-                <div className="relative min-h-[420px] overflow-hidden rounded-2xl border border-white/5 md:min-h-[560px]">
+              <div className="relative rounded-3xl border border-[var(--line-strong)] bg-[var(--ov-05)] p-2 shadow-2xl shadow-black/50">
+                <div className="relative min-h-[420px] overflow-hidden rounded-2xl border border-[var(--line)] md:min-h-[560px]">
                   <MapContainer
                     key={`${coords ? `${coords.lat.toFixed(5)},${coords.lon.toFixed(5)}` : "sin-gps"}-${stops.length}`}
                     center={mapCenter}
@@ -403,7 +403,7 @@ export default function RecorridoClient() {
                   </MapContainer>
                 </div>
               </div>
-              <p className="mt-3 px-2 text-xs text-[#7d6f5c]">
+              <p className="mt-3 px-2 text-xs text-[var(--muted2)]">
                 {coords ? "Ruta ordenada por vecino más cercano desde tu ubicación." : "Tocá “Usar mi ubicación” para trazar la ruta óptima."}
               </p>
             </div>

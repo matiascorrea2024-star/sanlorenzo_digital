@@ -35,17 +35,17 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0c0a0b] px-4 text-[#f7f3ec]">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] px-4 text-[var(--text)]">
       <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
       <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
-      <div className="relative w-full max-w-md rounded-[2.5rem] border border-white/10 bg-[#161314] p-8 shadow-2xl">
+      <div className="relative w-full max-w-md rounded-[2.5rem] border border-[var(--line-strong)] bg-[var(--surface)] p-8 shadow-2xl">
         <div className="mb-6 text-center">
           <h1 className="font-display text-4xl uppercase tracking-tight sm:text-5xl">Restablecer contraseña</h1>
-          <p className="mt-3 text-sm text-[#a99b86]">Elegí una nueva contraseña para tu cuenta</p>
+          <p className="mt-3 text-sm text-[var(--muted)]">Elegí una nueva contraseña para tu cuenta</p>
         </div>
 
           {!ready ? (
-            <div className="text-center text-sm text-[#a99b86]">
+            <div className="text-center text-sm text-[var(--muted)]">
               <p>Este link ya expiró o no es válido.</p>
               <Link href="/login" className="mt-4 inline-block font-bold text-[var(--accent)] transition hover:text-white">← Volver a iniciar sesión</Link>
             </div>
@@ -55,10 +55,10 @@ export default function ResetPasswordPage() {
             <div className="space-y-4">
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                 placeholder="Nueva contraseña (mín. 8 caracteres)"
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-[#7d6f5c] outline-none transition focus:border-[var(--accent)] focus:bg-white/10" />
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]" />
               <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
                 placeholder="Repetir nueva contraseña"
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-[#7d6f5c] outline-none transition focus:border-[var(--accent)] focus:bg-white/10" />
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]" />
               {error && (
                 <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-3">
                   <p className="text-sm text-[var(--bad)]">{error}</p>

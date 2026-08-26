@@ -39,7 +39,7 @@ export default function CookieConsent() {
       /* Mobile: barra compacta en el borde inferior (tapa la bottom-nav
          mientras se decide, nunca el contenido ni el CTA de la página).
          Desktop: tarjeta flotante. */
-      className="fixed inset-x-0 bottom-0 z-[200] border-t border-white/10 bg-[#161314]/97 backdrop-blur-xl md:inset-x-auto md:bottom-6 md:left-6 md:max-w-md md:rounded-3xl md:border"
+      className="fixed inset-x-0 bottom-0 z-[200] border-t border-[var(--line-strong)] bg-[var(--surface)]/97 backdrop-blur-xl md:inset-x-auto md:bottom-6 md:left-6 md:max-w-md md:rounded-3xl md:border"
     >
       <div className="p-3 md:p-5">
         <div className="flex items-start gap-2.5 md:gap-3">
@@ -47,8 +47,8 @@ export default function CookieConsent() {
             <Cookie className="h-4.5 w-4.5 text-[var(--accent)] md:h-5 md:w-5" />
           </span>
           <div className="min-w-0">
-            <p className="font-display text-sm uppercase tracking-wide text-[#f7f3ec] md:text-base">Cookies, sin vueltas</p>
-            <p className="mt-0.5 text-[11px] leading-snug text-[#a99b86] md:mt-1 md:text-xs md:leading-relaxed">
+            <p className="font-display text-sm uppercase tracking-wide text-[var(--text)] md:text-base">Cookies, sin vueltas</p>
+            <p className="mt-0.5 text-[11px] leading-snug text-[var(--muted)] md:mt-1 md:text-xs md:leading-relaxed">
               Cookies anónimas de métricas para mejorar la web. Nada se vende a terceros.{" "}
               <Link href="/privacidad" className="font-bold text-[var(--accent)] hover:underline">
                 Política de privacidad
@@ -66,7 +66,7 @@ export default function CookieConsent() {
           </button>
           <button
             onClick={() => { decide("essential"); setVisible(false); }}
-            className="flex-1 rounded-xl border border-white/15 px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[#a99b86] transition hover:border-[var(--accent)] hover:text-white md:py-2.5"
+            className="flex-1 rounded-xl border border-[var(--line-strong)] px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-white md:py-2.5"
             style={{ fontFamily: "var(--font-display)" }}
           >
             Solo esenciales

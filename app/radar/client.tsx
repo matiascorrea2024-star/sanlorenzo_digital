@@ -76,7 +76,7 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       {/* Hero del Radar */}
       <section className="relative overflow-hidden border-b border-red-400/20 bg-gradient-to-br from-red-900/30 via-[#0c0a0b] to-[#861642]/30 py-12">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(239,68,68,0.15),_transparent_50%)]" />
@@ -93,7 +93,7 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
               ofertas urgentes
             </span>
           </h1>
-          <p className="mx-auto mt-3 max-w-xl text-[#a99b86]">
+          <p className="mx-auto mt-3 max-w-xl text-[var(--muted)]">
             Solo ofertas que vencen hoy. Después de la medianoche desaparecen.
           </p>
 
@@ -112,14 +112,14 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
         {loading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-80 animate-pulse rounded-2xl border border-white/5 bg-[#161314]" />
+              <div key={i} className="h-80 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--surface)]" />
             ))}
           </div>
         ) : ofertas.length === 0 ? (
-          <div className="rounded-2xl border border-white/5 bg-[#161314] p-12 text-center shadow-2xl shadow-black/50">
-            <Flame className="mx-auto mb-3 h-12 w-12 text-[#7d6f5c]" />
+          <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-12 text-center shadow-2xl shadow-black/50">
+            <Flame className="mx-auto mb-3 h-12 w-12 text-[var(--muted2)]" />
             <p className="font-display text-2xl uppercase tracking-tight">No hay ofertas que terminen hoy</p>
-            <p className="mt-2 text-sm text-[#a99b86]">Volvé mañana o mirá todas las ofertas activas.</p>
+            <p className="mt-2 text-sm text-[var(--muted)]">Volvé mañana o mirá todas las ofertas activas.</p>
           </div>
         ) : (
           <>

@@ -112,7 +112,7 @@ export default function OfertaPage() {
 
   if (loading) {
     return (
-      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center">
+      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--accent)]"></div>
       </main>
     );
@@ -120,7 +120,7 @@ export default function OfertaPage() {
 
   if (!oferta || !negocio) {
     return (
-      <main className="bg-[#0c0a0b] min-h-screen flex items-center justify-center text-[var(--text)]">
+      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
           <p className="text-5xl mb-4">🔍</p>
           <h1 className="font-display text-3xl uppercase tracking-wide">Oferta no encontrada</h1>
@@ -140,14 +140,14 @@ export default function OfertaPage() {
   const publicado = relativeTime(oferta.created_at);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[var(--text)]">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       {/* Grilla 7/5: imagen + descripción a la izquierda, precio/acciones a la derecha. */}
       <div className="mx-auto max-w-[1700px] px-4 pt-6 sm:px-6 md:pt-10">
         {vencido && (
-          <div className="mb-6 rounded-3xl border border-white/10 bg-[#161314] p-6 text-center">
+          <div className="mb-6 rounded-3xl border border-[var(--line-strong)] bg-[var(--surface)] p-6 text-center">
             <p className="text-2xl">⏰</p>
             <p className="mt-1 font-display text-xl uppercase tracking-wide">Esta oferta ya finalizó</p>
-            <p className="mt-1 text-sm text-[#a99b86]">Mirá el negocio para ver sus ofertas activas.</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">Mirá el negocio para ver sus ofertas activas.</p>
           </div>
         )}
 
@@ -158,13 +158,13 @@ export default function OfertaPage() {
               <div className="relative overflow-hidden rounded-[2.1rem] border border-[var(--ov-05)]">
                 <div className="absolute left-4 top-4 z-10 flex flex-wrap gap-2 sm:left-6 sm:top-6">
                   {viendo >= 2 && (
-                    <span className="flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 backdrop-blur-md">
+                    <span className="flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-black/40 px-3 py-1.5 backdrop-blur-md">
                       <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" /></span>
                       <span className="text-[11px] font-black uppercase tracking-wider">{viendo} vecinos viendo ahora</span>
                     </span>
                   )}
                   {venceHoy && (
-                    <span className="flex items-center gap-1.5 rounded-full border border-white/20 bg-red-600 px-3 py-1.5 text-[11px] font-black uppercase tracking-wider">
+                    <span className="flex items-center gap-1.5 rounded-full border border-[var(--line-strong)] bg-red-600 px-3 py-1.5 text-[11px] font-black uppercase tracking-wider">
                       <Flame className="h-3.5 w-3.5" /> Vence hoy
                     </span>
                   )}
@@ -185,11 +185,11 @@ export default function OfertaPage() {
                     {publicado && <p className="mt-2 text-xs font-semibold text-white/70">Publicado {publicado}</p>}
                   </div>
                   <div className="flex shrink-0 gap-2">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/10 backdrop-blur-md sm:h-14 sm:w-14">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-10)] backdrop-blur-md sm:h-14 sm:w-14">
                       <FavoriteButton itemType="offer" itemId={oferta.id} />
                     </div>
                     <button onClick={share} disabled={compartiendo} aria-label="Compartir"
-                      className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/10 backdrop-blur-md transition hover:bg-white/20 active:scale-90 disabled:opacity-60 sm:h-14 sm:w-14">
+                      className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-10)] backdrop-blur-md transition hover:bg-white/20 active:scale-90 disabled:opacity-60 sm:h-14 sm:w-14">
                       <Share2 className={`h-5 w-5 text-[var(--place)] sm:h-6 sm:w-6 ${compartiendo ? "animate-pulse" : ""}`} />
                     </button>
                   </div>
@@ -205,7 +205,7 @@ export default function OfertaPage() {
               {oferta.hace_envios || negocio.hace_envios ? (
                 <div className="flex items-center gap-6">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5"><Truck className="h-5 w-5 text-[var(--accent)]" /></span>
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)]"><Truck className="h-5 w-5 text-[var(--accent)]" /></span>
                     <div>
                       <p className="text-xs font-bold text-[var(--muted)]">Envíos</p>
                       <p className="text-sm font-black">{negocio.envio_gratis ? "Gratis en la zona" : "Hace envíos"}</p>
@@ -242,7 +242,7 @@ export default function OfertaPage() {
                 {!vencido && dias !== null && dias <= 2 && oferta.valid_until && <CountdownTimer expiresAt={oferta.valid_until} compact />}
               </div>
 
-              {oferta.old_price && <p className="text-xl font-bold tracking-tight text-[#7d6f5c] line-through decoration-2">{fmt(Number(oferta.old_price))}</p>}
+              {oferta.old_price && <p className="text-xl font-bold tracking-tight text-[var(--muted2)] line-through decoration-2">{fmt(Number(oferta.old_price))}</p>}
               <div className="flex items-baseline gap-3">
                 {oferta.offer_price && <p className="magenta-glow font-display text-7xl leading-none text-[var(--accent)] transition-colors sm:text-8xl">{fmt(Number(oferta.offer_price))}</p>}
                 {ahorro && ahorro > 0 && <span className="mb-2 shrink-0 rounded-lg bg-green-500/15 px-2 py-1 text-xs font-black uppercase tracking-wider text-[var(--ok)]" style={{ fontFamily: "var(--font-display)" }}>Ahorrás {fmt(ahorro)}</span>}
@@ -268,7 +268,7 @@ export default function OfertaPage() {
                     businessId: negocio.id, businessName: negocio.name, businessSlug: negocio.slug, businessWhatsapp: negocio.whatsapp,
                   })}
                   disabled={hasItem(`oferta-${oferta.id}`)}
-                  className="flex h-16 w-full items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-8 font-black uppercase tracking-wider text-white transition hover:border-[var(--accent)] hover:bg-white/10 disabled:opacity-60"
+                  className="flex h-16 w-full items-center justify-between rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-8 font-black uppercase tracking-wider text-white transition hover:border-[var(--accent)] hover:bg-[var(--ov-10)] disabled:opacity-60"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   {hasItem(`oferta-${oferta.id}`) ? "En el changuito" : "Sumar al changuito"}
@@ -312,7 +312,7 @@ export default function OfertaPage() {
             )}
 
             <Link href={`/negocio/${negocio.slug}`}
-              className="mt-6 flex items-center gap-4 rounded-[2rem] border border-white/5 bg-[#161314] p-6 transition-all duration-500 hover:-translate-y-1 hover:border-[var(--accent)]">
+              className="mt-6 flex items-center gap-4 rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6 transition-all duration-500 hover:-translate-y-1 hover:border-[var(--accent)]">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[var(--accent)]/25 to-[#861642]/25 text-xl font-black">
                 {negocio.logo_url ? <Image src={negocio.logo_url} alt={negocio.name} width={64} height={64} className="h-full w-full object-cover" /> : negocio.name[0]}
               </div>
@@ -321,7 +321,7 @@ export default function OfertaPage() {
                   <h3 className="truncate font-display text-xl uppercase tracking-wide">{negocio.name}</h3>
                   {negocio.status === "verificado" && <Check className="h-4 w-4 shrink-0 text-[var(--place)]" />}
                 </div>
-                {negocio.address && <p className="truncate text-xs text-[#7d6f5c]">{negocio.address}</p>}
+                {negocio.address && <p className="truncate text-xs text-[var(--muted2)]">{negocio.address}</p>}
                 <span className="mt-1 inline-block text-[11px] font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Ver negocio →</span>
               </div>
             </Link>
@@ -337,7 +337,7 @@ export default function OfertaPage() {
         </div>
       </div>
       {negocio.whatsapp && !vencido && (
-        <div className="fixed inset-x-0 bottom-14 z-40 border-t border-white/10 bg-[#0c0a0b]/95 p-3 pb-[calc(.75rem+env(safe-area-inset-bottom))] backdrop-blur-md sm:hidden">
+        <div className="fixed inset-x-0 bottom-14 z-40 border-t border-[var(--line-strong)] bg-[var(--bg)]/95 p-3 pb-[calc(.75rem+env(safe-area-inset-bottom))] backdrop-blur-md sm:hidden">
           <a
             onClick={() => trackClickWhatsApp(negocio.id)}
             href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi la oferta "${oferta.title}" en La Gran Barata Digital`)}`}

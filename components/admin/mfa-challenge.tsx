@@ -42,13 +42,13 @@ export default function MfaChallenge({ onSuccess }: { onSuccess: () => void }) {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] px-4 text-[#f7f3ec]">
-      <div className="w-full max-w-sm rounded-[2.5rem] border border-white/10 bg-[#161314] p-8 shadow-2xl">
+    <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4 text-[var(--text)]">
+      <div className="w-full max-w-sm rounded-[2.5rem] border border-[var(--line-strong)] bg-[var(--surface)] p-8 shadow-2xl">
         <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-[var(--accent)]/15">
           <ShieldCheck className="h-7 w-7 text-[var(--accent)]" />
         </span>
         <h1 className="mt-5 text-center font-display text-3xl uppercase tracking-tight">Último paso</h1>
-        <p className="mt-2 text-center text-sm text-[#a99b86]">
+        <p className="mt-2 text-center text-sm text-[var(--muted)]">
           Meté el código de 6 dígitos de tu app autenticadora para abrir el panel.
         </p>
 
@@ -63,7 +63,7 @@ export default function MfaChallenge({ onSuccess }: { onSuccess: () => void }) {
           autoFocus
           placeholder="000000"
           aria-label="Código de verificación"
-          className="mt-6 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-4 text-center font-mono text-2xl tracking-[0.4em] text-white outline-none focus:border-[var(--accent)]"
+          className="mt-6 w-full rounded-2xl border border-[var(--line-strong)] bg-black/30 px-4 py-4 text-center font-mono text-2xl tracking-[0.4em] text-white outline-none focus:border-[var(--accent)]"
         />
         <button
           onClick={entrar}
@@ -73,7 +73,7 @@ export default function MfaChallenge({ onSuccess }: { onSuccess: () => void }) {
         >
           {busy ? "Verificando..." : "Entrar al panel"}
         </button>
-        <Link href="/perfil#cuenta" className="mt-4 block text-center text-xs font-bold text-[#7d6f5c] transition hover:text-[var(--accent)]">
+        <Link href="/perfil#cuenta" className="mt-4 block text-center text-xs font-bold text-[var(--muted2)] transition hover:text-[var(--accent)]">
           Problemas con el código →
         </Link>
       </div>

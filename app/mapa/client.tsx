@@ -167,7 +167,7 @@ export default function MapaPage() {
   }, [negocios, radio, userCoords]);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-[1600px] px-4 py-8 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
           {/* IZQUIERDA: mapa protagonista */}
@@ -185,7 +185,7 @@ export default function MapaPage() {
                     className={`rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
                       radio === r
                         ? "border-[var(--accent)] bg-[var(--accent)] text-white"
-                        : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
+                        : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
                     }`} style={{ fontFamily: "var(--font-display)" }}>
                     {r < 1 ? "500 m" : `${r} km`}
                   </button>
@@ -194,23 +194,23 @@ export default function MapaPage() {
             </div>
 
             {/* Mapa -- mismo doble marco que el resto de la plataforma. */}
-            <div className="relative flex-1 rounded-3xl border border-white/10 bg-white/5 p-2 shadow-2xl shadow-black/50">
-              <div className="relative min-h-[420px] overflow-hidden rounded-2xl border border-white/5 md:min-h-[560px]">
+            <div className="relative flex-1 rounded-3xl border border-[var(--line-strong)] bg-[var(--ov-05)] p-2 shadow-2xl shadow-black/50">
+              <div className="relative min-h-[420px] overflow-hidden rounded-2xl border border-[var(--line)] md:min-h-[560px]">
                 <div ref={mapRef} className="relative z-0 h-full min-h-[420px] w-full md:min-h-[560px]" />
                 {!mapReady && (
-                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#161314]/90 backdrop-blur-sm">
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[var(--surface)]/90 backdrop-blur-sm">
                     <div className="flex flex-col items-center gap-3">
                       <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--accent)] border-t-transparent" />
-                      <p className="text-sm text-[#a99b86]">Cargando el mapa...</p>
+                      <p className="text-sm text-[var(--muted)]">Cargando el mapa...</p>
                     </div>
                   </div>
                 )}
                 {mapReady && stats.total === 0 && (
-                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0c0a0b]/90 p-6 text-center backdrop-blur-sm">
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[var(--bg)]/90 p-6 text-center backdrop-blur-sm">
                     <div>
-                      <MapPin className="mx-auto h-8 w-8 text-[#7d6f5c]" />
+                      <MapPin className="mx-auto h-8 w-8 text-[var(--muted2)]" />
                       <p className="mt-3 font-display text-xl uppercase tracking-tight">Todavía no hay negocios con ubicación cargada</p>
-                      <p className="mt-1 text-sm text-[#a99b86]">Los comercios van a aparecer acá a medida que carguen su ubicación exacta.</p>
+                      <p className="mt-1 text-sm text-[var(--muted)]">Los comercios van a aparecer acá a medida que carguen su ubicación exacta.</p>
                     </div>
                   </div>
                 )}
@@ -219,25 +219,25 @@ export default function MapaPage() {
 
             {/* Stats reales + leyenda */}
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <div className="rounded-2xl border border-white/5 bg-[#161314] p-4 transition hover:border-[var(--accent)]">
-                <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.25em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Negocios</span>
+              <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)]">
+                <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Negocios</span>
                 <span className="font-display text-3xl">{stats.total}</span>
               </div>
-              <div className="rounded-2xl border border-white/5 bg-[#161314] p-4 transition hover:border-[var(--accent)]">
-                <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.25em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Abiertos ahora</span>
+              <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)]">
+                <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Abiertos ahora</span>
                 <span className="font-display text-3xl text-[var(--ok)]">{stats.abiertos}</span>
               </div>
-              <div className="rounded-2xl border border-white/5 bg-[#161314] p-4 transition hover:border-[var(--accent)]">
-                <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.25em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Con ofertas</span>
+              <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)]">
+                <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Con ofertas</span>
                 <span className="font-display text-3xl text-[var(--accent)]">{stats.conOfertas}</span>
               </div>
             </div>
-            <div className="flex flex-wrap gap-4 text-xs text-[#a99b86]">
+            <div className="flex flex-wrap gap-4 text-xs text-[var(--muted)]">
               <span>🟢 Abierto</span>
               <span>🔴 Cerrado</span>
               <span>🔥 Con ofertas</span>
               <span>🏪 Sin ofertas</span>
-              {userCoords ? <span className="text-[var(--place)]">● Tu ubicación</span> : <span className="text-[#7d6f5c]">Distancias desde el centro de San Lorenzo</span>}
+              {userCoords ? <span className="text-[var(--place)]">● Tu ubicación</span> : <span className="text-[var(--muted2)]">Distancias desde el centro de San Lorenzo</span>}
             </div>
           </div>
 
@@ -248,24 +248,24 @@ export default function MapaPage() {
             <div className="relative">
               <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--accent)]" />
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="¿Qué buscás hoy?"
-                className="w-full rounded-2xl border border-white/10 bg-black/30 py-3 pl-11 pr-4 text-sm outline-none transition placeholder:text-[#7d6f5c] focus:border-[var(--accent)]" />
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-black/30 py-3 pl-11 pr-4 text-sm outline-none transition placeholder:text-[var(--muted2)] focus:border-[var(--accent)]" />
             </div>
             <div className="custom-scrollbar flex max-h-[560px] flex-col gap-3 overflow-y-auto pr-1 lg:max-h-[760px]">
               {cercaDeVos.length === 0 ? (
-                <p className="rounded-2xl border border-white/5 bg-[#161314] p-6 text-center text-sm text-[#a99b86]">
+                <p className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 text-center text-sm text-[var(--muted)]">
                   {q ? "No encontramos negocios con esa búsqueda." : "No hay negocios con ubicación en este radio todavía."}
                 </p>
               ) : cercaDeVos.map((b: any) => {
                 const tieneOfertas = (b.promotions?.length || 0) > 0;
                 return (
                   <Link key={b.id} href={`/negocio/${b.slug}`}
-                    className="group rounded-2xl border border-white/5 bg-[#161314] p-4 transition hover:border-[var(--accent)]">
+                    className="group rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)]">
                     <div className="flex gap-4">
-                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-white/5 bg-black/30">
+                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[var(--line)] bg-black/30">
                         {b.logo_url ? (
                           <Image src={b.logo_url} alt={b.name} fill sizes="64px" className="object-cover transition duration-500 group-hover:scale-110" />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center font-display text-2xl text-[#7d6f5c]">{b.name[0]}</div>
+                          <div className="flex h-full w-full items-center justify-center font-display text-2xl text-[var(--muted2)]">{b.name[0]}</div>
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
@@ -280,7 +280,7 @@ export default function MapaPage() {
                             </span>
                           )}
                         </div>
-                        <div className="mt-2 flex items-center gap-3 text-[11px] font-medium text-[#a99b86]">
+                        <div className="mt-2 flex items-center gap-3 text-[11px] font-medium text-[var(--muted)]">
                           <span className="flex items-center gap-1"><MapPin className="h-3 w-3 text-[var(--place)]" /> {fmtDistance(b._km)}</span>
                           {Number(b.reviews) > 0 && <span className="flex items-center gap-1"><Star className="h-3 w-3 text-yellow-500" /> {Number(b.rating).toFixed(1)}</span>}
                           <span className={b.open ? "text-[var(--ok)]" : "text-[var(--bad)]"}>{b.open ? "● Abierto" : "● Cerrado"}</span>

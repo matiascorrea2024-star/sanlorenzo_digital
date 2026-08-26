@@ -85,7 +85,7 @@ export default function MfaSettings() {
   const activos = (factors || []).filter((f) => f.status === "verified");
 
   return (
-    <div className="rounded-[2rem] border border-white/5 bg-[#161314] p-6">
+    <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
           <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${activos.length > 0 ? "bg-[var(--ok)]/15" : "bg-[var(--warn)]/15"}`}>
@@ -94,8 +94,8 @@ export default function MfaSettings() {
               : <ShieldAlert className="h-5 w-5 text-[var(--warn)]" />}
           </span>
           <div>
-            <h3 className="font-display text-xl uppercase tracking-wide text-[#f7f3ec]">Verificación en dos pasos</h3>
-            <p className="mt-1 text-xs leading-relaxed text-[#a99b86]">
+            <h3 className="font-display text-xl uppercase tracking-wide text-[var(--text)]">Verificación en dos pasos</h3>
+            <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
               {activos.length > 0
                 ? "Tu cuenta pide un código de tu app autenticadora además de la clave."
                 : "Sumá una capa extra: además de tu clave, un código de 6 dígitos de tu celular."}
@@ -113,8 +113,8 @@ export default function MfaSettings() {
 
       {/* Paso 1: QR */}
       {qr && factorId && (
-        <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-[10px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>
+        <div className="mt-5 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] p-5">
+          <p className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
             1. Escaneá con Google Authenticator, Authy o la app de tu banco
           </p>
           <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:items-start">
@@ -122,11 +122,11 @@ export default function MfaSettings() {
               <Image src={qr} alt="Código QR de configuración 2FA" width={160} height={160} unoptimized className="rounded-xl bg-white p-2" />
             )}
             <div className="w-full sm:w-auto">
-              <p className="text-xs text-[#a99b86]">O cargá esta clave a mano:</p>
+              <p className="text-xs text-[var(--muted)]">O cargá esta clave a mano:</p>
               <code className="mt-1 block break-all rounded-lg border border-[var(--accent)]/40 bg-[var(--accent)]/5 px-3 py-2 font-mono text-xs text-[var(--accent)]">{secret}</code>
             </div>
           </div>
-          <p className="mt-5 text-[10px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>
+          <p className="mt-5 text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
             2. Meté el código de 6 dígitos
           </p>
           <div className="mt-2 flex gap-2">
@@ -136,7 +136,7 @@ export default function MfaSettings() {
               inputMode="numeric"
               autoComplete="one-time-code"
               placeholder="000000"
-              className="w-32 rounded-xl border border-white/10 bg-black/30 px-4 py-2.5 text-center font-mono text-lg tracking-[0.3em] text-white outline-none focus:border-[var(--accent)]"
+              className="w-32 rounded-xl border border-[var(--line-strong)] bg-black/30 px-4 py-2.5 text-center font-mono text-lg tracking-[0.3em] text-white outline-none focus:border-[var(--accent)]"
             />
             <button
               onClick={verificar}
@@ -148,7 +148,7 @@ export default function MfaSettings() {
             </button>
             <button
               onClick={() => { setQr(null); setSecret(null); setFactorId(null); setCode(""); setError(null); }}
-              className="rounded-xl border border-white/15 px-4 py-2.5 text-[11px] font-black uppercase tracking-widest text-[#a99b86] hover:border-white/40"
+              className="rounded-xl border border-[var(--line-strong)] px-4 py-2.5 text-[11px] font-black uppercase tracking-widest text-[var(--muted)] hover:border-white/40"
               style={{ fontFamily: "var(--font-display)" }}
             >
               Cancelar
@@ -161,8 +161,8 @@ export default function MfaSettings() {
       {!qr && activos.length > 0 && (
         <ul className="mt-5 space-y-2">
           {activos.map((f) => (
-            <li key={f.id} className="flex items-center justify-between rounded-xl border border-white/5 bg-black/30 px-4 py-3">
-              <span className="text-sm font-bold text-[#f7f3ec]">{f.friendly_name || "App autenticadora"}</span>
+            <li key={f.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-black/30 px-4 py-3">
+              <span className="text-sm font-bold text-[var(--text)]">{f.friendly_name || "App autenticadora"}</span>
               <button onClick={() => sacar(f.id)} disabled={busy}
                 className="flex items-center gap-1.5 rounded-lg border border-red-400/30 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-[var(--bad)] transition hover:bg-red-500/10 disabled:opacity-50"
                 style={{ fontFamily: "var(--font-display)" }}>

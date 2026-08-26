@@ -93,14 +93,14 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
   const hasMore = list.length < total;
 
   return (
-    <main className="mx-auto min-h-screen max-w-6xl bg-[#0c0a0b] px-4 py-10 pb-24 text-[#f7f3ec] md:py-14" aria-busy={buscando}>
+    <main className="mx-auto min-h-screen max-w-6xl bg-[var(--bg)] px-4 py-10 pb-24 text-[var(--text)] md:py-14" aria-busy={buscando}>
       <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
         Directorio
       </p>
       <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-6xl">Negocios de <span className="knockout-text magenta-glow">San Lorenzo</span></h1>
-      <p className="mt-2 text-sm text-[#a99b86]">
+      <p className="mt-2 text-sm text-[var(--muted)]">
         {total} {total === 1 ? "negocio activo" : "negocios activos"} ahora mismo
-        {buscando && <span className="ml-2 text-[#7d6f5c]">buscando...</span>}
+        {buscando && <span className="ml-2 text-[var(--muted2)]">buscando...</span>}
       </p>
       {error && (
         <div role="alert" className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">
@@ -112,17 +112,17 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
       <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="w-full">
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar negocio…"
-            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-[#7d6f5c] focus:border-[var(--accent)]" />
+            className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm text-white outline-none placeholder:text-[var(--muted2)] focus:border-[var(--accent)]" />
         </div>
-        <label className="flex min-h-12 items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#a99b86]">
+        <label className="flex min-h-12 items-center gap-2 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm text-[var(--muted)]">
           <input type="checkbox" checked={openNow} onChange={(e) => setOpenNow(e.target.checked)} className="accent-[var(--accent)]" />
           Abierto ahora
         </label>
-        <label className="flex min-h-12 items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#a99b86]">
+        <label className="flex min-h-12 items-center gap-2 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm text-[var(--muted)]">
           <input type="checkbox" checked={delivery} onChange={(e) => setDelivery(e.target.checked)} className="accent-[var(--accent)]" />
           Hace envíos
         </label>
-        <label className="flex min-h-12 items-center justify-between gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#a99b86]">
+        <label className="flex min-h-12 items-center justify-between gap-2 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm text-[var(--muted)]">
           <span>Rating mínimo</span>
           <select value={minRating} onChange={(e) => setMinRating(Number(e.target.value))} className="bg-transparent font-bold text-white outline-none">
             <option value={0}>Cualquiera</option>
@@ -133,13 +133,13 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
       </div>
       <div className="custom-scrollbar mt-4 flex gap-2 overflow-x-auto pb-2">
         {([["", "Todo"], ["ahora", "Ahora"], ["esta-noche", "Esta noche"]] as const).map(([value, label]) => (
-          <button key={value} type="button" onClick={() => setMode(value)} className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition-colors ${mode === value ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"}`}>
+          <button key={value} type="button" onClick={() => setMode(value)} className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition-colors ${mode === value ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"}`}>
             {label}
           </button>
         ))}
         {CATEGORIES.map((c: any) => (
           <button key={c.id} onClick={() => setCat(cat === c.id ? null : c.id)}
-            className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition-colors ${cat === c.id ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"}`}>
+            className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition-colors ${cat === c.id ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"}`}>
             {c.icon} {c.name}
           </button>
         ))}
@@ -150,11 +150,11 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
           rubro más. */}
       <Link
         href="/particulares"
-        className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm transition hover:border-[var(--accent)] hover:bg-white/[.07]"
+        className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm transition hover:border-[var(--accent)] hover:bg-white/[.07]"
       >
         <span>
-          <span className="font-bold text-[#f7f3ec]">🙋 ¿Buscás algo de un particular?</span>
-          <span className="ml-1.5 text-[#a99b86]">Venta entre vecinos, sin local ni negocio.</span>
+          <span className="font-bold text-[var(--text)]">🙋 ¿Buscás algo de un particular?</span>
+          <span className="ml-1.5 text-[var(--muted)]">Venta entre vecinos, sin local ni negocio.</span>
         </span>
         <ArrowRight className="h-4 w-4 shrink-0 text-[var(--accent)]" />
       </Link>
@@ -162,15 +162,15 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
         {list.map((b: any) => <BusinessCard key={b.id} b={b} />)}
       </div>
       {!buscando && list.length === 0 && (
-        <div className="mt-8 rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center">
-          <p className="font-display text-xl uppercase tracking-tight text-[#f7f3ec]">No encontramos exactamente eso.</p>
-          <p className="mt-1 text-sm text-[#a99b86]">Estamos incorporando negocios de esta categoría. ¿Tenés uno? Sumalo.</p>
+        <div className="mt-8 rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center">
+          <p className="font-display text-xl uppercase tracking-tight text-[var(--text)]">No encontramos exactamente eso.</p>
+          <p className="mt-1 text-sm text-[var(--muted)]">Estamos incorporando negocios de esta categoría. ¿Tenés uno? Sumalo.</p>
         </div>
       )}
       {hasMore && (
         <div className="mt-8 flex justify-center">
           <button onClick={cargarMas} disabled={loadingMore}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 px-6 py-3 text-xs font-black uppercase tracking-widest text-[#a99b86] transition hover:border-[var(--accent)] hover:text-white disabled:opacity-50">
+            className="inline-flex items-center gap-2 rounded-full border border-[var(--line-strong)] px-6 py-3 text-xs font-black uppercase tracking-widest text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-white disabled:opacity-50">
             {loadingMore && <Loader2 className="h-4 w-4 animate-spin" />}
             {loadingMore ? "Cargando..." : `Cargar más (${total - list.length} restantes)`}
           </button>

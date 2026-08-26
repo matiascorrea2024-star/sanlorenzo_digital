@@ -33,7 +33,7 @@ export default function Badge({
         badge
         inline-flex items-center gap-1
         rounded-full font-semibold
-        border border-white/10
+        border border-[var(--line-strong)]
         transition-all duration-200
         ${typeClasses[type]}
         ${sizeClasses[size]}

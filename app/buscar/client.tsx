@@ -40,29 +40,29 @@ export default function BuscarClient() {
 
   if (qParam || catParam || modoParam) {
     // Redirigiendo a resultados: no renderizar la landing (evita el flash).
-    return <main className="min-h-screen bg-[#0c0a0b]" />;
+    return <main className="min-h-screen bg-[var(--bg)]" />;
   }
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-[var(--text)]">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       {/* Hero Section */}
       <div className="relative mx-auto max-w-4xl px-4 py-16 sm:py-24">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_50%_0%,rgba(209,47,104,.14),transparent_65%)]" />
         <div className="mb-10 text-center">
-          <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+          <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
             <Search className="h-3.5 w-3.5" /> Buscador local
           </span>
           <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-tight sm:text-7xl">
             Buscá lo que<br /><span className="knockout-text magenta-glow">necesitás</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-md text-base text-[#a99b86]">
+          <p className="mx-auto mt-5 max-w-md text-base text-[var(--muted)]">
             Encontrá comercios y productos en San Lorenzo al instante
           </p>
         </div>
 
         {/* Search Form */}
         <form onSubmit={handleSearch} className="relative mx-auto max-w-2xl">
-          <div className="relative mb-4 rounded-[2rem] border border-white/10 bg-white/5 p-2 shadow-2xl shadow-black/50 backdrop-blur-xl transition focus-within:border-[var(--accent)]">
+          <div className="relative mb-4 rounded-[2rem] border border-[var(--line-strong)] bg-[var(--ov-05)] p-2 shadow-2xl shadow-black/50 backdrop-blur-xl transition focus-within:border-[var(--accent)]">
             <div className="relative">
               <input
                 type="text"
@@ -70,7 +70,7 @@ export default function BuscarClient() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 aria-label="Qué querés encontrar"
-                className="w-full rounded-[1.6rem] border border-white/5 bg-black/30 px-4 py-4 pl-12 text-[var(--text)] outline-none placeholder:text-[#7d6f5c] focus:border-[var(--accent)]"
+                className="w-full rounded-[1.6rem] border border-[var(--line)] bg-black/30 px-4 py-4 pl-12 text-[var(--text)] outline-none placeholder:text-[var(--muted2)] focus:border-[var(--accent)]"
               />
               <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[var(--accent)]" />
             </div>
@@ -88,7 +88,7 @@ export default function BuscarClient() {
             {([["", "Todo"], ["ahora", "Ahora"], ["esta-noche", "Esta noche"]] as const).map(([value, label]) => (
               <button key={value} type="button" onClick={() => setMode(value)}
                 className={`rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
-                  mode === value ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
+                  mode === value ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
                 }`} style={{ fontFamily: "var(--font-display)" }}>
                 {label}
               </button>
@@ -103,10 +103,10 @@ export default function BuscarClient() {
             { icon: AlertCircle, t: "Ofertas Reales", d: "Solo promociones vigentes de comercios verificados" },
             { icon: ShieldCheck, t: "Filtros Avanzados", d: "Filtrá por barrio, horario, envíos y más" },
           ].map(({ icon: Icon, t, d }) => (
-            <div key={t} className="card-lift rounded-3xl border border-white/5 bg-[#161314] p-6 hover:border-[var(--accent)]">
+            <div key={t} className="card-lift rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-6 hover:border-[var(--accent)]">
               <Icon className="mb-3 h-6 w-6 text-[var(--accent)]" />
               <h3 className="mb-2 font-display text-lg uppercase tracking-wide">{t}</h3>
-              <p className="text-sm text-[#a99b86]">{d}</p>
+              <p className="text-sm text-[var(--muted)]">{d}</p>
             </div>
           ))}
         </div>

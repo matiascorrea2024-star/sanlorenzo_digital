@@ -103,13 +103,13 @@ export default function AsistentePage() {
   }, [q, ofertas, intent, coords]);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
-      <section className="relative overflow-hidden border-b border-white/5">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+      <section className="relative overflow-hidden border-b border-[var(--line)]">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 15% 0%, rgba(209,47,104,.16), transparent 55%), radial-gradient(circle at 90% 30%, rgba(169,31,85,.10), transparent 55%)" }} />
         <div className="relative mx-auto max-w-5xl px-4 py-14 text-center md:py-20">
           <Badge variant="warning" size="sm"><Sparkles className="h-3 w-3" /> Asistente local</Badge>
           <h1 className="mt-3 font-display text-4xl uppercase tracking-tight md:text-6xl">¿Qué estás buscando?</h1>
-          <p className="mt-2 text-[#a99b86]">
+          <p className="mt-2 text-[var(--muted)]">
             Escribí como se lo dirías a un amigo: &quot;zapatillas menos de 50000 cerca mío&quot;
           </p>
         </div>
@@ -119,11 +119,11 @@ export default function AsistentePage() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Ej: pizza barata abierta ahora..."
-          className="w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-lg text-white outline-none transition placeholder:text-[#7d6f5c] focus:border-[var(--accent)]"
+          className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-6 py-4 text-lg text-white outline-none transition placeholder:text-[var(--muted2)] focus:border-[var(--accent)]"
         />
         {chips.length > 0 && (
           <div className="mt-3 flex flex-wrap items-center gap-2">
-            <span className="text-xs uppercase tracking-widest text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Entendimos:</span>
+            <span className="text-xs uppercase tracking-widest text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Entendimos:</span>
             {chips.map(c => (
               <span key={c} className="rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-xs font-bold text-[var(--accent)]">
                 {c}
@@ -149,10 +149,10 @@ export default function AsistentePage() {
                 <div className="grid gap-3 sm:grid-cols-2">
                   {negociosFiltrados.map((b: any) => (
                     <Link key={b.id} href={`/negocio/${b.slug}`}
-                      className="group flex items-center gap-3 rounded-[2rem] border border-white/5 bg-[#161314] p-4 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                      className="group flex items-center gap-3 rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-4 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
                       <div className="flex-1">
                         <p className="font-display uppercase tracking-tight">{b.name}</p>
-                        <p className="text-xs capitalize text-[#a99b86]">{b.category} · ⭐ {(b.rating || 0).toFixed(1)}</p>
+                        <p className="text-xs capitalize text-[var(--muted)]">{b.category} · ⭐ {(b.rating || 0).toFixed(1)}</p>
                         <div className="mt-1 flex gap-2">
                           {b.open && <span className="text-[10px] text-[var(--ok)] flex items-center gap-1"><Clock className="h-3 w-3" /> Abierto</span>}
                           {b._dist !== undefined && <span className="text-[10px] text-[var(--accent)] flex items-center gap-1"><MapPin className="h-3 w-3" /> {fmtDistance(b._dist)}</span>}
@@ -166,9 +166,9 @@ export default function AsistentePage() {
             )}
 
             {ofertasFiltradas.length === 0 && negociosFiltrados.length === 0 && (
-              <div className="mt-10 rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center">
+              <div className="mt-10 rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center">
                 <p className="font-display text-lg uppercase tracking-tight">😕 No encontramos resultados exactos</p>
-                <p className="mx-auto mt-2 max-w-sm text-sm text-[#a99b86]">
+                <p className="mx-auto mt-2 max-w-sm text-sm text-[var(--muted)]">
                   Probá con menos filtros, o mirá todas las ofertas en La Gran Barata.
                 </p>
                 <Link href="/promociones" className="btn-hard mt-4 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>

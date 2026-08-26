@@ -231,7 +231,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
         <div onClick={() => setLightbox(null)} role="dialog" aria-modal="true" aria-label="Foto de la reseña ampliada"
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4">
           <img src={lightbox} alt="Foto de la reseña ampliada" className="max-h-[85vh] max-w-full rounded-xl object-contain" />
-          <button onClick={() => setLightbox(null)} aria-label="Cerrar" title="Cerrar" className="absolute right-5 top-5 rounded-full bg-white/10 p-2">
+          <button onClick={() => setLightbox(null)} aria-label="Cerrar" title="Cerrar" className="absolute right-5 top-5 rounded-full bg-[var(--ov-10)] p-2">
             <X className="h-5 w-5 text-white" />
           </button>
         </div>

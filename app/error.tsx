@@ -12,11 +12,11 @@ export default function Error({ error, reset }: {
   }, [error]);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#0c0a0b] p-6 text-[#f7f3ec]">
+    <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] p-6 text-[var(--text)]">
       <div className="max-w-md text-center">
         <p className="mb-4 text-5xl">😵</p>
         <h1 className="magenta-glow font-display text-6xl uppercase leading-[0.9] tracking-tight sm:text-7xl">Algo salió mal</h1>
-        <p className="mt-3 text-sm text-[#a99b86]">
+        <p className="mt-3 text-sm text-[var(--muted)]">
           Ocurrió un error inesperado en esta página. Probá reintentar o volver al inicio.
         </p>
         <div className="mt-6 flex justify-center gap-3">
@@ -26,7 +26,7 @@ export default function Error({ error, reset }: {
             Reintentar
           </button>
           <Link href="/"
-            className="rounded-xl border border-white/15 px-6 py-3 text-xs font-black uppercase tracking-widest text-[#a99b86] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:border-[var(--accent)] hover:text-white"
+            className="rounded-xl border border-[var(--line-strong)] px-6 py-3 text-xs font-black uppercase tracking-widest text-[var(--muted)] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:border-[var(--accent)] hover:text-white"
             style={{ fontFamily: "var(--font-display)" }}>
             Ir al inicio
           </Link>

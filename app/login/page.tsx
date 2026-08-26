@@ -47,34 +47,34 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0c0a0b] px-4 text-[#f7f3ec]">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] px-4 text-[var(--text)]">
       <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
       <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
-      <div className="relative w-full max-w-md rounded-[2.5rem] border border-white/10 bg-[#161314] p-8 shadow-2xl">
+      <div className="relative w-full max-w-md rounded-[2.5rem] border border-[var(--line-strong)] bg-[var(--surface)] p-8 shadow-2xl">
         <div className="mb-8 text-center">
           <Link href="/" className="mb-4 inline-block">
             <span className="text-3xl">🛍️</span>
           </Link>
           <h1 className="font-display text-4xl uppercase tracking-tight sm:text-5xl">Iniciar sesión</h1>
-          <p className="mt-3 text-sm text-[#a99b86]">Entrá a tu cuenta de San Lorenzo Digital</p>
+          <p className="mt-3 text-sm text-[var(--muted)]">Entrá a tu cuenta de San Lorenzo Digital</p>
         </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>Email</label>
+              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-[#7d6f5c] outline-none transition focus:border-[var(--accent)] focus:bg-white/10"
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
                 placeholder="tu@email.com"
               />
             </div>
 
             <div>
               <div className="mb-2 flex items-center justify-between">
-                <label className="block text-[10px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>Contraseña</label>
+                <label className="block text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>Contraseña</label>
                 <button type="button" onClick={() => { setForgotMode(true); setError(""); }} className="text-xs font-bold text-[var(--accent)] transition hover:text-white">
                   ¿Olvidaste tu contraseña?
                 </button>
@@ -84,7 +84,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-[#7d6f5c] outline-none transition focus:border-[var(--accent)] focus:bg-white/10"
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
                 placeholder="••••••••"
               />
             </div>
@@ -95,13 +95,13 @@ export default function LoginPage() {
                   <p className="text-sm text-[var(--accent)]">✅ Si ese email tiene una cuenta, te mandamos un link para restablecer la contraseña.</p>
                 ) : (
                   <>
-                    <p className="mb-3 text-sm text-[#a99b86]">Te mandamos un link a tu email para elegir una nueva contraseña.</p>
+                    <p className="mb-3 text-sm text-[var(--muted)]">Te mandamos un link a tu email para elegir una nueva contraseña.</p>
                     <div className="flex gap-2">
                       <button type="button" onClick={handleForgot} disabled={forgotLoading}
                         className="btn-hard rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
                         {forgotLoading ? "Enviando…" : "Enviar link"}
                       </button>
-                      <button type="button" onClick={() => setForgotMode(false)} className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-bold text-[#a99b86] transition hover:text-white">
+                      <button type="button" onClick={() => setForgotMode(false)} className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-xs font-bold text-[var(--muted)] transition hover:text-white">
                         Cancelar
                       </button>
                     </div>
@@ -130,7 +130,7 @@ export default function LoginPage() {
             <Link href="/registro" className="block text-sm font-bold text-[var(--accent)] transition hover:text-white">
               ¿No tenés cuenta? Registrate
             </Link>
-            <Link href="/" className="block text-sm text-[#a99b86] transition hover:text-[var(--accent)]">
+            <Link href="/" className="block text-sm text-[var(--muted)] transition hover:text-[var(--accent)]">
               ← Volver al inicio
             </Link>
           </div>

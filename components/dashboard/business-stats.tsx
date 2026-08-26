@@ -44,17 +44,17 @@ export default function BusinessStats() {
   const cards = [
     { icon: Eye, label: "Visitas (7 días)", value: s.views7, color: "magenta-glow text-[var(--accent)]" },
     { icon: TrendingUp, label: "Visitas totales", value: s.viewsTotal, color: "text-[#fbbf24]" },
-    { icon: Users, label: "Seguidores", value: s.followers, color: "text-[#f7f3ec]" },
+    { icon: Users, label: "Seguidores", value: s.followers, color: "text-[var(--text)]" },
     { icon: Heart, label: "Favoritos", value: s.favs, color: "text-[#fbbf24]" },
     { icon: Star, label: "Reseñas", value: s.revs, color: "text-[#fbbf24]" },
-    { icon: Ticket, label: "Cupones", value: s.coupons, color: "text-[#f7f3ec]" },
+    { icon: Ticket, label: "Cupones", value: s.coupons, color: "text-[var(--text)]" },
   ];
 
   return (
     <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
       {cards.map((c) => (
-        <div key={c.label} className="rounded-[2rem] border border-white/5 bg-[#161314] p-4 sm:p-5">
-          <div className="flex items-center gap-1.5 text-[#7d6f5c]">
+        <div key={c.label} className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-4 sm:p-5">
+          <div className="flex items-center gap-1.5 text-[var(--muted2)]">
             <c.icon className="h-3.5 w-3.5 shrink-0" />
             <p className="truncate text-[9px] font-black uppercase tracking-[0.2em]" style={{ fontFamily: "var(--font-display)" }}>{c.label}</p>
           </div>

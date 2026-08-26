@@ -12,6 +12,7 @@ import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
 import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
+import { estaAbiertoAhora } from "@/lib/horarios";
 import { safeJsonLd } from "@/lib/json-ld";
 import { MapPin, Clock, Phone, MessageCircle, Share2, ArrowLeft, ExternalLink, Flame, Star, Search, Truck, Navigation, Package, ShoppingBasket, Check, Tv } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
@@ -100,6 +101,15 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   const catsProductos = Array.from(new Set(productos.map((p) => p.category).filter(Boolean))) as string[];
   const [loading] = useState(false);
   const [compartiendo, setCompartiendo] = useState(false);
+  // "Abierto ahora": si hay horarios estructurados se calcula en hora
+  // argentina; si no, cae al booleano manual. En useEffect (no render)
+  // para no desincronizar la hidratación server/cliente.
+  const [abierto, setAbierto] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (!negocio) return;
+    const porHorario = estaAbiertoAhora(negocio.schedule_json);
+    setAbierto(porHorario === null ? (negocio.open ?? null) : porHorario);
+  }, [negocio]);
 
   useEffect(() => {
     if (!negocio) return;
@@ -235,9 +245,9 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
           <div className="absolute left-4 right-4 top-4 ml-14 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:ml-16">
             <BusinessLiveBadge businessId={negocio.id} />
             {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
-            {negocio.open !== undefined && (
-              <Badge variant={negocio.open ? "success" : "danger"} size="sm">
-                {negocio.open ? "● Abierto ahora" : "● Cerrado"}
+            {abierto !== null && (
+              <Badge variant={abierto ? "success" : "danger"} size="sm">
+                {abierto ? "● Abierto ahora" : "● Cerrado"}
               </Badge>
             )}
             {negocio.type && negocio.type !== "comercio" && (
@@ -279,7 +289,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   {viendo} viendo esto ahora
                 </span>
               )}
-              <LevelBadge slug={negocio.slug} />
+              <LevelBadge slug={negocio.slug} mostrarProgreso={false} />
               {actualizado && <span className="text-[11px] font-semibold text-[var(--muted2)]">Actualizado {actualizado}</span>}
             </div>
           </div>
@@ -294,19 +304,19 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {/* ALERTA: solo cuando tiene sentido ("avisame si vuelve" en un
             negocio activo con ofertas vigentes confundía: ¿volver de dónde?).
             Con el negocio abierto y ofertas activas, el CTA útil es WhatsApp. */}
-        {(negocio.open === false || ofertas.length === 0) && (
+        {(abierto === false || ofertas.length === 0) && (
           <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
             <div>
               <p className="font-black">🔔 Avisame cuando {negocio.name} publique ofertas</p>
               <p className="text-sm text-[var(--muted)]">
-                {negocio.open === false ? "Está cerrado ahora. Te avisamos cuando vuelva con novedades." : "Todavía no tiene ofertas activas."}
+                {abierto === false ? "Está cerrado ahora. Te avisamos cuando vuelva con novedades." : "Todavía no tiene ofertas activas."}
               </p>
             </div>
             <NotifyMeButton businessId={String(negocio.id)} productName={negocio.name} />
           </div>
         )}
 
-        {negocio.open === false && (
+        {abierto === false && (
           <div className="mb-6 rounded-2xl border border-red-400/40 bg-red-500/10 p-4 text-center">
             <p className="font-black text-[var(--bad)]">🔴 Cerrado ahora</p>
             <p className="mt-1 text-sm text-[var(--muted)]">
@@ -683,7 +693,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         <LevelUpCard slug={slug} ownerId={negocio.owner_id} />
       </div>
       {negocio.whatsapp && (
-        <div className="fixed inset-x-0 bottom-14 z-40 border-t border-white/10 bg-[#0c0a0b]/95 p-3 pb-[calc(.75rem+env(safe-area-inset-bottom))] backdrop-blur-md sm:hidden">
+        <div className="fixed inset-x-0 bottom-14 z-40 border-t border-[var(--line-strong)] bg-[var(--bg)]/95 p-3 pb-[calc(.75rem+env(safe-area-inset-bottom))] backdrop-blur-md sm:hidden">
           <a
             onClick={() => trackClickWhatsApp(negocio.id)}
             href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${negocio.name} en La Gran Barata Digital`)}`}

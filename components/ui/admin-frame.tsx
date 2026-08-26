@@ -21,7 +21,7 @@ export default function AdminFrame({ children, size = 44 }: { children: ReactNod
         background: "linear-gradient(135deg,#78350f 0%,#fde047 30%,#a16207 55%,#fef08a 80%,#78350f 100%)",
       }}>
         <span className="shine rounded-full" />
-        <span className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-[#0c0a0b]">
+        <span className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-[var(--bg)]">
           {children}
         </span>
       </span>

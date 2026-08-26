@@ -140,19 +140,19 @@ export default function PerfilPage() {
   }, []);
 
   if (cargando) return (
-    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec]">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       <div className="mx-auto max-w-3xl px-4 py-8">
         <div className="flex items-center gap-4">
-          <div className="h-16 w-16 animate-pulse rounded-full bg-white/5" />
+          <div className="h-16 w-16 animate-pulse rounded-full bg-[var(--ov-05)]" />
           <div className="flex-1 space-y-2">
-            <div className="h-5 w-40 animate-pulse rounded bg-white/5" />
-            <div className="h-3 w-24 animate-pulse rounded bg-white/5" />
+            <div className="h-5 w-40 animate-pulse rounded bg-[var(--ov-05)]" />
+            <div className="h-3 w-24 animate-pulse rounded bg-[var(--ov-05)]" />
           </div>
         </div>
-        <div className="mt-6 h-3 w-full animate-pulse rounded-full bg-white/5" />
+        <div className="mt-6 h-3 w-full animate-pulse rounded-full bg-[var(--ov-05)]" />
         <div className="mt-8 grid grid-cols-3 gap-3 md:grid-cols-7">
           {Array.from({ length: 7 }).map((_, i) => (
-            <div key={i} className="h-16 animate-pulse rounded-xl bg-white/5" />
+            <div key={i} className="h-16 animate-pulse rounded-xl bg-[var(--ov-05)]" />
           ))}
         </div>
       </div>
@@ -161,11 +161,11 @@ export default function PerfilPage() {
 
   if (!user)
     return (
-      <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] flex items-center justify-center px-4 text-center">
+      <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] flex items-center justify-center px-4 text-center">
         <div>
           <p className="text-5xl mb-4">🎖</p>
           <h1 className="font-display text-4xl uppercase tracking-tight sm:text-5xl">Tu perfil de vecino</h1>
-          <p className="mt-2 text-sm text-[#a99b86]">Iniciá sesión para ver tus medallas y niveles.</p>
+          <p className="mt-2 text-sm text-[var(--muted)]">Iniciá sesión para ver tus medallas y niveles.</p>
           <Link href="/login" className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>Ingresar →</Link>
         </div>
       </main>
@@ -183,7 +183,7 @@ export default function PerfilPage() {
   }));
 
   return (
-    <main className="bg-[#0c0a0b] text-[#f7f3ec] min-h-screen pb-24">
+    <main className="bg-[var(--bg)] text-[var(--text)] min-h-screen pb-24">
       {/* Hero editorial: avatar/marco real + nombre gigante + racha/rol
           como pills al costado -- calco del mockup aprobado. El marco de
           rango (DivisionFrame/AdminFrame) NO se toca, es el sistema
@@ -211,11 +211,11 @@ export default function PerfilPage() {
               ) : (
                 <>
                   {racha > 0 && (
-                    <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>
+                    <span className="rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
                       🔥 Racha de {racha} día{racha > 1 ? "s" : ""}
                     </span>
                   )}
-                  <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black uppercase tracking-widest" style={{ color: nivel.accent, fontFamily: "var(--font-display)" }}>
+                  <span className="rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2 text-[11px] font-black uppercase tracking-widest" style={{ color: nivel.accent, fontFamily: "var(--font-display)" }}>
                     {nivel.rango}
                   </span>
                 </>
@@ -226,32 +226,32 @@ export default function PerfilPage() {
 
         {!isAdmin && (
           <div className="relative mt-10 grid gap-6 md:grid-cols-2">
-            <div className="rounded-xl border border-white/5 bg-[#161314] p-8">
+            <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-8">
               <div>
                 <p className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Progreso de nivel</p>
                 <p className="magenta-glow font-display text-5xl leading-none text-[var(--accent)] sm:text-6xl">
-                  {puntos} <span className="text-lg tracking-normal text-[#a99b86]">pts</span>
+                  {puntos} <span className="text-lg tracking-normal text-[var(--muted)]">pts</span>
                 </p>
               </div>
               {nivel.proximo && (
                 <div className="mt-8">
-                  <div className="mb-2 flex items-end justify-between text-[11px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>
+                  <div className="mb-2 flex items-end justify-between text-[11px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
                     <span>PRÓXIMO RANGO: {nivel.proximo.toUpperCase()}</span>
                     <span className="text-[var(--accent)]">{faltanReal} pts restantes</span>
                   </div>
-                  <div className="h-2.5 w-full overflow-hidden rounded-full bg-white/10">
+                  <div className="h-2.5 w-full overflow-hidden rounded-full bg-[var(--ov-10)]">
                     <div className="h-full rounded-full bg-[var(--accent)]" style={{ width: `${nivel.progreso}%` }} />
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="rounded-xl border border-white/5 bg-[#161314] p-8">
+            <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-8">
               <p className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Medallas y logros</p>
               <div className="grid grid-cols-4 gap-3">
                 {medallas.slice(0, 8).map((m, i) => (
                   <div key={i} title={`${m.nombre} -- ${m.desc}`}
-                    className={`group flex aspect-square cursor-help items-center justify-center rounded-xl border transition-all ${m.ganada ? "border-[var(--accent)]/30 bg-[var(--accent)]/10 hover:bg-[var(--accent)]/20" : "border-white/5 bg-white/5 opacity-30 grayscale"}`}>
+                    className={`group flex aspect-square cursor-help items-center justify-center rounded-xl border transition-all ${m.ganada ? "border-[var(--accent)]/30 bg-[var(--accent)]/10 hover:bg-[var(--accent)]/20" : "border-[var(--line)] bg-[var(--ov-05)] opacity-30 grayscale"}`}>
                     <span className="text-2xl transition-transform group-hover:scale-110">{m.ganada ? m.icon : "🔒"}</span>
                   </div>
                 ))}
@@ -267,7 +267,7 @@ export default function PerfilPage() {
               <p className="text-sm font-black text-[var(--bad)]">
                 Se te {perdidas === 1 ? "pasó" : "pasaron"} {perdidas} oferta{perdidas === 1 ? "" : "s"} de negocios que seguís
               </p>
-              <p className="text-xs text-[#a99b86]">Activá las notificaciones para no perderte la próxima.</p>
+              <p className="text-xs text-[var(--muted)]">Activá las notificaciones para no perderte la próxima.</p>
             </div>
           </div>
         )}
@@ -275,7 +275,7 @@ export default function PerfilPage() {
         {isAdmin && (
           <div className="mt-6 rounded-xl border border-yellow-400/30 bg-yellow-500/10 p-6 text-center">
             <div className="mt-2 flex justify-center"><AdminBadge text="Staff" /></div>
-            <p className="mt-3 text-sm text-[#a99b86]">No hay nivel que te quede grande: sos quien mueve todo esto.</p>
+            <p className="mt-3 text-sm text-[var(--muted)]">No hay nivel que te quede grande: sos quien mueve todo esto.</p>
           </div>
         )}
 
@@ -286,10 +286,10 @@ export default function PerfilPage() {
             { href: "/vecinos", icon: "👥", txt: "Ranking vecinos" },
             { href: "/panel", icon: "🏪", txt: "Mis negocios" },
           ].map((a) => (
-            <Link key={a.href} href={a.href} className="group rounded-xl border border-white/5 bg-[#161314] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+            <Link key={a.href} href={a.href} className="group rounded-xl border border-[var(--line)] bg-[var(--surface)] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
               <div className="flex flex-col items-center gap-2 p-5 text-center">
                 <p className="text-2xl transition-transform duration-700 group-hover:scale-110">{a.icon}</p>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#a99b86] group-hover:text-white">{a.txt}</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-[var(--muted)] group-hover:text-white">{a.txt}</p>
               </div>
             </Link>
           ))}
@@ -301,10 +301,10 @@ export default function PerfilPage() {
         <h2 id="cuenta" className="mt-10 mb-4 scroll-mt-24 font-display text-2xl uppercase tracking-tight sm:text-3xl">Cuenta</h2>
         <div className="space-y-3">
           <MfaSettings />
-          <Link href="/planes" className="flex items-center justify-between rounded-xl border border-white/5 bg-[#161314] p-4 transition hover:border-[var(--accent)] hover:bg-white/5">
+          <Link href="/planes" className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)] hover:bg-[var(--ov-05)]">
             <div>
               <p className="font-bold">Tu plan: Gratis</p>
-              <p className="text-xs text-[#a99b86]">Ver beneficios y mejorar</p>
+              <p className="text-xs text-[var(--muted)]">Ver beneficios y mejorar</p>
             </div>
             <span className="text-[var(--accent)]">→</span>
           </Link>
@@ -317,13 +317,13 @@ export default function PerfilPage() {
 
         <h2 className="mt-10 mb-4 font-display text-2xl uppercase tracking-tight sm:text-3xl">Tu actividad</h2>
         <div className="grid grid-cols-3 gap-4 md:grid-cols-7 text-center">
-          <div className="rounded-xl border border-white/5 bg-[#161314] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.vis}</p><p className="text-[10px] uppercase tracking-widest text-[#7d6f5c]">Visitas</p></div>
-          <div className="rounded-xl border border-white/5 bg-[#161314] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.cats}</p><p className="text-[10px] uppercase tracking-widest text-[#7d6f5c]">Rubros</p></div>
-          <div className="rounded-xl border border-white/5 bg-[#161314] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.seg}</p><p className="text-[10px] uppercase tracking-widest text-[#7d6f5c]">Seguidos</p></div>
-          <div className="rounded-xl border border-white/5 bg-[#161314] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.wa}</p><p className="text-[10px] uppercase tracking-widest text-[#7d6f5c]">Contactos</p></div>
-          <div className="rounded-xl border border-white/5 bg-[#161314] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.sh}</p><p className="text-[10px] uppercase tracking-widest text-[#7d6f5c]">Compartidos</p></div>
-          <div className="rounded-xl border border-white/5 bg-[#161314] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.res}</p><p className="text-[10px] uppercase tracking-widest text-[#7d6f5c]">Reseñas</p></div>
-          <Link href="/invitar" className="rounded-xl border border-white/5 bg-[#161314] p-3 transition hover:border-[var(--accent)] hover:bg-white/5"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.ref}</p><p className="text-[10px] uppercase tracking-widest text-[#7d6f5c]">Referidos</p></Link>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.vis}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Visitas</p></div>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.cats}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Rubros</p></div>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.seg}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Seguidos</p></div>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.wa}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Contactos</p></div>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.sh}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Compartidos</p></div>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.res}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Reseñas</p></div>
+          <Link href="/invitar" className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3 transition hover:border-[var(--accent)] hover:bg-[var(--ov-05)]"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.ref}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Referidos</p></Link>
         </div>
 
         {isAdmin ? (
@@ -337,7 +337,7 @@ export default function PerfilPage() {
                 { href: "/admin?tab=ciudades", icon: MapPin, txt: "Ciudades" },
               ].map((a) => (
                 <Link key={a.href} href={a.href}
-                  className="flex flex-col items-center gap-1.5 rounded-xl border border-white/5 bg-[#161314] p-4 text-center transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                  className="flex flex-col items-center gap-1.5 rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4 text-center transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
                   <a.icon className="h-5 w-5 text-[var(--accent)]" />
                   <p className="text-xs font-bold">{a.txt}</p>
                 </Link>
@@ -355,9 +355,9 @@ export default function PerfilPage() {
           ].map((m, i) => {
             const done = m.act >= m.meta;
             return (
-              <div key={i} className={`rounded-xl border p-4 ${done ? "border-[var(--accent)]/40 bg-[var(--accent)]/10" : "border-white/5 bg-[#161314]"}`}>
+              <div key={i} className={`rounded-xl border p-4 ${done ? "border-[var(--accent)]/40 bg-[var(--accent)]/10" : "border-[var(--line)] bg-[var(--surface)]"}`}>
                 <p className="text-sm font-bold">{m.icon} {m.txt}</p>
-                <p className={`mt-2 text-xs font-black ${done ? "text-[var(--accent)]" : "text-[#a99b86]"}`}>
+                <p className={`mt-2 text-xs font-black ${done ? "text-[var(--accent)]" : "text-[var(--muted)]"}`}>
                   {done ? "✅ ¡Misión cumplida!" : `${Math.min(m.act, m.meta)}/${m.meta} · en progreso`}
                 </p>
               </div>
@@ -375,16 +375,16 @@ export default function PerfilPage() {
           ].map((m, i) => {
             const done = m.act >= m.meta;
             return (
-              <div key={i} className={`rounded-xl border p-4 ${done ? "border-[var(--accent)]/40 bg-[var(--accent)]/10" : "border-white/5 bg-[#161314]"}`}>
+              <div key={i} className={`rounded-xl border p-4 ${done ? "border-[var(--accent)]/40 bg-[var(--accent)]/10" : "border-[var(--line)] bg-[var(--surface)]"}`}>
                 <p className="text-sm font-bold">{m.icon} {m.txt}</p>
-                <p className={`mt-2 text-xs font-black ${done ? "text-[var(--accent)]" : "text-[#a99b86]"}`}>
+                <p className={`mt-2 text-xs font-black ${done ? "text-[var(--accent)]" : "text-[var(--muted)]"}`}>
                   {done ? "✅ ¡Hecha!" : `${m.act}/${m.meta} · en progreso`}
                 </p>
               </div>
             );
           })}
         </div>
-        <div className="mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-4 text-xs text-[#a99b86]">
+        <div className="mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-4 text-xs text-[var(--muted)]">
           🎁 Premios reales: racha de 7 días = <strong className="text-[var(--accent)]">+50 pts</strong> · completar las 3 semanales = <strong className="text-[var(--accent)]">+40 pts</strong>
         </div>
 
@@ -395,14 +395,14 @@ export default function PerfilPage() {
             const esActual = n.nombre === nivel.rango;
             const alcanzado = puntos >= minReal;
             return (
-              <div key={n.nombre} className={`rounded-xl border p-4 ${esActual ? "border-[var(--accent)]/60 bg-[var(--accent)]/10" : alcanzado ? "border-white/15 bg-white/5" : "border-white/5 bg-[#161314]"}`}>
+              <div key={n.nombre} className={`rounded-xl border p-4 ${esActual ? "border-[var(--accent)]/60 bg-[var(--accent)]/10" : alcanzado ? "border-[var(--line-strong)] bg-[var(--ov-05)]" : "border-[var(--line)] bg-[var(--surface)]"}`}>
                 <div className="flex items-center justify-between">
                   <p className="font-black" style={{ color: alcanzado || esActual ? n.accent : undefined }}>
-                    {n.nombre} <span className="text-xs text-[#7d6f5c]">· {minReal} pts</span>
+                    {n.nombre} <span className="text-xs text-[var(--muted2)]">· {minReal} pts</span>
                   </p>
                   <p className="text-xs font-bold">{esActual ? "📍 Tu rango" : alcanzado ? "✅" : ""}</p>
                 </div>
-                <ul className="mt-2 space-y-1 text-xs text-[#a99b86]">
+                <ul className="mt-2 space-y-1 text-xs text-[var(--muted)]">
                   {(PREMIOS_RANGO[n.nombre] || []).map((p, i) => (
                     <li key={i}>{p}</li>
                   ))}
@@ -417,10 +417,10 @@ export default function PerfilPage() {
         <h2 className="mt-10 mb-4 font-display text-2xl uppercase tracking-tight sm:text-3xl">Tus medallas</h2>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {medallas.map((m, i) => (
-            <div key={i} className={`rounded-xl border p-4 text-center ${m.ganada ? "border-[var(--accent)]/40 bg-[var(--accent)]/10" : "border-white/5 bg-[#161314] opacity-40"}`}>
+            <div key={i} className={`rounded-xl border p-4 text-center ${m.ganada ? "border-[var(--accent)]/40 bg-[var(--accent)]/10" : "border-[var(--line)] bg-[var(--surface)] opacity-40"}`}>
               <p className="text-3xl">{m.ganada ? m.icon : "🔒"}</p>
               <p className="mt-1 text-sm font-black">{m.nombre}</p>
-              <p className="text-[10px] text-[#a99b86]">{m.desc}</p>
+              <p className="text-[10px] text-[var(--muted)]">{m.desc}</p>
             </div>
           ))}
         </div>
@@ -428,12 +428,12 @@ export default function PerfilPage() {
         <h2 className="mt-10 mb-4 font-display text-2xl uppercase tracking-tight sm:text-3xl">Negocios que seguís</h2>
         <div className="grid gap-3">
           {seguidos.map((f: any) => (
-            <Link key={f.business_id} href={"/negocio/" + (f.businesses?.slug || "")} className="rounded-xl border border-white/5 bg-[#161314] px-4 py-3 font-bold transition hover:border-[var(--accent)] hover:bg-white/5">
+            <Link key={f.business_id} href={"/negocio/" + (f.businesses?.slug || "")} className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 font-bold transition hover:border-[var(--accent)] hover:bg-[var(--ov-05)]">
               {f.businesses?.name || "Negocio"}
             </Link>
           ))}
           {seguidos.length === 0 && (
-            <p className="text-sm text-[#a99b86]">Todavía no seguís ningún negocio. Tocá ⭐ Seguir en cualquier miniweb para empezar.</p>
+            <p className="text-sm text-[var(--muted)]">Todavía no seguís ningún negocio. Tocá ⭐ Seguir en cualquier miniweb para empezar.</p>
           )}
         </div>
         <div className="mt-10 text-center">

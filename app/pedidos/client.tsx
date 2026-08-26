@@ -28,7 +28,7 @@ export default function PedidosPage() {
   }, [locationId]);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       {/* Hero editorial: calco del mockup aprobado -- headline gigante de
           2 líneas con degradé en la segunda, sin centrar. */}
       <div className="relative overflow-hidden">
@@ -43,16 +43,16 @@ export default function PedidosPage() {
                 ¿Quién<br />
                 <span className="knockout-text magenta-glow">tiene esto?</span>
               </h1>
-              <p className="mt-5 max-w-md text-lg font-medium leading-relaxed text-[#a99b86]">
+              <p className="mt-5 max-w-md text-lg font-medium leading-relaxed text-[var(--muted)]">
                 Publicá lo que buscás y recibí respuestas directas de vecinos y comercios locales. El mercado colaborativo de San Lorenzo.
               </p>
             </div>
             {!loading && ciudades.length > 1 && (
-              <div className="flex min-w-[220px] items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+              <div className="flex min-w-[220px] items-center gap-2 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3">
                 <MapPin className="h-4 w-4 shrink-0 text-[var(--accent)]" />
                 <select value={locationId} onChange={(e) => setLocationId(e.target.value)}
-                  className="w-full cursor-pointer appearance-none bg-transparent text-sm font-bold text-[#f7f3ec] outline-none">
-                  {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[#161314]">{c.name}</option>)}
+                  className="w-full cursor-pointer appearance-none bg-transparent text-sm font-bold text-[var(--text)] outline-none">
+                  {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[var(--surface)]">{c.name}</option>)}
                 </select>
               </div>
             )}

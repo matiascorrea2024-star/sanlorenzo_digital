@@ -25,7 +25,7 @@ export default function PricingBanner() {
 
   return (
     <div className="fixed bottom-4 right-4 z-40 max-w-sm animate-in slide-in-from-bottom-4 duration-500">
-      <div className="relative overflow-hidden rounded-[2rem] border border-[var(--accent)]/40 bg-[#161314]/95 p-6 shadow-[0_0_50px_rgba(209,47,104,.15)] backdrop-blur-md">
+      <div className="relative overflow-hidden rounded-[2rem] border border-[var(--accent)]/40 bg-[var(--surface)]/95 p-6 shadow-[0_0_50px_rgba(209,47,104,.15)] backdrop-blur-md">
         <div className="pointer-events-none absolute left-[-20%] top-[-50%] h-[90%] w-[90%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[100px]" aria-hidden="true" />
 
         {/* Close button */}
@@ -34,7 +34,7 @@ export default function PricingBanner() {
             setDismissed(true);
             localStorage.setItem("pricing-banner-dismissed", "true");
           }}
-          className="absolute right-3 top-3 rounded-full p-1 text-[#7d6f5c] transition hover:bg-white/10 hover:text-white"
+          className="absolute right-3 top-3 rounded-full p-1 text-[var(--muted2)] transition hover:bg-[var(--ov-10)] hover:text-white"
         >
           <X className="h-4 w-4" />
         </button>
@@ -42,7 +42,7 @@ export default function PricingBanner() {
         {/* Content */}
         <div className="relative pr-6">
           <h3 className="font-display text-xl tracking-tight text-white">¿Querés destacar tu negocio?</h3>
-          <p className="mt-2 text-sm text-[#a99b86]">
+          <p className="mt-2 text-sm text-[var(--muted)]">
             Planes desde <span className="font-black text-[var(--accent)]">$4.900/mes</span>
           </p>
 

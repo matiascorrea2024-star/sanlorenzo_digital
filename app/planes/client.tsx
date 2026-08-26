@@ -37,7 +37,7 @@ export default function PlanesClient() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec]">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       {/* Header */}
       <div className="relative mx-auto max-w-6xl overflow-hidden px-4 py-14 text-center sm:py-20">
         <div className="pointer-events-none absolute left-[-10%] top-[-20%] h-[70%] w-[70%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
@@ -48,10 +48,10 @@ export default function PlanesClient() {
         <h1 className="relative mx-auto mb-4 mt-5 max-w-2xl font-display text-4xl leading-[0.95] tracking-tight sm:text-6xl">
           Más visibilidad. Más clientes locales.
         </h1>
-        <p className="relative mx-auto mb-2 max-w-xl text-lg text-[#a99b86]">
+        <p className="relative mx-auto mb-2 max-w-xl text-lg text-[var(--muted)]">
           Elegí el plan que acompañe el momento de tu negocio.
         </p>
-        <p className="relative text-sm text-[#7d6f5c]">
+        <p className="relative text-sm text-[var(--muted2)]">
           Todos incluyen acceso a San Lorenzo Digital sin comisión de ventas
         </p>
       </div>
@@ -81,7 +81,7 @@ export default function PlanesClient() {
                 className={`relative flex h-full flex-col rounded-[2rem] border p-7 transition-all duration-300 hover:-translate-y-1 ${
                   key === "premium"
                     ? "border-[var(--accent)]/60 bg-gradient-to-br from-[var(--accent)]/[.12] to-transparent shadow-[0_0_40px_rgba(209,47,104,.08)]"
-                    : "border-white/5 bg-[#161314]"
+                    : "border-[var(--line)] bg-[var(--surface)]"
                 }`}
               >
                 {key === "premium" && (
@@ -92,20 +92,20 @@ export default function PlanesClient() {
 
                 <div className="mb-5 flex items-start justify-between gap-3">
                   <div>
-                    <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.25em] text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>{key === "gratis" ? "Para empezar" : key === "premium" ? "Máxima exposición" : "Para crecer"}</p>
+                    <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>{key === "gratis" ? "Para empezar" : key === "premium" ? "Máxima exposición" : "Para crecer"}</p>
                     <h3 className="font-display text-2xl tracking-tight">{plan.name}</h3>
                   </div>
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/5">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)]">
                     <Icon className={`h-5 w-5 ${getPlanIcon(color)}`} />
                   </span>
                 </div>
 
-                <div className="mb-6 flex items-end gap-1.5 border-b border-white/5 pb-6">
+                <div className="mb-6 flex items-end gap-1.5 border-b border-[var(--line)] pb-6">
                   <span className="font-display text-5xl leading-none tracking-tight text-[var(--accent)] magenta-glow">
                     ${plan.precioARS ? plan.precioARS.toLocaleString("es-AR") : "Gratis"}
                   </span>
                   {plan.precioARS > 0 && (
-                    <span className="pb-0.5 text-sm font-bold text-[#a99b86]">/mes</span>
+                    <span className="pb-0.5 text-sm font-bold text-[var(--muted)]">/mes</span>
                   )}
                 </div>
 
@@ -162,7 +162,7 @@ export default function PlanesClient() {
                   className={`group inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs font-black uppercase tracking-widest transition ${
                     key === "premium"
                       ? "btn-hard bg-[var(--accent)] text-white"
-                      : "border border-white/15 text-[#f7f3ec] hover:border-[var(--accent)] hover:text-[var(--accent)] disabled:opacity-50"
+                      : "border border-[var(--line-strong)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] disabled:opacity-50"
                   } disabled:opacity-50`}
                   style={{ fontFamily: "var(--font-display)" }}
                 >
@@ -182,27 +182,27 @@ export default function PlanesClient() {
             <h2 className="font-display text-2xl tracking-tight md:text-3xl">Preguntas frecuentes</h2>
           </div>
           <div className="grid gap-5 md:grid-cols-2">
-            <div className="rounded-3xl border border-white/5 bg-[#161314] p-7">
+            <div className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-7">
               <h3 className="mb-3 font-display text-base tracking-tight text-white">¿Puedo cambiar de plan?</h3>
-              <p className="text-sm leading-relaxed text-[#a99b86]">
+              <p className="text-sm leading-relaxed text-[var(--muted)]">
                 Sí, cuando quieras. Los cambios son inmediatos, sin penalidades.
               </p>
             </div>
-            <div className="rounded-3xl border border-white/5 bg-[#161314] p-7">
+            <div className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-7">
               <h3 className="mb-3 font-display text-base tracking-tight text-white">¿Hay compromiso?</h3>
-              <p className="text-sm leading-relaxed text-[#a99b86]">
+              <p className="text-sm leading-relaxed text-[var(--muted)]">
                 No. Cancelá cuando quieras, sin permanencia mínima.
               </p>
             </div>
-            <div className="rounded-3xl border border-white/5 bg-[#161314] p-7">
+            <div className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-7">
               <h3 className="mb-3 font-display text-base tracking-tight text-white">¿Cuál es la diferencia?</h3>
-              <p className="text-sm leading-relaxed text-[#a99b86]">
+              <p className="text-sm leading-relaxed text-[var(--muted)]">
                 Los planes Pro incluyen estadísticas avanzadas, cupones y campañas. Destacado semanal aparece primero en el app.
               </p>
             </div>
-            <div className="rounded-3xl border border-white/5 bg-[#161314] p-7">
+            <div className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-7">
               <h3 className="mb-3 font-display text-base tracking-tight text-white">¿Qué es &quot;Destacado&quot;?</h3>
-              <p className="text-sm leading-relaxed text-[#a99b86]">
+              <p className="text-sm leading-relaxed text-[var(--muted)]">
                 Tu negocio aparece primero durante 7 días, con marca especial y notificación a vecinos.
               </p>
             </div>

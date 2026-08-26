@@ -2,7 +2,7 @@
 import { rangoDe } from "@/lib/ranks";
 import { useRank } from "@/lib/rank-cache";
 
-export default function LevelBadge({ slug }: { slug?: string; verificado?: boolean }) {
+export default function LevelBadge({ slug, mostrarProgreso = true }: { slug?: string; verificado?: boolean; mostrarProgreso?: boolean }) {
   const rank = useRank(slug);
   const puntos = rank?.puntos ?? 0;
   const r = rangoDe(puntos);
@@ -15,16 +15,14 @@ export default function LevelBadge({ slug }: { slug?: string; verificado?: boole
       >
         {r.rango}{r.tier ? ` ${r.tier}` : ""} · {puntos} pts
       </span>
-      {r.proximo ? (
+      {mostrarProgreso && r.proximo ? (
         <div className="w-40">
           <div className="h-1 rounded-full bg-[var(--ov-10)] overflow-hidden">
             <div className="h-full bg-[var(--accent)]" style={{ width: `${r.progreso}%` }} />
           </div>
           <p className="text-[10px] text-[var(--muted2)] mt-0.5">→ {r.proximo} (faltan {r.faltan})</p>
         </div>
-      ) : (
-        <p className="text-[10px] text-[var(--warn)]">👑 Rango máximo</p>
-      )}
+      ) : null}
     </div>
   );
 }

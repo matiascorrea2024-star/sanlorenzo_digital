@@ -97,15 +97,15 @@ export default function MuroPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
               <span className="live-dot inline-block h-2 w-2 rounded-full" /> En vivo
             </p>
-            <h1 className="mt-2 font-display text-5xl uppercase leading-[0.9] tracking-tight text-[#f7f3ec]">Muro <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">local</span></h1>
-            <p className="mt-2 text-[#a99b86]">Lo que está pasando en el comercio de San Lorenzo</p>
+            <h1 className="mt-2 font-display text-5xl uppercase leading-[0.9] tracking-tight text-[var(--text)]">Muro <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">local</span></h1>
+            <p className="mt-2 text-[var(--muted)]">Lo que está pasando en el comercio de San Lorenzo</p>
           </div>
           <Link href="/dashboard/muro"
             className="btn-hard shrink-0 rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white"
@@ -118,14 +118,14 @@ export default function MuroPage() {
         <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
           <button onClick={() => setFiltro("todos")}
             className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
-              filtro === "todos" ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
+              filtro === "todos" ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
             }`}>
             Todo
           </button>
           {Object.entries(TIPOS).map(([k, t]) => (
             <button key={k} onClick={() => setFiltro(k)}
               className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
-                filtro === k ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
+                filtro === k ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
               }`}>
               {t.label}
             </button>
@@ -135,7 +135,7 @@ export default function MuroPage() {
         {/* Posts */}
         <div className="mt-6 space-y-4">
           {todos.length === 0 && (
-            <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8 text-center text-[#a99b86]">
+            <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center text-[var(--muted)]">
               Todavía no hay publicaciones de este tipo.
             </div>
           )}
@@ -143,7 +143,7 @@ export default function MuroPage() {
             const t = TIPOS[p.type] || TIPOS.anuncio;
             const isLiked = !!liked[p.id];
             return (
-              <article key={p.id} className="rounded-[2rem] border border-white/5 bg-[#161314] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+              <article key={p.id} className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
               <div className="p-4 sm:p-5">
                 {/* Header del post */}
                 <div className="flex items-center gap-3">
@@ -152,7 +152,7 @@ export default function MuroPage() {
                     <Link href={`/negocio/${p.business_slug}`} className="font-bold hover:text-[var(--accent)]">
                       {p.business_name}
                     </Link>
-                    <p className="text-xs text-[#7d6f5c]">{timeAgo(p.created_at)}</p>
+                    <p className="text-xs text-[var(--muted2)]">{timeAgo(p.created_at)}</p>
                   </div>
                   <span className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-black ${t.color}`}>
                     <t.icon className="h-3 w-3" /> {t.label}
@@ -160,23 +160,23 @@ export default function MuroPage() {
                 </div>
 
                 {/* Contenido */}
-                <h2 className="mt-3 font-display text-lg uppercase tracking-tight text-[#f7f3ec]">{p.title}</h2>
-                {p.body && <p className="mt-1 text-sm leading-relaxed text-[#a99b86]">{p.body}</p>}
+                <h2 className="mt-3 font-display text-lg uppercase tracking-tight text-[var(--text)]">{p.title}</h2>
+                {p.body && <p className="mt-1 text-sm leading-relaxed text-[var(--muted)]">{p.body}</p>}
                 {p.image_url && (
-                  <div className="relative mt-3 h-72 w-full overflow-hidden rounded-2xl border border-white/5">
+                  <div className="relative mt-3 h-72 w-full overflow-hidden rounded-2xl border border-[var(--line)]">
                     <Image src={p.image_url} alt={p.title} fill sizes="(max-width: 768px) 100vw, 640px" quality={88} className="object-cover" />
                   </div>
                 )}
 
                 {/* Acciones */}
-                <div className="mt-4 flex items-center gap-4 border-t border-white/5 pt-3">
+                <div className="mt-4 flex items-center gap-4 border-t border-[var(--line)] pt-3">
                   <button onClick={() => like(p.id)} disabled={likingIds.has(p.id)}
-                    className={`flex items-center gap-1.5 text-sm font-bold transition disabled:opacity-60 ${isLiked ? "text-[var(--accent)]" : "text-[#a99b86] hover:text-[var(--accent)]"}`}>
+                    className={`flex items-center gap-1.5 text-sm font-bold transition disabled:opacity-60 ${isLiked ? "text-[var(--accent)]" : "text-[var(--muted)] hover:text-[var(--accent)]"}`}>
                     <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
                     {p.likes || 0}
                   </button>
                   <Link href={`/negocio/${p.business_slug}`}
-                    className="flex items-center gap-1 text-sm font-bold text-[#a99b86] hover:text-[var(--accent)]">
+                    className="flex items-center gap-1 text-sm font-bold text-[var(--muted)] hover:text-[var(--accent)]">
                     Ver negocio <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>

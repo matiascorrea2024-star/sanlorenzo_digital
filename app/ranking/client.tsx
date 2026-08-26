@@ -144,7 +144,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
   }, [rows, tab]);
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] pb-24 text-[#f7f3ec]">
+    <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
         {/* Hero editorial: headline gigante + panel de "negocio del día /
             de la semana" al costado. Los marcos de rango
@@ -153,17 +153,17 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
             <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Competencia local</p>
-            <h1 className="mt-3 font-display text-6xl uppercase leading-[0.9] tracking-tight text-[#f7f3ec] sm:text-7xl">
+            <h1 className="mt-3 font-display text-6xl uppercase leading-[0.9] tracking-tight text-[var(--text)] sm:text-7xl">
               LIGAS DE{" "}
               <span className="bg-gradient-to-r from-[var(--accent)] to-[#fbbf24] bg-clip-text text-transparent">MERCADO</span>
             </h1>
-            <p className="mt-5 max-w-xl text-lg text-[#a99b86]">
+            <p className="mt-5 max-w-xl text-lg text-[var(--muted)]">
               La jerarquía comercial de San Lorenzo. Reputación basada en actividad real, votos de vecinos y consistencia -- pagar un plan no altera el ranking orgánico.
             </p>
           </div>
           <div className="flex flex-col gap-4 lg:col-span-4">
             {negocioDelDia && (
-              <Link href={`/negocio/${negocioDelDia.slug}`} className="block rounded-2xl border border-white/5 bg-[#161314] p-5 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+              <Link href={`/negocio/${negocioDelDia.slug}`} className="block rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
                 <p className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#fbbf24]" style={{ fontFamily: "var(--font-display)" }}><Zap className="h-3.5 w-3.5" /> Negocio del día</p>
                 <div className="flex items-center gap-3">
                   <DivisionFrame puntos={negocioDelDia.puntos} categoria={negocioDelDia.category} size={48}>
@@ -177,7 +177,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
               </Link>
             )}
             {negocioSemana && negocioSemana.crecimiento > 0 && (
-              <Link href={`/negocio/${negocioSemana.slug}`} className="block rounded-2xl border border-white/5 bg-[#161314] p-5 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+              <Link href={`/negocio/${negocioSemana.slug}`} className="block rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
                 <p className="mb-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Rocket className="h-3.5 w-3.5" /> Negocio de la semana</p>
                 <div className="flex items-center justify-between gap-2">
                   <span className="truncate font-bold">{negocioSemana.name}</span>
@@ -188,7 +188,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-white/5 bg-[#161314] p-3">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3">
           {RANGOS.map(r => (
             <span key={r.nombre} title={`Desde ${r.min} puntos`} className="rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider"
               style={{ color: r.accent, border: `1px solid ${r.accent}55`, background: "#0c0a0b" }}>
@@ -206,7 +206,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
               className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
                 tab === t.k
                   ? "border-[var(--accent)] bg-[var(--accent)] text-white"
-                  : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
+                  : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
               }`}>
               {t.l}
             </button>
@@ -217,18 +217,18 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
               className={`flex shrink-0 items-center gap-1.5 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
                 tabMasActivo
                   ? "border-[var(--accent)] bg-[var(--accent)] text-white"
-                  : "border-white/10 text-[#a99b86] hover:border-[var(--accent)] hover:text-white"
+                  : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
               }`}>
               <SlidersHorizontal className="h-3.5 w-3.5" />
               {tabMasActivo ? tabMasActivo.l : "Más filtros"}
               <ChevronDown className={`h-3.5 w-3.5 transition-transform ${masAbierto ? "rotate-180" : ""}`} />
             </button>
             {masAbierto && (
-              <div className="absolute left-0 top-[calc(100%+8px)] z-20 w-56 rounded-2xl border border-white/5 bg-[#161314] p-1.5 shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
+              <div className="absolute left-0 top-[calc(100%+8px)] z-20 w-56 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-1.5 shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
                 {TABS_MAS.map(t => (
                   <button key={t.k} onClick={() => { setTab(t.k); setMasAbierto(false); }}
                     className={`flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-bold transition ${
-                      tab === t.k ? "bg-[var(--accent)]/15 text-[var(--accent)]" : "text-[#a99b86] hover:bg-white/5 hover:text-white"
+                      tab === t.k ? "bg-[var(--accent)]/15 text-[var(--accent)]" : "text-[var(--muted)] hover:bg-[var(--ov-05)] hover:text-white"
                     }`}>
                     {t.l}
                   </button>
@@ -243,18 +243,18 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
         <div className="mt-6 space-y-3">
           {loading ? (
             [1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex items-center gap-4 rounded-2xl border border-white/5 bg-[#161314] p-4">
-                <div className="h-6 w-6 animate-pulse rounded bg-white/5" />
-                <div className="h-11 w-11 shrink-0 animate-pulse rounded-full bg-white/5" />
+              <div key={i} className="flex items-center gap-4 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
+                <div className="h-6 w-6 animate-pulse rounded bg-[var(--ov-05)]" />
+                <div className="h-11 w-11 shrink-0 animate-pulse rounded-full bg-[var(--ov-05)]" />
                 <div className="min-w-0 flex-1 space-y-2">
-                  <div className="h-4 w-1/3 animate-pulse rounded bg-white/5" />
-                  <div className="h-3 w-2/3 animate-pulse rounded bg-white/5" />
+                  <div className="h-4 w-1/3 animate-pulse rounded bg-[var(--ov-05)]" />
+                  <div className="h-3 w-2/3 animate-pulse rounded bg-[var(--ov-05)]" />
                 </div>
-                <div className="h-6 w-16 animate-pulse rounded-full bg-white/5" />
+                <div className="h-6 w-16 animate-pulse rounded-full bg-[var(--ov-05)]" />
               </div>
             ))
           ) : sorted.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-white/10 p-8 text-center text-sm text-[#a99b86]">
+            <div className="rounded-2xl border border-dashed border-[var(--line-strong)] p-8 text-center text-sm text-[var(--muted)]">
               Todavía no hay datos suficientes para ordenar el ranking.
             </div>
           ) : sorted.map((r, i) => {
@@ -265,7 +265,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
               <Link key={r.id} href={`/negocio/${r.slug}`}
                 style={{ animationDelay: `${Math.min(i * 45, 450)}ms` }}
                 className={`ranked-row block rounded-2xl border p-4 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)] ${
-                  i === 0 ? "border-[#fbbf24]/25 bg-gradient-to-br from-[#fbbf24]/5 to-transparent" : "border-white/5 bg-[#161314]"
+                  i === 0 ? "border-[#fbbf24]/25 bg-gradient-to-br from-[#fbbf24]/5 to-transparent" : "border-[var(--line)] bg-[var(--surface)]"
                 }`}>
                 <div className="flex items-center gap-4">
                   <div className={`flex shrink-0 flex-col items-center ${i === 0 ? "w-16" : "w-12"}`}>
@@ -284,7 +284,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                       {r.name} <RankBadge puntos={r.puntos} categoria={r.category} />
                       {r.status === "verificado" && <span className="text-[10px] text-[var(--ok)]">✓</span>}
                     </p>
-                    <p className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-[#a99b86] capitalize">
+                    <p className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-[var(--muted)] capitalize">
                       <span>{r.category}</span>
                       <span title="Calificación promedio" className="text-[#fbbf24]">· ⭐ {r.rating.toFixed(1)}</span>
                       <span title="Ofertas activas">· 🔥 {r.ofertas}</span>
@@ -293,12 +293,12 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                       <span title="Publicaciones en el Muro" className="hidden sm:inline">· 📰 {r.posts}</span>
                       <span title="Visitas de esta semana vs. la anterior"
                         aria-label={`Tendencia: ${r.crecimiento > 0 ? `subió ${r.crecimiento} visitas` : r.crecimiento < 0 ? `bajó ${Math.abs(r.crecimiento)} visitas` : "sin cambios"} esta semana`}
-                        className={`flex items-center gap-0.5 font-bold normal-case ${r.crecimiento > 0 ? "text-[var(--ok)]" : r.crecimiento < 0 ? "text-[var(--bad)]" : "text-[#7d6f5c]"}`}>
+                        className={`flex items-center gap-0.5 font-bold normal-case ${r.crecimiento > 0 ? "text-[var(--ok)]" : r.crecimiento < 0 ? "text-[var(--bad)]" : "text-[var(--muted2)]"}`}>
                         · {r.crecimiento > 0 ? <TrendingUp className="h-3 w-3" aria-hidden /> : r.crecimiento < 0 ? <TrendingDown className="h-3 w-3" aria-hidden /> : <Minus className="h-3 w-3" aria-hidden />}
                         {r.crecimiento !== 0 && (r.crecimiento > 0 ? `+${r.crecimiento}` : r.crecimiento)}
                       </span>
                     </p>
-                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/5">
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[var(--ov-05)]">
                       <div className="h-full bg-gradient-to-r from-[var(--accent)] to-[#fbbf24]" style={{ width: `${rango.progreso}%` }} />
                     </div>
                   </div>
@@ -306,14 +306,14 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                     {tab === "reputacion" || tab === "dia" ? (
                       <>
                         <span className={`font-display text-3xl ${i === 0 ? "gold-glow text-[#fbbf24]" : i < 3 ? "text-[#fbbf24]" : "text-[var(--accent)]"}`}>{r.reputacion}</span>
-                        <p className="text-[10px] uppercase tracking-wider text-[#7d6f5c]">reputación</p>
+                        <p className="text-[10px] uppercase tracking-wider text-[var(--muted2)]">reputación</p>
                       </>
                     ) : tab === "crecimiento" ? (
                       <>
                         <span className={`font-display text-3xl ${r.crecimiento >= 0 ? "text-[var(--ok)]" : "text-[var(--bad)]"}`}>
                           {r.crecimiento >= 0 ? "+" : ""}{r.crecimiento}
                         </span>
-                        <p className="text-[10px] uppercase tracking-wider text-[#7d6f5c]">vs sem. anterior</p>
+                        <p className="text-[10px] uppercase tracking-wider text-[var(--muted2)]">vs sem. anterior</p>
                       </>
                     ) : (
                       <>
@@ -323,13 +323,13 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                         >
                           {rango.rango}{rango.tier ? ` ${rango.tier}` : ""}
                         </span>
-                        <p className="mt-1 text-[11px] text-[#7d6f5c]">{r.puntos} pts</p>
+                        <p className="mt-1 text-[11px] text-[var(--muted2)]">{r.puntos} pts</p>
                       </>
                     )}
                   </div>
                 </div>
                 {rango.proximo && tab === "ligas" && (
-                  <p className="mt-2 text-[11px] text-[#7d6f5c]">
+                  <p className="mt-2 text-[11px] text-[var(--muted2)]">
                     Faltan {rango.faltan} pts para {rango.proximo}
                   </p>
                 )}
@@ -338,7 +338,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
           })}
         </div>
 
-        <p className="mt-8 text-center text-xs text-[#7d6f5c]">
+        <p className="mt-8 text-center text-xs text-[var(--muted2)]">
           La reputación se calcula con datos reales: rating, actividad, visitas y verificación.
           <br />Pagar un plan no altera el ranking orgánico.
         </p>

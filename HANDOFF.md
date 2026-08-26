@@ -103,59 +103,55 @@ Flujo acordado con el dueño: **auditar → quick wins → testing con usuarios 
 - Pre-lanzamiento (del dueño, no código): ocultar negocios de prueba de la DB ("MATIAS PRUEBA" etc.), rotar token GitHub viejo.
 - QR del Modo TV depende de `api.qrserver.com` (tiene fallback graceful; idea #2 lo reemplaza).
 
-## 8. Backlog de ideas (estado al 2026-08-26)
+## 8. Backlog de ideas (estado al 2026-08-26, tarde)
 
-### ✅ Implementado (commit feat del 26/08)
+### ✅ Implementado (commits del 26/08)
 
 - **#1 Duplicar ofertas**: botón "📋 Duplicar" en `⋯ Más` de cada oferta en `/dashboard/ofertas`. Copia inactiva con `valid_until` +7 días, avisa si al activarla se supera el límite del plan. Insert directo del cliente (mismo patrón RLS que "nueva").
-- **#2 QR de vidriera**: componente `components/dashboard/qr-vidriera.tsx` dentro de la tarjeta de cada negocio del dashboard. QR generado LOCALMENTE (paquete `qrcode`) apuntando a `/r/[code]` con `source=qr` (el RPC `create_tracked_link` es idempotente: el QR impreso nunca cambia). Descarga PNG/SVG + contador de escaneos (columna `clicks` de `tracked_links`, legible por el dueño).
-- **#3 Mi Barata** (`/mi-barata`): lista de compras persistente multi-negocio. `lib/mi-barata.ts` + `app/mi-barata/` (totales con ahorro, agrupado por negocio con WhatsApp agrupado, quitar ítems) + botón "Sumar a Mi Barata" en `/oferta/[id]` + `/recorrido?fuente=barata` reusa el optimizador de ruta con los negocios de la barata. **Requiere la migración `20260826120000_mi_barata.sql` aplicada en el Supabase REMOTO antes del deploy** (en local ya está aplicada; sin ella el botón falla con toast de error y la página muestra vacía, sin romper).
-- **#5 Sinónimos argentos**: `lib/sinonimos.ts` (~120 términos curados) + expansión en `components/negocios-client.tsx` ("choper" encuentra "cerveza"). El término original tiene prioridad; máx 5 términos por query.
-- **#9 Seed curado**: `scripts/seed-local.mjs` ahora siembra 12 comercios realistas de San Lorenzo con fotos (Unsplash verificadas), horarios, ratings y 17 ofertas con precios creíbles (una vence HOY para probar countdowns). `--reset` borra solo lo demo; `--bulk N` conserva el generador masivo. Login demo: `sld.demo.0001@local.test` / `DemoLocal2026!`.
-- **#4 Push a seguidores: YA EXISTÍA** — no implementar de nuevo. Cadena completa en DB: `trg_notify_offer` (insert de oferta activa → notificación a seguidores) → `trg_notify_push_webhook` (insert de notification → `net.http_post` → `/api/push/send` → web-push). El anti-spam lo da el límite de ofertas/día del plan.
+- **#2 QR de vidriera**: `components/dashboard/qr-vidriera.tsx` en la tarjeta de cada negocio del dashboard. QR generado LOCALMENTE (paquete `qrcode`) apuntando a `/r/[code]` con `source=qr` (el RPC `create_tracked_link` es idempotente: el QR impreso nunca cambia). Descarga PNG/SVG + contador de escaneos (`tracked_links.clicks`).
+- **#3 Mi Barata** (`/mi-barata`): lista de compras persistente multi-negocio. `lib/mi-barata.ts` + `app/mi-barata/` (totales con ahorro, agrupado por negocio con WhatsApp agrupado, quitar ítems) + botón "Sumar a Mi Barata" en `/oferta/[id]` + `/recorrido?fuente=barata` reusa el optimizador de ruta.
+- **#5 Sinónimos argentos**: `lib/sinonimos.ts` (~120 términos curados) + expansión en `components/negocios-client.tsx` ("choper" encuentra "cerveza"). Término original primero; máx 5 términos.
+- **#6 Horarios estructurados + "Abierto ahora" real**: `schedule_json` (migración), editor por día con turnos partidos (`components/dashboard/horario-editor.tsx`), cálculo en hora argentina (`lib/horarios.ts`, soporta turnos que cruzan medianoche), badge de la ficha y notify-me usan el cálculo real con fallback al booleano manual. La API PATCH valida y sincroniza el texto `schedule` para JSON-LD.
+- **#8 Modo claro (barrido core)**: codemod de 624 hex→tokens + 367 overlays→tokens en 71 archivos (dark idéntico: los tokens dark SON esos hex). Overrides light para `.knockout-text` (magenta), `.glass-dark` (header claro) y chips del hero. **Pendiente fino**: `text-white/*` sobre fondos claros en páginas secundarias (feed, reels, ranking).
+- **#9 Seed curado**: `scripts/seed-local.mjs` = 12 comercios realistas con fotos + 17 ofertas (una vence HOY). `--reset` limpia lo demo; `--bulk N` generador masivo. Login demo: `sld.demo.0001@local.test` / `DemoLocal2026!`.
+- **#7 Reseñas con foto: YA EXISTÍA completa** (upload con compresión, lightbox, visita verificada, respuestas). La migración `20260826131000` queda como red de seguridad.
+- **#4 Push a seguidores: YA EXISTÍA** — cadena en DB: `trg_notify_offer` → notifications → `trg_notify_push_webhook` → `/api/push/send`. El anti-spam lo da el límite de ofertas/día del plan.
 
-### Dev contra Supabase local (para probar features nuevas sin tocar producción)
+### ⚠️ Migraciones SIN aplicar en el Supabase REMOTO (antes del deploy)
 
-```bash
-fuser -k 3000/tcp
-NEXT_PUBLIC_SUPABASE_URL="http://127.0.0.1:54321" \
-NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CR7P_DMHUpj8QgX9C8n8d3EANcV9DceXK4c0Hd7Xcmw" \
-npm run dev
-```
-La CSP permite `http://127.0.0.1:54321` en `connect-src` SOLO en desarrollo (ver `next.config.ts`). Sin esa excepción el login local falla con "No pudimos conectarnos".
+1. `20260826120000_mi_barata.sql` (offer_id en list_items + RLS)
+2. `20260826130000_horarios_estructurados.sql` (schedule_json)
+3. `20260826131000_resenas_con_foto.sql` (photos, probable no-op)
 
-### Pendientes del backlog (post-testing)
+Todas aplicadas y probadas en local. Sin (1) y (2) las features nuevas no funcionan en producción.
 
-- **#6 Horarios estructurados** + "ABIERTO AHORA" calculado (media; migración + editor + badge).
-- **#7 Reseñas con foto** (media; storage + moderación).
-- **#8 Modo claro pulido** (media; barrido de contraste V3 en light).
-- **#10 PWA offline** (baja-media; sw.js mínimo, NO cachear rutas auth).
-- Post-testing: historial de precios en /comparar, referidos con UI, bottom-nav 7→5, jerarquía del mapa, densidad home.
+### Dev contra Supabase local — LEER, tiene trampas
 
-### Detalle de las pendientes
+- Usar **`scripts/dev-local.sh`**: swapea `.env.local`, levanta dev y restaura el original al salir. Next 16/Turbopack da prioridad a `.env.local` sobre env de shell, y `.next` cachea el env compilado: al cambiar de DB, **borrá `.next`**.
+- **El Supabase local usa claves asimétricas (ES256)**: la anon key determinística HS256 sirve para login pero PostgREST la rechaza → páginas públicas vacías para anónimos. Con sesión (login demo) TODO funciona. Fix definitivo: `sudo usermod -aG docker matias` + relogin, y tomar la key real con `supabase status -o env`.
+- Existe `.env.production` (remoto) en la raíz: no borrarlo, el deploy lo usa.
+- CSP permite `http://127.0.0.1:54321` en `connect-src` SOLO en desarrollo.
 
-#### #6 · Horarios estructurados + "ABIERTO AHORA" real — complejidad media
-**Qué**: hoy `businesses.schedule` es texto libre y `open` un booleano manual. Modelar horarios (JSON por día o tabla) y calcular "abierto ahora" con `America/Argentina/Buenos_Aires`. El badge de la ficha y los filtros del mapa pasan a ser confiables.
-**Dónde**: migración + `app/dashboard/editar/[slug]` (editor amigable de horarios) + helper en `lib/` + consumidores del badge (`negocio/[slug]/client.tsx`, mapa).
+### Pendientes del backlog original (post-testing)
 
-#### #7 · Reseñas con foto — complejidad media
-**Qué**: extender `business_reviews` con 1-3 fotos (storage ya se usa para productos/ofertas). La foto de una factura/plato vale más que 10 estrellas para confianza local.
-**Dónde**: `components/business/reviews-section.tsx` (form + grid), migración (`review_photos jsonb` o tabla), moderación existente en `review-moderation.tsx` debe mostrarlas.
+- **#10 PWA offline** (sw.js mínimo, NO cachear rutas auth).
+- Post-testing: historial de precios en /comparar, referidos con UI, bottom-nav 7→5, jerarquía del mapa, densidad home, plantillas de ofertas (v2 de #1).
 
-#### #8 · Modo claro pulido — complejidad media
-**Qué**: auditar TODA la app en light (el audit histórico ya encontró Reels ilegible). Contraste de V3 (magenta sobre blanco necesita ajustes), sombras `.btn-hard` hardcodeadas a `#861642` funcionan, pero revisar `bg-white/5` sobre claro.
-**Dónde**: `app/globals.css` (tokens por tema) + barrido de capturas light (mismo script de screenshots con `colorScheme: 'light'`).
+## 8b. Diez ideas NUEVAS (segunda tanda, sin implementar)
 
-#### #10 · PWA offline básica — complejidad baja-media
-**Qué**: service worker mínimo: cache de shell + última home/ofertas vistas para abrir offline (el colectivo/barrio con señal floja es contexto real). Manifest ya existe.
-**Dónde**: `public/sw.js` + registro en `app/layout.tsx`. No cachear rutas autenticadas ni POSTs.
+1. **"Lo que busca la gente"** (panel comerciante): búsquedas sin resultado = demanda insatisfecha. Data ya en `analytics_events` (search). Mi favorita: nadie más se lo puede dar al comercio.
+2. **Canasta barrial comparada**: índice de precios local con ofertas reales, compartible en grupos de WhatsApp.
+3. **Franjas horarias en ofertas**: vencimiento por hora (happy hour, 2x1 de mediodía). Requiere campos de hora en offers.
+4. **Bot de WhatsApp de la plataforma**: matching con `lib/sinonimos.ts` + top 3 ofertas con links tracked.
+5. **Podio compartible**: imagen del ranking semanal por rubro para Instagram. Marketing orgánico.
+6. **Preguntas públicas por oferta** (estilo MercadoLibre): confianza + SEO.
+7. **Stock honesto en catálogo**: "quedan 3" / agotado en `products`.
+8. **Widget embeddable**: iframe con ofertas vigentes para link-bio de Instagram.
+9. **Notificaciones al comerciante**: push por reseña/mensaje/cupón nuevo (el caño de push ya existe).
+10. **Cupón regalo entre vecinos**: v1 sponsorizado por el comercio, sin manejar dinero.
 
-### Ideas post-testing (no prototipar antes)
-- Historial de precios en `/comparar` (sparkline por producto).
-- Programa de referidos vecino→vecino (`app/api/referrals` ya existe, falta UI con recompensa).
-- Bottom-nav 7→5, jerarquía del mapa, densidad home (ver sección 6).
-- Multi-sucursal; exportar seguidores (comerciante); campañas por barrio ya existen en API (`app/api/campaigns`).
-- Plantillas de ofertas (v2 de #1): columna `es_plantilla` en `offers` o tabla nueva.
+Orden sugerido: 1 → 9 → 5 → 7 → 2 (impacto comerciante primero, que es quien paga).
+
 
 ## 9. Qué NO hacer
 

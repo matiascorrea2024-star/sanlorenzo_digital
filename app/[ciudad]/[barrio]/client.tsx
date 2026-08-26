@@ -54,14 +54,14 @@ export default function BarrioView() {
   }, [ciudadSlug, barrioSlug]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-[#f7f3ec]">Cargando...</main>;
+    return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Cargando...</main>;
   }
 
   if (!barrio || !ciudad) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-[#f7f3ec]">
+      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
-          <Search className="mx-auto mb-4 h-10 w-10 text-[#7d6f5c]" />
+          <Search className="mx-auto mb-4 h-10 w-10 text-[var(--muted2)]" />
           <h1 className="font-display text-3xl uppercase tracking-tight">Barrio no encontrado</h1>
           <Link href={`/${ciudadSlug}`} className="mt-4 inline-block text-[var(--accent)]">← Volver a {ciudadSlug}</Link>
         </div>
@@ -70,8 +70,8 @@ export default function BarrioView() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
-      <section className="relative overflow-hidden border-b border-white/10 bg-[#0c0a0b] py-12">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
+      <section className="relative overflow-hidden border-b border-[var(--line-strong)] bg-[var(--bg)] py-12">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(209,47,104,0.14),_transparent_55%)]" />
         <div className="relative mx-auto max-w-6xl px-4">
           <Link href={`/${ciudadSlug}`} className="mb-3 flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
@@ -79,7 +79,7 @@ export default function BarrioView() {
           </Link>
           <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Barrio</Badge>
           <h1 className="mt-3 font-display text-4xl uppercase leading-[0.9] tracking-tight md:text-6xl">{barrio.name}</h1>
-          <p className="mt-2 text-[#a99b86]">{barrio.name}, {ciudad.name}</p>
+          <p className="mt-2 text-[var(--muted)]">{barrio.name}, {ciudad.name}</p>
         </div>
       </section>
 
@@ -100,11 +100,11 @@ export default function BarrioView() {
           Negocios en {barrio.name} ({negocios.length})
         </h2>
         {negocios.length === 0 ? (
-          <section className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8">
+          <section className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8">
             <div className="text-center">
               <Sparkles className="mx-auto mb-3 h-7 w-7 text-[var(--accent)]" />
               <p className="font-display text-xl uppercase tracking-tight">Todavía no hay negocios en {barrio.name}</p>
-              <p className="mx-auto mt-1 max-w-sm text-sm text-[#a99b86]">
+              <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
                 Si tenés un comercio en este barrio, podés ser el primero en aparecer acá.
               </p>
               <Link

@@ -8,6 +8,8 @@ import ImageUploader from "@/components/upload/image-uploader";
 import ReviewModeration from "@/components/business/review-moderation";
 import LocationPicker from "@/components/business/location-picker";
 import HowItWorks from "@/components/ui/how-it-works";
+import HorarioEditor from "@/components/dashboard/horario-editor";
+import { esHorarioValido, HorarioSemanal } from "@/lib/horarios";
 
 type Item = { name: string; price?: string; note?: string; photo?: string };
 
@@ -59,6 +61,7 @@ export default function Editar() {
         description: data.description || "",
         address: data.address || "",
         schedule: data.schedule || "",
+        schedule_json: esHorarioValido(data.schedule_json) ? data.schedule_json : null,
         whatsapp: data.whatsapp || "",
         instagram: data.instagram || "",
         open: !!data.open,
@@ -201,7 +204,13 @@ export default function Editar() {
             </label>
             <label className="sm:col-span-2"><span className={lbl}>Descripción</span><textarea rows={3} className={inp + " resize-none"} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} /></label>
             <label><span className={lbl}>Dirección</span><input className={inp} value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} /></label>
-            <label><span className={lbl}>Horarios</span><input className={inp} value={form.schedule} onChange={(e) => setForm({ ...form, schedule: e.target.value })} /></label>
+            <div className="sm:col-span-2">
+              <span className={lbl}>Horarios</span>
+              <HorarioEditor
+                value={form.schedule_json}
+                onChange={(next: HorarioSemanal | null) => setForm({ ...form, schedule_json: next })}
+              />
+            </div>
             <label>
               <span className={lbl}>Ciudad</span>
               <select className={inp} value={form.location_id} onChange={(e) => setForm({ ...form, location_id: e.target.value, neighborhood_id: "" })}>

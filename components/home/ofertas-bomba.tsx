@@ -60,12 +60,12 @@ export default function OfertasBomba({ ofertas }: { ofertas: Oferta[] }) {
         <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
           <Zap className="h-3.5 w-3.5" /> Vencen pronto
         </p>
-        <h2 id="bomba-title" className="mt-3 font-display text-3xl uppercase leading-[0.9] tracking-tight text-[#f7f3ec] sm:text-5xl">
+        <h2 id="bomba-title" className="mt-3 font-display text-3xl uppercase leading-[0.9] tracking-tight text-[var(--text)] sm:text-5xl">
           Ofertas bomba <span className="text-[var(--accent)]">de hoy.</span>
         </h2>
 
         <div
-          className="relative mt-8 overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#161314]"
+          className="relative mt-8 overflow-hidden rounded-[2.5rem] border border-[var(--line)] bg-[var(--surface)]"
           onMouseEnter={() => setPausado(true)}
           onMouseLeave={() => setPausado(false)}
           onTouchStart={(e) => { touchX.current = e.touches[0].clientX; }}
@@ -122,7 +122,7 @@ export default function OfertasBomba({ ofertas }: { ofertas: Oferta[] }) {
                   )}
 
                   <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-5 sm:p-8 lg:p-12">
-                    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>{o.negocio}</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{o.negocio}</p>
                     <h3 className="line-clamp-2 max-w-4xl font-display text-3xl uppercase leading-[0.9] tracking-tight text-white transition-colors group-hover:text-[var(--accent)] sm:text-5xl lg:text-6xl">
                       {o.producto}
                     </h3>
@@ -131,7 +131,7 @@ export default function OfertasBomba({ ofertas }: { ofertas: Oferta[] }) {
                         <span className="font-display text-3xl leading-none text-[var(--accent)] sm:text-4xl lg:text-5xl">${o.ahora.toLocaleString("es-AR")}</span>
                       )}
                       {typeof o.antes === "number" && typeof o.ahora === "number" && (
-                        <span className="text-sm font-bold text-[#a99b86] line-through decoration-2 sm:text-base">${o.antes.toLocaleString("es-AR")}</span>
+                        <span className="text-sm font-bold text-[var(--muted)] line-through decoration-2 sm:text-base">${o.antes.toLocaleString("es-AR")}</span>
                       )}
                       {o.vence && esHoy(o.vence) && <CountdownTimer expiresAt={o.vence} compact />}
                     </div>

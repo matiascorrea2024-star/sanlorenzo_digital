@@ -43,11 +43,11 @@ export default function ReelsFeedClient({ initial }: { initial: Reel[] }) {
 
   if (initial.length === 0) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-[#0c0a0b] px-4 text-center text-[#f7f3ec]">
-        <div className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg)] px-4 text-center text-[var(--text)]">
+        <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8">
           <Video className="mx-auto mb-3 h-12 w-12 text-[var(--accent)]" />
           <p className="font-display text-xl uppercase tracking-tight">Todavía no hay reels</p>
-          <p className="mt-1 max-w-xs text-sm text-[#a99b86]">Los negocios todavía no subieron videos. Volvé pronto.</p>
+          <p className="mt-1 max-w-xs text-sm text-[var(--muted)]">Los negocios todavía no subieron videos. Volvé pronto.</p>
           <Link href="/" className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>← Volver al inicio</Link>
         </div>
       </main>
@@ -55,8 +55,8 @@ export default function ReelsFeedClient({ initial }: { initial: Reel[] }) {
   }
 
   return (
-    <main className="fixed inset-0 z-[200] bg-[#0c0a0b]">
-      <Link href="/" aria-label="Volver" className="absolute left-4 top-4 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/40 backdrop-blur transition hover:border-[var(--accent)]">
+    <main className="fixed inset-0 z-[200] bg-[var(--bg)]">
+      <Link href="/" aria-label="Volver" className="absolute left-4 top-4 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-[var(--line-strong)] bg-black/40 backdrop-blur transition hover:border-[var(--accent)]">
         <ArrowLeft className="h-4 w-4 text-white" />
       </Link>
       <div ref={containerRef} className="sld-no-scrollbar h-full w-full snap-y snap-mandatory overflow-y-scroll">

@@ -58,14 +58,14 @@ export default function CiudadView() {
   }, [ciudadSlug]);
 
   if (loading) {
-    return <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-[#f7f3ec]">Cargando...</main>;
+    return <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">Cargando...</main>;
   }
 
   if (!ciudad) {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] flex items-center justify-center text-[#f7f3ec]">
+      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
-          <Search className="mx-auto mb-4 h-10 w-10 text-[#7d6f5c]" />
+          <Search className="mx-auto mb-4 h-10 w-10 text-[var(--muted2)]" />
           <h1 className="font-display text-3xl uppercase tracking-tight">Ciudad no encontrada</h1>
           <Link href="/" className="mt-4 inline-block text-[var(--accent)]">← Volver al inicio</Link>
         </div>
@@ -75,13 +75,13 @@ export default function CiudadView() {
 
   if (ciudad.status !== "active") {
     return (
-      <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec]">
-        <section className="relative overflow-hidden border-b border-white/10 bg-[#0c0a0b] py-16">
+      <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
+        <section className="relative overflow-hidden border-b border-[var(--line-strong)] bg-[var(--bg)] py-16">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(209,47,104,0.14),_transparent_55%)]" />
           <div className="relative mx-auto max-w-2xl px-4 text-center">
             <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Próximamente</Badge>
             <h1 className="mt-3 font-display text-4xl uppercase leading-[0.95] tracking-tight md:text-6xl">Estamos llegando a {ciudad.name}</h1>
-            <p className="mx-auto mt-3 max-w-md text-[#a99b86]">
+            <p className="mx-auto mt-3 max-w-md text-[var(--muted)]">
               Todavía no activamos {ciudad.name} en La Gran Barata Digital. Estamos sumando ciudades
               del cordón industrial de a poco -- pronto vas a poder encontrar negocios y ofertas acá.
             </p>
@@ -89,7 +89,7 @@ export default function CiudadView() {
               <Link href="/" className="btn-hard rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
                 Ver ciudades activas
               </Link>
-              <Link href="/para-negocios" className="rounded-xl border border-white/15 px-6 py-3 text-xs font-black uppercase tracking-widest text-[#a99b86] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:border-[var(--accent)] hover:text-white" style={{ fontFamily: "var(--font-display)" }}>
+              <Link href="/para-negocios" className="rounded-xl border border-[var(--line-strong)] px-6 py-3 text-xs font-black uppercase tracking-widest text-[var(--muted)] transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:border-[var(--accent)] hover:text-white" style={{ fontFamily: "var(--font-display)" }}>
                 Tengo un negocio acá
               </Link>
             </div>
@@ -102,14 +102,14 @@ export default function CiudadView() {
   const sinContenido = negocios.length === 0 && ofertas.length === 0;
 
   return (
-    <main className="min-h-screen bg-[#0c0a0b] text-[#f7f3ec] pb-24">
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       {/* Hero de ciudad */}
-      <section className="relative overflow-hidden border-b border-white/10 bg-[#0c0a0b] py-12">
+      <section className="relative overflow-hidden border-b border-[var(--line-strong)] bg-[var(--bg)] py-12">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(209,47,104,0.14),_transparent_55%)]" />
         <div className="relative mx-auto max-w-6xl px-4">
           <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Ciudad</Badge>
           <h1 className="mt-3 font-display text-4xl uppercase leading-[0.9] tracking-tight md:text-6xl">{ciudad.name}</h1>
-          <p className="mt-2 text-[#a99b86]">
+          <p className="mt-2 text-[var(--muted)]">
             Descubrí negocios, ofertas y servicios en {ciudad.name}
           </p>
         </div>
@@ -123,9 +123,9 @@ export default function CiudadView() {
             <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
               {barrios.map(b => (
                 <Link key={b.id} href={`/${ciudadSlug}/${b.slug}`}
-                  className="group rounded-[2rem] border border-white/5 bg-[#161314] p-5 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                  className="group rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-5 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
                   <p className="font-display text-xl uppercase tracking-tight">{b.name}</p>
-                  <p className="text-xs text-[#a99b86]">Ver negocios →</p>
+                  <p className="text-xs text-[var(--muted)]">Ver negocios →</p>
                 </Link>
               ))}
             </div>
@@ -177,11 +177,11 @@ export default function CiudadView() {
             (esto es lo que hace que una ciudad nueva se sienta "viva" desde
             el día 1, no un cascarón). */}
         {sinContenido && (
-          <section className="rounded-3xl border border-dashed border-white/10 bg-[#161314] p-8">
+          <section className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8">
             <div className="text-center">
               <Sparkles className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
               <h2 className="font-display text-xl uppercase tracking-tight">{ciudad.name} recién se está sumando a la plataforma</h2>
-              <p className="mx-auto mt-2 max-w-md text-sm text-[#a99b86]">
+              <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">
                 Todavía no hay negocios ni ofertas cargados acá. Si tenés un comercio en {ciudad.name},
                 podés ser el primero en aparecer.
               </p>

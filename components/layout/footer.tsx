@@ -53,7 +53,7 @@ export default function Footer() {
   const [open, setOpen] = useState<Record<string, boolean>>({});
 
   return (
-    <footer className="site-footer border-t border-white/5 bg-black pb-24 text-[#f7f3ec] md:pb-8">
+    <footer className="site-footer border-t border-[var(--line)] bg-black pb-24 text-[var(--text)] md:pb-8">
       <div className="mx-auto max-w-[1700px] px-4 py-12 sm:px-6 md:py-16">
         <div className="grid gap-8 md:grid-cols-[1.2fr_1fr_1fr_1fr] md:gap-10">
           <div>
@@ -66,10 +66,10 @@ export default function Footer() {
                 <span className="mt-1 text-[9px] font-bold uppercase leading-none tracking-[0.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>World Class · Digital</span>
               </span>
             </Link>
-            <p className="mt-4 max-w-xs text-sm italic leading-relaxed text-[#a99b86]">
+            <p className="mt-4 max-w-xs text-sm italic leading-relaxed text-[var(--muted)]">
               Todas las ofertas y negocios de San Lorenzo en un solo lugar.
             </p>
-            <p className="mt-3 text-[11px] font-bold uppercase tracking-widest text-[#7d6f5c]" style={{ fontFamily: "var(--font-display)" }}>Hecho en San Lorenzo · Santa Fe · Argentina</p>
+            <p className="mt-3 text-[11px] font-bold uppercase tracking-widest text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Hecho en San Lorenzo · Santa Fe · Argentina</p>
             {whatsapp && (
               <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener"
                 className="mt-5 inline-flex items-center gap-2 rounded-2xl border border-emerald-400/25 bg-emerald-500/10 px-4 py-2.5 text-xs font-black uppercase tracking-widest text-[var(--ok)] transition hover:border-emerald-400/50 hover:bg-emerald-500/20"
@@ -104,7 +104,7 @@ export default function Footer() {
           })}
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-6 text-xs text-[var(--muted)]">
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--line)] pt-6 text-xs text-[var(--muted)]">
           <p>© 2026 La Gran Barata Digital · San Lorenzo, Santa Fe</p>
           <div className="flex gap-4">
             <Link href="/privacidad" className="hover:text-[var(--accent)]">Política de Privacidad</Link>

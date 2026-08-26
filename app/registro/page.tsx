@@ -63,39 +63,39 @@ export default function RegistroPage() {
 
   if (success) {
     return (
-      <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0c0a0b] px-4 text-[#f7f3ec]">
+      <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] px-4 text-[var(--text)]">
         <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
-        <div className="relative w-full max-w-md rounded-[2.5rem] border border-white/10 bg-[#161314] p-8 text-center shadow-2xl">
+        <div className="relative w-full max-w-md rounded-[2.5rem] border border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center shadow-2xl">
           <div className="text-5xl mb-4">✅</div>
           <h2 className="font-display text-2xl uppercase tracking-tight mb-2 sm:text-3xl">¡Cuenta creada!</h2>
-          <p className="text-sm text-[#a99b86]">Redirigiendo…</p>
+          <p className="text-sm text-[var(--muted)]">Redirigiendo…</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0c0a0b] px-4 py-8 text-[#f7f3ec]">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] px-4 py-8 text-[var(--text)]">
       <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
       <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
-      <div className="relative w-full max-w-md rounded-[2.5rem] border border-white/10 bg-[#161314] p-8 shadow-2xl">
+      <div className="relative w-full max-w-md rounded-[2.5rem] border border-[var(--line-strong)] bg-[var(--surface)] p-8 shadow-2xl">
         <div className="text-center mb-8">
           <Link href="/" className="mb-4 inline-block">
             <span className="text-3xl">🛍️</span>
           </Link>
           <h1 className="font-display text-4xl uppercase tracking-tight sm:text-5xl">Tu próximo descubrimiento empieza acá</h1>
-          <p className="mt-3 text-sm text-[#a99b86]">Creá tu cuenta gratis y conectate con lo mejor de San Lorenzo.</p>
+          <p className="mt-3 text-sm text-[var(--muted)]">Creá tu cuenta gratis y conectate con lo mejor de San Lorenzo.</p>
         </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>Nombre y apellido</label>
+              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>Nombre y apellido</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-[#7d6f5c] outline-none transition focus:border-[var(--accent)] focus:bg-white/10"
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
                 placeholder="Ej: Juan Pérez"
               />
               {/* Con nombres muy comunes (Matías, Juan, etc.) pedir nombre
@@ -103,58 +103,58 @@ export default function RegistroPage() {
                   vean idénticos en reseñas/ranking, sin bloquear a nadie
                   por algo que no es realmente un problema de seguridad
                   (los nombres de las personas se repiten en la vida real). */}
-              <p className="mt-1.5 text-xs text-[#7d6f5c]">Así te distinguimos de otros vecinos con el mismo nombre.</p>
+              <p className="mt-1.5 text-xs text-[var(--muted2)]">Así te distinguimos de otros vecinos con el mismo nombre.</p>
             </div>
 
             <div>
-              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>Email</label>
+              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-[#7d6f5c] outline-none transition focus:border-[var(--accent)] focus:bg-white/10"
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
                 placeholder="tu@email.com"
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>Contraseña</label>
+              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>Contraseña</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-[#7d6f5c] outline-none transition focus:border-[var(--accent)] focus:bg-white/10"
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
                 placeholder="Mínimo 6 caracteres"
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[#a99b86]" style={{ fontFamily: "var(--font-display)" }}>Soy...</label>
+              <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>Soy...</label>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
                   onClick={() => setRole("user")}
                   className={`rounded-2xl border p-4 text-center transition ${
-                    role === "user" ? "border-[var(--accent)]/70 bg-[var(--accent)]/10" : "border-white/10 bg-white/5 hover:border-white/20"
+                    role === "user" ? "border-[var(--accent)]/70 bg-[var(--accent)]/10" : "border-[var(--line-strong)] bg-[var(--ov-05)] hover:border-[var(--line-strong)]"
                   }`}
                 >
                   <div className="text-2xl mb-1">👤</div>
                   <div className="text-sm font-bold text-white">Usuario</div>
-                  <div className="text-xs text-[#7d6f5c]">Quiero ofertas</div>
+                  <div className="text-xs text-[var(--muted2)]">Quiero ofertas</div>
                 </button>
                 <button
                   type="button"
                   onClick={() => setRole("business_owner")}
                   className={`rounded-2xl border p-4 text-center transition ${
-                    role === "business_owner" ? "border-[var(--accent)]/70 bg-[var(--accent)]/10" : "border-white/10 bg-white/5 hover:border-white/20"
+                    role === "business_owner" ? "border-[var(--accent)]/70 bg-[var(--accent)]/10" : "border-[var(--line-strong)] bg-[var(--ov-05)] hover:border-[var(--line-strong)]"
                   }`}
                 >
                   <div className="text-2xl mb-1">🏪</div>
                   <div className="text-sm font-bold text-white">Comerciante</div>
-                  <div className="text-xs text-[#7d6f5c]">Tengo negocio</div>
+                  <div className="text-xs text-[var(--muted2)]">Tengo negocio</div>
                 </button>
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function RegistroPage() {
             <Link href="/login" className="block text-sm font-bold text-[var(--accent)] transition hover:text-white">
               ¿Ya tenés cuenta? Iniciá sesión
             </Link>
-            <Link href="/" className="block text-sm text-[#a99b86] transition hover:text-[var(--accent)]">
+            <Link href="/" className="block text-sm text-[var(--muted)] transition hover:text-[var(--accent)]">
               ← Volver al inicio
             </Link>
           </div>
