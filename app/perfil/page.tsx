@@ -46,6 +46,7 @@ const MEDALLAS: { icon: string; nombre: string; desc: string; cond: (s: Stats) =
 
 export default function PerfilPage() {
   const [user, setUser] = useState<any>(null);
+  const [nombre, setNombre] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [seguidos, setSeguidos] = useState<any[]>([]);
   const [perdidas, setPerdidas] = useState(0);
@@ -63,8 +64,9 @@ export default function PerfilPage() {
       const { data: { user } } = await sb.auth.getUser();
       setUser(user);
       if (user) {
-        const { data: prof } = await sb.from("user_profiles").select("role, newsletter_opt_in, notifications_opt_in").eq("user_id", user.id).maybeSingle();
+        const { data: prof } = await sb.from("user_profiles").select("role, display_name, newsletter_opt_in, notifications_opt_in").eq("user_id", user.id).maybeSingle();
         setIsAdmin(prof?.role === "admin");
+        setNombre(prof?.display_name || "");
         setNewsletterOptIn(!!prof?.newsletter_opt_in);
         setPushOptIn(!!prof?.notifications_opt_in);
         const { data: fol } = await sb
@@ -196,13 +198,13 @@ export default function PerfilPage() {
           ) : (
             <DivisionFrame puntos={puntos} escala={ESCALA_PUNTOS_USUARIO} size={128} showLabel>
               <div className="flex h-28 w-28 items-center justify-center rounded-full bg-[var(--accent)] font-display text-4xl text-white magenta-glow">
-                {(user.email || "?")[0].toUpperCase()}
+                {(nombre || user.email || "?")[0].toUpperCase()}
               </div>
             </DivisionFrame>
           )}
           <div className="min-w-0 flex-1">
             <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>{isAdmin ? "Fundador" : "Vecino de San Lorenzo"}</p>
-            <h1 className="mt-2 truncate font-display text-4xl uppercase tracking-tight sm:text-5xl">{user.email}</h1>
+            <h1 className="mt-2 truncate font-display text-4xl uppercase tracking-tight sm:text-5xl">{nombre || (user.email || "").split("@")[0]}</h1>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-3 md:justify-start">
               {isAdmin ? (
                 <span className="flex items-center gap-2 rounded-full border border-yellow-400/30 bg-yellow-500/10 px-4 py-2 text-sm font-bold text-yellow-200">

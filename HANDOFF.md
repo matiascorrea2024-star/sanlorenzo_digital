@@ -6,6 +6,79 @@
 
 ---
 
+## 0. HANDOFF URGENTE — sesión 2026-08-26 tarde/noche (leer primero)
+
+Sesión de rediseño visual "estilo Amazon" (densidad de información, sidebars de filtros reales) + QA funcional a fondo con una cuenta de prueba real. Repo en `main`, árbol limpio salvo 2 archivos sueltos sin trackear (ver abajo). Todo lo demás ya está commiteado.
+
+### Qué se hizo (commits de esta sesión, más nuevo primero)
+
+- `4cc4a65` fix: menú de usuario del header — muestra nombre real (no el email) y las opciones quedaron reordenadas por rol (comerciante / comprador / cuenta / admin), a pedido explícito del dueño que había mandado screenshot del menú viejo diciendo "es un desastre, no se entiende nada".
+- `b5bf827` feat: herramientas de comerciante — vista previa en vivo en "Nueva oferta" y "Nuevo negocio" (se ve la tarjeta real actualizándose mientras cargás el formulario) + migración de colores a magenta.
+- `989f0b7` / `26daf51` / `3479955` / `e5635b3` / `be08d21` / `c18e6e6`: rediseño de `/negocios` y `/promociones` a formato denso tipo Amazon (sidebar de filtros real: rubro, barrio, precio, estado abierto/cerrado, "ver más"), header siempre oscuro y plano (ya no cambia con el tema), tema claro llevado a blanco puro (`#ffffff`, antes era crema cálido).
+- `cbf3ccf` / `9bf80a3` / `0e6e61f` / `566b1e2`: rediseño estructural de la ficha de negocio y de la página de oferta (calcados de los mockups que mandó el dueño), + voto real "¿vale la pena?" por oferta (tabla nueva `offer_opinions`) + reactivación de "Voto del Día" en el home (componente que ya existía, nunca estaba montado en ninguna página).
+- Nueva vista `trending_businesses` en producción (negocios en tendencia, basada en `page_views` real de 7 días) — **aplicada a la DB pero todavía sin ningún componente que la muestre en el sitio**. Queda pendiente.
+
+Todo esto se probó con Playwright contra el dev server (que apunta a Supabase de **producción**, ver HANDOFF §3.8) y con una cuenta de prueba real creada vía el flujo normal de `/registro`.
+
+### 🔴 CRÍTICO, SIN RESOLVER: cuenta nueva con `role = 'admin'`
+
+Durante el QA (pedido explícito del dueño: "create una cuenta hermano, y te fijás" + "proba que funcione cada botón... como si recién empezas con el negocio") se creó una cuenta de prueba real:
+
+- Email: `sld.claude.qa.20260826@mailinator.com`
+- Negocio: "Claude QA Café de Prueba" (`business_id 1ecd5cb8-b89d-4cf6-8e2d-0cd819d024a1`)
+- `user_id`: `1c607e02-84d0-4f75-9f2f-5a5864236de3`
+
+Al entrar a `/perfil` con esta cuenta, la página mostraba el modo "Staff / Fundador" (solo debería verlo un admin real). Se confirmó vía query directa a producción:
+
+```
+select user_id, role, display_name from user_profiles where display_name = 'Claude QA Test';
+→ role: "admin"
+```
+
+**Investigación hecha esta sesión (todo descartado como causa):**
+- `user_profiles.role` tiene `DEFAULT 'user'::text` en producción (confirmado con `information_schema.columns` directo) — no hay default mal configurado.
+- No hay trigger en `auth.users` que cree perfiles ni setee rol (el único trigger ahí es `on_auth_user_email_sync`, solo sincroniza email).
+- El único trigger en `user_profiles` es `trg_recompensas_referidos`, y es `AFTER UPDATE` — no dispara en el INSERT inicial.
+- El código de `/registro` (`app/registro/page.tsx:38`) hace `upsert({ user_id, display_name }, { onConflict: "user_id" })` — **nunca manda `role`**. Mismo patrón en `components/business/chat.tsx:110`. Con ese payload, un INSERT nuevo cae al DEFAULT (`'user'`), no a `'admin'`.
+- La única ruta de código que efectivamente escribe `role` es `PATCH /api/admin/users` (`app/api/admin/users/route.ts`), y está gateada por `requireAdmin()` — no la llamó ningún flujo de esta sesión.
+- Query de auditoría: en TODA la base solo hay 2 filas con `role='admin'`: la del dueño (`matiascorrea2024@gmail.com`) y esta cuenta de prueba. No es un bug sistémico que afecte a todos los signups nuevos — es puntual a esta cuenta.
+- El timestamp de `user_profiles.created_at` de la cuenta de prueba es ~0.6s después del `auth.users.created_at` → la fila se creó junto con el signup, no es una fila vieja reciclada.
+
+**Conclusión: no encontré la causa a nivel de código ni de schema.** La hipótesis más probable, sin confirmar: el dueño estuvo probando el sitio en paralelo en su propio navegador, logueado como admin real (`matiascorrea2024@gmail.com`), mientras yo hacía QA con la cuenta de prueba — es posible que haya usado el panel de admin (`/admin`, que llama a `PATCH /api/admin/users`) para promover esta cuenta a admin como parte de su propia prueba, sin que quede registrado en el código. **Hay que preguntarle directamente antes de asumir que es un bug de la plataforma.**
+
+**Acción recomendada para la próxima sesión:**
+1. Preguntarle a Matias si tocó el panel de admin con esta cuenta.
+2. Si no fue él, seguir buscando: revisar logs de Postgres/Auth de Supabase (dashboard → Logs) para el rango `2026-08-26 17:26:35 UTC` y ver la query exacta que insertó la fila.
+3. Pase lo que pase, revertir esta fila a `role='user'` (es una cuenta de QA descartable) — no se hizo en esta sesión, quedó pendiente al priorizar dejar esto documentado.
+
+### Otro bug confirmado, con fix ya identificado (no aplicado)
+
+`app/perfil/page.tsx` tiene el mismo problema que YA se arregló en `header.tsx` (commit `4cc4a65`):
+- Línea 66: el `select` a `user_profiles` es `"role, newsletter_opt_in, notifications_opt_in"` — **le falta `display_name`**.
+- Línea 205: el `<h1>` principal de la página muestra `{user.email}` en letras gigantes (confirmado con screenshot mostrando el email completo en mayúsculas como título).
+- Línea 199: mismo problema en el fallback del avatar (`user.email[0]`).
+- Fix: agregar `display_name` al select y usarlo en el `<h1>` y el avatar, igual que ya se hizo en el header.
+
+### QA funcional — qué se cubrió y qué falta
+
+Cubierto (sin errores reales, salvo lo de arriba):
+- Las 16 rutas de `DashboardNav` → 200 OK, sin errores de consola.
+- 3 falsas alarmas de "carga infinita" (`/dashboard/productos`, `/dashboard/historias`, `/dashboard/turnos`) descartadas — eran timing del loop de test, no bugs reales (reverificadas en aislado con esperas largas).
+- Vistas previas en vivo de "Nueva oferta" y "Nuevo negocio" — verificadas end-to-end con la cuenta de prueba.
+
+Falta (pedido explícito del dueño, no completado):
+- Flujos del lado comprador (no comerciante) con el menú nuevo segmentado por rol.
+- Flujos de admin (no se probó nada del panel `/admin` con una cuenta admin real intencional).
+- Resto de items del nav de comerciante más allá de un chequeo de status 200: Reels, Muro, Analytics, Mensajes, Reseñas, Seguidores, Sellos, Soporte, Planes, Editar negocio.
+
+### Limpieza pendiente antes de lanzar
+
+- Cuenta de prueba `sld.claude.qa.20260826@mailinator.com` + negocio "Claude QA Café de Prueba" → ocultar/borrar (además de revertirle el rol admin, ver arriba).
+- 2 archivos sueltos sin trackear en el repo, no commiteados: `sweep-ui.mjs` (script ad-hoc de barrido UI con Playwright, nunca corrido) y `qa-walk-tmp.mjs` (script temporal de este QA). Revisar si sirven o borrarlos.
+- "Negocios en Tendencia": la vista `trending_businesses` está viva en producción pero ningún componente la muestra todavía en el sitio.
+
+---
+
 ## 1. Qué es el proyecto
 
 **Marketplace local de ofertas para San Lorenzo, Santa Fe, Argentina** ("La Gran Barata").
