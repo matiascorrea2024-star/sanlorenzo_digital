@@ -16,11 +16,14 @@ function Gema({ color, size }: { color: string; size: number }) {
   );
 }
 
-export default function DivisionFrame({ children, puntos, size = 96, showLabel = false, categoria, enFuego = false, escala = 1 }: {
+export default function DivisionFrame({ children, puntos, size = 96, showLabel = false, mostrarProgreso = true, categoria, enFuego = false, escala = 1 }: {
   children: ReactNode;
   puntos: number;
   size?: number;
   showLabel?: boolean;
+  /** "A X pts de [próximo]" es lenguaje de crecimiento del comerciante:
+   *  útil en el ranking, ruido en una ficha pública. */
+  mostrarProgreso?: boolean;
   categoria?: string;
   /** Racha real de crecimiento (ej: #1 en visitas esta semana vs la
    * anterior) -- suma un halo y llamas encima del marco de rango, sin
@@ -99,7 +102,7 @@ export default function DivisionFrame({ children, puntos, size = 96, showLabel =
           <p className="whitespace-nowrap text-[10px] font-black uppercase tracking-widest" style={{ color: r.accent }}>
             🏆 Nv {r.nivel} · {r.rango}{r.tier && ` ${r.tier}`}
           </p>
-          {r.faltan > 0 && (
+          {mostrarProgreso && r.faltan > 0 && (
             <p className="whitespace-nowrap text-[8px] font-bold text-white/50">
               A {r.faltan} pts de {r.proximo}
             </p>

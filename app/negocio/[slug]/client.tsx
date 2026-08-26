@@ -256,7 +256,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               <Image src={negocio.logo_url} alt={negocio.name} width={112} height={112} quality={92} className="h-28 w-28 rounded-3xl border-[6px] border-[var(--bg)] object-cover shadow-2xl" />
             </DivisionFrame>
           ) : (
-            <DivisionFrame puntos={negocio.puntos || 0} size={112} categoria={negocio.category} showLabel>
+            <DivisionFrame puntos={negocio.puntos || 0} size={112} categoria={negocio.category} showLabel mostrarProgreso={false}>
               <div className="flex h-28 w-28 items-center justify-center rounded-3xl border-[6px] border-[var(--bg)] bg-gradient-to-br from-orange-500 to-red-600 text-4xl font-black shadow-2xl">
                 {negocio.name[0]}
               </div>
@@ -291,14 +291,20 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
       </div>
 
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
-        {/* ALERTA: te avisamos de ofertas nuevas */}
-        <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
-          <div>
-            <p className="font-black">🔔 No te pierdas nada de {negocio.name}</p>
-            <p className="text-sm text-[var(--muted)]">Te avisamos cuando publiquen ofertas nuevas.</p>
+        {/* ALERTA: solo cuando tiene sentido ("avisame si vuelve" en un
+            negocio activo con ofertas vigentes confundía: ¿volver de dónde?).
+            Con el negocio abierto y ofertas activas, el CTA útil es WhatsApp. */}
+        {(negocio.open === false || ofertas.length === 0) && (
+          <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-orange-400/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-5 md:flex-row">
+            <div>
+              <p className="font-black">🔔 Avisame cuando {negocio.name} publique ofertas</p>
+              <p className="text-sm text-[var(--muted)]">
+                {negocio.open === false ? "Está cerrado ahora. Te avisamos cuando vuelva con novedades." : "Todavía no tiene ofertas activas."}
+              </p>
+            </div>
+            <NotifyMeButton businessId={String(negocio.id)} productName={negocio.name} />
           </div>
-          <NotifyMeButton businessId={String(negocio.id)} productName={negocio.name} />
-        </div>
+        )}
 
         {negocio.open === false && (
           <div className="mb-6 rounded-2xl border border-red-400/40 bg-red-500/10 p-4 text-center">
@@ -674,7 +680,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         {negocio && <ReportButton businessId={negocio.id} businessName={negocio.name} />}
       </div>
       <div className="mx-auto max-w-4xl px-4 pb-8">
-        <LevelUpCard slug={slug} />
+        <LevelUpCard slug={slug} ownerId={negocio.owner_id} />
       </div>
       {negocio.whatsapp && (
         <div className="fixed inset-x-0 bottom-14 z-40 border-t border-white/10 bg-[#0c0a0b]/95 p-3 pb-[calc(.75rem+env(safe-area-inset-bottom))] backdrop-blur-md sm:hidden">

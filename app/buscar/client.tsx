@@ -1,16 +1,31 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, MapPin, AlertCircle, ShieldCheck, ArrowRight } from "lucide-react";
 
 export default function BuscarClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("q") || "");
+  const qParam = searchParams.get("q");
+  const catParam = searchParams.get("cat");
+  const modoParam = searchParams.get("modo");
+  const [query, setQuery] = useState(qParam || "");
   // La categoría viene de la URL (?cat=): el usuario no la cambia desde acá.
-  const [category] = useState(searchParams.get("cat") || "");
-  const [mode, setMode] = useState(searchParams.get("modo") || "");
+  const [category] = useState(catParam || "");
+  const [mode, setMode] = useState(modoParam || "");
   const [loading, setLoading] = useState(false);
+
+  // Esta página es una landing: no muestra resultados. Si llegó acá con una
+  // búsqueda (?q= desde un link externo o el sitemap), seguir directo a
+  // /negocios en vez de enseñar el hero con la búsqueda ignorada.
+  useEffect(() => {
+    if (!qParam && !catParam && !modoParam) return;
+    const params = new URLSearchParams();
+    if (qParam) params.set("q", qParam);
+    if (catParam) params.set("cat", catParam);
+    if (modoParam) params.set("modo", modoParam);
+    router.replace(`/negocios?${params.toString()}`);
+  }, [qParam, catParam, modoParam, router]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +37,11 @@ export default function BuscarClient() {
     if (mode) params.set("modo", mode);
     router.push(`/negocios?${params.toString()}`);
   };
+
+  if (qParam || catParam || modoParam) {
+    // Redirigiendo a resultados: no renderizar la landing (evita el flash).
+    return <main className="min-h-screen bg-[#0c0a0b]" />;
+  }
 
   return (
     <main className="min-h-screen bg-[#0c0a0b] text-[var(--text)]">

@@ -14,8 +14,18 @@ const ACCIONES = [
   { icon: "❤️", l: "Ganar un seguidor", pts: "+5", href: null },
 ];
 
-export default function LevelUpCard({ slug, showCtas = false }: { slug?: string; showCtas?: boolean }) {
+export default function LevelUpCard({ slug, ownerId, showCtas = false }: { slug?: string; ownerId?: string | null; showCtas?: boolean }) {
   const [ownSlug, setOwnSlug] = useState<string | undefined>(slug);
+  // En una página pública (ownerId informado) solo el dueño ve su panel:
+  // para un visitante anónimo es instrucción interna sin sentido.
+  const [esDueno, setEsDueno] = useState(ownerId == null);
+  useEffect(() => {
+    if (ownerId == null) return;
+    (async () => {
+      const { data: { user } } = await supabase().auth.getUser();
+      setEsDueno(user?.id === ownerId);
+    })();
+  }, [ownerId]);
   useEffect(() => {
     if (slug) return;
     (async () => {
@@ -29,6 +39,8 @@ export default function LevelUpCard({ slug, showCtas = false }: { slug?: string;
   const rank = useRank(ownSlug);
   const pts = rank?.puntos ?? 0;
   const r = rangoDe(pts);
+
+  if (!esDueno) return null;
 
   return (
     <div className="rounded-2xl border border-[var(--line)] bg-gradient-to-br from-[var(--ov-05)] to-transparent p-5">

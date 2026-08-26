@@ -20,6 +20,10 @@ const cspHeader = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  // Next 16 bloquea requests con Origin fuera de la allowlist para assets
+  // internos (/_next/*): sin esto, entrar por 127.0.0.1 o por la IP de LAN
+  // (p.ej. probando desde el celular) deja la página en spinner eterno.
+  allowedDevOrigins: ["127.0.0.1", "localhost", "*.local"],
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" },

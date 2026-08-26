@@ -251,7 +251,7 @@ export default function OfertaPage() {
                     onClick={() => trackClickWhatsApp(negocio.id)}
                     href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi la oferta "${oferta.title}" en La Gran Barata Digital`)}`}
                     target="_blank" rel="noopener noreferrer"
-                    className="btn-hard-green flex h-16 w-full items-center justify-between rounded-2xl bg-green-500 px-8 font-black uppercase tracking-wider text-white"
+                    className="btn-hard-green hidden h-16 w-full items-center justify-between rounded-2xl bg-green-500 px-8 font-black uppercase tracking-wider text-white sm:flex"
                     style={{ fontFamily: "var(--font-display)" }}
                   >
                     Consultar por WhatsApp
@@ -304,9 +304,13 @@ export default function OfertaPage() {
               </div>
             </Link>
 
-            <div className="mt-6">
-              <NotifyMeButton businessId={String(negocio.id)} offerId={String(oferta.id)} productName={oferta.title} originalPrice={oferta.offer_price ? Number(oferta.offer_price) : undefined} />
-            </div>
+            {/* "Avisame si vuelve" solo si la oferta ya venció: con la
+                oferta activa era una contradicción (¿volver de dónde?). */}
+            {vencido && (
+              <div className="mt-6">
+                <NotifyMeButton businessId={String(negocio.id)} offerId={String(oferta.id)} productName={oferta.title} originalPrice={oferta.offer_price ? Number(oferta.offer_price) : undefined} />
+              </div>
+            )}
           </div>
         </div>
       </div>
