@@ -23,7 +23,15 @@ export async function POST(request: NextRequest) {
     p_source: source,
   });
   if (error || !data?.[0]?.short_code) {
-    return NextResponse.json({ error: "No se pudo crear el link rastreable" }, { status: 400 });
+    // El RPC devuelve códigos de error propios (ver supabase/migrations/*_fix_tracked_link_reuse.sql)
+    // como mensaje de la excepción. "business_not_public" es una regla de negocio (negocio no
+    // verificado/reclamado), no una falla técnica -- el cliente lo usa para no invitar a
+    // "reintentar" algo que reintentar no arregla.
+    const code = error?.message?.includes("business_not_public") ? "business_not_public" : "unknown";
+    const message = code === "business_not_public"
+      ? "Tu negocio todavía no está verificado"
+      : "No se pudo crear el link rastreable";
+    return NextResponse.json({ error: message, code }, { status: 400 });
   }
 
   return NextResponse.json({

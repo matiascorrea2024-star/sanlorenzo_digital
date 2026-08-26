@@ -3,6 +3,7 @@
 // local y cae en la ficha con ?src=qr-[code] -- queda medido en analytics
 // (view_business con source_code) y el círculo offline→online se cierra.
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import QRCode from "qrcode";
 import { QrCode, Download, Copy, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -16,9 +17,11 @@ export default function QrVidriera({ businessId, businessName }: { businessId: s
   const [code, setCode] = useState<string | null>(null);
   const [clicks, setClicks] = useState<number | null>(null);
   const [busy, setBusy] = useState(true);
+  const [sinVerificar, setSinVerificar] = useState(false);
 
   const generar = useCallback(async () => {
     setBusy(true);
+    setSinVerificar(false);
     try {
       // create_tracked_link es idempotente: si ya existe un QR para este
       // negocio, devuelve el MISMO código (los QR impresos nunca se rompen).
@@ -28,7 +31,17 @@ export default function QrVidriera({ businessId, businessName }: { businessId: s
         body: JSON.stringify({ business_id: businessId, source: "qr" }),
       });
       const data = await res.json();
-      if (!res.ok || !data.short_code) throw new Error(data.error || "No se pudo generar el QR");
+      if (!res.ok || !data.short_code) {
+        // "business_not_public" = negocio sin verificar todavía: es la regla de
+        // negocio funcionando bien, no un error técnico -- reintentar no lo arregla,
+        // así que no lo mostramos como "probá de nuevo".
+        if (data.code === "business_not_public") {
+          setSinVerificar(true);
+          setBusy(false);
+          return;
+        }
+        throw new Error(data.error || "No se pudo generar el QR");
+      }
       setCode(data.short_code);
       const absolute = `${window.location.origin}/r/${data.short_code}`;
       setShortUrl(absolute);
@@ -77,6 +90,14 @@ export default function QrVidriera({ businessId, businessName }: { businessId: s
         {busy ? (
           <div className="flex items-center justify-center gap-2 py-6 text-sm text-[var(--muted)]">
             <Loader2 className="h-4 w-4 animate-spin" /> Generando QR...
+          </div>
+        ) : sinVerificar ? (
+          <div className="flex flex-col items-center gap-2 py-6 text-center">
+            <p className="text-sm font-black text-[var(--warn)]">⚠️ Tu negocio todavía no está verificado</p>
+            <p className="max-w-xs text-xs leading-relaxed text-[var(--muted)]">
+              El QR de vidriera se habilita cuando tu negocio queda verificado. Escribinos desde{" "}
+              <Link href="/dashboard/soporte" className="font-bold text-[var(--accent)] underline">Soporte</Link> para pedirlo.
+            </p>
           </div>
         ) : qrDataUrl ? (
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
