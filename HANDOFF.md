@@ -132,6 +132,15 @@ Todas aplicadas y probadas en local. Sin (1) y (2) las features nuevas no funcio
 - Existe `.env.production` (remoto) en la raíz: no borrarlo, el deploy lo usa.
 - CSP permite `http://127.0.0.1:54321` en `connect-src` SOLO en desarrollo.
 
+
+### QA integral (2026-08-26 noche) — resultado: SANO
+
+- **Crawler 62/62 rutas**: HTTP 200, sin errores JS, sin recursos rotos (único ruido: `eval()` de React dev-mode, no existe en build producción).
+- **Flujos vecino (logueado) 14/14**: home→ficha→oferta→WhatsApp, búsqueda con sinónimos ("facturas" encuentra la panadería vía "medialunas"), favoritos, Mi Barata (sumar/quitar), recorrido barata.
+- **Flujos comerciante 9/9**: dashboard, QR vidriera genera imagen + link `/r/`, duplicar oferta (crea INACTIVA), editor de horarios guarda, perfil.
+- **APIs**: `/api/track` POST ok + validación 400 en event_type inválido + contador GET; `/api/tracked-links` ok con sesión; rate-limit 429 operativo; `/robots.txt` ok; registro de cuenta nueva ok.
+- **Limitaciones del entorno local (NO bugs)**: (a) anónimos sin datos por la key ES256 — en producción las keys reales funcionan; (b) `storage.buckets` vacío en local → uploads de imágenes fallan localmente (crear buckets si hace falta probar uploads); (c) admin no probado (no hay user admin en local).
+
 ### Pendientes del backlog original (post-testing)
 
 - **#10 PWA offline** (sw.js mínimo, NO cachear rutas auth).
