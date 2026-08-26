@@ -67,7 +67,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
               <MapPin className="h-4 w-4" /> World Class · San Lorenzo, Santa Fe
             </p>
 
-            <h1 className="font-display text-[clamp(4rem,11vw,9.5rem)] leading-[0.85] tracking-tight">
+            <h1 className="font-display text-[clamp(3rem,8vw,6.5rem)] leading-[0.85] tracking-tight">
               LA GRAN
               <span className="knockout-text magenta-glow block">BARATA</span>
             </h1>
@@ -107,7 +107,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
             <div className="grid grid-cols-2 gap-x-6 gap-y-10">
               {STATS.map((s) => (
                 <div key={s.label}>
-                  <span className="magenta-glow block font-display text-6xl leading-none tabular-nums text-white md:text-7xl">{s.value}</span>
+                  <span className="magenta-glow block font-display text-4xl leading-none tabular-nums text-[var(--text)] md:text-5xl">{s.value}</span>
                   <span className="mt-3 block text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{s.label}</span>
                   {s.sub && <span className="mt-1 block text-xs font-bold text-[var(--accent)]">{s.sub}</span>}
                 </div>
