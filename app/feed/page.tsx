@@ -118,14 +118,14 @@ export default function MuroPage() {
         <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
           <button onClick={() => setFiltro("todos")}
             className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
-              filtro === "todos" ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
+              filtro === "todos" ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]"
             }`}>
             Todo
           </button>
           {Object.entries(TIPOS).map(([k, t]) => (
             <button key={k} onClick={() => setFiltro(k)}
               className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
-                filtro === k ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
+                filtro === k ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]"
               }`}>
               {t.label}
             </button>

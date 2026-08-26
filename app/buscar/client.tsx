@@ -88,7 +88,7 @@ export default function BuscarClient() {
             {([["", "Todo"], ["ahora", "Ahora"], ["esta-noche", "Esta noche"]] as const).map(([value, label]) => (
               <button key={value} type="button" onClick={() => setMode(value)}
                 className={`rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
-                  mode === value ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
+                  mode === value ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]"
                 }`} style={{ fontFamily: "var(--font-display)" }}>
                 {label}
               </button>

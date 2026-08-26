@@ -206,7 +206,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
               className={`shrink-0 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
                 tab === t.k
                   ? "border-[var(--accent)] bg-[var(--accent)] text-white"
-                  : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
+                  : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]"
               }`}>
               {t.l}
             </button>
@@ -217,7 +217,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
               className={`flex shrink-0 items-center gap-1.5 rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
                 tabMasActivo
                   ? "border-[var(--accent)] bg-[var(--accent)] text-white"
-                  : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
+                  : "border-[var(--line-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]"
               }`}>
               <SlidersHorizontal className="h-3.5 w-3.5" />
               {tabMasActivo ? tabMasActivo.l : "Más filtros"}
@@ -228,7 +228,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                 {TABS_MAS.map(t => (
                   <button key={t.k} onClick={() => { setTab(t.k); setMasAbierto(false); }}
                     className={`flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-bold transition ${
-                      tab === t.k ? "bg-[var(--accent)]/15 text-[var(--accent)]" : "text-[var(--muted)] hover:bg-[var(--ov-05)] hover:text-white"
+                      tab === t.k ? "bg-[var(--accent)]/15 text-[var(--accent)]" : "text-[var(--muted)] hover:bg-[var(--ov-05)] hover:text-[var(--text)]"
                     }`}>
                     {t.l}
                   </button>

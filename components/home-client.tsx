@@ -183,7 +183,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
                 <Link href="/para-vos" className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/50 bg-[var(--accent)]/10 px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[var(--accent)] transition hover:bg-[var(--accent)] hover:text-white" style={{ fontFamily: "var(--font-display)" }}>
                   Para vos ✨
                 </Link>
-                <Link href="/promociones" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/60 transition hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+                <Link href="/promociones" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
                   Ver todas <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -199,7 +199,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
                 className={`rounded-full border px-5 py-2.5 text-[11px] font-black uppercase tracking-widest transition ${
                   modo === value
                     ? "border-[var(--accent)] bg-[var(--accent)] text-white"
-                    : "border-[var(--line-strong)] bg-transparent text-[var(--muted)] hover:border-[var(--accent)] hover:text-white"
+                    : "border-[var(--line-strong)] bg-transparent text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]"
                 }`}
                 style={{ fontFamily: "var(--font-display)" }}>
                 {label}
@@ -283,7 +283,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Una ciudad que se encuentra</p>
             <h2 id="sumate-title" className="mt-3 font-display text-4xl uppercase leading-[0.9] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">La guía local se construye <span className="knockout-text magenta-glow">entre todos.</span></h2>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-[#c4b5a5]">La cantidad que ves acá refleja los datos disponibles hoy. No usamos testimonios ni métricas inventadas: descubrí, contactá y compartí negocios reales.</p>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-[var(--muted)]">La cantidad que ves acá refleja los datos disponibles hoy. No usamos testimonios ni métricas inventadas: descubrí, contactá y compartí negocios reales.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/registro" className="btn-hard inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}><Search className="h-4 w-4" /> Crear cuenta</Link>
               <Link href="/para-negocios" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-[var(--text)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Store className="h-4 w-4" /> Publicar negocio</Link>

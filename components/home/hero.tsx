@@ -72,7 +72,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
               <span className="knockout-text magenta-glow block">BARATA</span>
             </h1>
 
-            <p className="mt-7 max-w-xl text-base leading-relaxed text-[#c4b5a5] md:text-lg">
+            <p className="mt-7 max-w-xl text-base leading-relaxed text-[var(--muted)] md:text-lg">
               Todas las ofertas y negocios de San Lorenzo en un solo lugar.
               Encontrá lo que necesitás y hablá directo con quien lo vende.
             </p>
@@ -114,7 +114,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
               ))}
             </div>
             <div className="mt-10 rounded-2xl border border-[var(--line)] bg-[var(--ov-03)] p-5">
-              <p className="text-sm leading-relaxed text-[#c4b5a5]">
+              <p className="text-sm leading-relaxed text-[var(--muted)]">
                 <span className="font-black text-[var(--text)]">Sin vueltas, sin intermediarios.</span><br />
                 Contactá al comercio por WhatsApp y resolvé en el barrio.
               </p>
