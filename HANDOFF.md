@@ -6,7 +6,42 @@
 
 ---
 
-## 0. HANDOFF — sesión 2026-08-26 noche, continuación (leer primero)
+## 0. HANDOFF — sesión 2026-08-26 noche, continuación 3 (leer primero)
+
+**Hallazgo crítico de esta sesión: 6 migraciones que se creían aplicadas en producción NUNCA lo estaban.**
+
+Arrancando por el pendiente más chico de la sesión anterior (el copy engañoso de "Probá de nuevo" en `QrVidriera`), al verificar el fix en vivo contra el dev server (que apunta a Supabase de **producción**, HANDOFF §3.8) el QR daba 400 para AMBOS negocios de la cuenta de prueba, incluso el que ya está `✓ VERIFICADO`. Eso no encajaba con "negocio no verificado" como causa. Metí un campo de diagnóstico temporal en la respuesta del API (revertido después) y así apareció el error real de Postgres:
+
+```
+Could not find the function public.create_tracked_link(p_business_id, p_offer_id, p_source) in the schema cache
+```
+
+Confirmado con una query directa a producción (Management API, mismo mecanismo de HANDOFF §3.8): **`create_tracked_link` y `resolve_tracked_link` no existían en absoluto en la base de producción.** Es decir, desde que se implementó el sistema de links rastreables (QR de vidriera, `/r/[code]`, cualquier "compartir"), **todo ese flujo estaba roto en producción**: cualquier QR impreso o link compartido caía en "Link no disponible" (404) en `/r/[code]`, y ningún comerciante podía generar un QR nuevo. No era un bug de código — el código y los tests locales siempre fueron correctos — era que las migraciones `20260821230000/231000/232000` (que crean esas dos funciones) nunca se habían aplicado al Supabase remoto, a pesar de que el HANDOFF anterior daba por sentado que sólo faltaban las 3 migraciones del 26/08 (`mi_barata`, `horarios_estructurados`, `resenas_con_foto`) — que, al revisar `supabase_migrations.schema_migrations` en producción, **tampoco estaban aplicadas**.
+
+**Acción tomada:** aplicadas las 6 migraciones a producción vía Management API (mismo procedimiento de HANDOFF §3.8: SQL directo + insert manual en `schema_migrations`), en orden:
+`20260821230000_autoprompt_growth_funnel` → `20260821231000_reuse_tracked_links` → `20260821232000_fix_tracked_link_reuse` → `20260826120000_mi_barata` → `20260826130000_horarios_estructurados` → `20260826131000_resenas_con_foto`. Todas son idempotentes (`create or replace function`, `add column if not exists`, `drop policy if exists` + `create`), así que reintentarlas no rompe nada si hiciera falta.
+
+**Verificado real después de aplicar:**
+- `create_tracked_link` + `resolve_tracked_link` existen en `pg_proc` de producción.
+- POST a `/api/tracked-links` con la cuenta de prueba → 200 con `short_code` real (antes: 400).
+- `GET /r/[code]` con ese código → 302 a `/negocio/claude-qa-cafe-de-prueba-mtadbg0v?src=...` (antes: 404 "Link no disponible").
+- UI real: `/dashboard` → "QR de vidriera" → imagen de QR se renderiza, botones de descarga/copiar funcionan (capturas en `.audit/qa-2026-08-26/qr-vidriera-funcionando.png`).
+- `list_items.offer_id`, `businesses.schedule_json`, `business_reviews.photos` existen en producción; RLS de `user_lists`/`list_items` activa. → **Mi Barata, horarios estructurados y reseñas con foto pasan de "no funcionan en producción" a funcionales**, sin cambiar una línea de código (ya estaba escrito y probado en local).
+
+**Fix de UX original que motivó todo esto, también aplicado** (`9cc8b83`): `/api/tracked-links` ahora distingue en la respuesta (`code: "business_not_public"`) cuando el rechazo es porque el negocio no está verificado/reclamado, y `components/dashboard/qr-vidriera.tsx` muestra un estado dedicado ("Tu negocio todavía no está verificado" + link a Soporte) en vez de "Probá de nuevo" — ese mensaje ya no aparece para un caso que reintentar no arregla.
+
+**Lección de proceso (importante para toda sesión futura):** no confiar en que "está en HANDOFF como aplicado" o "se probó en local" implica que está en producción. `supabase_migrations.schema_migrations` en el proyecto remoto es la única fuente de verdad real. Antes de dar por buena una feature que depende de una función/tabla nueva, confirmar con una query directa a prod (patrón de HANDOFF §3.8), no asumir por el histórico de migraciones locales ni por lo que diga este documento.
+
+**Pendiente para la próxima sesión (heredado, sigue igual):**
+- `/dashboard/editar/[slug]` sin probar a fondo con contenido real.
+- `app/globals.css`: limpieza de CSS muerto + el bug de layers sin `@layer` en la sección de links (ver sección 0-BIS-2 más abajo) — auditar antes de tocar.
+- "Negocios en Tendencia" (`trending_businesses`) sigue sin componente que la muestre.
+- FASE 2 SEO; limpieza pre-lanzamiento de la cuenta/negocio de prueba (sigue autorizada mientras se siga usando para QA).
+- **Nuevo:** dado que dos rondas seguidas encontraron migraciones "fantasma", vale la pena en algún momento correr un chequeo completo de TODAS las migraciones en `supabase/migrations/` contra `schema_migrations` de producción (no sólo las últimas), para descartar más gaps viejos.
+
+---
+
+## 0-BIS-2. HANDOFF — sesión 2026-08-26 noche, continuación (contexto de la sesión anterior)
 
 Retomé la sesión anterior (bloqueada porque no se podía conectar la carpeta) siguiendo la propia recomendación de este documento. Resumen de lo que se resolvió y lo que se encontró:
 
@@ -216,13 +251,20 @@ Flujo acordado con el dueño: **auditar → quick wins → testing con usuarios 
 - **#7 Reseñas con foto: YA EXISTÍA completa** (upload con compresión, lightbox, visita verificada, respuestas). La migración `20260826131000` queda como red de seguridad.
 - **#4 Push a seguidores: YA EXISTÍA** — cadena en DB: `trg_notify_offer` → notifications → `trg_notify_push_webhook` → `/api/push/send`. El anti-spam lo da el límite de ofertas/día del plan.
 
-### ⚠️ Migraciones SIN aplicar en el Supabase REMOTO (antes del deploy)
+### ✅ Migraciones aplicadas al Supabase REMOTO (actualizado, ver sección 0 arriba)
 
-1. `20260826120000_mi_barata.sql` (offer_id en list_items + RLS)
-2. `20260826130000_horarios_estructurados.sql` (schedule_json)
-3. `20260826131000_resenas_con_foto.sql` (photos, probable no-op)
+Estas 6 migraciones se creían pendientes (o ni siquiera se sabía que faltaban) y ya están aplicadas
+en producción, verificado directo contra `schema_migrations` + `pg_proc` (sesión 2026-08-26 noche, cont. 3):
 
-Todas aplicadas y probadas en local. Sin (1) y (2) las features nuevas no funcionan en producción.
+1. `20260821230000_autoprompt_growth_funnel.sql` (crea `create_tracked_link` v1 + `resolve_tracked_link`)
+2. `20260821231000_reuse_tracked_links.sql` (`create_tracked_link` v2, reusa código existente)
+3. `20260821232000_fix_tracked_link_reuse.sql` (`create_tracked_link` v3, versión final)
+4. `20260826120000_mi_barata.sql` (offer_id en list_items + RLS)
+5. `20260826130000_horarios_estructurados.sql` (schedule_json)
+6. `20260826131000_resenas_con_foto.sql` (photos)
+
+Ya no hay migraciones pendientes conocidas. Si se agrega una nueva, aplicarla con el mismo mecanismo
+(HANDOFF §3.8) y **verificar con una query real a `schema_migrations`/`pg_proc`**, no asumir.
 
 ### Dev contra Supabase local — LEER, tiene trampas
 
