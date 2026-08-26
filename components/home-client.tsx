@@ -333,7 +333,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
                   <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{key === "gratis" ? "Para empezar" : key === "premium" ? "Mayor exposición" : "Para crecer"}</p>
                   <h3 className="mt-3 font-display text-2xl uppercase tracking-tight text-[var(--text)]">{plan.name}</h3>
                   <p className="mt-6 font-display text-5xl leading-none text-[var(--accent)]">{plan.precioARS ? `$${plan.precioARS.toLocaleString("es-AR")}` : "Gratis"}{plan.precioARS > 0 && <span className="ml-1 text-sm font-bold text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>/mes</span>}</p>
-                  <ul className="mt-6 space-y-2.5 border-t border-[var(--line)] pt-5 text-sm font-semibold text-[#c4b5a5]">
+                  <ul className="mt-6 space-y-2.5 border-t border-[var(--line)] pt-5 text-sm font-semibold text-[var(--muted)]">
                     {planFeatures[key].map((feature) => <li key={feature} className="flex items-center gap-2"><span className="text-[var(--ok)]">✓</span> {feature}</li>)}
                   </ul>
                 </Link>
