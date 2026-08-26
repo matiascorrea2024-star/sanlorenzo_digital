@@ -115,7 +115,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
             </div>
             <div className="mt-10 rounded-2xl border border-[var(--line)] bg-[var(--ov-03)] p-5">
               <p className="text-sm leading-relaxed text-[#c4b5a5]">
-                <span className="font-black text-white">Sin vueltas, sin intermediarios.</span><br />
+                <span className="font-black text-[var(--text)]">Sin vueltas, sin intermediarios.</span><br />
                 Contactá al comercio por WhatsApp y resolvé en el barrio.
               </p>
             </div>
@@ -127,7 +127,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
       <div className="relative z-10 border-y border-[var(--line)] bg-[var(--ov-02)]">
         <div ref={trustRef} className="mx-auto grid max-w-[1700px] grid-cols-2 gap-y-3 px-4 py-4 sm:px-6 md:grid-cols-4 md:gap-4">
           {TRUST.map(({ icon: Icon, label, iconClass }) => (
-            <div key={label} className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-wider text-white/60" style={{ fontFamily: "var(--font-display)" }}>
+            <div key={label} className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-wider text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
               <Icon className={`h-4 w-4 shrink-0 ${iconClass}`} />
               {label}
             </div>
