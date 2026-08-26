@@ -8,6 +8,7 @@ import Hero from "@/components/home/hero";
 import Featured from "@/components/home/featured";
 import OfertasBomba from "@/components/home/ofertas-bomba";
 import Colecciones from "@/components/home/colecciones";
+import VotoDelDia from "@/components/home/voto-del-dia";
 import OfferCard from "@/components/ui/offer-card";
 import { CATEGORIES } from "@/lib/data";
 import { hoyArgentina } from "@/lib/fecha-ar";
@@ -134,6 +135,13 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
       />
 
       <OfertasBomba ofertas={ofertasBomba} />
+
+      {/* ── Voto del día: competencia diaria real entre ofertas (ya
+          existía en el código, nunca se había montado en ninguna página).
+          Un voto por vecino por día, ranking en vivo, la oferta líder
+          avisa al comercio. Esto SÍ es la competitividad que pediste,
+          con datos reales de punta a punta. ── */}
+      <VotoDelDia />
 
       {/* ── Rubros ── */}
       <section className="border-b border-[var(--line)] px-4 py-14 sm:px-6 md:py-20" aria-labelledby="categorias-title">

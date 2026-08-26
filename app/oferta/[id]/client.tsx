@@ -11,6 +11,7 @@ import FavoriteButton from "@/components/ui/favorite-button";
 import NotifyMeButton from "@/components/offers/notify-me-button";
 import FollowButton from "@/components/business/follow-button";
 import ReviewsSection from "@/components/business/reviews-section";
+import OpinionVote from "@/components/offers/opinion-vote";
 import { track } from "@/lib/track";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { planDe } from "@/lib/plans";
@@ -339,6 +340,15 @@ export default function OfertaPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Opinión real de vecinos (Sí/No, un voto por persona,
+                  persistente) -- no es un número inventado como en el
+                  mockup original, es lib/offer_opinions con RLS real. */}
+              {!vencido && (
+                <div className="mt-8">
+                  <OpinionVote offerId={oferta.id} />
+                </div>
+              )}
 
               <div className="mt-8 space-y-3">
                 {negocio.whatsapp && (
