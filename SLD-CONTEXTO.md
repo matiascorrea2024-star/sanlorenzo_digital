@@ -1,4 +1,9 @@
 # SAN LORENZO DIGITAL — CONTEXTO DEL PROYECTO (leer al iniciar cualquier chat)
+> ⚠️ SUPERADO en parte: la estética cambió a V3 (magenta neobrutalista, no naranja),
+> el proyecto vive en ~/Escritorio/SLD_MAESTRO y el documento canónico de continuidad
+> es **HANDOFF.md** (leer ese primero). Este archivo queda por contexto histórico
+> (perfil no técnico del usuario, reglas de edición, pendientes de seguridad).
+
 Actualizado: 2026-08-15
 
 ## Perfil del usuario
