@@ -1,15 +1,15 @@
 "use client";
-// HEADER V3 -- lenguaje de las maquetas LA GRAN BARATA: logo XL que rota
-// al hover, buscador dominante, icon-nav Radar/Hot/Comunidad con label
-// técnico debajo y chip de usuario. Segunda fila con el resto de las
-// secciones. Toda la funcionalidad real se conserva (auth, rol, campana,
-// ciudades, tema, menú mobile).
+// HEADER -- densidad plana estilo Amazon (calcado del mockup de
+// referencia aprobado): barra superior SIEMPRE oscura sin blur, logo
+// chico, "Entrega en" + buscador dominante, cuenta a la derecha, fila
+// de secciones en texto plano debajo. Toda la funcionalidad real se
+// conserva (auth, rol, campana, ciudades, tema, menú mobile).
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   ShoppingBag, Sparkles, Store, Flame, Clapperboard, Newspaper, Trophy, Map as MapIcon,
-  Users, Radar, Video,
+  Users, Radar, Video, Menu,
 } from "lucide-react";
 import SmartSearch from "@/components/ui/smart-search";
 import NotificationBell from "@/components/layout/notification-bell";
@@ -89,6 +89,8 @@ export default function Header() {
             <span className="hidden text-base font-bold tracking-tight text-white sm:inline" style={{ fontFamily: "var(--font-tech)" }}>La Gran Barata</span>
           </Link>
 
+          <CitySwitcher />
+
           <SmartSearch className="hidden min-w-0 max-w-3xl flex-1 lg:block" shortcutSlash />
 
           <div className="ml-auto flex shrink-0 items-center gap-1 md:gap-3">
@@ -108,7 +110,6 @@ export default function Header() {
 
             <MobileMenu />
             <ThemeToggle />
-            <CitySwitcher />
             {user && <NotificationBell />}
 
             {user ? (
@@ -185,17 +186,20 @@ export default function Header() {
         <SmartSearch placeholder="Buscá en San Lorenzo..." />
       </div>
 
-      {/* ── Fila 2: secciones restantes ── */}
+      {/* ── Fila 2: secciones, texto plano y denso (sin íconos) -- mismo
+          patrón que la subnav del mockup de referencia. ── */}
       <nav className="hidden border-b border-white/[.06] bg-black/30 md:block" aria-label="Secciones">
-        <div className="mx-auto flex max-w-[1700px] items-center gap-0.5 px-4 lg:px-6">
+        <div className="mx-auto flex max-w-[1700px] items-center gap-1 px-4 lg:px-6">
+          <Link href="/negocios" className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-semibold text-white/85 transition-colors hover:text-white">
+            <Menu className="h-3.5 w-3.5" /> Todos los rubros
+          </Link>
           {NAV.map((it) => {
             const active = pathname.startsWith(it.href);
             return (
               <Link key={it.href} href={it.href} aria-current={active ? "page" : undefined}
-                className={`relative flex items-center gap-1.5 px-3 py-2 text-[13px] font-semibold transition-colors ${
+                className={`relative px-3 py-1.5 text-[13px] font-semibold transition-colors ${
                   active ? "text-white" : "text-white/55 hover:text-white"
                 }`}>
-                <it.icon className={`h-3.5 w-3.5 ${active ? "text-[var(--accent)]" : "opacity-60"}`} />
                 {it.label}
                 {active && <span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-[var(--accent)]" />}
               </Link>
