@@ -7,6 +7,7 @@ import OfferCard from "@/components/ui/offer-card";
 import { supabase } from "@/lib/supabase";
 import { hoyArgentina } from "@/lib/fecha-ar";
 import { CATEGORIES } from "@/lib/data";
+import { FilterGroup, CheckRow, RadioRow } from "@/components/ui/filter-sidebar";
 
 type Row = {
   id: string;
@@ -43,9 +44,13 @@ export default function PromocionesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [count, setCount] = useState(0);
-  const [category, setCategory] = useState("");
+  const [cats, setCats] = useState<string[]>([]);
   const [minDiscount, setMinDiscount] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
+  const [soloVerificados, setSoloVerificados] = useState(false);
+  const [soloDestacados, setSoloDestacados] = useState(false);
+  const [soloUrgentes, setSoloUrgentes] = useState(false);
+  const toggleCat = (id: string) => setCats((prev) => prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]);
   const heroRef = useRef<HTMLDivElement>(null);
   // Snapshot de "ahora" tomado una sola vez (no en cada render) para
   // no llamar Date.now() de forma impura durante el cálculo de impulsada.
@@ -69,9 +74,12 @@ export default function PromocionesPage() {
     () =>
       rows
         .filter((o) => (!o.valid_until || o.valid_until >= hoy)
-          && (!category || o.business_category === category)
+          && (cats.length === 0 || cats.includes(o.business_category))
           && (!minDiscount || Number(o.discount_percent || 0) >= minDiscount)
-          && (!maxPrice || !o.offer_price || Number(o.offer_price) <= maxPrice))
+          && (!maxPrice || !o.offer_price || Number(o.offer_price) <= maxPrice)
+          && (!soloVerificados || o.business_status === "verificado")
+          && (!soloDestacados || o.business_destacado)
+          && (!soloUrgentes || (diasA(o.valid_until) !== null && (diasA(o.valid_until) as number) <= 1)))
         .map((o) => ({
           id: o.id,
           negocio: o.business_name,
@@ -94,7 +102,7 @@ export default function PromocionesPage() {
         }))
         // Impulsadas primero -- lo que el negocio pagó por destacar hoy.
         .sort((a, b) => (b.impulsada ? 1 : 0) - (a.impulsada ? 1 : 0)),
-    [rows, hoy, ahora, category, minDiscount, maxPrice]
+    [rows, hoy, ahora, cats, minDiscount, maxPrice, soloVerificados, soloDestacados, soloUrgentes]
   );
 
   const urgentes = useMemo(() => activas.filter((o) => { const d = diasA(o.vence); return d !== null && d <= 1; }), [activas]);
@@ -125,100 +133,110 @@ export default function PromocionesPage() {
                 <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" /></span>
                 <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Corriendo ahora</span>
               </div>
-              <h1 className="font-display text-5xl leading-[0.95] tracking-tight md:text-7xl">
+              <h1 className="font-display text-3xl leading-[0.95] tracking-tight sm:text-4xl">
                 <span>La Gran</span>{" "}
                 <span className="knockout-text magenta-glow">Barata</span>
               </h1>
             </div>
-            <div className="shrink-0 rounded-[1.75rem] border border-[var(--accent)]/25 bg-[var(--surface)] p-1.5 shadow-[0_0_40px_rgba(209,47,104,0.08)]">
-              <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-6 py-4 text-center">
-                <p className="tabular-nums font-display text-4xl text-[var(--accent)] md:text-5xl">{count}</p>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted)]">oferta{count === 1 ? "" : "s"} activa{count === 1 ? "" : "s"}</p>
+            <div className="shrink-0 rounded-2xl border border-[var(--accent)]/25 bg-[var(--surface)] p-1.5 shadow-[0_0_40px_rgba(209,47,104,0.08)]">
+              <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-5 py-3 text-center">
+                <p className="tabular-nums font-display text-2xl text-[var(--accent)] sm:text-3xl">{count}</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-[var(--muted)]">oferta{count === 1 ? "" : "s"} activa{count === 1 ? "" : "s"}</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-4 pt-10">
-        <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <label className="flex min-h-12 items-center justify-between gap-3 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)]">Rubro</span>
-            <select value={category} onChange={(e) => setCategory(e.target.value)} className="max-w-[62%] bg-transparent text-right text-[var(--muted)] outline-none">
-              <option value="">Todos</option>
-              {CATEGORIES.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
-          </label>
-          <label className="flex min-h-12 items-center justify-between gap-3 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)]">Precio hasta</span>
-            <select value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="bg-transparent text-right text-[var(--muted)] outline-none">
-              <option value={0}>Cualquiera</option>
-              <option value={10000}>$10.000</option>
-              <option value={25000}>$25.000</option>
-              <option value={50000}>$50.000</option>
-            </select>
-          </label>
-          <label className="flex min-h-12 items-center justify-between gap-3 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3 text-sm">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)]">Descuento mínimo</span>
-            <select value={minDiscount} onChange={(e) => setMinDiscount(Number(e.target.value))} className="bg-transparent text-[var(--muted)] outline-none">
-              <option value={0}>Cualquiera</option>
-              <option value={10}>10%</option>
-              <option value={20}>20%</option>
-              <option value={30}>30%</option>
-            </select>
-          </label>
-        </div>
-        {error && <div role="alert" className="mb-6 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">{error}</div>}
-        {!loading && activas.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center md:p-10">
-            <p className="font-display mt-3 text-xl uppercase tracking-tight">No hay ofertas activas ahora</p>
-            <p className="mt-2 text-sm text-[var(--muted)]">Los negocios publican ofertas nuevas todos los días. Volvé a pasar más tarde.</p>
-            <Link
-              href="/dashboard/ofertas/nueva"
-              className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Soy comercio: publicar oferta
-            </Link>
-          </div>
-        ) : loading ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[0, 1, 2].map((i) => (
-              <div key={i} className="h-72 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--surface)]" />
+      <div className="mx-auto flex max-w-[1500px] items-start gap-8 px-4 pt-8">
+        {/* ── Sidebar de filtros, mismo patrón que /negocios ── */}
+        <aside className="hidden w-[230px] shrink-0 lg:block">
+          <FilterGroup title="Rubro">
+            {CATEGORIES.map((c) => (
+              <CheckRow key={c.id} checked={cats.includes(c.id)} onChange={() => toggleCat(c.id)} label={<>{c.icon} {c.name}</>} />
+            ))}
+          </FilterGroup>
+          <FilterGroup title="Precio máximo">
+            {[{ v: 0, l: "Cualquiera" }, { v: 10000, l: "$10.000" }, { v: 25000, l: "$25.000" }, { v: 50000, l: "$50.000" }].map((o) => (
+              <RadioRow key={o.v} name="maxprecio" checked={maxPrice === o.v} onChange={() => setMaxPrice(o.v)} label={o.l} />
+            ))}
+          </FilterGroup>
+          <FilterGroup title="Descuento mínimo">
+            {[{ v: 0, l: "Cualquiera" }, { v: 10, l: "10% o más" }, { v: 20, l: "20% o más" }, { v: 30, l: "30% o más" }].map((o) => (
+              <RadioRow key={o.v} name="descuento" checked={minDiscount === o.v} onChange={() => setMinDiscount(o.v)} label={o.l} />
+            ))}
+          </FilterGroup>
+          <FilterGroup title="Filtrar">
+            <CheckRow checked={soloUrgentes} onChange={() => setSoloUrgentes((v) => !v)} label="Vencen hoy o mañana" />
+            <CheckRow checked={soloVerificados} onChange={() => setSoloVerificados((v) => !v)} label="Solo verificados" />
+            <CheckRow checked={soloDestacados} onChange={() => setSoloDestacados((v) => !v)} label="Solo destacados" />
+          </FilterGroup>
+        </aside>
+
+        <div className="min-w-0 flex-1">
+          {/* Chips de rubro para mobile (sin sidebar ahí) */}
+          <div className="custom-scrollbar mb-4 flex gap-2 overflow-x-auto pb-1 lg:hidden">
+            {CATEGORIES.map((c) => (
+              <button key={c.id} onClick={() => toggleCat(c.id)}
+                className={`shrink-0 rounded-full border px-4 py-2 text-[11px] font-black uppercase tracking-wide transition-colors ${cats.includes(c.id) ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line-strong)] text-[var(--muted)]"}`}>
+                {c.icon} {c.name}
+              </button>
             ))}
           </div>
-        ) : (
-          <>
-            {urgentes.length > 0 && (
-              <div className="mb-10">
-                <div className="mb-4 flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[var(--accent)]">
-                    ⏰ Vencen hoy o mañana
-                  </span>
-                  <span className="text-xs font-bold uppercase tracking-widest text-[var(--muted2)]">corré antes de que se acaben</span>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {urgentes.map((o) => <OfferCard key={o.id} o={o} />)}
-                </div>
-              </div>
-            )}
-            {resto.length > 0 && (
-              <div>
-                {urgentes.length > 0 && (
-                  <p className="mb-4 text-[11px] font-black uppercase tracking-widest text-[var(--muted2)]">El resto de las ofertas</p>
-                )}
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {resto.map((o) => <OfferCard key={o.id} o={o} />)}
-                </div>
-              </div>
-            )}
-          </>
-        )}
 
-        <div className="mt-10 text-center">
-          <Link href="/ofertas-finalizadas" className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent)]">
-            Ver ofertas que ya terminaron →
-          </Link>
+          {error && <div role="alert" className="mb-6 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">{error}</div>}
+          {!loading && activas.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center md:p-10">
+              <p className="font-display mt-3 text-xl uppercase tracking-tight">No hay ofertas activas ahora</p>
+              <p className="mt-2 text-sm text-[var(--muted)]">Los negocios publican ofertas nuevas todos los días. Volvé a pasar más tarde.</p>
+              <Link
+                href="/dashboard/ofertas/nueva"
+                className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                Soy comercio: publicar oferta
+              </Link>
+            </div>
+          ) : loading ? (
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="h-72 animate-pulse rounded-2xl border border-[var(--line)] bg-[var(--surface)]" />
+              ))}
+            </div>
+          ) : (
+            <>
+              <p className="mb-4 text-xs text-[var(--muted)]">{activas.length} {activas.length === 1 ? "oferta" : "ofertas"}</p>
+              {urgentes.length > 0 && (
+                <div className="mb-10">
+                  <div className="mb-4 flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[var(--accent)]">
+                      ⏰ Vencen hoy o mañana
+                    </span>
+                    <span className="text-xs font-bold uppercase tracking-widest text-[var(--muted2)]">corré antes de que se acaben</span>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    {urgentes.map((o) => <OfferCard key={o.id} o={o} />)}
+                  </div>
+                </div>
+              )}
+              {resto.length > 0 && (
+                <div>
+                  {urgentes.length > 0 && (
+                    <p className="mb-4 text-[11px] font-black uppercase tracking-widest text-[var(--muted2)]">El resto de las ofertas</p>
+                  )}
+                  <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    {resto.map((o) => <OfferCard key={o.id} o={o} />)}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          <div className="mt-10 text-center">
+            <Link href="/ofertas-finalizadas" className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent)]">
+              Ver ofertas que ya terminaron →
+            </Link>
+          </div>
         </div>
       </div>
     </main>
