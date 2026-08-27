@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 import { crearTokenLive, livekitUrl } from "@/lib/livekit";
+import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  const limit = checkRateLimit(getRateLimitHeader(request), 10, 60);
+  if (!limit.ok) return rateLimitResponse(limit.retryAfter);
+
   const sb = await createClient();
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });

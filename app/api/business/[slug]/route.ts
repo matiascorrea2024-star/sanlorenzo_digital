@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireUser } from "@/lib/api-auth";
+import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
 import { esHorarioValido, formatearHorario } from "@/lib/horarios";
 
 const EDITABLE_FIELDS = [
@@ -10,6 +11,9 @@ const EDITABLE_FIELDS = [
 ] as const;
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const limit = checkRateLimit(getRateLimitHeader(request), 20, 60);
+  if (!limit.ok) return rateLimitResponse(limit.retryAfter);
+
   const { slug } = await params;
   const { sb, user, error } = await requireUser();
   if (!user) return NextResponse.json({ error }, { status: 401 });

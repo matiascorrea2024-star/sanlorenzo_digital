@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
+import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
+    const limit = checkRateLimit(getRateLimitHeader(request), 60, 60);
+    if (!limit.ok) return rateLimitResponse(limit.retryAfter);
+
     const supabase = await createClient();
     
     // Verificar autenticación

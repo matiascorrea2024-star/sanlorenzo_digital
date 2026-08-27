@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
+import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
 
 const EVENT_TYPES = new Set([
   "view_business", "view_offer", "click_whatsapp", "click_map", "favorite",
@@ -10,6 +11,9 @@ const EVENT_TYPES = new Set([
 
 export async function POST(req: NextRequest) {
   try {
+    const limit = checkRateLimit(getRateLimitHeader(req), 120, 60);
+    if (!limit.ok) return rateLimitResponse(limit.retryAfter);
+
     const ip =
       req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
       req.headers.get("x-real-ip") ||
