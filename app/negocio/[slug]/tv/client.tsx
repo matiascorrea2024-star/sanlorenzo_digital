@@ -108,7 +108,7 @@ export default function TvEscaparate({ negocio, ofertas }: { negocio: any; ofert
   );
 
   return (
-    <main onMouseMove={wake} className="relative h-dvh select-none overflow-hidden bg-[var(--bg)] text-white">
+    <main onMouseMove={wake} className="relative h-dvh select-none overflow-hidden bg-[#0c0a0b] text-white">
 
       {slides.length === 0 ? (
         <div className="flex h-full flex-col items-center justify-center gap-6 px-8 text-center">
@@ -152,7 +152,7 @@ export default function TvEscaparate({ negocio, ofertas }: { negocio: any; ofert
                   </p>
                 )}
                 {s.oldPrice !== null && s.price !== null && s.oldPrice > s.price && (
-                  <p className="pb-2 font-display text-4xl text-[var(--muted)] line-through decoration-[#a99b86] lg:pb-6 lg:text-7xl">
+                  <p className="pb-2 font-display text-4xl text-[var(--muted)] line-through decoration-[var(--muted)] lg:pb-6 lg:text-7xl">
                     ${s.oldPrice.toLocaleString("es-AR")}
                   </p>
                 )}

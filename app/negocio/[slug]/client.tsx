@@ -568,7 +568,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                             })}
                             disabled={hasItem(`producto-${p.id}`)}
                             aria-label={hasItem(`producto-${p.id}`) ? "Ya está en el changuito" : "Agregar al changuito"}
-                            className="flex shrink-0 items-center justify-center rounded-lg border border-sky-400/30 bg-sky-500/10 px-3 py-2 text-xs font-bold text-[var(--place)] hover:bg-sky-500/20 disabled:opacity-60"
+                            className="flex shrink-0 items-center justify-center rounded-lg border border-[var(--place)]/30 bg-[var(--place)]/10 px-3 py-2 text-xs font-bold text-[var(--place)] hover:bg-[var(--place)]/20 disabled:opacity-60"
                           >
                             {hasItem(`producto-${p.id}`) ? <Check className="h-3.5 w-3.5" /> : <ShoppingBasket className="h-3.5 w-3.5" />}
                           </button>
@@ -664,7 +664,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   )}
                   {negocio.hace_envios && (
                     <div className="flex items-start gap-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10"><Truck className="h-4 w-4 text-[var(--place)]" /></span>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--place)]/10"><Truck className="h-4 w-4 text-[var(--place)]" /></span>
                       <div className="min-w-0">
                         <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--place)]/70">Envíos</p>
                         <p className="text-sm text-[var(--text)]/90">

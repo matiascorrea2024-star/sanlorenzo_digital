@@ -35,7 +35,11 @@ export default async function HomePage() {
   const hoy = hoyArgentina();
   const ahora = nowMs();
 
-  const [{ data: negocios }, { data: ofertasRaw }, { data: reviewsRaw }] = await Promise.all([
+  const [
+    { data: negocios, error: negociosError },
+    { data: ofertasRaw, error: ofertasError },
+    { data: reviewsRaw, error: reviewsError },
+  ] = await Promise.all([
     sb
       .from("businesses")
       .select("id, name, status")
@@ -50,6 +54,9 @@ export default async function HomePage() {
       .order("created_at", { ascending: false })
       .limit(20),
   ]);
+  if (negociosError) console.error("HomePage: no se pudieron cargar los negocios:", negociosError.message);
+  if (ofertasError) console.error("HomePage: no se pudieron cargar las ofertas:", ofertasError.message);
+  if (reviewsError) console.error("HomePage: no se pudieron cargar las reviews:", reviewsError.message);
 
   const negociosById = new Map((negocios || []).map((n: any) => [n.id, n]));
 

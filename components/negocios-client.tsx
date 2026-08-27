@@ -276,7 +276,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
                         {isVerified && <span className={`${styles.badge} bg-[var(--ok)]/15 text-[var(--ok)]`}>✓ Verificado</span>}
                         {b.destacado && <span className={`${styles.badge} bg-[var(--accent)]/15 text-[var(--accent)]`}>🔥 Destacado</span>}
                         <span className={`${styles.badge} ${isOpen ? "bg-[var(--ok)]/15 text-[var(--ok)]" : "bg-[var(--bad)]/15 text-[var(--bad)]"}`}>{isOpen ? "Abierto" : "Cerrado"}</span>
-                        {b.hace_envios && <span className={`${styles.badge} bg-sky-500/15 text-[var(--place)]`}>🚚 Envíos</span>}
+                        {b.hace_envios && <span className={`${styles.badge} bg-[var(--place)]/15 text-[var(--place)]`}>🚚 Envíos</span>}
                       </div>
 
                       {b.description && <p className="mt-2 line-clamp-1 text-xs text-[var(--muted)] sm:line-clamp-2">{b.description}</p>}
