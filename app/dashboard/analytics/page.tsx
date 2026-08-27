@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 import Link from "next/link";
-import { TrendingUp, Eye, MessageCircle, MapPin, Heart, Ticket, Users, Lock, ShoppingBasket, CircleCheck } from "lucide-react";
+import { TrendingUp, Eye, MessageCircle, MapPin, Heart, Ticket, Users, Lock, ShoppingBasket, CircleCheck, Flame } from "lucide-react";
 import InfoTip from "@/components/ui/info-tip";
 import { planDe } from "@/lib/plans";
 
@@ -13,8 +13,8 @@ export default function AnalyticsPage() {
   const [negocios, setNegocios] = useState<any[]>([]);
   const [selectedBiz, setSelectedBiz] = useState<string>("");
   const [stats, setStats] = useState<any>({
-    views: 0, offerViews: 0, whatsapp: 0, map: 0, favorites: 0, coupons: 0,
-    follows: 0, shares: 0, checkout: 0, payments: 0
+    views: 0, offerViews: 0, interest: 0, whatsapp: 0, map: 0, favorites: 0, coupons: 0,
+    couponsRedeemed: 0, follows: 0, shares: 0, checkout: 0, payments: 0
   });
   const [timeline, setTimeline] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,8 +60,8 @@ export default function AnalyticsPage() {
         .order("created_at", { ascending: false });
 
       const counts: Record<string, number> = {
-        view_business: 0, view_offer: 0, click_whatsapp: 0, click_map: 0,
-        favorite: 0, coupon_generated: 0, follow: 0, share_business: 0,
+        view_business: 0, view_offer: 0, interest_offer: 0, click_whatsapp: 0, click_map: 0,
+        favorite: 0, coupon_generated: 0, coupon_redeemed: 0, follow: 0, share_business: 0,
         share_offer: 0, checkout_started: 0, payment_confirmed: 0
       };
 
@@ -74,10 +74,12 @@ export default function AnalyticsPage() {
       setStats({
         views: counts.view_business,
         offerViews: counts.view_offer,
+        interest: counts.interest_offer,
         whatsapp: counts.click_whatsapp,
         map: counts.click_map,
         favorites: counts.favorite,
         coupons: counts.coupon_generated,
+        couponsRedeemed: counts.coupon_redeemed,
         follows: counts.follow,
         shares: counts.share_business + counts.share_offer,
         checkout: counts.checkout_started,
@@ -116,15 +118,32 @@ export default function AnalyticsPage() {
   const cards = [
     { icon: Eye, label: "Visitas", value: stats.views, color: "text-[var(--place)]", info: "Cuántas veces entraron a la ficha de tu negocio en los últimos 30 días." },
     { icon: Eye, label: "Ofertas vistas", value: stats.offerViews, color: "text-[var(--accent)]", info: "Cuántas veces abrieron una oferta asociada a tu negocio." },
+    { icon: Flame, label: "Interés", value: stats.interest, color: "text-[var(--accent)]", info: "Cuántas personas tocaron \"Me interesa\" en una oferta tuya -- una señal de intención, previa al contacto." },
     { icon: MessageCircle, label: "WhatsApp", value: stats.whatsapp, color: "text-[var(--ok)]", info: "Cuántas personas tocaron el botón de WhatsApp para escribirte." },
     { icon: MapPin, label: "Cómo llegar", value: stats.map, color: "text-[var(--accent)]", info: "Cuántas personas tocaron \"Cómo llegar\" para ver tu ubicación en el mapa." },
     { icon: Heart, label: "Favoritos", value: stats.favorites, color: "text-[var(--bad)]", info: "Cuántas personas guardaron tu negocio en sus favoritos." },
     { icon: Users, label: "Seguidores", value: stats.follows, color: "text-purple-400", info: "Cuántas personas te siguen para enterarse de tus novedades y ofertas." },
     { icon: Ticket, label: "Cupones", value: stats.coupons, color: "text-[var(--ok)]", info: "Cuántos cupones de tus ofertas generaron los clientes para usar en el local." },
+    { icon: CircleCheck, label: "Ventas confirmadas", value: stats.couponsRedeemed, color: "text-[var(--ok)]", info: "Cupones que de verdad canjearon en tu local -- la parte del embudo que prueba una venta real." },
     { icon: TrendingUp, label: "Compartidos", value: stats.shares, color: "text-[var(--place)]", info: "Compartidos rastreados de tu negocio y sus ofertas." },
     { icon: ShoppingBasket, label: "Intenciones", value: stats.checkout, color: "text-purple-400", info: "Personas que iniciaron un pedido desde el changuito." },
     { icon: CircleCheck, label: "Pagos", value: stats.payments, color: "text-[var(--ok)]", info: "Pagos confirmados por el webhook verificado de Mercado Pago." },
   ];
+
+  // Embudo de conversión real: cada etapa es un evento de analytics_events
+  // ya existente, sin inventar ningún número. No es un funnel estricto por
+  // usuario (no encadena el mismo visitante etapa a etapa), es un conteo
+  // agregado de 30 días -- igual que el resto de este dashboard -- pero
+  // ordenado en la secuencia real de decisión del cliente.
+  const funnel = [
+    { label: "Personas alcanzadas", sub: "Vieron tu negocio", value: stats.views, icon: Eye },
+    { label: "Vieron oferta", sub: "Abrieron una oferta", value: stats.offerViews, icon: Eye },
+    { label: "Mostraron interés", sub: "Tocaron \"Me interesa\"", value: stats.interest, icon: Flame },
+    { label: "Contactaron", sub: "Escribieron por WhatsApp", value: stats.whatsapp, icon: MessageCircle },
+    { label: "Usaron cupón", sub: "Generaron un cupón", value: stats.coupons, icon: Ticket },
+    { label: "Ventas confirmadas", sub: "Canjearon el cupón en el local", value: stats.couponsRedeemed, icon: CircleCheck },
+  ];
+  const funnelTope = funnel[0].value;
 
   const maxViews = Math.max(...timeline.map(d => d.views), 1);
 
@@ -231,27 +250,47 @@ export default function AnalyticsPage() {
         </div>
         </div>
 
-        {/* Conversión */}
+        {/* Embudo de conversión */}
         <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
           <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-            <h2 className="text-lg font-black mb-3 flex items-center gap-1.5">
-              Tasa de conversión
-              <InfoTip label="Qué es la tasa de conversión">De cada 100 personas que ven tu negocio, cuántas terminan haciendo algo concreto (escribirte o generar un cupón). Un número más alto significa que tu ficha convence.</InfoTip>
+            <h2 className="text-lg font-black mb-1 flex items-center gap-1.5">
+              Embudo de conversión
+              <InfoTip label="Cómo se arma este embudo">Cada etapa es un evento real que ya registramos en los últimos 30 días -- nadie inventa ni proyecta números. No sigue al mismo visitante paso a paso, es el volumen de cada etapa en el período, ordenado en la secuencia real de decisión de un cliente.</InfoTip>
             </h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-xs text-[var(--muted)]">Visitas → WhatsApp</p>
-                <p className="text-2xl font-black text-[var(--ok)] tabular-nums">
-                  {stats.views > 0 ? ((stats.whatsapp / stats.views) * 100).toFixed(1) : 0}%
-                </p>
+            <p className="mb-5 text-sm text-[var(--muted)]">De cuánta gente te vio, a cuántas ventas se confirmaron.</p>
+
+            {funnelTope === 0 ? (
+              <p className="text-sm text-[var(--muted)]">Todavía no hay suficientes visitas en los últimos 30 días para armar el embudo.</p>
+            ) : (
+              <div className="space-y-3">
+                {funnel.map((etapa, i) => {
+                  const pctTope = funnelTope > 0 ? (etapa.value / funnelTope) * 100 : 0;
+                  const anterior = i > 0 ? funnel[i - 1].value : null;
+                  const pctPaso = anterior && anterior > 0 ? (etapa.value / anterior) * 100 : null;
+                  return (
+                    <div key={etapa.label} className="flex items-center gap-3">
+                      <etapa.icon className="h-4 w-4 shrink-0 text-[var(--accent)]" />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-baseline justify-between gap-2">
+                          <span className="truncate text-sm font-bold">{etapa.label}</span>
+                          <span className="shrink-0 text-sm font-black tabular-nums">{etapa.value}</span>
+                        </div>
+                        <div className="mt-1 h-2.5 w-full overflow-hidden rounded-full bg-[var(--ov-05)]">
+                          <div
+                            className="h-full rounded-full bg-[var(--accent)] transition-all"
+                            style={{ width: `${Math.max(pctTope, etapa.value > 0 ? 2 : 0)}%` }}
+                          />
+                        </div>
+                        <p className="mt-0.5 text-[11px] text-[var(--muted2)]">
+                          {etapa.sub}
+                          {pctPaso !== null && <> -- {pctPaso.toFixed(1)}% de la etapa anterior</>}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-              <div>
-                <p className="text-xs text-[var(--muted)]">Visitas → Cupones</p>
-                <p className="text-2xl font-black text-[var(--ok)] tabular-nums">
-                  {stats.views > 0 ? ((stats.coupons / stats.views) * 100).toFixed(1) : 0}%
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
         </>

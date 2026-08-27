@@ -27,9 +27,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "event_type inválido" }, { status: 400 });
     }
     const metadata = body.metadata && typeof body.metadata === "object" ? body.metadata : {};
+
+    // Algunos botones (ej. InterestButton, montado sobre tarjetas de oferta
+    // que solo reciben el offerId) solo mandan offer_id, sin business_id.
+    // Sin esto el evento igual se guarda, pero queda huérfano: el dashboard
+    // del comerciante filtra analytics_events por business_id, así que esa
+    // señal real de interés nunca aparecía en ningún negocio.
+    let businessId: string | null = body.business_id || null;
+    if (!businessId && body.offer_id) {
+      const { data: offerRow } = await sb.from("offers").select("business_id").eq("id", body.offer_id).maybeSingle();
+      businessId = offerRow?.business_id || null;
+    }
+
     await Promise.all([
       sb.from("page_views").insert({
-        business_id: body.business_id || null,
+        business_id: businessId,
         path: body.path || "/",
         ip,
       }),
@@ -37,7 +49,7 @@ export async function POST(req: NextRequest) {
         ? sb.from("analytics_events").insert({
             event_type: body.event_type,
             event_name: body.event_type,
-            business_id: body.business_id || null,
+            business_id: businessId,
             offer_id: body.offer_id || null,
             product_id: body.product_id || null,
             user_id: user?.id || null,
