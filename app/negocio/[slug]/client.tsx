@@ -13,7 +13,6 @@ import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
 import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
 import { estaAbiertoAhora } from "@/lib/horarios";
-import { safeJsonLd } from "@/lib/json-ld";
 import { MapPin, Clock, Phone, MessageCircle, Share2, ArrowLeft, ExternalLink, Flame, Star, Search, Truck, Navigation, Package, ShoppingBasket, Check, Tv } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import Badge from "@/components/ui/badge";
@@ -34,17 +33,6 @@ import { hoyArgentina } from "@/lib/fecha-ar";
 import { getTrackedShareUrl } from "@/lib/tracked-link";
 import { relativeTime } from "@/lib/relative-time";
 import styles from "./negocio.module.css";
-
-const CATEGORY_IMAGES: Record<string, string> = {
-  calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=1200&q=85",
-  gastronomia: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85",
-  ferreteria: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=1200&q=85",
-  belleza: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85",
-  ropa: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1200&q=85",
-  automotor: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85",
-  profesionales: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-  tecnologia: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-};
 
 const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
@@ -197,36 +185,13 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
     );
   }
 
-  const portada = negocio.portada_url || CATEGORY_IMAGES[negocio.category] || CATEGORY_IMAGES.gastronomia;
   const waDestacado = negocio.whatsapp && planDe(negocio).whatsappDestacado;
   const actualizado = relativeTime(negocio.updated_at);
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: negocio.name,
-    description: negocio.description || "",
-    image: portada,
-    url: `https://sanlorenzodigital.vercel.app/negocio/${negocio.slug}`,
-    telephone: negocio.whatsapp || undefined,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: negocio.address || "",
-      addressLocality: "San Lorenzo",
-      addressRegion: "Santa Fe",
-      addressCountry: "AR",
-    },
-    geo: negocio.latitude ? { "@type": "GeoCoordinates", latitude: Number(negocio.latitude), longitude: Number(negocio.longitude) } : undefined,
-    openingHours: negocio.schedule || undefined,
-    aggregateRating: negocio.reviews ? { "@type": "AggregateRating", ratingValue: negocio.rating || 0, reviewCount: negocio.reviews || 0 } : undefined,
-  };
 
   return (
     <main className="bg-[var(--bg)] min-h-screen pb-24 text-[var(--text)]">
       {/* Glow ambiental de marca, mismo lenguaje que el resto del sitio. */}
       <div className="aurora-bg -z-10" style={{ position: "fixed" }} aria-hidden="true"><span /><span /><span /></div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
-
       {/* COVER cinematográfico -- misma estructura que la vista previa que
           se le mostró a Matías: tapa a sangre completa, viñeta, avatar
           flotante, nombre en Fraunces itálica, meta real, acciones. */}

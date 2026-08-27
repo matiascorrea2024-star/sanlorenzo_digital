@@ -10,6 +10,7 @@ import CategoryCover from "@/components/ui/category-cover";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 import FavoriteButton from "@/components/ui/favorite-button";
 import { supabase } from "@/lib/supabase";
+import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { sanitizeSearchQuery } from "@/lib/sanitize";
 import { expandirBusqueda } from "@/lib/sinonimos";
 import { ExpandableFilterGroup, FilterGroup, CheckRow, RadioRow } from "@/components/ui/filter-sidebar";
@@ -100,6 +101,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
   // uno de una búsqueda ya descartada. Este contador de secuencia
   // descarta cualquier respuesta que no sea la última pedida.
   const secuencia = useRef(0);
+  const { trackSearch, trackClickWhatsApp } = useAnalytics();
 
   useEffect(() => {
     setBuscando(true);
@@ -111,6 +113,9 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
         if (miSecuencia !== secuencia.current) return;
         setList(data);
         setTotal(count);
+        // Solo logueamos búsquedas con texto real -- cambiar de categoría/filtro
+        // sin texto no es una "búsqueda" para efectos de detectar demanda.
+        if (q.trim()) trackSearch(q.trim(), count ?? data?.length ?? 0);
       } catch {
         if (miSecuencia === secuencia.current) setError("No pudimos cargar el directorio. Revisá tu conexión e intentá de nuevo.");
       } finally {
@@ -118,7 +123,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
       }
     }, q.trim() ? 300 : 0);
     return () => clearTimeout(t);
-  }, [cats, barrios, q, estado, mode, delivery, minRating, soloDestacados, soloVerificados, sort]);
+  }, [cats, barrios, q, estado, mode, delivery, minRating, soloDestacados, soloVerificados, sort, trackSearch]);
 
   const cargarMas = async () => {
     setLoadingMore(true);
@@ -286,6 +291,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
                       <a
                         href={`https://wa.me/${String(b.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${b.name} en La Gran Barata Digital`)}`}
                         target="_blank" rel="noopener noreferrer"
+                        onClick={() => trackClickWhatsApp(b.id)}
                         className="relative z-10 hidden shrink-0 items-center gap-1.5 self-center rounded-xl bg-green-500 px-4 py-2.5 text-xs font-black text-white transition hover:bg-green-600 sm:flex"
                       >
                         <MessageCircle className="h-4 w-4" /> WhatsApp

@@ -68,6 +68,20 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error;
 
+    // Completa el funnel de conversión: coupon_generated ya se loguea al
+    // generar el cupón (components/offers/coupon-button.tsx), pero el canje
+    // -- la parte que de verdad prueba una venta -- nunca se registraba en
+    // analytics_events, así que no se podía armar el embudo completo.
+    const { error: eventError } = await supabase.from("analytics_events").insert({
+      event_type: "coupon_redeemed",
+      event_name: "coupon_redeemed",
+      business_id: coupon.business_id,
+      offer_id: coupon.offer_id || null,
+      user_id: user.id,
+      metadata: { coupon_id: coupon.id },
+    });
+    if (eventError) console.error("No se pudo registrar el evento de canje:", eventError);
+
     return NextResponse.json({ 
       coupon: updatedCoupon,
       message: "Cupón validado exitosamente"

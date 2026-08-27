@@ -38,7 +38,8 @@ export function useAnalytics() {
     trackClickMap: (businessId: string) => track("click_map", { business_id: businessId }),
     trackFavorite: (businessId: string) => track("favorite", { business_id: businessId }),
     trackFollow: (businessId: string) => track("follow", { business_id: businessId }),
-    trackSearch: (query: string) => track("search", { metadata: { query } }),
+    trackSearch: (query: string, resultCount?: number) =>
+      track("search", { metadata: resultCount === undefined ? { query } : { query, result_count: resultCount } }),
     trackCouponGenerated: (offerId: string, businessId: string) => track("coupon_generated", { offer_id: offerId, business_id: businessId }),
     trackCouponRedeemed: (couponId: string, businessId: string) => track("coupon_redeemed", { metadata: { coupon_id: couponId }, business_id: businessId }),
     trackShareBusiness: (businessId: string, source = "share", sourceCode?: string) =>

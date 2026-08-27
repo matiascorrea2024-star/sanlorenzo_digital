@@ -55,6 +55,7 @@ export const metadata: Metadata = {
 };
 
 import InstallApp from "@/components/ui/install-app";
+import ServiceWorkerRegister from "@/components/service-worker-register";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -94,6 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </AuthProvider>
       </ToastProvider>
       <InstallApp />
+      <ServiceWorkerRegister />
       <Analytics />
       </body>
     </html>

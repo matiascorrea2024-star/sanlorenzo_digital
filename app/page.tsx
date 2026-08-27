@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase-server";
 import { hoyArgentina } from "@/lib/fecha-ar";
 import MercadoVivoClient from "./mercado-vivo/mv-client";
+import { calcSDLScore } from "@/lib/sdl-score";
 
 export const revalidate = 60;
 
@@ -97,7 +98,21 @@ export default async function HomePage() {
     .sort((a, b) => (daysTo(a.vence) ?? 999) - (daysTo(b.vence) ?? 999))
     .slice(0, 3);
   const idsUsadosPronto = new Set(terminanPronto.map((o) => o.id));
-  const recomendadas = resto.filter((o) => !idsUsadosPronto.has(o.id)).slice(0, 3);
+  // Antes esto era simplemente "lo que sobra, más nuevo primero" -- ahora
+  // usa el mismo Índice de Oportunidad (SDL Score) real que ya se muestra
+  // en cada oferta (lib/sdl-score.ts), sin el componente de distancia
+  // (no hay ubicación del visitante en el servidor -- la fórmula ya define
+  // un puntaje neutro para ese caso, igual que en el resto del sitio).
+  const scoreOportunidad = (o: Oferta) => calcSDLScore({
+    descuento: o.descuento || 0,
+    distanciaKm: null,
+    rating: o.rating || 0,
+    diasRestantes: daysTo(o.vence),
+  });
+  const recomendadas = resto
+    .filter((o) => !idsUsadosPronto.has(o.id))
+    .sort((a, b) => scoreOportunidad(b) - scoreOportunidad(a))
+    .slice(0, 3);
 
   const terminanHoy = ofertas.filter((o) => o.vence && daysTo(o.vence) === 0).length;
 
