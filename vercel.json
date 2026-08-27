@@ -7,6 +7,10 @@
     {
       "path": "/api/cron/expirar-planes",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/expirar-ofertas",
+      "schedule": "0 5 * * *"
     }
   ]
 }
