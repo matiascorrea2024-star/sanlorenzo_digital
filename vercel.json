@@ -14,7 +14,7 @@
     },
     {
       "path": "/api/cron/ads-lifecycle",
-      "schedule": "*/30 * * * *"
+      "schedule": "0 5 * * *"
     }
   ]
 }
