@@ -25,7 +25,7 @@ export default function PlanComparison() {
     if (value === true) return <Check className="h-5 w-5 text-[var(--ok)]" />;
     if (value === false) return <X className="h-5 w-5 text-[var(--muted2)]" />;
     if (value === -1) return <span className="text-sm font-bold text-[var(--accent)]">Ilimitado</span>;
-    return <span className="text-sm font-bold text-white">{value}</span>;
+    return <span className="text-sm font-bold text-[var(--text)]">{value}</span>;
   };
 
   return (
@@ -44,7 +44,7 @@ export default function PlanComparison() {
             <tr className="border-b border-[var(--line)] bg-[var(--ov-05)]">
               <th className="p-4 text-left text-[11px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>Característica</th>
               {plans.map((plan) => (
-                <th key={plan.name} className={`p-4 text-center font-display text-base tracking-tight ${plan.name === "Destacado Semanal" ? "text-[var(--accent)]" : "text-white"}`}>
+                <th key={plan.name} className={`p-4 text-center font-display text-base tracking-tight ${plan.name === "Destacado Semanal" ? "text-[var(--accent)]" : "text-[var(--text)]"}`}>
                   {plan.name}
                 </th>
               ))}

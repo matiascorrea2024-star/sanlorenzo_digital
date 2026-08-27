@@ -35,11 +35,12 @@ export default function AdminVisits() {
     const { data: bizs } = await sb.from("businesses").select("id").limit(5);
     const ips = ["200.42.101.15", "190.111.55.88", "181.47.203.12", "201.232.44.77", "186.138.90.100"];
     for (let i = 0; i < 5; i++) {
-      await sb.from("page_views").insert({
+      const { error } = await sb.from("page_views").insert({
         business_id: bizs?.[i % bizs.length]?.id || null,
         path: `/negocio/${i}`,
         ip: ips[i],
       });
+      if (error) console.error("Error al simular visita:", error);
     }
     await cargar();
     setLoading(false);

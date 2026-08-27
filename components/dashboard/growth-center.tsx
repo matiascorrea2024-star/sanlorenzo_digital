@@ -62,8 +62,8 @@ export default function GrowthCenter({ business, ofertasActivas, respuestaMedia 
 
   const okCount = items.filter((i) => i.ok).length;
   const pct = Math.round((okCount / items.length) * 100);
-  const pctColor = pct < 50 ? "text-[var(--bad)]" : pct < 80 ? "text-[#fbbf24]" : "text-[var(--ok)]";
-  const barColor = pct < 50 ? "bg-[var(--bad)]" : pct < 80 ? "bg-[#fbbf24]" : "bg-[var(--ok)]";
+  const pctColor = pct < 50 ? "text-[var(--bad)]" : pct < 80 ? "text-[var(--warn)]" : "text-[var(--ok)]";
+  const barColor = pct < 50 ? "bg-[var(--bad)]" : pct < 80 ? "bg-[var(--warn)]" : "bg-[var(--ok)]";
   const pendientes = items.filter((i) => !i.ok);
 
   return (

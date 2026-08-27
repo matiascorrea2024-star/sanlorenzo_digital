@@ -1,8 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePlatformSetting, setPlatformSetting } from "@/lib/hooks/use-platform-settings";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function PlatformPaymentSetting() {
+  const { show } = useToast();
   const value = usePlatformSetting("datos_pago");
   const [draft, setDraft] = useState("");
   const [saving, setSaving] = useState(false);
@@ -14,7 +17,8 @@ export default function PlatformPaymentSetting() {
     setSaving(true);
     const { error } = await setPlatformSetting("datos_pago", draft);
     setSaving(false);
-    if (!error) { setSaved(true); setTimeout(() => setSaved(false), 2000); }
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo guardar el cambio.")}`, "error"); return; }
+    setSaved(true); setTimeout(() => setSaved(false), 2000);
   };
 
   return (

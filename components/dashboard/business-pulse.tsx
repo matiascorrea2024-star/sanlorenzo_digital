@@ -95,7 +95,7 @@ export default function BusinessPulse({ negocio }: Props) {
         <div className="space-y-2">
           {checklist.map((c) => (
             <div key={c.label} className="flex items-center gap-2 text-sm">
-              {c.ok ? <CheckCircle2 className="h-4 w-4 shrink-0 text-[#34d399]" /> : <Circle className="h-4 w-4 shrink-0 text-white/15" />}
+              {c.ok ? <CheckCircle2 className="h-4 w-4 shrink-0 text-[var(--ok)]" /> : <Circle className="h-4 w-4 shrink-0 text-[var(--muted2)]" />}
               <span className={c.ok ? "text-[var(--text)]/85" : "text-[var(--muted2)]"}>{c.label}</span>
               <span className="ml-auto text-[10px] text-[var(--muted2)]">{c.detalle}</span>
             </div>
@@ -108,10 +108,10 @@ export default function BusinessPulse({ negocio }: Props) {
         <p className="mb-4 flex items-center gap-2 font-display text-lg uppercase tracking-tight text-[var(--text)]"><Target className="h-4 w-4 text-[var(--accent)]" /> Misión de la semana</p>
         <div className="space-y-2.5">
           {misiones.map((m) => (
-            <div key={m.label} className={`rounded-2xl border p-3 ${m.done ? "border-emerald-400/25 bg-emerald-400/5" : "border-[var(--line)] bg-[var(--ov-02)]"}`}>
+            <div key={m.label} className={`rounded-2xl border p-3 ${m.done ? "border-[var(--ok)]/25 bg-[var(--ok)]/5" : "border-[var(--line)] bg-[var(--ov-02)]"}`}>
               <div className="flex items-center justify-between gap-2">
                 <p className="text-xs font-bold text-[var(--text)]">{m.label}</p>
-                <span className={`shrink-0 rounded-lg px-2 py-0.5 text-[10px] font-black uppercase tracking-widest ${m.done ? "bg-emerald-400/10 text-[#34d399]" : "text-[var(--muted2)]"}`}>
+                <span className={`shrink-0 rounded-lg px-2 py-0.5 text-[10px] font-black uppercase tracking-widest ${m.done ? "bg-[var(--ok)]/10 text-[var(--ok)]" : "text-[var(--muted2)]"}`}>
                   {m.done ? "✅ +" + m.pts + "pts" : `${Math.min(m.prog, m.meta)}/${m.meta}`}
                 </span>
               </div>

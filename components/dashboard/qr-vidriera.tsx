@@ -114,7 +114,7 @@ export default function QrVidriera({ businessId, businessName }: { businessId: s
                 </p>
               )}
               {shortUrl && (
-                <p className="truncate rounded-lg bg-black/30 px-3 py-2 font-mono text-[10px] text-[var(--muted2)]">{shortUrl}</p>
+                <p className="truncate rounded-lg bg-[var(--card-inner)] px-3 py-2 font-mono text-[10px] text-[var(--muted2)]">{shortUrl}</p>
               )}
               <div className="flex flex-wrap gap-2">
                 <button

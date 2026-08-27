@@ -14,6 +14,7 @@ export default function OnboardingOverlay() {
   const [show, setShow] = useState(false);
   const [step, setStep] = useState(1);
   const [businesses, setBusinesses] = useState<Biz[]>([]);
+  const [bizLoading, setBizLoading] = useState(true);
   const [followed, setFollowed] = useState<Set<string>>(new Set());
   const [notifStatus, setNotifStatus] = useState<string>("default");
 
@@ -28,6 +29,7 @@ export default function OnboardingOverlay() {
         const { data: biz } = await supabase().from("businesses").select("id, name, category, portada_url, logo_url")
           .eq("published", true).order("created_at", { ascending: false }).limit(12);
         setBusinesses(biz || []);
+        setBizLoading(false);
       }
       if (typeof Notification !== "undefined") setNotifStatus(Notification.permission);
     })();
@@ -52,12 +54,14 @@ export default function OnboardingOverlay() {
     if (typeof Notification === "undefined") { setStep(3); return; }
     const perm = await Notification.requestPermission();
     setNotifStatus(perm);
-    await supabase().from("user_profiles").update({ notifications_opt_in: perm === "granted" }).eq("user_id", user.id);
+    const { error: notifErr } = await supabase().from("user_profiles").update({ notifications_opt_in: perm === "granted" }).eq("user_id", user.id);
+    if (notifErr) toast(`❌ ${friendlyError(notifErr, "No se pudo guardar la preferencia.")}`, "error");
     if (perm === "granted") await subscribeToPush(user.id);
   };
 
   const finish = async () => {
-    await supabase().from("user_profiles").update({ onboarding_completed: true }).eq("user_id", user.id);
+    const { error } = await supabase().from("user_profiles").update({ onboarding_completed: true }).eq("user_id", user.id);
+    if (error) toast(`❌ ${friendlyError(error, "No se pudo guardar.")}`, "error");
     setShow(false);
   };
 
@@ -94,7 +98,7 @@ export default function OnboardingOverlay() {
                   </button>
                 );
               })}
-              {businesses.length === 0 && <p className="col-span-2 py-6 text-center text-xs text-[var(--muted2)]">Todavía no hay negocios para sugerir.</p>}
+              {!bizLoading && businesses.length === 0 && <p className="col-span-2 py-6 text-center text-xs text-[var(--muted2)]">Todavía no hay negocios para sugerir.</p>}
             </div>
             <button onClick={() => setStep(2)} className="mt-5 w-full rounded-xl bg-[var(--accent)] py-3 text-sm font-black text-white hover:opacity-90">
               Siguiente ({followed.size} seguidos)
@@ -108,7 +112,7 @@ export default function OnboardingOverlay() {
             <h2 className="mt-3 text-xl font-black text-[var(--text)]">Activá notificaciones</h2>
             <p className="mt-1 text-sm text-[var(--muted)]">Te avisamos de ofertas cerca tuyo apenas se publiquen (nunca spam por mail).</p>
             {notifStatus === "granted" ? (
-              <p className="mt-4 rounded-xl border border-green-400/30 bg-green-500/10 p-3 text-sm text-[var(--ok)]">✅ Notificaciones activadas</p>
+              <p className="mt-4 rounded-xl border border-[var(--ok)]/30 bg-[var(--ok)]/10 p-3 text-sm text-[var(--ok)]">✅ Notificaciones activadas</p>
             ) : (
               <button onClick={askNotifications} className="mt-4 w-full rounded-xl border border-[var(--accent)]/40 bg-[var(--accent)]/10 py-3 text-sm font-black text-[var(--accent)] hover:bg-[var(--accent)]/20">
                 🔔 Activar notificaciones

@@ -52,7 +52,7 @@ export default function MfaChallenge({ onSuccess }: { onSuccess: () => void }) {
           Meté el código de 6 dígitos de tu app autenticadora para abrir el panel.
         </p>
 
-        {error && <p className="mt-4 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-2.5 text-center text-sm font-bold text-[var(--bad)]">{error}</p>}
+        {error && <p className="mt-4 rounded-xl border border-[var(--bad)]/30 bg-[var(--bad)]/10 px-4 py-2.5 text-center text-sm font-bold text-[var(--bad)]">{error}</p>}
 
         <input
           value={code}
@@ -63,7 +63,7 @@ export default function MfaChallenge({ onSuccess }: { onSuccess: () => void }) {
           autoFocus
           placeholder="000000"
           aria-label="Código de verificación"
-          className="mt-6 w-full rounded-2xl border border-[var(--line-strong)] bg-black/30 px-4 py-4 text-center font-mono text-2xl tracking-[0.4em] text-white outline-none focus:border-[var(--accent)]"
+          className="mt-6 w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-4 text-center font-mono text-2xl tracking-[0.4em] text-[var(--text)] outline-none focus:border-[var(--accent)]"
         />
         <button
           onClick={entrar}

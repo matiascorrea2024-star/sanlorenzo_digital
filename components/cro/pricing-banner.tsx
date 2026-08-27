@@ -41,7 +41,7 @@ export default function PricingBanner() {
 
         {/* Content */}
         <div className="relative pr-6">
-          <h3 className="font-display text-xl tracking-tight text-white">¿Querés destacar tu negocio?</h3>
+          <h3 className="font-display text-xl tracking-tight text-[var(--text)]">¿Querés destacar tu negocio?</h3>
           <p className="mt-2 text-sm text-[var(--muted)]">
             Planes desde <span className="font-black text-[var(--accent)]">$4.900/mes</span>
           </p>

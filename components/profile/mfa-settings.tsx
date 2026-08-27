@@ -109,7 +109,7 @@ export default function MfaSettings() {
         )}
       </div>
 
-      {error && <p className="mt-4 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-2.5 text-sm font-bold text-[var(--bad)]">{error}</p>}
+      {error && <p className="mt-4 rounded-xl border border-[var(--bad)]/30 bg-[var(--bad)]/10 px-4 py-2.5 text-sm font-bold text-[var(--bad)]">{error}</p>}
 
       {/* Paso 1: QR */}
       {qr && factorId && (
@@ -136,7 +136,7 @@ export default function MfaSettings() {
               inputMode="numeric"
               autoComplete="one-time-code"
               placeholder="000000"
-              className="w-32 rounded-xl border border-[var(--line-strong)] bg-black/30 px-4 py-2.5 text-center font-mono text-lg tracking-[0.3em] text-white outline-none focus:border-[var(--accent)]"
+              className="w-32 rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-center font-mono text-lg tracking-[0.3em] text-[var(--text)] outline-none focus:border-[var(--accent)]"
             />
             <button
               onClick={verificar}
@@ -161,10 +161,10 @@ export default function MfaSettings() {
       {!qr && activos.length > 0 && (
         <ul className="mt-5 space-y-2">
           {activos.map((f) => (
-            <li key={f.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-black/30 px-4 py-3">
+            <li key={f.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--card-inner)] px-4 py-3">
               <span className="text-sm font-bold text-[var(--text)]">{f.friendly_name || "App autenticadora"}</span>
               <button onClick={() => sacar(f.id)} disabled={busy}
-                className="flex items-center gap-1.5 rounded-lg border border-red-400/30 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-[var(--bad)] transition hover:bg-red-500/10 disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-lg border border-[var(--bad)]/30 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-[var(--bad)] transition hover:bg-[var(--bad)]/10 disabled:opacity-50"
                 style={{ fontFamily: "var(--font-display)" }}>
                 <Trash2 className="h-3.5 w-3.5" /> Quitar
               </button>
