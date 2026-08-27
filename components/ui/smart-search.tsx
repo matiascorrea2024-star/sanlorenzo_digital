@@ -6,6 +6,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { CATEGORIES } from "@/lib/data";
 import { supabase } from "@/lib/supabase";
+import { useAnalytics } from "@/lib/hooks/use-analytics";
+import NotifyMeButton from "@/components/offers/notify-me-button";
 
 export default function SmartSearch({ className = "", placeholder = "Buscá cualquier cosa en San Lorenzo...", onPlainSearch, shortcutSlash = false }: {
   className?: string; placeholder?: string;
@@ -15,6 +17,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
   shortcutSlash?: boolean;
 }) {
   const router = useRouter();
+  const { trackSearch } = useAnalytics();
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [recent, setRecent] = useState<string[]>([]);
@@ -23,6 +26,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
   const [negocios, setNegocios] = useState<any[]>([]);
   const [ciudades, setCiudades] = useState<any[]>([]);
   const [buscando, setBuscando] = useState(false);
+  const [sinResultados, setSinResultados] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropRef = useRef<HTMLDivElement>(null);
@@ -64,9 +68,11 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
       setOfertas([]);
       setNegocios([]);
       setBuscando(false);
+      setSinResultados(false);
       return;
     }
     setBuscando(true);
+    setSinResultados(false);
     // Si el usuario tipea rápido, una respuesta vieja puede llegar
     // después de una más nueva y pisar el resultado correcto -- este
     // contador descarta cualquier respuesta que no sea la última pedida.
@@ -84,9 +90,14 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
       setOfertas(offs || []);
       setNegocios(biz || []);
       setBuscando(false);
+
+      const hayCategoria = CATEGORIES.some((c) => c.name.toLowerCase().includes(lower));
+      const vacio = !(prods && prods.length) && !(offs && offs.length) && !(biz && biz.length) && !hayCategoria;
+      setSinResultados(vacio);
+      if (vacio) trackSearch(lower, 0);
     }, 300);
     return () => clearTimeout(timer);
-  }, [q]);
+  }, [q, trackSearch]);
 
   // Entrada real del dropdown -- antes aparecía instantáneo, se sentía
   // como un <select> más. Un fade+rise corto comunica "esto reaccionó".
@@ -245,6 +256,18 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
             </div>
           )}
           
+          {!buscando && sinResultados && lower.length >= 2 && (
+            <div className="mb-3 rounded-xl border border-[var(--line)] bg-[var(--ov-05)] p-3">
+              <p className="text-sm font-bold">No encontramos &ldquo;{q.trim()}&rdquo; todavía.</p>
+              <p className="mt-1 text-xs text-[var(--muted)]">Si algún comercio publica algo así, te avisamos.</p>
+              <NotifyMeButton
+                searchQuery={lower}
+                label="🔔 Avisame cuando aparezca"
+                className="mt-2.5 w-full text-center"
+              />
+            </div>
+          )}
+
           {!lower && recent.length > 0 && (
             <div>
               <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Búsquedas recientes</p>
