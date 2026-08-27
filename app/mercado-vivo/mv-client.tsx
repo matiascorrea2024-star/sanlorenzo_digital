@@ -108,7 +108,6 @@ function Shot({ oferta, className, children }: { oferta?: Oferta | null; classNa
 // "me interesa" son los componentes reales de siempre.
 function MvOfferCard({ o, coords }: { o: Oferta; coords: Coords | null }) {
   const label = venceLabel(o.vence);
-  const esEscaso = (o.descuento || 0) >= 40;
   const publicado = relativeTime(o.creado);
   const dist = coords && o.latitude && o.longitude
     ? fmtDistance(calcDistanceKm(coords.lat, coords.lon, o.latitude, o.longitude))
@@ -118,7 +117,7 @@ function MvOfferCard({ o, coords }: { o: Oferta; coords: Coords | null }) {
     <Link href={`/oferta/${o.id}`} className={styles.mvProdCard}>
       <Shot oferta={o} className={styles.mvProdShot}>
         {o.descuento ? (
-          <span className={styles.mvProdBadge}>-{o.descuento}%{esEscaso ? " · últimas" : ""}</span>
+          <span className={styles.mvProdBadge}>-{o.descuento}%</span>
         ) : null}
         <div className={styles.mvProdTopRight}>
           <FavoriteButton itemType="offer" itemId={o.id} />

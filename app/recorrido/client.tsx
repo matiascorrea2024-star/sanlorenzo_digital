@@ -211,7 +211,7 @@ export default function RecorridoClient() {
             {fuente === "barata" ? "Tu barata, ordenada" : "Hoy salgo a comprar"}
           </p>
           <h1 className="mt-2 font-display text-4xl uppercase tracking-tight sm:text-6xl">
-            Mi <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-red-600 bg-clip-text text-transparent">recorrido</span>
+            Mi <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">recorrido</span>
           </h1>
           <p className="mt-3 max-w-xl text-base text-[var(--muted)]">
             {fuente === "barata"
@@ -277,7 +277,7 @@ export default function RecorridoClient() {
             <div className="flex flex-col gap-4">
               {!conOrden && !geoError && (
                 <p className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] px-5 py-4 text-sm text-[var(--muted)]">
-                  Tocá <span className="font-bold text-white">“Usar mi ubicación”</span> para ordenar las paradas del punto más cercano al más lejano.
+                  Tocá <span className="font-bold text-[var(--text)]">“Usar mi ubicación”</span> para ordenar las paradas del punto más cercano al más lejano.
                 </p>
               )}
 
@@ -292,7 +292,7 @@ export default function RecorridoClient() {
                         >
                           {i + 1}
                         </span>
-                        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[var(--line)] bg-black/30">
+                        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[var(--line)] bg-[var(--card-inner)]">
                           {s.portada_url ? (
                             <Image src={s.portada_url} alt={s.name} fill sizes="64px" className="object-cover transition duration-500 group-hover:scale-110" />
                           ) : (

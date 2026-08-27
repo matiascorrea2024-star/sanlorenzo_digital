@@ -33,7 +33,7 @@ export default function EnVivoClient() {
       live ? "border-[var(--accent)]/40 bg-[var(--surface)] shadow-[0_0_30px_-8px_rgba(209,47,104,.35)]" : "border-[var(--line)] bg-[var(--surface)]"
     }`}>
       <div className="overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)]">
-        <div className="relative h-36 w-full overflow-hidden bg-gradient-to-br from-[var(--accent)]/25 to-[#861642]/15">
+        <div className="relative h-36 w-full overflow-hidden bg-gradient-to-br from-[var(--accent)]/25 to-[var(--place2)]/15">
           {s.cover_url ? (
             <Image src={s.cover_url} alt={s.title} fill sizes="(max-width: 768px) 50vw, 320px" quality={88}
               className="object-cover transition duration-500 group-hover:scale-110" />
@@ -68,7 +68,7 @@ export default function EnVivoClient() {
             </div>
           )}
           <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-7xl">
-            <span className="bg-gradient-to-r from-[#f7f3ec] via-[var(--accent)] to-[#861642] bg-clip-text text-transparent">En</span>{" "}
+            <span className="bg-gradient-to-r from-[#f7f3ec] via-[var(--accent)] to-[var(--place2)] bg-clip-text text-transparent">En</span>{" "}
             <span className="knockout-text magenta-glow">Vivo</span>
           </h1>
           <p className="mt-2 text-[var(--muted)]">Comercios de San Lorenzo transmitiendo en tiempo real</p>

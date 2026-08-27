@@ -126,7 +126,12 @@ export default function OfertaPage() {
     if (navigator.share) {
       try { await navigator.share({ title: oferta.title, text, url }); } catch { return; }
     } else {
-      await navigator.clipboard.writeText(`${text}\n${url}`);
+      try {
+        await navigator.clipboard.writeText(`${text}\n${url}`);
+      } catch {
+        show("❌ No se pudo copiar el link. Probá de nuevo.", "error");
+        return;
+      }
     }
     if (negocio?.id) {
       track(negocio.id, "share");
@@ -255,7 +260,7 @@ export default function OfertaPage() {
                   {negocio.name}
                   {negocio.status === "verificado" && <Check className="h-3.5 w-3.5" />}
                   {plan.name !== "Gratis" && (
-                    <span className="shrink-0 rounded-md bg-sky-500/10 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-sky-400">{plan.name}</span>
+                    <span className="shrink-0 rounded-md bg-[var(--place)]/10 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-[var(--place)]">{plan.name}</span>
                   )}
                 </div>
                 <div className={styles.shopMeta}>{negocio.category || "Comercio"}{negocio.address ? ` · ${negocio.address}` : ""}</div>

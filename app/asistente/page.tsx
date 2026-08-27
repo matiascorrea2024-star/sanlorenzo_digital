@@ -27,6 +27,7 @@ export default function AsistentePage() {
 
   // Ofertas reales activas (Supabase)
   const [ofertas, setOfertas] = useState<Oferta[]>([]);
+  const [ofertasLoading, setOfertasLoading] = useState(true);
   useEffect(() => {
     (async () => {
       const hoy = new Date().toISOString().slice(0, 10);
@@ -51,6 +52,7 @@ export default function AsistentePage() {
           verificado: o.business_status === "verificado",
         }));
       setOfertas(reales);
+      setOfertasLoading(false);
     })();
   }, []);
 
@@ -119,7 +121,7 @@ export default function AsistentePage() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Ej: pizza barata abierta ahora..."
-          className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-6 py-4 text-lg text-white outline-none transition placeholder:text-[var(--muted2)] focus:border-[var(--accent)]"
+          className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-6 py-4 text-lg text-[var(--text)] outline-none transition placeholder:text-[var(--muted2)] focus:border-[var(--accent)]"
         />
         {chips.length > 0 && (
           <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -165,7 +167,7 @@ export default function AsistentePage() {
               </section>
             )}
 
-            {ofertasFiltradas.length === 0 && negociosFiltrados.length === 0 && (
+            {!ofertasLoading && ofertasFiltradas.length === 0 && negociosFiltrados.length === 0 && (
               <div className="mt-10 rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center">
                 <p className="font-display text-lg uppercase tracking-tight">😕 No encontramos resultados exactos</p>
                 <p className="mx-auto mt-2 max-w-sm text-sm text-[var(--muted)]">
