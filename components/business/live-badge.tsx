@@ -38,7 +38,7 @@ export default function BusinessLiveBadge({ businessId }: { businessId: string }
 
   return (
     <Link href={`/en-vivo/${stream.id}`}
-      className="flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-3 py-1 text-xs font-bold text-[var(--place)]">
+      className="flex items-center gap-1.5 rounded-full border border-[var(--place)]/30 bg-[var(--place)]/10 px-3 py-1 text-xs font-bold text-[var(--place)]">
       ⏰ Próximo vivo{cuando ? `: ${cuando}` : ""}
     </Link>
   );

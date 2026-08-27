@@ -1,5 +1,5 @@
 const GRADS = [
-  "from-[var(--accent)] to-red-600",
+  "from-[var(--accent)] to-[var(--accent2)]",
   "from-green-500 to-teal-500",
   "from-blue-500 to-purple-500",
   "from-red-500 to-[#861642]",
@@ -20,7 +20,7 @@ export default function Avatar({ name, size = 48, online }: { name?: string; siz
         {initials || "?"}
       </div>
       {online && (
-        <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#0c0a0b] bg-green-500" />
+        <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[var(--bg)] bg-green-500" />
       )}
     </div>
   );

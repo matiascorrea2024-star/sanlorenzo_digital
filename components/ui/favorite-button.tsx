@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Heart } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
+import { useToast } from "@/components/ui/toast";
 
 // Cache global de favoritos del usuario (evita N+1 queries)
 const favCache = {
@@ -48,6 +49,7 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
   const [, forceUpdate] = useState(0);
   const [busy, setBusy] = useState(false);
   const { trackFavorite } = useAnalytics();
+  const { show } = useToast();
 
   useEffect(() => {
     (async () => {
@@ -93,9 +95,10 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
       if (eraFav) favCache.data.add(key);
       else favCache.data.delete(key);
       favCache.listeners.forEach(fn => fn());
+      show("❌ No se pudo actualizar el favorito. Probá de nuevo.", "error");
     }
     setBusy(false);
-  }, [user, isFav, itemId, itemType, key, busy, trackFavorite]);
+  }, [user, isFav, itemId, itemType, key, busy, trackFavorite, show]);
 
   if (variant === "card") {
     return (
@@ -105,7 +108,7 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
         aria-label={isFav ? "Quitar de favoritos" : "Guardar en favoritos"}
         className={`flex flex-col items-center gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-4 transition hover:bg-[var(--ov-10)] disabled:opacity-60 ${className}`}
       >
-        <Heart className={isFav ? "fill-red-500 text-red-500" : "text-[var(--bad)]"} style={{ width: size, height: size }} />
+        <Heart className={isFav ? "fill-[var(--bad)] text-[var(--bad)]" : "text-[var(--bad)]"} style={{ width: size, height: size }} />
         <span className="text-sm font-bold">{isFav ? "Guardado" : "Favorito"}</span>
       </button>
     );
@@ -118,7 +121,7 @@ export default function FavoriteButton({ itemId, itemType = "business", size = 2
       aria-label={isFav ? "Quitar de favoritos" : "Guardar en favoritos"}
       className={`rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 disabled:opacity-60 ${className}`}
     >
-      <Heart className={`${isFav ? "fill-red-500 text-red-500" : "text-white"}`} style={{ width: size, height: size }} />
+      <Heart className={`${isFav ? "fill-[var(--bad)] text-[var(--bad)]" : "text-white"}`} style={{ width: size, height: size }} />
     </button>
   );
 }

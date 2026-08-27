@@ -23,7 +23,7 @@ function Stars({ n, size = 16 }: { n: number; size?: number }) {
     <span className="inline-flex gap-0.5">
       {[1, 2, 3, 4, 5].map(i => (
         <Star key={i} style={{ width: size, height: size }}
-          className={i <= Math.round(n) ? "fill-yellow-400 text-[var(--warn)]" : "text-[var(--ov-20)]"} />
+          className={i <= Math.round(n) ? "fill-amber-400 text-amber-400" : "text-[var(--ov-20)]"} />
       ))}
     </span>
   );
@@ -138,7 +138,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
             <button key={i} onClick={() => setRating(i)}
               onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(0)}
               className="p-1 transition hover:scale-125">
-              <Star className={`h-7 w-7 ${i <= (hover || rating) ? "fill-yellow-400 text-[var(--warn)]" : "text-[var(--ov-20)]"}`} />
+              <Star className={`h-7 w-7 ${i <= (hover || rating) ? "fill-amber-400 text-amber-400" : "text-[var(--ov-20)]"}`} />
             </button>
           ))}
           <span className="ml-2 text-sm font-bold text-[var(--muted)]">{rating}/5</span>

@@ -69,7 +69,7 @@ export default function NotificationBell() {
         <button onClick={() => setOpen(!open)} aria-label="Notificaciones" className="relative rounded-full bg-[var(--ov-10)] p-2 hover:bg-[var(--ov-20)]">
           <Bell className="h-4 w-4" />
           {count > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-black text-white">{count}</span>
+            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--bad)] text-[10px] font-black text-white">{count}</span>
           )}
         </button>
         {open && (
@@ -102,7 +102,7 @@ export default function NotificationBell() {
       {toast && (
         <button onClick={() => { irA(toast); setToast(null); }}
           className="fixed bottom-40 right-4 z-[200] flex max-w-xs items-center gap-3 rounded-[1.375rem] border border-[var(--accent)]/40 bg-[var(--surface2)] p-4 shadow-2xl shadow-[var(--accent)]/10 animate-pulse md:bottom-24">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[var(--accent)]/25 to-red-600/15">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[var(--accent)]/25 to-[var(--accent2)]/15">
             <MessageCircle className="h-4 w-4 text-[var(--accent)]" />
           </span>
           <div className="text-left">

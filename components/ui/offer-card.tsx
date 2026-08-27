@@ -66,7 +66,6 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
 
   // Flags de urgencia
   const esUrgente = diasRestantes !== null && diasRestantes <= 1; // vence hoy o mañana
-  const esEscaso = (o.descuento || 0) >= 40; // alto descuento = "últimas unidades"
   const esTop = sdlScore >= 80; // "más vendido" si tiene buen score
 
   return (
@@ -98,7 +97,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
               <span aria-hidden="true">🚀</span> Impulsada
             </span>
           )}
-          {esTop && !esEscaso && (
+          {esTop && (
             <span className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black shadow-2xl" style={{ fontFamily: "var(--font-display)" }}>
               <span aria-hidden="true">⭐</span> Top
             </span>
@@ -107,13 +106,8 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
             <span className="rounded-xl bg-yellow-500 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black shadow-2xl" style={{ fontFamily: "var(--font-display)" }}>Demo</span>
           )}
           {o.precio_prometido && (
-            <span className="flex items-center gap-1 rounded-xl bg-sky-500 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white shadow-2xl" style={{ fontFamily: "var(--font-display)" }} title="Precio certificado por el equipo de San Lorenzo Digital">
+            <span className="flex items-center gap-1 rounded-xl bg-[var(--place)] px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white shadow-2xl" style={{ fontFamily: "var(--font-display)" }} title="Precio certificado por el equipo de San Lorenzo Digital">
               🔒 Precio Prometido
-            </span>
-          )}
-          {esEscaso && (
-            <span className="flex items-center gap-1 rounded-xl bg-black/60 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[#fbbf24] shadow-2xl backdrop-blur-md" style={{ fontFamily: "var(--font-display)" }}>
-              🔥 Últimas unidades
             </span>
           )}
           {dist && (

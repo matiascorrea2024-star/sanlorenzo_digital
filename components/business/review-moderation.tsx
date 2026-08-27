@@ -40,7 +40,7 @@ export default function ReviewModeration({ businessId, plan }: { businessId: str
 
   return (
     <section className="mt-6 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
-      <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-red-300 bg-clip-text text-transparent">⭐ Reseñas de clientes</h2>
+      <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">⭐ Reseñas de clientes</h2>
       {list.length === 0 && <p className="text-sm text-[var(--muted)]">Cuando un cliente deje una reseña, la vas a poder moderar desde acá.</p>}
       {visibles.length > 0 && (
         <div className="grid gap-3">

@@ -89,7 +89,7 @@ export default function BookingWidget({ businessId, businessName }: { businessId
   const slotsDelDia = fechaSel ? generarSlots(config.hora_desde.slice(0, 5), config.hora_hasta.slice(0, 5), config.duracion_min).filter((h) => !ocupados.includes(h)) : [];
 
   return (
-    <div className="mb-6 rounded-[1.75rem] border border-sky-400/20 bg-gradient-to-br from-sky-500/[.06] to-blue-500/[.03] p-1.5">
+    <div className="mb-6 rounded-[1.75rem] border border-[var(--place)]/20 bg-gradient-to-br from-[var(--place)]/[.06] to-[var(--place2)]/[.03] p-1.5">
       <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
         <h3 className="mb-4 flex items-center gap-2 font-black">
           <Calendar className="h-5 w-5 text-[var(--place)]" /> Reservá tu turno
@@ -98,7 +98,7 @@ export default function BookingWidget({ businessId, businessName }: { businessId
         {confirmado ? (
           <div className="flex items-center gap-3 rounded-xl border border-green-400/30 bg-green-500/10 p-4">
             <Check className="h-6 w-6 shrink-0 text-[var(--ok)]" />
-            <p className="text-sm text-green-200">
+            <p className="text-sm text-[var(--ok)]">
               Turno confirmado para el {new Date(confirmado.fecha + "T00:00:00").toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" })} a las {confirmado.hora}hs en {businessName}.
             </p>
           </div>
@@ -114,7 +114,7 @@ export default function BookingWidget({ businessId, businessName }: { businessId
                 const activo = fechaSel === f;
                 return (
                   <button key={f} onClick={() => setFechaSel(f)}
-                    className={`flex shrink-0 flex-col items-center rounded-xl px-3 py-2 text-xs font-bold transition ${activo ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"}`}>
+                    className={`flex shrink-0 flex-col items-center rounded-xl px-3 py-2 text-xs font-bold transition ${activo ? "bg-gradient-to-r from-[var(--place)] to-[var(--place2)] text-white" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)]/70"}`}>
                     <span className="uppercase">{d.toLocaleDateString("es-AR", { weekday: "short" })}</span>
                     <span className="text-base">{d.getDate()}</span>
                   </button>
@@ -129,7 +129,7 @@ export default function BookingWidget({ businessId, businessName }: { businessId
                 <div className="flex flex-wrap gap-2">
                   {slotsDelDia.map((h) => (
                     <button key={h} onClick={() => reservar(h)} disabled={reservando === h}
-                      className="flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-3 py-1.5 text-xs font-bold text-[var(--place)] hover:bg-sky-500/20 disabled:opacity-50">
+                      className="flex items-center gap-1.5 rounded-full border border-[var(--place)]/30 bg-[var(--place)]/10 px-3 py-1.5 text-xs font-bold text-[var(--place)] hover:bg-[var(--place)]/20 disabled:opacity-50">
                       <Clock className="h-3 w-3" /> {reservando === h ? "..." : h}
                     </button>
                   ))}

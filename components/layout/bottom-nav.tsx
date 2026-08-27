@@ -40,7 +40,7 @@ export default function BottomNav() {
                 {item.href === "/perfil" && unread > 0 && (
                   <span
                     aria-label={`${unread} mensajes sin leer`}
-                    className="absolute -right-1.5 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-red-500 px-0.5 text-[8px] font-black leading-none text-white"
+                    className="absolute -right-1.5 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-[var(--bad)] px-0.5 text-[8px] font-black leading-none text-white"
                   >
                     {unread > 9 ? "9+" : unread}
                   </span>

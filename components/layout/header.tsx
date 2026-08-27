@@ -20,6 +20,7 @@ import ThemeToggle from "@/components/ui/theme-toggle";
 import { supabase } from "@/lib/supabase";
 import { useUnreadMessages } from "@/lib/hooks/use-unread-messages";
 import { useAuth } from "@/components/providers/auth-provider";
+import { useToast } from "@/components/ui/toast";
 
 const ICON_NAV = [
   { href: "/radar", label: "Radar", icon: Radar },
@@ -41,9 +42,10 @@ const NAV = [
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const { show } = useToast();
   // useAuth() está suscripto a onAuthStateChange (components/providers/auth-provider.tsx),
   // así que el header se actualiza solo apenas cambia la sesión.
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [role, setRole] = useState("user");
   const [nombre, setNombre] = useState("");
   const [tieneNegocio, setTieneNegocio] = useState(false);
@@ -76,7 +78,8 @@ export default function Header() {
   useEffect(() => { setOpen(false); }, [pathname]);
 
   const salir = async () => {
-    await supabase().auth.signOut();
+    const { error } = await supabase().auth.signOut();
+    if (error) { show(`❌ ${error.message || "No se pudo cerrar sesión."}`, "error"); return; }
     router.push("/");
     router.refresh();
   };
@@ -120,7 +123,7 @@ export default function Header() {
             <ThemeToggle />
             {user && <NotificationBell />}
 
-            {user ? (
+            {authLoading ? null : user ? (
               <div className="relative" ref={menuRef}>
                 <button
                   onClick={() => setOpen(!open)}

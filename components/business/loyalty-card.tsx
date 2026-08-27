@@ -66,10 +66,10 @@ export default function LoyaltyCard({ businessId, businessName }: { businessId: 
   const pct = Math.min(100, Math.round((progreso / programa.meta) * 100));
 
   return (
-    <div className="mb-6 rounded-[1.75rem] border border-amber-400/20 bg-gradient-to-br from-amber-500/[.06] to-[#861642]/[.03] p-1.5">
+    <div className="mb-6 rounded-[1.75rem] border border-amber-400/20 bg-gradient-to-br from-amber-500/[.06] to-[var(--accent2)]/[.03] p-1.5">
       <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
         <h3 className="mb-1 flex items-center gap-2 font-black">
-          <Stamp className="h-5 w-5 text-[var(--warn)]" /> Tarjeta de sellitos
+          <Stamp className="h-5 w-5 text-amber-400" /> Tarjeta de sellitos
         </h3>
         <p className="mb-4 text-xs text-[var(--muted)] flex items-center gap-1.5">
           <Gift className="h-3.5 w-3.5" /> Al juntar {programa.meta} sellos: {programa.premio}
@@ -86,7 +86,7 @@ export default function LoyaltyCard({ businessId, businessName }: { businessId: 
               <span>{pct}%</span>
             </div>
             <div className="mb-4 h-2.5 w-full overflow-hidden rounded-full bg-[var(--ov-10)]">
-              <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-[#861642] transition-all duration-500" style={{ width: `${pct}%` }} />
+              <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-[var(--accent2)] transition-all duration-500" style={{ width: `${pct}%` }} />
             </div>
 
             {codigo ? (
@@ -97,7 +97,7 @@ export default function LoyaltyCard({ businessId, businessName }: { businessId: 
               </div>
             ) : (
               <button onClick={generarCodigo} disabled={generando}
-                className="w-full rounded-full bg-gradient-to-r from-amber-500 to-[#861642] py-2.5 text-sm font-black disabled:opacity-50">
+                className="w-full rounded-full bg-gradient-to-r from-amber-500 to-[var(--accent2)] py-2.5 text-sm font-black disabled:opacity-50">
                 {generando ? "Generando..." : "Generar código de sello"}
               </button>
             )}

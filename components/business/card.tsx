@@ -95,10 +95,10 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
         </p>
         {actualizado && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Actualizado {actualizado}</p>}
         {b.description && (
-          <p className={`mt-2 line-clamp-2 text-[#c4b5a5] ${featured ? "text-sm" : "text-xs"}`}>{b.description}</p>
+          <p className={`mt-2 line-clamp-2 text-[var(--muted)] ${featured ? "text-sm" : "text-xs"}`}>{b.description}</p>
         )}
         {esParticular && (
-          <span className="mt-2 w-fit rounded-full border border-cyan-400/30 bg-cyan-500/15 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-[var(--place)]">
+          <span className="mt-2 w-fit rounded-full border border-[var(--place)]/30 bg-[var(--place)]/15 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-[var(--place)]">
             {TIPO_LABEL[b.type]}
           </span>
         )}
@@ -106,7 +106,7 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
           <span className="flex items-center gap-2 text-xs font-bold text-[#fbbf24]">
             ★ {rating}
             <span className="font-normal text-[var(--muted2)]">({b.reviews || 0})</span>
-            {b.hace_envios && <span className="rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-[var(--place)]">🚚 Envíos</span>}
+            {b.hace_envios && <span className="rounded-full bg-[var(--place)]/15 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-[var(--place)]">🚚 Envíos</span>}
           </span>
           <span className="rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white/60 transition group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-white"
             style={{ fontFamily: "var(--font-display)" }}>

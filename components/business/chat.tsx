@@ -99,7 +99,8 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
   const saveContact = async () => {
     const name = prompt("Nombre para agendar este contacto:", contactName || "");
     if (!name) return;
-    await supabase().from("contacts").upsert({ business_id: businessId, customer_id: activeCustomer, custom_name: name }, { onConflict: "business_id,customer_id" });
+    const { error } = await supabase().from("contacts").upsert({ business_id: businessId, customer_id: activeCustomer, custom_name: name }, { onConflict: "business_id,customer_id" });
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo guardar el contacto.")}`, "error"); return; }
     setContactName(name);
   };
 
@@ -189,7 +190,7 @@ export default function Chat({ businessId, ownerId, businessName, businessSlug, 
             )}
             <div className={`rounded-2xl px-4 py-2 text-sm shadow ${
               r.sender_id === user.id ? "rounded-br-none bg-[var(--accent)] text-white"
-              : otherIsStaff && r.sender_id === staffId ? "rounded-bl-none border border-yellow-400/30 bg-gradient-to-br from-yellow-500/15 to-[#861642]/10 text-[var(--text)]/90"
+              : otherIsStaff && r.sender_id === staffId ? "rounded-bl-none border border-yellow-400/30 bg-gradient-to-br from-yellow-500/15 to-[var(--accent2)]/10 text-[var(--text)]/90"
               : "rounded-bl-none bg-[var(--ov-10)] text-[var(--text)]/90"
             }`}>
             <p>{r.body}</p>
