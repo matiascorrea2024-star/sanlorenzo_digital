@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Check, Clock, Crown, Rocket, Zap, Gift, Star } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -128,7 +129,13 @@ export default function PlanesDashboard() {
       <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
         <div className="mx-auto max-w-4xl px-4 py-8">
           <DashboardNav />
-          <p className="text-[var(--muted)]">Necesitás un negocio para gestionar tu plan.</p>
+          <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+              <p className="font-bold">Necesitás un negocio para gestionar un plan.</p>
+              <p className="mt-1 text-sm text-[var(--muted)]">Creá tu negocio y después elegís el plan que más te sirva.</p>
+              <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black hover:opacity-90">Crear mi negocio</Link>
+            </div>
+          </div>
         </div>
       </main>
     );
@@ -161,7 +168,7 @@ export default function PlanesDashboard() {
         </div>
 
         {campanas.filter((c) => !misReclamos.includes(c.id)).map((c) => (
-          <div key={c.id} className="mt-6 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-r from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
+          <div key={c.id} className="mt-6 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-r from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
             <div className="flex flex-col items-start justify-between gap-3 rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] sm:flex-row sm:items-center">
               <div className="flex items-start gap-3">
                 <Gift className="h-6 w-6 shrink-0 text-[var(--accent)]" />
@@ -182,11 +189,11 @@ export default function PlanesDashboard() {
         {avisoCampana && <p className="mt-3 text-sm text-[var(--bad)]">{avisoCampana}</p>}
 
         {pendiente && (
-          <div className="mt-6 rounded-[1.5rem] border border-yellow-400/25 bg-yellow-500/[.06] p-1.5">
-            <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+          <div className="mt-6 rounded-[1.5rem] border border-[var(--warn)]/25 bg-[var(--warn)]/[.06] p-1.5">
+            <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Clock className="h-6 w-6 shrink-0 text-[var(--warn)]" />
               <div>
-                <p className="font-bold text-yellow-200">Solicitud de plan {PLANES[pendiente.plan]?.name} en revisión</p>
+                <p className="font-bold text-[var(--warn)]">Solicitud de plan {PLANES[pendiente.plan]?.name} en revisión</p>
                 <p className="text-xs text-[var(--muted)]">Enviamos tu comprobante. Te activamos el plan en cuanto lo revisemos (normalmente en el día).</p>
               </div>
             </div>
@@ -200,14 +207,14 @@ export default function PlanesDashboard() {
             return (
               <div key={p.k}
                 className={`relative rounded-[1.75rem] p-1.5 ${
-                  actual ? "border border-[var(--accent)]/50 bg-gradient-to-b from-[var(--accent)]/[.1] to-red-600/[.04]" : "border border-[var(--ov-06)] bg-[var(--ov-02)]"
+                  actual ? "border border-[var(--accent)]/50 bg-gradient-to-b from-[var(--accent)]/[.1] to-[var(--accent2)]/[.04]" : "border border-[var(--ov-06)] bg-[var(--ov-02)]"
                 }`}>
                 {actual && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[var(--accent)] px-4 py-1 text-xs font-black">
                     PLAN ACTUAL
                   </span>
                 )}
-                <div className={`flex h-full flex-col rounded-[1.375rem] border p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] ${actual ? "border-[var(--ov-08)] bg-black/10" : "border-[var(--ov-05)] bg-black/10"}`}>
+                <div className={`flex h-full flex-col rounded-[1.375rem] border p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] ${actual ? "border-[var(--ov-08)] bg-[var(--card-inner)]" : "border-[var(--ov-05)] bg-[var(--card-inner)]"}`}>
                   <p.icon className={`h-7 w-7 ${actual ? "text-[var(--accent)]" : "text-[var(--muted)]"}`} />
                   <h2 className="mt-2 text-lg font-black">{PLANES[p.k].name}</h2>
                   <p className="text-2xl font-black text-[var(--accent)]">{p.precio}</p>
@@ -219,7 +226,7 @@ export default function PlanesDashboard() {
                     ))}
                   </ul>
 
-                  {actual || esGratis || pendiente ? (
+                  {actual || esGratis || pendiente?.plan === p.k ? (
                     <button disabled className="mt-5 rounded-full border border-[var(--line-strong)] py-2.5 text-sm font-black text-[var(--muted2)]">
                       {actual ? "Activo" : esGratis ? "Plan sin costo" : "Solicitud en curso"}
                     </button>
@@ -257,7 +264,7 @@ export default function PlanesDashboard() {
         {avisoMP && <p className="mt-4 text-center text-sm text-[var(--text)]/70">{avisoMP}</p>}
 
         <div className="mx-auto mt-8 max-w-xl rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center text-sm text-[var(--muted)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+          <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 text-center text-sm text-[var(--muted)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <p className="font-bold text-[var(--text)]/80">¿Cómo se activa un plan pago?</p>
             <p className="mt-1">Con &quot;Pagar con Mercado Pago&quot; se activa solo apenas se acredita. Si preferís transferir, usá &quot;O transferir y subir comprobante&quot; -- un admin lo revisa y te lo activa.</p>
             {datosPago ? (

@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import HowItWorks from "@/components/ui/how-it-works";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function MarketingPage() {
   const params = useParams();
@@ -14,6 +16,7 @@ export default function MarketingPage() {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState("");
   const [trackedUrls, setTrackedUrls] = useState<Record<string, string>>({});
+  const { show } = useToast();
 
   const loadData = async () => {
     try {
@@ -37,7 +40,7 @@ export default function MarketingPage() {
         }
       }
     } catch (error) {
-      console.error("Error cargando datos:", error);
+      show(`❌ ${friendlyError(error, "No pudimos cargar los datos de marketing. Probá de nuevo.")}`, "error");
     } finally {
       setLoading(false);
     }
@@ -118,7 +121,7 @@ export default function MarketingPage() {
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-4xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)] mb-6 inline-block">
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:opacity-80 mb-6 inline-block">
           ← Volver a mis ofertas
         </Link>
 
@@ -127,8 +130,8 @@ export default function MarketingPage() {
         <p className="mt-3 text-[var(--muted)]">{offer.title}</p>
         <div className="mt-4 rounded-2xl border border-[var(--accent)]/25 bg-[var(--accent)]/[.06] p-4 text-sm text-[var(--muted)]">
           <strong className="text-[var(--text)]">Compartir estos links es gratis.</strong> “Impulsar oferta” es una
-          promoción paga aparte y hoy se activa manualmente desde administración; no se simula ningún cobro.
-          El checkout autoservicio de impulso queda pendiente de una orden/precio con RLS y conciliación propios.
+          promoción paga aparte: hoy se activa a mano desde administración, no hay cobro automático ni pago
+          autoservicio todavía. Si te interesa, contactanos.
         </div>
 
         <div className="mt-6">
@@ -177,7 +180,7 @@ export default function MarketingPage() {
           <p className="mt-1 text-sm text-[var(--muted)]">
             Copiá este texto y pegalo en tu historia de Instagram
           </p>
-          <div className="mt-4 whitespace-pre-wrap rounded-xl bg-black/30 p-4 font-mono text-sm">
+          <div className="mt-4 whitespace-pre-wrap rounded-xl bg-[var(--card-inner)] p-4 font-mono text-sm">
             {generateStoryText()}
           </div>
           <button
@@ -195,7 +198,7 @@ export default function MarketingPage() {
           <p className="mt-1 text-sm text-[var(--muted)]">
             Texto listo para enviar a tus clientes
           </p>
-          <div className="mt-4 whitespace-pre-wrap rounded-xl bg-black/30 p-4 font-mono text-sm">
+          <div className="mt-4 whitespace-pre-wrap rounded-xl bg-[var(--card-inner)] p-4 font-mono text-sm">
             {generateWhatsAppText()}
           </div>
           <div className="mt-4 flex flex-col gap-3 sm:flex-row">

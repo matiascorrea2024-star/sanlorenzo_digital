@@ -197,15 +197,17 @@ export default function NuevoNegocioPage() {
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-[1300px] px-4 py-8">
-        <Link href="/dashboard" className="text-sm text-[var(--accent)] hover:text-[var(--accent)] mb-6 inline-block">
+        <Link href="/dashboard" className="text-sm text-[var(--accent)] hover:opacity-80 mb-6 inline-block">
           ← Volver al dashboard
         </Link>
 
         <h1 className="text-3xl font-black mb-2" style={{ fontFamily: "var(--font-space)" }}>Subí tu negocio</h1>
         <p className="text-[var(--muted)] mb-4">2 minutos: completá lo esencial y ya podés publicar tu primera oferta.</p>
 
-        {misNegocios !== null && !puedeCrear ? (
-          <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
+        {misNegocios === null ? (
+          <p className="py-16 text-center text-[var(--muted)]">Cargando…</p>
+        ) : !puedeCrear ? (
+          <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-3xl">🔒</p>
               <h2 className="mt-3 text-lg font-black">Ya tenés un negocio en plan gratis</h2>
@@ -388,7 +390,7 @@ export default function NuevoNegocioPage() {
               👁 Así se va a ver
             </p>
             <div className="overflow-hidden rounded-[1.75rem] border border-[var(--line)] bg-[var(--surface)]">
-              <div className="relative h-24 bg-gradient-to-br from-[#2a2324] to-[#161314]">
+              <div className="relative h-24 bg-gradient-to-br from-[var(--surface)] to-[var(--surface2)]">
                 {formData.portadaUrl && (
                   <img src={formData.portadaUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
                 )}

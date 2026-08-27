@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import HowItWorks from "@/components/ui/how-it-works";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function CuponesPage() {
   const params = useParams();
@@ -14,6 +16,7 @@ export default function CuponesPage() {
   const [loading, setLoading] = useState(true);
   const [validateCode, setValidateCode] = useState("");
   const [validationResult, setValidationResult] = useState<any>(null);
+  const { show } = useToast();
 
   const loadData = async () => {
     try {
@@ -37,7 +40,7 @@ export default function CuponesPage() {
         setCoupons(couponsData);
       }
     } catch (error) {
-      console.error("Error cargando cupones:", error);
+      show(`❌ ${friendlyError(error, "No pudimos cargar los cupones. Probá de nuevo.")}`, "error");
     } finally {
       setLoading(false);
     }
@@ -63,7 +66,7 @@ export default function CuponesPage() {
         setValidateCode("");
       }
     } catch (error) {
-      console.error("Error validando cupón:", error);
+      setValidationResult({ error: friendlyError(error, "No se pudo validar el cupón. Probá de nuevo.") });
     }
   };
 
@@ -76,8 +79,9 @@ export default function CuponesPage() {
 
   if (loading) {
     return (
-      <main className="bg-[var(--bg)] min-h-screen flex items-center justify-center">
+      <main className="bg-[var(--bg)] min-h-screen flex flex-col items-center justify-center gap-3 text-[var(--muted)] text-sm">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--accent)]"></div>
+        Cargando cupones…
       </main>
     );
   }
@@ -85,7 +89,7 @@ export default function CuponesPage() {
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-4xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)] mb-6 inline-block">
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:opacity-80 mb-6 inline-block">
           ← Volver a mis ofertas
         </Link>
 
@@ -123,8 +127,8 @@ export default function CuponesPage() {
           {validationResult && (
             <div className={`mt-4 rounded-xl p-3 ${
               validationResult.error
-                ? "bg-red-500/10 border border-red-500/30"
-                : "bg-green-500/10 border border-green-500/30"
+                ? "bg-[var(--bad)]/10 border border-[var(--bad)]/30"
+                : "bg-[var(--ok)]/10 border border-[var(--ok)]/30"
             }`}>
               <p className={`text-sm ${validationResult.error ? "text-[var(--bad)]" : "text-[var(--ok)]"}`}>
                 {validationResult.error || validationResult.message}
@@ -141,20 +145,20 @@ export default function CuponesPage() {
               <p className="mt-1 text-xs text-[var(--muted)]">Total</p>
             </div>
           </div>
-          <div className="rounded-[1.5rem] border border-green-500/20 bg-green-500/[.04] p-1.5">
-            <div className="rounded-[1.125rem] border border-green-500/10 bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+          <div className="rounded-[1.5rem] border border-[var(--ok)]/20 bg-[var(--ok)]/[.04] p-1.5">
+            <div className="rounded-[1.125rem] border border-[var(--ok)]/10 bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-3xl font-black text-[var(--ok)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.generated}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Generados</p>
             </div>
           </div>
-          <div className="rounded-[1.5rem] border border-sky-500/20 bg-sky-500/[.04] p-1.5">
-            <div className="rounded-[1.125rem] border border-sky-500/10 bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+          <div className="rounded-[1.5rem] border border-[var(--place)]/20 bg-[var(--place)]/[.04] p-1.5">
+            <div className="rounded-[1.125rem] border border-[var(--place)]/10 bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-3xl font-black text-[var(--place)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.redeemed}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Canjeados</p>
             </div>
           </div>
-          <div className="rounded-[1.5rem] border border-red-500/20 bg-red-500/[.04] p-1.5">
-            <div className="rounded-[1.125rem] border border-red-500/10 bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+          <div className="rounded-[1.5rem] border border-[var(--bad)]/20 bg-[var(--bad)]/[.04] p-1.5">
+            <div className="rounded-[1.125rem] border border-[var(--bad)]/10 bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="text-3xl font-black text-[var(--bad)]" style={{ fontFamily: "var(--font-ticket)" }}>{stats.expired}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Vencidos</p>
             </div>
@@ -188,12 +192,12 @@ export default function CuponesPage() {
                     </div>
                     <span className={`shrink-0 rounded-lg px-3 py-1 text-xs font-bold ${
                       coupon.status === "generated"
-                        ? "bg-green-500/20 text-[var(--ok)]"
+                        ? "bg-[var(--ok)]/20 text-[var(--ok)]"
                         : coupon.status === "redeemed"
-                        ? "bg-blue-500/20 text-blue-300"
+                        ? "bg-[var(--place)]/20 text-[var(--place)]"
                         : coupon.status === "expired"
-                        ? "bg-red-500/20 text-[var(--bad)]"
-                        : "bg-gray-500/20 text-gray-300"
+                        ? "bg-[var(--bad)]/20 text-[var(--bad)]"
+                        : "bg-[var(--muted)]/20 text-[var(--muted)]"
                     }`}>
                       {coupon.status.toUpperCase()}
                     </span>

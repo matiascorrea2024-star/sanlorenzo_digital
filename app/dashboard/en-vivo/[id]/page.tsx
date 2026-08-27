@@ -41,6 +41,22 @@ export default function ControlEnVivo() {
 
   useEffect(() => { cargar(); }, [cargar]);
 
+  // Si la transmisión ya está en vivo (por ejemplo, se recargó esta página)
+  // y todavía no tenemos token de LiveKit, lo pedimos acá -- si no, la UI
+  // queda mostrando "Conectando la cámara..." para siempre.
+  useEffect(() => {
+    if (stream?.status !== "live" || token) return;
+    (async () => {
+      const res = await fetch("/api/live/token", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ live_stream_id: streamId }),
+      });
+      const j = await res.json();
+      if (res.ok) setToken({ token: j.token, url: j.url });
+      else show(`❌ ${j.error}`, "error");
+    })();
+  }, [stream, token, streamId, show]);
+
   const empezar = async () => {
     setBusy(true);
     const sb = supabase();
@@ -109,7 +125,7 @@ export default function ControlEnVivo() {
               </>
             )}
             {stream.status === "live" && (
-              <button onClick={finalizar} disabled={busy} className="flex items-center gap-1.5 rounded-full border border-red-400/40 bg-red-500/15 px-4 py-2 text-sm font-black text-[var(--bad)] disabled:opacity-50">
+              <button onClick={finalizar} disabled={busy} className="flex items-center gap-1.5 rounded-full border border-[var(--bad)]/40 bg-[var(--bad)]/15 px-4 py-2 text-sm font-black text-[var(--bad)] disabled:opacity-50">
                 <Square className="h-4 w-4" /> Terminar
               </button>
             )}
@@ -132,8 +148,8 @@ export default function ControlEnVivo() {
                   ["Minutos en vivo", stream.started_at && stream.ended_at ? Math.round((new Date(stream.ended_at).getTime() - new Date(stream.started_at).getTime()) / 60000) : 0],
                   ["Productos mostrados", items.length],
                 ].map(([label, value]) => (
-                  <div key={label as string} className="rounded-[1.25rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1">
-                    <div className="rounded-[.9rem] border border-[var(--ov-05)] bg-black/10 p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+                  <div key={label as string} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+                    <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                       <p className="text-2xl font-black text-[var(--accent)] tabular-nums">{value}</p>
                       <p className="text-[10px] text-[var(--muted)]">{label}</p>
                     </div>
@@ -147,7 +163,7 @@ export default function ControlEnVivo() {
             )}
 
             <div className="mt-4 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="mb-3 flex items-center gap-1.5 font-black">
                 🛍️ Productos en este vivo
                 {!plan.vivoProductos && <Lock className="h-3.5 w-3.5 text-[var(--accent)]" />}

@@ -140,7 +140,7 @@ export default function SellosPage() {
                     placeholder="Ej: 7K3M9P" maxLength={6}
                     className="w-40 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-center font-black tracking-widest outline-none focus:border-[var(--accent)]" />
                   <button onClick={validar} disabled={validando || codigo.trim().length < 4}
-                    className="flex items-center gap-2 rounded-full bg-sky-500/20 border border-sky-400/40 px-5 py-2.5 text-sm font-black text-[var(--place)] hover:bg-sky-500/30 disabled:opacity-50">
+                    className="flex items-center gap-2 rounded-full bg-[var(--place)]/20 border border-[var(--place)]/40 px-5 py-2.5 text-sm font-black text-[var(--place)] hover:bg-[var(--place)]/30 disabled:opacity-50">
                     <CheckCircle2 className="h-4 w-4" /> {validando ? "Validando..." : "Sumar sello"}
                   </button>
                 </div>

@@ -146,11 +146,11 @@ export default function OfertasPage() {
         ]} />
 
         {bienvenida && (
-          <div className="mb-6 rounded-2xl border border-green-400/40 bg-green-500/10 p-5 text-center">
+          <div className="mb-6 rounded-2xl border border-[var(--ok)]/40 bg-[var(--ok)]/10 p-5 text-center">
             <p className="text-3xl">🎉</p>
             <p className="mt-2 font-black text-[var(--ok)]">¡Listo! Negocio creado y primera oferta publicada.</p>
             <p className="mt-1 text-sm text-[var(--text)]/70">Ya está viva en la home, el radar, el mapa y tu miniweb. Ahora podés cargar tu catálogo de productos cuando quieras.</p>
-            <Link href="/dashboard/productos" className="mt-3 inline-block rounded-xl border border-green-400/30 px-4 py-2 text-xs font-bold text-green-200 hover:bg-green-500/10">
+            <Link href="/dashboard/productos" className="mt-3 inline-block rounded-xl border border-[var(--ok)]/30 px-4 py-2 text-xs font-bold text-[var(--ok)] hover:bg-[var(--ok)]/10">
               Cargar mi catálogo →
             </Link>
           </div>
@@ -158,7 +158,7 @@ export default function OfertasPage() {
 
         {offers.length === 0 ? (
           <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-12 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-12 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <div className="text-6xl mb-4">🔥</div>
               <h2 className="text-2xl font-black mb-2">Aún no tenés ofertas</h2>
               <p className="text-[var(--muted)] mb-6">
@@ -181,15 +181,15 @@ export default function OfertasPage() {
                   key={offer.id}
                   className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5"
                 >
-                <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+                <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="text-xl font-bold">{offer.title}</h3>
                         <span className={`rounded-lg px-3 py-1 text-xs font-bold ${
                           offer.active 
-                            ? "bg-green-500/20 text-[var(--ok)]" 
-                            : "bg-red-500/20 text-[var(--bad)]"
+                            ? "bg-[var(--ok)]/20 text-[var(--ok)]" 
+                            : "bg-[var(--bad)]/20 text-[var(--bad)]"
                         }`}>
                           {offer.active ? "ACTIVA" : "INACTIVA"}
                         </span>
@@ -205,8 +205,8 @@ export default function OfertasPage() {
                       onClick={() => toggleOffer(offer.id, offer.active)}
                       className={`rounded-xl px-4 py-2 text-sm font-bold transition ${
                         offer.active
-                          ? "bg-red-500/10 text-[var(--bad)] border border-red-500/30 hover:bg-red-500/20"
-                          : "bg-green-500/10 text-[var(--ok)] border border-green-500/30 hover:bg-green-500/20"
+                          ? "bg-[var(--bad)]/10 text-[var(--bad)] border border-[var(--bad)]/30 hover:bg-[var(--bad)]/20"
+                          : "bg-[var(--ok)]/10 text-[var(--ok)] border border-[var(--ok)]/30 hover:bg-[var(--ok)]/20"
                       }`}
                     >
                       {offer.active ? "Pausar" : "Activar"}
@@ -251,8 +251,8 @@ export default function OfertasPage() {
                     disabled={offer.es_bomba}
                     className={`mb-3 w-full rounded-xl px-4 py-2 text-sm font-bold transition ${
                       offer.es_bomba
-                        ? "border border-red-400/40 bg-red-500/15 text-[var(--bad)]"
-                        : "border border-[var(--line-strong)] bg-[var(--ov-05)] hover:border-red-400/40 hover:bg-red-500/10"
+                        ? "border border-[var(--bad)]/40 bg-[var(--bad)]/15 text-[var(--bad)]"
+                        : "border border-[var(--line-strong)] bg-[var(--ov-05)] hover:border-[var(--bad)]/40 hover:bg-[var(--bad)]/10"
                     }`}
                   >
                     {offer.es_bomba ? "💣 Es tu oferta bomba de hoy (18-20hs)" : "💣 Marcar como oferta bomba de hoy"}

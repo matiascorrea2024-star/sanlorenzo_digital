@@ -162,7 +162,7 @@ export default function Editar() {
 
         {/* 📸 FOTOS DEL NEGOCIO */}
         <section className="mt-8 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
-          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-red-300 bg-clip-text text-transparent">Fotos de tu negocio</h2>
+          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">Fotos de tu negocio</h2>
           <p className="mb-4 text-sm text-[var(--muted)]">La foto de portada aparece en la home y en el directorio. El logo aparece junto al nombre en tu miniweb.</p>
           <div className="grid gap-6 md:grid-cols-2">
             <div>
@@ -189,7 +189,7 @@ export default function Editar() {
         </section>
 
         <section className="mt-6 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
-          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-red-300 bg-clip-text text-transparent">Datos del negocio</h2>
+          <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">Datos del negocio</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <label><span className={lbl}>Nombre</span><input className={inp} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></label>
             <label><span className={lbl}>WhatsApp</span><input className={inp} value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value.replace(/\D/g, "") })} /></label>
@@ -282,7 +282,7 @@ export default function Editar() {
                 <ImageUploader value={it.photo} onChange={(url) => setItems(items.map((x, j) => j === i ? { ...x, photo: url } : x))} businessId={String(b.id)} itemId={String(i)} />
                 <input className={inp} placeholder="Nombre" value={it.name} onChange={(e) => setItems(items.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} />
                 <input className={inp} placeholder="Precio" value={it.price || ""} onChange={(e) => setItems(items.map((x, j) => j === i ? { ...x, price: e.target.value } : x))} />
-                <button onClick={() => setItems(items.filter((_, j) => j !== i))} className="rounded-lg border border-[var(--line-strong)] text-[var(--bad)] hover:border-red-400">🗑</button>
+                <button onClick={() => setItems(items.filter((_, j) => j !== i))} className="rounded-lg border border-[var(--line-strong)] text-[var(--bad)] hover:border-[var(--bad)]">🗑</button>
               </div>
             ))}
           </div>
@@ -319,12 +319,12 @@ export default function Editar() {
                     }));
                   }}
                 >
-                  <option value="" className="bg-neutral-900 text-[var(--text)]">⏱ Duración…</option>
+                  <option value="" className="bg-[var(--surface)] text-[var(--text)]">⏱ Duración…</option>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 24].map((h) => (
-                    <option key={h} value={h + "h"} className="bg-neutral-900 text-[var(--text)]">🔥 {h} hora{h > 1 ? "s" : ""} (relámpago)</option>
+                    <option key={h} value={h + "h"} className="bg-[var(--surface)] text-[var(--text)]">🔥 {h} hora{h > 1 ? "s" : ""} (relámpago)</option>
                   ))}
                   {[2, 3, 4, 5, 6, 7].map((d) => (
-                    <option key={d} value={d + "d"} className="bg-neutral-900 text-[var(--text)]">📅 {d} días</option>
+                    <option key={d} value={d + "d"} className="bg-[var(--surface)] text-[var(--text)]">📅 {d} días</option>
                   ))}
                 </select>
                 {pr.expires_at && (
@@ -333,27 +333,24 @@ export default function Editar() {
                   </p>
                 )}
               </div>
-                <button onClick={() => setPromos(promos.filter((_, j) => j !== i))} className="rounded-lg border border-[var(--line-strong)] text-[var(--bad)] hover:border-red-400">🗑</button>
+                <button onClick={() => setPromos(promos.filter((_, j) => j !== i))} className="rounded-lg border border-[var(--line-strong)] text-[var(--bad)] hover:border-[var(--bad)]">🗑</button>
               </div>
             ))}
           </div>
         </section>
 
-        
-        
-        
         {/* 💰 Plan -- los precios y beneficios reales viven en un solo
             lugar (/dashboard/planes), para no repetirlos acá desactualizados. */}
-        <section className="mt-6 rounded-2xl border border-yellow-400/40 bg-gradient-to-r from-yellow-500/10 to-[#861642]/10 p-6">
+        <section className="mt-6 rounded-2xl border border-[var(--accent)]/25 bg-gradient-to-r from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-6">
           {b.destacado ? (
             <p className="text-sm font-bold text-[var(--ok)]">🎉 Tu negocio está en Destacado Semanal: aparece con prioridad en la home y el mapa.</p>
           ) : (
             <>
-              <h2 className="mb-1 font-black text-[var(--warn)]">¿Querés más visibilidad?</h2>
+              <h2 className="mb-1 font-black text-[var(--accent)]">¿Querés más visibilidad?</h2>
               <p className="mb-4 text-sm text-[var(--text)]/70">Mirá los planes pagos: más ofertas, estadísticas, catálogo destacado y posición fija en la home.</p>
               <Link
                 href="/dashboard/planes"
-                className="inline-block rounded-xl bg-gradient-to-r from-yellow-400 to-[#861642] px-5 py-2.5 text-sm font-black text-black hover:opacity-90"
+                className="inline-block rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-black text-white hover:opacity-90"
               >
                 Ver planes y precios →
               </Link>
@@ -365,7 +362,7 @@ export default function Editar() {
         {stats && (
           <section className="mt-6 rounded-2xl border border-[var(--accent)]/20 bg-gradient-to-b from-[var(--ov-08)] to-[var(--ov-03)] p-6 shadow-xl shadow-[var(--accent)]/10">
             <div className="mb-4"><LevelBadge slug={b.slug} /></div>
-            <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-red-300 bg-clip-text text-transparent">Estadísticas de tu negocio (últimos 7 días)</h2>
+            <h2 className="mb-4 text-lg font-black tracking-tight bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">Estadísticas de tu negocio (últimos 7 días)</h2>
             <div className="grid grid-cols-2 gap-4 mb-5">
               <div className="rounded-[1.25rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-1">
                 <div className="rounded-[.9rem] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
@@ -433,7 +430,11 @@ export default function Editar() {
           <button onClick={save} disabled={saving} className="rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-black text-white hover:opacity-90 disabled:opacity-40">
             {saving ? "Guardando…" : "💾 Guardar cambios"}
           </button>
-          {msg && <span className="text-sm">{msg}</span>}
+          {msg && (
+            <span className={`text-sm ${msg.startsWith("✅") ? "text-[var(--ok)]" : msg.startsWith("❌") ? "text-[var(--bad)]" : "text-[var(--muted)]"}`}>
+              {msg}
+            </span>
+          )}
         </div>
       </div>
     </main>

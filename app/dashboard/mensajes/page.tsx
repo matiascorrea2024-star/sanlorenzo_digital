@@ -20,12 +20,12 @@ export default function MensajesPage() {
   const [messages, setMessages] = useState<any[]>([]);
   const [names, setNames] = useState<Record<string, string>>({});
   const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
+  const [loadingBiz, setLoadingBiz] = useState(true);
   const pendingBiz = useRef<string | null>(null);
-  const pendingCust = useRef<string | null>(null);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
-    pendingBiz.current = q.get("biz"); pendingCust.current = q.get("cust");
+    pendingBiz.current = q.get("biz");
     if (q.get("cust")) setSelectedCustomer(q.get("cust"));
   }, []);
 
@@ -37,6 +37,7 @@ export default function MensajesPage() {
           const want = pendingBiz.current && data.some(d => d.id === pendingBiz.current) ? pendingBiz.current : data[0].id;
           setSelectedBiz(want);
         }
+        setLoadingBiz(false);
       });
     }
   }, [user]);
@@ -113,9 +114,11 @@ export default function MensajesPage() {
 
         {!selectedCustomer && (
           <div className="mt-6 space-y-2">
-            {convoList.length === 0 ? (
+            {loadingBiz ? (
+              <p className="py-12 text-center text-[var(--muted)]">Cargando…</p>
+            ) : convoList.length === 0 ? (
               <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-                <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-8 text-center text-[var(--muted)]">
+                <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center text-[var(--muted)]">
                   Aún no tenés conversaciones.
                 </div>
               </div>
@@ -123,7 +126,7 @@ export default function MensajesPage() {
               convoList.map(cv => (
                 <button key={cv.cust} onClick={() => setSelectedCustomer(cv.cust)}
                   className="group flex w-full items-center gap-1.5 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 text-left transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-[var(--accent)]/30">
+                  <div className="flex w-full items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-[var(--accent)]/30">
                     <Avatar name={cv.name} size={48} />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
@@ -133,7 +136,7 @@ export default function MensajesPage() {
                       <p className="truncate text-xs text-[var(--muted)]">{cv.last.sender_role === "business" ? "✓✓ " : ""}{cv.last.body}</p>
                     </div>
                     {cv.unread > 0 && (
-                      <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-green-500 px-1 text-xs font-black text-black">{cv.unread}</span>
+                      <span className="flex h-6 min-w-[24px] items-center justify-center rounded-full bg-[var(--ok)] px-1 text-xs font-black text-black">{cv.unread}</span>
                     )}
                   </div>
                 </button>

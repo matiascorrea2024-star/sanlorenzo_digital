@@ -11,8 +11,8 @@ import { planDe, puedeCrearVivo } from "@/lib/plans";
 import { useToast } from "@/components/ui/toast";
 
 const ESTADO_LABEL: Record<string, { t: string; c: string }> = {
-  scheduled: { t: "Programado", c: "border-sky-400/30 bg-sky-500/10 text-[var(--place)]" },
-  live: { t: "🔴 En vivo", c: "border-red-400/40 bg-red-500/15 text-[var(--bad)]" },
+  scheduled: { t: "Programado", c: "border-[var(--place)]/30 bg-[var(--place)]/10 text-[var(--place)]" },
+  live: { t: "🔴 En vivo", c: "border-[var(--bad)]/40 bg-[var(--bad)]/15 text-[var(--bad)]" },
   ended: { t: "Finalizado", c: "border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]" },
   cancelled: { t: "Cancelado", c: "border-[var(--line)] bg-[var(--ov-05)] text-[var(--muted2)]" },
 };
@@ -105,7 +105,7 @@ export default function EnVivoDashboard() {
         ]} />
 
         <div className="mb-4 rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="flex items-center justify-between rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+          <div className="flex items-center justify-between rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <p className="text-sm text-[var(--muted)]">
               {plan.maxVivosPorMes === -1 ? "Vivos ilimitados con tu plan" : `${vivosEsteMes}/${plan.maxVivosPorMes} vivos este mes (Plan ${plan.name})`}
             </p>
@@ -123,7 +123,7 @@ export default function EnVivoDashboard() {
 
         {creando && (
           <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="space-y-3 rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+          <div className="space-y-3 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
               placeholder="Título (ej: Liquidación de invierno 🔥)" className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2}
@@ -143,11 +143,11 @@ export default function EnVivoDashboard() {
         <div className="space-y-2.5">
           {streams.length === 0 ? (
             <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-8 text-center text-[var(--muted)]">Todavía no creaste ninguna transmisión.</div>
+              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center text-[var(--muted)]">Todavía no creaste ninguna transmisión.</div>
             </div>
           ) : streams.map((s) => (
             <Link key={s.id} href={`/dashboard/en-vivo/${s.id}`} className="group block rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-300 hover:-translate-y-0.5">
-              <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-[var(--accent)]/30">
+              <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] transition-colors group-hover:border-[var(--accent)]/30">
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-bold">{s.title}</p>
                   <p className="flex items-center gap-2 text-xs text-[var(--muted2)]">

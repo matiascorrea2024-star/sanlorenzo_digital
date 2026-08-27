@@ -105,7 +105,7 @@ export default function EditarOferta() {
         <div>
           <p className="text-4xl mb-3">🔍</p>
           <p className="font-bold">{error}</p>
-          <Link href="/dashboard/ofertas" className="mt-4 inline-block text-[var(--accent)] hover:text-[var(--accent)]">← Volver a mis ofertas</Link>
+          <Link href="/dashboard/ofertas" className="mt-4 inline-block text-[var(--accent)] hover:opacity-80">← Volver a mis ofertas</Link>
         </div>
       </main>
     );
@@ -114,7 +114,7 @@ export default function EditarOferta() {
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-2xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]">← Volver a mis ofertas</Link>
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:opacity-80">← Volver a mis ofertas</Link>
         <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Editar</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Editar oferta</h1>
 
@@ -168,14 +168,14 @@ export default function EditarOferta() {
           </div>
 
           {isAdmin && (
-            <label className="flex items-center gap-2 rounded-xl border border-sky-400/30 bg-sky-500/10 p-4 text-sm">
+            <label className="flex items-center gap-2 rounded-xl border border-[var(--place)]/30 bg-[var(--place)]/10 p-4 text-sm">
               <input type="checkbox" checked={precioPrometido} onChange={(e) => setPrecioPrometido(e.target.checked)} />
               <span>🔒 Certificar &quot;Precio Prometido&quot; (solo admin)</span>
             </label>
           )}
 
           {error && (
-            <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-4">
+            <div className="rounded-xl bg-[var(--bad)]/10 border border-[var(--bad)]/30 p-4">
               <p className="text-sm font-bold text-[var(--bad)]">❌ {error}</p>
             </div>
           )}

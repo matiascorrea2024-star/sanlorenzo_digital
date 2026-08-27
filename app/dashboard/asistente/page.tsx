@@ -92,7 +92,7 @@ export default function AsistenteComerciantePage() {
           <div className="grid gap-2.5 sm:grid-cols-2">
             {TIPS.map((tip) => (
               <div key={tip.t} className="rounded-[1.25rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1">
-                <div className="flex items-start gap-2.5 rounded-[.9rem] border border-[var(--ov-05)] bg-black/10 p-3.5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+                <div className="flex items-start gap-2.5 rounded-[.9rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-3.5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <span className="text-lg leading-none">{tip.i}</span>
                   <div className="min-w-0">
                     <p className="text-sm font-bold">{tip.t}</p>
@@ -105,7 +105,7 @@ export default function AsistenteComerciantePage() {
         </div>
 
         <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <div className="space-y-3">
             <input value={form.producto} onChange={(e) => setForm({ ...form, producto: e.target.value })}
               placeholder="¿Qué vendés? Ej: Zapatillas deportivas *"
@@ -140,7 +140,7 @@ export default function AsistenteComerciantePage() {
               { key: "whatsapp", label: "💬 Copy para WhatsApp", texto: resultado.whatsapp },
             ].map(item => (
               <div key={item.key} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-                <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+                <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">{item.label}</p>
                     <button onClick={() => copy(item.texto, item.key)}
@@ -155,7 +155,7 @@ export default function AsistenteComerciantePage() {
             ))}
 
             <button onClick={usarEnOferta}
-              className="w-full rounded-full bg-gradient-to-r from-green-500 to-emerald-500 py-3 text-sm font-black hover:opacity-90">
+              className="w-full rounded-full bg-gradient-to-r from-[var(--ok)] to-emerald-500 py-3 text-sm font-black hover:opacity-90">
               🚀 Usar en nueva oferta
             </button>
             <p className="text-center text-xs text-[var(--muted2)]">

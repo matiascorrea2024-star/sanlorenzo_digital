@@ -165,7 +165,7 @@ export default function AnalyticsPage() {
         )}
 
         {!planActual.stats ? (
-          <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
+          <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Lock className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
               <p className="font-black">Las estadísticas completas son de Plan PRO</p>
@@ -183,7 +183,7 @@ export default function AnalyticsPage() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 mb-8">
           {cards.map(c => (
             <div key={c.label} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-5 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                 <c.icon className={`mx-auto h-6 w-6 ${c.color}`} />
                 <p className="mt-2 text-3xl font-black tabular-nums">{c.value}</p>
                 <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{c.label} <InfoTip label={`Qué significa ${c.label}`}>{c.info}</InfoTip></p>
@@ -193,7 +193,7 @@ export default function AnalyticsPage() {
         </div>
 
         {posicion && (
-          <div className="mb-8 rounded-[1.75rem] border border-sky-400/25 bg-gradient-to-br from-sky-500/[.08] to-blue-500/[.04] p-1.5">
+          <div className="mb-8 rounded-[1.75rem] border border-[var(--place)]/25 bg-gradient-to-br from-[var(--place)]/[.08] to-[var(--place)]/[.02] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="flex items-center gap-1.5 font-black">
                 📊 Tu lugar en la categoría
@@ -209,7 +209,7 @@ export default function AnalyticsPage() {
 
         {/* Timeline gráfico simple */}
         <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <h2 className="text-lg font-black mb-4">Actividad últimos 7 días</h2>
           <div className="space-y-3">
             {timeline.map(day => (
@@ -232,7 +232,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Conversión */}
-        <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
+        <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
           <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <h2 className="text-lg font-black mb-3 flex items-center gap-1.5">
               Tasa de conversión

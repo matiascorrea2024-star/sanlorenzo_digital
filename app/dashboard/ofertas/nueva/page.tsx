@@ -168,10 +168,10 @@ export default function NuevaOferta() {
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-[1400px] px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]">← Volver a mis ofertas</Link>
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:opacity-80">← Volver a mis ofertas</Link>
 
         {bienvenida && (
-          <div className="mt-4 rounded-2xl border border-green-400/40 bg-green-500/10 p-4">
+          <div className="mt-4 rounded-2xl border border-[var(--ok)]/40 bg-[var(--ok)]/10 p-4">
             <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-bold text-[var(--muted)]">
               <span className="text-[var(--ok)]">✓ Tu negocio</span>
               <span className="text-[var(--muted2)]" aria-hidden>→</span>
@@ -202,7 +202,7 @@ export default function NuevaOferta() {
           <div className="mt-4 rounded-xl border border-[var(--line)] bg-[var(--ov-03)] p-3 text-xs text-[var(--muted)]">
             Plan <b className="text-[var(--text)]/80">{planActual.name}</b>: {limite.activas}/{limiteActivas} ofertas activas · {limite.hoy}/{limiteHoy} publicadas hoy.
             {(limite.activas >= (limiteActivas || 0) || limite.hoy >= (limiteHoy || 0)) && (
-              <> <Link href="/dashboard/planes" className="font-bold text-[var(--accent)] hover:text-[var(--accent)]">Mejorar plan →</Link></>
+              <> <Link href="/dashboard/planes" className="font-bold text-[var(--accent)] hover:opacity-80">Mejorar plan →</Link></>
             )}
           </div>
         )}
@@ -211,7 +211,7 @@ export default function NuevaOferta() {
         <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
         <div className="space-y-5 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           {negocios.length === 0 ? (
-            <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/30 p-4">
+            <div className="rounded-xl bg-[var(--warn)]/10 border border-[var(--warn)]/30 p-4">
               <p className="text-sm text-[var(--warn)]">⚠️ No tenés negocios creados. <Link href="/dashboard/nuevo" className="underline font-bold">Crear uno ahora →</Link></p>
             </div>
           ) : (
@@ -300,7 +300,7 @@ export default function NuevaOferta() {
           </div>
 
           {error && (
-            <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-4">
+            <div className="rounded-xl bg-[var(--bad)]/10 border border-[var(--bad)]/30 p-4">
               <p className="text-sm font-bold text-[var(--bad)]">❌ {error}</p>
             </div>
           )}

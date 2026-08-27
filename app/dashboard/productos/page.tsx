@@ -205,7 +205,12 @@ export default function ProductosPage() {
       <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
         <div className="mx-auto max-w-3xl px-4 py-8">
           <DashboardNav />
-          <p>No tenés negocios. Creá uno primero.</p>
+          <div className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center text-[var(--muted)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+              <p>No tenés negocios todavía.</p>
+              <Link href="/dashboard/nuevo" className="mt-4 inline-block rounded-full bg-[var(--accent)] px-6 py-2.5 text-sm font-black text-white hover:opacity-90">Crear mi negocio →</Link>
+            </div>
+          </div>
         </div>
       </main>
     );
@@ -285,7 +290,7 @@ export default function ProductosPage() {
         {/* Carga rápida por fotos */}
         {modo === "rapida" && !editing && (
           <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+          <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <h2 className="text-lg font-black mb-1">Carga rápida</h2>
             <p className="mb-4 text-sm text-[var(--muted)]">Elegí todas las fotos que quieras cargar ahora.</p>
             <label className="flex h-28 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-[var(--line-strong)] bg-[var(--ov-03)] text-[var(--muted)] transition hover:border-[var(--accent)]/60 hover:text-[var(--text)]">
@@ -339,7 +344,7 @@ export default function ProductosPage() {
 
         {/* Formulario de a uno (también se usa para editar) */}
         <div className={`mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 ${modo === "rapida" && !editing ? "hidden" : ""}`}>
-        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+        <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
           <h2 className="text-lg font-black mb-4">{editing ? "Editar producto" : "Nuevo producto"}</h2>
           <div className="space-y-3">
             <ImageUploader
@@ -393,14 +398,14 @@ export default function ProductosPage() {
         <div className="space-y-2">
           {productos.length === 0 ? (
             <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-8 text-center text-[var(--muted)]">
+              <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center text-[var(--muted)]">
                 Aún no tenés productos. Creá el primero arriba.
               </div>
             </div>
           ) : (
             productos.map(p => (
               <div key={p.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-              <div className={`flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] ${p.active === false ? "opacity-50" : ""}`}>
+              <div className={`flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)] ${p.active === false ? "opacity-50" : ""}`}>
                 {Array.isArray(p.images) && p.images[0] ? (
                   <img src={p.images[0]} alt={p.name} className="h-12 w-12 rounded-xl object-cover" />
                 ) : (
@@ -411,7 +416,7 @@ export default function ProductosPage() {
                 <div className="flex-1">
                   <p className="font-bold flex items-center gap-1.5">
                     {p.name}
-                    {p.featured && <Star className="h-3.5 w-3.5 fill-yellow-400 text-[var(--warn)]" />}
+                    {p.featured && <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />}
                     {p.active === false && <span className="rounded-full bg-[var(--ov-10)] px-2 py-0.5 text-[9px] font-black uppercase text-[var(--muted)]">Oculto</span>}
                     {p.hidden_by_plan && <span className="rounded-full bg-[var(--accent)]/20 px-2 py-0.5 text-[9px] font-black uppercase text-[var(--accent)]">Oculto por plan</span>}
                   </p>

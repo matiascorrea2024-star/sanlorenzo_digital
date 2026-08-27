@@ -23,6 +23,7 @@ export default function MuroDashboard() {
   const [posts, setPosts] = useState<any[]>([]);
   const [form, setForm] = useState({ type: "oferta", title: "", body: "", image_url: "" });
   const [sending, setSending] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const load = async (bizId: string) => {
     const { data } = await supabase().from("muro_posts")
@@ -35,7 +36,8 @@ export default function MuroDashboard() {
       if (!user) return;
       const { data: biz } = await supabase().from("businesses")
         .select("*").eq("owner_id", user.id).order("name").limit(1).maybeSingle();
-      if (biz) { setNegocio(biz); load(biz.id); }
+      if (biz) { setNegocio(biz); await load(biz.id); }
+      setLoading(false);
     })();
   }, [user]);
 
@@ -49,7 +51,9 @@ export default function MuroDashboard() {
       body: form.body || null,
       image_url: form.image_url || null,
     });
-    if (!error) {
+    if (error) {
+      show(`❌ ${friendlyError(error, "No se pudo publicar. Probá de nuevo.")}`, "error");
+    } else {
       setForm({ type: "oferta", title: "", body: "", image_url: "" });
       await load(negocio.id);
     }
@@ -76,16 +80,18 @@ export default function MuroDashboard() {
           </div>
         </div>
 
-        {!negocio ? (
+        {loading ? (
+          <p className="py-16 text-center text-[var(--muted)]">Cargando…</p>
+        ) : !negocio ? (
           <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-8 text-center text-[var(--muted)]">
+            <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-8 text-center text-[var(--muted)]">
               Necesitás un negocio para publicar en el muro.
             </div>
           </div>
         ) : (
           <>
             <div className="mb-6 rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-black/10 p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+            <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <div className="flex flex-wrap gap-2 mb-4">
                 {TIPOS.map(t => (
                   <button key={t.k} onClick={() => setForm({ ...form, type: t.k })}
@@ -116,12 +122,12 @@ export default function MuroDashboard() {
             <div className="space-y-3">
               {posts.map(p => (
                 <div key={p.id} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
-                <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-black/10 p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+                <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
                   <div className="flex-1">
                     <p className="font-bold">{p.title}</p>
                     <p className="text-xs text-[var(--muted)] capitalize">{p.type} · ❤️ {p.likes || 0}</p>
                   </div>
-                  <button onClick={() => del(p.id)} className="rounded-lg bg-red-500/20 p-2 hover:bg-red-500/30">
+                  <button onClick={() => del(p.id)} className="rounded-lg bg-[var(--bad)]/20 p-2 hover:bg-[var(--bad)]/30">
                     <Trash2 className="h-4 w-4 text-[var(--bad)]" />
                   </button>
                 </div>
