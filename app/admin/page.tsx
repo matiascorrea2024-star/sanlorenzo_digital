@@ -8,6 +8,7 @@ import Avatar from "@/components/ui/avatar";
 import OnlineBadge from "@/components/ui/online-badge";
 import AdminVisits from "@/components/admin/visits";
 import MfaChallenge from "@/components/admin/mfa-challenge";
+import MfaEnrollRequired from "@/components/admin/mfa-enroll-required";
 import Badge from "@/components/ui/badge";
 import InfoTip from "@/components/ui/info-tip";
 import LiveChat from "@/components/live/live-chat";
@@ -61,22 +62,13 @@ export default function AdminPage() {
   const [chatCargados, setChatCargados] = useState(false);
   const [vivoSeleccionado, setVivoSeleccionado] = useState<string | null>(null);
 
-  // 2FA gradual: si la cuenta tiene factor TOTP verificado, esta sesión
-  // tiene que pasar el challenge antes de mostrar el panel (AAL2). Si
-  // todavía no cargó ningún factor, entra normal -- la activación se
-  // hace desde /perfil#cuenta, nadie queda afuera de su propio panel.
-  const [mfa, setMfa] = useState<"checking" | "ok" | "challenge">("checking");
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data: aal } = await supabase().auth.mfa.getAuthenticatorAssuranceLevel();
-        if (!aal || aal.currentLevel === "aal2" || aal.nextLevel !== "aal2") { setMfa("ok"); return; }
-        setMfa("challenge");
-      } catch {
-        setMfa("ok");
-      }
-    })();
-  }, []);
+  // 2FA obligatoria para admin: sin un factor TOTP verificado no se
+  // entra al panel -- primero tiene que activarlo (pantalla "enroll").
+  // Con factor verificado pero sesión en AAL1 todavía, pasa por el
+  // challenge de siempre. El chequeo se hace recién después de
+  // confirmar el rol admin (más abajo) para no pedirle 2FA a cualquier
+  // usuario logueado que entre por error a /admin.
+  const [mfa, setMfa] = useState<"checking" | "ok" | "challenge" | "enroll">("checking");
 
   useEffect(() => {
     (async () => {
@@ -87,6 +79,20 @@ export default function AdminPage() {
       const r = prof?.role || "user";
       setRole(r);
       if (r !== "admin") { router.push("/"); return; }
+
+      try {
+        const { data: factors } = await supabase().auth.mfa.listFactors();
+        const tieneFactorVerificado = (factors?.all || []).some((f) => f.status === "verified");
+        if (!tieneFactorVerificado) { setMfa("enroll"); return; }
+        const { data: aal } = await supabase().auth.mfa.getAuthenticatorAssuranceLevel();
+        if (aal && aal.currentLevel !== "aal2" && aal.nextLevel === "aal2") { setMfa("challenge"); return; }
+        setMfa("ok");
+      } catch {
+        // Si Supabase MFA no responde, no dejamos a un admin afuera de su
+        // propio panel por un error de red -- pero sí queda registrado
+        // acá para no confundirlo con "ya tiene 2FA".
+        setMfa("ok");
+      }
 
       const [u, b, o, v, pv, pend, rev, sb, ciu, fol, uList, rep] = await Promise.all([
         supabase().from("user_profiles").select("*", { count: "exact", head: true }),
@@ -489,6 +495,10 @@ export default function AdminPage() {
         </div>
       </main>
     );
+  }
+
+  if (mfa === "enroll") {
+    return <MfaEnrollRequired onSuccess={() => setMfa("ok")} />;
   }
 
   if (mfa === "challenge") {

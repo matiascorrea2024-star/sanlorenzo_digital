@@ -11,7 +11,7 @@ import { useToast } from "@/components/ui/toast";
 
 type Factor = { id: string; friendly_name?: string | null; status: string };
 
-export default function MfaSettings() {
+export default function MfaSettings({ onEnrolled }: { onEnrolled?: () => void } = {}) {
   const { show } = useToast();
   const [factors, setFactors] = useState<Factor[] | null>(null);
   const [qr, setQr] = useState<string | null>(null);
@@ -62,6 +62,11 @@ export default function MfaSettings() {
       show("2FA activado. Tu cuenta está blindada.", "success");
       setQr(null); setSecret(null); setFactorId(null); setCode("");
       cargar();
+      // Verificar el factor durante el enrolamiento ya eleva la sesión a
+      // AAL2 (mismo challenge que usa el login) -- si alguien nos pasó un
+      // callback (ej. el gate de /admin) puede seguir sin pedir un
+      // segundo código aparte.
+      onEnrolled?.();
     } catch (err: any) {
       setError(err?.message || "Código incorrecto, probá de nuevo.");
     }
