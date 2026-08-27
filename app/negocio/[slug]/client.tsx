@@ -19,7 +19,6 @@ import { useCart } from "@/lib/cart-context";
 import Badge from "@/components/ui/badge";
 import BusinessMap from "@/components/business/map";
 import ReviewsSection from "@/components/business/reviews-section";
-import OfferCard from "@/components/ui/offer-card";
 import Chat from "@/components/business/chat";
 import FollowButton from "@/components/business/follow-button";
 import NotifyMeButton from "@/components/offers/notify-me-button";
@@ -34,6 +33,7 @@ import BookingWidget from "@/components/business/booking-widget";
 import { hoyArgentina } from "@/lib/fecha-ar";
 import { getTrackedShareUrl } from "@/lib/tracked-link";
 import { relativeTime } from "@/lib/relative-time";
+import styles from "./negocio.module.css";
 
 const CATEGORY_IMAGES: Record<string, string> = {
   calzado: "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=1200&q=85",
@@ -45,6 +45,8 @@ const CATEGORY_IMAGES: Record<string, string> = {
   profesionales: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
   tecnologia: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
 };
+
+const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
 export default function NegocioPage({ initialNegocio = null, initialOfertas = [], initialProductos = [] }: {
   initialNegocio?: any;
@@ -221,134 +223,115 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
   return (
     <main className="bg-[var(--bg)] min-h-screen pb-24 text-[var(--text)]">
-      {/* Glow ambiental de marca, mismo lenguaje que el resto del sitio V3. */}
+      {/* Glow ambiental de marca, mismo lenguaje que el resto del sitio. */}
       <div className="aurora-bg -z-10" style={{ position: "fixed" }} aria-hidden="true"><span /><span /><span /></div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
 
-      {/* HERO editorial: tapa panorámica enorme + tarjeta de perfil que se
-          monta ENCIMA con margen negativo (calcado del mockup "Shop Profile
-          Premium" de superdesign) -- nada de foto chica con nombre al lado,
-          la marca del comercio ocupa la pantalla. */}
-      <div className="mx-auto max-w-[1700px] px-4 pt-6 sm:px-6">
-        <section className="relative h-[280px] overflow-hidden rounded-[2.5rem] border border-[var(--line)] shadow-2xl shadow-black/50 sm:h-[380px] sm:rounded-[3.5rem] md:h-[480px]">
+      {/* COVER cinematográfico -- misma estructura que la vista previa que
+          se le mostró a Matías: tapa a sangre completa, viñeta, avatar
+          flotante, nombre en Fraunces itálica, meta real, acciones. */}
+      <section className={styles.cover}>
+        <div className={styles.coverShot}>
           {negocio.portada_url ? (
-            <Image src={negocio.portada_url} alt={negocio.name} fill priority quality={92}
-              sizes="100vw" className="object-cover" />
+            <Image src={negocio.portada_url} alt={negocio.name} fill priority quality={92} sizes="100vw" className="object-cover" />
           ) : (
-            <CategoryCover category={negocio.category} seed={negocio.id || negocio.slug} className="absolute inset-0 h-full w-full" />
+            <CategoryCover category={negocio.category} seed={negocio.id || negocio.slug} className="absolute inset-0" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a0b] via-[#0c0a0b]/15 to-transparent" />
-          <button onClick={() => router.back()} className="absolute left-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-md transition hover:scale-110 hover:bg-black/70 sm:left-6 sm:top-6">
-            <ArrowLeft className="h-5 w-5" />
-          </button>
-          <div className="absolute left-4 right-4 top-4 ml-14 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:top-6 sm:ml-16">
-            <BusinessLiveBadge businessId={negocio.id} />
-            {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
-            {abierto !== null && (
-              <Badge variant={abierto ? "success" : "danger"} size="sm">
-                {abierto ? "● Abierto ahora" : "● Cerrado"}
-              </Badge>
-            )}
-            {negocio.type && negocio.type !== "comercio" && (
-              <Badge variant="info" size="sm">
-                {negocio.type === "particular" ? "🙋 Vendedor particular" : negocio.type === "servicio" ? "🔧 Servicio" : "💼 Profesional"}
-              </Badge>
-            )}
-            {negocio.hace_envios && <Badge variant="info" size="sm">🚚 Hace envíos</Badge>}
-            <ResponseBadge businessId={negocio.id} />
-          </div>
-        </section>
+        </div>
+        <div className={styles.coverVignette} aria-hidden="true" />
+        <div className={styles.coverRim} aria-hidden="true" />
 
-        {/* Tarjeta de perfil superpuesta -- margen negativo real, no un
-            simple "-mt-10" cosmético: la tapa y la tarjeta se leen como
-            una sola pieza, como en el mockup aprobado. */}
-        <div className="relative z-10 mx-auto -mt-16 max-w-6xl px-2 sm:-mt-24 sm:px-4 md:-mt-28">
-          <div className="rounded-[2.25rem] border border-[var(--line-strong)] bg-[var(--surface2)] p-6 shadow-[0_40px_80px_rgba(0,0,0,0.35)] sm:rounded-[3rem] sm:p-10 md:p-12">
-            <div className="flex flex-col items-center gap-8 text-center md:flex-row md:items-start md:gap-12 md:text-left">
-              <div className="shrink-0">
-                {negocio.logo_url ? (
-                  <DivisionFrame puntos={negocio.puntos || 0} size={144} categoria={negocio.category}>
-                    <Image src={negocio.logo_url} alt={negocio.name} width={144} height={144} quality={92} className="h-36 w-36 rounded-full border-[6px] border-[var(--surface2)] object-cover shadow-2xl" />
-                  </DivisionFrame>
-                ) : (
-                  <DivisionFrame puntos={negocio.puntos || 0} size={144} categoria={negocio.category} showLabel mostrarProgreso={false}>
-                    <div className="flex h-36 w-36 items-center justify-center rounded-full border-[6px] border-[var(--surface2)] bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] text-6xl font-black text-white shadow-[0_0_50px_rgba(209,47,104,0.35)]">
-                      {negocio.name[0]}
-                    </div>
-                  </DivisionFrame>
-                )}
-              </div>
+        <button onClick={() => router.back()} aria-label="Volver" className={`${styles.backBtn} ${styles.iconBtn}`}>
+          <ArrowLeft className="h-5 w-5" />
+        </button>
 
-              <div className="min-w-0 flex-1">
-                <p className="text-[11px] font-black uppercase tracking-[.35em] text-[var(--accent)]">{negocio.category}{negocio.address ? ` · San Lorenzo` : ""}</p>
-                <h1 className="mt-1 leading-[.95] tracking-tight" style={{ fontFamily: "var(--font-fraunces), Georgia, serif", fontStyle: "italic", fontWeight: 600, fontSize: "clamp(2.3rem, 6vw, 4.6rem)" }}>{negocio.name}</h1>
+        <div className={styles.badgeRow}>
+          <BusinessLiveBadge businessId={negocio.id} />
+          {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
+          {abierto !== null && (
+            <Badge variant={abierto ? "success" : "danger"} size="sm">
+              {abierto ? "● Abierto ahora" : "● Cerrado"}
+            </Badge>
+          )}
+          {negocio.type && negocio.type !== "comercio" && (
+            <Badge variant="info" size="sm">
+              {negocio.type === "particular" ? "🙋 Vendedor particular" : negocio.type === "servicio" ? "🔧 Servicio" : "💼 Profesional"}
+            </Badge>
+          )}
+          {negocio.hace_envios && <Badge variant="info" size="sm">🚚 Hace envíos</Badge>}
+          <ResponseBadge businessId={negocio.id} />
+        </div>
 
-                {/* Stats reales -- rating/reseñas de la columna businesses,
-                    seguidores del propio FollowButton (mismo dato, sin
-                    duplicar el fetch), nada inventado. */}
-                <div className="mt-7 flex flex-wrap items-center justify-center gap-x-10 gap-y-5 md:justify-start">
-                  {Number(negocio.reviews) > 0 && (
-                    <div className="flex flex-col items-center md:items-start">
-                      <span className="font-display text-4xl leading-none sm:text-5xl">{Number(negocio.rating).toFixed(1)}</span>
-                      <span className="mt-1 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">
-                        <Star className="h-3.5 w-3.5 fill-[var(--warn)] text-[var(--warn)]" /> {negocio.reviews} reseñas
-                      </span>
-                    </div>
-                  )}
-                  <LevelBadge slug={negocio.slug} mostrarProgreso={false} />
-                  {viendo >= 2 && (
-                    <div className="flex flex-col items-center md:items-start">
-                      <span className="flex items-center gap-1.5 font-display text-4xl leading-none text-[var(--accent)] sm:text-5xl">
-                        <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--accent)]" /></span>
-                        {viendo}
-                      </span>
-                      <span className="mt-1 text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">Viendo esto ahora</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-7 flex flex-col gap-2.5 text-sm font-bold text-[var(--muted)] md:items-start">
-                  {negocio.address && (
-                    <p className="flex items-center justify-center gap-3 md:justify-start"><MapPin className="h-4 w-4 shrink-0 text-[var(--accent)]" /> {negocio.address}</p>
-                  )}
-                  {(negocio.schedule || abierto !== null) && (
-                    <p className="flex items-center justify-center gap-3 md:justify-start">
-                      <Clock className="h-4 w-4 shrink-0 text-[var(--accent)]" />
-                      {abierto === null ? "Consultar horario" : abierto ? "Abierto ahora" : "Cerrado ahora"}{negocio.schedule ? ` · ${negocio.schedule}` : ""}
-                    </p>
-                  )}
-                  {actualizado && <p className="text-xs font-semibold text-[var(--muted2)]">Actualizado {actualizado}</p>}
-                </div>
-
-                <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start">
-                  <FollowButton businessId={negocio.id} size="lg" />
-                  {negocio.website && (
-                    <a href={negocio.website} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2.5 rounded-2xl border-2 border-[var(--line-strong)] px-8 py-4 font-display text-lg uppercase tracking-tight transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:text-xl">
-                      Visitar <ExternalLink className="h-5 w-5" />
-                    </a>
-                  )}
-                  <button onClick={() => { setDetalle("chat"); document.getElementById("detalle-ficha")?.scrollIntoView({ behavior: "smooth", block: "start" }); }}
-                    className="inline-flex items-center gap-2.5 rounded-2xl border-2 border-[var(--line-strong)] px-8 py-4 font-display text-lg uppercase tracking-tight transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:text-xl">
-                    Contactar <MessageCircle className="h-5 w-5" />
-                  </button>
-                  <FavoriteButton itemType="business" itemId={negocio.id} variant="card" size={24} />
-                </div>
-
-                {Array.isArray(negocio.tags) && negocio.tags.length > 0 && (
-                  <div className="mt-7 flex flex-wrap justify-center gap-2.5 md:justify-start">
-                    {negocio.tags.map((tag: string) => (
-                      <span key={tag} className="rounded-xl border border-[var(--line)] bg-[var(--ov-05)] px-4 py-2 text-[10px] font-black uppercase tracking-[.2em] text-[var(--muted)]">{tag}</span>
-                    ))}
+        <div className={`${styles.wrap} ${styles.coverContent} px-4 sm:px-6`}>
+          <div className={styles.coverBottom}>
+            <div className={styles.logoFloat}>
+              {negocio.logo_url ? (
+                <DivisionFrame puntos={negocio.puntos || 0} size={96} categoria={negocio.category}>
+                  <Image src={negocio.logo_url} alt={negocio.name} width={96} height={96} quality={92} className="h-24 w-24 rounded-full border-4 border-[var(--bg)] object-cover shadow-2xl" />
+                </DivisionFrame>
+              ) : (
+                <DivisionFrame puntos={negocio.puntos || 0} size={96} categoria={negocio.category} showLabel mostrarProgreso={false}>
+                  <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-[var(--bg)] bg-gradient-to-br from-[var(--accent)] to-[var(--accent2)] text-4xl font-black text-white shadow-2xl">
+                    {negocio.name[0]}
                   </div>
-                )}
+                </DivisionFrame>
+              )}
+            </div>
+            <div className={styles.coverInfo}>
+              <h1 className={styles.coverName}>{negocio.name}</h1>
+              <div className={styles.coverMeta}>
+                {Number(negocio.reviews) > 0 && <span>⭐ {Number(negocio.rating).toFixed(1)} · {negocio.reviews} reseñas</span>}
+                {negocio.address && <span>📍 {negocio.address}</span>}
+                {negocio.category && <span>{negocio.category}</span>}
+                <LevelBadge slug={negocio.slug} mostrarProgreso={false} />
+                {viendo >= 2 && <span>🔴 {viendo} viendo esto ahora</span>}
               </div>
             </div>
+            <div className={styles.coverActions}>
+              {negocio.whatsapp && (
+                <a
+                  onClick={() => trackClickWhatsApp(negocio.id)}
+                  href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${negocio.name} en La Gran Barata Digital`)}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className={styles.iconBtn}
+                  aria-label="WhatsApp"
+                >
+                  <MessageCircle className="h-[18px] w-[18px]" />
+                </a>
+              )}
+              <div className={styles.iconBtn}><FavoriteButton itemType="business" itemId={negocio.id} variant="card" size={18} /></div>
+              <button onClick={share} disabled={compartiendo} aria-label="Compartir" className={styles.iconBtn}>
+                <Share2 className={`h-[18px] w-[18px] ${compartiendo ? "animate-pulse" : ""}`} />
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <FollowButton businessId={negocio.id} size="lg" />
+            {negocio.website && (
+              <a href={negocio.website} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold uppercase tracking-wide transition hover:border-[var(--accent)] hover:text-[var(--accent)]">
+                Visitar <ExternalLink className="h-4 w-4" />
+              </a>
+            )}
+            <button onClick={() => { setDetalle("chat"); document.getElementById("detalle-ficha")?.scrollIntoView({ behavior: "smooth", block: "start" }); }}
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold uppercase tracking-wide transition hover:border-[var(--accent)] hover:text-[var(--accent)]">
+              Contactar <MessageCircle className="h-4 w-4" />
+            </button>
+            {actualizado && <p className="text-xs font-semibold text-[var(--muted2)]">Actualizado {actualizado}</p>}
+          </div>
+
+          {Array.isArray(negocio.tags) && negocio.tags.length > 0 && (
+            <div className="mt-5 flex flex-wrap gap-2">
+              {negocio.tags.map((tag: string) => (
+                <span key={tag} className="rounded-lg border border-[var(--line-strong)] bg-[var(--surface)] px-3 py-1.5 text-[10px] font-black uppercase tracking-[.15em] text-[var(--muted)]">{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <div className={`${styles.wrap} px-4 pt-8 sm:px-6`}>
         {/* ALERTA: solo cuando tiene sentido ("avisame si vuelve" en un
             negocio activo con ofertas vigentes confundía: ¿volver de dónde?).
             Con el negocio abierto y ofertas activas, el CTA útil es WhatsApp. */}
@@ -381,30 +364,16 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${negocio.name} en La Gran Barata Digital`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="mb-3 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 p-4 text-white shadow-lg shadow-green-500/20 transition hover:opacity-90"
+            className="mb-6 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 p-4 text-white shadow-lg shadow-green-500/20 transition hover:opacity-90"
           >
             <MessageCircle className="h-6 w-6" />
             <span className="text-base font-black">Escribir por WhatsApp</span>
           </a>
         )}
 
-        {/* ACCIONES RÁPIDAS: tarjetas de doble borde, tal cual el mockup
-            (Favoritos ya se movió al header de la ficha, junto a Seguir). */}
+        {/* ACCIONES RÁPIDAS: mapa / compartir / modo TV. WhatsApp e
+            Instagram ya viven arriba, en la tapa. */}
         <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {negocio.whatsapp && !waDestacado && (
-            <a
-              onClick={() => trackClickWhatsApp(negocio.id)}
-              href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${negocio.name} en La Gran Barata Digital`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1"
-            >
-              <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                <MessageCircle className="h-6 w-6 text-[var(--ok)]" />
-                <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">WhatsApp</span>
-              </div>
-            </a>
-          )}
           {negocio.address && (
             <a
               onClick={() => trackClickMap(negocio.id)}
@@ -449,175 +418,189 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         <BookingWidget businessId={negocio.id} businessName={negocio.name} />
         <LoyaltyCard businessId={negocio.id} businessName={negocio.name} />
 
-        {/* Catálogo y ofertas activas: si el negocio tiene las dos cosas,
-            se muestran como pestañas (catálogo primero por default). Si
-            solo tiene una, se muestra directo sin pestañas de más. */}
-        {productos.length > 0 && ofertas.length > 0 && (
-          <div className="mb-5 flex gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-1.5">
-            <button
-              onClick={() => setSeccion("catalogo")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "catalogo" ? "bg-[var(--accent)] text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
-            >
-              <Package className="h-4 w-4" /> Catálogo ({productos.length})
-            </button>
-            <button
-              onClick={() => setSeccion("ofertas")}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "ofertas" ? "bg-[var(--accent)] text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
-            >
-              <Flame className="h-4 w-4" /> Ofertas ({ofertas.length})
-            </button>
-          </div>
-        )}
-
-        {/* OFERTAS ACTIVAS: misma OfferCard que usa el resto del sitio
-            (home, radar, resultados de búsqueda) -- antes esta ficha tenía
-            su propia versión compacta en miniatura, ahora es una sola
-            tarjeta consistente en toda la web. */}
-        {ofertas.length > 0 && (productos.length === 0 || seccion === "ofertas") && (
-          <div className="mb-8">
-            <div className="mb-6 flex items-center gap-4">
-              <div className="h-9 w-1.5 rounded-full bg-[var(--accent)]" />
-              <h2 className="font-display text-3xl uppercase tracking-tight">Ofertas activas ({ofertas.length})</h2>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {ofertas.map((o) => (
-                <OfferCard
-                  key={o.id}
-                  o={{
-                    id: o.id,
-                    negocio: negocio.name,
-                    slug: negocio.slug,
-                    producto: o.title,
-                    cat: negocio.category,
-                    vence: o.valid_until || undefined,
-                    descuento: o.discount_percent || undefined,
-                    antes: o.old_price || undefined,
-                    ahora: o.offer_price || undefined,
-                    portada_url: o.image_url || portada,
-                    logo_url: negocio.logo_url,
-                    latitude: negocio.latitude,
-                    longitude: negocio.longitude,
-                    precio_prometido: o.precio_prometido,
-                    rating: negocio.rating,
-                    verificado: negocio.status === "verificado",
-                    impulsada: o.impulsada,
-                    creado: o.created_at,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* PRODUCTOS / CATÁLOGO */}
-        {productos.length > 0 && (ofertas.length === 0 || seccion === "catalogo") && (
-          <div className="mb-8">
-            <h2 className="mb-4 font-display text-2xl uppercase tracking-tight">Catálogo ({productos.length})</h2>
-            {productos.length > 6 && (
-              <div className="relative mb-4">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted2)]" />
-                <input value={qProd} onChange={(e) => setQProd(e.target.value)}
-                  placeholder="Buscar en el catálogo..."
-                  className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] py-2.5 pl-9 pr-4 text-sm outline-none focus:border-[var(--accent)]" />
-              </div>
-            )}
-            {catsProductos.length > 1 && (
-              <div className="mb-4 flex flex-wrap gap-2">
-                <button onClick={() => setCatProd(null)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-[var(--accent)]" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
-                  Todos
+        <section className={styles.lay}>
+          <div>
+            {/* Catálogo y ofertas activas: si el negocio tiene las dos cosas,
+                se muestran como pestañas (catálogo primero por default). Si
+                solo tiene una, se muestra directo sin pestañas de más. */}
+            {productos.length > 0 && ofertas.length > 0 && (
+              <div className="mb-5 flex gap-2 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-1.5">
+                <button
+                  onClick={() => setSeccion("catalogo")}
+                  className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "catalogo" ? "bg-[var(--accent)] text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
+                >
+                  <Package className="h-4 w-4" /> Catálogo ({productos.length})
                 </button>
-                {catsProductos.map((c) => (
-                  <button key={c} onClick={() => setCatProd(c)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-[var(--accent)]" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
-                    {c}
-                  </button>
-                ))}
+                <button
+                  onClick={() => setSeccion("ofertas")}
+                  className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition ${seccion === "ofertas" ? "bg-[var(--accent)] text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
+                >
+                  <Flame className="h-4 w-4" /> Ofertas ({ofertas.length})
+                </button>
               </div>
             )}
-            {(() => {
-              const t = qProd.trim().toLowerCase();
-              const visibles = productos
-                .filter((p) => !catProd || p.category === catProd)
-                .filter((p) => !t || `${p.name} ${p.description || ""}`.toLowerCase().includes(t));
-              if (visibles.length === 0) {
-                return (
-                  <p className="rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-8 text-center text-sm text-[var(--muted)]">
-                    No encontramos productos con esa búsqueda.
-                  </p>
-                );
-              }
-              return (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {visibles.map((p) => {
-                const esNuevo = p.created_at && (Date.now() - new Date(p.created_at).getTime()) < 7 * 86400000;
-                const enOferta = p.old_price && Number(p.old_price) > Number(p.price);
-                const ultimasUnidades = p.stock != null && p.stock > 0 && p.stock <= 3;
-                return (
-                <div key={p.id} className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 hover:border-[var(--accent)]/30 hover:shadow-xl hover:shadow-[var(--accent)]/10">
-                <div className="overflow-hidden rounded-[1.375rem] border border-[var(--ov-06)] bg-gradient-to-b from-[var(--ov-05)] to-[var(--ov-02)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <div className="relative h-40 w-full overflow-hidden">
-                    {Array.isArray(p.images) && p.images[0] && (
-                      <Image src={p.images[0]} alt={p.name} fill quality={90}
-                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                        className="object-cover" />
-                    )}
-                    {(enOferta || esNuevo || ultimasUnidades || p.featured) && (
-                      <div className="absolute left-2 top-2 flex flex-col gap-1">
-                        {p.featured && <span className="rounded-full bg-yellow-500/90 px-2 py-0.5 text-[9px] font-black text-black">⭐ Destacado</span>}
-                        {enOferta && <span className="rounded-full bg-[var(--accent)] px-2 py-0.5 text-[9px] font-black text-white">🔥 Oferta</span>}
-                        {esNuevo && <span className="rounded-full bg-sky-500/90 px-2 py-0.5 text-[9px] font-black text-white">🆕 Nuevo</span>}
-                        {ultimasUnidades && <span className="rounded-full bg-[var(--bad)]/90 px-2 py-0.5 text-[9px] font-black text-white">⚡ Últimas unidades</span>}
+
+            {/* OFERTAS ACTIVAS: tarjetas propias de esta ficha (misma
+                onda cards2 del resto del sitio), en vez de la OfferCard
+                genérica que quedaba visualmente descolgada acá. */}
+            {ofertas.length > 0 && (productos.length === 0 || seccion === "ofertas") && (
+              <section className={styles.block}>
+                <div className={styles.secHead}>
+                  <h2>Ofertas activas ({ofertas.length})</h2>
+                </div>
+                <div className={styles.cards2}>
+                  {ofertas.map((o) => (
+                    <Link key={o.id} href={`/oferta/${o.id}`} className={styles.pcard}>
+                      <div className={styles.pcardShot}>
+                        {o.image_url ? (
+                          <Image src={o.image_url} alt={o.title} fill sizes="120px" className="object-cover" />
+                        ) : (
+                          <CategoryCover category={negocio.category} seed={String(o.id)} className="absolute inset-0" />
+                        )}
+                        {o.discount_percent ? <span className={styles.pcardBadge}>-{o.discount_percent}%</span> : null}
                       </div>
-                    )}
+                      <div className={styles.pcardBody}>
+                        <div className={styles.pcardName}>{o.title}</div>
+                        <div>
+                          {o.offer_price && <span className={styles.pcardPrice}>{fmt(o.offer_price)}</span>}
+                          {o.old_price && <span className={styles.pcardOld}>{fmt(o.old_price)}</span>}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* PRODUCTOS / CATÁLOGO */}
+            {productos.length > 0 && (ofertas.length === 0 || seccion === "catalogo") && (
+              <section className={styles.block}>
+                <div className={styles.secHead}>
+                  <h2>Catálogo ({productos.length})</h2>
+                </div>
+                {productos.length > 6 && (
+                  <div className="relative mb-4">
+                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted2)]" />
+                    <input value={qProd} onChange={(e) => setQProd(e.target.value)}
+                      placeholder="Buscar en el catálogo..."
+                      className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] py-2.5 pl-9 pr-4 text-sm outline-none focus:border-[var(--accent)]" />
                   </div>
-                  <div className="p-4">
-                    <p className="font-bold flex items-center gap-1.5">
-                      {p.name}
-                    </p>
-                    {p.description && <p className="mt-1 line-clamp-2 text-xs text-[var(--muted)]">{p.description}</p>}
-                    <div className="mt-3 flex items-end justify-between">
-                      <div>
-                        {p.old_price && <p className="text-xs text-[var(--muted2)] line-through">${Number(p.old_price).toLocaleString("es-AR")}</p>}
-                        <p className="text-2xl text-[var(--accent)]" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>${Number(p.price).toLocaleString("es-AR")}</p>
-                      </div>
-                      {p.stock && <span className="text-[10px] text-[var(--muted)]">Stock: {p.stock}</span>}
-                    </div>
-                    <div className="mt-3 flex gap-1.5">
-                      {negocio.whatsapp && (
-                        <a
-                          onClick={() => track(negocio.id, "whatsapp")}
-                          href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, te consulto por "${p.name}" que vi en La Gran Barata Digital`)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-green-400/30 bg-green-500/10 py-2 text-xs font-bold text-[var(--ok)] hover:bg-green-500/20"
-                        >
-                          <MessageCircle className="h-3.5 w-3.5" /> Consultar
-                        </a>
-                      )}
-                      <button
-                        onClick={() => addItem({
-                          id: `producto-${p.id}`, tipo: "producto", refId: p.id, title: p.name,
-                          price: p.price ? Number(p.price) : undefined, image: Array.isArray(p.images) ? p.images[0] : undefined,
-                          businessId: negocio.id, businessName: negocio.name, businessSlug: negocio.slug, businessWhatsapp: negocio.whatsapp,
-                        })}
-                        disabled={hasItem(`producto-${p.id}`)}
-                        aria-label={hasItem(`producto-${p.id}`) ? "Ya está en el changuito" : "Agregar al changuito"}
-                        className="flex shrink-0 items-center justify-center rounded-lg border border-sky-400/30 bg-sky-500/10 px-3 py-2 text-xs font-bold text-[var(--place)] hover:bg-sky-500/20 disabled:opacity-60"
-                      >
-                        {hasItem(`producto-${p.id}`) ? <Check className="h-3.5 w-3.5" /> : <ShoppingBasket className="h-3.5 w-3.5" />}
+                )}
+                {catsProductos.length > 1 && (
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    <button onClick={() => setCatProd(null)}
+                      className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${!catProd ? "bg-[var(--accent)]" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
+                      Todos
+                    </button>
+                    {catsProductos.map((c) => (
+                      <button key={c} onClick={() => setCatProd(c)}
+                        className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${catProd === c ? "bg-[var(--accent)]" : "border border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--muted)]"}`}>
+                        {c}
                       </button>
-                    </div>
+                    ))}
                   </div>
+                )}
+                {(() => {
+                  const t = qProd.trim().toLowerCase();
+                  const visibles = productos
+                    .filter((p) => !catProd || p.category === catProd)
+                    .filter((p) => !t || `${p.name} ${p.description || ""}`.toLowerCase().includes(t));
+                  if (visibles.length === 0) {
+                    return (
+                      <p className="rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-8 text-center text-sm text-[var(--muted)]">
+                        No encontramos productos con esa búsqueda.
+                      </p>
+                    );
+                  }
+                  return (
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {visibles.map((p) => {
+                    const esNuevo = p.created_at && (Date.now() - new Date(p.created_at).getTime()) < 7 * 86400000;
+                    const enOferta = p.old_price && Number(p.old_price) > Number(p.price);
+                    const ultimasUnidades = p.stock != null && p.stock > 0 && p.stock <= 3;
+                    return (
+                    <div key={p.id} className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5 hover:border-[var(--accent)]/30 hover:shadow-xl hover:shadow-[var(--accent)]/10">
+                    <div className="overflow-hidden rounded-[1.375rem] border border-[var(--ov-06)] bg-gradient-to-b from-[var(--ov-05)] to-[var(--ov-02)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
+                      <div className="relative h-40 w-full overflow-hidden">
+                        {Array.isArray(p.images) && p.images[0] && (
+                          <Image src={p.images[0]} alt={p.name} fill quality={90}
+                            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                            className="object-cover" />
+                        )}
+                        {(enOferta || esNuevo || ultimasUnidades || p.featured) && (
+                          <div className="absolute left-2 top-2 flex flex-col gap-1">
+                            {p.featured && <span className="rounded-full bg-yellow-500/90 px-2 py-0.5 text-[9px] font-black text-black">⭐ Destacado</span>}
+                            {enOferta && <span className="rounded-full bg-[var(--accent)] px-2 py-0.5 text-[9px] font-black text-white">🔥 Oferta</span>}
+                            {esNuevo && <span className="rounded-full bg-sky-500/90 px-2 py-0.5 text-[9px] font-black text-white">🆕 Nuevo</span>}
+                            {ultimasUnidades && <span className="rounded-full bg-[var(--bad)]/90 px-2 py-0.5 text-[9px] font-black text-white">⚡ Últimas unidades</span>}
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-4">
+                        <p className="font-bold flex items-center gap-1.5">
+                          {p.name}
+                        </p>
+                        {p.description && <p className="mt-1 line-clamp-2 text-xs text-[var(--muted)]">{p.description}</p>}
+                        <div className="mt-3 flex items-end justify-between">
+                          <div>
+                            {p.old_price && <p className="text-xs text-[var(--muted2)] line-through">${Number(p.old_price).toLocaleString("es-AR")}</p>}
+                            <p className="text-2xl text-[var(--accent)]" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>${Number(p.price).toLocaleString("es-AR")}</p>
+                          </div>
+                          {p.stock && <span className="text-[10px] text-[var(--muted)]">Stock: {p.stock}</span>}
+                        </div>
+                        <div className="mt-3 flex gap-1.5">
+                          {negocio.whatsapp && (
+                            <a
+                              onClick={() => track(negocio.id, "whatsapp")}
+                              href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, te consulto por "${p.name}" que vi en La Gran Barata Digital`)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-green-400/30 bg-green-500/10 py-2 text-xs font-bold text-[var(--ok)] hover:bg-green-500/20"
+                            >
+                              <MessageCircle className="h-3.5 w-3.5" /> Consultar
+                            </a>
+                          )}
+                          <button
+                            onClick={() => addItem({
+                              id: `producto-${p.id}`, tipo: "producto", refId: p.id, title: p.name,
+                              price: p.price ? Number(p.price) : undefined, image: Array.isArray(p.images) ? p.images[0] : undefined,
+                              businessId: negocio.id, businessName: negocio.name, businessSlug: negocio.slug, businessWhatsapp: negocio.whatsapp,
+                            })}
+                            disabled={hasItem(`producto-${p.id}`)}
+                            aria-label={hasItem(`producto-${p.id}`) ? "Ya está en el changuito" : "Agregar al changuito"}
+                            className="flex shrink-0 items-center justify-center rounded-lg border border-sky-400/30 bg-sky-500/10 px-3 py-2 text-xs font-bold text-[var(--place)] hover:bg-sky-500/20 disabled:opacity-60"
+                          >
+                            {hasItem(`producto-${p.id}`) ? <Check className="h-3.5 w-3.5" /> : <ShoppingBasket className="h-3.5 w-3.5" />}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    );
+                  })}
                 </div>
-                </div>
-                );
-              })}
-            </div>
-              );
-            })()}
+                  );
+                })()}
+              </section>
+            )}
           </div>
-        )}
+
+          {/* "Subí en el ranking": upsell real de Plan PRO/Destacado, sin
+              inventar un ranking de vecinos -- eso quedó fuera porque no
+              existe todavía un cálculo real de posiciones entre comercios. */}
+          <aside>
+            <div className={`${styles.widget} ${styles.upsell}`}>
+              <h3>Subí en el ranking</h3>
+              <p>Con Plan PRO o el Destacado del Mes, tu negocio gana más lugar en la home y en las búsquedas del barrio — no vendemos tus productos, vendemos que te vean.</p>
+              <ul>
+                <li>Posición fija en la home</li>
+                <li>Insignia destacada en tus ofertas</li>
+                <li>Estadísticas de quién te ve</li>
+              </ul>
+              <Link href="/planes" className={styles.btnGlow}>Ver Plan PRO →</Link>
+            </div>
+          </aside>
+        </section>
 
         {/* Info, reseñas y chat agrupados en pestañas -- antes se apilaban
             uno debajo del otro, ahora está todo junto y elegible. */}

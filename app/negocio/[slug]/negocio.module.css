@@ -1,0 +1,64 @@
+/* app/negocio/[slug]/negocio.module.css
+   Mismo lenguaje que oferta.module.css y "Mercado Vivo": cover
+   cinematográfico, Fraunces itálica, glow ambiental (.aurora-bg, ya en
+   globals.css) y grano de película (ya global via body::after). Tokens
+   reales del sitio, sin paleta nueva. */
+
+.cover { position: relative; min-height: 78vh; display: flex; align-items: flex-end; overflow: hidden; border-radius: 0 0 2.5rem 2.5rem; }
+.coverShot { position: absolute; inset: 0; }
+.coverVignette { position: absolute; inset: 0; background:
+    linear-gradient(to top, var(--bg) 0%, color-mix(in srgb, var(--bg) 80%, transparent) 26%, color-mix(in srgb, var(--bg) 14%, transparent) 56%, transparent 72%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--bg) 50%, transparent) 0%, transparent 32%); }
+.coverRim { position: absolute; inset: 0; box-shadow: inset 0 0 140px rgba(0,0,0,.28); }
+
+.backBtn { position: absolute; top: 1.2rem; left: 1.2rem; z-index: 4; }
+.iconBtn { width: 44px; height: 44px; border-radius: 50%; background: color-mix(in srgb, var(--bg) 55%, transparent); backdrop-filter: blur(10px); border: 1px solid var(--line-strong); display: flex; align-items: center; justify-content: center; color: var(--text); transition: transform .3s cubic-bezier(.22,1,.36,1), background .3s ease, color .3s ease; }
+.iconBtn:hover { transform: scale(1.1); background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.badgeRow { position: absolute; top: 1.2rem; left: 4.2rem; right: 1.2rem; z-index: 4; display: flex; flex-wrap: wrap; gap: .5rem; }
+
+.coverContent { position: relative; z-index: 3; width: 100%; padding: 0 0 clamp(1.6rem, 4vw, 3rem); }
+.coverBottom { display: flex; align-items: flex-end; gap: 1.4rem; flex-wrap: wrap; }
+.logoFloat { width: 96px; height: 96px; flex-shrink: 0; }
+.coverInfo { flex: 1; min-width: 220px; padding-bottom: .3rem; }
+.coverName { font-weight: 600; line-height: 1; letter-spacing: -.01em; font-style: italic; font-size: clamp(2rem, 5.4vw, 3.6rem); text-shadow: 0 20px 50px rgba(0,0,0,.25); }
+.coverMeta { font-family: var(--font-space); font-size: 11px; color: var(--muted2); text-transform: uppercase; letter-spacing: .05em; margin-top: .6rem; display: flex; gap: 1.1em; flex-wrap: wrap; align-items: center; }
+.coverActions { display: flex; gap: .6rem; padding-bottom: .3rem; flex-wrap: wrap; }
+
+.wrap { max-width: 1300px; margin: 0 auto; }
+
+.statsStrip { display: flex; gap: 2.6rem; padding: 1.8rem 0 2.4rem; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 2.4rem; }
+.stat b { display: block; font-family: var(--font-fraunces), Georgia, serif; font-style: italic; font-weight: 600; font-size: 2rem; color: var(--text); }
+.stat span { font-family: var(--font-space); font-size: 9.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted2); }
+
+.lay { display: grid; grid-template-columns: 1fr 320px; gap: 3rem; align-items: start; }
+@media (max-width: 900px) { .lay { grid-template-columns: 1fr; } }
+
+.secHead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 0 0 1.2rem; }
+.secHead h2 { font-family: var(--font-fraunces), Georgia, serif; font-style: italic; font-weight: 600; font-size: clamp(1.3rem, 2.4vw, 1.7rem); margin: 0; }
+.secHead a, .secHead button { font-family: var(--font-space); font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .05em; background: none; border: none; cursor: pointer; padding: 0; }
+
+.block { margin-bottom: 2.6rem; }
+
+.cards2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+@media (max-width: 560px) { .cards2 { grid-template-columns: 1fr; } }
+.pcard { border-radius: 1.2rem; overflow: hidden; background: var(--surface); border: 1px solid var(--line); display: flex; gap: 1rem; padding: .9rem; transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease; text-decoration: none; color: inherit; }
+.pcard:hover { transform: translateY(-6px); box-shadow: 0 26px 50px -28px rgba(0,0,0,.4); }
+.pcardShot { width: 84px; height: 84px; border-radius: .9rem; flex-shrink: 0; position: relative; overflow: hidden; }
+.pcardBadge { position: absolute; top: -5px; left: -5px; background: var(--accent); color: #fff; font-family: var(--font-space); font-size: 9px; font-weight: 700; padding: .25em .5em; border-radius: .4em; z-index: 2; box-shadow: 0 6px 14px color-mix(in srgb, var(--accent) 35%, transparent); }
+.pcardBody { flex: 1; min-width: 0; }
+.pcardName { font-family: var(--font-space); font-weight: 600; font-size: .88rem; line-height: 1.3; margin-bottom: .4rem; }
+.pcardPrice { font-family: var(--font-fraunces), Georgia, serif; font-style: italic; font-weight: 600; font-size: 1.2rem; color: var(--accent); }
+.pcardOld { font-family: var(--font-space); font-size: .72rem; color: var(--muted2); text-decoration: line-through; margin-left: .4em; }
+
+.widget { background: var(--surface); border: 1px solid var(--line); border-radius: 1.4rem; padding: 1.4rem; }
+.widget + .widget { margin-top: 1.1rem; }
+.upsell { position: relative; background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 14%, var(--surface)), var(--surface)); border-color: color-mix(in srgb, var(--accent) 32%, var(--line)); overflow: hidden; }
+.upsell h3 { font-family: var(--font-fraunces), Georgia, serif; font-style: italic; font-weight: 600; font-size: 1.2rem; margin: 0 0 .6rem; position: relative; }
+.upsell p { font-size: .87rem; opacity: .82; line-height: 1.55; margin: 0 0 1.1rem; position: relative; }
+.upsell ul { list-style: none; margin: 0 0 1.2rem; padding: 0; display: flex; flex-direction: column; gap: .6rem; position: relative; }
+.upsell li { display: flex; align-items: center; gap: .6em; font-size: .84rem; font-weight: 600; }
+.upsell li::before { content: "✓"; color: var(--accent); font-weight: 700; }
+
+.btnGlow { display: block; text-align: center; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-family: var(--font-space); font-weight: 700; font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; padding: .9rem 1.3rem; border-radius: .8rem; box-shadow: 0 16px 34px color-mix(in srgb, var(--accent) 40%, transparent); border: none; cursor: pointer; text-decoration: none; transition: transform .3s cubic-bezier(.22,1,.36,1); }
+.btnGlow:hover { transform: translateY(-2px); }
