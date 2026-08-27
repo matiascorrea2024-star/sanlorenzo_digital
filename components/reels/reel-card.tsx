@@ -6,6 +6,16 @@ import { supabase } from "@/lib/supabase";
 import RankedAvatar from "@/components/ui/ranked-avatar";
 import ReelComments from "@/components/reels/reel-comments";
 
+type ReelTag = {
+  id: string;
+  product_id: string | null;
+  offer_id: string | null;
+  label: string | null;
+  timecode_seconds: number;
+  products: { name: string } | null;
+  offers: { id: string; title: string } | null;
+};
+
 type Reel = {
   id: string;
   video_url: string;
@@ -13,6 +23,7 @@ type Reel = {
   likes_count: number;
   comments_count: number;
   businesses: { name: string; slug: string; category: string; logo_url: string | null } | null;
+  reel_products?: ReelTag[] | null;
 };
 
 export default function ReelCard({ reel, active }: { reel: Reel; active: boolean }) {
@@ -25,6 +36,8 @@ export default function ReelCard({ reel, active }: { reel: Reel; active: boolean
   const [liking, setLiking] = useState(false);
   const countedView = useRef(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [tagVisible, setTagVisible] = useState<ReelTag | null>(null);
+  const tags = (reel.reel_products || []).slice().sort((a, b) => a.timecode_seconds - b.timecode_seconds);
 
   useEffect(() => {
     supabase().auth.getUser().then(({ data }) => setUserId(data.user?.id || null));
@@ -72,6 +85,16 @@ export default function ReelCard({ reel, active }: { reel: Reel; active: boolean
     setLiking(false);
   };
 
+  const irAEtiqueta = (tag: ReelTag) => {
+    fetch("/api/reels/tags/click", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tag_id: tag.id }),
+    }).catch(() => {});
+    if (tag.offer_id) window.location.href = `/oferta/${tag.offer_id}`;
+    else if (reel.businesses?.slug) window.location.href = `/negocio/${reel.businesses.slug}`;
+  };
+
   const share = async () => {
     const url = `${window.location.origin}/reels?id=${reel.id}`;
     const text = `Mirá este video de ${reel.businesses?.name} en La Gran Barata Digital`;
@@ -93,8 +116,23 @@ export default function ReelCard({ reel, active }: { reel: Reel; active: boolean
         muted={muted}
         preload="metadata"
         onClick={() => setMuted((m) => !m)}
+        onTimeUpdate={(e) => {
+          if (tags.length === 0) return;
+          const t = e.currentTarget.currentTime;
+          const actual = [...tags].reverse().find((tag) => t >= tag.timecode_seconds);
+          setTagVisible(actual || null);
+        }}
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+
+      {tagVisible && (
+        <button
+          onClick={() => irAEtiqueta(tagVisible)}
+          className="absolute left-4 top-16 flex max-w-[75%] items-center gap-1.5 rounded-full bg-black/60 px-3 py-1.5 text-xs font-bold text-white backdrop-blur transition active:scale-95"
+        >
+          🏷️ <span className="truncate">{tagVisible.label || tagVisible.products?.name || tagVisible.offers?.title || "Ver más"}</span>
+        </button>
+      )}
 
       <button
         onClick={() => setMuted((m) => !m)}

@@ -13,7 +13,7 @@ export default async function ReelsPage() {
   const sb = await createClient();
   const { data } = await sb
     .from("reels")
-    .select("id, video_url, caption, likes_count, comments_count, businesses(name, slug, category, logo_url)")
+    .select("id, video_url, caption, likes_count, comments_count, businesses(name, slug, category, logo_url), reel_products(id, product_id, offer_id, label, timecode_seconds, products(name), offers(id, title))")
     .eq("active", true)
     .order("created_at", { ascending: false })
     .limit(30);

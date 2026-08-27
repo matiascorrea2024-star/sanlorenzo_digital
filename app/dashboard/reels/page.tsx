@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Video, Eye, Heart, MessageCircle, Trash2, Plus } from "lucide-react";
+import { Video, Eye, Heart, MessageCircle, Trash2, Plus, Tag } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import ReelTagsPanel from "@/components/dashboard/reel-tags-panel";
 import { useAuth } from "@/components/providers/auth-provider";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 import { useToast } from "@/components/ui/toast";
@@ -13,6 +14,7 @@ export default function DashboardReelsPage() {
   const { show } = useToast();
   const [reels, setReels] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [etiquetasAbiertas, setEtiquetasAbiertas] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -21,7 +23,7 @@ export default function DashboardReelsPage() {
       const ids = (biz || []).map((b) => b.id);
       if (ids.length === 0) { setLoading(false); return; }
       const { data } = await supabase().from("reels")
-        .select("id, video_url, caption, views_count, likes_count, comments_count, active, created_at")
+        .select("id, business_id, video_url, caption, views_count, likes_count, comments_count, active, created_at")
         .in("business_id", ids).order("created_at", { ascending: false });
       setReels(data || []);
       setLoading(false);
@@ -90,12 +92,17 @@ export default function DashboardReelsPage() {
                         className="flex-1 rounded-full border border-[var(--line-strong)] py-1.5 text-xs font-bold text-[var(--text)]/70 hover:bg-[var(--ov-05)]">
                         {r.active === false ? "Mostrar" : "Ocultar"}
                       </button>
+                      <button onClick={() => setEtiquetasAbiertas((prev) => prev === r.id ? null : r.id)}
+                        className="flex items-center gap-1 rounded-full border border-[var(--line-strong)] px-3 py-1.5 text-xs font-bold text-[var(--text)]/70 hover:bg-[var(--ov-05)]">
+                        <Tag className="h-3.5 w-3.5" /> Etiquetas
+                      </button>
                       <button onClick={() => eliminar(r.id)}
                         className="rounded-full bg-[var(--bad)]/15 p-1.5 text-[var(--bad)] hover:bg-[var(--bad)]/25" aria-label="Eliminar">
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   </div>
+                  {etiquetasAbiertas === r.id && <ReelTagsPanel reelId={r.id} businessId={r.business_id} />}
                 </div>
               </div>
             ))}
