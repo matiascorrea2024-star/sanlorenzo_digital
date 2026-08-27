@@ -13,7 +13,6 @@ import FollowButton from "@/components/business/follow-button";
 import ReviewsSection from "@/components/business/reviews-section";
 import OpinionVote from "@/components/offers/opinion-vote";
 import CategoryCover from "@/components/ui/category-cover";
-import { track } from "@/lib/track";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { planDe } from "@/lib/plans";
 import { useToast } from "@/components/ui/toast";
@@ -112,7 +111,6 @@ export default function OfertaPage() {
       try {
         await navigator.share({ files: [file], title: oferta.title, text });
         if (negocio?.id) {
-          track(negocio.id, "share");
           trackShareOffer(oferta.id, negocio.id);
         }
         show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
@@ -134,7 +132,6 @@ export default function OfertaPage() {
       }
     }
     if (negocio?.id) {
-      track(negocio.id, "share");
       trackShareOffer(oferta.id, negocio.id);
     }
     show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");

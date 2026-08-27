@@ -10,7 +10,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { useLiveViewers } from "@/lib/hooks/use-live-viewers";
-import { track } from "@/lib/track";
 import { useToast } from "@/components/ui/toast";
 import { estaAbiertoAhora } from "@/lib/horarios";
 import { MapPin, Clock, Phone, MessageCircle, Share2, ArrowLeft, ExternalLink, Flame, Star, Search, Truck, Navigation, Package, ShoppingBasket, Check, Tv } from "lucide-react";
@@ -143,7 +142,6 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
     if (file && navigator.canShare?.({ files: [file] })) {
       try {
         await navigator.share({ files: [file], title: negocio.name, text });
-        track(negocio.id, "share");
         trackShareBusiness(negocio.id);
         show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
       } catch {
@@ -157,7 +155,6 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
     } else {
       await navigator.clipboard.writeText(`${text}\n${url}`);
     }
-    track(negocio.id, "share");
     trackShareBusiness(negocio.id);
     show("📤 ¡Compartido! +10 pts para tu perfil de vecino", "success");
   };
@@ -518,7 +515,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                         <div className="mt-3 flex gap-1.5">
                           {negocio.whatsapp && (
                             <a
-                              onClick={() => track(negocio.id, "whatsapp")}
+                              onClick={() => trackClickWhatsApp(negocio.id)}
                               href={`https://wa.me/${String(negocio.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, te consulto por "${p.name}" que vi en La Gran Barata Digital`)}`}
                               target="_blank"
                               rel="noopener noreferrer"
