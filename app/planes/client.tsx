@@ -22,7 +22,7 @@ export default function PlanesClient() {
       blue: "text-blue-500",
       amber: "text-amber-500",
       orange: "text-[var(--accent)]",
-      red: "text-red-600",
+      red: "text-[var(--accent2)]",
     };
     return colors[color] || "text-[var(--accent)]";
   };
@@ -58,12 +58,12 @@ export default function PlanesClient() {
 
       {/* Payment Status Messages */}
       {paymentStatus === "exito" && (
-        <div className="mx-auto mb-8 max-w-2xl rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-center text-sm">
+        <div className="mx-auto mb-8 max-w-2xl rounded-xl border border-[var(--ok)]/30 bg-[var(--ok)]/10 p-4 text-center text-sm">
           ✅ ¡Pago exitoso! Tu plan se activó correctamente.
         </div>
       )}
       {paymentStatus === "error" && (
-        <div className="mx-auto mb-8 max-w-2xl rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-center text-sm">
+        <div className="mx-auto mb-8 max-w-2xl rounded-xl border border-[var(--bad)]/30 bg-[var(--bad)]/10 p-4 text-center text-sm">
           ❌ Hubo un problema con el pago. Intentá de nuevo.
         </div>
       )}
@@ -114,43 +114,43 @@ export default function PlanesClient() {
                   {plan.maxOfertas !== -1 && (
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 shrink-0 text-[var(--ok)]" />
-                      <span className="text-[#c4b5a5]">{plan.maxOfertas} ofertas activas</span>
+                      <span className="text-[var(--muted)]">{plan.maxOfertas} ofertas activas</span>
                     </li>
                   )}
                   {plan.maxOfertas === -1 && (
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 shrink-0 text-[var(--ok)]" />
-                      <span className="text-[#c4b5a5]">Ofertas ilimitadas</span>
+                      <span className="text-[var(--muted)]">Ofertas ilimitadas</span>
                     </li>
                   )}
                   {plan.stats && (
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 shrink-0 text-[var(--ok)]" />
-                      <span className="text-[#c4b5a5]">Estadísticas</span>
+                      <span className="text-[var(--muted)]">Estadísticas</span>
                     </li>
                   )}
                   {plan.historias && (
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 shrink-0 text-[var(--ok)]" />
-                      <span className="text-[#c4b5a5]">Historias</span>
+                      <span className="text-[var(--muted)]">Historias</span>
                     </li>
                   )}
                   {plan.cupones && (
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 shrink-0 text-[var(--ok)]" />
-                      <span className="text-[#c4b5a5]">Cupones exclusivos</span>
+                      <span className="text-[var(--muted)]">Cupones exclusivos</span>
                     </li>
                   )}
                   {plan.campanas && (
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 shrink-0 text-[var(--ok)]" />
-                      <span className="text-[#c4b5a5]">Campañas segmentadas</span>
+                      <span className="text-[var(--muted)]">Campañas segmentadas</span>
                     </li>
                   )}
                   {plan.vivoProductos && (
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 shrink-0 text-[var(--ok)]" />
-                      <span className="text-[#c4b5a5]">En Vivo con productos</span>
+                      <span className="text-[var(--muted)]">En Vivo con productos</span>
                     </li>
                   )}
                 </ul>
@@ -183,25 +183,25 @@ export default function PlanesClient() {
           </div>
           <div className="grid gap-5 md:grid-cols-2">
             <div className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-7">
-              <h3 className="mb-3 font-display text-base tracking-tight text-white">¿Puedo cambiar de plan?</h3>
+              <h3 className="mb-3 font-display text-base tracking-tight text-[var(--text)]">¿Puedo cambiar de plan?</h3>
               <p className="text-sm leading-relaxed text-[var(--muted)]">
                 Sí, cuando quieras. Los cambios son inmediatos, sin penalidades.
               </p>
             </div>
             <div className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-7">
-              <h3 className="mb-3 font-display text-base tracking-tight text-white">¿Hay compromiso?</h3>
+              <h3 className="mb-3 font-display text-base tracking-tight text-[var(--text)]">¿Hay compromiso?</h3>
               <p className="text-sm leading-relaxed text-[var(--muted)]">
                 No. Cancelá cuando quieras, sin permanencia mínima.
               </p>
             </div>
             <div className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-7">
-              <h3 className="mb-3 font-display text-base tracking-tight text-white">¿Cuál es la diferencia?</h3>
+              <h3 className="mb-3 font-display text-base tracking-tight text-[var(--text)]">¿Cuál es la diferencia?</h3>
               <p className="text-sm leading-relaxed text-[var(--muted)]">
                 Los planes Pro incluyen estadísticas avanzadas, cupones y campañas. Destacado semanal aparece primero en el app.
               </p>
             </div>
             <div className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-7">
-              <h3 className="mb-3 font-display text-base tracking-tight text-white">¿Qué es &quot;Destacado&quot;?</h3>
+              <h3 className="mb-3 font-display text-base tracking-tight text-[var(--text)]">¿Qué es &quot;Destacado&quot;?</h3>
               <p className="text-sm leading-relaxed text-[var(--muted)]">
                 Tu negocio aparece primero durante 7 días, con marca especial y notificación a vecinos.
               </p>

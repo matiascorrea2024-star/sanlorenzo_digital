@@ -197,7 +197,7 @@ export default function ParaVosClient({ ofertas: initialOfertas }: { ofertas: Ro
                   <button
                     type="button"
                     onClick={pedirUbicacion}
-                    className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-5 py-3 text-xs font-black uppercase tracking-widest text-white transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                    className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-5 py-3 text-xs font-black uppercase tracking-widest text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-white"
                     style={{ fontFamily: "var(--font-display)" }}
                   >
                     <Compass className="h-4 w-4" /> Usar mi ubicación

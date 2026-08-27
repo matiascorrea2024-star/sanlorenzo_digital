@@ -26,7 +26,7 @@ export default function PortuarioView() {
           </Badge>
           <h1 className="mt-4 font-display text-4xl uppercase leading-[0.9] tracking-tight text-white md:text-6xl">
             Puerto de{" "}
-            <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-red-600 bg-clip-text text-transparent">
+            <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">
               San Lorenzo
             </span>
           </h1>

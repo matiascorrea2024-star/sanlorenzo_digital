@@ -4,7 +4,7 @@ import { Factory, Anchor, Cog, Ship, Truck, Briefcase, ArrowRight } from "lucide
 import Badge from "@/components/ui/badge";
 
 const SECTORES = [
-  { id: "industria", icon: Factory, titulo: "🏭 Industria", desc: "Plantas industriales, manufactura y producción de la zona.", color: "from-[var(--accent)]/20 to-red-500/20" },
+  { id: "industria", icon: Factory, titulo: "🏭 Industria", desc: "Plantas industriales, manufactura y producción de la zona.", color: "from-[var(--accent)]/20 to-[var(--accent2)]/20" },
   { id: "servicios-industriales", icon: Cog, titulo: "⚙️ Servicios industriales", desc: "Mantenimiento, ingeniería, soldaduras, tornería y más.", color: "from-sky-500/20 to-blue-500/20" },
   { id: "logistica", icon: Truck, titulo: "🚚 Logística", desc: "Transporte de cargas, fletes, distribución y almacenamiento.", color: "from-emerald-500/20 to-green-500/20" },
   { id: "comercio-exterior", icon: Ship, titulo: "🚢 Comercio exterior", desc: "Despachantes de aduana, agencias marítimas, forwarding.", color: "from-cyan-500/20 to-blue-500/20" },

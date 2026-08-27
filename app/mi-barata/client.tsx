@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ShoppingBasket as Basket, MessageCircle, Route, Trash2, Loader2, ArrowRight } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
+import { useToast } from "@/components/ui/toast";
 import { getMiBarata, sacarDeMiBarata, type ItemBarata } from "@/lib/mi-barata";
 import { hoyArgentina } from "@/lib/fecha-ar";
 
@@ -13,6 +14,7 @@ const fmt = (n: number) => "$" + n.toLocaleString("es-AR");
 
 export default function MiBarataClient() {
   const { user, loading: authLoading } = useAuth();
+  const { show } = useToast();
   const [items, setItems] = useState<ItemBarata[] | null>(null);
   const [hoy] = useState(() => hoyArgentina());
 
@@ -82,7 +84,7 @@ export default function MiBarataClient() {
             Tu vuelta de la semana
           </p>
           <h1 className="mt-2 font-display text-4xl uppercase tracking-tight sm:text-6xl">
-            Mi <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-red-600 bg-clip-text text-transparent">barata</span>
+            Mi <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">barata</span>
           </h1>
 
           {items !== null && items.length > 0 && (
@@ -177,10 +179,14 @@ export default function MiBarataClient() {
                         </Link>
                         <button
                           onClick={async () => {
-                            if (await sacarDeMiBarata(i.item_id)) setItems((prev) => (prev || []).filter((x) => x.item_id !== i.item_id));
+                            if (await sacarDeMiBarata(i.item_id)) {
+                              setItems((prev) => (prev || []).filter((x) => x.item_id !== i.item_id));
+                            } else {
+                              show("❌ No se pudo quitar la oferta. Probá de nuevo.", "error");
+                            }
                           }}
                           aria-label={`Quitar ${i.title} de Mi Barata`}
-                          className="shrink-0 rounded-lg border border-red-400/30 p-2 text-[var(--bad)] transition hover:bg-red-500/10"
+                          className="shrink-0 rounded-lg border border-[var(--bad)]/30 p-2 text-[var(--bad)] transition hover:bg-[var(--bad)]/10"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
