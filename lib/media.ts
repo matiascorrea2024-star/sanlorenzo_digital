@@ -112,3 +112,18 @@ export async function uploadReelVideo(file: File, businessId: string): Promise<s
   const { data } = sb.storage.from("business-media").getPublicUrl(path);
   return data.publicUrl;
 }
+
+export async function uploadAdCreative(file: File, businessId: string): Promise<string> {
+  const sb = supabase();
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) throw new Error("No estás logueado");
+  const blob = await compressImage(file, 1600, 0.88);
+  const path = `${user.id}/${businessId}/ads/creative-${Date.now()}.jpg`;
+  const { error } = await sb.storage.from("business-media").upload(path, blob, {
+    contentType: "image/jpeg",
+    upsert: false,
+  });
+  if (error) throw error;
+  const { data } = sb.storage.from("business-media").getPublicUrl(path);
+  return data.publicUrl;
+}

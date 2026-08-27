@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper, Search, Trash2, Pencil, MessageCircle, Gift, Radio, Square, EyeOff } from "lucide-react";
+import { Shield, Users, Store, Flame, TrendingUp, CheckCircle2, XCircle, Star, CreditCard, MapPin, Eye, Upload, Flag, Heart, Newspaper, Search, Trash2, Pencil, MessageCircle, Gift, Radio, Square, EyeOff, Megaphone } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import Avatar from "@/components/ui/avatar";
 import OnlineBadge from "@/components/ui/online-badge";
@@ -30,6 +30,8 @@ export default function AdminPage() {
   const [ciudades, setCiudades] = useState<any[]>([]);
   const [reportes, setReportes] = useState<any[]>([]);
   const [reclamos, setReclamos] = useState<any[]>([]);
+  const [anuncios, setAnuncios] = useState<any[]>([]);
+  const [anunciosCargados, setAnunciosCargados] = useState(false);
   const [nuevaCiudad, setNuevaCiudad] = useState({ nombre: "", lat: "", lon: "" });
   const [creandoCiudad, setCreandoCiudad] = useState(false);
   const [barrioAbierto, setBarrioAbierto] = useState<string | null>(null);
@@ -164,6 +166,15 @@ export default function AdminPage() {
         setCampanasCargadas(true);
       })();
     }
+    if (tab === "publicidad" && !anunciosCargados) {
+      (async () => {
+        const { data } = await supabase().from("ad_campaigns")
+          .select("id, name, placement, budget_cents, starts_at, ends_at, creative_url, cta_label, target_ref, businesses(name, slug)")
+          .eq("status", "pending_review").order("created_at", { ascending: false });
+        setAnuncios(data || []);
+        setAnunciosCargados(true);
+      })();
+    }
     if (tab === "en-vivo" && !vivosCargados) {
       (async () => {
         const { data } = await supabase().from("live_streams")
@@ -183,7 +194,7 @@ export default function AdminPage() {
         setChatCargados(true);
       })();
     }
-  }, [tab, negociosCargados, ofertasCargadas, campanasCargadas, vivosCargados, chatCargados]);
+  }, [tab, negociosCargados, ofertasCargadas, campanasCargadas, anunciosCargados, vivosCargados, chatCargados]);
 
   // Búsqueda server-side: los primeros 300/300 ya cargados no alcanzan
   // para encontrar un negocio/oferta cualquiera con miles en la base.
@@ -261,6 +272,14 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/business-claims", "PATCH", { id, action });
       setReclamos(prev => prev.filter(c => c.id !== id));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const revisarAnuncio = async (id: string, action: "approve" | "reject") => {
+    if (action === "reject" && !confirm("¿Rechazar esta campaña de publicidad?")) return;
+    try {
+      await authedFetch("/api/admin/ads", "PATCH", { id, action });
+      setAnuncios(prev => prev.filter(a => a.id !== id));
     } catch (e: any) { alert(e.message); }
   };
 
@@ -476,6 +495,7 @@ export default function AdminPage() {
     { k: "ofertas", l: "Ofertas", icon: Flame, count: 0 },
     { k: "verificacion", l: "Verificación", icon: Shield, count: pendientes.length },
     { k: "reclamos", l: "Reclamos", icon: Store, count: reclamos.length },
+    { k: "publicidad", l: "Publicidad", icon: Megaphone, count: anuncios.length },
     { k: "moderacion", l: "Moderación", icon: Star, count: 0 },
     { k: "reportes", l: "Reportes", icon: Flag, count: reportes.length },
     { k: "chat", l: "Chat", icon: MessageCircle, count: chatCargados ? chatMensajes.length : 0 },
@@ -816,6 +836,48 @@ export default function AdminPage() {
                         <CheckCircle2 className="h-4 w-4" /> Aprobar
                       </button>
                       <button onClick={() => revisarReclamo(c.id, "reject")}
+                        className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-red-500/15 px-4 py-2 text-xs font-black text-[var(--bad)] hover:bg-red-500/25 sm:flex-none">
+                        <XCircle className="h-4 w-4" /> Rechazar
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* PUBLICIDAD -- La Gran Barata Ads */}
+        {tab === "publicidad" && (
+          <div className="mt-8">
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Campañas pendientes de revisión <span className="text-[var(--muted2)]">({anuncios.length})</span></h2>
+            <p className="mb-4 text-xs text-[var(--muted2)]">Ya pagadas -- falta aprobar el creativo antes de que se muestren en el sitio. Al aprobar, se activan solas (ahora mismo si ya empezaron, o en su fecha programada).</p>
+            {!anunciosCargados ? (
+              <p className="text-sm text-[var(--muted)]">Cargando...</p>
+            ) : anuncios.length === 0 ? (
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                <CheckCircle2 className="mx-auto h-10 w-10 text-[var(--ok)]/60" />
+                <p className="mt-3 font-bold text-[var(--text)]/70">Sin campañas pendientes</p>
+              </div>
+            ) : (
+              <div className="space-y-2.5">
+                {anuncios.map(a => (
+                  <div key={a.id} className="flex flex-col gap-3 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-4 sm:flex-row sm:items-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={a.creative_url} alt={a.name} className="h-20 w-32 shrink-0 rounded-lg border border-[var(--line)] object-cover" />
+                    <div className="min-w-0 flex-1">
+                      <p className="font-bold">{a.name} <span className="font-normal text-[var(--muted2)]">· {a.businesses?.name || "negocio eliminado"}</span></p>
+                      <p className="mt-1 text-xs text-[var(--muted)]">
+                        {a.placement} · ${(a.budget_cents / 100).toLocaleString("es-AR")} · {new Date(a.starts_at).toLocaleDateString("es-AR")} → {a.ends_at ? new Date(a.ends_at).toLocaleDateString("es-AR") : "sin fin"}
+                      </p>
+                      <p className="mt-1 text-xs text-[var(--muted2)]">Botón: &quot;{a.cta_label}&quot; → {a.target_ref?.url}</p>
+                    </div>
+                    <div className="flex gap-2 sm:ml-auto sm:shrink-0">
+                      <button onClick={() => revisarAnuncio(a.id, "approve")}
+                        className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-green-500/15 px-4 py-2 text-xs font-black text-[var(--ok)] hover:bg-green-500/25 sm:flex-none">
+                        <CheckCircle2 className="h-4 w-4" /> Aprobar
+                      </button>
+                      <button onClick={() => revisarAnuncio(a.id, "reject")}
                         className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-red-500/15 px-4 py-2 text-xs font-black text-[var(--bad)] hover:bg-red-500/25 sm:flex-none">
                         <XCircle className="h-4 w-4" /> Rechazar
                       </button>

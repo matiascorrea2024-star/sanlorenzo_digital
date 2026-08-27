@@ -12,6 +12,7 @@ import Stories from "@/components/home/stories";
 import OfertaBomba from "@/components/home/oferta-bomba";
 import LiveNow from "@/components/home/live-now";
 import ReelsStrip from "@/components/home/reels-strip";
+import AdSlot from "@/components/ads/ad-slot";
 import { calcDistanceKm, fmtDistance } from "@/lib/geo";
 import { relativeTime } from "@/lib/relative-time";
 import { supabase } from "@/lib/supabase";
@@ -351,7 +352,15 @@ export default function MercadoVivoClient({
               <div>
                 <div className={styles.mvSecHead}><h2>Recomendadas por el barrio</h2><Link href="/mapa">Ver mapa →</Link></div>
                 <div className={styles.mvGrid3}>
-                  {filtered(recomendadas).map((o) => <MvOfferCard key={o.id} o={o} coords={coords} />)}
+                  {filtered(recomendadas).flatMap((o, i) => {
+                    const card = <MvOfferCard key={o.id} o={o} coords={coords} />;
+                    // Un aviso patrocinado real cada 6 ofertas -- si no hay
+                    // ninguna campaña activa para este placement, AdSlot no
+                    // renderiza nada y el grid queda exactamente igual.
+                    return i > 0 && i % 6 === 5
+                      ? [card, <AdSlot key={`ad-${i}`} placement="home_feed" />]
+                      : [card];
+                  })}
                 </div>
               </div>
             </Reveal>

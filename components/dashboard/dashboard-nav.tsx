@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutGrid, Flame, Plus, Store, ShoppingBag, Camera, Clapperboard, Radio, Pin, Bot,
-  BarChart3, MessageSquare, Star, Heart, Ticket, Calendar, LifeBuoy, CreditCard,
+  BarChart3, MessageSquare, Star, Heart, Ticket, Calendar, LifeBuoy, CreditCard, Megaphone,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -29,6 +29,7 @@ const GROUPS: { title: string; items: { href: string; label: string; sub: string
     title: "Relacionar",
     items: [
       { href: "/dashboard/analytics", label: "Analytics", sub: "Visitas y clics", icon: BarChart3 },
+      { href: "/dashboard/publicidad", label: "Publicidad", sub: "Avisos pagos", icon: Megaphone },
       { href: "/dashboard/mensajes", label: "Mensajes", sub: "Chat con vecinos", icon: MessageSquare },
       { href: "/dashboard/resenas", label: "Reseñas", sub: "Respondé a clientes", icon: Star },
       { href: "/dashboard/seguidores", label: "Seguidores", sub: "Quién te sigue", icon: Heart },

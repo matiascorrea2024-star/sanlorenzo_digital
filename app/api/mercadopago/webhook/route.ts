@@ -38,10 +38,42 @@ export async function POST(request: NextRequest) {
   } catch {
     return NextResponse.json({ error: "No se pudo verificar el pago" }, { status: 502 });
   }
-  const subscriptionId = payment.external_reference;
-  if (!subscriptionId) return NextResponse.json({ ok: true });
+  const externalReference = payment.external_reference;
+  if (!externalReference) return NextResponse.json({ ok: true });
 
   const sb = supabaseCron();
+
+  // Campaña de La Gran Barata Ads: external_reference viene con el
+  // prefijo "ad:" (ver /api/ads/checkout) para no confundirla nunca con
+  // un id de subscriptions -- ramifica antes de tocar nada de planes.
+  if (externalReference.startsWith("ad:")) {
+    const campaignId = externalReference.slice(3);
+    const { data: campana } = await sb.from("ad_campaigns")
+      .select("id, business_id, name, budget_cents, status").eq("id", campaignId).maybeSingle();
+    if (!campana || campana.status !== "pending_payment") return NextResponse.json({ ok: true });
+
+    if (payment.status === "approved") {
+      if (payment.currency_id !== "ARS" || Number(payment.transaction_amount) !== campana.budget_cents / 100) {
+        return NextResponse.json({ error: "Importe del pago no coincide con la campaña" }, { status: 422 });
+      }
+      await sb.from("ad_campaigns").update({
+        status: "pending_review",
+        payment_ref: String(paymentId),
+      }).eq("id", campaignId).eq("status", "pending_payment");
+      await sb.from("analytics_events").insert({
+        business_id: campana.business_id,
+        event_name: "ad_payment_confirmed",
+        event_type: "ad_payment_confirmed",
+        metadata: { campaign_id: campaignId, amount_ars: Number(payment.transaction_amount), provider: "mercadopago" },
+      });
+    }
+    // Pago rechazado/cancelado: la campaña queda en pending_payment tal
+    // cual -- el comercio puede reintentar el pago desde su panel, no
+    // hace falta crear una campaña nueva por cada intento fallido.
+    return NextResponse.json({ ok: true });
+  }
+
+  const subscriptionId = externalReference;
   const { data: sub } = await sb.from("subscriptions").select("*").eq("id", subscriptionId).maybeSingle();
   if (!sub) return NextResponse.json({ ok: true });
 
