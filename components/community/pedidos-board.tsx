@@ -49,12 +49,13 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
   const [respTexto, setRespTexto] = useState("");
   const [respondiendo, setRespondiendo] = useState(false);
   const [verResueltos, setVerResueltos] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const cargar = async () => {
     const sb = supabase();
     const { data: peds } = await sb.from("pedidos_vecinos").select("*").eq("location_id", locationId)
       .order("created_at", { ascending: false }).limit(100);
-    if (!peds || peds.length === 0) { setPedidos([]); setRespuestas({}); return; }
+    if (!peds || peds.length === 0) { setPedidos([]); setRespuestas({}); setLoading(false); return; }
 
     const userIds = Array.from(new Set(peds.map((p: any) => p.user_id)));
     const { data: perfiles } = await sb.from("user_profiles").select("user_id, display_name").in("user_id", userIds);
@@ -80,6 +81,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
     } else {
       setRespuestas({});
     }
+    setLoading(false);
   };
 
   useEffect(() => { cargar(); }, [locationId]);
@@ -123,7 +125,8 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
 
   const marcarResuelto = async (pedidoId: string) => {
     const { error } = await supabase().from("pedidos_vecinos").update({ resuelto: true }).eq("id", pedidoId);
-    if (!error) setPedidos((prev) => prev.map((p) => p.id === pedidoId ? { ...p, resuelto: true } : p));
+    if (error) { show(`❌ ${friendlyError(error, "No se pudo marcar como resuelto.")}`, "error"); return; }
+    setPedidos((prev) => prev.map((p) => p.id === pedidoId ? { ...p, resuelto: true } : p));
   };
 
   const visibles = pedidos.filter((p) => verResueltos || !p.resuelto);
@@ -183,11 +186,11 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
           </div>
         )}
 
-        {visibles.length === 0 ? (
+        {!loading && visibles.length === 0 ? (
           <p className="rounded-[2rem] border border-[var(--line)] bg-[var(--ov-02)] p-8 text-center text-sm text-[var(--muted)]">
             Todavía nadie pidió nada por acá. ¡Arrancá vos!
           </p>
-        ) : (
+        ) : !loading ? (
           <div className="space-y-6">
             {visibles.map((p) => (
               <article key={p.id} className={`rounded-[2.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-6 transition-all duration-500 hover:-translate-y-1 sm:p-8 ${p.resuelto ? "opacity-60" : ""}`}>
@@ -268,7 +271,7 @@ export default function PedidosBoard({ locationId }: { locationId: string }) {
               </article>
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

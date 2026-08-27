@@ -14,6 +14,7 @@ export default function ReelComments({ reelId, onClose, onCommentAdded }: {
   onCommentAdded: () => void;
 }) {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
@@ -32,6 +33,7 @@ export default function ReelComments({ reelId, onClose, onCommentAdded }: {
         .select("id, sender_name, body, created_at").eq("reel_id", reelId).eq("hidden", false)
         .order("created_at", { ascending: false });
       setComments(data || []);
+      setLoading(false);
     })();
   }, [reelId]);
 
@@ -64,9 +66,9 @@ export default function ReelComments({ reelId, onClose, onCommentAdded }: {
             </button>
           </div>
           <div className="flex-1 space-y-3 overflow-y-auto">
-            {comments.length === 0 ? (
+            {!loading && comments.length === 0 ? (
               <p className="py-6 text-center text-sm text-[var(--muted2)]">Sé el primero en comentar.</p>
-            ) : (
+            ) : !loading ? (
               comments.map((c) => (
                 <div key={c.id} className="flex items-start gap-2.5">
                   <Avatar name={c.sender_name} size={32} />
@@ -75,7 +77,7 @@ export default function ReelComments({ reelId, onClose, onCommentAdded }: {
                   </div>
                 </div>
               ))
-            )}
+            ) : null}
           </div>
           <div className="mt-3 flex items-center gap-2 border-t border-[var(--line)] pt-3">
             <input

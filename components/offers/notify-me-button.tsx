@@ -18,14 +18,14 @@ export default function NotifyMeButton({
   originalPrice,
   className = "",
 }: Props) {
-  const [state, setState] = useState<"idle" | "loading" | "active" | "done" | "error">("idle");
+  const [state, setState] = useState<"checking" | "idle" | "loading" | "active" | "done" | "error">("checking");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
     // Verificar si ya tiene alerta activa
     (async () => {
       const { data: { user } } = await supabase().auth.getUser();
-      if (!user) return;
+      if (!user) { setState("idle"); return; }
 
       let query = supabase().from("user_alerts")
         .select("id")
@@ -36,7 +36,7 @@ export default function NotifyMeButton({
       if (offerId) query = query.eq("offer_id", offerId);
 
       const { data } = await query.maybeSingle();
-      if (data) setState("active");
+      setState(data ? "active" : "idle");
     })();
   }, [businessId, offerId]);
 
@@ -68,9 +68,11 @@ export default function NotifyMeButton({
     }
   };
 
+  if (state === "checking") return null;
+
   if (state === "active") {
     return (
-      <button disabled className={`rounded-xl border-2 border-green-400/40 bg-green-500/10 px-4 py-2 text-sm font-black text-[var(--ok)] ${className}`}>
+      <button disabled className={`rounded-xl border-2 border-[var(--ok)]/40 bg-[var(--ok)]/10 px-4 py-2 text-sm font-black text-[var(--ok)] ${className}`}>
         🔔 Ya estás suscrito
       </button>
     );

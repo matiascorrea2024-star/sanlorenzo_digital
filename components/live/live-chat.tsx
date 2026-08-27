@@ -12,6 +12,7 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
   const { user } = useAuth();
   const { show } = useToast();
   const [mensajes, setMensajes] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [texto, setTexto] = useState("");
   const [nombre, setNombre] = useState("Vecino");
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -22,6 +23,7 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
       const { data } = await sb.from("live_stream_messages").select("*")
         .eq("live_stream_id", liveStreamId).eq("hidden", false).order("created_at", { ascending: true }).limit(200);
       setMensajes(data || []);
+      setLoading(false);
       if (user) {
         const { data: prof } = await sb.from("user_profiles").select("display_name").eq("user_id", user.id).maybeSingle();
         setNombre(prof?.display_name || (user.email || "Vecino").split("@")[0]);
@@ -50,7 +52,8 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
   };
 
   const ocultar = async (id: string) => {
-    await supabase().from("live_stream_messages").update({ hidden: true }).eq("id", id);
+    const { error } = await supabase().from("live_stream_messages").update({ hidden: true }).eq("id", id);
+    if (error) show(`❌ ${friendlyError(error, "No se pudo ocultar el mensaje.")}`, "error");
   };
 
   return (
@@ -59,7 +62,7 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
         <p className="text-sm font-black text-[var(--text)]">💬 Chat en vivo</p>
       </div>
       <div className="flex-1 space-y-2 overflow-y-auto p-3">
-        {mensajes.length === 0 && <p className="text-center text-xs text-[var(--muted2)]">Todavía no hay mensajes. ¡Escribí el primero!</p>}
+        {!loading && mensajes.length === 0 && <p className="text-center text-xs text-[var(--muted2)]">Todavía no hay mensajes. ¡Escribí el primero!</p>}
         {mensajes.map((m) => (
           <div key={m.id} className="group flex items-start justify-between gap-2 text-sm">
             <p><span className="font-bold text-[var(--accent)]">{m.sender_name}:</span> <span className="text-[var(--text)]/80">{m.body}</span></p>

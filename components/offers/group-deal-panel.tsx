@@ -78,10 +78,10 @@ export default function GroupDealPanel({ offerId, metaParticipantes, initialActi
   const faltan = Math.max(0, metaParticipantes - count);
 
   return (
-    <div className="mb-5 rounded-[1.75rem] border border-cyan-400/25 bg-gradient-to-br from-cyan-500/[.08] to-sky-500/[.04] p-1.5">
+    <div className="mb-5 rounded-[1.75rem] border border-[var(--place)]/25 bg-gradient-to-br from-[var(--place)]/[.08] to-[var(--place2)]/[.04] p-1.5">
       <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
         <div className="mb-3 flex items-center justify-between">
-          <p className="flex items-center gap-1.5 font-black text-cyan-200">
+          <p className="flex items-center gap-1.5 font-black text-[var(--place)]">
             <Users className="h-4 w-4" /> Oferta grupal
           </p>
           {activada ? (
@@ -94,7 +94,7 @@ export default function GroupDealPanel({ offerId, metaParticipantes, initialActi
         </div>
 
         <div className="h-2.5 w-full overflow-hidden rounded-full bg-[var(--ov-10)]">
-          <div className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 transition-all duration-500" style={{ width: `${pct}%` }} />
+          <div className="h-full rounded-full bg-gradient-to-r from-[var(--place)] to-[var(--place2)] transition-all duration-500" style={{ width: `${pct}%` }} />
         </div>
 
         <p className="mt-2.5 text-sm text-[var(--text)]/70">
@@ -109,7 +109,7 @@ export default function GroupDealPanel({ offerId, metaParticipantes, initialActi
           <div className="mt-4 flex gap-2">
             <button onClick={toggle} disabled={busy}
               className={`flex-1 rounded-full py-2.5 text-sm font-black transition disabled:opacity-50 ${
-                anotado ? "border border-cyan-400/40 bg-cyan-500/10 text-cyan-200" : "bg-gradient-to-r from-cyan-500 to-sky-500 text-white"
+                anotado ? "border border-[var(--place)]/40 bg-[var(--place)]/10 text-[var(--place)]" : "bg-gradient-to-r from-[var(--place)] to-[var(--place2)] text-white"
               }`}>
               {anotado ? "✅ Ya estás anotado" : "Sumarme"}
             </button>

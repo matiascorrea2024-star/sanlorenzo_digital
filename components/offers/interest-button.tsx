@@ -100,7 +100,7 @@ export default function InterestButton({ offerId, compact = false }: { offerId: 
         Me interesa
       </span>
       {showNumber && (
-        <span className={`rounded-md px-1.5 py-0.5 text-xs font-black tabular-nums ${on ? "bg-[var(--accent)]/20 text-[var(--accent)]" : "bg-[var(--ov-05)] text-white/70"}`}>
+        <span className={`rounded-md px-1.5 py-0.5 text-xs font-black tabular-nums ${on ? "bg-[var(--accent)]/20 text-[var(--accent)]" : "bg-[var(--ov-05)] text-[var(--muted)]"}`}>
           +{shown}
         </span>
       )}

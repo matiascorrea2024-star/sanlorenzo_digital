@@ -41,10 +41,10 @@ export default function CartFab() {
       <button
         onClick={() => setOpen(true)}
         aria-label={`Ver changuito, ${items.length} ${items.length === 1 ? "producto" : "productos"}`}
-        className="fixed bottom-[8.5rem] right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-blue-600 shadow-lg shadow-blue-500/40 transition hover:scale-110 md:bottom-24 md:h-14 md:w-14"
+        className="fixed bottom-[8.5rem] right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[var(--place)] to-[var(--place2)] shadow-lg shadow-[var(--place)]/40 transition hover:scale-110 md:bottom-24 md:h-14 md:w-14"
       >
         <ShoppingBasket className="h-5 w-5 text-white md:h-6 md:w-6" />
-        <span className="absolute -right-1 -top-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-black text-white">
+        <span className="absolute -right-1 -top-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[var(--bad)] px-1 text-[10px] font-black text-white">
           {items.length}
         </span>
       </button>
