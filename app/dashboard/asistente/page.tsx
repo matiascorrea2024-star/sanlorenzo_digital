@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Wand2, Copy, Check, Lightbulb } from "lucide-react";
+import { Wand2, Copy, Check, Lightbulb, Sparkles, Loader2 } from "lucide-react";
 import DashboardNav from "@/components/dashboard/dashboard-nav";
 
 const TIPS = [
@@ -49,10 +49,33 @@ export default function AsistenteComerciantePage() {
   const [form, setForm] = useState({ producto: "", precio: "", precioAntes: "", descuento: "", negocio: "" });
   const [resultado, setResultado] = useState<any>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  // Upgrade opcional con IA real (app/api/assistant/generate). El generador
+  // de arriba (reglas, instantáneo, gratis) sigue siendo el default -- esto
+  // no reemplaza nada, es un botón aparte que puede no estar activado.
+  const [iaEstado, setIaEstado] = useState<"idle" | "cargando" | "sin-configurar" | "error">("idle");
 
   const generar = () => {
     if (!form.producto) return;
     setResultado(generarCopy(form));
+  };
+
+  const generarConIA = async () => {
+    if (!form.producto) return;
+    setIaEstado("cargando");
+    try {
+      const res = await fetch("/api/assistant/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) { setIaEstado("error"); return; }
+      if (!data.configured) { setIaEstado("sin-configurar"); return; }
+      setResultado({ titulo: data.titulo, descripcion: data.descripcion, whatsapp: data.whatsapp, desc: Number(form.descuento) || 0 });
+      setIaEstado("idle");
+    } catch {
+      setIaEstado("error");
+    }
   };
 
   const copy = async (texto: string, key: string) => {
@@ -124,10 +147,27 @@ export default function AsistenteComerciantePage() {
                 placeholder="% OFF" type="number"
                 className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-2.5 text-sm outline-none focus:border-[var(--accent)]" />
             </div>
-            <button onClick={generar} disabled={!form.producto}
-              className="w-full rounded-full bg-[var(--accent)] py-3 text-sm font-black disabled:opacity-50">
-              ✨ Generar publicación
-            </button>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <button onClick={generar} disabled={!form.producto}
+                className="flex-1 rounded-full bg-[var(--accent)] py-3 text-sm font-black disabled:opacity-50">
+                ✨ Generar publicación
+              </button>
+              <button onClick={generarConIA} disabled={!form.producto || iaEstado === "cargando"}
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] py-3 text-sm font-black disabled:opacity-50">
+                {iaEstado === "cargando" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+                Mejorar con IA
+              </button>
+            </div>
+            {iaEstado === "sin-configurar" && (
+              <p className="text-center text-xs text-[var(--muted2)]">
+                La IA todavía no está activada para este sitio -- por ahora usá el generador por reglas de arriba.
+              </p>
+            )}
+            {iaEstado === "error" && (
+              <p className="text-center text-xs text-[var(--bad)]">
+                No pudimos generar la publicación con IA. Probá de nuevo en un momento.
+              </p>
+            )}
           </div>
         </div>
         </div>

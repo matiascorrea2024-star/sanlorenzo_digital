@@ -10,6 +10,7 @@
     "seed:local": "node scripts/seed-local.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.122.0",
     "@gsap/react": "^2.1.2",
     "@livekit/components-react": "^2.9.24",
     "@livekit/components-styles": "^1.2.0",
