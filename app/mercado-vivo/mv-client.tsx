@@ -9,6 +9,7 @@ import InterestButton from "@/components/offers/interest-button";
 import OpinionVote from "@/components/offers/opinion-vote";
 import Share from "@/components/business/share";
 import Stories from "@/components/home/stories";
+import OfertaBomba from "@/components/home/oferta-bomba";
 import LiveNow from "@/components/home/live-now";
 import ReelsStrip from "@/components/home/reels-strip";
 import { calcDistanceKm, fmtDistance } from "@/lib/geo";
@@ -291,6 +292,13 @@ export default function MercadoVivoClient({
       </section>
 
       <Stories />
+
+      {/* Mecánica real de fase3_mecanicas_virales: ventana 18-20hs, ofertas
+          reales marcadas es_bomba, desbloqueada solo a partir de nivel 50
+          -- estaba construida hace semanas pero nunca se importó en el
+          home actual (Mercado Vivo reemplazó al home viejo y esto se
+          quedó afuera de la mudanza). */}
+      <OfertaBomba />
 
       <section className={styles.mvSection} id="ofertas">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
