@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { BadgeCheck, Trophy } from "lucide-react";
 import FavoriteButton from "@/components/ui/favorite-button";
 import InterestButton from "@/components/offers/interest-button";
@@ -91,8 +92,7 @@ function Shot({ oferta, className, children }: { oferta?: Oferta | null; classNa
   return (
     <div className={`${styles.mvShot} ${className || ""}`}>
       {oferta?.portada_url ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={oferta.portada_url} alt={oferta.producto} className="absolute inset-0 h-full w-full object-cover" />
+        <Image src={oferta.portada_url} alt={oferta.producto || "Oferta"} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
       ) : (
         <div className={styles.mvShotSil}><span style={{ fontSize: "3.5rem", filter: "drop-shadow(0 6px 16px rgba(0,0,0,.35))" }}>{icon}</span></div>
       )}

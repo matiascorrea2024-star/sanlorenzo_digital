@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function ProductCard({ item }: { item: { name: string; price?: string; note?: string; photo?: string } }) {
   const [open, setOpen] = useState(false);
@@ -7,8 +8,8 @@ export default function ProductCard({ item }: { item: { name: string; price?: st
     <>
       <div className="flex items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4">
         {item.photo ? (
-          <button onClick={() => setOpen(true)} className="shrink-0" aria-label={`Ver foto de ${item.name}`}>
-            <img src={item.photo} alt={item.name} className="h-14 w-14 rounded-lg object-cover transition hover:scale-105 hover:opacity-90" />
+          <button onClick={() => setOpen(true)} className="relative h-14 w-14 shrink-0" aria-label={`Ver foto de ${item.name}`}>
+            <Image src={item.photo} alt={item.name} fill sizes="56px" className="rounded-lg object-cover transition hover:scale-105 hover:opacity-90" />
           </button>
         ) : (
           <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-[var(--surface2)] text-xl">📦</span>

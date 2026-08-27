@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, MapPin, Store } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import ViewerStage from "@/components/live/viewer-stage";
@@ -112,7 +113,7 @@ export default function VerEnVivo() {
                     return (
                       <div key={it.id} className="rounded-[1.25rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
                         <div className="flex items-center gap-3 rounded-[.9rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-3 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                          {(p?.images?.[0]) && <img src={p.images[0]} alt={p?.name || "Producto en vivo"} className="h-14 w-14 rounded-lg object-cover" />}
+                          {(p?.images?.[0]) && <Image src={p.images[0]} alt={p?.name || "Producto en vivo"} width={56} height={56} className="h-14 w-14 rounded-lg object-cover" />}
                           <div className="min-w-0 flex-1">
                             <p className="truncate text-sm font-bold">{p?.name || o?.title}</p>
                             <p className="text-sm font-black text-[var(--accent)]">${Number(it.promo_price || p?.price || o?.offer_price || 0).toLocaleString("es-AR")}</p>

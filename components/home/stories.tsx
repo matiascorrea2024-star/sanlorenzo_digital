@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 
 export default function Stories() {
@@ -51,7 +52,17 @@ export default function Stories() {
           <div className={`w-full max-w-sm rounded-3xl bg-gradient-to-br ${selected.background} p-8 text-center`} onClick={e => e.stopPropagation()}>
             <p className="text-xs font-bold uppercase text-white/80">{selected.businesses?.name}</p>
             <p className="mt-4 text-2xl font-black text-white whitespace-pre-wrap">{selected.text}</p>
-            {selected.image_url && <img src={selected.image_url} className="mt-4 rounded-2xl" alt={selected.title || "Historia destacada"} />}
+            {selected.image_url && (
+              <Image
+                src={selected.image_url}
+                alt={selected.title || "Historia destacada"}
+                width={640}
+                height={800}
+                sizes="(max-width: 480px) 100vw, 384px"
+                style={{ width: "100%", height: "auto" }}
+                className="mt-4 rounded-2xl"
+              />
+            )}
             <button onClick={() => setSelected(null)} className="mt-6 rounded-xl bg-black/30 px-6 py-2 text-sm font-bold text-white">Cerrar</button>
           </div>
         </div>
