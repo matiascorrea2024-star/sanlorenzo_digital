@@ -122,7 +122,7 @@ export default function PulsoClient() {
             )}
 
             {negocioEnAlza && (
-              <div className="rounded-[2rem] border border-green-400/25 bg-[var(--surface)] p-6 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--ok)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
+              <div className="rounded-[2rem] border border-[var(--ok)]/25 bg-[var(--surface)] p-6 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--ok)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
                 <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--ok)]" style={{ fontFamily: "var(--font-display)" }}><TrendingUp className="h-3.5 w-3.5" /> Negocio en alza esta semana</p>
                 <Link href={`/negocio/${negocioEnAlza.slug}`} className="mt-2 block font-display text-2xl transition hover:text-[var(--ok)]">{negocioEnAlza.name}</Link>
                 <p className="mt-1 text-sm text-[var(--muted)]">+{negocioEnAlza.crecimiento} visitas vs la semana anterior</p>
@@ -150,11 +150,11 @@ export default function PulsoClient() {
             )}
 
             {vencenHoy.length > 0 && (
-              <div className="rounded-[2rem] border border-red-400/25 bg-[var(--surface)] p-6 md:col-span-2">
+              <div className="rounded-[2rem] border border-[var(--bad)]/25 bg-[var(--surface)] p-6 md:col-span-2">
                 <p className="mb-3 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--bad)]" style={{ fontFamily: "var(--font-display)" }}><Clock className="h-3.5 w-3.5" /> {vencenHoy.length} oferta{vencenHoy.length === 1 ? "" : "s"} vence{vencenHoy.length === 1 ? "" : "n"} hoy</p>
                 <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
                   {vencenHoy.map((o: any) => (
-                    <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-[var(--line-strong)] bg-white/[0.03] p-3 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                    <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-03)] p-3 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
                       <p className="truncate text-sm font-bold">{o.title}</p>
                       <p className="text-xs text-[var(--muted)]">{o.business_name}</p>
                       {o.offer_price && <p className="mt-1 font-display text-sm text-[var(--accent)]">{fmt(Number(o.offer_price))}</p>}
@@ -169,7 +169,7 @@ export default function PulsoClient() {
                 <p className="mb-3 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Flame className="h-3.5 w-3.5" /> Recién publicado</p>
                 <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
                   {recienPublicado.map((o: any) => (
-                    <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-[var(--line-strong)] bg-white/[0.03] p-3 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
+                    <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-03)] p-3 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
                       <p className="truncate text-sm font-bold">{o.title}</p>
                       <p className="text-xs text-[var(--muted)]">{o.business_name}</p>
                     </Link>

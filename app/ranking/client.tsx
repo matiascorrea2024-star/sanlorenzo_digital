@@ -191,7 +191,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3">
           {RANGOS.map(r => (
             <span key={r.nombre} title={`Desde ${r.min} puntos`} className="rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-wider"
-              style={{ color: r.accent, border: `1px solid ${r.accent}55`, background: "#0c0a0b" }}>
+              style={{ color: r.accent, border: `1px solid ${r.accent}55`, background: "var(--bg)" }}>
               {r.nombre}
             </span>
           ))}
@@ -239,7 +239,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
         </div>
 
         {/* Lista */}
-        {error && <div role="alert" className="mt-6 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">{error}</div>}
+        {error && <div role="alert" className="mt-6 rounded-xl border border-[var(--bad)]/20 bg-[var(--bad)]/10 px-4 py-3 text-sm text-[var(--bad)]">{error}</div>}
         <div className="mt-6 space-y-3">
           {loading ? (
             [1, 2, 3, 4, 5].map((i) => (

@@ -30,7 +30,7 @@ function renderBody(body: string, negociosPorSlug: Map<string, string>) {
       const nombre = negociosPorSlug.get(slug);
       if (nombre) {
         return (
-          <Link key={i} href={`/negocio/${slug}`} className="font-bold text-[var(--place)] hover:text-cyan-200">
+          <Link key={i} href={`/negocio/${slug}`} className="font-bold text-[var(--place)] hover:opacity-80">
             @{nombre}
           </Link>
         );
@@ -129,7 +129,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
               <p className="min-w-0">
                 <span className="font-bold text-[var(--accent)]">{m.sender_name}</span>
                 {m.business_id && (
-                  <span className="ml-1 inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-[var(--accent)]/20 to-red-600/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-[var(--accent)]">
+                  <span className="ml-1 inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-[var(--accent)]/20 to-[var(--accent2)]/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-[var(--accent)]">
                     <Store className="h-2.5 w-2.5" /> Negocio
                   </span>
                 )}
@@ -170,7 +170,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
           </div>
         ) : (
           <p className="border-t border-[var(--ov-05)] p-5 text-center text-xs text-[var(--muted2)] sm:p-6">
-            <Link href="/login" className="font-bold text-[var(--accent)] hover:text-[var(--accent)]">Iniciá sesión</Link> para participar del chat.
+            <Link href="/login" className="font-bold text-[var(--accent)] hover:opacity-80">Iniciá sesión</Link> para participar del chat.
           </p>
         )}
       </div>

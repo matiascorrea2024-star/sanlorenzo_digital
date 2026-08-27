@@ -6,14 +6,16 @@ import { useRouter } from "next/navigation";
 import { Heart, Flame, Sparkles, PartyPopper, Store, Package, Megaphone, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import RankedAvatar from "@/components/ui/ranked-avatar";
+import { useToast } from "@/components/ui/toast";
+import { friendlyError } from "@/lib/friendly-error";
 
 const TIPOS: Record<string, { icon: any; label: string; color: string }> = {
-  oferta: { icon: Flame, label: "Oferta", color: "text-[var(--bad)] bg-red-500/15 border-red-400/40" },
-  novedad: { icon: Sparkles, label: "Novedad", color: "text-[var(--place)] bg-sky-500/15 border-sky-400/40" },
+  oferta: { icon: Flame, label: "Oferta", color: "text-[var(--bad)] bg-[var(--bad)]/15 border-[var(--bad)]/40" },
+  novedad: { icon: Sparkles, label: "Novedad", color: "text-[var(--place)] bg-[var(--place)]/15 border-[var(--place)]/40" },
   evento: { icon: PartyPopper, label: "Evento", color: "text-purple-400 bg-purple-500/15 border-purple-400/40" },
-  apertura: { icon: Store, label: "Apertura", color: "text-[var(--ok)] bg-green-500/15 border-green-400/40" },
+  apertura: { icon: Store, label: "Apertura", color: "text-[var(--ok)] bg-[var(--ok)]/15 border-[var(--ok)]/40" },
   producto: { icon: Package, label: "Nuevo producto", color: "text-[var(--accent)] bg-[var(--accent)]/15 border-[var(--accent)]/40" },
-  anuncio: { icon: Megaphone, label: "Anuncio", color: "text-[var(--warn)] bg-yellow-500/15 border-yellow-400/40" },
+  anuncio: { icon: Megaphone, label: "Anuncio", color: "text-[var(--warn)] bg-[var(--warn)]/15 border-[var(--warn)]/40" },
 };
 
 function timeAgo(d: string) {
@@ -25,6 +27,7 @@ function timeAgo(d: string) {
 
 export default function MuroPage() {
   const router = useRouter();
+  const { show } = useToast();
   const [posts, setPosts] = useState<any[]>([]);
   // Solo los negocios de los posts ya cargados, no la tabla entera --
   // antes esta página bajaba TODOS los negocios activos únicamente
@@ -92,6 +95,7 @@ export default function MuroPage() {
       // Revertir si falla
       setLiked((prev) => ({ ...prev, [id]: isLiked }));
       setPosts(prev => prev.map(p => p.id === id ? { ...p, likes: Math.max(0, (p.likes || 0) + (isLiked ? 1 : -1)) } : p));
+      show(`❌ ${friendlyError(error, "No se pudo registrar el like.")}`, "error");
     }
     setLikingIds((prev) => { const n = new Set(prev); n.delete(id); return n; });
   };
