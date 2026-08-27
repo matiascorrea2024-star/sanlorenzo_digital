@@ -263,7 +263,7 @@ export default function PerfilPage() {
         )}
 
         {!isAdmin && perdidas > 0 && (
-          <div className="mt-6 flex items-center gap-3 rounded-xl border border-red-500/30 bg-red-500/10 p-4">
+          <div className="mt-6 flex items-center gap-3 rounded-xl border border-[var(--bad)]/30 bg-[var(--bad)]/10 p-4">
             <span className="text-2xl">⏰</span>
             <div>
               <p className="text-sm font-black text-[var(--bad)]">
@@ -305,8 +305,8 @@ export default function PerfilPage() {
           <MfaSettings />
           <Link href="/planes" className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)] hover:bg-[var(--ov-05)]">
             <div>
-              <p className="font-bold">Tu plan: Gratis</p>
-              <p className="text-xs text-[var(--muted)]">Ver beneficios y mejorar</p>
+              <p className="font-bold">¿Tenés un negocio en San Lorenzo?</p>
+              <p className="text-xs text-[var(--muted)]">Mirá los planes para comerciantes</p>
             </div>
             <span className="text-[var(--accent)]">→</span>
           </Link>
@@ -366,7 +366,6 @@ export default function PerfilPage() {
             );
           })}
         </div>
-
 
         <h2 className="mt-10 mb-4 font-display text-2xl uppercase tracking-tight sm:text-3xl">Misiones de la semana</h2>
         <div className="grid gap-4 md:grid-cols-3">

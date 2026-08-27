@@ -17,6 +17,7 @@ export default function MensajesClientePage() {
   const [messages, setMessages] = useState<any[]>([]);
   const [bizMap, setBizMap] = useState<Record<string, any>>({});
   const [selectedBiz, setSelectedBiz] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
@@ -31,6 +32,7 @@ export default function MensajesClientePage() {
             setBizMap(map);
           }
         }
+        setLoading(false);
       });
     }
   }, [user]);
@@ -73,7 +75,9 @@ export default function MensajesClientePage() {
       <div className="mx-auto max-w-3xl px-4 py-8">
         {!selectedBiz && (
           <div className="space-y-3">
-            {convoList.length === 0 ? (
+            {loading ? (
+              <p className="py-12 text-center text-[var(--muted)]">Cargando…</p>
+            ) : convoList.length === 0 ? (
               <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center text-[var(--muted)]">
                 Aún no tenés conversaciones. Escribile a un negocio desde su página.
               </div>
