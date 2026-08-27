@@ -18,7 +18,7 @@ import styles from "./negocios.module.css";
 
 export const NEGOCIOS_PAGE_SIZE = 60;
 
-const COLUMNS = "id, name, slug, category, rating, reviews, open, description, portada_url, address, whatsapp, plan, status, type, hace_envios, destacado, updated_at, neighborhood_id";
+const COLUMNS = "id, name, slug, category, rating, reviews, open, description, portada_url, address, whatsapp, plan, status, type, hace_envios, destacado, destacado_mes, boost_nuevo_hasta, updated_at, neighborhood_id";
 
 type Sort = "destacado" | "rating" | "reciente";
 type Estado = "cualquiera" | "abierto" | "cerrado";
@@ -37,7 +37,10 @@ async function fetchPage({ cats, barrios, q, estado, mode, delivery, minRating, 
   else if (estado === "cerrado") query = query.eq("open", false);
   if (delivery) query = query.eq("hace_envios", true);
   if (minRating > 0) query = query.gte("rating", minRating);
-  if (soloDestacados) query = query.eq("destacado", true);
+  // "Solo destacados" también cuenta el Destacado del Mes ganado por
+  // referidos (25 activos) -- no solo el plan pago, si no la promesa de
+  // /invitar queda a medias.
+  if (soloDestacados) query = query.or("destacado.eq.true,destacado_mes.eq.true");
   if (soloVerificados) query = query.eq("status", "verificado");
   const term = sanitizeSearchQuery(q).trim();
   if (term) {
@@ -279,7 +282,8 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
 
                       <div className="mt-2 flex flex-wrap items-center gap-1.5">
                         {isVerified && <span className={`${styles.badge} bg-[var(--ok)]/15 text-[var(--ok)]`}>✓ Verificado</span>}
-                        {b.destacado && <span className={`${styles.badge} bg-[var(--accent)]/15 text-[var(--accent)]`}>🔥 Destacado</span>}
+                        {(b.destacado || b.destacado_mes) && <span className={`${styles.badge} bg-[var(--accent)]/15 text-[var(--accent)]`}>🔥 Destacado</span>}
+                        {b.boost_nuevo_hasta && new Date(b.boost_nuevo_hasta) > new Date() && <span className={`${styles.badge} bg-[var(--place)]/15 text-[var(--place)]`}>🆕 Nuevo</span>}
                         <span className={`${styles.badge} ${isOpen ? "bg-[var(--ok)]/15 text-[var(--ok)]" : "bg-[var(--bad)]/15 text-[var(--bad)]"}`}>{isOpen ? "Abierto" : "Cerrado"}</span>
                         {b.hace_envios && <span className={`${styles.badge} bg-[var(--place)]/15 text-[var(--place)]`}>🚚 Envíos</span>}
                       </div>

@@ -213,6 +213,8 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         <div className={styles.badgeRow}>
           <BusinessLiveBadge businessId={negocio.id} />
           {negocio.status === "verificado" && <Badge variant="success" size="sm">✓ Verificado</Badge>}
+          {negocio.destacado_mes && <Badge variant="warning" size="sm">🏆 Destacado del mes</Badge>}
+          {negocio.boost_nuevo_hasta && new Date(negocio.boost_nuevo_hasta) > new Date() && <Badge variant="info" size="sm">🆕 Nuevo</Badge>}
           {abierto !== null && (
             <Badge variant={abierto ? "success" : "danger"} size="sm">
               {abierto ? "● Abierto ahora" : "● Cerrado"}
