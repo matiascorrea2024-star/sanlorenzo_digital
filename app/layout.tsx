@@ -19,6 +19,7 @@ import AbandonedCartReminder from "@/components/cart/abandoned-reminder";
 import CookieConsent from "@/components/ui/cookie-consent";
 import { ThemeProvider } from "@/lib/theme-context";
 import Analytics from "@/components/analytics";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", fallback: ["Arial", "sans-serif"] });
 const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space", fallback: ["Arial", "sans-serif"] });
@@ -97,6 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <InstallApp />
       <ServiceWorkerRegister />
       <Analytics />
+      <SpeedInsights />
       </body>
     </html>
   );
