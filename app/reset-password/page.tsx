@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { friendlyError } from "@/lib/friendly-error";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
+  const [checking, setChecking] = useState(true);
   const [ready, setReady] = useState(false);
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -19,6 +21,7 @@ export default function ResetPasswordPage() {
       // redirigir acá -- si no hay sesión, el link es viejo/inválido.
       const { data: { session } } = await supabase().auth.getSession();
       setReady(!!session);
+      setChecking(false);
     })();
   }, []);
 
@@ -29,7 +32,7 @@ export default function ResetPasswordPage() {
     setSaving(true);
     const { error: err } = await supabase().auth.updateUser({ password });
     setSaving(false);
-    if (err) { setError(err.message); return; }
+    if (err) { setError(friendlyError(err, "No se pudo actualizar la contraseña. Probá de nuevo.")); return; }
     setDone(true);
     setTimeout(() => router.push("/perfil"), 1500);
   };
@@ -44,7 +47,9 @@ export default function ResetPasswordPage() {
           <p className="mt-3 text-sm text-[var(--muted)]">Elegí una nueva contraseña para tu cuenta</p>
         </div>
 
-          {!ready ? (
+          {checking ? (
+            <p className="text-center text-sm text-[var(--muted)]">Verificando el link…</p>
+          ) : !ready ? (
             <div className="text-center text-sm text-[var(--muted)]">
               <p>Este link ya expiró o no es válido.</p>
               <Link href="/login" className="mt-4 inline-block font-bold text-[var(--accent)] transition hover:text-white">← Volver a iniciar sesión</Link>
@@ -55,12 +60,12 @@ export default function ResetPasswordPage() {
             <div className="space-y-4">
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                 placeholder="Nueva contraseña (mín. 8 caracteres)"
-                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]" />
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-[var(--text)] placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]" />
               <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
                 placeholder="Repetir nueva contraseña"
-                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]" />
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-[var(--text)] placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]" />
               {error && (
-                <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-3">
+                <div className="rounded-2xl border border-[var(--bad)]/30 bg-[var(--bad)]/10 p-3">
                   <p className="text-sm text-[var(--bad)]">{error}</p>
                 </div>
               )}

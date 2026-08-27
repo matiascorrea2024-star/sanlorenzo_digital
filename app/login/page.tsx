@@ -67,7 +67,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-[var(--text)] placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
                 placeholder="tu@email.com"
               />
             </div>
@@ -84,7 +84,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-[var(--text)] placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
                 placeholder="••••••••"
               />
             </div>
@@ -111,7 +111,7 @@ export default function LoginPage() {
             )}
 
             {error && (
-              <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-3">
+              <div className="rounded-2xl border border-[var(--bad)]/30 bg-[var(--bad)]/10 p-3">
                 <p className="text-sm text-[var(--bad)]">{error}</p>
               </div>
             )}

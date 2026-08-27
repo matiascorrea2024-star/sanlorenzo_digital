@@ -70,13 +70,15 @@ export default function AdminBlogPage() {
   };
 
   const togglePublicado = async (p: any) => {
-    await supabase().from("blog_posts").update({ published: !p.published }).eq("id", p.id);
+    const { error: err } = await supabase().from("blog_posts").update({ published: !p.published }).eq("id", p.id);
+    if (err) { alert(err.message); return; }
     await cargar();
   };
 
   const borrar = async (id: string) => {
     if (!confirm("¿Eliminar este artículo?")) return;
-    await supabase().from("blog_posts").delete().eq("id", id);
+    const { error: err } = await supabase().from("blog_posts").delete().eq("id", id);
+    if (err) { alert(err.message); return; }
     await cargar();
   };
 
@@ -85,7 +87,7 @@ export default function AdminBlogPage() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-4xl px-4 py-8">
-        <Link href="/admin?tab=blog" className="text-sm text-[var(--accent)] hover:text-[var(--accent)]">← Volver al panel</Link>
+        <Link href="/admin?tab=blog" className="text-sm text-[var(--accent)] hover:text-[var(--accent2)]">← Volver al panel</Link>
         <div className="mt-4 flex items-center justify-between">
           <h1 className="flex items-center gap-2 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}><Newspaper className="h-7 w-7 text-[var(--accent)]" /> Blog</h1>
           {!editing && (

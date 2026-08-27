@@ -473,7 +473,7 @@ export default function AdminPage() {
     return (
       <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center text-[var(--text)]">
         <div className="text-center">
-          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-b-2 border-red-400" />
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-b-2 border-[var(--accent)]" />
           <p className="mt-4 text-sm text-[var(--muted)]">Cargando panel de administración…</p>
         </div>
       </main>
@@ -496,10 +496,10 @@ export default function AdminPage() {
   }
 
   const cards = [
-    { icon: Users, label: "Usuarios", value: stats.users, color: "text-[var(--place)]", bg: "from-sky-500/10" },
+    { icon: Users, label: "Usuarios", value: stats.users, color: "text-[var(--place)]", bg: "from-[var(--place)]/10" },
     { icon: Store, label: "Negocios", value: stats.businesses, color: "text-[var(--ok)]", bg: "from-green-500/10" },
     { icon: Flame, label: "Ofertas", value: stats.offers, color: "text-[var(--accent)]", bg: "from-[var(--accent)]/10" },
-    { icon: Star, label: "Reseñas", value: stats.reviews, color: "text-[var(--warn)]", bg: "from-yellow-500/10" },
+    { icon: Star, label: "Reseñas", value: stats.reviews, color: "text-[var(--warn)]", bg: "from-[var(--warn)]/10" },
     { icon: Eye, label: "Visitas", value: stats.views, color: "text-[var(--bad)]", bg: "from-red-600/10" },
     { icon: Heart, label: "Seguidores", value: stats.seguidores, color: "text-purple-400", bg: "from-purple-500/10" },
   ];
@@ -510,7 +510,7 @@ export default function AdminPage() {
         <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
           <p className="mb-3 text-[10px] font-black uppercase tracking-[.4em] text-[var(--bad)]">Control total</p>
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-[#861642]/20">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--bad)]/20 to-[var(--bad)]/10">
               <Shield className="h-7 w-7 text-[var(--bad)]" />
             </div>
             <div>
@@ -645,11 +645,11 @@ export default function AdminPage() {
                         <Pencil className="h-3 w-3" /> Editar
                       </a>
                       <a href={`/admin/soporte/${n.id}`}
-                        className="flex items-center gap-1 rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-[var(--place)] hover:bg-cyan-500/20">
+                        className="flex items-center gap-1 rounded-lg border border-[var(--place)]/30 bg-[var(--place)]/10 px-2.5 py-1 text-[11px] font-bold text-[var(--place)] hover:bg-[var(--place)]/20">
                         <MessageCircle className="h-3 w-3" /> Chat
                       </a>
                       <button onClick={() => toggleDestacado(n.id, n.destacado)}
-                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.destacado ? "bg-yellow-500/20 text-[var(--warn)]" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
+                        className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${n.destacado ? "bg-[var(--warn)]/20 text-[var(--warn)]" : "border border-[var(--line-strong)] text-[var(--muted)] hover:bg-[var(--ov-10)]"}`}>
                         {n.destacado ? "Quitar destacado" : "Destacar"}
                       </button>
                       <button onClick={() => toggleActivoNegocio(n.id, n.activo !== false)}
@@ -706,11 +706,11 @@ export default function AdminPage() {
                       <a href={`/oferta/${o.id}`} target="_blank" rel="noopener noreferrer"
                         className="rounded-lg border border-[var(--line-strong)] px-2.5 py-1 text-[11px] font-bold text-[var(--muted)] hover:bg-[var(--ov-10)]">Ver</a>
                       <button onClick={() => impulsarOferta(o.id, 24)}
-                        className="rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-[var(--place)] hover:bg-cyan-500/20">
+                        className="rounded-lg border border-[var(--place)]/30 bg-[var(--place)]/10 px-2.5 py-1 text-[11px] font-bold text-[var(--place)] hover:bg-[var(--place)]/20">
                         🚀 24h
                       </button>
                       <button onClick={() => impulsarOferta(o.id, 48)}
-                        className="rounded-lg border border-cyan-400/30 bg-cyan-500/10 px-2.5 py-1 text-[11px] font-bold text-[var(--place)] hover:bg-cyan-500/20">
+                        className="rounded-lg border border-[var(--place)]/30 bg-[var(--place)]/10 px-2.5 py-1 text-[11px] font-bold text-[var(--place)] hover:bg-[var(--place)]/20">
                         🚀 48h
                       </button>
                       <button onClick={() => toggleOfertaActiva(o.id, o.active)}
@@ -813,7 +813,7 @@ export default function AdminPage() {
               ) : (
                 <div className="space-y-2.5">
                   {subs.filter(s => s.status === "pending").map(s => (
-                    <div key={s.id} className="flex flex-wrap items-center gap-3 rounded-2xl border border-yellow-400/30 bg-yellow-500/5 p-4">
+                    <div key={s.id} className="flex flex-wrap items-center gap-3 rounded-2xl border border-[var(--warn)]/30 bg-[var(--warn)]/5 p-4">
                       <CreditCard className="h-6 w-6 shrink-0 text-[var(--warn)]" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-bold">{(s as any).businesses?.name || "Negocio"}</p>
@@ -978,7 +978,7 @@ export default function AdminPage() {
               <div className="space-y-2">
                 {vivos.map((v) => {
                   const ESTADO: Record<string, { l: string; c: string }> = {
-                    scheduled: { l: "Programado", c: "bg-sky-500/15 text-[var(--place)]" },
+                    scheduled: { l: "Programado", c: "bg-[var(--place)]/15 text-[var(--place)]" },
                     live: { l: "🔴 En vivo", c: "bg-red-500/20 text-[var(--bad)]" },
                     ended: { l: "Finalizado", c: "bg-[var(--ov-10)] text-[var(--muted)]" },
                     cancelled: { l: "Cancelado", c: "bg-[var(--ov-10)] text-[var(--muted2)]" },
@@ -1073,7 +1073,7 @@ export default function AdminPage() {
 
         {/* CARGAR BULK */}
         {tab === "cargar-bulk" && (
-          <div className="mt-8 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
+          <div className="mt-8 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Upload className="h-8 w-8 text-[var(--accent)]" />
               <p className="mt-3 text-lg font-black">Cargar masiva de negocios reales</p>
@@ -1090,7 +1090,7 @@ export default function AdminPage() {
 
         {/* BLOG */}
         {tab === "blog" && (
-          <div className="mt-8 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-red-600/[.04] p-1.5">
+          <div className="mt-8 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <Newspaper className="h-8 w-8 text-[var(--accent)]" />
               <p className="mt-3 text-lg font-black">Blog / Novedades</p>
@@ -1157,7 +1157,7 @@ export default function AdminPage() {
                         : c.status === "draft" ? "bg-[var(--ov-10)] text-[var(--muted)]"
                         : c.status === "suspended" ? "bg-red-500/15 text-[var(--bad)]"
                         : c.status === "archived" ? "bg-[var(--ov-05)] text-[var(--muted2)]"
-                        : "bg-amber-500/15 text-[var(--warn)]"
+                        : "bg-[var(--warn)]/15 text-[var(--warn)]"
                       }`}>
                         {c.status === "active" ? "Activa" : c.status === "draft" ? "Borrador" : c.status === "suspended" ? "Suspendida" : c.status === "archived" ? "Archivada" : "Inactiva"}
                       </span>

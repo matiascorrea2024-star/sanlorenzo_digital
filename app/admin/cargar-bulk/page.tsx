@@ -149,7 +149,7 @@ export default function CargarBulkPage() {
         </div>
 
         {/* Plantilla */}
-        <div className="mb-6 rounded-[1.5rem] border border-sky-400/25 bg-sky-500/[.06] p-1.5">
+        <div className="mb-6 rounded-[1.5rem] border border-[var(--place)]/25 bg-[var(--place)]/[.06] p-1.5">
           <div className="flex items-center gap-3 rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
             <Download className="h-6 w-6 text-[var(--place)]" />
             <div className="flex-1">
@@ -157,7 +157,7 @@ export default function CargarBulkPage() {
               <p className="text-sm text-[var(--muted)]">Completala con los negocios reales de San Lorenzo</p>
             </div>
             <button onClick={descargarPlantilla}
-              className="rounded-full bg-sky-500/20 border border-sky-400/40 px-4 py-2 text-xs font-black text-sky-200 hover:bg-sky-500/30">
+              className="rounded-full bg-[var(--place)]/20 border border-[var(--place)]/40 px-4 py-2 text-xs font-black text-[var(--place)] hover:bg-[var(--place)]/30">
               Descargar CSV
             </button>
           </div>
@@ -194,7 +194,7 @@ export default function CargarBulkPage() {
               ))}
             </div>
             <button onClick={cargar} disabled={loading || !ciudadId}
-              className="mt-4 w-full rounded-full bg-gradient-to-r from-green-500 to-emerald-500 py-3 text-sm font-black disabled:opacity-50">
+              className="mt-4 w-full rounded-full bg-gradient-to-r from-[var(--ok)] to-emerald-400 py-3 text-sm font-black disabled:opacity-50">
               {loading ? "Cargando..." : `✅ Cargar ${preview.length} negocios`}
             </button>
             {!ciudadId && <p className="mt-2 text-center text-xs text-[var(--bad)]">Elegí una ciudad arriba antes de cargar.</p>}
@@ -204,7 +204,7 @@ export default function CargarBulkPage() {
 
         {/* Resultado */}
         {result && (
-          <div className="rounded-[1.5rem] border border-green-400/30 bg-green-500/[.06] p-1.5">
+          <div className="rounded-[1.5rem] border border-[var(--ok)]/30 bg-[var(--ok)]/[.06] p-1.5">
             <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="h-8 w-8 text-[var(--ok)]" />

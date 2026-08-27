@@ -198,7 +198,7 @@ export default function PromocionesPage() {
             ))}
           </div>
 
-          {error && <div role="alert" className="mb-6 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">{error}</div>}
+          {error && <div role="alert" className="mb-6 rounded-xl border border-[var(--bad)]/30 bg-[var(--bad)]/10 px-4 py-3 text-sm text-[var(--bad)]">{error}</div>}
           {!loading && activas.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center md:p-10">
               <p className="font-display mt-3 text-xl uppercase tracking-tight">No hay ofertas activas ahora</p>

@@ -95,7 +95,7 @@ export default function RegistroPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-[var(--text)] placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
                 placeholder="Ej: Juan Pérez"
               />
               {/* Con nombres muy comunes (Matías, Juan, etc.) pedir nombre
@@ -113,7 +113,7 @@ export default function RegistroPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-[var(--text)] placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
                 placeholder="tu@email.com"
               />
             </div>
@@ -126,7 +126,7 @@ export default function RegistroPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-[var(--text)] placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
                 placeholder="Mínimo 6 caracteres"
               />
             </div>
@@ -142,7 +142,7 @@ export default function RegistroPage() {
                   }`}
                 >
                   <div className="text-2xl mb-1">👤</div>
-                  <div className="text-sm font-bold text-white">Usuario</div>
+                  <div className="text-sm font-bold text-[var(--text)]">Usuario</div>
                   <div className="text-xs text-[var(--muted2)]">Quiero ofertas</div>
                 </button>
                 <button
@@ -153,14 +153,14 @@ export default function RegistroPage() {
                   }`}
                 >
                   <div className="text-2xl mb-1">🏪</div>
-                  <div className="text-sm font-bold text-white">Comerciante</div>
+                  <div className="text-sm font-bold text-[var(--text)]">Comerciante</div>
                   <div className="text-xs text-[var(--muted2)]">Tengo negocio</div>
                 </button>
               </div>
             </div>
 
             {error && (
-              <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-3">
+              <div className="rounded-2xl border border-[var(--bad)]/30 bg-[var(--bad)]/10 p-3">
                 <p className="text-sm text-[var(--bad)]">{error}</p>
               </div>
             )}

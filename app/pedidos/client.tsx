@@ -13,7 +13,8 @@ export default function PedidosPage() {
 
   useEffect(() => {
     supabase().from("locations").select("id, name").eq("type", "city").eq("status", "active").order("name")
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) console.error("PedidosPage: no se pudieron cargar las ciudades:", error.message);
         const list = data || [];
         setCiudades(list);
         const saved = typeof window !== "undefined" ? localStorage.getItem("sld-chat-city") : null;
@@ -44,7 +45,7 @@ export default function PedidosPage() {
                 <span className="knockout-text magenta-glow">tiene esto?</span>
               </h1>
               <p className="mt-5 max-w-md text-lg font-medium leading-relaxed text-[var(--muted)]">
-                Publicá lo que buscás y recibí respuestas directas de vecinos y comercios locales. El mercado colaborativo de San Lorenzo.
+                Publicá lo que buscás y recibí respuestas directas de vecinos y comercios locales. El mercado colaborativo de {ciudades.find((c) => c.id === locationId)?.name || "tu zona"}.
               </p>
             </div>
             {!loading && ciudades.length > 1 && (

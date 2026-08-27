@@ -176,7 +176,7 @@ export default function MapaPage() {
               <div>
                 <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Exploración geográfica</p>
                 <h1 className="mt-2 font-display text-4xl uppercase tracking-tight sm:text-6xl">
-                  Mapa de la <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-red-600 bg-clip-text text-transparent">Ciudad</span>
+                  Mapa de la <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">Ciudad</span>
                 </h1>
               </div>
               <div className="flex flex-wrap items-center gap-2">
@@ -248,7 +248,7 @@ export default function MapaPage() {
             <div className="relative">
               <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--accent)]" />
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="¿Qué buscás hoy?"
-                className="w-full rounded-2xl border border-[var(--line-strong)] bg-black/30 py-3 pl-11 pr-4 text-sm outline-none transition placeholder:text-[var(--muted2)] focus:border-[var(--accent)]" />
+                className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--card-inner)] py-3 pl-11 pr-4 text-sm outline-none transition placeholder:text-[var(--muted2)] focus:border-[var(--accent)]" />
             </div>
             <div className="custom-scrollbar flex max-h-[560px] flex-col gap-3 overflow-y-auto pr-1 lg:max-h-[760px]">
               {cercaDeVos.length === 0 ? (
@@ -261,7 +261,7 @@ export default function MapaPage() {
                   <Link key={b.id} href={`/negocio/${b.slug}`}
                     className="group rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)]">
                     <div className="flex gap-4">
-                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[var(--line)] bg-black/30">
+                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[var(--line)] bg-[var(--card-inner)]">
                         {b.logo_url ? (
                           <Image src={b.logo_url} alt={b.name} fill sizes="64px" className="object-cover transition duration-500 group-hover:scale-110" />
                         ) : (

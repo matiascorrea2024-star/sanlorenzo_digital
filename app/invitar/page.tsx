@@ -80,14 +80,14 @@ export default function InvitarPage() {
         <div className="mb-6 rounded-[2rem] border border-[var(--line-strong)] bg-[var(--surface)] p-6 text-left shadow-2xl">
           <div className="flex items-center gap-2">
             <Store className="h-5 w-5 shrink-0 text-[var(--accent)]" />
-            <p className="text-sm font-black text-white">¿Tu negocio favorito no está?</p>
+            <p className="text-sm font-black text-[var(--text)]">¿Tu negocio favorito no está?</p>
           </div>
           <p className="mt-1 text-sm text-[var(--muted)]">Avisale vos mismo por WhatsApp -- es gratis para el negocio y le lleva dos minutos sumarse.</p>
           <input
             value={nombreNegocio}
             onChange={(e) => setNombreNegocio(e.target.value)}
             placeholder="Nombre del negocio (opcional)"
-            className="mt-4 w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-sm text-white placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
+            className="mt-4 w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3.5 text-sm text-[var(--text)] placeholder:text-[var(--muted2)] outline-none transition focus:border-[var(--accent)] focus:bg-[var(--ov-10)]"
           />
           <button onClick={invitarNegocio} className="btn-hard mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-3.5 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
             <MessageCircle className="h-4 w-4" /> Invitar por WhatsApp
@@ -97,7 +97,7 @@ export default function InvitarPage() {
         {!user ? (
           <div className="rounded-[2rem] border border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center shadow-2xl">
             <p className="mb-3 text-4xl">🔗</p>
-            <p className="font-black text-white">¿Querés tu propio link de invitación y sumar puntos?</p>
+            <p className="font-black text-[var(--text)]">¿Querés tu propio link de invitación y sumar puntos?</p>
             <p className="mt-1 text-sm text-[var(--muted)]">Iniciá sesión para conseguirlo.</p>
             <Link href="/login" className="btn-hard mt-4 inline-block rounded-xl bg-[var(--accent)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>Ingresar →</Link>
           </div>
@@ -110,7 +110,7 @@ export default function InvitarPage() {
             <button onClick={compartir} className="btn-hard flex items-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
               <Share2 className="h-4 w-4" /> Compartir
             </button>
-            <button onClick={copiar} className="flex items-center gap-2 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-5 py-3 text-xs font-black uppercase tracking-widest text-white transition hover:border-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+            <button onClick={copiar} className="flex items-center gap-2 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-5 py-3 text-xs font-black uppercase tracking-widest text-[var(--text)] transition hover:border-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
               {copied ? <Check className="h-4 w-4 text-[var(--ok)]" /> : <Copy className="h-4 w-4" />}
               {copied ? "¡Copiado!" : "Copiar link"}
             </button>
@@ -126,11 +126,11 @@ export default function InvitarPage() {
             {HITOS.map((h) => {
               const logrado = activos >= h.n;
               return (
-                <div key={h.n} className={`flex items-center gap-3 rounded-xl border p-3 ${logrado ? "border-green-400/40 bg-green-500/10" : "border-[var(--line-strong)] bg-[var(--ov-05)]"}`}>
-                  <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black ${logrado ? "bg-green-500 text-black" : "bg-[var(--ov-10)] text-[var(--muted2)]"}`}>
+                <div key={h.n} className={`flex items-center gap-3 rounded-xl border p-3 ${logrado ? "border-[var(--ok)]/40 bg-[var(--ok)]/10" : "border-[var(--line-strong)] bg-[var(--ov-05)]"}`}>
+                  <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black ${logrado ? "bg-[var(--ok)] text-black" : "bg-[var(--ov-10)] text-[var(--muted2)]"}`}>
                     {logrado ? "✓" : h.n}
                   </span>
-                  <p className={`text-xs ${logrado ? "text-green-200" : "text-[var(--muted)]"}`}>{h.premio}</p>
+                  <p className={`text-xs ${logrado ? "text-[var(--ok)]" : "text-[var(--muted)]"}`}>{h.premio}</p>
                 </div>
               );
             })}
