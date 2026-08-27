@@ -10,7 +10,7 @@
   --mv-glow-soft: rgba(230, 58, 116, .18);
   --mv-shadow-lg: 0 30px 70px rgba(0,0,0,.5);
   --mv-shadow-md: 0 14px 34px rgba(0,0,0,.38);
-  --mv-font-serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --mv-font-serif: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
   color: var(--text);
   position: relative;
 }

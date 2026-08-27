@@ -164,7 +164,7 @@ export default function OfertaPage() {
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       {/* Glow ambiental de marca, mismo lenguaje que el resto del sitio V3. */}
-      <div className="pointer-events-none fixed left-[-10%] top-[-15%] -z-10 h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[180px]" aria-hidden="true" />
+      <div className="aurora-bg -z-10" style={{ position: "fixed" }} aria-hidden="true"><span /><span /><span /></div>
 
       <div className="mx-auto max-w-[1700px] px-4 pt-6 sm:px-6 md:pt-10">
         {vencido && (
@@ -177,7 +177,7 @@ export default function OfertaPage() {
 
         <div className="grid gap-8 lg:grid-cols-12">
           {/* IZQUIERDA: imagen + título superpuesto + detalles + reseñas reales */}
-          <div className="lg:col-span-7">
+          <section className="lg:col-span-7">
             <div className="rounded-[2.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 shadow-2xl shadow-black/80">
               <div className="relative overflow-hidden rounded-[2.3rem] border border-[var(--ov-05)]">
                 <div className="absolute left-4 top-4 z-10 flex flex-wrap gap-2 sm:left-6 sm:top-6">
@@ -210,7 +210,7 @@ export default function OfertaPage() {
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-black/85 to-transparent p-6 text-white sm:p-8">
                   <div className="min-w-0">
                     {negocio.category && <p className="mb-2 text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>{negocio.category}</p>}
-                    <h1 className="font-display text-4xl uppercase leading-[0.9] tracking-tight sm:text-5xl md:text-6xl">{oferta.title}</h1>
+                    <h1 className="leading-[.98] tracking-tight" style={{ fontFamily: "var(--font-fraunces), Georgia, serif", fontStyle: "italic", fontWeight: 600, fontSize: "clamp(2.1rem, 5.2vw, 3.8rem)" }}>{oferta.title}</h1>
                     {publicado && <p className="mt-2 text-xs font-semibold text-white/70">Publicado {publicado}</p>}
                   </div>
                   <div className="flex shrink-0 gap-2">
@@ -259,24 +259,24 @@ export default function OfertaPage() {
                 la ficha (fotos, visita verificada, respuestas). Antes solo
                 vivía en /negocio/[slug]; acá aporta confianza justo donde
                 más importa: el momento de decidir. */}
-            <div id="resenas" className="mt-14 scroll-mt-24 px-2">
+            <section id="resenas" className="mt-14 scroll-mt-24 px-2">
               <div className="mb-8 flex items-center gap-4">
                 <div className="h-9 w-1.5 rounded-full bg-[var(--accent)]" />
                 <h2 className="font-display text-3xl uppercase tracking-tight sm:text-4xl">Lo que dicen los vecinos</h2>
               </div>
               <ReviewsSection businessId={negocio.id} baseRating={negocio.rating || 0} baseCount={negocio.reviews || 0} />
-            </div>
-          </div>
+            </section>
+          </section>
 
           {/* DERECHA: precio + acciones + comercio */}
-          <div className="lg:col-span-5">
+          <section className="lg:col-span-5">
             <div className="rounded-[2.75rem] border border-[var(--line)] bg-[var(--surface2)] p-6 shadow-xl sm:p-8">
               <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
                 <span className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Oferta #{codigoCorto}</span>
                 {!vencido && dias !== null && dias <= 2 && oferta.valid_until && <CountdownTimer expiresAt={oferta.valid_until} compact />}
               </div>
 
-              <h2 className="font-display text-3xl uppercase leading-[0.95] tracking-tight sm:text-4xl">{oferta.title}</h2>
+              <h2 className="leading-[1]" style={{ fontFamily: "var(--font-fraunces), Georgia, serif", fontStyle: "italic", fontWeight: 600, fontSize: "clamp(1.5rem, 3vw, 2.1rem)" }}>{oferta.title}</h2>
 
               {negocio.rating > 0 && (
                 <a href="#resenas" className="mt-3 flex items-center gap-2 text-sm">
@@ -302,7 +302,7 @@ export default function OfertaPage() {
 
               {oferta.old_price && <p className="text-xl font-bold tracking-tight text-[var(--muted2)] line-through decoration-2">{fmt(Number(oferta.old_price))}</p>}
               <div className="flex items-baseline gap-3">
-                {oferta.offer_price && <p className="magenta-glow font-display text-7xl leading-none text-[var(--accent)] transition-colors sm:text-8xl">{fmt(Number(oferta.offer_price))}</p>}
+                {oferta.offer_price && <p className="magenta-glow leading-[.9] text-[var(--accent)] transition-colors" style={{ fontFamily: "var(--font-fraunces), Georgia, serif", fontStyle: "italic", fontWeight: 600, fontSize: "clamp(2.8rem, 6vw, 4.6rem)" }}>{fmt(Number(oferta.offer_price))}</p>}
                 {ahorro && ahorro > 0 && <span className="mb-2 shrink-0 rounded-lg bg-green-500/15 px-2 py-1 text-xs font-black uppercase tracking-wider text-[var(--ok)]" style={{ fontFamily: "var(--font-display)" }}>Ahorrás {fmt(ahorro)}</span>}
               </div>
 
@@ -454,7 +454,7 @@ export default function OfertaPage() {
                 <NotifyMeButton businessId={String(negocio.id)} offerId={String(oferta.id)} productName={oferta.title} originalPrice={oferta.offer_price ? Number(oferta.offer_price) : undefined} />
               </div>
             )}
-          </div>
+          </section>
         </div>
       </div>
       {negocio.whatsapp && !vencido && (

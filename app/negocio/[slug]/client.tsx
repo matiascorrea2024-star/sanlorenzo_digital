@@ -222,7 +222,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
   return (
     <main className="bg-[var(--bg)] min-h-screen pb-24 text-[var(--text)]">
       {/* Glow ambiental de marca, mismo lenguaje que el resto del sitio V3. */}
-      <div className="pointer-events-none fixed left-[-10%] top-[-15%] -z-10 h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[180px]" aria-hidden="true" />
+      <div className="aurora-bg -z-10" style={{ position: "fixed" }} aria-hidden="true"><span /><span /><span /></div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
 
       {/* HERO editorial: tapa panorámica enorme + tarjeta de perfil que se
@@ -281,7 +281,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
 
               <div className="min-w-0 flex-1">
                 <p className="text-[11px] font-black uppercase tracking-[.35em] text-[var(--accent)]">{negocio.category}{negocio.address ? ` · San Lorenzo` : ""}</p>
-                <h1 className="mt-1 font-display text-4xl uppercase leading-[0.9] tracking-tight sm:text-6xl md:text-7xl">{negocio.name}</h1>
+                <h1 className="mt-1 leading-[.95] tracking-tight" style={{ fontFamily: "var(--font-fraunces), Georgia, serif", fontStyle: "italic", fontWeight: 600, fontSize: "clamp(2.3rem, 6vw, 4.6rem)" }}>{negocio.name}</h1>
 
                 {/* Stats reales -- rating/reseñas de la columna businesses,
                     seguidores del propio FollowButton (mismo dato, sin
