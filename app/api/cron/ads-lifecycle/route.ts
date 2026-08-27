@@ -6,9 +6,15 @@ import { supabaseCron } from "@/lib/supabase-cron";
 // ("scheduled") cuya fecha de inicio ya llegó, y da de baja las que ya
 // terminaron -- sin esto, "scheduled" se quedaría para siempre esperando
 // que alguien la prenda a mano, y "active" nunca se apagaría sola.
+// Dos secretos válidos a propósito: CRON_SECRET es el que Vercel Cron
+// manda solo (una vez por día en el plan actual -- ver vercel.json), y
+// GH_ADS_CRON_SECRET es el que usa el workflow de GitHub Actions que
+// corre cada 30 min de verdad (el plan Hobby de Vercel no permite esa
+// frecuencia). Cualquiera de los dos, si coincide exacto, autoriza.
 export async function GET(request: NextRequest) {
   const auth = request.headers.get("authorization");
-  if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+  const validos = [process.env.CRON_SECRET, process.env.GH_ADS_CRON_SECRET].filter(Boolean);
+  if (!validos.some((s) => auth === `Bearer ${s}`)) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 

@@ -4,8 +4,10 @@ name: Ads lifecycle cron
 # activar/finalizar campañas de La Gran Barata Ads con la cadencia real
 # que necesitan (cada 30 min). Este workflow gratuito de GitHub Actions
 # hace ese trabajo en su lugar, llamando al mismo endpoint que ya existe
-# (/api/cron/ads-lifecycle), protegido con el mismo CRON_SECRET real.
-# vercel.json mantiene además una corrida diaria como red de seguridad.
+# (/api/cron/ads-lifecycle), protegido con un secret propio
+# (GH_ADS_CRON_SECRET) que la ruta acepta ademas del CRON_SECRET
+# original de Vercel. vercel.json mantiene ademas una corrida diaria
+# como red de seguridad.
 on:
   schedule:
     - cron: "*/30 * * * *"
@@ -19,4 +21,4 @@ jobs:
       - name: Llamar a /api/cron/ads-lifecycle
         run: |
           curl -sf -X GET "https://sanlorenzodigital.vercel.app/api/cron/ads-lifecycle" \
-            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
+            -H "Authorization: Bearer ${{ secrets.GH_ADS_CRON_SECRET }}"
