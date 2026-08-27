@@ -7,7 +7,14 @@ const cspHeader = [
   // Sin esto, la web queda colgada en el loading (confirmado en local).
   // La alternativa estricta (nonce por request vía proxy) obliga a render
   // dinámico total -- se evalúa más adelante, no ahora.
-  "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://*.vercel.app https://www.googletagmanager.com https://www.google-analytics.com",
+  // 'unsafe-eval' SOLO en dev: Turbopack/React usan eval() para
+  // reconstruir stack traces y para Fast Refresh -- sin esto, el
+  // navegador bloquea eval(), React tira errores internos y el HMR
+  // termina forzando reloads que cancelan fetches en curso a mitad
+  // de carga (confirmado: se veian pedidos reales a Supabase
+  // abortados con net::ERR_ABORTED en CADA pagina). En produccion
+  // no se necesita y no se agrega -- ahi no hay eval() de por medio.
+  `script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://*.vercel.app https://www.googletagmanager.com https://www.google-analytics.com${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' https: data:",
