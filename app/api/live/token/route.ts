@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 import { crearTokenLive, livekitUrl } from "@/lib/livekit";
 import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
+import { validarBody } from "@/lib/validate";
+import { z } from "zod";
 
 export async function POST(request: NextRequest) {
   const limit = checkRateLimit(getRateLimitHeader(request), 10, 60);
@@ -11,8 +13,9 @@ export async function POST(request: NextRequest) {
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
-  const { live_stream_id } = await request.json();
-  if (!live_stream_id) return NextResponse.json({ error: "live_stream_id requerido" }, { status: 400 });
+  const parsed = validarBody(z.object({ live_stream_id: z.string().uuid() }), await request.json().catch(() => ({})));
+  if (parsed instanceof NextResponse) return parsed;
+  const { live_stream_id } = parsed;
 
   // El SELECT ya respeta RLS (stream_is_public OR dueño/admin) -- si esto
   // no encuentra nada, o el vivo no es público o no es tuyo.

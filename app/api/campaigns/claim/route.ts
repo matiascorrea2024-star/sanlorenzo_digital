@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
+import { validarBody } from "@/lib/validate";
+import { z } from "zod";
 import { aplicarLimiteCatalogo } from "@/lib/catalogo-limite";
 
 export async function POST(request: NextRequest) {
@@ -11,8 +13,12 @@ export async function POST(request: NextRequest) {
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
-  const { campaign_id, business_id } = await request.json();
-  if (!campaign_id || !business_id) return NextResponse.json({ error: "campaign_id y business_id requeridos" }, { status: 400 });
+  const parsed = validarBody(
+    z.object({ campaign_id: z.string().uuid(), business_id: z.string().uuid() }),
+    await request.json().catch(() => ({}))
+  );
+  if (parsed instanceof NextResponse) return parsed;
+  const { campaign_id, business_id } = parsed;
 
   const { data: biz } = await sb.from("businesses").select("id, owner_id").eq("id", business_id).maybeSingle();
   if (!biz || biz.owner_id !== user.id) return NextResponse.json({ error: "Ese negocio no te pertenece" }, { status: 403 });

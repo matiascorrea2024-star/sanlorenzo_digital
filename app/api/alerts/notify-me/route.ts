@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
+import { validarBody } from "@/lib/validate";
+import { z } from "zod";
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +16,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    const { business_id, offer_id, search_query, product_name, original_price } = await request.json();
+    const NotifyMeSchema = z.object({
+      business_id: z.string().uuid().nullish(),
+      offer_id: z.string().uuid().nullish(),
+      search_query: z.string().max(200).nullish(),
+      product_name: z.string().max(200).nullish(),
+      original_price: z.number().nonnegative().nullish(),
+    });
+    const parsed = validarBody(NotifyMeSchema, await request.json().catch(() => ({})));
+    if (parsed instanceof NextResponse) return parsed;
+    const { business_id, offer_id, search_query, product_name, original_price } = parsed;
     const searchTerm = typeof search_query === "string" ? search_query.trim().slice(0, 120) : "";
 
     if (!business_id && !offer_id && !searchTerm) {
@@ -82,7 +93,9 @@ export async function DELETE(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
-    const { alert_id } = await request.json();
+    const parsed = validarBody(z.object({ alert_id: z.string().uuid() }), await request.json().catch(() => ({})));
+    if (parsed instanceof NextResponse) return parsed;
+    const { alert_id } = parsed;
     await supabase.from("user_alerts").update({ status: "dismissed" }).eq("id", alert_id).eq("user_id", user.id);
     return NextResponse.json({ message: "Alerta cancelada" });
   } catch (error: any) {

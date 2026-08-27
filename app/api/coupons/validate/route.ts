@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
+import { validarBody } from "@/lib/validate";
+import { z } from "zod";
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,11 +20,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    const { code } = await request.json();
-
-    if (!code) {
-      return NextResponse.json({ error: "code requerido" }, { status: 400 });
-    }
+    const parsed = validarBody(z.object({ code: z.string().min(1).max(50) }), await request.json().catch(() => ({})));
+    if (parsed instanceof NextResponse) return parsed;
+    const { code } = parsed;
 
     // Buscar cupón
     const { data: coupon } = await supabase

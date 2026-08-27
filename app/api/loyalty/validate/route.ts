@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
+import { validarBody } from "@/lib/validate";
+import { z } from "zod";
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,8 +13,12 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
-    const { business_id, code } = await request.json();
-    if (!business_id || !code) return NextResponse.json({ error: "business_id y code requeridos" }, { status: 400 });
+    const parsed = validarBody(
+      z.object({ business_id: z.string().uuid(), code: z.string().min(1).max(20) }),
+      await request.json().catch(() => ({}))
+    );
+    if (parsed instanceof NextResponse) return parsed;
+    const { business_id, code } = parsed;
 
     const { data: business } = await supabase.from("businesses").select("owner_id").eq("id", business_id).single();
     if (!business || business.owner_id !== user.id) {

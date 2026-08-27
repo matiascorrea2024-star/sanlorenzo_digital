@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
+import { validarBody } from "@/lib/validate";
+import { z } from "zod";
 
 function generarCodigo(): string {
   const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -18,8 +20,9 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
-    const { business_id } = await request.json();
-    if (!business_id) return NextResponse.json({ error: "business_id requerido" }, { status: 400 });
+    const parsed = validarBody(z.object({ business_id: z.string().uuid() }), await request.json().catch(() => ({})));
+    if (parsed instanceof NextResponse) return parsed;
+    const { business_id } = parsed;
 
     const { data: programa } = await supabase.from("loyalty_programs")
       .select("*").eq("business_id", business_id).eq("active", true).maybeSingle();

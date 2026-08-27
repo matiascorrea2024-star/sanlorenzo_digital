@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 import { planDe } from "@/lib/plans";
 import { checkRateLimit, getRateLimitHeader, rateLimitResponse } from "@/lib/rate-limit";
+import { validarBody } from "@/lib/validate";
+import { z } from "zod";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,11 +21,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    const { offer_id } = await request.json();
-
-    if (!offer_id) {
-      return NextResponse.json({ error: "offer_id requerido" }, { status: 400 });
-    }
+    const parsed = validarBody(z.object({ offer_id: z.string().uuid() }), await request.json().catch(() => ({})));
+    if (parsed instanceof NextResponse) return parsed;
+    const { offer_id } = parsed;
 
     // Verificar que la oferta existe y está activa
     const { data: offer } = await supabase
