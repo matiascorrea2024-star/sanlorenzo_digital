@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ThumbsUp } from "lucide-react";
+import { SelloIcon } from "@/components/icons/sello-icons";
 import { gaEvent } from "@/lib/track";
 
 const LS_KEY = "sld-interested";
@@ -62,7 +62,7 @@ export default function InterestButton({ offerId, compact = false }: { offerId: 
   const shown = base + (on ? 1 : 0);
   const showNumber = serverCount !== null || on;
 
-  const icon = <ThumbsUp className={compact ? "h-4 w-4" : "h-5 w-5"} fill={on ? "currentColor" : "none"} />;
+  const icon = <SelloIcon className={compact ? "h-4 w-4" : "h-5 w-5"} />;
 
   if (compact) {
     return (

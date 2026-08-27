@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Big_Shoulders } from "next/font/google";
+import { Inter, Space_Grotesk, Big_Shoulders, Fraunces } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
@@ -27,6 +27,9 @@ const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space", fall
 // Lorenzo (Big Shoulders nació para la cartelería de Chicago), no una
 // tipografía de SaaS genérica.
 const ticket = Big_Shoulders({ subsets: ["latin"], weight: "variable", axes: ["opsz"], variable: "--font-ticket", fallback: ["Arial Narrow", "Arial", "sans-serif"] });
+// Serif editorial para exploraciones de mayor nivel visual (ej. /mercado-vivo) --
+// no reemplaza al sistema tipográfico base, se suma como una cuarta variable.
+const fraunces = Fraunces({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-fraunces", fallback: ["Georgia", "serif"] });
 
 import type { Viewport } from "next";
 
@@ -55,7 +58,7 @@ import InstallApp from "@/components/ui/install-app";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" data-scroll-behavior="smooth" suppressHydrationWarning className={`${inter.variable} ${space.variable} ${ticket.variable}`}>
+    <html lang="es" data-scroll-behavior="smooth" suppressHydrationWarning className={`${inter.variable} ${space.variable} ${ticket.variable} ${fraunces.variable}`}>
       <head>
         {/* Setea el tema ANTES del primer paint -- si esto fuera un
             useEffect de React habría un flash del tema por defecto

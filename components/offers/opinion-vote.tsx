@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ThumbsUp, ThumbsDown } from "lucide-react";
+import { SelloIcon, SelloDudaIcon } from "@/components/icons/sello-icons";
 import { supabase } from "@/lib/supabase";
 
 export default function OpinionVote({ offerId }: { offerId: string }) {
@@ -63,14 +63,14 @@ export default function OpinionVote({ offerId }: { offerId: string }) {
         <button onClick={() => votar(true)} disabled={busy}
           className={`group flex flex-1 flex-col items-center gap-1 rounded-2xl border-2 py-4 transition disabled:opacity-70 ${miOpinion === true ? "border-[var(--ok)] bg-[var(--ok)]/10" : "border-[var(--line)] bg-[var(--ov-05)] hover:border-[var(--ok)]/50"}`}>
           <span className="flex items-center gap-2 font-display text-2xl text-[var(--ok)] transition group-hover:scale-105">
-            <ThumbsUp className={`h-5 w-5 ${miOpinion === true ? "fill-current" : ""}`} /> {si}
+            <SelloIcon className="h-5 w-5" /> {si}
           </span>
           <span className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">Recomiendan</span>
         </button>
         <button onClick={() => votar(false)} disabled={busy}
           className={`group flex flex-1 flex-col items-center gap-1 rounded-2xl border-2 py-4 transition disabled:opacity-70 ${miOpinion === false ? "border-[var(--bad)] bg-[var(--bad)]/10" : "border-[var(--line)] bg-[var(--ov-05)] hover:border-[var(--bad)]/50"}`}>
           <span className="flex items-center gap-2 font-display text-2xl text-[var(--bad)] transition group-hover:scale-105">
-            <ThumbsDown className={`h-5 w-5 ${miOpinion === false ? "fill-current" : ""}`} /> {no}
+            <SelloDudaIcon className="h-5 w-5" /> {no}
           </span>
           <span className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">Tienen dudas</span>
         </button>
