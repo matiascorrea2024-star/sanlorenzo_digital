@@ -13,6 +13,7 @@ import { supabase } from "@/lib/supabase";
 import { sanitizeSearchQuery } from "@/lib/sanitize";
 import { expandirBusqueda } from "@/lib/sinonimos";
 import { ExpandableFilterGroup, FilterGroup, CheckRow, RadioRow } from "@/components/ui/filter-sidebar";
+import styles from "./negocios.module.css";
 
 export const NEGOCIOS_PAGE_SIZE = 60;
 
@@ -135,9 +136,13 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
   const toggleBarrio = (id: string) => setBarrios((prev) => prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]);
 
   return (
-    <main className="mx-auto min-h-screen max-w-[1500px] bg-[var(--bg)] px-4 py-8 pb-24 text-[var(--text)] sm:px-6">
-      <p className="mb-1 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Directorio</p>
-      <h1 className="font-display text-3xl uppercase leading-[0.95] tracking-tight sm:text-4xl">Negocios de San Lorenzo</h1>
+    <main className="mx-auto min-h-screen max-w-[1500px] bg-[var(--bg)] px-4 pb-24 text-[var(--text)] sm:px-6">
+      <div className={styles.head}>
+        <div className={styles.glow} aria-hidden="true" />
+        <p className={styles.eyebrow}>Directorio</p>
+        <h1 className={styles.h1}>Negocios de San Lorenzo</h1>
+        <p className={styles.sub}>Comercios, servicios y profesionales verificados del barrio, en un solo lugar.</p>
+      </div>
 
       {error && (
         <div role="alert" className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-[var(--bad)]">
@@ -148,34 +153,38 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
 
       <div className="mt-6 flex items-start gap-8">
         {/* ── Sidebar de filtros: denso, siempre visible en desktop ── */}
-        <aside className="hidden w-[230px] shrink-0 lg:block">
-          <ExpandableFilterGroup title="Rubro" items={CATEGORIES} selected={cats} onToggle={toggleCat} visibleCount={8} />
-          {barriosDisponibles.length > 0 && (
-            <ExpandableFilterGroup title="Barrio" items={barriosDisponibles} selected={barrios} onToggle={toggleBarrio} visibleCount={6} />
-          )}
-          <FilterGroup title="Valoración mínima">
-            {[{ v: 0, l: "Cualquiera" }, { v: 4, l: "★★★★ y más" }, { v: 4.5, l: "★★★★½ y más" }].map((o) => (
-              <label key={o.v} className="flex cursor-pointer items-center gap-2.5 text-sm text-[var(--muted)] transition hover:text-[var(--text)]">
-                <input type="radio" name="rating" checked={minRating === o.v} onChange={() => setMinRating(o.v)} className="h-4 w-4 shrink-0 accent-[var(--accent)]" />
-                {o.l}
-              </label>
-            ))}
-          </FilterGroup>
-          <FilterGroup title="Estado">
-            {[{ v: "cualquiera" as Estado, l: "Cualquiera" }, { v: "abierto" as Estado, l: "Abierto ahora" }, { v: "cerrado" as Estado, l: "Cerrado ahora" }].map((o) => (
-              <RadioRow key={o.v} name="estado" checked={estado === o.v} onChange={() => setEstado(o.v)} label={o.l} />
-            ))}
-            <CheckRow checked={delivery} onChange={() => setDelivery((v) => !v)} label="Hace envíos" />
-          </FilterGroup>
-          <FilterGroup title="Destacar">
-            <CheckRow checked={soloVerificados} onChange={() => setSoloVerificados((v) => !v)} label="Solo verificados" />
-            <CheckRow checked={soloDestacados} onChange={() => setSoloDestacados((v) => !v)} label="Solo destacados" />
-          </FilterGroup>
+        <aside className="hidden w-[250px] shrink-0 lg:block">
+          <div className={styles.sidebarOuter}>
+            <div className={styles.sidebarInner}>
+              <ExpandableFilterGroup title="Rubro" items={CATEGORIES} selected={cats} onToggle={toggleCat} visibleCount={8} />
+              {barriosDisponibles.length > 0 && (
+                <ExpandableFilterGroup title="Barrio" items={barriosDisponibles} selected={barrios} onToggle={toggleBarrio} visibleCount={6} />
+              )}
+              <FilterGroup title="Valoración mínima">
+                {[{ v: 0, l: "Cualquiera" }, { v: 4, l: "★★★★ y más" }, { v: 4.5, l: "★★★★½ y más" }].map((o) => (
+                  <label key={o.v} className="flex cursor-pointer items-center gap-2.5 text-sm text-[var(--muted)] transition hover:text-[var(--text)]">
+                    <input type="radio" name="rating" checked={minRating === o.v} onChange={() => setMinRating(o.v)} className="h-4 w-4 shrink-0 accent-[var(--accent)]" />
+                    {o.l}
+                  </label>
+                ))}
+              </FilterGroup>
+              <FilterGroup title="Estado">
+                {[{ v: "cualquiera" as Estado, l: "Cualquiera" }, { v: "abierto" as Estado, l: "Abierto ahora" }, { v: "cerrado" as Estado, l: "Cerrado ahora" }].map((o) => (
+                  <RadioRow key={o.v} name="estado" checked={estado === o.v} onChange={() => setEstado(o.v)} label={o.l} />
+                ))}
+                <CheckRow checked={delivery} onChange={() => setDelivery((v) => !v)} label="Hace envíos" />
+              </FilterGroup>
+              <FilterGroup title="Destacar">
+                <CheckRow checked={soloVerificados} onChange={() => setSoloVerificados((v) => !v)} label="Solo verificados" />
+                <CheckRow checked={soloDestacados} onChange={() => setSoloDestacados((v) => !v)} label="Solo destacados" />
+              </FilterGroup>
 
-          <Link href="/particulares" className="mt-2 flex items-center justify-between gap-2 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-3.5 py-3 text-xs transition hover:border-[var(--accent)]">
-            <span><span className="font-bold text-[var(--text)]">🙋 De particulares</span><br /><span className="text-[var(--muted)]">Venta entre vecinos</span></span>
-            <ArrowRight className="h-3.5 w-3.5 shrink-0 text-[var(--accent)]" />
-          </Link>
+              <Link href="/particulares" className="mt-2 flex items-center justify-between gap-2 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-3.5 py-3 text-xs transition hover:border-[var(--accent)]">
+                <span><span className="font-bold text-[var(--text)]">🙋 De particulares</span><br /><span className="text-[var(--muted)]">Venta entre vecinos</span></span>
+                <ArrowRight className="h-3.5 w-3.5 shrink-0 text-[var(--accent)]" />
+              </Link>
+            </div>
+          </div>
         </aside>
 
         {/* ── Resultados ── */}
@@ -224,72 +233,73 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
               const rating = Number(b.rating || 0);
               const cat = CATEGORIES.find((c: any) => c.id === b.category);
               return (
-                <div key={b.id}
-                  className="group relative flex gap-4 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3.5 transition hover:border-[var(--accent)]/50 sm:p-4">
-                  {/* Link "estirado": cubre toda la tarjeta para que sea clickeable
-                      entera, sin anidar un <a> dentro de otro <a> (WhatsApp) ni
-                      poner contenido de bloque dentro del <p> de más abajo -- eso
-                      rompía la hidratación de React (ver consola en /negocios). */}
-                  {/* style inline a propósito: globals.css tiene una regla sin @layer
-                      (`a, [role="link"] { position: relative }`, línea ~1133) que le
-                      gana a la utilidad .absolute de Tailwind en cualquier <a>/<Link>
-                      del sitio -- bug de cascada CSS pendiente de arreglar de raíz
-                      (ver HANDOFF.md). Con style inline nos aseguramos de que este
-                      link sí quede position:absolute sin depender de esa pelea. */}
-                  <Link href={`/negocio/${b.slug}`} aria-label={b.name} className="rounded-2xl" style={{ position: "absolute", inset: 0 }} />
-                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-28">
-                    {b.portada_url ? (
-                      <Image src={b.portada_url} alt={b.name} fill quality={85} sizes="112px" className="object-cover" />
-                    ) : (
-                      <CategoryCover category={b.category} seed={String(b.id || b.slug)} className="h-full w-full" />
-                    )}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0">
-                        <h3 className="truncate text-[15px] font-bold text-[var(--text)] transition group-hover:text-[var(--accent)] sm:text-base">{b.name}</h3>
-                        <div className="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-[var(--muted)]">
-                          <RankedAvatar slug={b.slug} name={b.name} categoria={b.category} size={16} />
-                          <span className="capitalize">{cat?.name || b.category}{b.address ? ` · ${b.address}` : ""}</span>
+                <div key={b.id} className={styles.rowOuter}>
+                  <div className={styles.rowInner}>
+                    {/* Link "estirado": cubre toda la tarjeta para que sea clickeable
+                        entera, sin anidar un <a> dentro de otro <a> (WhatsApp) ni
+                        poner contenido de bloque dentro del <p> de más abajo -- eso
+                        rompía la hidratación de React (ver consola en /negocios). */}
+                    {/* style inline a propósito: globals.css tiene una regla sin @layer
+                        (`a, [role="link"] { position: relative }`, línea ~1133) que le
+                        gana a la utilidad .absolute de Tailwind en cualquier <a>/<Link>
+                        del sitio -- bug de cascada CSS pendiente de arreglar de raíz
+                        (ver HANDOFF.md). Con style inline nos aseguramos de que este
+                        link sí quede position:absolute sin depender de esa pelea. */}
+                    <Link href={`/negocio/${b.slug}`} aria-label={b.name} className="rounded-2xl" style={{ position: "absolute", inset: 0 }} />
+                    <div className={styles.rowShot}>
+                      {b.portada_url ? (
+                        <Image src={b.portada_url} alt={b.name} fill quality={85} sizes="112px" className="object-cover" />
+                      ) : (
+                        <CategoryCover category={b.category} seed={String(b.id || b.slug)} className="h-full w-full" />
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <h3 className="truncate text-[15px] font-bold text-[var(--text)] transition group-hover:text-[var(--accent)] sm:text-base">{b.name}</h3>
+                          <div className="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-[var(--muted)]">
+                            <RankedAvatar slug={b.slug} name={b.name} categoria={b.category} size={16} />
+                            <span className="capitalize">{cat?.name || b.category}{b.address ? ` · ${b.address}` : ""}</span>
+                          </div>
                         </div>
+                        <div className="relative z-10 shrink-0"><FavoriteButton itemType="business" itemId={b.id} /></div>
                       </div>
-                      <div className="relative z-10 shrink-0"><FavoriteButton itemType="business" itemId={b.id} /></div>
+
+                      {rating > 0 && (
+                        <div className="mt-1.5 flex items-center gap-1.5 text-xs text-[var(--muted)]">
+                          <span className="font-bold text-[var(--warn)]">★ {rating.toFixed(1)}</span>
+                          <span>({b.reviews || 0} reseñas)</span>
+                        </div>
+                      )}
+
+                      <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                        {isVerified && <span className={`${styles.badge} bg-[var(--ok)]/15 text-[var(--ok)]`}>✓ Verificado</span>}
+                        {b.destacado && <span className={`${styles.badge} bg-[var(--accent)]/15 text-[var(--accent)]`}>🔥 Destacado</span>}
+                        <span className={`${styles.badge} ${isOpen ? "bg-[var(--ok)]/15 text-[var(--ok)]" : "bg-[var(--bad)]/15 text-[var(--bad)]"}`}>{isOpen ? "Abierto" : "Cerrado"}</span>
+                        {b.hace_envios && <span className={`${styles.badge} bg-sky-500/15 text-[var(--place)]`}>🚚 Envíos</span>}
+                      </div>
+
+                      {b.description && <p className="mt-2 line-clamp-1 text-xs text-[var(--muted)] sm:line-clamp-2">{b.description}</p>}
                     </div>
 
-                    {rating > 0 && (
-                      <div className="mt-1.5 flex items-center gap-1.5 text-xs text-[var(--muted)]">
-                        <span className="font-bold text-[var(--warn)]">★ {rating.toFixed(1)}</span>
-                        <span>({b.reviews || 0} reseñas)</span>
-                      </div>
+                    {b.whatsapp && (
+                      <a
+                        href={`https://wa.me/${String(b.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${b.name} en La Gran Barata Digital`)}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="relative z-10 hidden shrink-0 items-center gap-1.5 self-center rounded-xl bg-green-500 px-4 py-2.5 text-xs font-black text-white transition hover:bg-green-600 sm:flex"
+                      >
+                        <MessageCircle className="h-4 w-4" /> WhatsApp
+                      </a>
                     )}
-
-                    <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                      {isVerified && <span className="rounded-md bg-[var(--ok)]/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-[var(--ok)]">✓ Verificado</span>}
-                      {b.destacado && <span className="rounded-md bg-[var(--accent)]/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-[var(--accent)]">🔥 Destacado</span>}
-                      <span className={`rounded-md px-2 py-0.5 text-[10px] font-black uppercase tracking-wider ${isOpen ? "bg-[var(--ok)]/15 text-[var(--ok)]" : "bg-[var(--bad)]/15 text-[var(--bad)]"}`}>{isOpen ? "Abierto" : "Cerrado"}</span>
-                      {b.hace_envios && <span className="rounded-md bg-sky-500/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-[var(--place)]">🚚 Envíos</span>}
-                    </div>
-
-                    {b.description && <p className="mt-2 line-clamp-1 text-xs text-[var(--muted)] sm:line-clamp-2">{b.description}</p>}
                   </div>
-
-                  {b.whatsapp && (
-                    <a
-                      href={`https://wa.me/${String(b.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(`Hola, vi ${b.name} en La Gran Barata Digital`)}`}
-                      target="_blank" rel="noopener noreferrer"
-                      className="relative z-10 hidden shrink-0 items-center gap-1.5 self-center rounded-xl bg-green-500 px-4 py-2.5 text-xs font-black text-white transition hover:bg-green-600 sm:flex"
-                    >
-                      <MessageCircle className="h-4 w-4" /> WhatsApp
-                    </a>
-                  )}
                 </div>
               );
             })}
           </div>
 
           {!buscando && list.length === 0 && (
-            <div className="mt-6 rounded-2xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center">
-              <p className="font-display text-xl uppercase tracking-tight text-[var(--text)]">No encontramos exactamente eso.</p>
+            <div className={styles.empty}>
+              <p className={styles.emptyTitle}>No encontramos exactamente eso.</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Estamos incorporando negocios de esta categoría. ¿Tenés uno? Sumalo.</p>
             </div>
           )}
@@ -308,12 +318,13 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
               descubrimiento aunque el filtro puesto dé pocos resultados. */}
           {recomendados.length > 0 && (
             <div className="mt-12 border-t border-[var(--line)] pt-8">
-              <p className="mb-4 text-[11px] font-black uppercase tracking-[.2em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Los mejor valorados de San Lorenzo</p>
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <div className={styles.recHead}>
+                <h2>Los mejor valorados de San Lorenzo</h2>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 {recomendados.map((b: any) => (
-                  <Link key={b.id} href={`/negocio/${b.slug}`}
-                    className="group flex items-center gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3 transition hover:border-[var(--accent)]/50">
-                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl">
+                  <Link key={b.id} href={`/negocio/${b.slug}`} className={styles.recCard}>
+                    <div className={styles.recShot}>
                       {b.portada_url ? (
                         <Image src={b.portada_url} alt={b.name} fill quality={80} sizes="56px" className="object-cover" />
                       ) : (

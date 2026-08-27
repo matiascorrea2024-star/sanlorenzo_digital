@@ -1,0 +1,44 @@
+/* components/negocios.module.css
+   Mismo lenguaje que oferta.module.css / negocio.module.css / mercado-vivo:
+   Fraunces itálica para identidad, Space Grotesk para rótulos, tokens
+   reales del sitio (--ov-*, --card-inner, --line, --accent). Acá es un
+   directorio con filtros -- se prioriza densidad y escaneo por sobre el
+   "hero cinematográfico" de las fichas, siguiendo el mismo sistema visual
+   pero en su registro de herramienta, no de vidriera. */
+
+.head { position: relative; padding: 2.2rem 0 1.6rem; overflow: hidden; }
+.glow { position: absolute; inset: -40% -10% auto -10%; height: 220px; pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 16%, transparent), transparent 72%); }
+.eyebrow { position: relative; margin: 0 0 .5rem; font-family: var(--font-space); font-size: 10px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .3em; color: var(--accent); }
+.h1 { position: relative; margin: 0; font-family: var(--font-fraunces), Georgia, serif; font-style: italic; font-weight: 600;
+  letter-spacing: -.01em; line-height: .98; font-size: clamp(1.9rem, 4.4vw, 3rem); }
+.sub { position: relative; margin: .6rem 0 0; max-width: 46ch; font-size: .92rem; color: var(--muted); line-height: 1.5; }
+
+.sidebarOuter { border-radius: 1.6rem; border: 1px solid var(--ov-06); background: var(--ov-02); padding: .4rem; }
+.sidebarInner { border-radius: 1.3rem; border: 1px solid var(--ov-05); background: var(--card-inner);
+  box-shadow: inset 0 1px 1px var(--card-inner-highlight); padding: 1.3rem 1.2rem; }
+
+.rowOuter { position: relative; border-radius: 1.5rem; border: 1px solid var(--ov-06); background: var(--ov-02);
+  padding: .35rem; transition: border-color .35s cubic-bezier(.22,1,.36,1), transform .35s cubic-bezier(.22,1,.36,1); }
+.rowOuter:hover { border-color: color-mix(in srgb, var(--accent) 32%, var(--ov-06)); transform: translateY(-2px); }
+.rowInner { position: relative; display: flex; gap: 1rem; border-radius: 1.25rem; border: 1px solid var(--ov-05);
+  background: var(--card-inner); box-shadow: inset 0 1px 1px var(--card-inner-highlight); padding: .9rem; }
+.rowShot { position: relative; height: 96px; width: 96px; flex-shrink: 0; overflow: hidden; border-radius: .95rem; }
+@media (min-width: 640px) { .rowShot { height: 108px; width: 108px; } }
+
+.badge { border-radius: .5rem; padding: .2rem .5rem; font-family: var(--font-space); font-size: 9.5px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .08em; }
+
+.empty { margin-top: 1.5rem; border-radius: 1.5rem; border: 1px dashed var(--line-strong); background: var(--surface);
+  padding: 2.4rem 1.5rem; text-align: center; }
+.emptyTitle { margin: 0; font-family: var(--font-fraunces), Georgia, serif; font-style: italic; font-weight: 600;
+  font-size: 1.3rem; color: var(--text); }
+
+.recHead { display: flex; align-items: baseline; gap: .6rem; margin: 0 0 1rem; }
+.recHead h2 { margin: 0; font-family: var(--font-fraunces), Georgia, serif; font-style: italic; font-weight: 600;
+  font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--text); }
+.recCard { position: relative; display: flex; align-items: center; gap: .75rem; border-radius: 1.3rem;
+  border: 1px solid var(--ov-06); background: var(--ov-02); padding: .5rem; transition: transform .35s cubic-bezier(.22,1,.36,1), border-color .35s ease; }
+.recCard:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 30%, var(--ov-06)); }
+.recShot { position: relative; height: 56px; width: 56px; flex-shrink: 0; overflow: hidden; border-radius: .8rem; }
