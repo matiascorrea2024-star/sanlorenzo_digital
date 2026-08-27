@@ -29,6 +29,7 @@ export default function AdminPage() {
   const [subs, setSubs] = useState<any[]>([]);
   const [ciudades, setCiudades] = useState<any[]>([]);
   const [reportes, setReportes] = useState<any[]>([]);
+  const [reclamos, setReclamos] = useState<any[]>([]);
   const [nuevaCiudad, setNuevaCiudad] = useState({ nombre: "", lat: "", lon: "" });
   const [creandoCiudad, setCreandoCiudad] = useState(false);
   const [barrioAbierto, setBarrioAbierto] = useState<string | null>(null);
@@ -94,7 +95,7 @@ export default function AdminPage() {
         setMfa("ok");
       }
 
-      const [u, b, o, v, pv, pend, rev, sb, ciu, fol, uList, rep] = await Promise.all([
+      const [u, b, o, v, pv, pend, rev, sb, ciu, fol, uList, rep, clm] = await Promise.all([
         supabase().from("user_profiles").select("*", { count: "exact", head: true }),
         supabase().from("businesses").select("*", { count: "exact", head: true }),
         supabase().from("offers").select("*", { count: "exact", head: true }),
@@ -107,6 +108,7 @@ export default function AdminPage() {
         supabase().from("followers").select("*", { count: "exact", head: true }),
         supabase().from("user_profiles").select("*").order("created_at", { ascending: false }).limit(20),
         supabase().from("reports").select("*, businesses(name, slug)").order("created_at", { ascending: false }).limit(30),
+        supabase().from("business_claims").select("*, businesses(name, slug)").eq("status", "pending").order("created_at", { ascending: false }).limit(30),
       ]);
 
       setStats({
@@ -119,6 +121,7 @@ export default function AdminPage() {
       setSubs(sb.data || []);
       setCiudades(ciu.data || []);
       setReportes(rep.data || []);
+      setReclamos(clm.data || []);
       setLoading(false);
 
       // Cantidad real de negocios por ciudad -- una sola consulta
@@ -250,6 +253,14 @@ export default function AdminPage() {
     try {
       await authedFetch("/api/admin/reviews", "DELETE", { id });
       setResenas(prev => prev.filter(r => r.id !== id));
+    } catch (e: any) { alert(e.message); }
+  };
+
+  const revisarReclamo = async (id: string, action: "approve" | "reject") => {
+    if (action === "reject" && !confirm("¿Rechazar esta solicitud de reclamo?")) return;
+    try {
+      await authedFetch("/api/admin/business-claims", "PATCH", { id, action });
+      setReclamos(prev => prev.filter(c => c.id !== id));
     } catch (e: any) { alert(e.message); }
   };
 
@@ -464,6 +475,7 @@ export default function AdminPage() {
     { k: "negocios", l: "Negocios", icon: Store, count: 0 },
     { k: "ofertas", l: "Ofertas", icon: Flame, count: 0 },
     { k: "verificacion", l: "Verificación", icon: Shield, count: pendientes.length },
+    { k: "reclamos", l: "Reclamos", icon: Store, count: reclamos.length },
     { k: "moderacion", l: "Moderación", icon: Star, count: 0 },
     { k: "reportes", l: "Reportes", icon: Flag, count: reportes.length },
     { k: "chat", l: "Chat", icon: MessageCircle, count: chatCargados ? chatMensajes.length : 0 },
@@ -766,6 +778,44 @@ export default function AdminPage() {
                         <CheckCircle2 className="h-4 w-4" /> Verificar
                       </button>
                       <button onClick={() => rechazar(p.id)}
+                        className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-red-500/15 px-4 py-2 text-xs font-black text-[var(--bad)] hover:bg-red-500/25 sm:flex-none">
+                        <XCircle className="h-4 w-4" /> Rechazar
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* RECLAMOS DE NEGOCIOS */}
+        {tab === "reclamos" && (
+          <div className="mt-8">
+            <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Reclamos de negocios <span className="text-[var(--muted2)]">({reclamos.length})</span></h2>
+            <p className="mb-4 text-xs text-[var(--muted2)]">Alguien dice ser dueño de un negocio sin propietario asignado (típicamente cargado con &quot;Cargar en lote&quot;). Al aprobar, esa persona pasa a tener acceso completo al panel de ese negocio.</p>
+            {reclamos.length === 0 ? (
+              <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-10 text-center">
+                <CheckCircle2 className="mx-auto h-10 w-10 text-[var(--ok)]/60" />
+                <p className="mt-3 font-bold text-[var(--text)]/70">Sin reclamos pendientes</p>
+              </div>
+            ) : (
+              <div className="space-y-2.5">
+                {reclamos.map(c => (
+                  <div key={c.id} className="flex flex-col gap-3 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-4">
+                    <div>
+                      <p className="font-bold">{c.businesses?.name || "Negocio eliminado"}</p>
+                      <p className="mt-1 text-xs text-[var(--muted)]">
+                        Reclama: <b className="text-[var(--text)]/80">{c.claimer_name}</b> · {c.claimer_email} · {c.claimer_phone}
+                      </p>
+                      <p className="mt-1 text-xs text-[var(--muted2)]">Prueba: {c.proof_method}</p>
+                    </div>
+                    <div className="flex gap-2 sm:ml-auto sm:shrink-0">
+                      <button onClick={() => revisarReclamo(c.id, "approve")}
+                        className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-green-500/15 px-4 py-2 text-xs font-black text-[var(--ok)] hover:bg-green-500/25 sm:flex-none">
+                        <CheckCircle2 className="h-4 w-4" /> Aprobar
+                      </button>
+                      <button onClick={() => revisarReclamo(c.id, "reject")}
                         className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-red-500/15 px-4 py-2 text-xs font-black text-[var(--bad)] hover:bg-red-500/25 sm:flex-none">
                         <XCircle className="h-4 w-4" /> Rechazar
                       </button>

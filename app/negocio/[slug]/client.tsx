@@ -4,6 +4,7 @@ import DivisionFrame from "@/components/ui/division-frame";
 import CategoryCover from "@/components/ui/category-cover";
 
 import ReportButton from "@/components/business/report-button";
+import ClaimButton from "@/components/business/claim-button";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -665,6 +666,11 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         )}
       </div>
 
+      {negocio && !negocio.owner_id && (
+        <div className="mx-auto max-w-4xl px-4 pb-4 text-center">
+          <ClaimButton businessId={negocio.id} businessName={negocio.name} />
+        </div>
+      )}
       <div className="mx-auto max-w-4xl px-4 pb-10 text-center">
         {negocio && <ReportButton businessId={negocio.id} businessName={negocio.name} />}
       </div>
