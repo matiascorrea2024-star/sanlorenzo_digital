@@ -21,8 +21,8 @@ export default function PageHero({
           desbordar el alto del hero sin recortarse. */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Identidad LA GRAN BARATA: fondo negro con orbs magenta difusos. */}
-        <div className="absolute left-[-10%] top-[-15%] h-[70%] w-[70%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
-        <div className="absolute bottom-[-40%] right-[-5%] h-[55%] w-[55%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
+        <div className="absolute left-[-10%] top-[-15%] h-[70%] w-[70%] rounded-full bg-[#e00d0f] opacity-[0.08] blur-[180px]" aria-hidden="true" />
+        <div className="absolute bottom-[-40%] right-[-5%] h-[55%] w-[55%] rounded-full bg-[#e00d0f] opacity-[0.06] blur-[140px]" aria-hidden="true" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-4 pb-10 pt-14 sm:px-6 md:pb-14 md:pt-20">

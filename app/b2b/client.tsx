@@ -9,7 +9,7 @@ const SECTORES = [
   { id: "logistica", icon: Truck, titulo: "🚚 Logística", desc: "Transporte de cargas, fletes, distribución y almacenamiento.", color: "from-emerald-500/20 to-green-500/20" },
   { id: "comercio-exterior", icon: Ship, titulo: "🚢 Comercio exterior", desc: "Despachantes de aduana, agencias marítimas, forwarding.", color: "from-cyan-500/20 to-blue-500/20" },
   { id: "portuario", icon: Anchor, titulo: "⚓ Portuario", desc: "Servicios portuarios, terminales y proveedores del puerto.", color: "from-cyan-500/20 to-sky-500/20" },
-  { id: "b2b", icon: Briefcase, titulo: "🤝 B2B / Empresas", desc: "Proveedores corporativos, servicios empresariales, consultoría.", color: "from-yellow-500/20 to-[#861642]/20" },
+  { id: "b2b", icon: Briefcase, titulo: "🤝 B2B / Empresas", desc: "Proveedores corporativos, servicios empresariales, consultoría.", color: "from-yellow-500/20 to-[#890809]/20" },
 ];
 
 export default function B2bView() {
@@ -21,7 +21,7 @@ export default function B2bView() {
           <Badge variant="info" size="md">🏭 Para empresas</Badge>
           <h1 className="mt-4 font-display text-4xl uppercase tracking-tight md:text-6xl">
             Industria y B2B en{" "}
-            <span className="bg-gradient-to-r from-[var(--accent)] to-[#861642] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[var(--accent)] to-[#890809] bg-clip-text text-transparent">
               San Lorenzo
             </span>
           </h1>

@@ -6,8 +6,8 @@
    para el efecto de resplandor/cine. */
 
 .mvRoot {
-  --mv-glow: rgba(230, 58, 116, .5);
-  --mv-glow-soft: rgba(230, 58, 116, .18);
+  --mv-glow: rgba(224, 13, 15, .5);
+  --mv-glow-soft: rgba(224, 13, 15, .18);
   --mv-shadow-lg: 0 30px 70px rgba(0,0,0,.5);
   --mv-shadow-md: 0 14px 34px rgba(0,0,0,.38);
   --mv-font-serif: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
@@ -15,15 +15,40 @@
   position: relative;
 }
 :root[data-theme="light"] .mvRoot {
-  --mv-glow: rgba(194, 34, 97, .28);
-  --mv-glow-soft: rgba(194, 34, 97, .12);
+  --mv-glow: rgba(224, 13, 15, .28);
+  --mv-glow-soft: rgba(224, 13, 15, .12);
   --mv-shadow-lg: 0 26px 60px rgba(60,40,30,.12);
   --mv-shadow-md: 0 12px 28px rgba(60,40,30,.1);
 }
 
 .mvRoot :global(.num) { font-variant-numeric: tabular-nums; font-family: var(--font-space); }
-.mvEyebrow { font-family: var(--font-space); font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: .6em; }
-.mvEyebrow::before { content: ""; width: 20px; height: 1.5px; background: var(--accent); }
+.mvEyebrow { font-family: var(--font-space); font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--accent-ink); display: flex; align-items: center; gap: .6em; }
+.mvEyebrow::before { content: ""; width: 20px; height: 1.5px; background: var(--accent-ink); }
+.mvLiveDot { width: 7px; height: 7px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 0 rgba(224,13,15,.6); animation: mvLivePulse 1.8s ease-out infinite; }
+@keyframes mvLivePulse { 0% { box-shadow: 0 0 0 0 rgba(224,13,15,.55); } 70% { box-shadow: 0 0 0 7px rgba(224,13,15,0); } 100% { box-shadow: 0 0 0 0 rgba(224,13,15,0); } }
+@media (prefers-reduced-motion: reduce) { .mvLiveDot { animation: none; } }
+
+.mvCommunityPill {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  margin-top: 1.6rem;
+  border-radius: 999px;
+  padding: .55rem .9rem .55rem .55rem;
+  background: rgba(10,9,11,.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 14px 30px rgba(0,0,0,.35);
+  color: #fff;
+  text-decoration: none;
+  transition: transform .2s ease, border-color .2s ease;
+  max-width: 100%;
+}
+.mvCommunityPill:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.3); }
+.mvCommunityPill b { display: block; font-family: var(--font-space); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
+.mvCommunityPill > span:last-child { display: flex; flex-direction: column; line-height: 1.3; }
+.mvCommunityPill > span:last-child > span { font-size: 10.5px; color: rgba(255,255,255,.65); }
+.mvCommunityIcon { display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 999px; background: #25D366; color: #fff; flex-shrink: 0; }
 .mvSection { padding: clamp(3rem, 6vw, 5rem) 0; border-top: 1px solid var(--line); }
 .mvSection:first-of-type { border-top: none; }
 
@@ -34,16 +59,43 @@
 .mvReveal.mvIn { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .mvReveal { opacity: 1; transform: none; transition: none; } }
 
-/* hero */
-.mvHero { position: relative; overflow: hidden; padding: clamp(2.5rem, 6vw, 4rem) 0 clamp(2rem, 4vw, 3rem); }
-.mvHeroGlow { position: absolute; top: -25%; right: -10%; width: 55%; aspect-ratio: 1/1; background: radial-gradient(circle, var(--mv-glow), transparent 68%); filter: blur(10px); pointer-events: none; animation: mvGlowPulse 7s ease-in-out infinite; }
+/* hero -- fondo propio (degradé marca navy+rojo, sin foto de stock ni
+   texto/tarjetas "horneadas" en píxeles): todo lo que se ve arriba de
+   esto -- título, stats, CTA, oferta destacada, pill de comunidad -- es
+   un componente real, con sus datos e íconos reales. */
+.mvHero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.5rem, 6vw, 4rem) 0 clamp(2rem, 4vw, 3rem);
+  color: #fff;
+}
+.mvHeroBg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 85% at 90% 6%, rgba(224,13,15,.3), transparent 60%),
+    radial-gradient(70% 70% at 2% 105%, rgba(20,80,150,.38), transparent 65%),
+    linear-gradient(160deg, #04070d 0%, #0a1526 38%, #102848 68%, #00162c 100%);
+  z-index: 0;
+}
+.mvHeroBg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1.4px);
+  background-size: 28px 28px;
+  opacity: .5;
+  -webkit-mask-image: linear-gradient(200deg, rgba(0,0,0,.9), transparent 68%);
+  mask-image: linear-gradient(200deg, rgba(0,0,0,.9), transparent 68%);
+}
+.mvHeroGlow { position: absolute; top: -25%; right: -10%; width: 55%; aspect-ratio: 1/1; background: radial-gradient(circle, var(--mv-glow), transparent 68%); filter: blur(10px); pointer-events: none; animation: mvGlowPulse 7s ease-in-out infinite; mix-blend-mode: screen; z-index: 1; }
 @keyframes mvGlowPulse { 0%,100% { opacity: .7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
 @media (prefers-reduced-motion: reduce) { .mvHeroGlow { animation: none; } }
-.mvHeroGrid { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(2rem, 5vw, 3.5rem); align-items: center; position: relative; z-index: 2; }
-@media (max-width: 960px) { .mvHeroGrid { grid-template-columns: 1fr; } }
-.mvHero h1 { font-family: var(--mv-font-serif); font-weight: 600; font-style: italic; font-size: clamp(2.4rem, 5.6vw, 4.2rem); line-height: 1.03; letter-spacing: -.01em; margin: 0; text-wrap: balance; }
-.mvHero h1 b { font-style: normal; font-weight: 340; display: block; }
-.mvLede { color: var(--text); font-size: 1.05rem; max-width: 46ch; margin-top: 1.2rem; opacity: .85; line-height: 1.6; }
+.mvHeroGrid { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(2rem, 5vw, 3.5rem); align-items: center; position: relative; z-index: 2; min-height: clamp(20rem, 38vw, 30rem); }
+@media (max-width: 960px) { .mvHeroGrid { grid-template-columns: 1fr; min-height: 0; } }
+.mvHero h1 { font-family: var(--mv-font-serif); font-weight: 600; font-style: italic; font-size: clamp(2.4rem, 5.6vw, 4.2rem); line-height: 1.03; letter-spacing: -.01em; margin: 0; text-wrap: balance; color: #fff; }
+.mvHero h1 b { font-style: normal; font-weight: 340; display: block; color: var(--accent-ink); }
+.mvLede { color: rgba(255,255,255,.82); font-size: 1.05rem; max-width: 46ch; margin-top: 1.2rem; line-height: 1.6; }
 .mvHeroCta { display: flex; gap: .9rem; margin-top: 1.7rem; flex-wrap: wrap; }
 .mvBtnGlow { background: linear-gradient(135deg, var(--accent2), var(--accent)); color: #fff; font-family: var(--font-space); font-weight: 700; font-size: 12.5px; letter-spacing: .05em; text-transform: uppercase; padding: 1rem 1.5rem; border-radius: .8rem; box-shadow: 0 10px 26px var(--mv-glow-soft); border: none; cursor: pointer; display: inline-block; }
 .mvBtnGhost { background: none; color: var(--text); font-family: var(--font-space); font-weight: 700; font-size: 12.5px; letter-spacing: .05em; text-transform: uppercase; padding: 1rem 1.5rem; border-radius: .8rem; border: 1px solid var(--line-strong); cursor: pointer; display: inline-block; }

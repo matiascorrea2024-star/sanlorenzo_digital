@@ -40,6 +40,7 @@ export default async function HomePage() {
     { data: negocios, error: negociosError },
     { data: ofertasRaw, error: ofertasError },
     { data: reviewsRaw, error: reviewsError },
+    { count: vecinosCount, error: vecinosError },
   ] = await Promise.all([
     sb
       .from("businesses")
@@ -54,10 +55,15 @@ export default async function HomePage() {
       .not("comment", "is", null)
       .order("created_at", { ascending: false })
       .limit(20),
+    // Vecinos registrados real -- para el stat/CTA de comunidad del hero.
+    // Nada de un número lindo inventado: si la cuenta falla, se muestra
+    // sin número (ver mv-client.tsx) en vez de mentir con un fallback.
+    sb.from("user_profiles").select("id", { count: "exact", head: true }),
   ]);
   if (negociosError) console.error("HomePage: no se pudieron cargar los negocios:", negociosError.message);
   if (ofertasError) console.error("HomePage: no se pudieron cargar las ofertas:", ofertasError.message);
   if (reviewsError) console.error("HomePage: no se pudieron cargar las reviews:", reviewsError.message);
+  if (vecinosError) console.error("HomePage: no se pudo contar los vecinos registrados:", vecinosError.message);
 
   const negociosById = new Map((negocios || []).map((n: any) => [n.id, n]));
 
@@ -143,7 +149,7 @@ export default async function HomePage() {
       spotlight={spotlight}
       terminanPronto={terminanPronto}
       recomendadas={recomendadas}
-      stats={{ activas: ofertas.length, verificados: negocios?.length || 0, terminanHoy }}
+      stats={{ activas: ofertas.length, verificados: negocios?.length || 0, terminanHoy, vecinos: vecinosError ? null : (vecinosCount || 0) }}
       tickerItems={tickerItems}
       reviews={reviews}
     />

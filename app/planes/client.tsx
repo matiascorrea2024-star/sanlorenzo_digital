@@ -40,8 +40,8 @@ export default function PlanesClient() {
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       {/* Header */}
       <div className="relative mx-auto max-w-6xl overflow-hidden px-4 py-14 text-center sm:py-20">
-        <div className="pointer-events-none absolute left-[-10%] top-[-20%] h-[70%] w-[70%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
-        <div className="pointer-events-none absolute bottom-[-50%] right-[-10%] h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute left-[-10%] top-[-20%] h-[70%] w-[70%] rounded-full bg-[#e00d0f] opacity-[0.08] blur-[180px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute bottom-[-50%] right-[-10%] h-[60%] w-[60%] rounded-full bg-[#e00d0f] opacity-[0.06] blur-[140px]" aria-hidden="true" />
         <span className="relative inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
           <Sparkles className="h-3.5 w-3.5" /> Crecé con tu comunidad
         </span>

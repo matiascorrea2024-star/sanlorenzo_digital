@@ -73,7 +73,7 @@ export default function VotoDelDia() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-8">
-      <div className="rounded-3xl border border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 via-transparent to-[#861642]/5 p-6">
+      <div className="rounded-3xl border border-yellow-400/30 bg-gradient-to-br from-yellow-500/10 via-transparent to-[#890809]/5 p-6">
         <div className="flex items-center gap-2">
           <Trophy className="h-5 w-5 text-[#fbbf24]" />
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#fbbf24]">Voto del día</p>
@@ -99,7 +99,7 @@ export default function VotoDelDia() {
                   </button>
                 </div>
                 <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[var(--ov-10)]">
-                  <div className="h-full bg-gradient-to-r from-yellow-500 to-[#861642]" style={{ width: `${(v / maxVotos) * 100}%` }} />
+                  <div className="h-full bg-gradient-to-r from-yellow-500 to-[#890809]" style={{ width: `${(v / maxVotos) * 100}%` }} />
                 </div>
               </div>
             );

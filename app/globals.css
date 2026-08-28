@@ -26,21 +26,27 @@
   --line:rgba(255,247,237,.09); --line-strong:rgba(255,247,237,.16);
   --text:#f7f3ec; --muted:#a99b86; --muted2:#8a7c68;
 
-  /* Marca: negro + rosa coral/fucsia. El rosa concentra acción,
-     ofertas, promociones y estados destacados. */
-  --accent:#d12f68; --accent2:#a91f55;
+  /* Marca: negro + rojo -- pedido explícito de Matias, calcado del
+     branding real de "La Gran Barata" (así se llama el sitio en toda
+     la metadata/SEO desde antes: title tags, OG, JSON-LD). Reemplaza
+     al rosa/fucsia anterior en accent, accent2, place y warn (los
+     cuatro eran, de hecho, el mismo valor). Contraste verificado antes
+     de aplicar: blanco sobre --accent 4.96:1, --accent sobre --bg
+     3.98:1 (por eso el --accent-ink de abajo, igual que antes). */
+  --accent:#e00d0f; --accent2:#af0a0c;
   /* --accent como TEXTO (no como fondo) no llega a 4.5:1 en fondo
-     oscuro (WCAG AA texto normal) -- 4.06:1 medido. --accent-ink es
-     la misma marca, apenas más clara, solo para texto/íconos sobre
-     --bg/--surface. --accent y --accent2 quedan intactos para fondos
-     de botones y bordes, que sí cumplen su propio mínimo (3:1). */
-  --accent-ink:#d54074;
-  --place:#d12f68; --place2:#a91f55;
+     oscuro (WCAG AA texto normal) -- 3.98:1 medido. --accent-ink es
+     el mismo rojo, apenas más claro, solo para texto/íconos sobre
+     --bg/--surface -- 4.52:1. --accent y --accent2 quedan intactos
+     para fondos de botones y bordes, que sí cumplen su propio mínimo
+     (3:1) y además dan 4.96:1 de blanco sobre --accent. */
+  --accent-ink:#e53133;
+  --place:#e00d0f; --place2:#af0a0c;
   /* Estos pasteles (emerald/amber/sky-300/400 de Tailwind) se eligieron
      para resaltar sobre el fondo casi negro -- sobre el fondo claro se
      lavan y quedan casi ilegibles (lo marcó un vecino probando el toggle).
      Por eso son tokens con valor propio por tema, no colores fijos. */
-  --ok:#34d399; --warn:#d12f68; --bad:#fb7185;
+  --ok:#34d399; --warn:#e00d0f; --bad:#fb7185;
 
   /* Semánticos de producto (sección 28 del brief de diseño). */
   --offer:#e04a7f;      /* precio/urgencia de oferta */
@@ -85,7 +91,7 @@
   --muted2: #7c6754;
   /* Ver --accent-ink en :root -- acá el fondo es claro, así que la
      variante de --accent segura para texto es más oscura, no más clara. */
-  --accent-ink: #c42c62;
+  --accent-ink: #d50c0e;
   --ov-03: rgba(38,27,18,.035);
   --ov-05: rgba(38,27,18,.06);
   --ov-06: rgba(38,27,18,.09);
@@ -103,7 +109,7 @@
   --text: #f7f3ec;
   --muted: #c4b5a5;
   --muted2: #aa9885;
-  --accent-ink: #da5584;
+  --accent-ink: #e84e50;
   background: #211b1d;
   color: #f7f3ec;
 }
@@ -144,11 +150,11 @@
   /* Versiones oscurecidas/saturadas de los semánticos para que como
      texto/ícono se lean sobre el fondo claro (los pasteles del modo
      oscuro casi no tienen contraste acá). */
-  --place:#a91f55; --place2:#861642;
-  --ok:#047857; --warn:#a91f55; --bad:#b91c1c;
+  --place:#af0a0c; --place2:#890809;
+  --ok:#047857; --warn:#af0a0c; --bad:#b91c1c;
   /* Sobre blanco puro el --accent de marca ya cumple AA como texto
-     (4.86:1) -- se pisa la variante más clara que usa el tema oscuro. */
-  --accent-ink:#d12f68;
+     (4.96:1) -- se pisa la variante más clara que usa el tema oscuro. */
+  --accent-ink:#e00d0f;
 }
 :root[data-theme="light"] .sld-card {
   border-color: rgba(28,23,20,.09);
@@ -231,12 +237,12 @@ button{cursor:pointer}
   --ov-10: rgba(38,27,18,.15);
   --card-inner: rgba(255,255,255,.42);
   --card-inner-highlight: rgba(255,255,255,.72);
-  --accent: #d12f68;
-  --accent2: #a91f55;
+  --accent: #e00d0f;
+  --accent2: #af0a0c;
   --offer: #d83d73;
   --ok: #28735b;
   --bad: #b93631;
-  --warn: #a91f55;
+  --warn: #af0a0c;
   background: var(--bg);
   color: var(--text);
 }
@@ -301,7 +307,7 @@ button{cursor:pointer}
   --ov-10: rgba(38,27,18,.15);
   --card-inner: rgba(255,255,255,.42);
   --card-inner-highlight: rgba(255,255,255,.72);
-  --accent: #d12f68;
+  --accent: #e00d0f;
   background: #f4eadc;
 }
 :root:not([data-theme="light"]) .plans-editorial {
@@ -341,7 +347,7 @@ button{cursor:pointer}
   --ov-06: rgba(255,255,255,.09);
   --card-inner: rgba(0,0,0,.12);
   --card-inner-highlight: rgba(255,255,255,.06);
-  --accent: #d12f68;
+  --accent: #e00d0f;
   background: var(--bg);
   color: var(--text);
 }
@@ -1381,11 +1387,11 @@ p, body {
 
 /* Botón neobrutalista: sombra dura que se "hunde" al presionar. */
 .btn-hard {
-  box-shadow: 0 6px 0 #861642;
+  box-shadow: 0 6px 0 #890809;
   transition: transform .15s ease, box-shadow .15s ease, background-color .2s ease, filter .2s ease;
 }
 .btn-hard:hover { background-color: var(--accent2); }
-.btn-hard:active { transform: translateY(3px); box-shadow: 0 3px 0 #861642; }
+.btn-hard:active { transform: translateY(3px); box-shadow: 0 3px 0 #890809; }
 .btn-hard:disabled { box-shadow: none; transform: none; cursor: not-allowed; opacity: .55; }
 .btn-hard-green {
   box-shadow: 0 6px 0 #0e8a47;
@@ -1412,9 +1418,11 @@ p, body {
 /* Header siempre oscuro y plano, sin blur ni traslucidez -- NO cambia
    con el tema del sitio (igual que la barra superior de Amazon: queda
    fija sea cual sea el tema del contenido debajo). Nombre histórico
-   ("glass"), el tratamiento actual es lo opuesto a glass a propósito. */
+   ("glass"), el tratamiento actual es lo opuesto a glass a propósito.
+   Azul marino de marca (pedido explícito, calcado de la referencia) --
+   texto blanco sobre este fondo da 18.2:1 / 13.2:1, de sobra para AA. */
 .glass-dark {
-  background: #1a1c1e;
+  background: linear-gradient(90deg, #00162c 0%, #123153 100%);
   border-bottom: 1px solid rgba(255,255,255,.08);
 }
 
@@ -1436,7 +1444,7 @@ p, body {
 /* En light el knockout blanco desaparece sobre fondo claro: mismo efecto,
    pero con el magenta de marca. */
 :root[data-theme="light"] .knockout-text {
-  background-image: linear-gradient(var(--accent), #861642);
+  background-image: linear-gradient(var(--accent), #890809);
   text-shadow: none;
 }
 

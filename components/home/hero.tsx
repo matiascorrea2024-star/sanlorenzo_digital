@@ -57,8 +57,8 @@ export default function Hero({ onSearch, stats }: HeroProps) {
   return (
     <section className="relative overflow-hidden bg-[var(--bg)] text-[var(--text)]">
       {/* Orbs de marca -- gradientes estáticos, costo cero */}
-      <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[70%] w-[70%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
-      <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[70%] w-[70%] rounded-full bg-[#e00d0f] opacity-[0.08] blur-[180px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#e00d0f] opacity-[0.06] blur-[140px]" aria-hidden="true" />
 
       <div className="relative z-10 mx-auto w-full max-w-[1700px] px-4 pb-12 pt-12 sm:px-6 md:pb-16 md:pt-20">
         <div className="grid items-end gap-12 lg:grid-cols-[1.35fr_.65fr] lg:gap-16">

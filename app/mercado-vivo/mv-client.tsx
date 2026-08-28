@@ -17,6 +17,8 @@ import { calcDistanceKm, fmtDistance } from "@/lib/geo";
 import { relativeTime } from "@/lib/relative-time";
 import { supabase } from "@/lib/supabase";
 import { CATEGORIES } from "@/lib/data";
+import { usePlatformSetting } from "@/lib/hooks/use-platform-settings";
+import { MessageCircle } from "lucide-react";
 import styles from "./mercado-vivo.module.css";
 
 type Oferta = {
@@ -30,7 +32,7 @@ type Oferta = {
 
 type TickerItem = { kind: "live" | "info" | "warn"; text: string };
 type Review = { negocio: string; reviewer_name: string; comment: string };
-type Stats = { activas: number; verificados: number; terminanHoy: number };
+type Stats = { activas: number; verificados: number; terminanHoy: number; vecinos: number | null };
 type Coords = { lat: number; lon: number };
 
 const fmt = (n?: number) => (typeof n === "number" ? "$" + n.toLocaleString("es-AR") : "");
@@ -203,6 +205,10 @@ export default function MercadoVivoClient({
   const [terminaHoy, setTerminaHoy] = useState(false);
   const [nearMe, setNearMe] = useState(false);
   const [coords, setCoords] = useState<Coords | null>(null);
+  // WhatsApp real de la plataforma (mismo dato que usa el footer) --
+  // si nadie lo cargó en /admin, el pill de comunidad no se muestra en
+  // vez de mostrar un link roto o un número inventado.
+  const whatsapp = usePlatformSetting("whatsapp_contacto");
 
   const usedCats = useMemo(() => {
     const ids = new Set<string>();
@@ -240,11 +246,12 @@ export default function MercadoVivoClient({
       <div className={styles.mvGrain} />
 
       <section className={styles.mvHero}>
+        <div className={styles.mvHeroBg} aria-hidden="true" />
         <div className={styles.mvHeroGlow} />
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6" style={{ position: "relative", zIndex: 2 }}>
           <div className={styles.mvHeroGrid}>
             <div>
-              <span className={styles.mvEyebrow}>San Lorenzo, en vivo</span>
+              <span className={styles.mvEyebrow}><span className={styles.mvLiveDot} aria-hidden="true" />San Lorenzo, en vivo</span>
               <h1 style={{ marginTop: ".7rem" }}>
                 Tu barrio<b>tiene más ofertas de las que pensás.</b>
               </h1>
@@ -258,6 +265,23 @@ export default function MercadoVivoClient({
                 <div className={styles.mvHstat}><b className="num"><CountUp target={stats.verificados} /></b><span>Negocios verificados</span></div>
                 <div className={styles.mvHstat}><b className="num"><CountUp target={stats.terminanHoy} /></b><span>Terminan hoy</span></div>
               </div>
+
+              {whatsapp && (
+                <a
+                  href={`https://wa.me/${whatsapp}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.mvCommunityPill}
+                >
+                  <span className={styles.mvCommunityIcon}><MessageCircle className="h-4 w-4" /></span>
+                  <span>
+                    <b>Sumate a la comunidad</b>
+                    {typeof stats.vecinos === "number" && stats.vecinos > 0 && (
+                      <span>+{stats.vecinos.toLocaleString("es-AR")} vecinos ya forman parte</span>
+                    )}
+                  </span>
+                </a>
+              )}
             </div>
 
             {destacada && (

@@ -78,7 +78,7 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       {/* Hero del Radar */}
-      <section className="relative overflow-hidden border-b border-red-400/20 bg-gradient-to-br from-red-900/30 via-[#0c0a0b] to-[#861642]/30 py-12">
+      <section className="relative overflow-hidden border-b border-red-400/20 bg-gradient-to-br from-red-900/30 via-[#0c0a0b] to-[#890809]/30 py-12">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(239,68,68,0.15),_transparent_50%)]" />
         <div className="relative mx-auto max-w-5xl px-4 text-center">
           <p className="mb-4 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>

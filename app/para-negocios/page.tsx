@@ -14,8 +14,8 @@ export default async function Page() {
 
   const BENEFICIOS: { i: string; t: string; d: string; grad: string }[] = [
     { i: "🏪", t: "Miniweb propia", d: "Tu local digital con color, logo, dirección y horarios. URL única.", grad: "from-[var(--accent)] to-[var(--accent2)]" },
-    { i: "📸", t: "Productos con fotos", d: "Cargás desde el celu. Se publica al instante.", grad: "from-[var(--accent2)] to-[#861642]" },
-    { i: "🔥", t: "Promociones inteligentes", d: "Con vencimiento: solas se apagan cuando terminan.", grad: "from-[var(--accent)] to-[#861642]" },
+    { i: "📸", t: "Productos con fotos", d: "Cargás desde el celu. Se publica al instante.", grad: "from-[var(--accent2)] to-[#890809]" },
+    { i: "🔥", t: "Promociones inteligentes", d: "Con vencimiento: solas se apagan cuando terminan.", grad: "from-[var(--accent)] to-[#890809]" },
     { i: "💬", t: "WhatsApp directo", d: "Cada visita a un toque de escribirte.", grad: "from-emerald-600 to-teal-400" },
     { i: "🔒", t: "Tu negocio, solo tuyo", d: "Protección de cuenta y datos.", grad: "from-[#f6a5be] to-[var(--accent2)]" },
     { i: "✅", t: "Sello verificado", d: "Cuando te verificamos, ganás confianza.", grad: "from-[var(--accent)] to-[var(--accent2)]" },
@@ -25,8 +25,8 @@ export default async function Page() {
     <main className="bg-[var(--bg)] text-[var(--text)]">
       {/* Hero editorial -- página de venta, no un listado más */}
       <section className="relative overflow-hidden border-b border-[var(--line)]">
-        <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[70%] w-[70%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
-        <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[70%] w-[70%] rounded-full bg-[#e00d0f] opacity-[0.08] blur-[180px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#e00d0f] opacity-[0.06] blur-[140px]" aria-hidden="true" />
         <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 text-center md:py-28">
           <p className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
             Para comercios de San Lorenzo
@@ -82,7 +82,7 @@ export default async function Page() {
 
       <section className="mx-auto max-w-4xl px-4 pb-24 pt-8">
         <div className="relative overflow-hidden rounded-[2rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.12] to-transparent p-8 text-center md:p-14">
-          <div className="pointer-events-none absolute left-1/2 top-[-60%] h-[80%] w-[80%] -translate-x-1/2 rounded-full bg-[#d12f68] opacity-[0.08] blur-[140px]" aria-hidden="true" />
+          <div className="pointer-events-none absolute left-1/2 top-[-60%] h-[80%] w-[80%] -translate-x-1/2 rounded-full bg-[#e00d0f] opacity-[0.08] blur-[140px]" aria-hidden="true" />
           <h2 className="relative font-display text-3xl tracking-tight md:text-4xl">Fundadores de la plataforma</h2>
           <p className="relative mx-auto mt-4 max-w-md text-sm leading-relaxed text-[var(--muted)]">Los primeros comercios entran con beneficios de fundador -- se reclama solo, sin esperar a nadie.</p>
           <Link href="/dashboard/nuevo" className="btn-hard relative mt-7 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>Crear mi negocio y reclamar</Link>

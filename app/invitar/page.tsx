@@ -65,8 +65,8 @@ export default function InvitarPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[var(--bg)] pb-24 text-[var(--text)]">
-      <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
-      <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#e00d0f] opacity-[0.08] blur-[180px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#e00d0f] opacity-[0.06] blur-[140px]" aria-hidden="true" />
 
       <section className="relative z-10 mx-auto max-w-lg px-4 pt-14 text-center sm:px-6">
         <Link href="/" className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted)] transition hover:text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>← Volver al inicio</Link>

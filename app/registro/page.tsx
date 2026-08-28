@@ -64,7 +64,7 @@ export default function RegistroPage() {
   if (success) {
     return (
       <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] px-4 text-[var(--text)]">
-        <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#e00d0f] opacity-[0.08] blur-[180px]" aria-hidden="true" />
         <div className="relative w-full max-w-md rounded-[2.5rem] border border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center shadow-2xl">
           <div className="text-5xl mb-4">✅</div>
           <h2 className="font-display text-2xl uppercase tracking-tight mb-2 sm:text-3xl">¡Cuenta creada!</h2>
@@ -76,8 +76,8 @@ export default function RegistroPage() {
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] px-4 py-8 text-[var(--text)]">
-      <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
-      <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[60%] w-[60%] rounded-full bg-[#e00d0f] opacity-[0.08] blur-[180px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#e00d0f] opacity-[0.06] blur-[140px]" aria-hidden="true" />
       <div className="relative w-full max-w-md rounded-[2.5rem] border border-[var(--line-strong)] bg-[var(--surface)] p-8 shadow-2xl">
         <div className="text-center mb-8">
           <Link href="/" className="mb-4 inline-block">

@@ -20,7 +20,7 @@ const Tooltip = dynamic(() => import("react-leaflet").then((m) => m.Tooltip), { 
 const Popup = dynamic(() => import("react-leaflet").then((m) => m.Popup), { ssr: false });
 
 const CENTRO: [number, number] = [-32.7475, -60.7285];
-const ACCENT = "#d12f68";
+const ACCENT = "#e00d0f";
 
 type Stop = {
   id: string;
