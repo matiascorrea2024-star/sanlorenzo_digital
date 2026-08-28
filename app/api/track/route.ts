@@ -22,7 +22,9 @@ export async function POST(req: NextRequest) {
     const sb = await createClient();
     const { data: { user } } = await sb.auth.getUser();
 
-    // page_views: se mantiene para /admin (últimas visitas con IP).
+    // page_views: se mantiene para el widget de "Últimas visitas" en
+    // /admin. El IP se sigue guardando (uso interno/anti-abuso), pero ya
+    // no se muestra en esa tabla del admin.
     // analytics_events: lo que de verdad lee el dashboard del comerciante
     // (app/dashboard/analytics) -- antes este endpoint recibía event_type/
     // offer_id/product_id/metadata y los descartaba sin guardarlos en

@@ -18,6 +18,7 @@ export default function AdminPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [, setRole] = useState("user");
   const [tab, setTab] = useState(searchParams.get("tab") || "overview");
   // Snapshot de "ahora" (no Date.now() de forma impura en cada render)
@@ -86,9 +87,15 @@ export default function AdminPage() {
       try {
         const { data: factors } = await supabase().auth.mfa.listFactors();
         const tieneFactorVerificado = (factors?.all || []).some((f) => f.status === "verified");
-        if (!tieneFactorVerificado) { setMfa("enroll"); return; }
+        // Bug real: cuando el admin todavía no tiene 2FA (o le falta el
+        // segundo factor de la sesión), acá se cortaba con `return` sin
+        // avisarle a `loading` -- y como el render chequea `if (loading)`
+        // ANTES que `if (mfa === "enroll"/"challenge")`, el panel se
+        // quedaba mostrando el spinner de "Cargando panel..." para
+        // siempre, sin llegar nunca a la pantalla real de alta de 2FA.
+        if (!tieneFactorVerificado) { setMfa("enroll"); setLoading(false); return; }
         const { data: aal } = await supabase().auth.mfa.getAuthenticatorAssuranceLevel();
-        if (aal && aal.currentLevel !== "aal2" && aal.nextLevel === "aal2") { setMfa("challenge"); return; }
+        if (aal && aal.currentLevel !== "aal2" && aal.nextLevel === "aal2") { setMfa("challenge"); setLoading(false); return; }
         setMfa("ok");
       } catch {
         // Si Supabase MFA no responde, no dejamos a un admin afuera de su
@@ -97,43 +104,55 @@ export default function AdminPage() {
         setMfa("ok");
       }
 
-      const [u, b, o, v, pv, pend, rev, sb, ciu, fol, uList, rep, clm] = await Promise.all([
-        supabase().from("user_profiles").select("*", { count: "exact", head: true }),
-        supabase().from("businesses").select("*", { count: "exact", head: true }),
-        supabase().from("offers").select("*", { count: "exact", head: true }),
-        supabase().from("business_reviews").select("*", { count: "exact", head: true }),
-        supabase().from("page_views").select("*", { count: "exact", head: true }),
-        supabase().from("businesses").select("*").neq("status", "verificado").limit(20),
-        supabase().from("business_reviews").select("*").order("created_at", { ascending: false }).limit(20),
-        supabase().from("subscriptions").select("*, businesses(name)").order("started_at", { ascending: false }).limit(20),
-        supabase().from("locations").select("*").eq("type", "city"),
-        supabase().from("followers").select("*", { count: "exact", head: true }),
-        supabase().from("user_profiles").select("*").order("created_at", { ascending: false }).limit(20),
-        supabase().from("reports").select("*, businesses(name, slug)").order("created_at", { ascending: false }).limit(30),
-        supabase().from("business_claims").select("*, businesses(name, slug)").eq("status", "pending").order("created_at", { ascending: false }).limit(30),
-      ]);
+      // Blindado con try/catch/finally: antes, si cualquiera de estas
+      // consultas fallaba (red, RLS, lo que sea), la excepción quedaba
+      // sin manejar dentro del IIFE y el panel se quedaba mostrando
+      // "Cargando..." para siempre, sin ningún aviso. Ahora, si algo
+      // sale mal, se ve un error real con un botón para reintentar --
+      // y `loading` siempre se apaga pase lo que pase.
+      try {
+        const [u, b, o, v, pv, pend, rev, sb, ciu, fol, uList, rep, clm] = await Promise.all([
+          supabase().from("user_profiles").select("*", { count: "exact", head: true }),
+          supabase().from("businesses").select("*", { count: "exact", head: true }),
+          supabase().from("offers").select("*", { count: "exact", head: true }),
+          supabase().from("business_reviews").select("*", { count: "exact", head: true }),
+          supabase().from("page_views").select("*", { count: "exact", head: true }),
+          supabase().from("businesses").select("*").neq("status", "verificado").limit(20),
+          supabase().from("business_reviews").select("*").order("created_at", { ascending: false }).limit(20),
+          supabase().from("subscriptions").select("*, businesses(name)").order("started_at", { ascending: false }).limit(20),
+          supabase().from("locations").select("*").eq("type", "city"),
+          supabase().from("followers").select("*", { count: "exact", head: true }),
+          supabase().from("user_profiles").select("*").order("created_at", { ascending: false }).limit(20),
+          supabase().from("reports").select("*, businesses(name, slug)").order("created_at", { ascending: false }).limit(30),
+          supabase().from("business_claims").select("*, businesses(name, slug)").eq("status", "pending").order("created_at", { ascending: false }).limit(30),
+        ]);
 
-      setStats({
-        users: u.count || 0, businesses: b.count || 0,
-        offers: o.count || 0, reviews: v.count || 0, views: pv.count || 0,
-        seguidores: fol.count || 0, usersRecent: uList.data || [],
-      });
-      setPendientes(pend.data || []);
-      setResenas(rev.data || []);
-      setSubs(sb.data || []);
-      setCiudades(ciu.data || []);
-      setReportes(rep.data || []);
-      setReclamos(clm.data || []);
-      setLoading(false);
+        setStats({
+          users: u.count || 0, businesses: b.count || 0,
+          offers: o.count || 0, reviews: v.count || 0, views: pv.count || 0,
+          seguidores: fol.count || 0, usersRecent: uList.data || [],
+        });
+        setPendientes(pend.data || []);
+        setResenas(rev.data || []);
+        setSubs(sb.data || []);
+        setCiudades(ciu.data || []);
+        setReportes(rep.data || []);
+        setReclamos(clm.data || []);
 
-      // Cantidad real de negocios por ciudad -- una sola consulta
-      // agrupada en el cliente, no N+1.
-      const cityIds = (ciu.data || []).map((c: any) => c.id);
-      if (cityIds.length) {
-        const { data: bizRows } = await supabase().from("businesses").select("location_id").in("location_id", cityIds);
-        const counts: Record<string, number> = {};
-        (bizRows || []).forEach((r: any) => { if (r.location_id) counts[r.location_id] = (counts[r.location_id] || 0) + 1; });
-        setCiudades((prev) => prev.map((c) => ({ ...c, _negocios: counts[c.id] || 0 })));
+        // Cantidad real de negocios por ciudad -- una sola consulta
+        // agrupada en el cliente, no N+1.
+        const cityIds = (ciu.data || []).map((c: any) => c.id);
+        if (cityIds.length) {
+          const { data: bizRows } = await supabase().from("businesses").select("location_id").in("location_id", cityIds);
+          const counts: Record<string, number> = {};
+          (bizRows || []).forEach((r: any) => { if (r.location_id) counts[r.location_id] = (counts[r.location_id] || 0) + 1; });
+          setCiudades((prev) => prev.map((c) => ({ ...c, _negocios: counts[c.id] || 0 })));
+        }
+      } catch (e: any) {
+        console.error("Error cargando el panel de administración:", e);
+        setError(e?.message || "No se pudo cargar el panel de administración.");
+      } finally {
+        setLoading(false);
       }
     })();
   }, [router]);
@@ -524,6 +543,24 @@ export default function AdminPage() {
         <div className="text-center">
           <div className="mx-auto h-10 w-10 animate-spin rounded-full border-b-2 border-[var(--accent)]" />
           <p className="mt-4 text-sm text-[var(--muted)]">Verificando acceso…</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen bg-[var(--bg)] flex items-center justify-center p-6 text-[var(--text)]">
+        <div className="max-w-sm text-center">
+          <p className="text-3xl">⚠️</p>
+          <p className="mt-3 font-bold">No se pudo cargar el panel</p>
+          <p className="mt-1 text-sm text-[var(--muted)]">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-5 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-black uppercase tracking-wider text-white transition hover:opacity-90"
+          >
+            Reintentar
+          </button>
         </div>
       </main>
     );
