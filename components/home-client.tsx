@@ -55,7 +55,7 @@ function SectionHead({ eyebrow, title, sub, action }: { eyebrow: string; title: 
   return (
     <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>{eyebrow}</p>
+        <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>{eyebrow}</p>
         <h2 className="mt-3 max-w-2xl font-display text-4xl leading-[0.9] tracking-tight text-[var(--text)] sm:text-5xl md:text-6xl">{title}</h2>
         {sub && <p className="mt-3 max-w-xl text-sm text-[var(--muted)]">{sub}</p>}
       </div>
@@ -148,9 +148,9 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         <div className="mx-auto max-w-[1700px]">
           <SectionHead
             eyebrow="Explorá por rubro"
-            title={<>Lo que buscás,<br /><span className="text-[var(--accent)]">cerca.</span></>}
+            title={<>Lo que buscás,<br /><span className="text-[var(--accent-ink)]">cerca.</span></>}
             action={
-              <Link href="/negocios" className="hidden items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent)] sm:inline-flex" style={{ fontFamily: "var(--font-display)" }}>
+              <Link href="/negocios" className="hidden items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent-ink)] sm:inline-flex" style={{ fontFamily: "var(--font-display)" }}>
                 Ver directorio <ArrowRight className="h-4 w-4" />
               </Link>
             }
@@ -181,17 +181,17 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
           <SectionHead
             eyebrow="Promociones vigentes"
             title={
-              modo === "ahora" ? <>Abierto <span className="text-[var(--accent)]">ahora.</span></>
-              : modo === "esta-noche" ? <>Para <span className="text-[var(--accent)]">esta noche.</span></>
-              : <>Ofertas <span className="text-[var(--accent)]">de hoy.</span></>
+              modo === "ahora" ? <>Abierto <span className="text-[var(--accent-ink)]">ahora.</span></>
+              : modo === "esta-noche" ? <>Para <span className="text-[var(--accent-ink)]">esta noche.</span></>
+              : <>Ofertas <span className="text-[var(--accent-ink)]">de hoy.</span></>
             }
             sub="Precios publicados por comercios locales. Revisá la vigencia antes de acercarte."
             action={
               <div className="flex flex-wrap items-center gap-4">
-                <Link href="/para-vos" className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/50 bg-[var(--accent)]/10 px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[var(--accent)] transition hover:bg-[var(--accent)] hover:text-white" style={{ fontFamily: "var(--font-display)" }}>
+                <Link href="/para-vos" className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/50 bg-[var(--accent)]/10 px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[var(--accent-ink)] transition hover:bg-[var(--accent)] hover:text-white" style={{ fontFamily: "var(--font-display)" }}>
                   Para vos ✨
                 </Link>
-                <Link href="/promociones" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+                <Link href="/promociones" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
                   Ver todas <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -239,10 +239,10 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         <div className="mx-auto max-w-[1700px]">
           <SectionHead
             eyebrow="Directorio local"
-            title={<>Comercios <span className="text-[var(--accent)]">destacados.</span></>}
+            title={<>Comercios <span className="text-[var(--accent-ink)]">destacados.</span></>}
             sub="Negocios con información pública para que elijas dónde comprar."
             action={
-              <Link href="/negocios" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/60 transition hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+              <Link href="/negocios" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/60 transition hover:text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
                 Explorar directorio <ArrowRight className="h-4 w-4" />
               </Link>
             }
@@ -272,7 +272,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         <div className="mx-auto max-w-[1700px]">
           <div className="sld-sponsored grid gap-6 rounded-[2.5rem] p-7 sm:p-12 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <div className="flex items-center gap-2.5 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+              <div className="flex items-center gap-2.5 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
                 <Megaphone className="h-4 w-4" /> Espacio publicitario · disponible
               </div>
               <h2 className="mt-4 max-w-2xl font-display text-3xl uppercase leading-[0.92] tracking-tight text-[var(--text)] sm:text-5xl">Hacé que tu negocio aparezca donde tus vecinos buscan.</h2>
@@ -289,12 +289,12 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
       <section className="px-4 py-14 sm:px-6 md:py-24" aria-labelledby="sumate-title">
         <div className="mx-auto grid max-w-[1700px] gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-start">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Una ciudad que se encuentra</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Una ciudad que se encuentra</p>
             <h2 id="sumate-title" className="mt-3 font-display text-4xl uppercase leading-[0.9] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">La guía local se construye <span className="knockout-text magenta-glow">entre todos.</span></h2>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-[var(--muted)]">La cantidad que ves acá refleja los datos disponibles hoy. No usamos testimonios ni métricas inventadas: descubrí, contactá y compartí negocios reales.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/registro" className="btn-hard inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}><Search className="h-4 w-4" /> Crear cuenta</Link>
-              <Link href="/para-negocios" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-[var(--text)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Store className="h-4 w-4" /> Publicar negocio</Link>
+              <Link href="/para-negocios" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-6 py-3.5 text-xs font-black uppercase tracking-widest text-[var(--text)] transition hover:border-[var(--accent)] hover:text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}><Store className="h-4 w-4" /> Publicar negocio</Link>
             </div>
           </div>
           <div className="lg:border-l lg:border-[var(--line-strong)] lg:pl-12">
@@ -321,9 +321,9 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
         <div className="mx-auto max-w-[1700px]">
           <SectionHead
             eyebrow="Para comercios"
-            title={<>Empezá simple. <span className="text-[var(--accent)]">Crecé cuando quieras.</span></>}
+            title={<>Empezá simple. <span className="text-[var(--accent-ink)]">Crecé cuando quieras.</span></>}
             action={
-              <Link href="/planes" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/60 transition hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+              <Link href="/planes" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/60 transition hover:text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
                 Comparar planes <ArrowRight className="h-4 w-4" />
               </Link>
             }
@@ -340,7 +340,7 @@ export default function HomeClient({ initial, initialOfertas }: { initial: any[]
                   )}
                   <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{key === "gratis" ? "Para empezar" : key === "premium" ? "Mayor exposición" : "Para crecer"}</p>
                   <h3 className="mt-3 font-display text-2xl uppercase tracking-tight text-[var(--text)]">{plan.name}</h3>
-                  <p className="mt-6 font-display text-5xl leading-none text-[var(--accent)]">{plan.precioARS ? `$${plan.precioARS.toLocaleString("es-AR")}` : "Gratis"}{plan.precioARS > 0 && <span className="ml-1 text-sm font-bold text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>/mes</span>}</p>
+                  <p className="mt-6 font-display text-5xl leading-none text-[var(--accent-ink)]">{plan.precioARS ? `$${plan.precioARS.toLocaleString("es-AR")}` : "Gratis"}{plan.precioARS > 0 && <span className="ml-1 text-sm font-bold text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>/mes</span>}</p>
                   <ul className="mt-6 space-y-2.5 border-t border-[var(--line)] pt-5 text-sm font-semibold text-[var(--muted)]">
                     {planFeatures[key].map((feature) => <li key={feature} className="flex items-center gap-2"><span className="text-[var(--ok)]">✓</span> {feature}</li>)}
                   </ul>

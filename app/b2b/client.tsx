@@ -37,10 +37,10 @@ export default function B2bView() {
           {SECTORES.map(s => (
             <Link key={s.id} href={`/negocios?categoria=${s.id}`}
               className="group rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
-              <s.icon className="mb-3 h-10 w-10 text-[var(--accent)]" />
+              <s.icon className="mb-3 h-10 w-10 text-[var(--accent-ink)]" />
               <h2 className="mb-2 font-display text-xl uppercase tracking-tight">{s.titulo}</h2>
               <p className="text-sm leading-relaxed text-[var(--muted)]">{s.desc}</p>
-              <div className="mt-4 flex items-center gap-1 text-sm font-black uppercase tracking-wide text-[var(--accent)]">
+              <div className="mt-4 flex items-center gap-1 text-sm font-black uppercase tracking-wide text-[var(--accent-ink)]">
                 Explorar sector <ArrowRight className="h-4 w-4 transition duration-300 group-hover:translate-x-1" />
               </div>
             </Link>

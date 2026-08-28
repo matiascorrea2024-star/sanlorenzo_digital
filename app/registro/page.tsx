@@ -176,10 +176,10 @@ export default function RegistroPage() {
           </form>
 
           <div className="mt-6 space-y-3 text-center">
-            <Link href="/login" className="block text-sm font-bold text-[var(--accent)] transition hover:text-white">
+            <Link href="/login" className="block text-sm font-bold text-[var(--accent-ink)] transition hover:text-white">
               ¿Ya tenés cuenta? Iniciá sesión
             </Link>
-            <Link href="/" className="block text-sm text-[var(--muted)] transition hover:text-[var(--accent)]">
+            <Link href="/" className="block text-sm text-[var(--muted)] transition hover:text-[var(--accent-ink)]">
               ← Volver al inicio
             </Link>
           </div>

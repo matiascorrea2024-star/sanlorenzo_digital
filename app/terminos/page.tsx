@@ -56,7 +56,7 @@ export default function TerminosPage() {
           ].map((s, i) => (
             <section key={s.t} className="border-t border-[var(--line)] pt-6 first:border-t-0 first:pt-0">
               <div className="flex items-baseline gap-3">
-                <span className="text-xs font-black text-[var(--accent)]" style={{ fontFamily: "var(--font-ticket)" }}>{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-xs font-black text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-ticket)" }}>{String(i + 1).padStart(2, "0")}</span>
                 <h2 className="font-display text-lg uppercase tracking-tight">{s.t}</h2>
               </div>
               <div className="mt-3 text-sm leading-[1.75] text-[var(--muted)]">{s.body}</div>

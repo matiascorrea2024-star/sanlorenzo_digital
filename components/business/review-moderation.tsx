@@ -53,7 +53,7 @@ export default function ReviewModeration({ businessId, plan }: { businessId: str
               {r.comment && <p className="mt-1 text-sm text-[var(--text)]/70">{r.comment}</p>}
               {r.reply ? (
                 <div className="mt-2 rounded-lg border-l-4 border-[var(--accent)] bg-[var(--accent)]/10 p-2">
-                  <p className="text-[11px] font-bold text-[var(--accent)]">↳ Tu respuesta</p>
+                  <p className="text-[11px] font-bold text-[var(--accent-ink)]">↳ Tu respuesta</p>
                   <p className="text-xs text-[var(--text)]/70">{r.reply}</p>
                 </div>
               ) : puedeResponder ? (
@@ -64,10 +64,10 @@ export default function ReviewModeration({ businessId, plan }: { businessId: str
                     placeholder="Responder públicamente…"
                     className="flex-1 rounded-lg border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-1.5 text-xs outline-none focus:border-[var(--accent)]"
                   />
-                  <button onClick={() => sendReply(r.id)} className="rounded-lg bg-[var(--accent)]/20 px-3 py-1.5 text-xs font-bold text-[var(--accent)] hover:bg-[var(--accent)]/30">Responder</button>
+                  <button onClick={() => sendReply(r.id)} className="rounded-lg bg-[var(--accent)]/20 px-3 py-1.5 text-xs font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)]/30">Responder</button>
                 </div>
               ) : (
-                <Link href="/dashboard/planes" className="mt-2 flex items-center gap-1.5 text-xs font-bold text-[var(--accent)] hover:text-[var(--accent)]">
+                <Link href="/dashboard/planes" className="mt-2 flex items-center gap-1.5 text-xs font-bold text-[var(--accent-ink)] hover:text-[var(--accent-ink)]">
                   <Lock className="h-3 w-3" /> Responder reseñas es de Plan PRO -- mejorar plan →
                 </Link>
               )}

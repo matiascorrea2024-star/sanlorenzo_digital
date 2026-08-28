@@ -125,7 +125,7 @@ export default function CargarBulkPage() {
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">
-          <Upload className="h-8 w-8 text-[var(--accent)]" />
+          <Upload className="h-8 w-8 text-[var(--accent-ink)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Carga masiva de negocios</h1>
             <p className="text-[var(--muted)]">Cargá negocios reales desde CSV en 2 minutos</p>

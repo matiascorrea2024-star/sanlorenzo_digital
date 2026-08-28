@@ -89,7 +89,7 @@ export default function VotoDelDia() {
               <div key={o.id} className={`rounded-2xl border p-3 transition ${i === 0 && v > 0 ? "border-yellow-400/50 bg-yellow-500/10" : "border-[var(--line)] bg-[var(--ov-02)]"}`}>
                 <div className="flex items-center gap-3">
                   <span className="w-6 text-center text-sm font-black text-[var(--muted2)]">{i === 0 && v > 0 ? "🏆" : i + 1}</span>
-                  <Link href={`/oferta/${o.id}`} className="min-w-0 flex-1 hover:text-[var(--accent)]">
+                  <Link href={`/oferta/${o.id}`} className="min-w-0 flex-1 hover:text-[var(--accent-ink)]">
                     <p className="truncate text-sm font-bold">{o.title}</p>
                     <p className="truncate text-xs text-[var(--muted2)]">{o.business_name}</p>
                   </Link>

@@ -77,13 +77,13 @@ export default function QrVidriera({ businessId, businessName }: { businessId: s
     <details className="group rounded-2xl border border-[var(--ov-06)] bg-[var(--ov-02)]">
       <summary className="flex cursor-pointer list-none items-center gap-3 p-4 marker:content-none">
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--accent)]/15">
-          <QrCode className="h-5 w-5 text-[var(--accent)]" />
+          <QrCode className="h-5 w-5 text-[var(--accent-ink)]" />
         </span>
         <div className="min-w-0 flex-1">
           <p className="text-sm font-black">QR de vidriera</p>
           <p className="truncate text-xs text-[var(--muted)]">Imprimilo y medí cuántos escanean tu local</p>
         </div>
-        <span className="text-xs font-bold text-[var(--accent)] group-open:hidden">Ver</span>
+        <span className="text-xs font-bold text-[var(--accent-ink)] group-open:hidden">Ver</span>
       </summary>
 
       <div className="border-t border-[var(--ov-06)] p-4">
@@ -96,7 +96,7 @@ export default function QrVidriera({ businessId, businessName }: { businessId: s
             <p className="text-sm font-black text-[var(--warn)]">⚠️ Tu negocio todavía no está verificado</p>
             <p className="max-w-xs text-xs leading-relaxed text-[var(--muted)]">
               El QR de vidriera se habilita cuando tu negocio queda verificado. Escribinos desde{" "}
-              <Link href="/dashboard/soporte" className="font-bold text-[var(--accent)] underline">Soporte</Link> para pedirlo.
+              <Link href="/dashboard/soporte" className="font-bold text-[var(--accent-ink)] underline">Soporte</Link> para pedirlo.
             </p>
           </div>
         ) : qrDataUrl ? (

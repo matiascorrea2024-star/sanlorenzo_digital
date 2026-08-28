@@ -74,10 +74,10 @@ export default function DashboardPage() {
           solo en esta página, calco del mockup aprobado ("Hola, [nombre].
           Tu pulso hoy."), sin inventar métricas que no existen. */}
       <div className="mx-auto max-w-5xl px-4 pb-8 pt-12 sm:px-6">
-        <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Panel de comerciante</p>
+        <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">Panel de comerciante</p>
         <h1 className="mt-3 font-display text-3xl uppercase leading-[0.95] tracking-tight sm:text-4xl">
           {nombre ? `Hola, ${nombre}.` : "Tu panel."}<br />
-          <span className="text-[var(--accent)]">Tu negocio, sin vueltas.</span>
+          <span className="text-[var(--accent-ink)]">Tu negocio, sin vueltas.</span>
         </h1>
         <p className="mt-4 max-w-xl text-base text-[var(--muted)]">Control rápido: abrí, cerrá y manejá tus ofertas desde acá.</p>
         <div className="mt-6 flex flex-wrap gap-3">
@@ -155,7 +155,7 @@ export default function DashboardPage() {
                   </button>
                   <button
                     onClick={() => toggle(b.id, "ofertas_al_cerrar", b.ofertas_al_cerrar === false)}
-                    className={`rounded-xl border px-3 py-2.5 text-xs font-bold transition ${b.ofertas_al_cerrar !== false ? "border-[var(--accent)]/30 bg-[var(--accent)]/10 text-[var(--accent)]" : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--muted)]"}`}
+                    className={`rounded-xl border px-3 py-2.5 text-xs font-bold transition ${b.ofertas_al_cerrar !== false ? "border-[var(--accent)]/30 bg-[var(--accent)]/10 text-[var(--accent-ink)]" : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--muted)]"}`}
                     title="Si cerrás el local, tus ofertas siguen visibles"
                   >
                     {b.ofertas_al_cerrar !== false ? "🔥 Ofertas siguen al cerrar" : "⏸️ Ofertas solo abierto"}

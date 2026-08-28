@@ -75,7 +75,7 @@ export default function LoginPage() {
             <div>
               <div className="mb-2 flex items-center justify-between">
                 <label className="block text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>Contraseña</label>
-                <button type="button" onClick={() => { setForgotMode(true); setError(""); }} className="text-xs font-bold text-[var(--accent)] transition hover:text-white">
+                <button type="button" onClick={() => { setForgotMode(true); setError(""); }} className="text-xs font-bold text-[var(--accent-ink)] transition hover:text-white">
                   ¿Olvidaste tu contraseña?
                 </button>
               </div>
@@ -92,7 +92,7 @@ export default function LoginPage() {
             {forgotMode && (
               <div className="rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-4">
                 {forgotSent ? (
-                  <p className="text-sm text-[var(--accent)]">✅ Si ese email tiene una cuenta, te mandamos un link para restablecer la contraseña.</p>
+                  <p className="text-sm text-[var(--accent-ink)]">✅ Si ese email tiene una cuenta, te mandamos un link para restablecer la contraseña.</p>
                 ) : (
                   <>
                     <p className="mb-3 text-sm text-[var(--muted)]">Te mandamos un link a tu email para elegir una nueva contraseña.</p>
@@ -127,10 +127,10 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-6 space-y-3 text-center">
-            <Link href="/registro" className="block text-sm font-bold text-[var(--accent)] transition hover:text-white">
+            <Link href="/registro" className="block text-sm font-bold text-[var(--accent-ink)] transition hover:text-white">
               ¿No tenés cuenta? Registrate
             </Link>
-            <Link href="/" className="block text-sm text-[var(--muted)] transition hover:text-[var(--accent)]">
+            <Link href="/" className="block text-sm text-[var(--muted)] transition hover:text-[var(--accent-ink)]">
               ← Volver al inicio
             </Link>
           </div>

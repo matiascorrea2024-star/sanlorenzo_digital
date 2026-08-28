@@ -69,9 +69,9 @@ export default function PublicidadPage() {
         <DashboardNav />
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="flex items-start gap-3">
-            <Megaphone className="mt-1 h-8 w-8 shrink-0 text-[var(--accent)]" />
+            <Megaphone className="mt-1 h-8 w-8 shrink-0 text-[var(--accent-ink)]" />
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">La Gran Barata Ads</p>
+              <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">La Gran Barata Ads</p>
               <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Publicidad</h1>
               <p className="mt-3 text-[var(--muted)]">Avisos pagos con analytics reales -- impresiones y clicks de verdad.</p>
             </div>

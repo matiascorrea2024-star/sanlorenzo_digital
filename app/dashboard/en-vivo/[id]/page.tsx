@@ -110,7 +110,7 @@ export default function ControlEnVivo() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/en-vivo" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]"><ArrowLeft className="mr-1 inline h-4 w-4" />Volver</Link>
+        <Link href="/dashboard/en-vivo" className="text-sm font-bold text-[var(--accent-ink)] hover:text-[var(--accent-ink)]"><ArrowLeft className="mr-1 inline h-4 w-4" />Volver</Link>
         <div className="mt-4 mb-8 flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-3xl font-black leading-[0.95] tracking-tight sm:text-4xl" style={{ fontFamily: "var(--font-space)" }}>{stream.title}</h1>
           <div className="flex gap-2">
@@ -150,7 +150,7 @@ export default function ControlEnVivo() {
                 ].map(([label, value]) => (
                   <div key={label as string} className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
                     <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                      <p className="text-2xl font-black text-[var(--accent)] tabular-nums">{value}</p>
+                      <p className="text-2xl font-black text-[var(--accent-ink)] tabular-nums">{value}</p>
                       <p className="text-[10px] text-[var(--muted)]">{label}</p>
                     </div>
                   </div>
@@ -166,10 +166,10 @@ export default function ControlEnVivo() {
             <div className="rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
               <p className="mb-3 flex items-center gap-1.5 font-black">
                 🛍️ Productos en este vivo
-                {!plan.vivoProductos && <Lock className="h-3.5 w-3.5 text-[var(--accent)]" />}
+                {!plan.vivoProductos && <Lock className="h-3.5 w-3.5 text-[var(--accent-ink)]" />}
               </p>
               {!plan.vivoProductos ? (
-                <p className="text-sm text-[var(--muted)]">Mostrar productos durante el vivo es una herramienta de Plan PRO. <Link href="/dashboard/planes" className="font-bold text-[var(--accent)]">Mejorar plan →</Link></p>
+                <p className="text-sm text-[var(--muted)]">Mostrar productos durante el vivo es una herramienta de Plan PRO. <Link href="/dashboard/planes" className="font-bold text-[var(--accent-ink)]">Mejorar plan →</Link></p>
               ) : (
                 <>
                   {items.length > 0 && (

@@ -64,7 +64,7 @@ export default function EnVivoClient() {
           {!loading && enVivo.length > 0 && (
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1">
               <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" /></span>
-              <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>{enVivo.length} transmitiendo ahora</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>{enVivo.length} transmitiendo ahora</span>
             </div>
           )}
           <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-7xl">
@@ -99,13 +99,13 @@ export default function EnVivoClient() {
 
             {proximos.length > 0 && (
               <section className="mb-10">
-                <h2 className="mb-4 flex items-center gap-2 font-display text-xl uppercase tracking-tight"><Clock className="h-5 w-5 text-[var(--accent)]" /> Próximamente</h2>
+                <h2 className="mb-4 flex items-center gap-2 font-display text-xl uppercase tracking-tight"><Clock className="h-5 w-5 text-[var(--accent-ink)]" /> Próximamente</h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {proximos.map((s) => (
                     <div key={s.id} className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-4 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
                       <p className="truncate font-display text-sm uppercase tracking-tight">{s.title}</p>
                       <p className="truncate text-xs text-[var(--muted)]">{s.businesses?.name}</p>
-                      <p className="mt-2 text-xs font-bold text-[var(--accent)]">{s.scheduled_at && new Date(s.scheduled_at).toLocaleString("es-AR", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>
+                      <p className="mt-2 text-xs font-bold text-[var(--accent-ink)]">{s.scheduled_at && new Date(s.scheduled_at).toLocaleString("es-AR", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</p>
                     </div>
                   ))}
                 </div>
@@ -128,7 +128,7 @@ export default function EnVivoClient() {
 
             {enVivo.length === 0 && proximos.length === 0 && finalizados.length === 0 && (
               <div className="mt-4 rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8 text-center">
-                <Sparkles className="mx-auto mb-3 h-7 w-7 text-[var(--accent)]" />
+                <Sparkles className="mx-auto mb-3 h-7 w-7 text-[var(--accent-ink)]" />
                 <p className="font-display text-xl uppercase tracking-tight">Todavía no hubo transmisiones en San Lorenzo.</p>
                 <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">¿Tenés un negocio? Sé el primero en transmitir en vivo.</p>
                 <Link href="/dashboard/en-vivo" className="btn-hard mt-4 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>Crear mi transmisión</Link>

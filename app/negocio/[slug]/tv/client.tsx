@@ -147,7 +147,7 @@ export default function TvEscaparate({ negocio, ofertas }: { negocio: any; ofert
               )}
               <div className="mt-6 flex flex-wrap items-end gap-x-8 gap-y-3">
                 {s.price !== null && (
-                  <p className="font-display text-8xl leading-none text-[var(--accent)] drop-shadow-2xl lg:text-[11rem]">
+                  <p className="font-display text-8xl leading-none text-[var(--accent-ink)] drop-shadow-2xl lg:text-[11rem]">
                     ${s.price.toLocaleString("es-AR")}
                   </p>
                 )}

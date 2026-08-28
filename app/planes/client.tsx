@@ -21,10 +21,10 @@ export default function PlanesClient() {
     const colors: Record<string, string> = {
       blue: "text-blue-500",
       amber: "text-amber-500",
-      orange: "text-[var(--accent)]",
-      red: "text-[var(--accent2)]",
+      orange: "text-[var(--accent-ink)]",
+      red: "text-[var(--accent-ink)]",
     };
-    return colors[color] || "text-[var(--accent)]";
+    return colors[color] || "text-[var(--accent-ink)]";
   };
 
   const handleSelectPlan = (planKey: string) => {
@@ -42,7 +42,7 @@ export default function PlanesClient() {
       <div className="relative mx-auto max-w-6xl overflow-hidden px-4 py-14 text-center sm:py-20">
         <div className="pointer-events-none absolute left-[-10%] top-[-20%] h-[70%] w-[70%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
         <div className="pointer-events-none absolute bottom-[-50%] right-[-10%] h-[60%] w-[60%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
-        <span className="relative inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+        <span className="relative inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
           <Sparkles className="h-3.5 w-3.5" /> Crecé con tu comunidad
         </span>
         <h1 className="relative mx-auto mb-4 mt-5 max-w-2xl font-display text-4xl leading-[0.95] tracking-tight sm:text-6xl">
@@ -101,7 +101,7 @@ export default function PlanesClient() {
                 </div>
 
                 <div className="mb-6 flex items-end gap-1.5 border-b border-[var(--line)] pb-6">
-                  <span className="font-display text-5xl leading-none tracking-tight text-[var(--accent)] magenta-glow">
+                  <span className="font-display text-5xl leading-none tracking-tight text-[var(--accent-ink)] magenta-glow">
                     ${plan.precioARS ? plan.precioARS.toLocaleString("es-AR") : "Gratis"}
                   </span>
                   {plan.precioARS > 0 && (
@@ -162,7 +162,7 @@ export default function PlanesClient() {
                   className={`group inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs font-black uppercase tracking-widest transition ${
                     key === "premium"
                       ? "btn-hard bg-[var(--accent)] text-white"
-                      : "border border-[var(--line-strong)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] disabled:opacity-50"
+                      : "border border-[var(--line-strong)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent-ink)] disabled:opacity-50"
                   } disabled:opacity-50`}
                   style={{ fontFamily: "var(--font-display)" }}
                 >

@@ -44,13 +44,13 @@ export default function CookieConsent() {
       <div className="p-3 md:p-5">
         <div className="flex items-start gap-2.5 md:gap-3">
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[var(--accent)]/15 md:h-10 md:w-10">
-            <Cookie className="h-4.5 w-4.5 text-[var(--accent)] md:h-5 md:w-5" />
+            <Cookie className="h-4.5 w-4.5 text-[var(--accent-ink)] md:h-5 md:w-5" />
           </span>
           <div className="min-w-0">
             <p className="font-display text-sm uppercase tracking-wide text-[var(--text)] md:text-base">Cookies, sin vueltas</p>
             <p className="mt-0.5 text-[11px] leading-snug text-[var(--muted)] md:mt-1 md:text-xs md:leading-relaxed">
               Cookies anónimas de métricas para mejorar la web. Nada se vende a terceros.{" "}
-              <Link href="/privacidad" className="font-bold text-[var(--accent)] hover:underline">
+              <Link href="/privacidad" className="font-bold text-[var(--accent-ink)] hover:underline">
                 Política de privacidad
               </Link>
             </p>

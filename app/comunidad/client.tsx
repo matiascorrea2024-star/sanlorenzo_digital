@@ -34,11 +34,11 @@ export default function ComunidadPage() {
       <div className="mx-auto max-w-4xl px-4 pb-10 pt-14 sm:px-6 md:pt-20">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <div className="max-w-xl">
-            <p className="mb-4 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+            <p className="mb-4 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
               <MessageCircle className="h-3.5 w-3.5" /> Espacio de vecinos
             </p>
             <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-tight text-[var(--text)] sm:text-6xl">
-              Pulso de la <span className="text-[var(--accent)]">Ciudad.</span>
+              Pulso de la <span className="text-[var(--accent-ink)]">Ciudad.</span>
             </h1>
             <p className="mt-5 text-lg text-[var(--muted)]">
               Preguntas, avisos, un perro perdido o simplemente buena onda. Los negocios verificados participan con un sello distintivo.

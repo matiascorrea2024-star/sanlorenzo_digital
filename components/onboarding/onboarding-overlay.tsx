@@ -83,7 +83,7 @@ export default function OnboardingOverlay() {
 
         {step === 1 && (
           <>
-            <Store className="h-8 w-8 text-[var(--accent)]" />
+            <Store className="h-8 w-8 text-[var(--accent-ink)]" />
             <h2 className="mt-3 text-xl font-black text-[var(--text)]">Seguí 5 negocios</h2>
             <p className="mt-1 text-sm text-[var(--muted)]">Así te avisamos cuando publiquen ofertas nuevas.</p>
             <div className="mt-4 grid max-h-64 grid-cols-2 gap-2 overflow-y-auto">
@@ -91,7 +91,7 @@ export default function OnboardingOverlay() {
                 const on = followed.has(b.id);
                 return (
                   <button key={b.id} onClick={() => toggleFollow(b.id)}
-                    className={`flex items-center gap-2 rounded-xl border p-2.5 text-left text-xs font-bold transition ${on ? "border-[var(--accent)]/60 bg-[var(--accent)]/15 text-[var(--accent)]" : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--text)]/80 hover:border-[var(--line-strong)]"}`}>
+                    className={`flex items-center gap-2 rounded-xl border p-2.5 text-left text-xs font-bold transition ${on ? "border-[var(--accent)]/60 bg-[var(--accent)]/15 text-[var(--accent-ink)]" : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--text)]/80 hover:border-[var(--line-strong)]"}`}>
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[var(--ov-10)] text-[10px] text-[var(--text)]">{b.name[0]}</span>
                     <span className="min-w-0 flex-1 truncate">{b.name}</span>
                     {on && <Check className="h-3.5 w-3.5 shrink-0" />}
@@ -108,13 +108,13 @@ export default function OnboardingOverlay() {
 
         {step === 2 && (
           <>
-            <Bell className="h-8 w-8 text-[var(--accent)]" />
+            <Bell className="h-8 w-8 text-[var(--accent-ink)]" />
             <h2 className="mt-3 text-xl font-black text-[var(--text)]">Activá notificaciones</h2>
             <p className="mt-1 text-sm text-[var(--muted)]">Te avisamos de ofertas cerca tuyo apenas se publiquen (nunca spam por mail).</p>
             {notifStatus === "granted" ? (
               <p className="mt-4 rounded-xl border border-[var(--ok)]/30 bg-[var(--ok)]/10 p-3 text-sm text-[var(--ok)]">✅ Notificaciones activadas</p>
             ) : (
-              <button onClick={askNotifications} className="mt-4 w-full rounded-xl border border-[var(--accent)]/40 bg-[var(--accent)]/10 py-3 text-sm font-black text-[var(--accent)] hover:bg-[var(--accent)]/20">
+              <button onClick={askNotifications} className="mt-4 w-full rounded-xl border border-[var(--accent)]/40 bg-[var(--accent)]/10 py-3 text-sm font-black text-[var(--accent-ink)] hover:bg-[var(--accent)]/20">
                 🔔 Activar notificaciones
               </button>
             )}
@@ -126,7 +126,7 @@ export default function OnboardingOverlay() {
 
         {step === 3 && (
           <>
-            <Share2 className="h-8 w-8 text-[var(--accent)]" />
+            <Share2 className="h-8 w-8 text-[var(--accent-ink)]" />
             <h2 className="mt-3 text-xl font-black text-[var(--text)]">Compartí tu perfil</h2>
             <p className="mt-1 text-sm text-[var(--muted)]">Invitá a tus vecinos a descubrir San Lorenzo.</p>
             <img src={qrUrl} alt="QR de invitación" className="mx-auto mt-4 h-36 w-36 rounded-xl bg-white p-2" />

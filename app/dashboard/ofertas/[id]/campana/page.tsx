@@ -76,7 +76,7 @@ export default function CampanaPage() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:opacity-80">← Volver a mis ofertas</Link>
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent-ink)] hover:opacity-80">← Volver a mis ofertas</Link>
         <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--place)]">Alcance segmentado</p>
         <h1 className="mt-2 flex items-center gap-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}><MapPin className="h-9 w-9 text-[var(--place)]" /> Promocionar por barrio</h1>
         <p className="mt-3 text-[var(--muted)]">&quot;{offer.title}&quot;</p>
@@ -84,7 +84,7 @@ export default function CampanaPage() {
         {!plan.campanas ? (
           <div className="mt-8 rounded-[1.75rem] border border-[var(--accent)]/20 bg-[var(--ov-02)] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--accent)]/10 bg-gradient-to-br from-[var(--accent)]/10 to-[var(--accent2)]/10 p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Lock className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
+              <Lock className="mx-auto mb-3 h-8 w-8 text-[var(--accent-ink)]" />
               <p className="font-black">Promocionar por barrio es de Plan PRO</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Hacé que tu oferta se destaque en el barrio que más te importa.</p>
               <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black">Ver planes →</Link>

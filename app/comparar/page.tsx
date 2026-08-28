@@ -70,7 +70,7 @@ function CompararContent() {
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <PageHero title="Comparador" subtitle={`Comparando ${productos.length} producto${productos.length !== 1 ? "s" : ""} lado a lado`} />
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <Link href="/negocios" className="mb-4 inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-widest text-[var(--accent)]">
+        <Link href="/negocios" className="mb-4 inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-widest text-[var(--accent-ink)]">
           <ArrowLeft className="h-4 w-4" /> Volver a productos
         </Link>
 
@@ -86,10 +86,10 @@ function CompararContent() {
                       <Badge variant="success" size="sm" className="mb-2">🏆 Mejor opción</Badge>
                     )}
                     <div className="mx-auto mb-2 flex h-24 w-24 items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--surface)] magenta-glow">
-                      <Package className="h-10 w-10 text-[var(--accent)]" />
+                      <Package className="h-10 w-10 text-[var(--accent-ink)]" />
                     </div>
                     <p className="font-display text-sm uppercase tracking-tight">{p.name}</p>
-                    <Link href={`/negocio/${p.businesses.slug}`} className="text-xs text-[var(--muted)] transition hover:text-[var(--accent)]">
+                    <Link href={`/negocio/${p.businesses.slug}`} className="text-xs text-[var(--muted)] transition hover:text-[var(--accent-ink)]">
                       {p.businesses.name} →
                     </Link>
                   </th>
@@ -102,7 +102,7 @@ function CompararContent() {
                 {conScore.map(p => (
                   <td key={p.id} className="p-3 text-center">
                     {p.old_price && <p className="text-xs text-[var(--muted2)] line-through">${Number(p.old_price).toLocaleString("es-AR")}</p>}
-                    <p className="font-display text-lg text-[var(--accent)]">${Number(p.price).toLocaleString("es-AR")}</p>
+                    <p className="font-display text-lg text-[var(--accent-ink)]">${Number(p.price).toLocaleString("es-AR")}</p>
                   </td>
                 ))}
               </tr>

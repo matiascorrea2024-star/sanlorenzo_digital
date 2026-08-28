@@ -102,9 +102,9 @@ export default function NuevaCampanaPage() {
       <div className="mx-auto max-w-2xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-8 flex items-start gap-3">
-          <Megaphone className="mt-1 h-8 w-8 shrink-0 text-[var(--accent)]" />
+          <Megaphone className="mt-1 h-8 w-8 shrink-0 text-[var(--accent-ink)]" />
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">La Gran Barata Ads</p>
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">La Gran Barata Ads</p>
             <h1 className="mt-2 text-3xl font-black leading-[0.95] tracking-tight sm:text-4xl" style={{ fontFamily: "var(--font-space)" }}>Nueva campaña</h1>
             <p className="mt-3 text-sm text-[var(--muted)]">Tu aviso se revisa antes de publicarse y se activa automáticamente cuando lo aprobamos.</p>
           </div>
@@ -112,7 +112,7 @@ export default function NuevaCampanaPage() {
 
         {negocios.length === 0 ? (
           <div className="rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] p-6 text-sm text-[var(--muted)]">
-            Necesitás tener un negocio creado para publicitar. <Link href="/dashboard/nuevo" className="font-bold text-[var(--accent)]">Creá tu negocio primero →</Link>
+            Necesitás tener un negocio creado para publicitar. <Link href="/dashboard/nuevo" className="font-bold text-[var(--accent-ink)]">Creá tu negocio primero →</Link>
           </div>
         ) : (
           <div className="space-y-5 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] p-5">
@@ -178,7 +178,7 @@ export default function NuevaCampanaPage() {
             {precio != null && (
               <div className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-4 text-center">
                 <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--muted)]">Total a pagar</p>
-                <p className="mt-1 text-2xl font-black text-[var(--accent)]" style={{ fontFamily: "var(--font-space)" }}>${precio.toLocaleString("es-AR")}</p>
+                <p className="mt-1 text-2xl font-black text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-space)" }}>${precio.toLocaleString("es-AR")}</p>
                 <p className="mt-1 text-[11px] text-[var(--muted2)]">${info.dailyRateARS.toLocaleString("es-AR")}/día × {dias} días -- tarifa plana, pago único por adelantado.</p>
               </div>
             )}

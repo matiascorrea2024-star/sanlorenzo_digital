@@ -52,7 +52,7 @@ export default function ResetPasswordPage() {
           ) : !ready ? (
             <div className="text-center text-sm text-[var(--muted)]">
               <p>Este link ya expiró o no es válido.</p>
-              <Link href="/login" className="mt-4 inline-block font-bold text-[var(--accent)] transition hover:text-white">← Volver a iniciar sesión</Link>
+              <Link href="/login" className="mt-4 inline-block font-bold text-[var(--accent-ink)] transition hover:text-white">← Volver a iniciar sesión</Link>
             </div>
           ) : done ? (
             <p className="text-center text-sm text-[var(--ok)]">✅ Contraseña actualizada. Redirigiendo…</p>

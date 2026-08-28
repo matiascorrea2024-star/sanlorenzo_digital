@@ -577,7 +577,7 @@ export default function AdminPage() {
   const cards = [
     { icon: Users, label: "Usuarios", value: stats.users, color: "text-[var(--place)]", bg: "from-[var(--place)]/10" },
     { icon: Store, label: "Negocios", value: stats.businesses, color: "text-[var(--ok)]", bg: "from-green-500/10" },
-    { icon: Flame, label: "Ofertas", value: stats.offers, color: "text-[var(--accent)]", bg: "from-[var(--accent)]/10" },
+    { icon: Flame, label: "Ofertas", value: stats.offers, color: "text-[var(--accent-ink)]", bg: "from-[var(--accent)]/10" },
     { icon: Star, label: "Reseñas", value: stats.reviews, color: "text-[var(--warn)]", bg: "from-[var(--warn)]/10" },
     { icon: Eye, label: "Visitas", value: stats.views, color: "text-[var(--bad)]", bg: "from-red-600/10" },
     { icon: Heart, label: "Seguidores", value: stats.seguidores, color: "text-purple-400", bg: "from-purple-500/10" },
@@ -1009,7 +1009,7 @@ export default function AdminPage() {
                 <div className="space-y-2.5">
                   {subs.map(s => (
                     <div key={s.id} className="flex items-center gap-3 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-4">
-                      <CreditCard className="h-6 w-6 shrink-0 text-[var(--accent)]" />
+                      <CreditCard className="h-6 w-6 shrink-0 text-[var(--accent-ink)]" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-bold">{(s as any).businesses?.name || "Negocio"}</p>
                         <p className="text-xs capitalize text-[var(--muted)]">Plan {s.plan} · {new Date(s.started_at).toLocaleDateString("es-AR")}</p>
@@ -1031,7 +1031,7 @@ export default function AdminPage() {
         {tab === "campanas" && (
           <div className="mt-8">
             <div className="mb-6 rounded-2xl border border-[var(--ov-08)] bg-[var(--ov-03)] shadow-[inset_0_1px_1px_var(--card-inner-highlight)] p-5">
-              <h2 className="mb-1 text-lg font-black flex items-center gap-2"><Gift className="h-5 w-5 text-[var(--accent)]" /> Nueva campaña</h2>
+              <h2 className="mb-1 text-lg font-black flex items-center gap-2"><Gift className="h-5 w-5 text-[var(--accent-ink)]" /> Nueva campaña</h2>
               <p className="mb-4 text-xs text-[var(--muted)]">Ej: &quot;Fundadores&quot; -- 3 meses de PRO gratis para los primeros 20 negocios. La cancelás cuando quieras sin borrar el historial.</p>
               <div className="grid gap-3 sm:grid-cols-2">
                 <input value={nuevaCampana.title} onChange={(e) => setNuevaCampana({ ...nuevaCampana, title: e.target.value })}
@@ -1165,7 +1165,7 @@ export default function AdminPage() {
                           </button>
                           {v.status === "live" && (
                             <button onClick={() => finalizarVivoAdmin(v.id)}
-                              className="flex items-center gap-1 rounded-lg bg-[var(--accent)]/15 px-2.5 py-1 text-[11px] font-bold text-[var(--accent)] hover:bg-[var(--accent)]/25">
+                              className="flex items-center gap-1 rounded-lg bg-[var(--accent)]/15 px-2.5 py-1 text-[11px] font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)]/25">
                               <Square className="h-3 w-3" /> Finalizar
                             </button>
                           )}
@@ -1234,7 +1234,7 @@ export default function AdminPage() {
         {tab === "cargar-bulk" && (
           <div className="mt-8 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Upload className="h-8 w-8 text-[var(--accent)]" />
+              <Upload className="h-8 w-8 text-[var(--accent-ink)]" />
               <p className="mt-3 text-lg font-black">Cargar masiva de negocios reales</p>
               <p className="mt-1 text-sm text-[var(--text)]/70">
                 Subí negocios reales de San Lorenzo desde un CSV. Quedarán en estado &quot;pendiente&quot; para verificación.
@@ -1251,7 +1251,7 @@ export default function AdminPage() {
         {tab === "blog" && (
           <div className="mt-8 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Newspaper className="h-8 w-8 text-[var(--accent)]" />
+              <Newspaper className="h-8 w-8 text-[var(--accent-ink)]" />
               <p className="mt-3 text-lg font-black">Blog / Novedades</p>
               <p className="mt-1 text-sm text-[var(--text)]/70">
                 Escribí artículos y novedades de la plataforma. Se publican en /blog cuando los marcás como publicados.
@@ -1270,7 +1270,7 @@ export default function AdminPage() {
             <h2 className="mb-5 text-lg font-black tracking-tight" style={{ fontFamily: "var(--font-space)" }}>Ciudades de la plataforma <span className="text-[var(--muted2)]">({ciudades.length})</span></h2>
 
             <div className="mb-5 rounded-2xl border border-[var(--accent)]/20 bg-[var(--accent)]/[0.04] p-4">
-              <p className="mb-2 text-xs font-black uppercase tracking-wider text-[var(--accent)]">+ Agregar ciudad nueva</p>
+              <p className="mb-2 text-xs font-black uppercase tracking-wider text-[var(--accent-ink)]">+ Agregar ciudad nueva</p>
               <div className="grid gap-2 sm:grid-cols-[1fr_auto_auto_auto]">
                 <input value={nuevaCiudad.nombre} onChange={(e) => setNuevaCiudad({ ...nuevaCiudad, nombre: e.target.value })}
                   placeholder="Nombre de la ciudad" className="rounded-xl border border-[var(--line-strong)] bg-[var(--card-inner)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)]" />
@@ -1336,7 +1336,7 @@ export default function AdminPage() {
                       {editandoCiudad === c.id ? (
                         <>
                           <button onClick={() => renombrarCiudad(c.id)}
-                            className="shrink-0 rounded-xl bg-[var(--accent)]/20 px-3 py-2 text-xs font-bold text-[var(--accent)] hover:bg-[var(--accent)]/30">
+                            className="shrink-0 rounded-xl bg-[var(--accent)]/20 px-3 py-2 text-xs font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)]/30">
                             Guardar
                           </button>
                           <button onClick={() => setEditandoCiudad(null)}

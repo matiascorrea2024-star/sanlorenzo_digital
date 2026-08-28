@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 export function FilterGroup({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="border-b border-[var(--line)] py-5 first:pt-0">
-      <h3 className="mb-3 text-[11px] font-black uppercase tracking-[.2em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>{title}</h3>
+      <h3 className="mb-3 text-[11px] font-black uppercase tracking-[.2em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>{title}</h3>
       <div className="space-y-2">{children}</div>
     </div>
   );
@@ -62,7 +62,7 @@ export function ExpandableFilterGroup<T extends { id: string; name: string; icon
       {resto.length > 0 && (
         <div className="relative" ref={ref}>
           <button type="button" onClick={() => setOpen((v) => !v)}
-            className="text-xs font-bold text-[var(--accent)] hover:underline">
+            className="text-xs font-bold text-[var(--accent-ink)] hover:underline">
             {selected.filter((s) => resto.some((r) => r.id === s)).length > 0
               ? `Ver más (${selected.filter((s) => resto.some((r) => r.id === s)).length} elegidos de ${resto.length})`
               : `Ver más (+${resto.length})`}

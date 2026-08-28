@@ -57,11 +57,11 @@ export default function OfertasBomba({ ofertas }: { ofertas: Oferta[] }) {
   return (
     <section className="px-4 pt-12 sm:px-6 md:pt-16" aria-labelledby="bomba-title">
       <div className="mx-auto max-w-[1700px]">
-        <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+        <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
           <Zap className="h-3.5 w-3.5" /> Vencen pronto
         </p>
         <h2 id="bomba-title" className="mt-3 font-display text-3xl uppercase leading-[0.9] tracking-tight text-[var(--text)] sm:text-5xl">
-          Ofertas bomba <span className="text-[var(--accent)]">de hoy.</span>
+          Ofertas bomba <span className="text-[var(--accent-ink)]">de hoy.</span>
         </h2>
 
         <div
@@ -123,12 +123,12 @@ export default function OfertasBomba({ ofertas }: { ofertas: Oferta[] }) {
 
                   <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-5 sm:p-8 lg:p-12">
                     <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{o.negocio}</p>
-                    <h3 className="line-clamp-2 max-w-4xl font-display text-3xl uppercase leading-[0.9] tracking-tight text-white transition-colors group-hover:text-[var(--accent)] sm:text-5xl lg:text-6xl">
+                    <h3 className="line-clamp-2 max-w-4xl font-display text-3xl uppercase leading-[0.9] tracking-tight text-white transition-colors group-hover:text-[var(--accent-ink)] sm:text-5xl lg:text-6xl">
                       {o.producto}
                     </h3>
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                       {typeof o.ahora === "number" && (
-                        <span className="font-display text-3xl leading-none text-[var(--accent)] sm:text-4xl lg:text-5xl">${o.ahora.toLocaleString("es-AR")}</span>
+                        <span className="font-display text-3xl leading-none text-[var(--accent-ink)] sm:text-4xl lg:text-5xl">${o.ahora.toLocaleString("es-AR")}</span>
                       )}
                       {typeof o.antes === "number" && typeof o.ahora === "number" && (
                         <span className="text-sm font-bold text-[var(--muted)] line-through decoration-2 sm:text-base">${o.antes.toLocaleString("es-AR")}</span>

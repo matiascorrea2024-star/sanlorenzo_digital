@@ -114,7 +114,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
 
   return (
     <section className="mt-10">
-      <h2 className="text-xl font-black text-[var(--accent)]">⭐ Reseñas</h2>
+      <h2 className="text-xl font-black text-[var(--accent-ink)]">⭐ Reseñas</h2>
 
       {/* Resumen -- solo si hay al menos una reseña real: un "—" gigante en
           text-5xl con 0 reseñas se veía como una barra blanca rota, no como
@@ -159,7 +159,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
             </div>
           ))}
           {fotos.length < MAX_FOTOS && (
-            <label className="flex h-16 w-16 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-[var(--line-strong)] text-[var(--muted2)] hover:border-[var(--accent)]/50 hover:text-[var(--accent)]">
+            <label className="flex h-16 w-16 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-[var(--line-strong)] text-[var(--muted2)] hover:border-[var(--accent)]/50 hover:text-[var(--accent-ink)]">
               <Camera className="h-5 w-5" />
               <span className="text-[9px] font-bold">{fotos.length}/{MAX_FOTOS}</span>
               <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => agregarFotos(e.target.files)} />
@@ -213,7 +213,7 @@ export default function ReviewsSection({ businessId, baseRating = 0, baseCount =
             )}
             {r.reply && (
               <div className="mt-3 rounded-xl border-l-4 border-[var(--accent)] bg-[var(--accent)]/10 p-3">
-                <p className="text-xs font-black text-[var(--accent)]">↳ Respuesta del negocio</p>
+                <p className="text-xs font-black text-[var(--accent-ink)]">↳ Respuesta del negocio</p>
                 <p className="mt-1 text-sm text-[var(--text)]/80">{r.reply}</p>
               </div>
             )}

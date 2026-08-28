@@ -74,12 +74,12 @@ export default function InterestButton({ offerId, compact = false }: { offerId: 
         className="flex flex-col items-center gap-1"
       >
         <span
-          className={`flex h-11 w-11 items-center justify-center rounded-xl border bg-black/40 backdrop-blur-md transition ${on ? "border-[var(--accent)] text-[var(--accent)]" : "border-[var(--line-strong)] text-white hover:border-white/30"}`}
+          className={`flex h-11 w-11 items-center justify-center rounded-xl border bg-black/40 backdrop-blur-md transition ${on ? "border-[var(--accent)] text-[var(--accent-ink)]" : "border-[var(--line-strong)] text-white hover:border-white/30"}`}
         >
           {icon}
         </span>
         <span
-          className={`text-[9px] font-black uppercase tracking-widest transition-colors ${on ? "text-[var(--accent)]" : "text-white/70"}`}
+          className={`text-[9px] font-black uppercase tracking-widest transition-colors ${on ? "text-[var(--accent-ink)]" : "text-white/70"}`}
           style={{ fontFamily: "var(--font-display)" }}
         >
           Me interesa{showNumber && <> +{shown}</>}
@@ -93,14 +93,14 @@ export default function InterestButton({ offerId, compact = false }: { offerId: 
       type="button"
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggle(); }}
       aria-pressed={on}
-      className={`flex items-center gap-2.5 rounded-2xl border px-4 py-3 transition ${on ? "border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]" : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--text)] hover:bg-[var(--ov-10)]"}`}
+      className={`flex items-center gap-2.5 rounded-2xl border px-4 py-3 transition ${on ? "border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent-ink)]" : "border-[var(--line)] bg-[var(--ov-05)] text-[var(--text)] hover:bg-[var(--ov-10)]"}`}
     >
       {icon}
       <span className="text-sm font-black uppercase tracking-widest" style={{ fontFamily: "var(--font-display)" }}>
         Me interesa
       </span>
       {showNumber && (
-        <span className={`rounded-md px-1.5 py-0.5 text-xs font-black tabular-nums ${on ? "bg-[var(--accent)]/20 text-[var(--accent)]" : "bg-[var(--ov-05)] text-[var(--muted)]"}`}>
+        <span className={`rounded-md px-1.5 py-0.5 text-xs font-black tabular-nums ${on ? "bg-[var(--accent)]/20 text-[var(--accent-ink)]" : "bg-[var(--ov-05)] text-[var(--muted)]"}`}>
           +{shown}
         </span>
       )}

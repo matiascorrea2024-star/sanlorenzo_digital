@@ -98,7 +98,7 @@ export default function ReelTagsPanel({ reelId, businessId }: { reelId: string; 
             return (
               <div key={t.id} className="flex items-center justify-between gap-2 rounded-lg bg-[var(--ov-05)] px-2.5 py-1.5 text-xs">
                 <span className="truncate">
-                  <Tag className="mr-1 inline h-3 w-3 text-[var(--accent)]" />
+                  <Tag className="mr-1 inline h-3 w-3 text-[var(--accent-ink)]" />
                   {t.label || nombre || "(sin nombre)"} · seg {t.timecode_seconds} · {t.clicks} clicks
                 </span>
                 <button onClick={() => eliminar(t.id)} aria-label="Eliminar etiqueta" className="shrink-0 text-[var(--muted2)] hover:text-[var(--bad)]">

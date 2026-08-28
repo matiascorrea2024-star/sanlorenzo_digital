@@ -67,7 +67,7 @@ export default function HorarioEditor({ value, onChange }: {
                       <button
                         type="button"
                         onClick={() => setDia(clave, [...rangos, ["17:00", "21:00"]] as Rango[])}
-                        className="rounded-lg border border-[var(--line)] px-2 py-1 text-xs font-bold text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                        className="rounded-lg border border-[var(--line)] px-2 py-1 text-xs font-bold text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent-ink)]"
                         title="Agregar segundo turno"
                       >
                         + turno
@@ -79,7 +79,7 @@ export default function HorarioEditor({ value, onChange }: {
                   <button
                     type="button"
                     onClick={() => setDia(clave, [rangos[0]])}
-                    className="text-xs font-bold text-[var(--muted)] underline hover:text-[var(--accent)]"
+                    className="text-xs font-bold text-[var(--muted)] underline hover:text-[var(--accent-ink)]"
                   >
                     un solo turno
                   </button>

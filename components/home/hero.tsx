@@ -15,7 +15,7 @@ const plural = (n: number, sing: string, plur: string) => (n === 1 ? sing : plur
 
 const TRUST: { icon: LucideIcon; label: string; iconClass: string }[] = [
   { icon: BadgeCheck, label: "Comercios verificados", iconClass: "text-[var(--ok)]" },
-  { icon: Flame, label: "Ofertas reales", iconClass: "text-[var(--accent)]" },
+  { icon: Flame, label: "Ofertas reales", iconClass: "text-[var(--accent-ink)]" },
   { icon: MapPin, label: "100% San Lorenzo", iconClass: "text-[var(--place)]" },
   { icon: Sparkles, label: "Gratis para vecinos", iconClass: "text-[var(--bad)]" },
 ];
@@ -63,7 +63,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
       <div className="relative z-10 mx-auto w-full max-w-[1700px] px-4 pb-12 pt-12 sm:px-6 md:pb-16 md:pt-20">
         <div className="grid items-end gap-12 lg:grid-cols-[1.35fr_.65fr] lg:gap-16">
           <div>
-            <p className="mb-6 flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+            <p className="mb-6 flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
               <MapPin className="h-4 w-4" /> World Class · San Lorenzo, Santa Fe
             </p>
 
@@ -87,7 +87,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
                 <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Probá con</span>
                 {sugerencias.map((sug) => (
                   <button key={sug} onClick={() => onSearch && onSearch(sug)}
-                    className="rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-3.5 py-1.5 text-xs font-bold text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]">
+                    className="rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-3.5 py-1.5 text-xs font-bold text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent-ink)]">
                     {sug}
                   </button>
                 ))}
@@ -101,7 +101,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
           </div>
 
           <aside className="lg:border-l lg:border-[var(--line-strong)] lg:pl-12">
-            <div className="mb-8 flex items-center gap-2.5 text-[10px] font-black uppercase tracking-[0.25em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+            <div className="mb-8 flex items-center gap-2.5 text-[10px] font-black uppercase tracking-[0.25em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
               <span className="live-dot !h-2.5 !w-2.5" aria-hidden="true" /> En tu ciudad, hoy
             </div>
             <div className="grid grid-cols-2 gap-x-6 gap-y-10">
@@ -109,7 +109,7 @@ export default function Hero({ onSearch, stats }: HeroProps) {
                 <div key={s.label}>
                   <span className="magenta-glow block font-display text-4xl leading-none tabular-nums text-[var(--text)] md:text-5xl">{s.value}</span>
                   <span className="mt-3 block text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>{s.label}</span>
-                  {s.sub && <span className="mt-1 block text-xs font-bold text-[var(--accent)]">{s.sub}</span>}
+                  {s.sub && <span className="mt-1 block text-xs font-bold text-[var(--accent-ink)]">{s.sub}</span>}
                 </div>
               ))}
             </div>

@@ -68,7 +68,7 @@ export default function GrowthCenter({ business, ofertasActivas, respuestaMedia 
 
   return (
     <section className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6">
-      <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+      <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
         <TrendingUp className="h-3.5 w-3.5 shrink-0" /> Centro de crecimiento
       </p>
       <h2 className="mt-2 font-display text-2xl uppercase tracking-tight">
@@ -86,7 +86,7 @@ export default function GrowthCenter({ business, ofertasActivas, respuestaMedia 
             {i.ok ? <CheckCircle2 className="h-4 w-4 shrink-0 text-[var(--ok)]" /> : <Circle className="h-4 w-4 shrink-0 text-[var(--muted2)]" />}
             <span className="truncate">{i.label}</span>
             {!i.ok && (
-              <Link href={i.href} className="ml-auto shrink-0 text-[9px] font-black uppercase tracking-widest text-[var(--accent)] underline decoration-[var(--accent)]/40 underline-offset-2">
+              <Link href={i.href} className="ml-auto shrink-0 text-[9px] font-black uppercase tracking-widest text-[var(--accent-ink)] underline decoration-[var(--accent)]/40 underline-offset-2">
                 Arreglar
               </Link>
             )}

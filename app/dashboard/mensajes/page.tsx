@@ -94,7 +94,7 @@ export default function MensajesPage() {
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="mb-2 flex items-center gap-3">
-          <MessageCircle className="h-8 w-8 text-[var(--accent)]" />
+          <MessageCircle className="h-8 w-8 text-[var(--accent-ink)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Mensajes</h1>
             <p className="text-[var(--muted)]">Tus conversaciones con clientes, en un solo lugar</p>
@@ -147,7 +147,7 @@ export default function MensajesPage() {
 
         {selectedCustomer && biz && (
           <div className="mt-4">
-            <button onClick={() => setSelectedCustomer(null)} className="mb-2 text-sm text-[var(--accent)]">← Conversaciones</button>
+            <button onClick={() => setSelectedCustomer(null)} className="mb-2 text-sm text-[var(--accent-ink)]">← Conversaciones</button>
             <Chat businessId={selectedBiz} ownerId={user?.id} businessName={biz.name} customerId={selectedCustomer} />
           </div>
         )}

@@ -122,10 +122,10 @@ export default function OfertasPage() {
       <div className="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <Link href="/dashboard" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]">
+            <Link href="/dashboard" className="text-sm font-bold text-[var(--accent-ink)] hover:text-[var(--accent-ink)]">
               ← Volver al dashboard
             </Link>
-            <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Ofertas y promos</p>
+            <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">Ofertas y promos</p>
             <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mis ofertas</h1>
             <p className="mt-3 max-w-md text-[var(--muted)]">Gestioná tus promociones de La Gran Barata Digital.</p>
           </div>
@@ -217,7 +217,7 @@ export default function OfertasPage() {
                     {offer.discount_percent && (
                       <div>
                         <p className="text-xs text-[var(--muted)]">Descuento</p>
-                        <p className="text-lg font-black text-[var(--accent)]">{offer.discount_percent}% OFF</p>
+                        <p className="text-lg font-black text-[var(--accent-ink)]">{offer.discount_percent}% OFF</p>
                       </div>
                     )}
                     {offer.old_price && (

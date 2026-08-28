@@ -24,11 +24,17 @@
      una sola fuente de verdad. El calor lo hacen los acentos, no la base. */
   --bg:#0c0a0b; --surface:#161314; --surface2:#1c1819; --surface3:#242021;
   --line:rgba(255,247,237,.09); --line-strong:rgba(255,247,237,.16);
-  --text:#f7f3ec; --muted:#a99b86; --muted2:#7d6f5c;
+  --text:#f7f3ec; --muted:#a99b86; --muted2:#8a7c68;
 
   /* Marca: negro + rosa coral/fucsia. El rosa concentra acción,
      ofertas, promociones y estados destacados. */
   --accent:#d12f68; --accent2:#a91f55;
+  /* --accent como TEXTO (no como fondo) no llega a 4.5:1 en fondo
+     oscuro (WCAG AA texto normal) -- 4.06:1 medido. --accent-ink es
+     la misma marca, apenas más clara, solo para texto/íconos sobre
+     --bg/--surface. --accent y --accent2 quedan intactos para fondos
+     de botones y bordes, que sí cumplen su propio mínimo (3:1). */
+  --accent-ink:#d54074;
   --place:#d12f68; --place2:#a91f55;
   /* Estos pasteles (emerald/amber/sky-300/400 de Tailwind) se eligieron
      para resaltar sobre el fondo casi negro -- sobre el fondo claro se
@@ -76,7 +82,10 @@
   --line-strong: rgba(38,27,18,.24);
   --text: #211914;
   --muted: #6f5b49;
-  --muted2: #957d68;
+  --muted2: #7c6754;
+  /* Ver --accent-ink en :root -- acá el fondo es claro, así que la
+     variante de --accent segura para texto es más oscura, no más clara. */
+  --accent-ink: #c42c62;
   --ov-03: rgba(38,27,18,.035);
   --ov-05: rgba(38,27,18,.06);
   --ov-06: rgba(38,27,18,.09);
@@ -94,6 +103,7 @@
   --text: #f7f3ec;
   --muted: #c4b5a5;
   --muted2: #aa9885;
+  --accent-ink: #da5584;
   background: #211b1d;
   color: #f7f3ec;
 }
@@ -136,6 +146,9 @@
      oscuro casi no tienen contraste acá). */
   --place:#a91f55; --place2:#861642;
   --ok:#047857; --warn:#a91f55; --bad:#b91c1c;
+  /* Sobre blanco puro el --accent de marca ya cumple AA como texto
+     (4.86:1) -- se pisa la variante más clara que usa el tema oscuro. */
+  --accent-ink:#d12f68;
 }
 :root[data-theme="light"] .sld-card {
   border-color: rgba(28,23,20,.09);

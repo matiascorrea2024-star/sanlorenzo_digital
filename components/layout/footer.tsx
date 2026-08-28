@@ -63,7 +63,7 @@ export default function Footer() {
               </span>
               <span className="flex flex-col leading-none">
                 <span className="font-display text-xl tracking-tight">LA GRAN BARATA</span>
-                <span className="mt-1 text-[9px] font-bold uppercase leading-none tracking-[0.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>World Class · Digital</span>
+                <span className="mt-1 text-[9px] font-bold uppercase leading-none tracking-[0.3em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>World Class · Digital</span>
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm italic leading-relaxed text-[var(--muted)]">
@@ -85,15 +85,14 @@ export default function Footer() {
               <div key={col.t} className="border-b border-[var(--line)] pb-3 md:border-0 md:pb-0">
                 <button type="button" onClick={() => setOpen((o) => ({ ...o, [col.t]: !o[col.t] }))}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-2 py-1 text-left md:pointer-events-none md:cursor-default"
-                  tabIndex={-1}>
-                  <h3 className="font-display text-lg uppercase italic tracking-wide text-[var(--accent)]">{col.t}</h3>
+                  className="flex w-full items-center justify-between gap-2 py-1 text-left md:pointer-events-none md:cursor-default">
+                  <h3 className="font-display text-lg uppercase italic tracking-wide text-[var(--accent-ink)]">{col.t}</h3>
                   <ChevronDown className={`h-4 w-4 shrink-0 text-[var(--muted2)] transition-transform md:hidden ${isOpen ? "rotate-180" : ""}`} />
                 </button>
                 <ul className={`mt-4 space-y-2.5 ${isOpen ? "block" : "hidden"} md:block`}>
                   {col.links.map((li) => (
                     <li key={li.href}>
-                      <Link href={li.href} className="text-[13px] font-semibold text-[var(--muted)] transition hover:text-[var(--accent)]">
+                      <Link href={li.href} className="text-[13px] font-semibold text-[var(--muted)] transition hover:text-[var(--accent-ink)]">
                         {li.l}
                       </Link>
                     </li>
@@ -107,8 +106,8 @@ export default function Footer() {
         <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--line)] pt-6 text-xs text-[var(--muted)]">
           <p>© 2026 La Gran Barata Digital · San Lorenzo, Santa Fe</p>
           <div className="flex gap-4">
-            <Link href="/privacidad" className="hover:text-[var(--accent)]">Política de Privacidad</Link>
-            <Link href="/terminos" className="hover:text-[var(--accent)]">Términos y Condiciones</Link>
+            <Link href="/privacidad" className="hover:text-[var(--accent-ink)]">Política de Privacidad</Link>
+            <Link href="/terminos" className="hover:text-[var(--accent-ink)]">Términos y Condiciones</Link>
           </div>
         </div>
       </div>

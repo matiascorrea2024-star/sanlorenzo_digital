@@ -189,7 +189,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
 
               <Link href="/particulares" className="mt-2 flex items-center justify-between gap-2 rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-3.5 py-3 text-xs transition hover:border-[var(--accent)]">
                 <span><span className="font-bold text-[var(--text)]">🙋 De particulares</span><br /><span className="text-[var(--muted)]">Venta entre vecinos</span></span>
-                <ArrowRight className="h-3.5 w-3.5 shrink-0 text-[var(--accent)]" />
+                <ArrowRight className="h-3.5 w-3.5 shrink-0 text-[var(--accent-ink)]" />
               </Link>
             </div>
           </div>
@@ -264,7 +264,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
-                          <h3 className="truncate text-[15px] font-bold text-[var(--text)] transition group-hover:text-[var(--accent)] sm:text-base">{b.name}</h3>
+                          <h3 className="truncate text-[15px] font-bold text-[var(--text)] transition group-hover:text-[var(--accent-ink)] sm:text-base">{b.name}</h3>
                           <div className="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-[var(--muted)]">
                             <RankedAvatar slug={b.slug} name={b.name} categoria={b.category} size={16} />
                             <span className="capitalize">{cat?.name || b.category}{b.address ? ` · ${b.address}` : ""}</span>
@@ -282,7 +282,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
 
                       <div className="mt-2 flex flex-wrap items-center gap-1.5">
                         {isVerified && <span className={`${styles.badge} bg-[var(--ok)]/15 text-[var(--ok)]`}>✓ Verificado</span>}
-                        {(b.destacado || b.destacado_mes) && <span className={`${styles.badge} bg-[var(--accent)]/15 text-[var(--accent)]`}>🔥 Destacado</span>}
+                        {(b.destacado || b.destacado_mes) && <span className={`${styles.badge} bg-[var(--accent)]/15 text-[var(--accent-ink)]`}>🔥 Destacado</span>}
                         {b.boost_nuevo_hasta && new Date(b.boost_nuevo_hasta) > new Date() && <span className={`${styles.badge} bg-[var(--place)]/15 text-[var(--place)]`}>🆕 Nuevo</span>}
                         <span className={`${styles.badge} ${isOpen ? "bg-[var(--ok)]/15 text-[var(--ok)]" : "bg-[var(--bad)]/15 text-[var(--bad)]"}`}>{isOpen ? "Abierto" : "Cerrado"}</span>
                         {b.hace_envios && <span className={`${styles.badge} bg-[var(--place)]/15 text-[var(--place)]`}>🚚 Envíos</span>}
@@ -342,7 +342,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-bold text-[var(--text)] transition group-hover:text-[var(--accent)]">{b.name}</p>
+                      <p className="truncate text-sm font-bold text-[var(--text)] transition group-hover:text-[var(--accent-ink)]">{b.name}</p>
                       <p className="text-xs font-bold text-[var(--warn)]">★ {Number(b.rating).toFixed(1)} <span className="font-normal text-[var(--muted)]">({b.reviews || 0})</span></p>
                     </div>
                   </Link>

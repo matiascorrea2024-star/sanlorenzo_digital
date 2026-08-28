@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg)] px-4 text-center text-[var(--text)]">
-      <p className="magenta-glow font-display text-7xl leading-none tracking-tight text-[var(--accent)]">404</p>
+      <p className="magenta-glow font-display text-7xl leading-none tracking-tight text-[var(--accent-ink)]">404</p>
       <h1 className="mt-4 font-display text-2xl uppercase tracking-tight sm:text-3xl">Esta página no existe</h1>
       <p className="mt-2 max-w-md text-sm text-[var(--muted)]">
         Pero San Lorenzo está lleno de negocios, ofertas y vecinos para descubrir.

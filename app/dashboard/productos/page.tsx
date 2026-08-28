@@ -221,9 +221,9 @@ export default function ProductosPage() {
       <div className="mx-auto max-w-3xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-10 flex items-start gap-3">
-          <Package className="mt-1 h-8 w-8 shrink-0 text-[var(--accent)]" />
+          <Package className="mt-1 h-8 w-8 shrink-0 text-[var(--accent-ink)]" />
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Catálogo</p>
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">Catálogo</p>
             <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mis productos</h1>
             <p className="mt-3 text-[var(--muted)]">
               Gestioná el catálogo de {negocio.name}
@@ -313,7 +313,7 @@ export default function ProductosPage() {
                         className="w-full rounded-xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] disabled:opacity-50 sm:w-32" />
                     </div>
                     {p.status === "subiendo" ? (
-                      <Loader2 className="h-5 w-5 shrink-0 animate-spin text-[var(--accent)]" />
+                      <Loader2 className="h-5 w-5 shrink-0 animate-spin text-[var(--accent-ink)]" />
                     ) : p.status === "error" ? (
                       <span title="No se pudo subir -- probá de nuevo" className="shrink-0 text-xs font-bold text-[var(--bad)]">Error</span>
                     ) : (
@@ -334,7 +334,7 @@ export default function ProductosPage() {
                   <p className="text-center text-xs text-[var(--muted2)]">Completá nombre y precio en todas para poder guardarlas.</p>
                 )}
                 {isFinite(cupoRestante) && listosParaGuardar.length > cupoRestante && (
-                  <p className="text-center text-xs text-[var(--accent)]">Tu plan permite {cupoRestante} más -- el resto queda pendiente hasta que mejores el plan.</p>
+                  <p className="text-center text-xs text-[var(--accent-ink)]">Tu plan permite {cupoRestante} más -- el resto queda pendiente hasta que mejores el plan.</p>
                 )}
               </div>
             )}
@@ -376,7 +376,7 @@ export default function ProductosPage() {
                 <Star className="h-4 w-4 text-[var(--warn)]" /> Destacar este producto (aparece primero en el catálogo)
               </label>
             ) : (
-              <Link href="/dashboard/planes" className="flex items-center gap-1.5 text-xs font-bold text-[var(--accent)] hover:text-[var(--accent)]">
+              <Link href="/dashboard/planes" className="flex items-center gap-1.5 text-xs font-bold text-[var(--accent-ink)] hover:text-[var(--accent-ink)]">
                 <Star className="h-3.5 w-3.5" /> Destacar productos es de Plan PRO -- mejorar plan →
               </Link>
             )}
@@ -410,7 +410,7 @@ export default function ProductosPage() {
                   <img src={p.images[0]} alt={p.name} className="h-12 w-12 rounded-xl object-cover" />
                 ) : (
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--accent)]/20 to-red-600/20">
-                    <Package className="h-6 w-6 text-[var(--accent)]" />
+                    <Package className="h-6 w-6 text-[var(--accent-ink)]" />
                   </div>
                 )}
                 <div className="flex-1">
@@ -418,10 +418,10 @@ export default function ProductosPage() {
                     {p.name}
                     {p.featured && <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />}
                     {p.active === false && <span className="rounded-full bg-[var(--ov-10)] px-2 py-0.5 text-[9px] font-black uppercase text-[var(--muted)]">Oculto</span>}
-                    {p.hidden_by_plan && <span className="rounded-full bg-[var(--accent)]/20 px-2 py-0.5 text-[9px] font-black uppercase text-[var(--accent)]">Oculto por plan</span>}
+                    {p.hidden_by_plan && <span className="rounded-full bg-[var(--accent)]/20 px-2 py-0.5 text-[9px] font-black uppercase text-[var(--accent-ink)]">Oculto por plan</span>}
                   </p>
                   <p className="text-xs text-[var(--muted)]">{p.category || "Sin categoría"} · Stock: {p.stock ?? "—"}</p>
-                  <p className="text-sm font-black text-[var(--accent)]">${Number(p.price).toLocaleString("es-AR")}</p>
+                  <p className="text-sm font-black text-[var(--accent-ink)]">${Number(p.price).toLocaleString("es-AR")}</p>
                 </div>
                 <button onClick={() => toggleActive(p)} title={p.active === false ? "Mostrar en el catálogo" : "Ocultar del catálogo"}
                   className="rounded-lg bg-[var(--ov-10)] p-2 hover:bg-[var(--ov-20)]">

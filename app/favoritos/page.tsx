@@ -52,7 +52,7 @@ export default function FavoritosPage() {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(209,47,104,.16),transparent_55%)]" />
           <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0c0a0b] to-transparent" />
           <div className="relative mx-auto max-w-5xl px-4 pb-12 pt-16 sm:px-6">
-            <Heart className="h-10 w-10 text-[var(--accent)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
+            <Heart className="h-10 w-10 text-[var(--accent-ink)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
             <h1 className="mt-4 font-display text-4xl uppercase tracking-tight sm:text-5xl">Mis favoritos</h1>
             <p className="mt-3 max-w-xl text-base text-[var(--muted)]">Todos tus negocios y ofertas guardados en un solo lugar</p>
           </div>
@@ -78,7 +78,7 @@ export default function FavoritosPage() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(209,47,104,.16),transparent_55%)]" />
         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0c0a0b] to-transparent" />
         <div className="relative mx-auto max-w-5xl px-4 pb-12 pt-16 sm:px-6">
-          <Heart className="h-10 w-10 text-[var(--accent)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
+          <Heart className="h-10 w-10 text-[var(--accent-ink)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
           <h1 className="mt-4 font-display text-4xl uppercase tracking-tight sm:text-5xl">Mis favoritos</h1>
           <p className="mt-3 max-w-xl text-base text-[var(--muted)]">Todos tus negocios y ofertas guardados en un solo lugar</p>
           <div className="mt-6">
@@ -118,7 +118,7 @@ export default function FavoritosPage() {
             {ofertas.length > 0 && (
               <section className="mt-8">
                 <h2 className="mb-5 flex items-center gap-2 font-display text-2xl uppercase tracking-tight sm:text-3xl">
-                  <Flame className="h-6 w-6 text-[var(--accent)]" /> Ofertas guardadas ({ofertas.length})
+                  <Flame className="h-6 w-6 text-[var(--accent-ink)]" /> Ofertas guardadas ({ofertas.length})
                 </h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {ofertas.map(o => <OfferCard key={o.id} o={o} />)}
@@ -129,7 +129,7 @@ export default function FavoritosPage() {
             {negocios.length > 0 && (
               <section className="mt-12">
                 <h2 className="mb-5 flex items-center gap-2 font-display text-2xl uppercase tracking-tight sm:text-3xl">
-                  <Store className="h-6 w-6 text-[var(--accent)]" /> Negocios guardados ({negocios.length})
+                  <Store className="h-6 w-6 text-[var(--accent-ink)]" /> Negocios guardados ({negocios.length})
                 </h2>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {negocios.map(b => (
@@ -140,7 +140,7 @@ export default function FavoritosPage() {
                         <p className="font-bold">{b.name}</p>
                         <p className="text-xs capitalize text-[var(--muted)]">{b.category} · ⭐ {(b.rating || 0).toFixed(1)}</p>
                       </div>
-                      <ArrowRight className="h-4 w-4 shrink-0 text-[var(--accent)] transition group-hover:translate-x-0.5" />
+                      <ArrowRight className="h-4 w-4 shrink-0 text-[var(--accent-ink)] transition group-hover:translate-x-0.5" />
                     </Link>
                   ))}
                 </div>

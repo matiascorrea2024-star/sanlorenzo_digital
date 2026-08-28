@@ -60,13 +60,13 @@ export default function OfertasFinalizadasPage() {
       <section className="relative overflow-hidden border-b border-[var(--line)]">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 20% 0%, rgba(209,47,104,.14), transparent 60%), radial-gradient(circle at 85% 30%, rgba(169,31,85,.08), transparent 55%)" }} />
         <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <Link href="/" className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent)]">← Volver al inicio</Link>
-          <p className="mt-6 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>La Gran Barata</p>
+          <Link href="/" className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent-ink)]">← Volver al inicio</Link>
+          <p className="mt-6 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>La Gran Barata</p>
           <h1 className="mt-3 font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-7xl">
             Ofertas que ya <span className="knockout-text magenta-glow">terminaron</span>
           </h1>
           <p className="mt-4 max-w-xl text-base text-[var(--muted)]">Mirá lo que te perdiste... y seguí a tus negocios favoritos para no perderte la próxima.</p>
-          <Link href="/promociones" className="mt-5 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-[var(--accent)] transition hover:text-white">← Ver promociones activas</Link>
+          <Link href="/promociones" className="mt-5 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-[var(--accent-ink)] transition hover:text-white">← Ver promociones activas</Link>
         </div>
       </section>
 
@@ -101,7 +101,7 @@ export default function OfertasFinalizadasPage() {
                   )}
                 </div>
                 <div className="p-4">
-                  <p className="line-clamp-2 text-sm font-bold leading-snug transition group-hover:text-[var(--accent)]">{p.title}</p>
+                  <p className="line-clamp-2 text-sm font-bold leading-snug transition group-hover:text-[var(--accent-ink)]">{p.title}</p>
                   <p className="mt-1 line-clamp-1 text-xs capitalize text-[var(--muted)]">{p.negocio} · {p.cat}</p>
                   <div className="mt-2 flex items-center justify-between gap-2 border-t border-[var(--line)] pt-2">
                     <span className="text-[10px] text-[var(--muted2)]">
@@ -122,7 +122,7 @@ export default function OfertasFinalizadasPage() {
         <div className="mt-10 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-r from-[var(--accent)]/[.08] to-transparent p-1.5">
           <div className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-8 text-center">
           <div className="mx-auto max-w-xl">
-            <h2 className="font-display text-2xl uppercase tracking-tight">No te pierdas la <span className="text-[var(--accent)]">próxima</span></h2>
+            <h2 className="font-display text-2xl uppercase tracking-tight">No te pierdas la <span className="text-[var(--accent-ink)]">próxima</span></h2>
             <p className="mt-2 text-sm text-[var(--muted)]">Entrá a tus negocios favoritos y seguilos. Las ofertas nuevas aparecen todos los días.</p>
             <div className="mt-5 flex flex-wrap justify-center gap-3">
               <Link href="/negocios" className="btn-hard rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>

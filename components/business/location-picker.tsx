@@ -255,7 +255,7 @@ export default function LocationPicker({
         type="button"
         onClick={buscarDireccion}
         disabled={loading}
-        className="w-full rounded-xl border border-[var(--accent)] bg-[var(--accent)]/10 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/20 disabled:opacity-50"
+        className="w-full rounded-xl border border-[var(--accent)] bg-[var(--accent)]/10 px-4 py-2.5 text-sm font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)]/20 disabled:opacity-50"
       >
         {loading ? "🔎 Buscando..." : "🔎 Buscar dirección en el mapa"}
       </button>

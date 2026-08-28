@@ -63,7 +63,7 @@ export default function BarrioView() {
         <div className="text-center">
           <Search className="mx-auto mb-4 h-10 w-10 text-[var(--muted2)]" />
           <h1 className="font-display text-3xl uppercase tracking-tight">Barrio no encontrado</h1>
-          <Link href={`/${ciudadSlug}`} className="mt-4 inline-block text-[var(--accent)]">← Volver a {ciudadSlug}</Link>
+          <Link href={`/${ciudadSlug}`} className="mt-4 inline-block text-[var(--accent-ink)]">← Volver a {ciudadSlug}</Link>
         </div>
       </main>
     );
@@ -74,7 +74,7 @@ export default function BarrioView() {
       <section className="relative overflow-hidden border-b border-[var(--line-strong)] bg-[var(--bg)] py-12">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(209,47,104,0.14),_transparent_55%)]" />
         <div className="relative mx-auto max-w-6xl px-4">
-          <Link href={`/${ciudadSlug}`} className="mb-3 flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+          <Link href={`/${ciudadSlug}`} className="mb-3 flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
             <ArrowLeft className="h-4 w-4" /> Volver a {ciudad.name}
           </Link>
           <Badge variant="info" size="sm"><MapPin className="h-3 w-3" /> Barrio</Badge>
@@ -87,7 +87,7 @@ export default function BarrioView() {
         {ofertasPromo.length > 0 && (
           <section className="mb-10">
             <h2 className="mb-4 flex items-center gap-2 font-display text-2xl uppercase tracking-tight">
-              <Flame className="h-6 w-6 text-[var(--accent)]" /> Ofertas para {barrio.name}
+              <Flame className="h-6 w-6 text-[var(--accent-ink)]" /> Ofertas para {barrio.name}
             </h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {ofertasPromo.map((o) => <OfferCard key={o.id} o={o} />)}
@@ -102,7 +102,7 @@ export default function BarrioView() {
         {negocios.length === 0 ? (
           <section className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8">
             <div className="text-center">
-              <Sparkles className="mx-auto mb-3 h-7 w-7 text-[var(--accent)]" />
+              <Sparkles className="mx-auto mb-3 h-7 w-7 text-[var(--accent-ink)]" />
               <p className="font-display text-xl uppercase tracking-tight">Todavía no hay negocios en {barrio.name}</p>
               <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
                 Si tenés un comercio en este barrio, podés ser el primero en aparecer acá.

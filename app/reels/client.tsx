@@ -45,7 +45,7 @@ export default function ReelsFeedClient({ initial }: { initial: Reel[] }) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg)] px-4 text-center text-[var(--text)]">
         <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8">
-          <Video className="mx-auto mb-3 h-12 w-12 text-[var(--accent)]" />
+          <Video className="mx-auto mb-3 h-12 w-12 text-[var(--accent-ink)]" />
           <p className="font-display text-xl uppercase tracking-tight">Todavía no hay reels</p>
           <p className="mt-1 max-w-xs text-sm text-[var(--muted)]">Los negocios todavía no subieron videos. Volvé pronto.</p>
           <Link href="/" className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>← Volver al inicio</Link>

@@ -110,7 +110,7 @@ export default function Header() {
                 const active = pathname.startsWith(it.href);
                 return (
                   <Link key={it.href} href={it.href} aria-current={active ? "page" : undefined}
-                    className={`flex flex-col items-center transition-colors ${active ? "text-[var(--accent)]" : "text-white/50 hover:text-white"}`}>
+                    className={`flex flex-col items-center transition-colors ${active ? "text-[var(--accent-ink)]" : "text-white/50 hover:text-white"}`}>
                     <it.icon className="h-4 w-4" />
                     <span className="mt-0.5 text-[9px] font-bold uppercase tracking-wide">{it.label}</span>
                   </Link>
@@ -149,7 +149,7 @@ export default function Header() {
                       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-white">{(nombre || user.email || "?")[0].toUpperCase()}</span>
                       <span className="min-w-0">
                         <span className="block truncate text-sm font-black text-[var(--text)]">{nombre || "Mi perfil"}</span>
-                        <span className="block text-xs font-bold text-[var(--accent)]">Ver mi perfil →</span>
+                        <span className="block text-xs font-bold text-[var(--accent-ink)]">Ver mi perfil →</span>
                       </span>
                     </Link>
 
@@ -160,7 +160,7 @@ export default function Header() {
                     {tieneNegocio && (
                       <>
                         <p className="px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">Mi comercio</p>
-                        <Link href="/dashboard" onClick={() => setOpen(false)} className={`${linkBase} text-[var(--accent)]`}><Store className="h-4 w-4 shrink-0" />Panel de comerciante</Link>
+                        <Link href="/dashboard" onClick={() => setOpen(false)} className={`${linkBase} text-[var(--accent-ink)]`}><Store className="h-4 w-4 shrink-0" />Panel de comerciante</Link>
                         <Link href="/dashboard/ofertas/nueva" onClick={() => setOpen(false)} className={linkBase}>Nueva oferta</Link>
                         <Link href="/dashboard/productos" onClick={() => setOpen(false)} className={linkBase}>Catálogo</Link>
                         <Link href="/dashboard/analytics" onClick={() => setOpen(false)} className={linkBase}>Estadísticas</Link>
@@ -185,7 +185,7 @@ export default function Header() {
                     {!tieneNegocio && (
                       <>
                         <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-wider text-[var(--muted2)]">¿Tenés un negocio?</p>
-                        <Link href="/para-negocios" onClick={() => setOpen(false)} className={`${linkBase} text-[var(--accent)]`}><Store className="h-4 w-4 shrink-0" />Publicar mi negocio</Link>
+                        <Link href="/para-negocios" onClick={() => setOpen(false)} className={`${linkBase} text-[var(--accent-ink)]`}><Store className="h-4 w-4 shrink-0" />Publicar mi negocio</Link>
                       </>
                     )}
 

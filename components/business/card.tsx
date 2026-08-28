@@ -86,7 +86,7 @@ export default function BusinessCard({ b, userCoords, featured = false }: { b: a
 
       {/* Info */}
       <div className={`flex flex-1 flex-col pt-1 ${featured ? "p-4 md:p-6" : "p-3 md:p-4"}`}>
-        <h3 className={`truncate font-display uppercase tracking-wide transition-colors group-hover:text-[var(--accent)] ${featured ? "text-2xl md:text-3xl" : "text-lg md:text-xl"}`}>
+        <h3 className={`truncate font-display uppercase tracking-wide transition-colors group-hover:text-[var(--accent-ink)] ${featured ? "text-2xl md:text-3xl" : "text-lg md:text-xl"}`}>
           {b.name}
         </h3>
         <p className={`mt-0.5 flex flex-wrap items-center gap-x-1 capitalize text-[var(--muted)] ${featured ? "text-xs md:text-sm" : "text-[11px] md:text-xs"}`}>

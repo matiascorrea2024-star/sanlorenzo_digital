@@ -51,9 +51,9 @@ export default function DashboardReelsPage() {
         <DashboardNav />
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div className="flex items-start gap-3">
-            <Video className="mt-1 h-8 w-8 shrink-0 text-[var(--accent)]" />
+            <Video className="mt-1 h-8 w-8 shrink-0 text-[var(--accent-ink)]" />
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Video corto</p>
+              <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">Video corto</p>
               <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Mis reels</h1>
               <p className="mt-3 text-[var(--muted)]">Videos cortos de tu negocio.</p>
             </div>

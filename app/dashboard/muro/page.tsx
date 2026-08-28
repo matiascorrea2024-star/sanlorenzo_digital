@@ -72,9 +72,9 @@ export default function MuroDashboard() {
       <div className="mx-auto max-w-2xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <DashboardNav />
         <div className="mb-8 flex items-start gap-3">
-          <Megaphone className="mt-1 h-8 w-8 shrink-0 text-[var(--accent)]" />
+          <Megaphone className="mt-1 h-8 w-8 shrink-0 text-[var(--accent-ink)]" />
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Comunidad</p>
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">Comunidad</p>
             <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Publicar en el muro</h1>
             <p className="mt-3 text-[var(--muted)]">Compartí novedades con toda la comunidad.</p>
           </div>

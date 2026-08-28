@@ -66,7 +66,7 @@ export default function BusinessPulse({ negocio }: Props) {
   ];
   const score = Math.round((checklist.filter((c) => c.ok).length / checklist.length) * 100);
   const scoreLabel = score >= 80 ? "Perfil sólido" : score >= 50 ? "Vas por buen camino" : "Recién empezando";
-  const scoreColor = score >= 80 ? "text-[var(--ok)]" : score >= 50 ? "text-[var(--accent)]" : "text-[var(--muted)]";
+  const scoreColor = score >= 80 ? "text-[var(--ok)]" : score >= 50 ? "text-[var(--accent-ink)]" : "text-[var(--muted)]";
 
   const misiones = [
     { done: datos.ofertasSemana >= MISION_META.ofertas, label: `Publicá ${MISION_META.ofertas} ofertas esta semana`, prog: datos.ofertasSemana, meta: MISION_META.ofertas, pts: 20 },
@@ -105,7 +105,7 @@ export default function BusinessPulse({ negocio }: Props) {
 
       {/* Misión semanal */}
       <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6">
-        <p className="mb-4 flex items-center gap-2 font-display text-lg uppercase tracking-tight text-[var(--text)]"><Target className="h-4 w-4 text-[var(--accent)]" /> Misión de la semana</p>
+        <p className="mb-4 flex items-center gap-2 font-display text-lg uppercase tracking-tight text-[var(--text)]"><Target className="h-4 w-4 text-[var(--accent-ink)]" /> Misión de la semana</p>
         <div className="space-y-2.5">
           {misiones.map((m) => (
             <div key={m.label} className={`rounded-2xl border p-3 ${m.done ? "border-[var(--ok)]/25 bg-[var(--ok)]/5" : "border-[var(--line)] bg-[var(--ov-02)]"}`}>
@@ -124,12 +124,12 @@ export default function BusinessPulse({ negocio }: Props) {
 
         {!plan.stats && (datos.ofertasActivas > 0 || datos.seguidoresTotal > 0) && (
           <div className="mt-4 rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-4">
-            <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Lock className="h-3.5 w-3.5" /> ¿Vale la pena Plan PRO?</p>
+            <p className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}><Lock className="h-3.5 w-3.5" /> ¿Vale la pena Plan PRO?</p>
             <p className="mt-1.5 text-xs leading-relaxed text-[var(--muted)]">
               Tenés {datos.seguidoresTotal} seguidor{datos.seguidoresTotal === 1 ? "" : "es"} y {datos.ofertasActivas} oferta{datos.ofertasActivas === 1 ? "" : "s"} activa{datos.ofertasActivas === 1 ? "" : "s"} sin poder ver el detalle de tus visitas.
               Con PRO ves qué canales y contenidos funcionan mejor para tu negocio.
             </p>
-            <Link href="/dashboard/planes" className="mt-3 inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[var(--accent)] transition hover:text-white" style={{ fontFamily: "var(--font-display)" }}>
+            <Link href="/dashboard/planes" className="mt-3 inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[var(--accent-ink)] transition hover:text-white" style={{ fontFamily: "var(--font-display)" }}>
               <TrendingUp className="h-3.5 w-3.5" /> Ver planes →
             </Link>
           </div>

@@ -152,7 +152,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
             ya está validado y se mantiene tal cual. */}
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
-            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Competencia local</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Competencia local</p>
             <h1 className="mt-3 font-display text-6xl uppercase leading-[0.9] tracking-tight text-[var(--text)] sm:text-7xl">
               LIGAS DE{" "}
               <span className="bg-gradient-to-r from-[var(--accent)] to-[#fbbf24] bg-clip-text text-transparent">MERCADO</span>
@@ -178,7 +178,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
             )}
             {negocioSemana && negocioSemana.crecimiento > 0 && (
               <Link href={`/negocio/${negocioSemana.slug}`} className="block rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
-                <p className="mb-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Rocket className="h-3.5 w-3.5" /> Negocio de la semana</p>
+                <p className="mb-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}><Rocket className="h-3.5 w-3.5" /> Negocio de la semana</p>
                 <div className="flex items-center justify-between gap-2">
                   <span className="truncate font-bold">{negocioSemana.name}</span>
                   <span className="shrink-0 font-display text-2xl text-[var(--ok)]">+{negocioSemana.crecimiento}</span>
@@ -228,7 +228,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                 {TABS_MAS.map(t => (
                   <button key={t.k} onClick={() => { setTab(t.k); setMasAbierto(false); }}
                     className={`flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-bold transition ${
-                      tab === t.k ? "bg-[var(--accent)]/15 text-[var(--accent)]" : "text-[var(--muted)] hover:bg-[var(--ov-05)] hover:text-[var(--text)]"
+                      tab === t.k ? "bg-[var(--accent)]/15 text-[var(--accent-ink)]" : "text-[var(--muted)] hover:bg-[var(--ov-05)] hover:text-[var(--text)]"
                     }`}>
                     {t.l}
                   </button>
@@ -269,8 +269,8 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                 }`}>
                 <div className="flex items-center gap-4">
                   <div className={`flex shrink-0 flex-col items-center ${i === 0 ? "w-16" : "w-12"}`}>
-                    <span className={`text-center leading-none ${i === 0 ? "gold-glow font-display text-4xl text-[#fbbf24]" : i < 3 ? "text-3xl text-[#fbbf24]" : "font-display text-2xl text-[var(--accent)]"}`}>{medal}</span>
-                    {esTop10 && <span className="mt-0.5 text-[8px] font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>TOP 10</span>}
+                    <span className={`text-center leading-none ${i === 0 ? "gold-glow font-display text-4xl text-[#fbbf24]" : i < 3 ? "text-3xl text-[#fbbf24]" : "font-display text-2xl text-[var(--accent-ink)]"}`}>{medal}</span>
+                    {esTop10 && <span className="mt-0.5 text-[8px] font-black uppercase tracking-widest text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>TOP 10</span>}
                   </div>
                   {i < 3 ? (
                     <DivisionFrame categoria={r.category} puntos={r.puntos} size={i === 0 ? 72 : 44} enFuego={tab === "crecimiento" && i === 0 && r.crecimiento > 0}>
@@ -305,7 +305,7 @@ export default function RankingPage({ initial = [] }: { initial?: any[] }) {
                   <div className="text-right">
                     {tab === "reputacion" || tab === "dia" ? (
                       <>
-                        <span className={`font-display text-3xl ${i === 0 ? "gold-glow text-[#fbbf24]" : i < 3 ? "text-[#fbbf24]" : "text-[var(--accent)]"}`}>{r.reputacion}</span>
+                        <span className={`font-display text-3xl ${i === 0 ? "gold-glow text-[#fbbf24]" : i < 3 ? "text-[#fbbf24]" : "text-[var(--accent-ink)]"}`}>{r.reputacion}</span>
                         <p className="text-[10px] uppercase tracking-wider text-[var(--muted2)]">reputación</p>
                       </>
                     ) : tab === "crecimiento" ? (

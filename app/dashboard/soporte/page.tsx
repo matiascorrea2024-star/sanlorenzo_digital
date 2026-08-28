@@ -37,7 +37,7 @@ export default function SoportePage() {
       <div className="mx-auto max-w-2xl px-4 py-8">
         <DashboardNav />
         <div className="mb-6 flex items-center gap-3">
-          <LifeBuoy className="h-8 w-8 text-[var(--accent)]" />
+          <LifeBuoy className="h-8 w-8 text-[var(--accent-ink)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Soporte</h1>
             <p className="text-[var(--muted)]">Consultas, dudas o bugs -- hablás directo con nosotros.</p>

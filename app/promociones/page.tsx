@@ -137,12 +137,12 @@ export default function PromocionesPage() {
       <section ref={heroRef} className="relative overflow-hidden border-b border-[var(--line)]">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 20% 0%, rgba(209,47,104,.16), transparent 60%), radial-gradient(circle at 85% 30%, rgba(169,31,85,.10), transparent 55%)" }} />
         <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <Link href="/" className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent)]">← Volver al inicio</Link>
+          <Link href="/" className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent-ink)]">← Volver al inicio</Link>
           <div className="mt-6 flex flex-wrap items-end justify-between gap-6">
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-1.5">
                 <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--accent)]" /></span>
-                <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Corriendo ahora</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Corriendo ahora</span>
               </div>
               <h1 className="font-display text-3xl leading-[0.95] tracking-tight sm:text-4xl">
                 <span>La Gran</span>{" "}
@@ -151,7 +151,7 @@ export default function PromocionesPage() {
             </div>
             <div className="shrink-0 rounded-2xl border border-[var(--accent)]/25 bg-[var(--surface)] p-1.5 shadow-[0_0_40px_rgba(209,47,104,0.08)]">
               <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-5 py-3 text-center">
-                <p className="tabular-nums font-display text-2xl text-[var(--accent)] sm:text-3xl">{count}</p>
+                <p className="tabular-nums font-display text-2xl text-[var(--accent-ink)] sm:text-3xl">{count}</p>
                 <p className="text-[9px] font-bold uppercase tracking-widest text-[var(--muted)]">oferta{count === 1 ? "" : "s"} activa{count === 1 ? "" : "s"}</p>
               </div>
             </div>
@@ -172,7 +172,7 @@ export default function PromocionesPage() {
                 className="w-full rounded-lg border border-[var(--line-strong)] bg-[var(--ov-05)] px-2 py-1.5 text-xs outline-none focus:border-[var(--accent)]" />
             </div>
             {(precioMin || precioMax) && (
-              <button onClick={() => { setPrecioMin(""); setPrecioMax(""); }} className="text-xs font-bold text-[var(--accent)] hover:underline">Limpiar precio</button>
+              <button onClick={() => { setPrecioMin(""); setPrecioMax(""); }} className="text-xs font-bold text-[var(--accent-ink)] hover:underline">Limpiar precio</button>
             )}
           </FilterGroup>
           <FilterGroup title="Descuento mínimo">
@@ -223,7 +223,7 @@ export default function PromocionesPage() {
               {urgentes.length > 0 && (
                 <div className="mb-10">
                   <div className="mb-4 flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[var(--accent)]">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[var(--accent-ink)]">
                       ⏰ Vencen hoy o mañana
                     </span>
                     <span className="text-xs font-bold uppercase tracking-widest text-[var(--muted2)]">corré antes de que se acaben</span>
@@ -248,7 +248,7 @@ export default function PromocionesPage() {
 
           {recomendados.length > 0 && (
             <div className="mt-12 border-t border-[var(--line)] pt-8">
-              <p className="mb-4 text-[11px] font-black uppercase tracking-[.2em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Negocios mejor valorados para descubrir</p>
+              <p className="mb-4 text-[11px] font-black uppercase tracking-[.2em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Negocios mejor valorados para descubrir</p>
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 {recomendados.map((b: any) => (
                   <Link key={b.id} href={`/negocio/${b.slug}`}
@@ -261,7 +261,7 @@ export default function PromocionesPage() {
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-bold text-[var(--text)] transition group-hover:text-[var(--accent)]">{b.name}</p>
+                      <p className="truncate text-sm font-bold text-[var(--text)] transition group-hover:text-[var(--accent-ink)]">{b.name}</p>
                       <p className="text-xs font-bold text-[var(--warn)]">★ {Number(b.rating).toFixed(1)} <span className="font-normal text-[var(--muted)]">({b.reviews || 0})</span></p>
                     </div>
                   </Link>
@@ -271,7 +271,7 @@ export default function PromocionesPage() {
           )}
 
           <div className="mt-10 text-center">
-            <Link href="/ofertas-finalizadas" className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent)]">
+            <Link href="/ofertas-finalizadas" className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent-ink)]">
               Ver ofertas que ya terminaron →
             </Link>
           </div>

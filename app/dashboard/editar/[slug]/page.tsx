@@ -149,7 +149,7 @@ export default function Editar() {
       <div className="mx-auto max-w-3xl px-4 py-10">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-black" style={{ fontFamily: "var(--font-space)" }}>Editar {b.name}</h1>
-          <a href={`/negocio/${b.slug}`} target="_blank" className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/20">👁️ Ver en vivo</a>
+          <a href={`/negocio/${b.slug}`} target="_blank" className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-2.5 text-sm font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)]/20">👁️ Ver en vivo</a>
         </div>
 
         <div className="mt-4">
@@ -346,7 +346,7 @@ export default function Editar() {
             <p className="text-sm font-bold text-[var(--ok)]">🎉 Tu negocio está en Destacado Semanal: aparece con prioridad en la home y el mapa.</p>
           ) : (
             <>
-              <h2 className="mb-1 font-black text-[var(--accent)]">¿Querés más visibilidad?</h2>
+              <h2 className="mb-1 font-black text-[var(--accent-ink)]">¿Querés más visibilidad?</h2>
               <p className="mb-4 text-sm text-[var(--text)]/70">Mirá los planes pagos: más ofertas, estadísticas, catálogo destacado y posición fija en la home.</p>
               <Link
                 href="/dashboard/planes"
@@ -366,7 +366,7 @@ export default function Editar() {
             <div className="grid grid-cols-2 gap-4 mb-5">
               <div className="rounded-[1.25rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-1">
                 <div className="rounded-[.9rem] bg-[var(--card-inner)] p-4 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                  <p className="text-3xl font-black text-[var(--accent)] tabular-nums">{stats.views}</p>
+                  <p className="text-3xl font-black text-[var(--accent-ink)] tabular-nums">{stats.views}</p>
                   <p className="text-xs text-[var(--muted)] uppercase mt-1">👁 Vistas a tu miniweb</p>
                 </div>
               </div>
@@ -417,7 +417,7 @@ export default function Editar() {
                   a.click();
                 } catch { alert("No se pudo descargar el QR ahora."); }
               }}
-              className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/20"
+              className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-2.5 text-sm font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)]/20"
             >
               ⬇️ Descargar QR en alta calidad
             </button>

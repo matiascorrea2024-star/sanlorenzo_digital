@@ -49,7 +49,7 @@ export default function BuscarClient() {
       <div className="relative mx-auto max-w-4xl px-4 py-16 sm:py-24">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_50%_0%,rgba(209,47,104,.14),transparent_65%)]" />
         <div className="mb-10 text-center">
-          <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+          <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
             <Search className="h-3.5 w-3.5" /> Buscador local
           </span>
           <h1 className="font-display text-5xl uppercase leading-[0.9] tracking-tight sm:text-7xl">
@@ -72,7 +72,7 @@ export default function BuscarClient() {
                 aria-label="Qué querés encontrar"
                 className="w-full rounded-[1.6rem] border border-[var(--line)] bg-black/30 px-4 py-4 pl-12 text-[var(--text)] outline-none placeholder:text-[var(--muted2)] focus:border-[var(--accent)]"
               />
-              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[var(--accent)]" />
+              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[var(--accent-ink)]" />
             </div>
           </div>
 
@@ -104,7 +104,7 @@ export default function BuscarClient() {
             { icon: ShieldCheck, t: "Filtros Avanzados", d: "Filtrá por barrio, horario, envíos y más" },
           ].map(({ icon: Icon, t, d }) => (
             <div key={t} className="card-lift rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-6 hover:border-[var(--accent)]">
-              <Icon className="mb-3 h-6 w-6 text-[var(--accent)]" />
+              <Icon className="mb-3 h-6 w-6 text-[var(--accent-ink)]" />
               <h3 className="mb-2 font-display text-lg uppercase tracking-wide">{t}</h3>
               <p className="text-sm text-[var(--muted)]">{d}</p>
             </div>

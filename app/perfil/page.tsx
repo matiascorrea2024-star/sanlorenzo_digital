@@ -203,7 +203,7 @@ export default function PerfilPage() {
             </DivisionFrame>
           )}
           <div className="min-w-0 flex-1">
-            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>{isAdmin ? "Fundador" : "Vecino de San Lorenzo"}</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>{isAdmin ? "Fundador" : "Vecino de San Lorenzo"}</p>
             <h1 className="mt-2 truncate font-display text-4xl uppercase tracking-tight sm:text-5xl">{nombre || (user.email || "").split("@")[0]}</h1>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-3 md:justify-start">
               {isAdmin ? (
@@ -230,8 +230,8 @@ export default function PerfilPage() {
           <div className="relative mt-10 grid gap-6 md:grid-cols-2">
             <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-8">
               <div>
-                <p className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Progreso de nivel</p>
-                <p className="magenta-glow font-display text-5xl leading-none text-[var(--accent)] sm:text-6xl">
+                <p className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Progreso de nivel</p>
+                <p className="magenta-glow font-display text-5xl leading-none text-[var(--accent-ink)] sm:text-6xl">
                   {puntos} <span className="text-lg tracking-normal text-[var(--muted)]">pts</span>
                 </p>
               </div>
@@ -239,7 +239,7 @@ export default function PerfilPage() {
                 <div className="mt-8">
                   <div className="mb-2 flex items-end justify-between text-[11px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
                     <span>PRÓXIMO RANGO: {nivel.proximo.toUpperCase()}</span>
-                    <span className="text-[var(--accent)]">{faltanReal} pts restantes</span>
+                    <span className="text-[var(--accent-ink)]">{faltanReal} pts restantes</span>
                   </div>
                   <div className="h-2.5 w-full overflow-hidden rounded-full bg-[var(--ov-10)]">
                     <div className="h-full rounded-full bg-[var(--accent)]" style={{ width: `${nivel.progreso}%` }} />
@@ -249,7 +249,7 @@ export default function PerfilPage() {
             </div>
 
             <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-8">
-              <p className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Medallas y logros</p>
+              <p className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Medallas y logros</p>
               <div className="grid grid-cols-4 gap-3">
                 {medallas.slice(0, 8).map((m, i) => (
                   <div key={i} title={`${m.nombre} -- ${m.desc}`}
@@ -308,7 +308,7 @@ export default function PerfilPage() {
               <p className="font-bold">¿Tenés un negocio en San Lorenzo?</p>
               <p className="text-xs text-[var(--muted)]">Mirá los planes para comerciantes</p>
             </div>
-            <span className="text-[var(--accent)]">→</span>
+            <span className="text-[var(--accent-ink)]">→</span>
           </Link>
           <ChangePassword email={user.email} />
           <PushNotificationsToggle userId={user.id} initial={pushOptIn} />
@@ -319,13 +319,13 @@ export default function PerfilPage() {
 
         <h2 className="mt-10 mb-4 font-display text-2xl uppercase tracking-tight sm:text-3xl">Tu actividad</h2>
         <div className="grid grid-cols-3 gap-4 md:grid-cols-7 text-center">
-          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.vis}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Visitas</p></div>
-          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.cats}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Rubros</p></div>
-          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.seg}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Seguidos</p></div>
-          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.wa}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Contactos</p></div>
-          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.sh}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Compartidos</p></div>
-          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.res}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Reseñas</p></div>
-          <Link href="/invitar" className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3 transition hover:border-[var(--accent)] hover:bg-[var(--ov-05)]"><p className="magenta-glow font-display text-2xl text-[var(--accent)]">{stats.ref}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Referidos</p></Link>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent-ink)]">{stats.vis}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Visitas</p></div>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent-ink)]">{stats.cats}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Rubros</p></div>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent-ink)]">{stats.seg}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Seguidos</p></div>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent-ink)]">{stats.wa}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Contactos</p></div>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent-ink)]">{stats.sh}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Compartidos</p></div>
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"><p className="magenta-glow font-display text-2xl text-[var(--accent-ink)]">{stats.res}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Reseñas</p></div>
+          <Link href="/invitar" className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3 transition hover:border-[var(--accent)] hover:bg-[var(--ov-05)]"><p className="magenta-glow font-display text-2xl text-[var(--accent-ink)]">{stats.ref}</p><p className="text-[10px] uppercase tracking-widest text-[var(--muted2)]">Referidos</p></Link>
         </div>
 
         {isAdmin ? (
@@ -340,7 +340,7 @@ export default function PerfilPage() {
               ].map((a) => (
                 <Link key={a.href} href={a.href}
                   className="flex flex-col items-center gap-1.5 rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4 text-center transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
-                  <a.icon className="h-5 w-5 text-[var(--accent)]" />
+                  <a.icon className="h-5 w-5 text-[var(--accent-ink)]" />
                   <p className="text-xs font-bold">{a.txt}</p>
                 </Link>
               ))}
@@ -359,7 +359,7 @@ export default function PerfilPage() {
             return (
               <div key={i} className={`rounded-xl border p-4 ${done ? "border-[var(--accent)]/40 bg-[var(--accent)]/10" : "border-[var(--line)] bg-[var(--surface)]"}`}>
                 <p className="text-sm font-bold">{m.icon} {m.txt}</p>
-                <p className={`mt-2 text-xs font-black ${done ? "text-[var(--accent)]" : "text-[var(--muted)]"}`}>
+                <p className={`mt-2 text-xs font-black ${done ? "text-[var(--accent-ink)]" : "text-[var(--muted)]"}`}>
                   {done ? "✅ ¡Misión cumplida!" : `${Math.min(m.act, m.meta)}/${m.meta} · en progreso`}
                 </p>
               </div>
@@ -378,7 +378,7 @@ export default function PerfilPage() {
             return (
               <div key={i} className={`rounded-xl border p-4 ${done ? "border-[var(--accent)]/40 bg-[var(--accent)]/10" : "border-[var(--line)] bg-[var(--surface)]"}`}>
                 <p className="text-sm font-bold">{m.icon} {m.txt}</p>
-                <p className={`mt-2 text-xs font-black ${done ? "text-[var(--accent)]" : "text-[var(--muted)]"}`}>
+                <p className={`mt-2 text-xs font-black ${done ? "text-[var(--accent-ink)]" : "text-[var(--muted)]"}`}>
                   {done ? "✅ ¡Hecha!" : `${m.act}/${m.meta} · en progreso`}
                 </p>
               </div>
@@ -386,7 +386,7 @@ export default function PerfilPage() {
           })}
         </div>
         <div className="mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-4 text-xs text-[var(--muted)]">
-          🎁 Premios reales: racha de 7 días = <strong className="text-[var(--accent)]">+50 pts</strong> · completar las 3 semanales = <strong className="text-[var(--accent)]">+40 pts</strong>
+          🎁 Premios reales: racha de 7 días = <strong className="text-[var(--accent-ink)]">+50 pts</strong> · completar las 3 semanales = <strong className="text-[var(--accent-ink)]">+40 pts</strong>
         </div>
 
         <h2 className="mt-10 mb-4 font-display text-2xl uppercase tracking-tight sm:text-3xl">Rangos — ¿hasta dónde llegás?</h2>
@@ -438,7 +438,7 @@ export default function PerfilPage() {
           )}
         </div>
         <div className="mt-10 text-center">
-          <Link href="/vecinos" className="text-sm font-black text-[var(--accent)] transition hover:opacity-80">👥 Ver ranking de vecinos →</Link>
+          <Link href="/vecinos" className="text-sm font-black text-[var(--accent-ink)] transition hover:opacity-80">👥 Ver ranking de vecinos →</Link>
         </div>
       </div>
     </main>

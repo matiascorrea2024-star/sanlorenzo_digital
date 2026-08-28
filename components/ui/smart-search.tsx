@@ -167,7 +167,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
     <div ref={boxRef} className={`relative w-full ${className}`}>
       <form onSubmit={onSubmit} className="hero-search rounded-[1.5rem] border border-[var(--line-strong)] bg-[var(--ov-03)] p-1 shadow-2xl backdrop-blur-xl">
       <div className="flex items-center gap-2 rounded-[1.25rem] border border-[var(--line)] bg-[var(--surface)]/90 pr-1 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-        <div className="pl-2.5 text-[var(--accent)] sm:pl-3"><Search className="h-4 w-4 sm:h-5 sm:w-5" /></div>
+        <div className="pl-2.5 text-[var(--accent-ink)] sm:pl-3"><Search className="h-4 w-4 sm:h-5 sm:w-5" /></div>
         <input ref={inputRef} value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }}
           onFocus={() => setOpen(true)}
           placeholder={placeholder}
@@ -191,13 +191,13 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
       {open && (lower || recent.length) && (
         <div ref={dropRef} className="absolute left-0 right-0 z-40 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-[var(--line)] bg-[var(--surface2)] p-3 shadow-2xl">
           {buscando && (
-            <p className="mb-2 flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-[var(--accent)]/70">
+            <p className="mb-2 flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-[var(--accent-ink)]/70">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--accent)]" /> Buscando...
             </p>
           )}
           {parsedQuery.city && (
             <div className="mb-3 rounded-xl bg-[var(--accent)]/10 border border-[var(--accent)]/30 p-3">
-              <p className="text-xs text-[var(--accent)] font-bold">📍 Buscando en {parsedQuery.city.name}</p>
+              <p className="text-xs text-[var(--accent-ink)] font-bold">📍 Buscando en {parsedQuery.city.name}</p>
             </div>
           )}
           
@@ -207,9 +207,9 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
               {productos.map(p => (
                 <button key={p.id} onClick={() => go(`/negocio/${p.businesses.slug}`, p.name)}
                   className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm hover:bg-[var(--ov-05)]">
-                  <Package className="h-4 w-4 text-[var(--accent)]" />
+                  <Package className="h-4 w-4 text-[var(--accent-ink)]" />
                   <span className="flex-1 truncate">{p.name}</span>
-                  <span className="text-xs text-[var(--accent)] font-bold">${p.price.toLocaleString("es-AR")}</span>
+                  <span className="text-xs text-[var(--accent-ink)] font-bold">${p.price.toLocaleString("es-AR")}</span>
                 </button>
               ))}
             </div>
@@ -235,7 +235,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
               {matchedBiz.map(b => (
                 <button key={b.id} onClick={() => go(`/negocio/${b.slug}`, b.name)}
                   className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm hover:bg-[var(--ov-05)]">
-                  <Store className="h-4 w-4 text-[var(--accent)]" />
+                  <Store className="h-4 w-4 text-[var(--accent-ink)]" />
                   <span className="flex-1">{b.name}</span>
                   <span className="text-xs capitalize text-[var(--muted2)]">{b.category}</span>
                 </button>
@@ -249,7 +249,7 @@ export default function SmartSearch({ className = "", placeholder = "Buscá cual
               {matchedCats.map(c => (
                 <button key={c.id} onClick={() => go(`/negocios?cat=${c.id}`, c.name)}
                   className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm hover:bg-[var(--ov-05)]">
-                  <Tag className="h-4 w-4 text-[var(--accent)]" />
+                  <Tag className="h-4 w-4 text-[var(--accent-ink)]" />
                   <span>{c.name}</span>
                 </button>
               ))}

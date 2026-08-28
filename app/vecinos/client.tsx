@@ -70,7 +70,7 @@ export default function VecinosPage() {
       <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
         <RankingSwitch current="vecinos" />
 
-        <p className="mt-8 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Comunidad activa</p>
+        <p className="mt-8 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Comunidad activa</p>
         <h1 className="mt-2 font-display text-5xl uppercase leading-[0.9] tracking-tight text-[var(--text)] sm:text-6xl">
           RANKING DE{" "}
           <span className="bg-gradient-to-r from-[var(--accent)] to-[#fbbf24] bg-clip-text text-transparent">VECINOS</span>
@@ -79,7 +79,7 @@ export default function VecinosPage() {
 
         {miRank && (
           <div className="mt-8 rounded-2xl border border-[var(--accent)]/20 bg-[var(--surface)] p-5 text-center">
-            <p className="text-sm font-black text-[var(--accent)]">
+            <p className="text-sm font-black text-[var(--accent-ink)]">
               📍 Vas {miRank.puesto}º de {miRank.total} vecinos · {miRank.puntos} puntos
             </p>
             <p className="mt-1 text-xs text-[var(--muted)]">Seguí sumando para aparecer en el podio 👇</p>
@@ -94,7 +94,7 @@ export default function VecinosPage() {
               return (
                 <div key={v.id} className={`rounded-2xl border p-4 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)] ${i === 0 ? "border-[#fbbf24]/25 bg-gradient-to-br from-[#fbbf24]/5 to-transparent" : "border-[var(--line)] bg-[var(--surface)]"}`}>
                   <div className="flex items-center gap-4">
-                    <span className={`shrink-0 text-center leading-none ${i === 0 ? "gold-glow w-14 font-display text-4xl text-[#fbbf24]" : i < 3 ? "w-12 text-3xl text-[#fbbf24]" : "w-10 font-display text-2xl text-[var(--accent)]"}`}>{medalla(i)}</span>
+                    <span className={`shrink-0 text-center leading-none ${i === 0 ? "gold-glow w-14 font-display text-4xl text-[#fbbf24]" : i < 3 ? "w-12 text-3xl text-[#fbbf24]" : "w-10 font-display text-2xl text-[var(--accent-ink)]"}`}>{medalla(i)}</span>
                     <DivisionFrame puntos={v.puntos} escala={ESCALA_PUNTOS_USUARIO} size={i === 0 ? 56 : 40}>
                       <Avatar name={v.nombre} size={i === 0 ? 52 : 40} />
                     </DivisionFrame>
@@ -103,7 +103,7 @@ export default function VecinosPage() {
                       <p className="text-xs font-bold uppercase tracking-wide" style={{ color: r.accent }}>{r.rango}{r.tier && ` ${r.tier}`}</p>
                     </div>
                     <div className="shrink-0 text-right">
-                      <p className={`font-display text-3xl ${i === 0 ? "gold-glow text-[#fbbf24]" : i < 3 ? "text-[#fbbf24]" : "text-[var(--accent)]"}`}>{v.puntos}</p>
+                      <p className={`font-display text-3xl ${i === 0 ? "gold-glow text-[#fbbf24]" : i < 3 ? "text-[#fbbf24]" : "text-[var(--accent-ink)]"}`}>{v.puntos}</p>
                       <p className="text-[10px] uppercase tracking-wider text-[var(--muted2)]">puntos</p>
                     </div>
                   </div>

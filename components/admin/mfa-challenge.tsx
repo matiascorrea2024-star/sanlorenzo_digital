@@ -45,7 +45,7 @@ export default function MfaChallenge({ onSuccess }: { onSuccess: () => void }) {
     <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4 text-[var(--text)]">
       <div className="w-full max-w-sm rounded-[2.5rem] border border-[var(--line-strong)] bg-[var(--surface)] p-8 shadow-2xl">
         <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-[var(--accent)]/15">
-          <ShieldCheck className="h-7 w-7 text-[var(--accent)]" />
+          <ShieldCheck className="h-7 w-7 text-[var(--accent-ink)]" />
         </span>
         <h1 className="mt-5 text-center font-display text-3xl uppercase tracking-tight">Último paso</h1>
         <p className="mt-2 text-center text-sm text-[var(--muted)]">
@@ -73,7 +73,7 @@ export default function MfaChallenge({ onSuccess }: { onSuccess: () => void }) {
         >
           {busy ? "Verificando..." : "Entrar al panel"}
         </button>
-        <Link href="/perfil#cuenta" className="mt-4 block text-center text-xs font-bold text-[var(--muted2)] transition hover:text-[var(--accent)]">
+        <Link href="/perfil#cuenta" className="mt-4 block text-center text-xs font-bold text-[var(--muted2)] transition hover:text-[var(--accent-ink)]">
           Problemas con el código →
         </Link>
       </div>

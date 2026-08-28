@@ -87,7 +87,7 @@ export default function ClaimButton({ businessId, businessName }: {
           <button key={m} onClick={() => setMetodo(m)}
             className={`rounded-full px-3 py-1 text-xs transition ${
               metodo === m
-                ? "border border-[var(--accent)]/50 bg-[var(--accent)]/15 text-[var(--accent)]"
+                ? "border border-[var(--accent)]/50 bg-[var(--accent)]/15 text-[var(--accent-ink)]"
                 : "border border-[var(--line-strong)] text-[var(--muted)]"
             }`}>
             {m}

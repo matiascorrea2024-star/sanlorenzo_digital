@@ -81,7 +81,7 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
       <section className="relative overflow-hidden border-b border-red-400/20 bg-gradient-to-br from-red-900/30 via-[#0c0a0b] to-[#861642]/30 py-12">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(239,68,68,0.15),_transparent_50%)]" />
         <div className="relative mx-auto max-w-5xl px-4 text-center">
-          <p className="mb-4 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+          <p className="mb-4 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
             <span className="live-dot inline-block h-2 w-2 rounded-full bg-[var(--accent)]" /> Radar en vivo
           </p>
           <Badge variant="danger" size="md" pulse>
@@ -125,9 +125,9 @@ export default function RadarPage({ initial = [] }: { initial?: any[] }) {
           <>
             <div className="mb-6 flex items-center justify-between">
               <h2 className="font-display text-3xl uppercase tracking-tight">
-                <Flame className="mr-2 inline h-5 w-5 text-[var(--accent)]" />
+                <Flame className="mr-2 inline h-5 w-5 text-[var(--accent-ink)]" />
                 {ofertas.length} oferta{ofertas.length !== 1 ? "s" : ""} que vence{ofertas.length !== 1 ? "n" : ""}{" "}
-                <span className="text-[var(--accent)]">hoy</span>
+                <span className="text-[var(--accent-ink)]">hoy</span>
               </h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

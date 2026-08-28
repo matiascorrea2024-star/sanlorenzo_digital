@@ -140,20 +140,20 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
             {o.verificado && <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[var(--place)]" aria-label="Comercio verificado" />}
             <RankedAvatar slug={o.slug} name={o.negocio || ""} size={20} /> <RankBadge slug={o.slug} />
           </div>
-          <span className="shrink-0 rounded-md bg-[var(--ov-05)] px-1.5 py-0.5 text-[9px] font-black tabular-nums text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}
+          <span className="shrink-0 rounded-md bg-[var(--ov-05)] px-1.5 py-0.5 text-[9px] font-black tabular-nums text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}
             title={sdlLabel(sdlScore).text}>
             {sdlScore}
           </span>
         </div>
 
-        <h3 className="line-clamp-2 min-h-[2.6rem] font-display text-xl uppercase leading-[0.95] tracking-wide text-[var(--text)] transition-colors group-hover:text-[var(--accent)] sm:text-2xl">{o.producto}</h3>
+        <h3 className="line-clamp-2 min-h-[2.6rem] font-display text-xl uppercase leading-[0.95] tracking-wide text-[var(--text)] transition-colors group-hover:text-[var(--accent-ink)] sm:text-2xl">{o.producto}</h3>
         {publicado && <p className="mt-2 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Publicado {publicado}</p>}
 
         <div className="mt-auto pt-4">
           {o.ahora && o.antes ? (
             <div className="flex items-end justify-between">
               <div className="flex items-baseline gap-2.5">
-                <span className="font-display text-4xl leading-none text-[var(--accent)] transition-colors group-hover:text-white">{fmt(o.ahora)}</span>
+                <span className="font-display text-4xl leading-none text-[var(--accent-ink)] transition-colors group-hover:text-white">{fmt(o.ahora)}</span>
                 <span className="text-sm font-bold text-[var(--muted)] line-through decoration-2">{fmt(o.antes)}</span>
               </div>
               {o.descuento && (
@@ -163,7 +163,7 @@ export default function OfferCard({ o, userCoords }: { o: Offer; userCoords?: { 
               )}
             </div>
           ) : (
-            <p className="text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Ver oferta →</p>
+            <p className="text-xs font-black uppercase tracking-widest text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Ver oferta →</p>
           )}
         </div>
       </div>

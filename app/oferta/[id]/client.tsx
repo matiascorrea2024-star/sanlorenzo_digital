@@ -151,7 +151,7 @@ export default function OfertaPage() {
         <div className="text-center">
           <p className="text-5xl mb-4">🔍</p>
           <h1 className="font-display text-3xl uppercase tracking-wide">Oferta no encontrada</h1>
-          <Link href="/" className="mt-4 inline-block text-[var(--accent)] hover:underline">← Volver al inicio</Link>
+          <Link href="/" className="mt-4 inline-block text-[var(--accent-ink)] hover:underline">← Volver al inicio</Link>
         </div>
       </main>
     );

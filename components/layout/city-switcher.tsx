@@ -23,7 +23,7 @@ export default function CitySwitcher() {
     <div className="relative hidden md:block" ref={ref}>
       <button onClick={() => setOpen(!open)}
         className="flex items-center gap-1 rounded-md px-1.5 py-1 text-white/85 hover:bg-white/10">
-        <MapPin className="h-3.5 w-3.5 shrink-0 text-[var(--accent)]" />
+        <MapPin className="h-3.5 w-3.5 shrink-0 text-[var(--accent-ink)]" />
         <span className="flex flex-col items-start leading-tight">
           <span className="text-[10px] text-white/50">Entrega en</span>
           <span className="flex items-center gap-0.5 text-xs font-bold">San Lorenzo <ChevronDown className="h-3 w-3" /></span>

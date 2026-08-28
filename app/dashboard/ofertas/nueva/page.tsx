@@ -168,7 +168,7 @@ export default function NuevaOferta() {
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-[1400px] px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:opacity-80">← Volver a mis ofertas</Link>
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent-ink)] hover:opacity-80">← Volver a mis ofertas</Link>
 
         {bienvenida && (
           <div className="mt-4 rounded-2xl border border-[var(--ok)]/40 bg-[var(--ok)]/10 p-4">
@@ -177,7 +177,7 @@ export default function NuevaOferta() {
               <span className="text-[var(--muted2)]" aria-hidden>→</span>
               <span className="text-[var(--muted)]">Catálogo (opcional)</span>
               <span className="text-[var(--muted2)]" aria-hidden>→</span>
-              <span className="text-[var(--accent)]">Tu primera oferta</span>
+              <span className="text-[var(--accent-ink)]">Tu primera oferta</span>
               <span className="text-[var(--muted2)]" aria-hidden>→</span>
               <span className="text-[var(--muted)]">Publicá</span>
             </div>
@@ -186,7 +186,7 @@ export default function NuevaOferta() {
           </div>
         )}
 
-        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Publicar</p>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">Publicar</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Nueva oferta</h1>
         <p className="mt-3 text-[var(--muted)]">Se publica al instante en la home, el radar, el mapa y tu miniweb.</p>
 
@@ -202,7 +202,7 @@ export default function NuevaOferta() {
           <div className="mt-4 rounded-xl border border-[var(--line)] bg-[var(--ov-03)] p-3 text-xs text-[var(--muted)]">
             Plan <b className="text-[var(--text)]/80">{planActual.name}</b>: {limite.activas}/{limiteActivas} ofertas activas · {limite.hoy}/{limiteHoy} publicadas hoy.
             {(limite.activas >= (limiteActivas || 0) || limite.hoy >= (limiteHoy || 0)) && (
-              <> <Link href="/dashboard/planes" className="font-bold text-[var(--accent)] hover:opacity-80">Mejorar plan →</Link></>
+              <> <Link href="/dashboard/planes" className="font-bold text-[var(--accent-ink)] hover:opacity-80">Mejorar plan →</Link></>
             )}
           </div>
         )}
@@ -257,7 +257,7 @@ export default function NuevaOferta() {
           {desc > 0 && (
             <div className="rounded-2xl border border-[var(--accent)]/40 bg-[var(--accent)]/10 p-4 text-center">
               <p className="text-xs text-[var(--muted)]">Descuento calculado</p>
-              <p className="text-3xl font-black text-[var(--accent)]">{desc}% OFF</p>
+              <p className="text-3xl font-black text-[var(--accent-ink)]">{desc}% OFF</p>
             </div>
           )}
 
@@ -320,7 +320,7 @@ export default function NuevaOferta() {
             mientras se completa el formulario. */}
         <aside className="hidden lg:block">
           <div className="sticky top-6">
-            <p className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+            <p className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
               👁 Así se va a ver
             </p>
             {previewOferta ? (

@@ -65,7 +65,7 @@
 @media (prefers-reduced-motion: reduce) { .mvHeroSpotCard { animation: none; } }
 .mvHeroSpotTag { position: absolute; bottom: 1.2rem; left: 1.2rem; right: 1.2rem; background: color-mix(in srgb, var(--bg) 70%, transparent); backdrop-filter: blur(10px); border: 1px solid var(--line-strong); border-radius: 1rem; padding: 1rem 1.1rem; z-index: 3; }
 .mvHeroSpotTag .mvSh { font-family: var(--font-space); font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted2); }
-.mvHeroSpotTag h4 { font-family: var(--font-space); font-weight: 700; font-size: 1rem; color: var(--text); margin: .3rem 0; }
+.mvHeroSpotTag .mvSpotTitle { font-family: var(--font-space); font-weight: 700; font-size: 1rem; color: var(--text); margin: .3rem 0; }
 .mvHeroSpotTag .mvPr { display: flex; align-items: baseline; gap: .5rem; }
 .mvHeroSpotTag .mvPr b { font-family: var(--mv-font-serif); font-style: italic; font-size: 1.5rem; }
 .mvHeroSpotTag .mvPr s { font-family: var(--font-space); font-size: .78rem; color: var(--muted2); }

@@ -51,7 +51,7 @@ export default function MiBarataClient() {
   if (authLoading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] text-[var(--text)]">
-        <Loader2 className="h-8 w-8 animate-spin text-[var(--accent)]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[var(--accent-ink)]" />
       </main>
     );
   }
@@ -62,7 +62,7 @@ export default function MiBarataClient() {
         <section className="relative overflow-hidden border-b border-[var(--line)]">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(209,47,104,.16),transparent_55%)]" />
           <div className="relative mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
-            <Basket className="mx-auto h-14 w-14 text-[var(--accent)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
+            <Basket className="mx-auto h-14 w-14 text-[var(--accent-ink)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
             <h1 className="mt-4 font-display text-4xl uppercase tracking-tight sm:text-5xl">Mi barata</h1>
             <p className="mt-3 text-base text-[var(--muted)]">Guardá ofertas de varios negocios y mirá cuánto ahorrás en una sola vuelta.</p>
             <Link href="/login" className="btn-hard mt-6 inline-block rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
@@ -79,8 +79,8 @@ export default function MiBarataClient() {
       <section className="relative overflow-hidden border-b border-[var(--line)]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(209,47,104,.16),transparent_55%)]" />
         <div className="relative mx-auto max-w-3xl px-4 pb-8 pt-16 sm:px-6">
-          <Basket className="h-10 w-10 text-[var(--accent)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
-          <p className="mt-4 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+          <Basket className="h-10 w-10 text-[var(--accent-ink)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
+          <p className="mt-4 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
             Tu vuelta de la semana
           </p>
           <h1 className="mt-2 font-display text-4xl uppercase tracking-tight sm:text-6xl">
@@ -104,7 +104,7 @@ export default function MiBarataClient() {
 
       <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
         {items === null ? (
-          <div className="flex justify-center py-16"><Loader2 className="h-8 w-8 animate-spin text-[var(--accent)]" /></div>
+          <div className="flex justify-center py-16"><Loader2 className="h-8 w-8 animate-spin text-[var(--accent-ink)]" /></div>
         ) : items.length === 0 ? (
           <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-12 text-center">
             <Basket className="mx-auto h-16 w-16 text-[var(--muted2)]" />
@@ -122,7 +122,7 @@ export default function MiBarataClient() {
             <div className="rounded-[2rem] border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-6">
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Si comprás todo lo vigente</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Si comprás todo lo vigente</p>
                   <p className="mt-2 font-display text-4xl leading-none">{fmt(totales.ahora)}</p>
                   {totales.ahorro > 0 && (
                     <p className="mt-1 text-sm text-[var(--muted)]">
@@ -146,7 +146,7 @@ export default function MiBarataClient() {
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <h2 className="font-display text-xl uppercase tracking-wide">{g.negocio}</h2>
-                    <Link href={`/negocio/${g.slug}`} className="text-[11px] font-black uppercase tracking-widest text-[var(--accent)] hover:underline" style={{ fontFamily: "var(--font-display)" }}>
+                    <Link href={`/negocio/${g.slug}`} className="text-[11px] font-black uppercase tracking-widest text-[var(--accent-ink)] hover:underline" style={{ fontFamily: "var(--font-display)" }}>
                       Ver negocio →
                     </Link>
                   </div>

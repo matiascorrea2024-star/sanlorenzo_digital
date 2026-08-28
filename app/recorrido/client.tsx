@@ -153,7 +153,7 @@ export default function RecorridoClient() {
   if (authLoading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] text-[var(--text)]">
-        <Loader2 className="h-8 w-8 animate-spin text-[var(--accent)]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[var(--accent-ink)]" />
       </main>
     );
   }
@@ -165,7 +165,7 @@ export default function RecorridoClient() {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(209,47,104,.16),transparent_55%)]" />
           <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0c0a0b] to-transparent" />
           <div className="relative mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
-            <Route className="mx-auto h-14 w-14 text-[var(--accent)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
+            <Route className="mx-auto h-14 w-14 text-[var(--accent-ink)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
             <h1 className="mt-4 font-display text-4xl uppercase tracking-tight sm:text-5xl">Mi recorrido</h1>
             <p className="mt-3 text-base text-[var(--muted)]">Armá el camino más corto entre tus negocios y ofertas favoritas.</p>
             <Link
@@ -206,8 +206,8 @@ export default function RecorridoClient() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(209,47,104,.16),transparent_55%)]" />
         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0c0a0b] to-transparent" />
         <div className="relative mx-auto max-w-6xl px-4 pb-10 pt-16 sm:px-6">
-          <Route className="h-10 w-10 text-[var(--accent)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
-          <p className="mt-4 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+          <Route className="h-10 w-10 text-[var(--accent-ink)] drop-shadow-[0_0_14px_rgba(209,47,104,.5)]" />
+          <p className="mt-4 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
             {fuente === "barata" ? "Tu barata, ordenada" : "Hoy salgo a comprar"}
           </p>
           <h1 className="mt-2 font-display text-4xl uppercase tracking-tight sm:text-6xl">
@@ -235,7 +235,7 @@ export default function RecorridoClient() {
                   {ordered.length} parada{ordered.length !== 1 ? "s" : ""}
                 </span>
                 {conOrden && (
-                  <span className="rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+                  <span className="rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-4 py-2 text-[11px] font-black uppercase tracking-widest text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
                     Total · {fmtDistance(totalKm)}
                   </span>
                 )}
@@ -300,7 +300,7 @@ export default function RecorridoClient() {
                           )}
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-[9px] font-black uppercase tracking-widest text-[var(--accent)]">{s.category}</p>
+                          <p className="truncate text-[9px] font-black uppercase tracking-widest text-[var(--accent-ink)]">{s.category}</p>
                           <h3 className="truncate font-display text-lg uppercase leading-tight">{s.name}</h3>
                           {s.leg !== null && (
                             <p className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-[var(--muted)]">
@@ -337,7 +337,7 @@ export default function RecorridoClient() {
 
               {conOrden && (
                 <div className="flex items-center justify-between rounded-[2rem] border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-6 py-5">
-                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
                     Total del recorrido
                   </span>
                   <span className="font-display text-3xl">{fmtDistance(totalKm)}</span>

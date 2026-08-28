@@ -59,7 +59,7 @@ export default function CommercialCalendar() {
 
   return (
     <section className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6">
-      <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+      <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
         <Calendar className="h-3.5 w-3.5 shrink-0" /> Calendario comercial
       </p>
       <h2 className="mt-2 font-display text-2xl uppercase tracking-tight">Fechas que venden</h2>
@@ -69,7 +69,7 @@ export default function CommercialCalendar() {
         {eventos.map((e) => (
           <li key={`${e.nombre}-${e.fecha}`} className="flex flex-wrap items-center gap-3 rounded-2xl border border-[var(--line)] bg-[var(--ov-02)] p-3">
             <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl bg-[var(--accent)]/10 text-center">
-              <span className="font-display text-xl leading-none text-[var(--accent)]">{e.fechaFmt.split(" ")[0]}</span>
+              <span className="font-display text-xl leading-none text-[var(--accent-ink)]">{e.fechaFmt.split(" ")[0]}</span>
               <span className="mt-0.5 text-[9px] font-black uppercase tracking-widest text-[var(--muted)]">{e.fechaFmt.split(" ")[1]}</span>
             </div>
             <div className="min-w-0 flex-1">

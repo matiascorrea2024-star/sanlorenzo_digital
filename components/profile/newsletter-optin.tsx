@@ -27,7 +27,7 @@ export default function NewsletterOptIn({ userId, initial }: { userId: string; i
   return (
     <div className="flex items-center justify-between gap-3 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-4">
       <div className="flex items-center gap-3">
-        <Mail className="h-5 w-5 shrink-0 text-[var(--accent)]" />
+        <Mail className="h-5 w-5 shrink-0 text-[var(--accent-ink)]" />
         <div>
           <p className="font-bold text-[var(--text)]">Novedades por mail</p>
           <p className="text-xs text-[var(--muted)]">Un resumen semanal con las ofertas y negocios nuevos de tu zona. Podés desactivarlo cuando quieras.</p>

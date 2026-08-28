@@ -163,7 +163,7 @@ export default function ParaVosClient({ ofertas: initialOfertas }: { ofertas: Ro
       <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
         <div className="mx-auto max-w-[1700px] px-4 py-24 sm:px-6">
           <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-10 text-center md:p-14">
-            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Feed inteligente</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Feed inteligente</p>
             <p className="mt-4 font-display text-2xl uppercase tracking-tight text-[var(--text)]">Todavía no hay ofertas para recomendar. Volvé en un rato.</p>
             <Link href="/promociones" className="btn-hard mt-8 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-display)" }}>
               Ver todas las ofertas
@@ -180,10 +180,10 @@ export default function ParaVosClient({ ofertas: initialOfertas }: { ofertas: Ro
       <section className="relative overflow-hidden border-b border-[var(--line)]">
         <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(circle at 20% 0%, rgba(209,47,104,.16), transparent 60%), radial-gradient(circle at 85% 30%, rgba(169,31,85,.10), transparent 55%)" }} />
         <div className="relative mx-auto max-w-[1700px] px-4 py-12 sm:px-6 md:py-16">
-          <Link href="/" className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent)]">← Volver al inicio</Link>
+          <Link href="/" className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted)] transition hover:text-[var(--accent-ink)]">← Volver al inicio</Link>
           <div className="mt-6 flex flex-wrap items-end justify-between gap-8">
             <div className="max-w-2xl">
-              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Feed inteligente</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Feed inteligente</p>
               <h1 className="mt-4 font-display text-5xl leading-[0.95] tracking-tight md:text-7xl">
                 PARA <span className="knockout-text magenta-glow">VOS</span>
               </h1>
@@ -206,8 +206,8 @@ export default function ParaVosClient({ ofertas: initialOfertas }: { ofertas: Ro
                 </div>
               ) : (
                 <div className="flex items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-2" style={{ fontFamily: "var(--font-display)" }}>
-                  <MapPin className="h-4 w-4 text-[var(--accent)]" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--accent)]">Mostrando cerca tuyo</span>
+                  <MapPin className="h-4 w-4 text-[var(--accent-ink)]" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--accent-ink)]">Mostrando cerca tuyo</span>
                 </div>
               )}
             </div>
@@ -221,7 +221,7 @@ export default function ParaVosClient({ ofertas: initialOfertas }: { ofertas: Ro
           <Fila
             icon={<MapPin className="h-4 w-4" />}
             eyebrow="Geolocalización"
-            title={<>Cerca <span className="text-[var(--accent)]">tuyo.</span></>}
+            title={<>Cerca <span className="text-[var(--accent-ink)]">tuyo.</span></>}
             sub="Ordenado por distancia real hasta cada negocio."
             ofertas={secciones.cerca}
             userCoords={coords}
@@ -232,7 +232,7 @@ export default function ParaVosClient({ ofertas: initialOfertas }: { ofertas: Ro
           <Fila
             icon={<Timer className="h-4 w-4" />}
             eyebrow="Corré que se termina"
-            title={<>Última <span className="text-[var(--accent)]">oportunidad.</span></>}
+            title={<>Última <span className="text-[var(--accent-ink)]">oportunidad.</span></>}
             sub="Vencen en 3 días o menos."
             ofertas={secciones.ultima}
             userCoords={coords}
@@ -243,7 +243,7 @@ export default function ParaVosClient({ ofertas: initialOfertas }: { ofertas: Ro
           <Fila
             icon={<Sparkles className="h-4 w-4" />}
             eyebrow="Publicadas esta semana"
-            title={<>Recién <span className="text-[var(--accent)]">llegados.</span></>}
+            title={<>Recién <span className="text-[var(--accent-ink)]">llegados.</span></>}
             sub="Ofertas publicadas en los últimos 7 días."
             ofertas={secciones.nuevos}
             userCoords={coords}
@@ -254,7 +254,7 @@ export default function ParaVosClient({ ofertas: initialOfertas }: { ofertas: Ro
           <Fila
             icon={<Flame className="h-4 w-4" />}
             eyebrow="Lo que mueve la barata"
-            title={<>En <span className="text-[var(--accent)]">tendencia.</span></>}
+            title={<>En <span className="text-[var(--accent-ink)]">tendencia.</span></>}
             sub="Impulsadas primero, después los descuentos más fuertes."
             ofertas={secciones.tendencia}
             userCoords={coords}
@@ -265,7 +265,7 @@ export default function ParaVosClient({ ofertas: initialOfertas }: { ofertas: Ro
           <Fila
             icon={<History className="h-4 w-4" />}
             eyebrow="Tu historial"
-            title={<>Vistos por <span className="text-[var(--accent)]">vos.</span></>}
+            title={<>Vistos por <span className="text-[var(--accent-ink)]">vos.</span></>}
             sub="Ofertas que abriste desde este dispositivo."
             ofertas={secciones.vistas}
             userCoords={coords}
@@ -300,9 +300,9 @@ function Fila({
   return (
     <section aria-label={eyebrow}>
       <div className="mb-6 flex items-start gap-4">
-        <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--surface)] text-[var(--accent)]">{icon}</span>
+        <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--surface)] text-[var(--accent-ink)]">{icon}</span>
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>{eyebrow}</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>{eyebrow}</p>
           <h2 className="mt-2 font-display text-3xl leading-[0.95] tracking-tight text-[var(--text)] sm:text-4xl">{title}</h2>
           {sub && <p className="mt-2 text-xs uppercase tracking-widest text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>{sub}</p>}
         </div>

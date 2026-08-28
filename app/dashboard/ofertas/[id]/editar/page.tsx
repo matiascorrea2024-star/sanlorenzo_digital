@@ -105,7 +105,7 @@ export default function EditarOferta() {
         <div>
           <p className="text-4xl mb-3">🔍</p>
           <p className="font-bold">{error}</p>
-          <Link href="/dashboard/ofertas" className="mt-4 inline-block text-[var(--accent)] hover:opacity-80">← Volver a mis ofertas</Link>
+          <Link href="/dashboard/ofertas" className="mt-4 inline-block text-[var(--accent-ink)] hover:opacity-80">← Volver a mis ofertas</Link>
         </div>
       </main>
     );
@@ -114,8 +114,8 @@ export default function EditarOferta() {
   return (
     <main className="min-h-screen bg-[var(--bg)] pb-24 text-[var(--text)]">
       <div className="mx-auto max-w-2xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:opacity-80">← Volver a mis ofertas</Link>
-        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Editar</p>
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent-ink)] hover:opacity-80">← Volver a mis ofertas</Link>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">Editar</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Editar oferta</h1>
 
         <div className="mt-6">
@@ -155,7 +155,7 @@ export default function EditarOferta() {
           {desc > 0 && (
             <div className="rounded-2xl border border-[var(--accent)]/40 bg-[var(--accent)]/10 p-4 text-center">
               <p className="text-xs text-[var(--muted)]">Descuento calculado</p>
-              <p className="text-3xl font-black text-[var(--accent)]">{desc}% OFF</p>
+              <p className="text-3xl font-black text-[var(--accent-ink)]">{desc}% OFF</p>
             </div>
           )}
           <div>

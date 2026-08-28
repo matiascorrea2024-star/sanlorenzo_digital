@@ -28,7 +28,7 @@ export default async function Page() {
         <div className="pointer-events-none absolute left-[-10%] top-[-15%] h-[70%] w-[70%] rounded-full bg-[#d12f68] opacity-[0.08] blur-[180px]" aria-hidden="true" />
         <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
         <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 text-center md:py-28">
-          <p className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+          <p className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
             Para comercios de San Lorenzo
           </p>
           <h1 className="mx-auto max-w-3xl font-display text-5xl leading-[0.95] tracking-tight md:text-7xl">
@@ -42,7 +42,7 @@ export default async function Page() {
               Crear mi miniweb gratis
               <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
             </Link>
-            {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-xl border border-[var(--line-strong)] px-6 py-3 text-xs font-black uppercase tracking-widest transition hover:border-[var(--accent)] hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Hablar por WhatsApp</a>}
+            {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-xl border border-[var(--line-strong)] px-6 py-3 text-xs font-black uppercase tracking-widest transition hover:border-[var(--accent)] hover:text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Hablar por WhatsApp</a>}
           </div>
         </div>
       </section>

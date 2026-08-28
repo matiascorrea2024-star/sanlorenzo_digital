@@ -99,7 +99,7 @@ export default function MensajesClientePage() {
 
         {selectedBiz && sel && (
           <div className="mt-4">
-            <button onClick={() => setSelectedBiz(null)} className="mb-2 text-[11px] font-black uppercase tracking-widest text-[var(--accent)]">← Conversaciones</button>
+            <button onClick={() => setSelectedBiz(null)} className="mb-2 text-[11px] font-black uppercase tracking-widest text-[var(--accent-ink)]">← Conversaciones</button>
             <Chat businessId={selectedBiz} ownerId={sel.owner_id} businessName={sel.name} businessSlug={sel.slug} />
           </div>
         )}

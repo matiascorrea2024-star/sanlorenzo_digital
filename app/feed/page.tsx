@@ -14,7 +14,7 @@ const TIPOS: Record<string, { icon: any; label: string; color: string }> = {
   novedad: { icon: Sparkles, label: "Novedad", color: "text-[var(--place)] bg-[var(--place)]/15 border-[var(--place)]/40" },
   evento: { icon: PartyPopper, label: "Evento", color: "text-purple-400 bg-purple-500/15 border-purple-400/40" },
   apertura: { icon: Store, label: "Apertura", color: "text-[var(--ok)] bg-[var(--ok)]/15 border-[var(--ok)]/40" },
-  producto: { icon: Package, label: "Nuevo producto", color: "text-[var(--accent)] bg-[var(--accent)]/15 border-[var(--accent)]/40" },
+  producto: { icon: Package, label: "Nuevo producto", color: "text-[var(--accent-ink)] bg-[var(--accent)]/15 border-[var(--accent)]/40" },
   anuncio: { icon: Megaphone, label: "Anuncio", color: "text-[var(--warn)] bg-[var(--warn)]/15 border-[var(--warn)]/40" },
 };
 
@@ -105,7 +105,7 @@ export default function MuroPage() {
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+            <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
               <span className="live-dot inline-block h-2 w-2 rounded-full" /> En vivo
             </p>
             <h1 className="mt-2 font-display text-5xl uppercase leading-[0.9] tracking-tight text-[var(--text)]">Muro <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">local</span></h1>
@@ -153,7 +153,7 @@ export default function MuroPage() {
                 <div className="flex items-center gap-3">
                   <RankedAvatar slug={p.business_slug} name={p.business_name} size={44} />
                   <div className="flex-1">
-                    <Link href={`/negocio/${p.business_slug}`} className="font-bold hover:text-[var(--accent)]">
+                    <Link href={`/negocio/${p.business_slug}`} className="font-bold hover:text-[var(--accent-ink)]">
                       {p.business_name}
                     </Link>
                     <p className="text-xs text-[var(--muted2)]">{timeAgo(p.created_at)}</p>
@@ -175,12 +175,12 @@ export default function MuroPage() {
                 {/* Acciones */}
                 <div className="mt-4 flex items-center gap-4 border-t border-[var(--line)] pt-3">
                   <button onClick={() => like(p.id)} disabled={likingIds.has(p.id)}
-                    className={`flex items-center gap-1.5 text-sm font-bold transition disabled:opacity-60 ${isLiked ? "text-[var(--accent)]" : "text-[var(--muted)] hover:text-[var(--accent)]"}`}>
+                    className={`flex items-center gap-1.5 text-sm font-bold transition disabled:opacity-60 ${isLiked ? "text-[var(--accent-ink)]" : "text-[var(--muted)] hover:text-[var(--accent-ink)]"}`}>
                     <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
                     {p.likes || 0}
                   </button>
                   <Link href={`/negocio/${p.business_slug}`}
-                    className="flex items-center gap-1 text-sm font-bold text-[var(--muted)] hover:text-[var(--accent)]">
+                    className="flex items-center gap-1 text-sm font-bold text-[var(--muted)] hover:text-[var(--accent-ink)]">
                     Ver negocio <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>

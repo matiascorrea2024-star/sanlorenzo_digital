@@ -15,7 +15,7 @@ export default function SectionTitle({
   return (
     <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
       <div>
-        <p className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent)]">{eyebrow}</p>
+        <p className="text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent-ink)]">{eyebrow}</p>
         <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl" style={{ fontFamily: "var(--font-space)" }}>
           {title}
         </h2>

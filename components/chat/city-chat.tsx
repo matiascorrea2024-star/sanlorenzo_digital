@@ -127,9 +127,9 @@ export default function CityChat({ locationId }: { locationId: string }) {
           {mensajes.map((m) => (
             <div key={m.id} className="group flex items-start justify-between gap-2 text-sm">
               <p className="min-w-0">
-                <span className="font-bold text-[var(--accent)]">{m.sender_name}</span>
+                <span className="font-bold text-[var(--accent-ink)]">{m.sender_name}</span>
                 {m.business_id && (
-                  <span className="ml-1 inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-[var(--accent)]/20 to-[var(--accent2)]/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-[var(--accent)]">
+                  <span className="ml-1 inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-[var(--accent)]/20 to-[var(--accent2)]/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-[var(--accent-ink)]">
                     <Store className="h-2.5 w-2.5" /> Negocio
                   </span>
                 )}
@@ -153,7 +153,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
                 {sugerencias.map((n) => (
                   <button key={n.slug} onClick={() => elegirMencion(n)}
                     className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs font-bold text-[var(--text)] hover:bg-[var(--ov-10)]">
-                    <Store className="h-3 w-3 text-[var(--accent)]" /> {n.name}
+                    <Store className="h-3 w-3 text-[var(--accent-ink)]" /> {n.name}
                   </button>
                 ))}
               </div>
@@ -170,7 +170,7 @@ export default function CityChat({ locationId }: { locationId: string }) {
           </div>
         ) : (
           <p className="border-t border-[var(--ov-05)] p-5 text-center text-xs text-[var(--muted2)] sm:p-6">
-            <Link href="/login" className="font-bold text-[var(--accent)] hover:opacity-80">Iniciá sesión</Link> para participar del chat.
+            <Link href="/login" className="font-bold text-[var(--accent-ink)] hover:opacity-80">Iniciá sesión</Link> para participar del chat.
           </p>
         )}
       </div>

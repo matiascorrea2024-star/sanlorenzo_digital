@@ -177,7 +177,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
         <div className="text-center">
           <p className="mb-4 text-5xl">🔍</p>
           <h1 className="font-display text-2xl uppercase tracking-tight">Negocio no encontrado</h1>
-          <Link href="/" className="mt-4 inline-block text-[var(--accent)] hover:underline">← Volver al inicio</Link>
+          <Link href="/" className="mt-4 inline-block text-[var(--accent-ink)] hover:underline">← Volver al inicio</Link>
         </div>
       </main>
     );
@@ -275,12 +275,12 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             <FollowButton businessId={negocio.id} size="lg" />
             {negocio.website && (
               <a href={negocio.website} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold uppercase tracking-wide transition hover:border-[var(--accent)] hover:text-[var(--accent)]">
+                className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold uppercase tracking-wide transition hover:border-[var(--accent)] hover:text-[var(--accent-ink)]">
                 Visitar <ExternalLink className="h-4 w-4" />
               </a>
             )}
             <button onClick={() => { setDetalle("chat"); document.getElementById("detalle-ficha")?.scrollIntoView({ behavior: "smooth", block: "start" }); }}
-              className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold uppercase tracking-wide transition hover:border-[var(--accent)] hover:text-[var(--accent)]">
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--line-strong)] px-5 py-2.5 text-sm font-bold uppercase tracking-wide transition hover:border-[var(--accent)] hover:text-[var(--accent-ink)]">
               Contactar <MessageCircle className="h-4 w-4" />
             </button>
             {actualizado && <p className="text-xs font-semibold text-[var(--muted2)]">Actualizado {actualizado}</p>}
@@ -348,7 +348,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
               className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1"
             >
               <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-                <MapPin className="h-6 w-6 text-[var(--accent)]" />
+                <MapPin className="h-6 w-6 text-[var(--accent-ink)]" />
                 <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">Mapa</span>
               </div>
             </a>
@@ -367,7 +367,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
             className="rounded-[1.75rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5 transition hover:-translate-y-1"
           >
             <div className="flex flex-col items-center gap-2 rounded-[1.375rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Tv className="h-6 w-6 text-[var(--accent)]" />
+              <Tv className="h-6 w-6 text-[var(--accent-ink)]" />
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--text)]/80">Modo TV</span>
             </div>
           </a>
@@ -509,7 +509,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                         <div className="mt-3 flex items-end justify-between">
                           <div>
                             {p.old_price && <p className="text-xs text-[var(--muted2)] line-through">${Number(p.old_price).toLocaleString("es-AR")}</p>}
-                            <p className="text-2xl text-[var(--accent)]" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>${Number(p.price).toLocaleString("es-AR")}</p>
+                            <p className="text-2xl text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-ticket)", fontWeight: 700 }}>${Number(p.price).toLocaleString("es-AR")}</p>
                           </div>
                           {p.stock && <span className="text-[10px] text-[var(--muted)]">Stock: {p.stock}</span>}
                         </div>
@@ -593,7 +593,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                 <div className="space-y-5">
                   {negocio.address && (
                     <div className="flex items-start gap-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><MapPin className="h-4 w-4 text-[var(--accent)]" /></span>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><MapPin className="h-4 w-4 text-[var(--accent-ink)]" /></span>
                       <div className="min-w-0">
                         <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Dirección</p>
                         <p className="text-sm text-[var(--text)]/90">{negocio.address}</p>
@@ -602,7 +602,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   )}
                   {negocio.schedule && (
                     <div className="flex items-start gap-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><Clock className="h-4 w-4 text-[var(--accent)]" /></span>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><Clock className="h-4 w-4 text-[var(--accent-ink)]" /></span>
                       <div className="min-w-0">
                         <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Horarios</p>
                         <p className="text-sm text-[var(--text)]/90">{negocio.schedule}</p>
@@ -611,7 +611,7 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   )}
                   {negocio.whatsapp && (
                     <div className="flex items-start gap-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><Phone className="h-4 w-4 text-[var(--accent)]" /></span>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><Phone className="h-4 w-4 text-[var(--accent-ink)]" /></span>
                       <div className="min-w-0">
                         <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">WhatsApp</p>
                         <p className="text-sm font-bold text-[var(--text)]/90">{negocio.whatsapp}</p>
@@ -620,10 +620,10 @@ export default function NegocioPage({ initialNegocio = null, initialOfertas = []
                   )}
                   {negocio.instagram && (
                     <div className="flex items-start gap-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><ExternalLink className="h-4 w-4 text-[var(--accent)]" /></span>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10"><ExternalLink className="h-4 w-4 text-[var(--accent-ink)]" /></span>
                       <div className="min-w-0">
                         <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted2)]">Instagram</p>
-                        <a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--accent)] hover:text-[var(--accent2)]">@{negocio.instagram}</a>
+                        <a href={`https://instagram.com/${negocio.instagram}`} target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--accent-ink)] hover:underline">@{negocio.instagram}</a>
                       </div>
                     </div>
                   )}

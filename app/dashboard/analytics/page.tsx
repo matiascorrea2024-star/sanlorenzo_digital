@@ -117,10 +117,10 @@ export default function AnalyticsPage() {
 
   const cards = [
     { icon: Eye, label: "Visitas", value: stats.views, color: "text-[var(--place)]", info: "Cuántas veces entraron a la ficha de tu negocio en los últimos 30 días." },
-    { icon: Eye, label: "Ofertas vistas", value: stats.offerViews, color: "text-[var(--accent)]", info: "Cuántas veces abrieron una oferta asociada a tu negocio." },
-    { icon: Flame, label: "Interés", value: stats.interest, color: "text-[var(--accent)]", info: "Cuántas personas tocaron \"Me interesa\" en una oferta tuya -- una señal de intención, previa al contacto." },
+    { icon: Eye, label: "Ofertas vistas", value: stats.offerViews, color: "text-[var(--accent-ink)]", info: "Cuántas veces abrieron una oferta asociada a tu negocio." },
+    { icon: Flame, label: "Interés", value: stats.interest, color: "text-[var(--accent-ink)]", info: "Cuántas personas tocaron \"Me interesa\" en una oferta tuya -- una señal de intención, previa al contacto." },
     { icon: MessageCircle, label: "WhatsApp", value: stats.whatsapp, color: "text-[var(--ok)]", info: "Cuántas personas tocaron el botón de WhatsApp para escribirte." },
-    { icon: MapPin, label: "Cómo llegar", value: stats.map, color: "text-[var(--accent)]", info: "Cuántas personas tocaron \"Cómo llegar\" para ver tu ubicación en el mapa." },
+    { icon: MapPin, label: "Cómo llegar", value: stats.map, color: "text-[var(--accent-ink)]", info: "Cuántas personas tocaron \"Cómo llegar\" para ver tu ubicación en el mapa." },
     { icon: Heart, label: "Favoritos", value: stats.favorites, color: "text-[var(--bad)]", info: "Cuántas personas guardaron tu negocio en sus favoritos." },
     { icon: Users, label: "Seguidores", value: stats.follows, color: "text-purple-400", info: "Cuántas personas te siguen para enterarse de tus novedades y ofertas." },
     { icon: Ticket, label: "Cupones", value: stats.coupons, color: "text-[var(--ok)]", info: "Cuántos cupones de tus ofertas generaron los clientes para usar en el local." },
@@ -153,7 +153,7 @@ export default function AnalyticsPage() {
         <DashboardNav />
         
         <div className="flex items-center gap-3 mb-6">
-          <TrendingUp className="h-8 w-8 text-[var(--accent)]" />
+          <TrendingUp className="h-8 w-8 text-[var(--accent-ink)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Analytics</h1>
             <p className="text-[var(--muted)]">Estadísticas de los últimos 30 días</p>
@@ -186,13 +186,13 @@ export default function AnalyticsPage() {
         {!planActual.stats ? (
           <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Lock className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
+              <Lock className="mx-auto mb-3 h-8 w-8 text-[var(--accent-ink)]" />
               <p className="font-black">Las estadísticas completas son de Plan PRO</p>
               <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
                 Con el plan Gratis ves solo tus visitas totales. Con PRO Comerciante desbloqueás el detalle día a día,
                 contactos por WhatsApp, favoritos, cupones y tasa de conversión.
               </p>
-              <p className="mt-4 text-3xl font-black text-[var(--accent)] tabular-nums">{stats.views} <span className="text-sm font-bold text-[var(--muted)]">visitas (30 días)</span></p>
+              <p className="mt-4 text-3xl font-black text-[var(--accent-ink)] tabular-nums">{stats.views} <span className="text-sm font-bold text-[var(--muted)]">visitas (30 días)</span></p>
               <Link href="/dashboard/planes" className="mt-5 inline-block rounded-full bg-[var(--accent)] px-6 py-2.5 text-sm font-black hover:opacity-90">Mejorar a PRO →</Link>
             </div>
           </div>
@@ -269,7 +269,7 @@ export default function AnalyticsPage() {
                   const pctPaso = anterior && anterior > 0 ? (etapa.value / anterior) * 100 : null;
                   return (
                     <div key={etapa.label} className="flex items-center gap-3">
-                      <etapa.icon className="h-4 w-4 shrink-0 text-[var(--accent)]" />
+                      <etapa.icon className="h-4 w-4 shrink-0 text-[var(--accent-ink)]" />
                       <div className="min-w-0 flex-1">
                         <div className="flex items-baseline justify-between gap-2">
                           <span className="truncate text-sm font-bold">{etapa.label}</span>

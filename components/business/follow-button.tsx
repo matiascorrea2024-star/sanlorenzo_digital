@@ -52,7 +52,7 @@ export default function FollowButton({ businessId, size = "sm" }: { businessId: 
       <button onClick={toggle} disabled={busy}
         className={`btn-hard inline-flex items-center justify-center gap-2.5 rounded-2xl px-8 py-4 font-display text-lg uppercase tracking-tight transition sm:text-xl ${
           siguiendo
-            ? "border-2 border-[var(--accent)]/60 bg-[var(--accent)]/15 text-[var(--accent)]"
+            ? "border-2 border-[var(--accent)]/60 bg-[var(--accent)]/15 text-[var(--accent-ink)]"
             : "bg-[var(--accent)] text-white hover:bg-[var(--accent2)]"
         }`}>
         {siguiendo ? "★ Siguiendo" : "☆ Seguir"} <span className="text-sm font-bold opacity-80">· {count}</span>
@@ -63,7 +63,7 @@ export default function FollowButton({ businessId, size = "sm" }: { businessId: 
   return (
     <button onClick={toggle} disabled={busy}
       className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-black transition ${
-        siguiendo ? "border-[var(--accent)]/60 bg-[var(--accent)]/15 text-[var(--accent)]" : "border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)] hover:border-[var(--accent)]"
+        siguiendo ? "border-[var(--accent)]/60 bg-[var(--accent)]/15 text-[var(--accent-ink)]" : "border-[var(--line-strong)] bg-[var(--ov-05)] text-[var(--text)] hover:border-[var(--accent)]"
       }`}>
       {siguiendo ? "★ Siguiendo" : "☆ Seguir"} · {count}
     </button>

@@ -101,7 +101,7 @@ export default function AsistenteComerciantePage() {
       <div className="mx-auto max-w-3xl px-4 py-8">
         <DashboardNav />
         <div className="flex items-center gap-3 mb-6">
-          <Wand2 className="h-8 w-8 text-[var(--accent)]" />
+          <Wand2 className="h-8 w-8 text-[var(--accent-ink)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Asistente de publicaciones</h1>
             <p className="text-[var(--muted)]">Generá títulos, descripciones y copy para WhatsApp en segundos</p>
@@ -110,7 +110,7 @@ export default function AsistenteComerciantePage() {
 
         <div className="mb-6">
           <p className="mb-3 flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-[var(--muted2)]">
-            <Lightbulb className="h-3.5 w-3.5 text-[var(--accent)]" /> Tips que realmente ayudan a vender
+            <Lightbulb className="h-3.5 w-3.5 text-[var(--accent-ink)]" /> Tips que realmente ayudan a vender
           </p>
           <div className="grid gap-2.5 sm:grid-cols-2">
             {TIPS.map((tip) => (

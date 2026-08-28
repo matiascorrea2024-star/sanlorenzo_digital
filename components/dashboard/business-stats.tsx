@@ -42,7 +42,7 @@ export default function BusinessStats() {
   if (loading) return null;
 
   const cards = [
-    { icon: Eye, label: "Visitas (7 días)", value: s.views7, color: "magenta-glow text-[var(--accent)]" },
+    { icon: Eye, label: "Visitas (7 días)", value: s.views7, color: "magenta-glow text-[var(--accent-ink)]" },
     { icon: TrendingUp, label: "Visitas totales", value: s.viewsTotal, color: "text-[#fbbf24]" },
     { icon: Users, label: "Seguidores", value: s.followers, color: "text-[var(--text)]" },
     { icon: Heart, label: "Favoritos", value: s.favs, color: "text-[#fbbf24]" },

@@ -33,7 +33,7 @@ export default function PlanLimitBanner() {
       <div className="flex flex-col items-center justify-between gap-4 p-6 md:flex-row">
         <div className="flex items-center gap-4">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10">
-            <Lock className="h-5 w-5 text-[var(--accent)]" />
+            <Lock className="h-5 w-5 text-[var(--accent-ink)]" />
           </span>
           <div>
             <p className="font-display text-lg uppercase tracking-tight text-[var(--text)]">

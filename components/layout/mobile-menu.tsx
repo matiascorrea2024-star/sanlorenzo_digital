@@ -107,7 +107,7 @@ export default function MobileMenu() {
                 <div className="space-y-1">
                   {s.links.map((l) => (
                     <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
-                      className="flex items-center justify-between rounded-xl px-3 py-3 text-base font-bold text-[var(--text)]/85 transition hover:bg-[var(--ov-05)] hover:text-[var(--accent)]">
+                      className="flex items-center justify-between rounded-xl px-3 py-3 text-base font-bold text-[var(--text)]/85 transition hover:bg-[var(--ov-05)] hover:text-[var(--accent-ink)]">
                       {l.l}
                       <ArrowRight className="h-4 w-4 text-[var(--muted2)]" />
                     </Link>

@@ -67,7 +67,7 @@ export default function CiudadView() {
         <div className="text-center">
           <Search className="mx-auto mb-4 h-10 w-10 text-[var(--muted2)]" />
           <h1 className="font-display text-3xl uppercase tracking-tight">Ciudad no encontrada</h1>
-          <Link href="/" className="mt-4 inline-block text-[var(--accent)]">← Volver al inicio</Link>
+          <Link href="/" className="mt-4 inline-block text-[var(--accent-ink)]">← Volver al inicio</Link>
         </div>
       </main>
     );
@@ -140,7 +140,7 @@ export default function CiudadView() {
                 <Badge variant="danger" size="sm" pulse><Flame className="h-3 w-3" /> Ofertas</Badge>
                 <h2 className="mt-2 font-display text-2xl uppercase tracking-tight">Ofertas en {ciudad.name}</h2>
               </div>
-              <Link href="/promociones" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+              <Link href="/promociones" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
                 Ver todas <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -158,7 +158,7 @@ export default function CiudadView() {
                 <Badge variant="info" size="sm"><Store className="h-3 w-3" /> Negocios</Badge>
                 <h2 className="mt-2 font-display text-2xl uppercase tracking-tight">Negocios en {ciudad.name}</h2>
               </div>
-              <Link href="/negocios" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+              <Link href="/negocios" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
                 Ver todos <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -179,7 +179,7 @@ export default function CiudadView() {
         {sinContenido && (
           <section className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-8">
             <div className="text-center">
-              <Sparkles className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
+              <Sparkles className="mx-auto mb-3 h-8 w-8 text-[var(--accent-ink)]" />
               <h2 className="font-display text-xl uppercase tracking-tight">{ciudad.name} recién se está sumando a la plataforma</h2>
               <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">
                 Todavía no hay negocios ni ofertas cargados acá. Si tenés un comercio en {ciudad.name},

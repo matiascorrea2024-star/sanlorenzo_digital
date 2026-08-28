@@ -174,7 +174,7 @@ export default function MapaPage() {
           <div className="flex flex-col gap-5">
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Exploración geográfica</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Exploración geográfica</p>
                 <h1 className="mt-2 font-display text-4xl uppercase tracking-tight sm:text-6xl">
                   Mapa de la <span className="magenta-glow bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">Ciudad</span>
                 </h1>
@@ -229,7 +229,7 @@ export default function MapaPage() {
               </div>
               <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 transition hover:border-[var(--accent)]">
                 <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Con ofertas</span>
-                <span className="font-display text-3xl text-[var(--accent)]">{stats.conOfertas}</span>
+                <span className="font-display text-3xl text-[var(--accent-ink)]">{stats.conOfertas}</span>
               </div>
             </div>
             <div className="flex flex-wrap gap-4 text-xs text-[var(--muted)]">
@@ -246,7 +246,7 @@ export default function MapaPage() {
           <div className="flex flex-col gap-4">
             <h3 className="font-display text-2xl uppercase tracking-tight">Cerca de vos</h3>
             <div className="relative">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--accent)]" />
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--accent-ink)]" />
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="¿Qué buscás hoy?"
                 className="w-full rounded-2xl border border-[var(--line-strong)] bg-[var(--card-inner)] py-3 pl-11 pr-4 text-sm outline-none transition placeholder:text-[var(--muted2)] focus:border-[var(--accent)]" />
             </div>
@@ -271,11 +271,11 @@ export default function MapaPage() {
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <p className="truncate text-[9px] font-bold uppercase tracking-widest text-[var(--accent)]">{b.category}</p>
+                            <p className="truncate text-[9px] font-bold uppercase tracking-widest text-[var(--accent-ink)]">{b.category}</p>
                             <h4 className="truncate text-base font-black leading-tight">{b.name}</h4>
                           </div>
                           {tieneOfertas && (
-                            <span className="flex shrink-0 items-center gap-1 rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-2 py-0.5 text-[var(--accent)]">
+                            <span className="flex shrink-0 items-center gap-1 rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-2 py-0.5 text-[var(--accent-ink)]">
                               <Flame className="h-2.5 w-2.5" /><span className="text-[9px] font-black">HOT</span>
                             </span>
                           )}

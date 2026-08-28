@@ -105,7 +105,7 @@ export default function PulsoClient() {
           </div>
         ) : !hayAlgo ? (
           <div className="rounded-3xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-10 text-center">
-            <Sparkles className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
+            <Sparkles className="mx-auto mb-3 h-8 w-8 text-[var(--accent-ink)]" />
             <p className="font-display text-xl uppercase tracking-tight">Todavía no hay suficiente actividad para mostrar tendencias.</p>
             <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
               Esta página se va llenando sola a medida que la ciudad usa la plataforma -- buscá, mirá ofertas, volvé mañana.
@@ -115,7 +115,7 @@ export default function PulsoClient() {
           <div className="grid gap-4 md:grid-cols-2">
             {categoriaTop && (
               <div className="rounded-[2rem] border border-[var(--accent)]/30 bg-[var(--surface)] p-6 shadow-[0_0_20px_rgba(209,47,104,0.1)]">
-                <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Search className="h-3.5 w-3.5" /> Categoría más buscada hoy</p>
+                <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}><Search className="h-3.5 w-3.5" /> Categoría más buscada hoy</p>
                 <p className="mt-2 font-display text-2xl">{categoriaTop.icon} {categoriaTop.nombre}</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">{categoriaTop.busquedas} búsqueda{categoriaTop.busquedas === 1 ? "" : "s"} hoy</p>
               </div>
@@ -157,7 +157,7 @@ export default function PulsoClient() {
                     <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-03)] p-3 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">
                       <p className="truncate text-sm font-bold">{o.title}</p>
                       <p className="text-xs text-[var(--muted)]">{o.business_name}</p>
-                      {o.offer_price && <p className="mt-1 font-display text-sm text-[var(--accent)]">{fmt(Number(o.offer_price))}</p>}
+                      {o.offer_price && <p className="mt-1 font-display text-sm text-[var(--accent-ink)]">{fmt(Number(o.offer_price))}</p>}
                     </Link>
                   ))}
                 </div>
@@ -166,7 +166,7 @@ export default function PulsoClient() {
 
             {recienPublicado.length > 0 && (
               <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6 md:col-span-2">
-                <p className="mb-3 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}><Flame className="h-3.5 w-3.5" /> Recién publicado</p>
+                <p className="mb-3 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}><Flame className="h-3.5 w-3.5" /> Recién publicado</p>
                 <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
                   {recienPublicado.map((o: any) => (
                     <Link key={o.id} href={`/oferta/${o.id}`} className="rounded-xl border border-[var(--line-strong)] bg-[var(--ov-03)] p-3 transition-all duration-700 ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(209,47,104,0.1)]">

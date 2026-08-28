@@ -87,9 +87,9 @@ export default function AdminBlogPage() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-4xl px-4 py-8">
-        <Link href="/admin?tab=blog" className="text-sm text-[var(--accent)] hover:text-[var(--accent2)]">← Volver al panel</Link>
+        <Link href="/admin?tab=blog" className="text-sm text-[var(--accent-ink)] hover:underline">← Volver al panel</Link>
         <div className="mt-4 flex items-center justify-between">
-          <h1 className="flex items-center gap-2 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}><Newspaper className="h-7 w-7 text-[var(--accent)]" /> Blog</h1>
+          <h1 className="flex items-center gap-2 text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}><Newspaper className="h-7 w-7 text-[var(--accent-ink)]" /> Blog</h1>
           {!editing && (
             <button onClick={nuevo} className="flex items-center gap-1.5 rounded-full bg-[var(--accent)] px-4 py-2.5 text-sm font-black hover:opacity-90">
               <Plus className="h-4 w-4" /> Nuevo artículo

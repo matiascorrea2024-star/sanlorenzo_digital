@@ -65,7 +65,7 @@ export default function LiveChat({ liveStreamId, puedeModerar = false }: Props) 
         {!loading && mensajes.length === 0 && <p className="text-center text-xs text-[var(--muted2)]">Todavía no hay mensajes. ¡Escribí el primero!</p>}
         {mensajes.map((m) => (
           <div key={m.id} className="group flex items-start justify-between gap-2 text-sm">
-            <p><span className="font-bold text-[var(--accent)]">{m.sender_name}:</span> <span className="text-[var(--text)]/80">{m.body}</span></p>
+            <p><span className="font-bold text-[var(--accent-ink)]">{m.sender_name}:</span> <span className="text-[var(--text)]/80">{m.body}</span></p>
             {puedeModerar && (
               <button onClick={() => ocultar(m.id)} title="Ocultar mensaje" className="shrink-0 opacity-0 group-hover:opacity-100">
                 <Trash2 className="h-3.5 w-3.5 text-[var(--bad)]" />

@@ -37,7 +37,7 @@ export default function PedidosPage() {
         <div className="relative mx-auto max-w-6xl px-4 pb-6 pt-14 sm:px-6 md:pt-20">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
-              <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+              <p className="mb-5 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
                 <HelpCircle className="h-3.5 w-3.5" /> Tablón comunitario
               </p>
               <h1 className="font-display text-6xl uppercase leading-[0.9] tracking-tight sm:text-7xl">
@@ -50,7 +50,7 @@ export default function PedidosPage() {
             </div>
             {!loading && ciudades.length > 1 && (
               <div className="flex min-w-[220px] items-center gap-2 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] px-4 py-3">
-                <MapPin className="h-4 w-4 shrink-0 text-[var(--accent)]" />
+                <MapPin className="h-4 w-4 shrink-0 text-[var(--accent-ink)]" />
                 <select value={locationId} onChange={(e) => setLocationId(e.target.value)}
                   className="w-full cursor-pointer appearance-none bg-transparent text-sm font-bold text-[var(--text)] outline-none">
                   {ciudades.map((c) => <option key={c.id} value={c.id} className="bg-[var(--surface)]">{c.name}</option>)}

@@ -88,7 +88,7 @@ export default function SeguidoresPage() {
       <div className="mx-auto max-w-2xl px-4 py-8">
         <DashboardNav />
         <div className="mb-6 flex items-center gap-3">
-          <Heart className="h-8 w-8 text-[var(--accent)]" />
+          <Heart className="h-8 w-8 text-[var(--accent-ink)]" />
           <div>
             <h1 className="text-3xl font-black" style={{ fontFamily: "var(--font-space)" }}>Tus seguidores</h1>
             <p className="text-[var(--muted)]">La audiencia propia de {negocio.name} dentro de la plataforma</p>
@@ -98,7 +98,7 @@ export default function SeguidoresPage() {
         <div className="mb-6 grid grid-cols-2 gap-3">
           <div className="rounded-[1.5rem] border border-[var(--ov-06)] bg-[var(--ov-02)] p-1.5">
             <div className="rounded-[1.1rem] border border-[var(--ov-05)] bg-[var(--card-inner)] p-5 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <p className="text-3xl font-black text-[var(--accent)]">{total}</p>
+              <p className="text-3xl font-black text-[var(--accent-ink)]">{total}</p>
               <p className="text-xs text-[var(--muted)]">Seguidores totales</p>
             </div>
           </div>
@@ -141,7 +141,7 @@ export default function SeguidoresPage() {
         ) : (
           <div className="rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-6 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Lock className="mx-auto mb-2 h-7 w-7 text-[var(--accent)]" />
+              <Lock className="mx-auto mb-2 h-7 w-7 text-[var(--accent-ink)]" />
               <p className="font-black">Enviar novedades es una herramienta de Plan PRO</p>
               <p className="mt-1 text-sm text-[var(--muted)]">Construí tu propia audiencia y avisale directo cuando tengas algo nuevo.</p>
               <Link href="/dashboard/planes" className="mt-4 inline-block rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-black hover:opacity-90">Ver planes →</Link>

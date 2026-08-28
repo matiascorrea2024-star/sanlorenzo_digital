@@ -266,7 +266,7 @@ export default function MercadoVivoClient({
                   <span className={styles.mvHeroSpotBadge}>Destacado hoy</span>
                   <div className={styles.mvHeroSpotTag}>
                     <div className={styles.mvSh}>{destacada.negocio}{destacada.verificado ? " · Verificado" : ""}</div>
-                    <h4>{destacada.producto}</h4>
+                    <p className={styles.mvSpotTitle}>{destacada.producto}</p>
                     <div className={styles.mvPr}>
                       <b className="num">{fmt(destacada.ahora)}</b>
                       {destacada.antes ? <s className="num">{fmt(destacada.antes)}</s> : null}

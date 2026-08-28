@@ -127,7 +127,7 @@ export default function AsistentePage() {
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <span className="text-xs uppercase tracking-widest text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>Entendimos:</span>
             {chips.map(c => (
-              <span key={c} className="rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-xs font-bold text-[var(--accent)]">
+              <span key={c} className="rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-xs font-bold text-[var(--accent-ink)]">
                 {c}
               </span>
             ))}
@@ -157,10 +157,10 @@ export default function AsistentePage() {
                         <p className="text-xs capitalize text-[var(--muted)]">{b.category} · ⭐ {(b.rating || 0).toFixed(1)}</p>
                         <div className="mt-1 flex gap-2">
                           {b.open && <span className="text-[10px] text-[var(--ok)] flex items-center gap-1"><Clock className="h-3 w-3" /> Abierto</span>}
-                          {b._dist !== undefined && <span className="text-[10px] text-[var(--accent)] flex items-center gap-1"><MapPin className="h-3 w-3" /> {fmtDistance(b._dist)}</span>}
+                          {b._dist !== undefined && <span className="text-[10px] text-[var(--accent-ink)] flex items-center gap-1"><MapPin className="h-3 w-3" /> {fmtDistance(b._dist)}</span>}
                         </div>
                       </div>
-                      <ArrowRight className="h-4 w-4 shrink-0 text-[var(--accent)] transition duration-300 group-hover:translate-x-1" />
+                      <ArrowRight className="h-4 w-4 shrink-0 text-[var(--accent-ink)] transition duration-300 group-hover:translate-x-1" />
                     </Link>
                   ))}
                 </div>

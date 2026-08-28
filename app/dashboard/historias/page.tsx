@@ -70,8 +70,8 @@ export default function HistoriasPage() {
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-2xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard" className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]">← Volver</Link>
-        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Historia 24h</p>
+        <Link href="/dashboard" className="text-sm font-bold text-[var(--accent-ink)] hover:text-[var(--accent-ink)]">← Volver</Link>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">Historia 24h</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Publicar historia</h1>
         <p className="mt-3 text-[var(--muted)]">Desaparece automáticamente en 24 horas.</p>
 
@@ -84,7 +84,7 @@ export default function HistoriasPage() {
         ) : sinPlan ? (
           <div className="mt-6 rounded-[1.75rem] border border-[var(--accent)]/25 bg-gradient-to-br from-[var(--accent)]/[.08] to-[var(--accent2)]/[.04] p-1.5">
             <div className="rounded-[1.375rem] border border-[var(--ov-06)] bg-[var(--card-inner)] p-8 text-center shadow-[inset_0_1px_1px_var(--card-inner-highlight)]">
-              <Lock className="mx-auto mb-3 h-8 w-8 text-[var(--accent)]" />
+              <Lock className="mx-auto mb-3 h-8 w-8 text-[var(--accent-ink)]" />
               <p className="font-black">Las Historias 24h son de Plan PRO</p>
               <p className="mx-auto mt-1 max-w-sm text-sm text-[var(--muted)]">
                 Con PRO Comerciante podés publicar historias que aparecen 24 horas en la plataforma, como Instagram.

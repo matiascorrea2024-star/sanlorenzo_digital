@@ -170,7 +170,7 @@ export default function MfaSettings({ onEnrolled }: { onEnrolled?: () => void } 
             )}
             <div className="w-full sm:w-auto">
               <p className="text-xs text-[var(--muted)]">¿Preferís no escanear? Dentro de la app elegí &quot;Ingresar clave manualmente&quot; y cargá esta clave:</p>
-              <code className="mt-1 block break-all rounded-lg border border-[var(--accent)]/40 bg-[var(--accent)]/5 px-3 py-2 font-mono text-xs text-[var(--accent)]">{secret}</code>
+              <code className="mt-1 block break-all rounded-lg border border-[var(--accent)]/40 bg-[var(--accent)]/5 px-3 py-2 font-mono text-xs text-[var(--accent-ink)]">{secret}</code>
             </div>
           </div>
           <p className="mt-5 text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>

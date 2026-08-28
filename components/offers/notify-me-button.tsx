@@ -89,7 +89,7 @@ export default function NotifyMeButton({
 
   if (state === "done") {
     return (
-      <div className={`rounded-xl border-2 border-[var(--accent)]/40 bg-[var(--accent)]/10 px-4 py-2 text-sm font-black text-[var(--accent)] ${className}`}>
+      <div className={`rounded-xl border-2 border-[var(--accent)]/40 bg-[var(--accent)]/10 px-4 py-2 text-sm font-black text-[var(--accent-ink)] ${className}`}>
         ✅ {message}
       </div>
     );

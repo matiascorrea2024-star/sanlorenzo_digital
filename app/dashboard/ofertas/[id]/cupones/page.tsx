@@ -89,11 +89,11 @@ export default function CuponesPage() {
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-4xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent)] hover:opacity-80 mb-6 inline-block">
+        <Link href="/dashboard/ofertas" className="text-sm font-bold text-[var(--accent-ink)] hover:opacity-80 mb-6 inline-block">
           ← Volver a mis ofertas
         </Link>
 
-        <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Cupones</p>
+        <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">Cupones</p>
         <h1 className="mt-2 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>Cupones de la oferta</h1>
         {offer && <p className="mt-3 text-[var(--muted)]">{offer.title}</p>}
 

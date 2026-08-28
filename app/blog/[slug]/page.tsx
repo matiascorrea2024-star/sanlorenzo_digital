@@ -34,7 +34,7 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pb-24">
       <div className="mx-auto max-w-2xl px-4 py-10">
-        <Link href="/blog" className="text-sm text-[var(--accent)] hover:text-[var(--accent)]">← Volver al blog</Link>
+        <Link href="/blog" className="text-sm text-[var(--accent-ink)] hover:text-[var(--accent-ink)]">← Volver al blog</Link>
         {post.cover_url && (
           <div className="relative mt-5 h-64 w-full overflow-hidden rounded-[1.5rem] border border-[var(--ov-06)]">
             <Image src={post.cover_url} alt={post.title} fill sizes="(max-width: 768px) 100vw, 672px" quality={92} priority className="object-cover" />

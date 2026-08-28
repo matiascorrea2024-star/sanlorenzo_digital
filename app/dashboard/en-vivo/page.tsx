@@ -87,7 +87,7 @@ export default function EnVivoDashboard() {
         <div className="mb-8 flex items-start gap-3">
           <Radio className="mt-1 h-8 w-8 shrink-0 text-[var(--bad)]" />
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent)]">Video en vivo</p>
+            <p className="text-[10px] font-black uppercase tracking-[.4em] text-[var(--accent-ink)]">Video en vivo</p>
             <h1 className="mt-2 flex items-center gap-1.5 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-space)" }}>
               En vivo
               <InfoTip label="Sobre el video en vivo">
@@ -114,7 +114,7 @@ export default function EnVivoDashboard() {
                 <Plus className="h-4 w-4" /> Crear En Vivo
               </button>
             ) : (
-              <Link href="/dashboard/planes" className="flex items-center gap-1.5 rounded-full border border-[var(--accent)]/40 px-4 py-2 text-sm font-bold text-[var(--accent)]">
+              <Link href="/dashboard/planes" className="flex items-center gap-1.5 rounded-full border border-[var(--accent)]/40 px-4 py-2 text-sm font-bold text-[var(--accent-ink)]">
                 <Lock className="h-4 w-4" /> Mejorar plan
               </Link>
             )}

@@ -48,7 +48,7 @@ export default function PushNotificationsToggle({ userId, initial }: { userId: s
   return (
     <div className="flex items-center justify-between gap-3 rounded-2xl border border-[var(--line)] bg-[var(--ov-05)] p-4">
       <div className="flex items-center gap-3">
-        <Bell className="h-5 w-5 shrink-0 text-[var(--accent)]" />
+        <Bell className="h-5 w-5 shrink-0 text-[var(--accent-ink)]" />
         <div>
           <p className="font-bold text-[var(--text)]">Notificaciones push</p>
           <p className="text-xs text-[var(--muted)]">Avisos en el celu/PC de mensajes y ofertas de negocios que seguís, aunque no tengas la web abierta.</p>

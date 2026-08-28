@@ -69,7 +69,7 @@ export default function InvitarPage() {
       <div className="pointer-events-none absolute bottom-[-30%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#d12f68] opacity-[0.06] blur-[140px]" aria-hidden="true" />
 
       <section className="relative z-10 mx-auto max-w-lg px-4 pt-14 text-center sm:px-6">
-        <Link href="/" className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted)] transition hover:text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>← Volver al inicio</Link>
+        <Link href="/" className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--muted)] transition hover:text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>← Volver al inicio</Link>
         <h1 className="mt-4 font-display text-4xl uppercase leading-[0.95] tracking-tight sm:text-5xl">Invitá a tus vecinos</h1>
         <p className="mx-auto mt-3 max-w-md text-sm text-[var(--muted)]">Compartí tu link y sumá puntos cuando alguien se una</p>
       </section>
@@ -79,7 +79,7 @@ export default function InvitarPage() {
         {/* Invitar a un negocio -- disponible para cualquiera, sin cuenta. */}
         <div className="mb-6 rounded-[2rem] border border-[var(--line-strong)] bg-[var(--surface)] p-6 text-left shadow-2xl">
           <div className="flex items-center gap-2">
-            <Store className="h-5 w-5 shrink-0 text-[var(--accent)]" />
+            <Store className="h-5 w-5 shrink-0 text-[var(--accent-ink)]" />
             <p className="text-sm font-black text-[var(--text)]">¿Tu negocio favorito no está?</p>
           </div>
           <p className="mt-1 text-sm text-[var(--muted)]">Avisale vos mismo por WhatsApp -- es gratis para el negocio y le lleva dos minutos sumarse.</p>
@@ -118,8 +118,8 @@ export default function InvitarPage() {
         </div>
         <div className="mt-6 rounded-[2rem] border border-[var(--line-strong)] bg-[var(--surface)] p-6 text-left shadow-2xl">
           <p className="flex items-baseline justify-between gap-3">
-            <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>Tus referidos</span>
-            <span className="shrink-0"><span className="magenta-glow font-display text-5xl leading-none tabular-nums text-[var(--accent)]">{activos}</span> <span className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>activos</span> <span className="text-[11px] text-[var(--muted2)]">/ {total} totales</span></span>
+            <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>Tus referidos</span>
+            <span className="shrink-0"><span className="magenta-glow font-display text-5xl leading-none tabular-nums text-[var(--accent-ink)]">{activos}</span> <span className="text-[11px] font-bold uppercase tracking-widest text-[var(--muted2)]" style={{ fontFamily: "var(--font-display)" }}>activos</span> <span className="text-[11px] text-[var(--muted2)]">/ {total} totales</span></span>
           </p>
           <p className="mt-2 text-xs text-[var(--muted2)]">No damos descuentos financiados por la plataforma: los hitos se convierten en días Pro y visibilidad para tu negocio. Activo = completó el onboarding.</p>
           <div className="mt-4 space-y-2">

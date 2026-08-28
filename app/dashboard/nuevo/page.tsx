@@ -197,7 +197,7 @@ export default function NuevoNegocioPage() {
   return (
     <main className="bg-[var(--bg)] min-h-screen text-[var(--text)]">
       <div className="mx-auto max-w-[1300px] px-4 py-8">
-        <Link href="/dashboard" className="text-sm text-[var(--accent)] hover:opacity-80 mb-6 inline-block">
+        <Link href="/dashboard" className="text-sm text-[var(--accent-ink)] hover:opacity-80 mb-6 inline-block">
           ← Volver al dashboard
         </Link>
 
@@ -309,7 +309,7 @@ export default function NuevoNegocioPage() {
           </div>
 
           {!masDetalles ? (
-            <button type="button" onClick={() => setMasDetalles(true)} className="text-sm font-bold text-[var(--accent)] hover:text-[var(--accent)]">
+            <button type="button" onClick={() => setMasDetalles(true)} className="text-sm font-bold text-[var(--accent-ink)] hover:text-[var(--accent-ink)]">
               + Agregar foto, descripción, Instagram, horarios y ubicación en el mapa (opcional)
             </button>
           ) : (
@@ -386,7 +386,7 @@ export default function NuevoNegocioPage() {
             desktop mientras se completa el formulario. */}
         <aside className="hidden lg:block">
           <div className="sticky top-6">
-            <p className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-[var(--accent)]" style={{ fontFamily: "var(--font-display)" }}>
+            <p className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-[.3em] text-[var(--accent-ink)]" style={{ fontFamily: "var(--font-display)" }}>
               👁 Así se va a ver
             </p>
             <div className="overflow-hidden rounded-[1.75rem] border border-[var(--line)] bg-[var(--surface)]">
