@@ -87,7 +87,7 @@ export default function Header() {
   const linkBase = "flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-[var(--text)] transition-colors hover:bg-[var(--ov-05)]";
 
   return (
-    <header className="glass-dark sticky top-0 z-50" aria-label="Navegación principal">
+    <header className="glass-dark sticky top-0 z-50">
       {/* ── Fila 1: barra densa y plana, calcada del patrón Amazon --
           logo chico, búsqueda dominante, cuenta a la derecha. Sin
           animaciones de hover ni sombras -- utilitario, no "vidriera". ── */}
