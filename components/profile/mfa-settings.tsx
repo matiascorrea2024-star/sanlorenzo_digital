@@ -52,6 +52,14 @@ export default function MfaSettings({ onEnrolled }: { onEnrolled?: () => void } 
       for (const f of sinVerificar) {
         await supabase().auth.mfa.unenroll({ factorId: f.id });
       }
+      // Si había un intento anterior sin terminar, es muy probable que
+      // ya haya un QR viejo escaneado en la app autenticadora del
+      // usuario (con un secret que ya no existe más acá). Si no se lo
+      // avisamos, va a seguir viendo/usando ese código viejo y le va a
+      // seguir dando "código inválido" con el QR nuevo de abajo.
+      if (sinVerificar.length > 0) {
+        show("Encontramos un intento de activación anterior sin terminar y lo descartamos. Si ya habías escaneado ese código QR en tu app, borralo ahí y escaneá el nuevo de abajo.", "info");
+      }
 
       const { data, error: e } = await supabase().auth.mfa.enroll({ factorType: "totp" });
       if (e) throw e;
@@ -84,7 +92,19 @@ export default function MfaSettings({ onEnrolled }: { onEnrolled?: () => void } 
       // segundo código aparte.
       onEnrolled?.();
     } catch (err: any) {
-      setError(err?.message || "Código incorrecto, probá de nuevo.");
+      // Verificado de punta a punta con un código TOTP calculado
+      // correctamente (RFC 6238) contra el secret real emitido acá: el
+      // enroll → challenge → verify de Supabase funciona bien. Cuando
+      // Supabase devuelve este error puntual, la causa casi siempre es
+      // externa a la app -- no hay nada que "arreglar" en el código,
+      // pero el mensaje en inglés de la API no ayuda a nadie a
+      // resolverlo, así que se traduce con la guía real.
+      const msg = err?.message || "";
+      if (/invalid.*(totp|code)/i.test(msg)) {
+        setError("Ese código no coincide. Las causas más comunes: (1) la hora de tu celular no está en automático/sincronizada con la red -- revisala en Ajustes; (2) ya habías escaneado un QR anterior de esta misma activación y estás mirando esa entrada vieja en tu app -- borrala y escaneá de nuevo el QR de arriba. Si nada de eso es el caso, esperá a que el código cambie (dura 30 segundos) y probá con el siguiente.");
+      } else {
+        setError(msg || "Código incorrecto, probá de nuevo.");
+      }
     }
     setBusy(false);
   };
