@@ -37,6 +37,22 @@ export default function MfaSettings({ onEnrolled }: { onEnrolled?: () => void } 
     setBusy(true);
     setError(null);
     try {
+      // Bug real (reportado en producción): un intento de alta anterior
+      // que no se termina de verificar (usuario cierra la pantalla, se
+      // equivoca de código y abandona, etc.) deja un factor "unverified"
+      // dando vueltas. Supabase no deja crear un factor nuevo con el
+      // mismo nombre ("A factor with the friendly name ... already
+      // exists") -- como acá nunca se manda un nombre propio, todos
+      // chocan contra el mismo "" y la cuenta queda trabada sin poder
+      // reintentar. Se limpia cualquier factor sin verificar ANTES de
+      // pedir uno nuevo -- un factor sin verificar no sirve para nada,
+      // así que no hay downside en sacarlo.
+      const { data: existentes } = await supabase().auth.mfa.listFactors();
+      const sinVerificar = (existentes?.all || []).filter((f) => f.status === "unverified");
+      for (const f of sinVerificar) {
+        await supabase().auth.mfa.unenroll({ factorId: f.id });
+      }
+
       const { data, error: e } = await supabase().auth.mfa.enroll({ factorType: "totp" });
       if (e) throw e;
       setQr(data.totp.qr_code);
@@ -152,7 +168,13 @@ export default function MfaSettings({ onEnrolled }: { onEnrolled?: () => void } 
               Confirmar
             </button>
             <button
-              onClick={() => { setQr(null); setSecret(null); setFactorId(null); setCode(""); setError(null); }}
+              onClick={async () => {
+                // Limpiar el factor a medio crear en vez de dejarlo
+                // colgado -- si no, el próximo "Activar 2FA" lo va a
+                // tener que limpiar de todos modos.
+                if (factorId) { await supabase().auth.mfa.unenroll({ factorId }); }
+                setQr(null); setSecret(null); setFactorId(null); setCode(""); setError(null);
+              }}
               className="rounded-xl border border-[var(--line-strong)] px-4 py-2.5 text-[11px] font-black uppercase tracking-widest text-[var(--muted)] hover:border-white/40"
               style={{ fontFamily: "var(--font-display)" }}
             >
