@@ -155,20 +155,26 @@ export default function MfaSettings({ onEnrolled }: { onEnrolled?: () => void } 
       {/* Paso 1: QR */}
       {qr && factorId && (
         <div className="mt-5 rounded-2xl border border-[var(--line-strong)] bg-[var(--ov-05)] p-5">
-          <p className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
-            1. Escaneá con Google Authenticator, Authy o la app de tu banco
+          <div className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/5 px-4 py-3 text-xs leading-relaxed text-[var(--text)]">
+            <strong>¿Al escanear ves un texto largo que empieza con &quot;otpauth://&quot; en vez de que se abra una app?</strong> Es porque escaneaste con la cámara normal del celular. Tenés que escanear desde <strong>adentro</strong> de la app autenticadora, no con la cámara del teléfono.
+          </div>
+          <p className="mt-4 text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
+            1. Abrí Google Authenticator o Authy en tu celular
+          </p>
+          <p className="mt-1 text-xs text-[var(--muted)]">
+            ¿No tenés ninguna instalada? Bajá <strong>Google Authenticator</strong> gratis de Play Store o App Store. Después abrila, tocá el botón <strong>+</strong> y elegí <strong>&quot;Escanear código QR&quot;</strong> -- recién ahí apuntá al código de abajo.
           </p>
           <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:items-start">
             {qr && (
               <Image src={qr} alt="Código QR de configuración 2FA" width={160} height={160} unoptimized className="rounded-xl bg-white p-2" />
             )}
             <div className="w-full sm:w-auto">
-              <p className="text-xs text-[var(--muted)]">O cargá esta clave a mano:</p>
+              <p className="text-xs text-[var(--muted)]">¿Preferís no escanear? Dentro de la app elegí &quot;Ingresar clave manualmente&quot; y cargá esta clave:</p>
               <code className="mt-1 block break-all rounded-lg border border-[var(--accent)]/40 bg-[var(--accent)]/5 px-3 py-2 font-mono text-xs text-[var(--accent)]">{secret}</code>
             </div>
           </div>
           <p className="mt-5 text-[10px] font-black uppercase tracking-widest text-[var(--muted)]" style={{ fontFamily: "var(--font-display)" }}>
-            2. Meté el código de 6 dígitos
+            2. Escribí acá el código de 6 dígitos que te muestra esa app
           </p>
           <div className="mt-2 flex gap-2">
             <input
