@@ -197,6 +197,7 @@ export default function Negocios({ initial, initialTotal }: { initial: any[]; in
 
         {/* ── Resultados ── */}
         <div className="min-w-0 flex-1">
+          <h2 className="sr-only">Resultados</h2>
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative min-w-[220px] flex-1">
               <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted2)]" />

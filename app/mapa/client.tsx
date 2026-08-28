@@ -244,7 +244,7 @@ export default function MapaPage() {
           {/* DERECHA: panel "cerca de vos" -- mismos negocios del mapa,
               ordenados por distancia, calco del mockup aprobado. */}
           <div className="flex flex-col gap-4">
-            <h3 className="font-display text-2xl uppercase tracking-tight">Cerca de vos</h3>
+            <h2 className="font-display text-2xl uppercase tracking-tight">Cerca de vos</h2>
             <div className="relative">
               <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--accent-ink)]" />
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="¿Qué buscás hoy?"
@@ -272,7 +272,7 @@ export default function MapaPage() {
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
                             <p className="truncate text-[9px] font-bold uppercase tracking-widest text-[var(--accent-ink)]">{b.category}</p>
-                            <h4 className="truncate text-base font-black leading-tight">{b.name}</h4>
+                            <h3 className="truncate text-base font-black leading-tight">{b.name}</h3>
                           </div>
                           {tieneOfertas && (
                             <span className="flex shrink-0 items-center gap-1 rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-2 py-0.5 text-[var(--accent-ink)]">
